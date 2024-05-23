@@ -1,2 +1,15 @@
-# janction-website
-The front-end program code of Janction’s official website
+# umi project
+
+## Getting Started
+
+Install dependencies,
+
+```bash
+$ yarn
+```
+
+Start the dev server,
+
+```bash
+$ yarn start
+```
