@@ -3,6 +3,7 @@ import { history } from 'umi';
 import routes from '../../../config/routes';
 import styles from './index.less';
 import SocialsLinks from '../SocialsLinks';
+import 'animate.css';
 
 const PageContainer = (props) => {
   const { children } = props;
@@ -19,7 +20,9 @@ const PageContainer = (props) => {
 
   return (
     <div id={styles['container']}>
-      <header className={styles['main-header']}>
+      <header
+        className={`animate__animated animate__fadeInDown ${styles['main-header']}`}
+      >
         <a className={styles['logo']} href="/">
           <img
             src={require('../../assets/images/icons/logo_name.png')}
@@ -43,7 +46,7 @@ const PageContainer = (props) => {
         <SocialsLinks />
       </header>
       <main className={styles['page-container']}>{children}</main>
-      <footer>
+      <footer className="animate__animated animate__fadeInUp">
         <div className="df jc_sb ai_c">
           <div className="df fd_c">
             <img
