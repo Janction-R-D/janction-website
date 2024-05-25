@@ -1,4 +1,4 @@
-html,body {height: 100%;}
+html,body {user-select: none;}
 canvas {display: block;}
 body {text-rendering: optimizeLegibility;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;line-height:1.4;color:#fff;font-family:arial;font-size: 14px;background:white;}
 input,textarea,select{font-size:12px;font-size:100%;font-family:arial;font-family:inherit;}

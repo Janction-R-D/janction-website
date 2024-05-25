@@ -1,17 +1,95 @@
-import PageContainer from '@/components/PageContainer';
 import styles from './index.less';
 
 const Products = (props) => {
   return (
-    <PageContainer>
-      <div className={styles['product-container']}>
-        <div className="animate__animated animate__zoomIn df jc_c">
-          <h2 data-text="THE JANCTION FOR ALL AI SERVICE">
-            THE JANCTION FOR ALL AI SERVICE
-          </h2>
+    <div className={styles['product-container']}>
+      <div
+        className={`animate__animated animate__zoomIn df fd_c jc_c ${styles['slogan']}`}
+      >
+        <h1 data-text="THE JANCTION FOR ALL AI SERVICE">
+          THE JANCTION FOR ALL AI SERVICE
+        </h1>
+        <div
+          className={`animate__animated animate__fadeInUp ${styles['learn-more']}`}
+        >
+          <button>Learn More About Janction</button>
         </div>
       </div>
-    </PageContainer>
+      <div className={styles['apps']}>
+        {/* <h1>Apps</h1> */}
+        <div className={styles['list']}>
+          <div>
+            <img src={require('../../assets/images/apps/nexus.png')} />
+            <p>Janction Nexus</p>
+            <button>
+              <span>Exploer</span>
+              <i></i>
+            </button>
+          </div>
+          <div>
+            <img src={require('../../assets/images/apps/eq_cabinet.png')} />
+            <p>Janction Genesis</p>
+            <button>
+              <span>Join Network</span>
+              <i></i>
+            </button>
+          </div>
+          <div>
+            <img src={require('../../assets/images/apps/chip.png')} />
+            <p>Janction Pulse</p>
+            <button>
+              <span>Let's Compute</span>
+              <i></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div className={styles['introduce']}>
+        {/* <h1>Introduce</h1> */}
+        <div className={styles['list']}>
+          <div className={styles['item']}>
+            <div className={styles['info']}>
+              <h2>Janction Nexus</h2>
+              <p>
+                This app provides comprehensive insights into the overall data
+                of all GPU providers and consumers within the Junction network,
+                offering detailed analytics and statistics.
+              </p>
+            </div>
+            <div className={styles['banner']}>
+              <img src={require('../../assets/images/apps/nexus_long.png')} />
+            </div>
+          </div>
+          <div className={`${styles['item']} ${styles['item-reverse']}`}>
+            <div className={styles['info']}>
+              <h2>Janction Genesis</h2>
+              <p>
+                This app enables users to offer their GPU resources to the
+                network and earn rewards for their contributions.
+              </p>
+            </div>
+            <div className={styles['banner']}>
+              <img
+                src={require('../../assets/images/apps/eq_cabinet_long.png')}
+              />
+            </div>
+          </div>
+          <div className={styles['item']}>
+            <div className={styles['info']}>
+              <h2>Janction Pulse</h2>
+              <p>
+                This app allows users to access and utilize GPU resources from
+                the network for their computational needs, with costs based on
+                usage.
+              </p>
+            </div>
+            <div className={styles['banner']}>
+              <img src={require('../../assets/images/apps/chip_long.png')} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

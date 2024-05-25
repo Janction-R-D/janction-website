@@ -1,13 +1,22 @@
 import { useEffect, useState } from 'react';
 import { history } from 'umi';
-import routes from '../../../config/routes';
 import styles from './index.less';
-import SocialsLinks from '../SocialsLinks';
+import SocialsLinks from '@/components/SocialsLinks';
 import 'animate.css';
 
-const PageContainer = (props) => {
+const routes = [
+  { name: 'Home', path: '/' },
+  { name: 'About', path: '/about' },
+  { name: 'Product', path: '/product' },
+  { name: 'Ecosystem', path: '/ecosystem' },
+  { name: 'Articles', path: '/articles' },
+];
+
+export default function Layout(props) {
   const { children } = props;
   const [active, setActive] = useState();
+
+  console.log('『active』', active);
 
   useEffect(() => {
     setActive(history.location.pathname);
@@ -25,38 +34,41 @@ const PageContainer = (props) => {
       >
         <a className={styles['logo']} href="/">
           <img
-            src={require('../../assets/images/icons/logo_name.png')}
+            src={require('@/assets/images/icons/logo_name.png')}
             alt="logo"
             width="116"
             height="24"
           />
         </a>
-        <div className={styles['tabs']}>
-          {routes.map((item) => (
-            <a
-              key={item.path}
-              onClick={() => {
-                onRouteClick(item);
-              }}
-            >
-              {item.name}
-            </a>
-          ))}
-        </div>
+        <nav>
+          <ul>
+            {routes.map((item) => (
+              <li
+                key={item.name}
+                onClick={() => {
+                  onRouteClick(item);
+                }}
+                className={active == item.path ? styles['active'] : ''}
+              >
+                <a>{item.name}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
         <SocialsLinks />
       </header>
       <main className={styles['page-container']}>{children}</main>
-      <footer className="animate__animated animate__fadeInUp">
+      <footer className="animate__animated animate__zoomIn">
         <div className="df jc_sb ai_c">
           <div className="df fd_c">
             <img
-              src={require('../../assets/images/icons/jun-icon.png')}
+              src={require('@/assets/images/icons/jun-icon.png')}
               alt=""
               width="52"
               height="52"
             />
             <img
-              src={require('../../assets/images/icons/jun.png')}
+              src={require('@/assets/images/icons/jun.png')}
               alt=""
               width="122"
               height="17"
@@ -85,11 +97,11 @@ const PageContainer = (props) => {
         </div>
         <div className={styles['related-container']}>
           <SocialsLinks />
-          <a href="/">©2024</a>
+          <a href="/" className="f16">
+            ©2024
+          </a>
         </div>
       </footer>
     </div>
   );
-};
-
-export default PageContainer;
+}
