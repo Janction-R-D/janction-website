@@ -52,6 +52,7 @@
     }
 
     button {
+      margin-top: 100px;
       cursor: pointer;
       display: flex;
       padding: 20px;
@@ -230,62 +231,85 @@
     .list {
       .item {
         display: flex;
+        align-items: center;
         justify-content: space-between;
-        gap: 100px;
         margin-bottom: 50px;
-        background: rgba(16, 16, 16, 0.5);
-        border-radius: 20px;
-        padding: 30px;
-        padding-right: 0;
+        gap: 20px;
 
-        .info {
-          flex: 3;
+        .content {
+          display: flex;
+          justify-content: space-between;
+          gap: 100px;
+          background: rgba(16, 16, 16, 0.5);
+          border-radius: 20px;
+          padding: 30px;
+          padding-right: 0;
+          flex: 1;
 
-          h2 {
-            color: #fff;
-            font-size: 48px;
-            line-height: 48px;
-            font-weight: bold;
+          > section {
+            flex: 3;
+            h2 {
+              color: #fff;
+              font-size: 48px;
+              line-height: 48px;
+              font-weight: bold;
+            }
+
+            p {
+              font-size: 20px;
+              line-height: 30px;
+              margin: 20px 0;
+              color: #999;
+            }
           }
 
-          p {
-            font-size: 20px;
-            line-height: 30px;
-            margin: 20px 0;
-            color: #999;
+          .banner {
+            flex: 4;
+            border: 10px solid #1a1a1a;
+            border-right: none;
+            border-radius: 40px 0 0 40px;
+            overflow: hidden;
+
+            img {
+              width: 100%;
+              height: 370px;
+              transition: transform 0.8s;
+            }
+
+            img:hover {
+              transform: scale(1.2);
+            }
           }
         }
 
-        .banner {
-          flex: 4;
-
-          img {
-            width: 100%;
-            height: 370px;
-            border-radius: 40px 0 0 40px;
-            border: 10px solid #1a1a1a;
-            border-right: none;
-          }
+        .faq {
+          transform: rotate(180deg);
         }
       }
 
       .item-reverse {
-        flex-direction: row-reverse;
-        padding: 30px;
-        padding-left: 0;
+        .content {
+          flex-direction: row-reverse;
+          padding: 30px;
+          padding-left: 0;
 
-        .info {
-          text-align: right;
-        }
+          section {
+            text-align: right;
+          }
 
-        .banner {
-          img {
-            width: 100%;
+          .banner {
             border-radius: 0 40px 40px 0;
             border: 10px solid #1a1a1a;
             border-left: none;
+            img {
+              width: 100%;
+            }
           }
         }
+
+        // .faq {
+        //   transform: rotate(180deg);
+        // }
       }
     }
   }

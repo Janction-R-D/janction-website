@@ -48,44 +48,70 @@ const Products = (props) => {
         {/* <h1>Introduce</h1> */}
         <div className={styles['list']}>
           <div className={styles['item']}>
-            <div className={styles['info']}>
-              <h2>Janction Nexus</h2>
-              <p>
-                This app provides comprehensive insights into the overall data
-                of all GPU providers and consumers within the Junction network,
-                offering detailed analytics and statistics.
-              </p>
+            <div className={styles['content']}>
+              <section>
+                <h2>Janction Nexus</h2>
+                <p>
+                  This app provides comprehensive insights into the overall data
+                  of all GPU providers and consumers within the Junction
+                  network, offering detailed analytics and statistics.
+                </p>
+              </section>
+              <div className={styles['banner']}>
+                <img src={require('../../assets/images/apps/nexus_long.png')} />
+              </div>
             </div>
-            <div className={styles['banner']}>
-              <img src={require('../../assets/images/apps/nexus_long.png')} />
-            </div>
+            <img
+              src={require('@/assets/images/faq.png')}
+              alt="faq"
+              loading="lazy"
+              width="88"
+              className={styles['faq']}
+            />
           </div>
           <div className={`${styles['item']} ${styles['item-reverse']}`}>
-            <div className={styles['info']}>
-              <h2>Janction Genesis</h2>
-              <p>
-                This app enables users to offer their GPU resources to the
-                network and earn rewards for their contributions.
-              </p>
-            </div>
-            <div className={styles['banner']}>
-              <img
-                src={require('../../assets/images/apps/eq_cabinet_long.png')}
-              />
+            <img
+              src={require('@/assets/images/faq.png')}
+              alt="fag"
+              loading="lazy"
+              width="88"
+            />
+            <div className={styles['content']}>
+              <section>
+                <h2>Janction Genesis</h2>
+                <p>
+                  This app enables users to offer their GPU resources to the
+                  network and earn rewards for their contributions.
+                </p>
+              </section>
+              <div className={styles['banner']}>
+                <img
+                  src={require('../../assets/images/apps/eq_cabinet_long.png')}
+                />
+              </div>
             </div>
           </div>
           <div className={styles['item']}>
-            <div className={styles['info']}>
-              <h2>Janction Pulse</h2>
-              <p>
-                This app allows users to access and utilize GPU resources from
-                the network for their computational needs, with costs based on
-                usage.
-              </p>
+            <div className={styles['content']}>
+              <section>
+                <h2>Janction Pulse</h2>
+                <p>
+                  This app allows users to access and utilize GPU resources from
+                  the network for their computational needs, with costs based on
+                  usage.
+                </p>
+              </section>
+              <div className={styles['banner']}>
+                <img src={require('../../assets/images/apps/chip_long.png')} />
+              </div>
             </div>
-            <div className={styles['banner']}>
-              <img src={require('../../assets/images/apps/chip_long.png')} />
-            </div>
+            <img
+              src={require('@/assets/images/faq.png')}
+              alt="fag"
+              loading="lazy"
+              width="88"
+              className={styles['faq']}
+            />
           </div>
         </div>
       </div>
