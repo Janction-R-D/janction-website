@@ -15,11 +15,17 @@ const Products = (props) => {
           <button>Learn More About Janction</button>
         </div>
       </div>
+      <div className={styles['architecture']}>
+        <h1>Architecture</h1>
+        <div className={styles['info']}>
+          <img src={require('@/assets/images/architecture.png')} alt="" />
+        </div>
+      </div>
       <div className={styles['apps']}>
-        {/* <h1>Apps</h1> */}
+        <h1>Apps</h1>
         <div className={styles['list']}>
           <div>
-            <img src={require('../../assets/images/apps/nexus.png')} />
+            <img src={require('@/assets/images/apps/nexus.png')} />
             <p>Janction Nexus</p>
             <button>
               <span>Exploer</span>
@@ -27,7 +33,7 @@ const Products = (props) => {
             </button>
           </div>
           <div>
-            <img src={require('../../assets/images/apps/eq_cabinet.png')} />
+            <img src={require('@/assets/images/apps/eq_cabinet.png')} />
             <p>Janction Genesis</p>
             <button>
               <span>Join Network</span>
@@ -35,7 +41,7 @@ const Products = (props) => {
             </button>
           </div>
           <div>
-            <img src={require('../../assets/images/apps/chip.png')} />
+            <img src={require('@/assets/images/apps/chip.png')} />
             <p>Janction Pulse</p>
             <button>
               <span>Let's Compute</span>
@@ -45,7 +51,7 @@ const Products = (props) => {
         </div>
       </div>
       <div className={styles['introduce']}>
-        {/* <h1>Introduce</h1> */}
+        <h1>Introduce</h1>
         <div className={styles['list']}>
           <div className={styles['item']}>
             <div className={styles['content']}>
@@ -58,7 +64,7 @@ const Products = (props) => {
                 </p>
               </section>
               <div className={styles['banner']}>
-                <img src={require('../../assets/images/apps/nexus_long.png')} />
+                <img src={require('@/assets/images/apps/nexus_long.png')} />
               </div>
             </div>
             <img
@@ -86,7 +92,7 @@ const Products = (props) => {
               </section>
               <div className={styles['banner']}>
                 <img
-                  src={require('../../assets/images/apps/eq_cabinet_long.png')}
+                  src={require('@/assets/images/apps/eq_cabinet_long.png')}
                 />
               </div>
             </div>
@@ -102,7 +108,7 @@ const Products = (props) => {
                 </p>
               </section>
               <div className={styles['banner']}>
-                <img src={require('../../assets/images/apps/chip_long.png')} />
+                <img src={require('@/assets/images/apps/chip_long.png')} />
               </div>
             </div>
             <img
