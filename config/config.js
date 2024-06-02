@@ -10,7 +10,9 @@ export default defineConfig({
   targets: {
     ie: 11,
   },
-  antd: {},
+  antd: {
+    dark: true,
+  },
   fastRefresh: {},
   webpack5: {},
 });

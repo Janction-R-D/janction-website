@@ -1,0 +1,187 @@
+.personal-container {
+  display: flex;
+  width: 1920px;
+  background: #101010;
+  border-radius: 40px;
+  margin: 25px auto;
+  padding: 30px;
+  padding-left: 20px;
+  position: relative;
+
+  > nav {
+    width: 447px;
+    height: 1132px;
+    background: url('../../assets/images/personal/aside_bg.png');
+    background-size: 100% 100%;
+    padding-right: 92px;
+    padding-left: 20px;
+    padding-top: 17px;
+
+    ul {
+      margin-top: 165px;
+
+      li {
+        height: 72px;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 24px;
+        line-height: 47px;
+        color: #ffffff;
+        mix-blend-mode: normal;
+        cursor: pointer;
+
+        &:not(:first-child) {
+          margin-top: 60px;
+        }
+
+        .icon-box {
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 72px;
+          height: 72px;
+          background: rgba(69, 69, 69, 0.2);
+          border: 1.33333px solid rgba(255, 255, 255, 0.2);
+          border-radius: 50%;
+          margin-right: 25px;
+
+          i {
+            position: absolute;
+            z-index: 2;
+          }
+        }
+
+        span {
+          opacity: 0.5;
+        }
+
+        &.active {
+          .icon-box::after {
+            content: '';
+            position: absolute;
+            opacity: 0.5;
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            border: 1.33333px solid #fff;
+            background: linear-gradient(222.27deg, #c441f4 53.77%, #00daea 83%);
+            border-color: #fff;
+          }
+
+          span {
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+
+  .content {
+    position: absolute;
+    left: 21.61%;
+    right: 1.56%;
+    top: 2.5%;
+    bottom: 2.5%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(100px);
+    border-radius: 19px;
+    padding: 50px;
+    padding-top: 28px;
+
+    .next-select {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 110px;
+      margin-top: 20px;
+      background: #212223;
+      border-radius: 13.3333px;
+      padding: 0 30px;
+
+      .steps {
+        width: 762px;
+
+        :global {
+          .ant-steps {
+            .ant-steps-item {
+              .ant-steps-item-icon {
+                border: none;
+                margin: 0;
+                width: 50px;
+                height: 50px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                background-color: #424344;
+
+                .ant-steps-icon {
+                  font-family: 'Inter';
+                  font-style: normal;
+                  font-weight: 600;
+                  font-size: 24px;
+                  color: #ffffff;
+                }
+              }
+
+              .ant-steps-item-content {
+                .ant-steps-item-title::after {
+                  top: 25px;
+                  background: rgba(255, 255, 255, 0.16);
+                }
+              }
+            }
+
+            .ant-steps-item-finish {
+              .ant-steps-item-icon {
+                background-color: #dd5acc;
+
+                .ant-steps-icon {
+                  color: #fff;
+                }
+              }
+
+              .ant-steps-item-content {
+                .ant-steps-item-title::after {
+                  background: #dd5acc;
+                }
+              }
+            }
+
+            .ant-steps-item-active {
+              .ant-steps-item-icon {
+                background-color: #dd5acc;
+              }
+            }
+          }
+        }
+      }
+
+      .button-box {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        button {
+          width: 189px;
+          height: 54px;
+          background: #dd5acc;
+          border-radius: 10px;
+          outline: none;
+          border: none;
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 600;
+          font-size: 16px;
+          line-height: 19px;
+          text-align: center;
+          letter-spacing: 2px;
+          color: #ffffff;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

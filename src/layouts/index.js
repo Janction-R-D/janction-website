@@ -3,6 +3,7 @@ import { history } from 'umi';
 import styles from './index.less';
 import SocialsLinks from '@/components/SocialsLinks';
 import 'animate.css';
+import FullScreenLayout from './FullScreenLayout';
 
 const routes = [
   { name: 'Home', path: '/' },
@@ -16,16 +17,18 @@ export default function Layout(props) {
   const { children } = props;
   const [active, setActive] = useState();
 
-  console.log('『active』', active);
-
   useEffect(() => {
     setActive(history.location.pathname);
-  }, []);
+  }, [history.location.pathname]);
 
   const onRouteClick = (route) => {
     setActive(route.path);
     history.push(route.path);
   };
+
+  if (props.location.pathname === '/personal') {
+    return <FullScreenLayout>{props.children}</FullScreenLayout>;
+  }
 
   return (
     <div id={styles['container']}>
