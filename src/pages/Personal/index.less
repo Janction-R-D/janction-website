@@ -1,187 +1,104 @@
 .personal-container {
-  display: flex;
-  width: 1920px;
-  background: #101010;
-  border-radius: 40px;
-  margin: 25px auto;
-  padding: 30px;
-  padding-left: 20px;
-  position: relative;
+  padding: 1.221vw 0;
 
-  > nav {
-    width: 447px;
-    height: 1132px;
-    background: url('../../assets/images/personal/aside_bg.png');
-    background-size: 100% 100%;
-    padding-right: 92px;
-    padding-left: 20px;
-    padding-top: 17px;
+  > div {
+    display: flex;
+    width: 93.75vw;
+    height: calc(100vh - 2.539vw);
+    background: #101010;
+    border-radius: 1.953vw;
+    margin: 0 auto;
+    padding: 1.465vw;
+    padding-left: 0.977vw;
+    position: relative;
 
-    ul {
-      margin-top: 165px;
+    > nav {
+      width: 21.826vw;
+      height: calc(~'100% - 0.83vw');
+      background: url('../../assets/images/personal/aside_bg.png');
+      background-size: 100% 100%;
+      padding-right: 4.492vw;
+      padding-left: 0.977vw;
+      padding-top: 0.83vw;
 
-      li {
-        height: 72px;
-        font-family: 'Inter';
-        font-style: normal;
-        font-weight: 600;
-        font-size: 24px;
-        line-height: 47px;
-        color: #ffffff;
-        mix-blend-mode: normal;
-        cursor: pointer;
+      ul {
+        margin-top: 8.057vw;
 
-        &:not(:first-child) {
-          margin-top: 60px;
-        }
+        li {
+          height: 3.516vw;
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 600;
+          font-size: 1.172vw;
+          line-height: 2.295vw;
+          color: #ffffff;
+          mix-blend-mode: normal;
+          cursor: pointer;
 
-        .icon-box {
-          position: relative;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 72px;
-          height: 72px;
-          background: rgba(69, 69, 69, 0.2);
-          border: 1.33333px solid rgba(255, 255, 255, 0.2);
-          border-radius: 50%;
-          margin-right: 25px;
-
-          i {
-            position: absolute;
-            z-index: 2;
+          &:not(:first-child) {
+            margin-top: 2.93vw;
           }
-        }
 
-        span {
-          opacity: 0.5;
-        }
-
-        &.active {
-          .icon-box::after {
-            content: '';
-            position: absolute;
-            opacity: 0.5;
-            width: 72px;
-            height: 72px;
+          .icon-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 3.516vw;
+            height: 3.516vw;
+            background: rgba(69, 69, 69, 0.2);
+            border: 0.065vw solid rgba(255, 255, 255, 0.2);
             border-radius: 50%;
-            border: 1.33333px solid #fff;
-            background: linear-gradient(222.27deg, #c441f4 53.77%, #00daea 83%);
-            border-color: #fff;
+            margin-right: 1.221vw;
+
+            i {
+              position: absolute;
+              z-index: 2;
+            }
           }
 
           span {
-            opacity: 1;
+            opacity: 0.5;
+          }
+
+          &.active {
+            .icon-box::after {
+              content: '';
+              position: absolute;
+              opacity: 0.5;
+              width: 3.516vw;
+              height: 3.516vw;
+              border-radius: 50%;
+              border: 0.065vw solid #fff;
+              background: linear-gradient(
+                222.27deg,
+                #c441f4 53.77%,
+                #00daea 83%
+              );
+              border-color: #fff;
+            }
+
+            span {
+              opacity: 1;
+            }
           }
         }
       }
     }
-  }
 
-  .content {
-    position: absolute;
-    left: 21.61%;
-    right: 1.56%;
-    top: 2.5%;
-    bottom: 2.5%;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(100px);
-    border-radius: 19px;
-    padding: 50px;
-    padding-top: 28px;
-
-    .next-select {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 110px;
-      margin-top: 20px;
-      background: #212223;
-      border-radius: 13.3333px;
-      padding: 0 30px;
-
-      .steps {
-        width: 762px;
-
-        :global {
-          .ant-steps {
-            .ant-steps-item {
-              .ant-steps-item-icon {
-                border: none;
-                margin: 0;
-                width: 50px;
-                height: 50px;
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                background-color: #424344;
-
-                .ant-steps-icon {
-                  font-family: 'Inter';
-                  font-style: normal;
-                  font-weight: 600;
-                  font-size: 24px;
-                  color: #ffffff;
-                }
-              }
-
-              .ant-steps-item-content {
-                .ant-steps-item-title::after {
-                  top: 25px;
-                  background: rgba(255, 255, 255, 0.16);
-                }
-              }
-            }
-
-            .ant-steps-item-finish {
-              .ant-steps-item-icon {
-                background-color: #dd5acc;
-
-                .ant-steps-icon {
-                  color: #fff;
-                }
-              }
-
-              .ant-steps-item-content {
-                .ant-steps-item-title::after {
-                  background: #dd5acc;
-                }
-              }
-            }
-
-            .ant-steps-item-active {
-              .ant-steps-item-icon {
-                background-color: #dd5acc;
-              }
-            }
-          }
-        }
-      }
-
-      .button-box {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-
-        button {
-          width: 189px;
-          height: 54px;
-          background: #dd5acc;
-          border-radius: 10px;
-          outline: none;
-          border: none;
-          font-family: 'Inter';
-          font-style: normal;
-          font-weight: 600;
-          font-size: 16px;
-          line-height: 19px;
-          text-align: center;
-          letter-spacing: 2px;
-          color: #ffffff;
-          cursor: pointer;
-        }
-      }
+    .content {
+      position: absolute;
+      left: 21.61%;
+      right: 1.56%;
+      top: 2.5%;
+      bottom: 2.5%;
+      overflow: auto;
+      background: rgba(255, 255, 255, 0.03);
+      border: 0.049vw solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(4.883vw);
+      border-radius: 0.928vw;
+      padding: 2.441vw;
+      padding-top: 1.367vw;
     }
   }
 }

@@ -1,45 +1,56 @@
+import { Steps } from 'antd';
+import Step1 from './System';
+import Step2 from './GPU';
+import Overview from './Overview';
+import { empty } from '@/utils/lang';
 import styles from './index.less';
-import Icons from '@/components/Icons';
 import { useState } from 'react';
-import { Steps, Checkbox } from 'antd';
 
+const stepsList = [
+  {
+    key: 0,
+    nextstep: 1,
+  },
+  {
+    key: 1,
+    nextstep: 2,
+    prestep: 0,
+  },
+  {
+    key: 2,
+    prestep: 1,
+  },
+];
 const DeployNode = (props) => {
-  const [sysList, setSysList] = useState([
-    { id: 1, name: 'Docker (recommend)' },
-    { id: 2, name: 'MAC' },
-    { id: 3, name: 'Linux' },
-    { id: 4, name: 'Windows' },
-  ]);
-  const [sysSelected, setSysSelected] = useState();
+  const [curStep, setCurStep] = useState(stepsList[0]);
 
-  const onSysChange = (sys) => {
-    setSysSelected(sys.slice(-1));
+  const onBack = () => {
+    const step = stepsList.find((item) => item.key == curStep['prestep']);
+    if (!step) return;
+    setCurStep(step);
+  };
+
+  const onNext = () => {
+    const step = stepsList.find((item) => item.key == curStep['nextstep']);
+    if (!step) return;
+    setCurStep(step);
   };
 
   return (
-    <section className={styles['sys-choice']}>
-      <hgroup>
-        <h1>Choose your Operating System</h1>
-        <span>This is the prompt text</span>
-      </hgroup>
-      <Checkbox.Group
-        style={{ width: '100%' }}
-        value={sysSelected}
-        onChange={onSysChange}
-      >
-        <ul className={styles['sys-list']}>
-          {sysList.map((item) => (
-            <li key={item?.id} className="df ai_c jc_c">
-              <Checkbox
-                value={item.id}
-                className={styles['check-box']}
-              ></Checkbox>
-              <span>{item.name}</span>
-            </li>
-          ))}
-        </ul>
-      </Checkbox.Group>
-    </section>
+    <>
+      <div className={styles['next-select']}>
+        <div className={styles['steps']}>
+          <Steps current={curStep.key} items={stepsList} />
+        </div>
+        <div className={styles['button-box']}>
+          {!empty(curStep.prestep) && <button onClick={onBack}>BACK</button>}
+          {!empty(curStep.nextstep) && <button onClick={onNext}>NEXT</button>}
+        </div>
+      </div>
+      {curStep.key == 0 && <Step1 />}
+      {curStep.key == 1 && <Step2 />}
+      {curStep.key == 2 && <Overview />}
+    </>
   );
 };
 

@@ -1,18 +1,18 @@
 .header {
-  padding-bottom: 28px;
-  border-bottom: 2px solid rgba(222, 222, 222, 0.4);
+  padding-bottom: 1.367vw;
+  border-bottom: 0.098vw solid rgba(222, 222, 222, 0.4);
 
   .points {
     display: flex;
     align-items: center;
-    margin-right: 60px;
+    margin-right: 2.93vw;
 
     span {
       font-family: 'Montserrat';
       font-style: normal;
       font-weight: 600;
-      font-size: 24px;
-      line-height: 29px;
+      font-size: 1.172vw;
+      line-height: 1.416vw;
       text-align: center;
       color: #ffffff;
     }
@@ -25,34 +25,34 @@
     &::before {
       content: '';
       display: inline-block;
-      margin-right: 10px;
+      margin-right: 0.488vw;
       background-color: #00f453;
       border-radius: 50%;
-      width: 12px;
-      height: 12px;
+      width: 0.586vw;
+      height: 0.586vw;
     }
   }
 
   .search {
     position: relative;
-    margin-right: 40px;
+    margin-right: 1.953vw;
 
     :global {
       .ant-input-affix-wrapper {
         border: none;
         outline-style: none;
-        width: 340px;
-        height: 54px;
+        width: 16.602vw;
+        height: 2.637vw;
         background: rgba(245, 247, 250, 0.15);
-        border-radius: 53.3333px;
-        font-size: 20px;
+        border-radius: 2.604vw;
+        font-size: 0.977vw;
         color: rgba(255, 255, 255, 0.5);
-        box-shadow: 0 0 0.4vw rgba(0, 0, 0, 0.5), 0 0 0 0.15vw transparent;
-        padding-left: 18px;
+        box-shadow: 0 0 8.192px rgba(0, 0, 0, 0.5), 0 0 0 3.072px transparent;
+        padding-left: 0.879vw;
       }
 
       .ant-input-prefix {
-        margin-right: 10px;
+        margin-right: 0.488vw;
       }
     }
   }
@@ -63,30 +63,123 @@
     font-family: 'Montserrat';
     font-style: normal;
     font-weight: 600;
-    font-size: 24px;
-    line-height: 29px;
+    font-size: 1.172vw;
+    line-height: 1.416vw;
     text-align: center;
     color: #ffffff;
-    margin-right: 40px;
+    margin-right: 1.953vw;
     cursor: pointer;
-    gap: 20px;
+    gap: 0.977vw;
   }
 
   .connect-account {
     button {
-      width: 189px;
-      height: 54px;
+      width: 9.229vw;
+      height: 2.637vw;
       background: #dd5acc;
-      border-radius: 10px;
+      border-radius: 0.488vw;
       outline: none;
       border: none;
       font-family: 'Inter';
       font-style: normal;
       font-weight: 600;
-      font-size: 16px;
-      line-height: 19px;
+      font-size: 0.781vw;
+      line-height: 0.928vw;
       text-align: center;
-      letter-spacing: 2px;
+      letter-spacing: 0.098vw;
+      color: #ffffff;
+      cursor: pointer;
+    }
+  }
+}
+
+.next-select {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 5.371vw;
+  margin-top: 0.977vw;
+  background: #212223;
+  border-radius: 0.651vw;
+  padding: 0 1.465vw;
+
+  .steps {
+    width: 37.207vw;
+
+    :global {
+      .ant-steps {
+        .ant-steps-item {
+          .ant-steps-item-icon {
+            border: none;
+            margin: 0;
+            width: 2.441vw;
+            height: 2.441vw;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #424344;
+
+            .ant-steps-icon {
+              font-family: 'Inter';
+              font-style: normal;
+              font-weight: 600;
+              font-size: 1.172vw;
+              color: #ffffff;
+            }
+          }
+
+          .ant-steps-item-content {
+            .ant-steps-item-title::after {
+              top: 1.221vw;
+              background: rgba(255, 255, 255, 0.16);
+            }
+          }
+        }
+
+        .ant-steps-item-finish {
+          .ant-steps-item-icon {
+            background-color: #dd5acc;
+
+            .ant-steps-icon {
+              color: #fff;
+            }
+          }
+
+          .ant-steps-item-content {
+            .ant-steps-item-title::after {
+              background: #dd5acc;
+            }
+          }
+        }
+
+        .ant-steps-item-active {
+          .ant-steps-item-icon {
+            background-color: #dd5acc;
+          }
+        }
+      }
+    }
+  }
+
+  .button-box {
+    display: flex;
+    align-items: center;
+    gap: 0.488vw;
+
+    button {
+      width: 9.229vw;
+      height: 2.637vw;
+      background: #dd5acc;
+      border-radius: 0.488vw;
+      outline: none;
+      border: none;
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 600;
+      font-size: 0.781vw;
+      line-height: 0.928vw;
+      text-align: center;
+      letter-spacing: 0.098vw;
       color: #ffffff;
       cursor: pointer;
     }
@@ -96,32 +189,32 @@
 .sys-choice,
 .gpu-check,
 .overview-container {
-  margin-top: 20px;
+  margin-top: 0.977vw;
   background: #212223;
-  border-radius: 13.3333px;
-  padding: 0 30px 25px;
+  border-radius: 0.651vw;
+  padding: 0 1.465vw 1.221vw;
 
   hgroup {
-    border-bottom: 2px solid rgba(222, 222, 222, 0.4);
-    padding: 25px 0;
-    margin-bottom: 20px;
+    border-bottom: 0.098vw solid rgba(222, 222, 222, 0.4);
+    padding: 1.221vw 0;
+    margin-bottom: 0.977vw;
 
     h1 {
       font-family: 'Montserrat';
       font-style: normal;
       font-weight: 600;
-      font-size: 24px;
-      line-height: 29px;
+      font-size: 1.172vw;
+      line-height: 1.416vw;
       color: #ffffff;
-      margin-bottom: 10px;
+      margin-bottom: 0.488vw;
     }
 
     span {
       font-family: 'Montserrat';
       font-style: normal;
       font-weight: 400;
-      font-size: 16px;
-      line-height: 20px;
+      font-size: 0.781vw;
+      line-height: 0.977vw;
       /* identical to box height */
       text-align: center;
       color: rgba(255, 255, 255, 0.6);
@@ -132,41 +225,41 @@
 .sys-choice {
   .sys-list {
     display: grid;
-    grid-template-columns: repeat(2, 640px);
-    grid-template-rows: repeat(2, 310px);
-    gap: 37px;
+    grid-template-columns: repeat(2, 31.25vw);
+    grid-template-rows: repeat(2, 15.137vw);
+    gap: 1.807vw;
 
     > li {
       width: 100%;
       height: 100%;
-      border-radius: 10px;
+      border-radius: 0.488vw;
       font-family: 'Inter';
       font-style: normal;
       font-weight: 500;
-      font-size: 40px;
-      line-height: 48px;
+      font-size: 1.953vw;
+      line-height: 2.344vw;
       color: #ffffff;
       position: relative;
-      border: 4px solid rgba(255, 255, 255, 0.2);
+      border: 0.195vw solid rgba(255, 255, 255, 0.2);
 
       .check-box {
         position: absolute;
-        top: 25px;
-        right: 25px;
+        top: 1.221vw;
+        right: 1.221vw;
 
         :global {
           .ant-checkbox {
             .ant-checkbox-inner {
-              width: 35px;
-              height: 35px;
-              border: 3px solid #fff;
+              width: 1.709vw;
+              height: 1.709vw;
+              border: 0.146vw solid #fff;
             }
 
             .ant-checkbox-inner::after {
               left: 25.5%;
-              width: 10px;
-              height: 18px;
-              border: 4px solid #fff;
+              width: 0.488vw;
+              height: 0.879vw;
+              border: 0.195vw solid #fff;
               border-top: 0;
               border-left: 0;
             }
@@ -197,7 +290,7 @@
           #7976e8 249.72deg,
           #f449f4 366.37deg
         );
-      backdrop-filter: blur(30px);
+      backdrop-filter: blur(1.465vw);
     }
 
     > li:nth-child(2) {
@@ -215,7 +308,7 @@
           #7976e8 249.72deg,
           #f449f4 366.37deg
         );
-      backdrop-filter: blur(30px);
+      backdrop-filter: blur(1.465vw);
     }
 
     > li:nth-child(3) {
@@ -233,7 +326,7 @@
           #7976e8 249.72deg,
           #f449f4 366.37deg
         );
-      backdrop-filter: blur(30px);
+      backdrop-filter: blur(1.465vw);
     }
 
     > li:last-child {
@@ -251,37 +344,37 @@
           #7976e8 249.72deg,
           #f449f4 366.37deg
         );
-      backdrop-filter: blur(30px);
+      backdrop-filter: blur(1.465vw);
     }
   }
 }
 
 .gpu-check {
   .gpu-container {
-    border-bottom: 2px solid rgba(222, 222, 222, 0.4);
-    padding-bottom: 25px;
-    margin-bottom: 30px;
+    border-bottom: 0.098vw solid rgba(222, 222, 222, 0.4);
+    padding-bottom: 1.221vw;
+    margin-bottom: 1.465vw;
 
     > nav {
       display: flex;
       align-items: center;
-      gap: 16px;
-      margin-bottom: 35px;
+      gap: 0.781vw;
+      margin-bottom: 1.709vw;
 
       button {
-        padding: 18px 24px;
-        width: 136px;
-        height: 48px;
-        border: 1px solid #efe6fd;
-        border-radius: 4px;
+        padding: 0.879vw 1.172vw;
+        width: 6.641vw;
+        height: 2.344vw;
+        border: 0.049vw solid #efe6fd;
+        border-radius: 0.195vw;
         cursor: pointer;
         outline: none;
         background-color: transparent;
         font-family: 'Inter';
         font-style: normal;
         font-weight: 500;
-        font-size: 16px;
-        line-height: 14px;
+        font-size: 0.781vw;
+        line-height: 0.684vw;
         leading-trim: both;
         text-edge: cap;
         text-transform: uppercase;
@@ -299,20 +392,20 @@
       li {
         display: flex;
         align-items: center;
-        height: 64px;
+        height: 3.125vw;
 
         &:not(:first-child) {
-          margin-top: 33px;
+          margin-top: 1.611vw;
         }
 
         .icon-box {
-          height: 64px;
-          width: 64px;
+          height: 3.125vw;
+          width: 3.125vw;
           display: flex;
           align-items: center;
           justify-content: center;
           background-color: #32a7e2;
-          margin-right: 22px;
+          margin-right: 1.074vw;
           border-radius: 50%;
         }
 
@@ -320,34 +413,34 @@
           flex: 1;
           display: flex;
           flex-direction: column;
-          gap: 13px;
+          gap: 0.635vw;
 
           .name {
             font-family: 'Inter';
             font-style: normal;
             font-weight: 500;
-            font-size: 20px;
-            line-height: 24px;
-            letter-spacing: 0.457143px;
+            font-size: 0.977vw;
+            line-height: 1.172vw;
+            letter-spacing: 0.022vw;
             color: #ffffff;
           }
 
           .status {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 0.244vw;
             font-family: 'Inter';
             font-style: normal;
             font-weight: 400;
-            font-size: 16px;
-            line-height: 19px;
-            letter-spacing: 0.666667px;
+            font-size: 0.781vw;
+            line-height: 0.928vw;
+            letter-spacing: 0.033vw;
             color: rgba(255, 255, 255, 0.5);
 
             &::before {
               content: '';
-              width: 10px;
-              height: 10px;
+              width: 0.488vw;
+              height: 0.488vw;
               border-radius: 50%;
               background-color: #f40000;
             }
@@ -362,9 +455,9 @@
           font-family: 'Inter';
           font-style: normal;
           font-weight: 600;
-          font-size: 20px;
-          line-height: 24px;
-          letter-spacing: 0.457143px;
+          font-size: 0.977vw;
+          line-height: 1.172vw;
+          letter-spacing: 0.022vw;
           color: #ffffff;
         }
       }
@@ -375,8 +468,8 @@
     font-family: 'Inter';
     font-style: normal;
     font-weight: 400;
-    font-size: 16px;
-    line-height: 30px;
+    font-size: 0.781vw;
+    line-height: 1.465vw;
     leading-trim: both;
     text-edge: cap;
     color: rgba(255, 255, 255, 0.5);
@@ -389,35 +482,35 @@
     flex-direction: row;
     justify-content: space-between;
     background: #333333;
-    border-width: 0.5px;
+    border-width: 0.024vw;
     border-style: solid;
     border-color: #262626;
-    border-radius: 10px;
-    padding: 25px 20px;
+    border-radius: 0.488vw;
+    padding: 1.221vw 0.977vw;
 
     .info {
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 0.879vw;
 
       .name {
-        height: 24px;
+        height: 1.172vw;
         font-family: 'Inter';
         font-style: normal;
         font-weight: 400;
-        font-size: 16px;
-        line-height: 24px;
+        font-size: 0.781vw;
+        line-height: 1.172vw;
         color: #efe6fd;
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 0.391vw;
 
         &::before {
           content: '';
           background-color: #dd5acc;
-          border-radius: 4px;
-          width: 10px;
-          height: 10px;
+          border-radius: 0.195vw;
+          width: 0.488vw;
+          height: 0.488vw;
         }
       }
 
@@ -425,12 +518,12 @@
         font-family: 'Inter';
         font-style: normal;
         font-weight: 500;
-        font-size: 24px;
-        line-height: 32px;
+        font-size: 1.172vw;
+        line-height: 1.563vw;
         color: rgba(239, 230, 253, 0.99);
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 0.391vw;
       }
     }
   }
