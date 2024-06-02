@@ -1,4 +1,5 @@
 import styles from './index.less';
+import { history } from 'umi';
 
 const Products = (props) => {
   return (
@@ -12,20 +13,29 @@ const Products = (props) => {
         <div
           className={`animate__animated animate__fadeInUp ${styles['learn-more']}`}
         >
-          <button>Learn More About Janction</button>
+          <button
+            onClick={() => {
+              history.push('/personal');
+            }}
+          >
+            Learn More About Janction
+          </button>
         </div>
       </div>
       <div className={styles['architecture']}>
         <h1>Architecture</h1>
         <div className={styles['info']}>
-          <img src={require('@/assets/images/architecture.png')} alt="" />
+          <img
+            src={require('@/assets/images/product/architecture.png')}
+            alt=""
+          />
         </div>
       </div>
       <div className={styles['apps']}>
         <h1>Apps</h1>
         <div className={styles['list']}>
           <div>
-            <img src={require('@/assets/images/apps/nexus.png')} />
+            <img src={require('@/assets/images/product/nexus.png')} />
             <p>Janction Nexus</p>
             <button>
               <span>Exploer</span>
@@ -33,7 +43,7 @@ const Products = (props) => {
             </button>
           </div>
           <div>
-            <img src={require('@/assets/images/apps/eq_cabinet.png')} />
+            <img src={require('@/assets/images/product/eq_cabinet.png')} />
             <p>Janction Genesis</p>
             <button>
               <span>Join Network</span>
@@ -41,7 +51,7 @@ const Products = (props) => {
             </button>
           </div>
           <div>
-            <img src={require('@/assets/images/apps/chip.png')} />
+            <img src={require('@/assets/images/product/chip.png')} />
             <p>Janction Pulse</p>
             <button>
               <span>Let's Compute</span>
@@ -64,11 +74,11 @@ const Products = (props) => {
                 </p>
               </section>
               <div className={styles['banner']}>
-                <img src={require('@/assets/images/apps/nexus_long.png')} />
+                <img src={require('@/assets/images/product/nexus_long.png')} />
               </div>
             </div>
             <img
-              src={require('@/assets/images/faq.png')}
+              src={require('@/assets/images/product/faq.png')}
               alt="faq"
               loading="lazy"
               width="88"
@@ -77,7 +87,7 @@ const Products = (props) => {
           </div>
           <div className={`${styles['item']} ${styles['item-reverse']}`}>
             <img
-              src={require('@/assets/images/faq.png')}
+              src={require('@/assets/images/product/faq.png')}
               alt="fag"
               loading="lazy"
               width="88"
@@ -92,7 +102,7 @@ const Products = (props) => {
               </section>
               <div className={styles['banner']}>
                 <img
-                  src={require('@/assets/images/apps/eq_cabinet_long.png')}
+                  src={require('@/assets/images/product/eq_cabinet_long.png')}
                 />
               </div>
             </div>
@@ -108,11 +118,11 @@ const Products = (props) => {
                 </p>
               </section>
               <div className={styles['banner']}>
-                <img src={require('@/assets/images/apps/chip_long.png')} />
+                <img src={require('@/assets/images/product/chip_long.png')} />
               </div>
             </div>
             <img
-              src={require('@/assets/images/faq.png')}
+              src={require('@/assets/images/product/faq.png')}
               alt="fag"
               loading="lazy"
               width="88"
