@@ -5,10 +5,10 @@ import { Steps, Checkbox } from 'antd';
 
 const DeployNode = (props) => {
   const [sysList, setSysList] = useState([
-    { id: 1, name: 'Docker (recommend)' },
-    { id: 2, name: 'MAC' },
-    { id: 3, name: 'Linux' },
-    { id: 4, name: 'Windows' },
+    { id: 1, name: 'Docker (recommend)', icon: 'docker' },
+    { id: 2, name: 'MAC', icon: 'mac' },
+    { id: 3, name: 'Linux', icon: 'linux' },
+    { id: 4, name: 'Windows', icon: 'windows' },
   ]);
   const [sysSelected, setSysSelected] = useState();
 
@@ -29,12 +29,13 @@ const DeployNode = (props) => {
       >
         <ul className={styles['sys-list']}>
           {sysList.map((item) => (
-            <li key={item?.id} className="df ai_c jc_c">
+            <li key={item?.id} className="df ai_c jc_c fd_c">
               <Checkbox
                 value={item.id}
                 className={styles['check-box']}
               ></Checkbox>
-              <span>{item.name}</span>
+              <Icons name={item.icon} />
+              <span className="mt10">{item.name}</span>
             </li>
           ))}
         </ul>

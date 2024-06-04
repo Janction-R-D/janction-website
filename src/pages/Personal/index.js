@@ -7,9 +7,9 @@ import Overview from './components/Overview';
 import styles from './index.less';
 
 const navList = [
-  { name: 'Deploy Node', key: 0, icon: 'branch', width: 34, height: 34 },
-  { name: 'Node Status', key: 1, icon: 'node-status', width: 34, height: 34 },
-  { name: 'Points', key: 2, icon: 'points', width: 34, height: 34 },
+  { name: 'Deploy Node', key: 0, icon: 'branch' },
+  { name: 'Node Status', key: 1, icon: 'node-status' },
+  { name: 'Points', key: 2, icon: 'points' },
 ];
 
 const Personal = (props) => {
