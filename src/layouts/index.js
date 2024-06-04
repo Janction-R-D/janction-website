@@ -27,7 +27,7 @@ export default function Layout(props) {
   };
 
   if (props.location.pathname === '/personal') {
-    return <FullScreenLayout>{props.children}</FullScreenLayout>;
+    return <FullScreenLayout rainbowKit>{props.children}</FullScreenLayout>;
   }
 
   return (

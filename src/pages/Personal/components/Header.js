@@ -1,8 +1,12 @@
 import styles from './index.less';
 import Icons from '@/components/Icons';
+import { ConnectButton, useConnectModal } from '@rainbow-me/rainbowkit';
+import { useAccount } from 'wagmi';
 import { Input } from 'antd';
 
 const Header = (props) => {
+  const { address } = useAccount();
+  const { openConnectModal } = useConnectModal();
   return (
     <div className={`df ai_c ${styles['header']}`}>
       <div className={styles['points']}>
@@ -22,7 +26,16 @@ const Header = (props) => {
           <span>Docs</span>
         </div>
         <div className={styles['connect-account']}>
-          <button>Connect Account</button>
+          {address ? (
+            <ConnectButton />
+          ) : (
+            <button
+              onClick={openConnectModal}
+              className={styles['connect-button']}
+            >
+              Connect Account
+            </button>
+          )}
         </div>
       </div>
     </div>
