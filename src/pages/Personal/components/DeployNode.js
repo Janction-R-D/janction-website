@@ -1,10 +1,10 @@
-import { Steps } from 'antd';
-import Step1 from './System';
-import Step2 from './GPU';
-import Overview from './Overview';
 import { empty } from '@/utils/lang';
-import styles from './index.less';
+import { Steps } from 'antd';
 import { useState } from 'react';
+import Step2 from './GPU';
+import Step3 from './RunNode';
+import Step1 from './System';
+import styles from './index.less';
 
 const stepsList = [
   {
@@ -44,12 +44,12 @@ const DeployNode = (props) => {
         </div>
         <div className={styles['button-box']}>
           {!empty(curStep.prestep) && <button onClick={onBack}>BACK</button>}
-          {!empty(curStep.nextstep) && <button onClick={onNext}>NEXT</button>}
+          <button onClick={onNext}>NEXT</button>
         </div>
       </div>
       {curStep.key == 0 && <Step1 />}
       {curStep.key == 1 && <Step2 />}
-      {curStep.key == 2 && <Overview />}
+      {curStep.key == 2 && <Step3 />}
     </>
   );
 };

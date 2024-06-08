@@ -1,7 +1,7 @@
-import styles from './index.less';
 import Icons from '@/components/Icons';
+import SearchInput from '@/components/SeachInput';
 import { useState } from 'react';
-import { Steps, Checkbox } from 'antd';
+import styles from './index.less';
 
 const brandList = [
   { id: 1, name: 'AMD' },
@@ -50,9 +50,12 @@ const NodeStatus = (props) => {
 
   return (
     <section className={styles['gpu-check']}>
-      <hgroup>
-        <h1>Check your GPU</h1>
-        <span>This is the prompt text</span>
+      <hgroup className="df ai_c jc_sb">
+        <div>
+          <h1>Check your GPU</h1>
+          <span>This is the prompt text</span>
+        </div>
+        <SearchInput />
       </hgroup>
       <div className={styles['gpu-container']}>
         <nav>
@@ -71,7 +74,7 @@ const NodeStatus = (props) => {
             {gpuList.map((item) => (
               <li key={item.name}>
                 <div className={styles['icon-box']}>
-                  <Icons name="gpu" />
+                  <img src={require('@/assets/svgs/cpu.svg')} />
                 </div>
                 <div className={styles['info']}>
                   <div className={styles['name']}>GPU</div>

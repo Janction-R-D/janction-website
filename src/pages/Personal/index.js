@@ -2,8 +2,9 @@ import Icons from '@/components/Icons';
 import { useState } from 'react';
 import { history } from 'umi';
 import DeployNode from './components/DeployNode';
+import GPU from './components/GPU';
 import Header from './components/Header';
-import Overview from './components/Overview';
+import Points from './components/Points';
 import styles from './index.less';
 
 const navList = [
@@ -55,11 +56,19 @@ const Personal = (props) => {
             ))}
           </ul>
         </nav>
-        <div className={styles['content']}>
-          <Header />
-          {curNav.key == 0 && <DeployNode />}
-          {curNav.key == 2 && <Overview />}
-        </div>
+        <section>
+          {/* <div className={styles['shadow']}>
+            <div className={styles['shadow-1']}></div>
+            <div className={styles['shadow-2']}></div>
+            <div className={styles['shadow-3']}></div>
+          </div> */}
+          <div className={styles['content']}>
+            <Header />
+            {curNav.key == 0 && <DeployNode />}
+            {curNav.key == 1 && <GPU />}
+            {curNav.key == 2 && <Points />}
+          </div>
+        </section>
       </div>
     </div>
   );

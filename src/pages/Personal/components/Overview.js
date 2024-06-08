@@ -1,16 +1,14 @@
-import styles from './index.less';
 import Icons from '@/components/Icons';
-import { useState } from 'react';
-import { Steps, Checkbox } from 'antd';
+import styles from './index.less';
 
 const Overview = (props) => {
   return (
-    <section className={styles['overview-container']}>
+    <section className={styles['overview']}>
       <hgroup>
         <h1>Overview</h1>
         <span>This is the prompt text</span>
       </hgroup>
-      <div className={styles['content']}>
+      <div className={styles['statistics']}>
         <div className={styles['info']}>
           <div className={styles['name']}>Completed Task</div>
           <div className={styles['value']}>

@@ -34,27 +34,7 @@
   }
 
   .search {
-    position: relative;
     margin-right: 1.953vw;
-
-    :global {
-      .ant-input-affix-wrapper {
-        border: none;
-        outline-style: none;
-        width: 16.602vw;
-        height: 2.637vw;
-        background: rgba(245, 247, 250, 0.15);
-        border-radius: 2.604vw;
-        font-size: 0.977vw;
-        color: rgba(255, 255, 255, 0.5);
-        box-shadow: 0 0 8.192px rgba(0, 0, 0, 0.5), 0 0 0 3.072px transparent;
-        padding-left: 0.879vw;
-      }
-
-      .ant-input-prefix {
-        margin-right: 0.488vw;
-      }
-    }
   }
 
   .docs {
@@ -188,13 +168,15 @@
 
 .sys-choice,
 .gpu-check,
-.overview-container {
+.run-node,
+.overview,
+.history {
   margin-top: 0.977vw;
   background: #212223;
   border-radius: 0.651vw;
   padding: 0 1.465vw 1.221vw;
 
-  hgroup {
+  > hgroup {
     border-bottom: 0.098vw solid rgba(222, 222, 222, 0.4);
     padding: 1.221vw 0;
     margin-bottom: 0.977vw;
@@ -407,6 +389,10 @@
           background-color: #32a7e2;
           margin-right: 1.074vw;
           border-radius: 50%;
+          color: #0019c0;
+          img {
+            width: 1.367vw;
+          }
         }
 
         .info {
@@ -476,8 +462,71 @@
   }
 }
 
-.overview-container {
+.run-node {
   .content {
+    user-select: text;
+
+    section {
+      width: 64.209vw;
+      background: #333333;
+      border-width: 0.024vw;
+      border-style: solid;
+      border-color: #262626;
+      border-radius: 0.488vw;
+      padding: 0.977vw;
+
+      &:not(:first-child) {
+        margin-top: 0.977vw;
+      }
+
+      > hgroup {
+        h2 {
+          height: 1.172vw;
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 500;
+          font-size: 0.977vw;
+          line-height: 1.172vw;
+          letter-spacing: 0.022vw;
+          color: #ffffff;
+        }
+      }
+
+      p {
+        height: 0.928vw;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 0.781vw;
+        line-height: 0.928vw;
+        letter-spacing: 0.033vw;
+        color: rgba(255, 255, 255, 0.5);
+      }
+
+      .code-area {
+        margin-top: 0.977vw;
+        width: 62.256vw;
+        height: 14.258vw;
+        background: #525252;
+        border-radius: 0.244vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 0.781vw;
+        line-height: 0.928vw;
+        text-align: center;
+        letter-spacing: 0.033vw;
+        color: #ffffff;
+      }
+    }
+  }
+}
+
+.overview {
+  .statistics {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -524,6 +573,74 @@
         display: flex;
         align-items: center;
         gap: 0.391vw;
+      }
+    }
+  }
+}
+
+.history {
+  .node-list {
+    li {
+      display: flex;
+      align-items: center;
+      height: 3.125vw;
+
+      &:not(:first-child) {
+        margin-top: 1.611vw;
+      }
+
+      .icon-box {
+        height: 3.125vw;
+        width: 3.125vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #32a7e2;
+        margin-right: 1.074vw;
+        border-radius: 50%;
+        img {
+          width: 1.367vw;
+        }
+      }
+
+      .info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.635vw;
+
+        .name {
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 500;
+          font-size: 0.977vw;
+          line-height: 1.172vw;
+          letter-spacing: 0.022vw;
+          color: #ffffff;
+        }
+
+        .subname {
+          display: flex;
+          align-items: center;
+          gap: 0.244vw;
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 400;
+          font-size: 0.781vw;
+          line-height: 0.928vw;
+          letter-spacing: 0.033vw;
+          color: rgba(255, 255, 255, 0.5);
+        }
+      }
+
+      .online-time {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 0.977vw;
+        line-height: 1.172vw;
+        letter-spacing: 0.022vw;
+        color: #ffffff;
       }
     }
   }

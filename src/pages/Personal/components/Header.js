@@ -1,8 +1,8 @@
-import styles from './index.less';
 import Icons from '@/components/Icons';
+import SearchInput from '@/components/SeachInput';
 import { ConnectButton, useConnectModal } from '@rainbow-me/rainbowkit';
 import { useAccount } from 'wagmi';
-import { Input } from 'antd';
+import styles from './index.less';
 
 const Header = (props) => {
   const { address } = useAccount();
@@ -16,10 +16,7 @@ const Header = (props) => {
       <div className={styles['nodes']}>Nodes:21</div>
       <div className="df ai_c jc_fe f1">
         <div className={styles['search']}>
-          <Input
-            prefix={<Icons name="search" />}
-            placeholder="Search for something"
-          />
+          <SearchInput />
         </div>
         <div className={styles['docs']}>
           <Icons name="docs" />
