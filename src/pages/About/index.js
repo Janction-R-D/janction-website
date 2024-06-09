@@ -1,129 +1,90 @@
-import Lottie from 'react-lottie';
-import * as Flow1 from './components/Flow1.json';
 import styles from './index.less';
+import Items from './components/Items';
+import Faq from '../Faq';
+import { useState } from 'react';
 
 const About = (props) => {
+  const [userList, setUserList] = useState([
+    {
+      user: {
+        name: 'HIROSHI  HARADA',
+        role: 'FOUNDER',
+      },
+      description: [
+        'Worked at KPMG AZSA 8 Co. as a statutory auditor, mainly for listedcompanies in a wide range of industries, including broadcasting, subject joints.IT and manufacturing',
+        'He has also been involved in the auditing and support of many companiespreparing to go public, and was involved in the listing of one of his clients onthe JASDAQ market.',
+        'Certified public accountant (registration no. 30168), member of the JapaneseInstitute of Certified Public Accountants',
+        'Joined Jasmy as CFo in January 2020.',
+      ],
+    },
+    {
+      user: {
+        name: 'KUNITAKE ANDO',
+      },
+      description: [
+        'President and CO0 of Sony Corporation; President and Co0 of SonyEngineering and Manufacturing of America, Chairman of the Board, SonyFinancial Holdings Inc, and Chairman of the Board, Sony Life InsuranceCompany; Chairman, Frontier Human Resources Study Group, Ministry ofEconomy, Trade and Industry',
+        'Appointed Representative Director in April 2016',
+        'Currently, Director of the Japan Innovation Network, Chairman of theUniversity of Nagano, etc.',
+      ],
+    },
+    {
+      user: {
+        name: 'KAZUMASA SATO',
+      },
+      description: [
+        'President and Representative Director of Sonystyle.com Japan K.K., Presidentof Sony Style Company, Executive Officer of Sony Marketing inc. and Presidenof Sony Style Japan K,K., Executive Officer of Sony Marketing Inc. and GeneralManager of Creative Center, Sony Corporation. and President andRepresentative Director of BJlT Inc.',
+        'Appointed Representative Director in April 2016 and President, Coo of theCompany in November 2018',
+      ],
+    },
+    {
+      user: {
+        name: 'TAKASHI HAGIWARA',
+      },
+      description: [
+        'Joined Sony Corporation, where he worked in software product design forconsumer products and was responsible for PC/VAl0 development and designfor many years.In 2000, he became President of Sony Digital NetworkApplications Corporation (SDNA). After serving as Deputy General Manager ofthe VAl0 & Mobile Business Unit, in 2015 he was Appointed President andRepresentative Director of Vision Arts Corporation. He has developed varioussystem construction projects based on cloud technology for variouscompanies in the group.',
+        'Since 2020, he has overseen the development of Jasmy Software.',
+      ],
+    },
+  ]);
+
   return (
     <div className={styles['about-container']}>
-      <section className={styles['vision']}>
-        <div className={styles['faq']}>
-          <img
-            src={require('@/assets/images/icons/terminal_icon.png')}
-            alt=""
-            width={32}
-          />
-          <div className={styles['vertical-line']}>
-            <img
-              src={require('@/assets/images/icons/flow_line.png')}
-              width={20}
-            />
+      <div className={styles['about-us']}>
+        <h1>About Us</h1>
+        <div className={styles['info']}>
+          <img src={require('@/assets/images/about/renderings.png')} alt="" />
+          <section>
+            <h2>Company Name</h2>
+            <p>
+              Our team is based in Tokyo. We were founded in March 2024 and
+              received XXX bonus We were founded in March 2024 and received XXX
+              bonusWe were founded in March 2024 and received XXX bonus We were
+              founded in March 2024 and received XXX bonus We were founded in
+              March 2024 and received XXX bonus
+            </p>
+          </section>
+        </div>
+      </div>
+      <div className={styles['who-we-are']}>
+        <h1>Who We Are</h1>
+        <div className={styles['info']}>
+          <div className={styles['left']}>
+            <Items data={userList[0]} />
+            <Items data={userList[1]} />
+            <div className={styles['divider']}>
+              <img src={require('@/assets/svgs/divider.svg')} alt="" />
+            </div>
+          </div>
+          <div className={styles['right']}>
+            <div className={styles['divider']}>
+              <img src={require('@/assets/svgs/divider.svg')} alt="" />
+            </div>
+            <Items data={userList[2]} className={styles['right-first-items']} />
+            <Items data={userList[3]} />
           </div>
         </div>
-        <hgroup>
-          <h1>VISION</h1>
-          <p>
-            Janction GPU Marketplace aims to provide unlimited GPU capacity to
-            users at lower costs by aggregating GPUs from multiple sources.
-          </p>
-          <button>EXPLOER</button>
-        </hgroup>
-        <Lottie
-          options={{
-            loop: true,
-            autoplay: true,
-            animationData: Flow1,
-          }}
-          height={322}
-          width={518}
-        />
-        <div className={styles['shadow-box-1']}></div>
-        <div className={styles['shadow-box-2']}></div>
-      </section>
-      <section className={styles['join']}>
-        <hgroup>
-          <h1>JOIN NETWORK</h1>
-        </hgroup>
-        <div className={styles['steps']}>
-          <section className={styles['step1']}>
-            <img src={require('@/assets/images/about/step1_icon.png')} alt="" />
-            <div>
-              <h1>Step 1</h1>
-              <h2>Environmental preparation</h2>
-              <p>
-                Choose Your Operating System, Install Softwares Such As Docker
-              </p>
-            </div>
-          </section>
-          <section className={styles['step2']}>
-            <img src={require('@/assets/images/about/step2_icon.png')} alt="" />
-            <div>
-              <h1>Step 2</h1>
-              <h2>Initialize</h2>
-              <p>Download Janction Binary Setup And Initalize Dataset</p>
-            </div>
-          </section>
-          <section className={styles['step3']}>
-            <img src={require('@/assets/images/about/step3_icon.png')} alt="" />
-            <div>
-              <h1>Step 3</h1>
-              <h2>Run Node</h2>
-              <p>Join Network, Loading Jobs And Computing</p>
-            </div>
-          </section>
-          <section className={styles['step4']}>
-            <img src={require('@/assets/images/about/step4_icon.png')} alt="" />
-            <div>
-              <h1>Step 4</h1>
-              <h2>Manage Your Nodes</h2>
-              <p>Manage nodes and view points</p>
-            </div>
-          </section>
-        </div>
-      </section>
-      <section className={styles['compute']}>
-        <hgroup>
-          <h1>Let’s Compute</h1>
-        </hgroup>
-        <div className={styles['compute-info']}>
-          <section>
-            <div className={styles['info']}>
-              <img
-                src={require('@/assets/images/about/AI.png')}
-                width={144}
-                alt=""
-              />
-              <h1>View Your AI Jobs</h1>
-              <p>Check your Job status and running status</p>
-            </div>
-            <div className={styles['border-box']}></div>
-          </section>
-          <section className={styles['ai_job']}>
-            <div className={styles['info']}>
-              <img
-                src={require('@/assets/images/about/AI_job.png')}
-                width={97}
-                alt=""
-              />
-              <h1>Submit Your AI Job</h1>
-              <p>Coming Soon</p>
-            </div>
-            <div className={styles['border-box']}></div>
-          </section>
-          <section className={styles['point']}>
-            <div className={styles['info']}>
-              <img
-                src={require('@/assets/images/about/point.png')}
-                width={213}
-                alt=""
-              />
-              <h1>Check Your Points</h1>
-              <p>Coming Soon</p>
-            </div>
-
-            <div className={styles['border-box']}></div>
-          </section>
-        </div>
-      </section>
+      </div>
+      <Faq />
     </div>
   );
 };
