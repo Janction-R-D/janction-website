@@ -11,6 +11,7 @@ const routes = [
   { name: 'Product', path: '/product' },
   { name: 'Ecosystem', path: '/ecosystem' },
   { name: 'Articles', path: '/articles' },
+  { name: 'GetStarted', path: '/getStarted' },
 ];
 
 export default function Layout(props) {
