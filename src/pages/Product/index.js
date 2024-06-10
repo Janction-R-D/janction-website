@@ -15,7 +15,7 @@ const Products = (props) => {
         >
           <button
             onClick={() => {
-              history.push('/personal');
+              history.push('/getStarted');
             }}
           >
             Learn More About Janction

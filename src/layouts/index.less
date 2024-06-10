@@ -5,12 +5,17 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  position: relative;
 
   header {
+    width: 100%;
     padding: 30px 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: relative;
+    z-index: 2;
 
     .logo {
       display: flex;
@@ -43,7 +48,37 @@
     flex: 1;
     display: flex;
     justify-content: center;
-    width: 100%;
+    width: 1088px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .shadow-box-1 {
+    width: 226px;
+    height: 262px;
+    position: absolute;
+    right: 10%;
+    top: 0;
+    background: linear-gradient(158.27deg, #651fff 9.95%, #00bcd4 92.81%);
+    opacity: 0.2;
+    filter: blur(51.6474px);
+    transform: matrix(0.64, 0.77, 0.77, -0.64, 0, 0);
+    z-index: 1;
+  }
+
+  .shadow-box-2 {
+    width: 271px;
+    height: 257px;
+    position: absolute;
+    left: 10%;
+    top: 10%;
+    background: linear-gradient(166.52deg, #ff4081 -40.26%, #f8bbd0 75.8%);
+    mix-blend-mode: normal;
+    opacity: 0.2;
+    filter: blur(59.8022px);
+    border-radius: 22px;
+    transform: matrix(0.64, 0.77, 0.77, -0.64, 0, 0);
+    z-index: 1;
   }
 
   footer {

@@ -1,9 +1,8 @@
 .about-container {
-  width: 1088px;
-  margin: 0 auto;
-  padding-top: 80px;
+  width: 100%;
 
   .about-us {
+    margin-top: 80px;
     h1 {
       height: 48px;
       font-family: 'Inter';
@@ -126,6 +125,8 @@
     }
 
     .list {
+      position: relative;
+      top: -50px;
       :global {
         .ant-collapse {
           .ant-collapse-item {
@@ -174,14 +175,14 @@
       .expand-icon {
         img {
           transform: rotate(-90deg);
-          translate: 0.3s;
+          transition: transform 0.3s;
         }
       }
 
       .active-expand-icon {
         img {
           transform: rotate(0deg);
-          translate: 0.3s;
+          transition: transform 0.3s;
         }
       }
     }

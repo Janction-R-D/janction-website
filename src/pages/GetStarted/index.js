@@ -41,8 +41,6 @@ const GetStarted = (props) => {
           height={322}
           width={518}
         />
-        <div className={styles['shadow-box-1']}></div>
-        <div className={styles['shadow-box-2']}></div>
       </section>
       <section className={styles['join']}>
         <hgroup>

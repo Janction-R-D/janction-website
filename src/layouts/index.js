@@ -62,6 +62,8 @@ export default function Layout(props) {
         <SocialsLinks />
       </header>
       <main className={styles['page-container']}>{children}</main>
+      <div className={styles['shadow-box-1']}></div>
+      <div className={styles['shadow-box-2']}></div>
       <footer className="animate__animated animate__zoomIn">
         <div className="df jc_sb ai_c">
           <div className="df fd_c">
