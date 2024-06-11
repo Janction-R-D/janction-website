@@ -8,6 +8,10 @@ const GetStarted = (props) => {
     history.push('/personal');
   };
 
+  const toExplore = () => {
+    history.push('/explore/overview');
+  };
+
   return (
     <div className={styles['get-started-container']}>
       <section className={styles['vision']}>
@@ -30,7 +34,7 @@ const GetStarted = (props) => {
             Janction GPU Marketplace aims to provide unlimited GPU capacity to
             users at lower costs by aggregating GPUs from multiple sources.
           </p>
-          <button>EXPLOER</button>
+          <button onClick={toExplore}>EXPLORE</button>
         </hgroup>
         <Lottie
           options={{
