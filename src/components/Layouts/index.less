@@ -1,0 +1,152 @@
+.main-header {
+  width: 1392px;
+  padding: 30px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 2;
+
+  .logo {
+    display: flex;
+    align-items: center;
+  }
+
+  nav {
+    ul {
+      display: flex;
+      position: relative;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0px 16px;
+      width: 395px;
+      height: 36px;
+      border: 1px solid #fff;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+      color: #fff;
+
+      .active a {
+        color: #40a9ff;
+      }
+    }
+  }
+}
+
+.explore-header {
+  width: 1392px;
+  height: 100px;
+  margin: 0 auto;
+  position: relative;
+
+  .logo {
+    display: flex;
+    align-items: center;
+  }
+
+  nav {
+    position: absolute;
+    height: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    ul {
+      height: 100%;
+      gap: 60px;
+
+      li {
+        gap: 10px;
+        height: 24px;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 24px;
+        color: #ffffff;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .extra {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+
+    .login {
+      height: 19px;
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 19px;
+      text-transform: uppercase;
+      color: #ffffff;
+      cursor: pointer;
+    }
+
+    .connect-account {
+      .connect-button {
+        width: 9.229vw;
+        height: 2.637vw;
+        background: #dd5acc;
+        border-radius: 0.488vw;
+        outline: none;
+        border: none;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 0.781vw;
+        line-height: 0.928vw;
+        text-align: center;
+        letter-spacing: 0.098vw;
+        color: #ffffff;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+footer {
+  margin: 0 auto;
+  margin-top: 200px;
+  padding-bottom: 20px;
+  width: 1200px;
+
+  .links-container {
+    display: flex;
+    gap: 140px;
+
+    > div {
+      display: flex;
+      flex-direction: column;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 14px;
+
+      > div,
+      > a {
+        margin-bottom: 12px;
+      }
+
+      > div {
+        font-size: 15px;
+        color: #fff;
+      }
+
+      a {
+        cursor: pointer;
+      }
+    }
+  }
+
+  .related-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 30px;
+    margin-bottom: 30px;
+    margin-top: 0px;
+    border-bottom: 1px solid rgba(245, 245, 255, 0.1);
+  }
+}

@@ -1,8 +1,9 @@
+import RainbowKit from '@/components/RainbowKit';
 import styles from './index.less';
-import RainbowKit from '../components/RainbowKit';
 
 const FullScreenLayout = (props) => {
   const { rainbowKit, children } = props;
+
   const renderChildren = () => {
     if (rainbowKit) {
       return <RainbowKit>{children}</RainbowKit>;
