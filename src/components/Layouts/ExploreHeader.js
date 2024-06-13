@@ -5,16 +5,15 @@ import { ConnectButton, useConnectModal } from '@rainbow-me/rainbowkit';
 import { useAccount } from 'wagmi';
 import styles from './index.less';
 
+const routes = [
+  { name: 'Overview', path: '/explore/overview', key: 0, icon: 'overview' },
+  { name: 'Nodes', path: '/explore/nodes', key: 1, icon: 'nodes' },
+  { name: 'Point', path: '/explore/point', key: 2, icon: 'point' },
+];
 const ExploreHeader = (props) => {
-  const [active, setActive] = useState();
+  const [active, setActive] = useState(routes[0]);
   const { address } = useAccount();
   const { openConnectModal } = useConnectModal();
-
-  const routes = [
-    { name: 'Overview', path: '/explore/overview', key: 0, icon: 'branch' },
-    { name: 'Nodes', path: '/explore/nodes', key: 1, icon: 'node-status' },
-    { name: 'Point', path: '/explore/point', key: 2, icon: 'points' },
-  ];
 
   useEffect(() => {
     setActive(history.location.pathname);
@@ -34,7 +33,7 @@ const ExploreHeader = (props) => {
           {routes.map((item) => (
             <li
               key={item.name}
-              className={`df ai_c ${item.key == active && styles['active']}`}
+              className={`df ai_c ${item.path == active && styles['active']}`}
               onClick={() => onRouteClick(item)}
             >
               <Icons name={item.icon} width={24} height={24} />
