@@ -1,7 +1,6 @@
 #container {
   width: 100vw;
   overflow-x: clip;
-  margin: 0 auto;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -46,16 +45,64 @@
   }
 }
 
-#full-screen-container {
+#personal-container {
   width: 100vw;
   overflow-x: clip;
-  margin: 0 auto;
   min-height: 100vh;
+
+  main {
+    width: 1088px;
+    margin: 0 auto;
+  }
 }
 
 #explore-container {
   width: 100vw;
   overflow-x: clip;
-  margin: 0 auto;
   min-height: 100vh;
+
+  main {
+    width: 1088px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 1280px) {
+  #container {
+    main {
+      width: 924px;
+    }
+  }
+
+  #personal-container {
+    main {
+      width: 924px;
+    }
+  }
+
+  #explore-container {
+    main {
+      width: 924px;
+    }
+  }
+}
+
+@media (max-width: 1280px) {
+  #container {
+    main {
+      width: calc(~'100vw - 40px');
+    }
+  }
+
+  #personal-container {
+    main {
+      width: calc(~'100vw - 40px');
+    }
+  }
+
+  #explore-container {
+    main {
+      width: calc(~'100vw - 40px');
+    }
+  }
 }

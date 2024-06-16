@@ -2,14 +2,14 @@ import Footer from '@/components/Layouts/Footer';
 import Header from '@/components/Layouts/Header';
 import 'animate.css';
 import ExploreLayout from './ExploreLayout';
-import FullScreenLayout from './FullScreenLayout';
+import PersonalLayout from './PersonalLayout';
 import styles from './index.less';
 
 export default function Layout(props) {
   const { children } = props;
 
   if (props.location.pathname == '/personal') {
-    return <FullScreenLayout rainbowKit>{children}</FullScreenLayout>;
+    return <PersonalLayout rainbowKit>{children}</PersonalLayout>;
   }
 
   if (props.location.pathname.includes('/explore')) {

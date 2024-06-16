@@ -3,6 +3,8 @@
 
   .about-us {
     margin-top: 80px;
+    width: 100%;
+
     h1 {
       height: 48px;
       font-family: 'Inter';
@@ -20,8 +22,7 @@
       align-items: center;
       padding: 32px;
       gap: 35px;
-      width: 1088px;
-      height: 316px;
+      width: 100%;
       background: rgba(255, 255, 255, 0.07);
       border: 1px solid rgba(255, 255, 255, 0.2);
       backdrop-filter: blur(13.8px);
@@ -30,7 +31,6 @@
 
       section {
         h2 {
-          height: 20px;
           font-family: 'Inter';
           font-style: normal;
           font-weight: 600;
@@ -59,6 +59,7 @@
 
   .who-we-are {
     margin-top: 110px;
+    width: 100%;
 
     h1 {
       height: 48px;
@@ -88,6 +89,9 @@
 
           > img {
             position: absolute;
+            display: block;
+            width: 561px;
+            // height: 29px;
           }
         }
       }
@@ -97,6 +101,23 @@
           transform: scaleY(-1);
           top: 19px;
           left: -32px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1280px) {
+  .about-container {
+    .who-we-are {
+      .info {
+        .left,
+        .right {
+          .divider {
+            > img {
+              width: 477px;
+            }
+          }
         }
       }
     }

@@ -1,26 +1,50 @@
 import SocialsLinks from '@/components/SocialsLinks';
+import Icons from '@/components/Icons';
 import { useEffect, useState } from 'react';
+import { Dropdown, Menu } from 'antd';
 import { history } from 'umi';
 import styles from './index.less';
 
+const routes = [
+  { name: 'Home', path: '/' },
+  { name: 'About', path: '/about' },
+  { name: 'Product', path: '/product' },
+  { name: 'Ecosystem', path: '/ecosystem' },
+  { name: 'Articles', path: '/articles' },
+  { name: 'GetStarted', path: '/getStarted' },
+];
 const Header = (props) => {
   const [active, setActive] = useState();
-  const routes = [
-    { name: 'Home', path: '/' },
-    { name: 'About', path: '/about' },
-    { name: 'Product', path: '/product' },
-    { name: 'Ecosystem', path: '/ecosystem' },
-    { name: 'Articles', path: '/articles' },
-    { name: 'GetStarted', path: '/getStarted' },
-  ];
+  const [menuVisible, setMenuVisible] = useState(false);
+
+  const showMenu = () => {
+    setMenuVisible(!menuVisible);
+  };
 
   useEffect(() => {
     setActive(history.location.pathname);
   }, [history.location.pathname]);
 
   const onRouteClick = (route) => {
+    setMenuVisible(!menuVisible);
     setActive(route.path);
     history.push(route.path);
+  };
+
+  const renderMenu = () => {
+    return (
+      <Menu>
+        {routes.map((item) => (
+          <Menu.Item
+            key={item.name}
+            path={item.path}
+            onClick={() => onRouteClick(item)}
+          >
+            {item.name}
+          </Menu.Item>
+        ))}
+      </Menu>
+    );
   };
 
   return (
@@ -51,6 +75,11 @@ const Header = (props) => {
         </ul>
       </nav>
       <SocialsLinks />
+      <Dropdown overlay={renderMenu}>
+        <div className={styles['android-menu']}>
+          <Icons name="menu" />
+        </div>
+      </Dropdown>
     </header>
   );
 };

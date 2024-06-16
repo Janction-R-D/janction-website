@@ -129,7 +129,7 @@ const Point = (props) => {
         <h2>AYER 2 F0R DECENTRALIZED AI</h2>
       </div>
       <section className={styles['node-runing']}>
-        <div className="df ai_c jc_sb gap10">
+        <div className="df ai_c jc_sb gap10 wp100">
           <Statistic title="Total Points" value={112893} suffix="Point" />
           <Statistic title="Today Points" value={112893} suffix="Point" />
           <Statistic title="Top 1 User" value={112893} suffix="Point" />

@@ -113,7 +113,7 @@ const Nodes = (props) => {
       </div>
       <section className={styles['node-runing']}>
         <h1>Node Runing</h1>
-        <div className="df ai_c jc_sb gap10">
+        <div className="df ai_c jc_sb gap10 wp100">
           <Statistic title="Live Nodes" value={112893} suffix="Node" />
           <Statistic
             title="Total Compute Hours"
