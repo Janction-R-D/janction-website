@@ -352,6 +352,7 @@
     .slogan {
       h1 {
         font-size: 56px;
+
         &::before {
           font-size: 56px;
         }
@@ -368,6 +369,130 @@
               img {
                 min-height: 257px;
               }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .product-container {
+    width: 100%;
+
+    .slogan {
+      justify-content: flex-start;
+
+      h1 {
+        font-size: 18px;
+        margin-top: 100px;
+
+        &::before {
+          font-size: 18px;
+        }
+      }
+
+      button {
+        margin-top: 20px;
+        padding: 10px;
+        font-size: 12px;
+        height: 20px;
+      }
+    }
+
+    .architecture {
+      h1 {
+        text-align: center;
+        font-size: 30px;
+      }
+    }
+
+    .apps {
+      padding: 300px 0;
+      width: 100%;
+
+      h1 {
+        font-size: 30px;
+        text-align: center;
+      }
+
+      .list {
+        flex-direction: column;
+
+        > div {
+          width: 100%;
+        }
+      }
+    }
+
+    .introduce {
+      width: 100%;
+
+      h1 {
+        text-align: center;
+        font-size: 30px;
+      }
+
+      .list {
+        .item {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 50px;
+          gap: 20px;
+
+          .content {
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            padding: 20px;
+
+            > section {
+              flex: auto;
+              width: 100%;
+
+              h2 {
+                font-size: 20px;
+                line-height: 20px;
+                text-align: center;
+              }
+
+              p {
+                text-align: center;
+                font-size: 14px;
+              }
+            }
+
+            .banner {
+              flex: auto;
+              width: 100%;
+              border: none;
+              border-radius: 10px;
+            }
+          }
+
+          .faq {
+            display: none;
+          }
+        }
+
+        .item-reverse {
+          > img {
+            display: none;
+          }
+
+          .content {
+            flex-direction: column;
+            padding: 20px;
+
+            section {
+              text-align: right;
+            }
+
+            .banner {
+              border: none;
+              border-radius: 10px;
             }
           }
         }
