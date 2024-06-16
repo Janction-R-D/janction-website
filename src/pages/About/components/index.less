@@ -33,6 +33,7 @@
       /* or 125% */
       letter-spacing: 0.457143px;
       color: #ffffff;
+
       .role {
         font-weight: 400;
         font-size: 18px;
@@ -75,5 +76,41 @@
 @media (max-width: 1280px) {
   .items {
     width: 446px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .items {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 24px;
+    min-height: 451px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(13.8px);
+    border-radius: 12px;
+
+    .user-info {
+      width: 100%;
+
+      .text {
+        font-size: 16px;
+        line-height: 25px;
+
+        .role {
+          font-size: 14px;
+        }
+      }
+    }
+
+    .description {
+      ul {
+        li {
+          font-size: 14px;
+        }
+      }
+    }
   }
 }

@@ -48,7 +48,7 @@ const Faq = (props) => {
   ]);
 
   return (
-    <div className={styles['about-container']}>
+    <div className={styles['faq-container']}>
       <div className={styles['about-us']}>
         <h1>About Us</h1>
         <div className={styles['info']}>
