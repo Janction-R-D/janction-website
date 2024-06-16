@@ -14,8 +14,32 @@ const GetStarted = (props) => {
 
   return (
     <div className={styles['get-started-container']}>
+      <div className={styles['lottie-animation']}>
+        <Lottie
+          options={{
+            loop: true,
+            autoplay: true,
+            animationData: Flow1,
+          }}
+          height={322}
+          width={518}
+        />
+      </div>
       <section className={styles['vision']}>
         <div className={styles['faq']}>
+          <img
+            src={require('@/assets/images/icons/terminal_icon.png')}
+            alt=""
+            width={32}
+          />
+          <div className={styles['vertical-line']}>
+            <img
+              src={require('@/assets/images/icons/flow_line.png')}
+              width={20}
+            />
+          </div>
+        </div>
+        <div className={`${styles['faq']} ${styles['faq-right']}`}>
           <img
             src={require('@/assets/images/icons/terminal_icon.png')}
             alt=""
@@ -36,15 +60,17 @@ const GetStarted = (props) => {
           </p>
           <button onClick={toExplore}>EXPLORE</button>
         </hgroup>
-        <Lottie
-          options={{
-            loop: true,
-            autoplay: true,
-            animationData: Flow1,
-          }}
-          height={322}
-          width={518}
-        />
+        <div className={styles['lottie-animation']}>
+          <Lottie
+            options={{
+              loop: true,
+              autoplay: true,
+              animationData: Flow1,
+            }}
+            height={322}
+            width={518}
+          />
+        </div>
       </section>
       <section className={styles['join']}>
         <hgroup>
