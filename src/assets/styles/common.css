@@ -309,3 +309,4 @@ div.dib{*display:inline; *zoom:1;}/* other block level tag(eg. p, li, h1~h6), us
 .fd_c{flex-direction: column;}
 .f1{flex:1}
 .gap10{gap: 10px;}
+.fw_w{flex-wrap: wrap;}

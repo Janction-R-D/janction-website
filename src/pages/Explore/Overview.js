@@ -98,7 +98,10 @@ const Overview = (props) => {
                 <div className={styles['shadow']}> </div>
                 <div className={styles['info']}>
                   <p>{item.title}</p>
-                  <span>{`${item.nodes} Nodes`}</span>
+                  <div className={styles['nodes']}>
+                    <span className={styles['value']}>{item.nodes}</span>
+                    <span>Nodes</span>
+                  </div>
                 </div>
               </li>
             ))}

@@ -17,10 +17,6 @@ const Header = (props) => {
   const [active, setActive] = useState();
   const [menuVisible, setMenuVisible] = useState(false);
 
-  const showMenu = () => {
-    setMenuVisible(!menuVisible);
-  };
-
   useEffect(() => {
     setActive(history.location.pathname);
   }, [history.location.pathname]);

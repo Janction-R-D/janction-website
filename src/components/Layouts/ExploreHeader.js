@@ -2,6 +2,7 @@ import Icons from '@/components/Icons';
 import { useEffect, useState } from 'react';
 import { history } from 'umi';
 import { ConnectButton, useConnectModal } from '@rainbow-me/rainbowkit';
+import { Dropdown, Menu } from 'antd';
 import { useAccount } from 'wagmi';
 import styles from './index.less';
 
@@ -24,11 +25,27 @@ const ExploreHeader = (props) => {
     history.push(route.path);
   };
 
+  const renderMenu = () => {
+    return (
+      <Menu>
+        {routes.map((item) => (
+          <Menu.Item
+            key={item.name}
+            path={item.path}
+            onClick={() => onRouteClick(item)}
+          >
+            {item.name}
+          </Menu.Item>
+        ))}
+      </Menu>
+    );
+  };
+
   return (
     <header
       className={`animate__animated animate__fadeInDown df ai_c jc_sb ${styles['explore-header']}`}
     >
-      <nav className="df ai_c">
+      <nav>
         <ul className="df ai_c">
           {routes.map((item) => (
             <li
@@ -36,7 +53,11 @@ const ExploreHeader = (props) => {
               className={`df ai_c ${item.path == active && styles['active']}`}
               onClick={() => onRouteClick(item)}
             >
-              <Icons name={item.icon} width={24} height={24} />
+              <img
+                src={require(`@/assets/svgs/${item.icon}.svg`)}
+                width={24}
+                height={24}
+              />
               <span>{item.name}</span>
             </li>
           ))}
@@ -65,6 +86,11 @@ const ExploreHeader = (props) => {
           )}
         </div>
       </div>
+      <Dropdown overlay={renderMenu}>
+        <div className={styles['android-menu']}>
+          <Icons name="menu" />
+        </div>
+      </Dropdown>
     </header>
   );
 };

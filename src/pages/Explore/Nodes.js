@@ -1,9 +1,9 @@
 import Icons from '@/components/Icons';
 import styles from './index.less';
 import { useState } from 'react';
-import { Statistic, Table } from 'antd';
+import { Statistic, Table, Pagination } from 'antd';
 import SearchInput from '@/components/SeachInput';
-import Pie from './Pie';
+import Pie from './components/Pie';
 
 const statusList = [
   {
@@ -113,7 +113,7 @@ const Nodes = (props) => {
       </div>
       <section className={styles['node-runing']}>
         <h1>Node Runing</h1>
-        <div className="df ai_c jc_sb gap10 wp100">
+        <div className="df ai_c jc_sb fw_w gap10 wp100">
           <Statistic title="Live Nodes" value={112893} suffix="Node" />
           <Statistic
             title="Total Compute Hours"
@@ -142,7 +142,7 @@ const Nodes = (props) => {
       </section>
       <section className={styles['completed-list']}>
         <div className={styles['filter']}>
-          <SearchInput />
+          <SearchInput className={styles['filter-search']} />
           <div className={styles['status']}>
             {statusList.map((item) => (
               <button
@@ -157,13 +157,43 @@ const Nodes = (props) => {
             ))}
           </div>
         </div>
-        <Table
-          columns={columns}
-          dataSource={data}
-          pagination={{
-            position: ['bottomCenter'],
-          }}
-        ></Table>
+        <div className={styles['table-list']}>
+          <Table
+            columns={columns}
+            dataSource={data}
+            pagination={{
+              position: ['bottomCenter'],
+            }}
+          ></Table>
+          <div className={styles['android-list']}>
+            {data.map((item) => (
+              <div className={styles['item']}>
+                <div className={styles['id']}>{item.id}</div>
+                <div className={styles['status']}>
+                  <span className={styles['name']}>STATUS:</span>
+                  <span className={styles['value']}>2% Completed</span>
+                </div>
+                <div className={styles['timer']}>
+                  <span className={styles['name']}>COMPUTE HRS REMAINING:</span>
+                  <span className={styles['value']}>0 Hrs 59 Mins</span>
+                </div>
+                <div>
+                  <span className={styles['name']}>CHIP/GPUS:</span>
+                  <div className={styles['chip-gpus']}>
+                    <Icons name="nvidia" />
+                    <span className={styles['name']}>GeForce RTX 3060 Ti</span>
+                    <div className={styles['num']}>×4</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+            {data.length && (
+              <div className={styles['list-pagination']}>
+                <Pagination defaultCurrent={1} total={data.length} />
+              </div>
+            )}
+          </div>
+        </div>
       </section>
     </div>
   );

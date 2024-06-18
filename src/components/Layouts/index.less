@@ -69,16 +69,19 @@
         line-height: 24px;
         color: #b7b8b8;
         cursor: pointer;
+        overflow: hidden;
 
-        i {
-          background: #b7b8b8;
+        img {
+          position: relative;
+          transform: translateX(-24px);
+          filter: drop-shadow(#b7b8b8 24px 0);
         }
 
         &.active {
           color: #fff;
 
-          i {
-            background: #fff;
+          img {
+            filter: drop-shadow(#fff 24px 0);
           }
         }
       }
@@ -213,9 +216,15 @@ footer {
     transition: all 0.3s;
 
     > nav {
-      ul {
-        gap: 30px;
-      }
+      display: none;
+    }
+
+    .extra {
+      display: none;
+    }
+
+    .android-menu {
+      display: block;
     }
   }
 
