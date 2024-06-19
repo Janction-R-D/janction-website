@@ -8,12 +8,26 @@ const brandList = [
   { id: 2, name: 'NVDIA' },
   { id: 3, name: 'APPLE' },
 ];
-const Gpu = (props) => {
+const NodeStatus = (props) => {
   const [sysList, setSysList] = useState([
     { id: 1, name: 'Docker (recommend)' },
     { id: 2, name: 'MAC' },
     { id: 3, name: 'Linux' },
     { id: 4, name: 'Windows' },
+  ]);
+  const [nodeNav, setNodeNav] = useState([
+    {
+      name: 'Node 1',
+      value: 1,
+    },
+    {
+      name: 'Node 2',
+      value: 2,
+    },
+    {
+      name: 'Node 3',
+      value: 3,
+    },
   ]);
   const [gpuList, setGpuList] = useState([
     {
@@ -43,6 +57,11 @@ const Gpu = (props) => {
     },
   ]);
   const [active, setActive] = useState(brandList[0].id);
+  const [activeNodeNav, setActiveNodeNav] = useState(nodeNav[0]);
+
+  const onNodeNavClick = (nav) => {
+    setActiveNodeNav(nav);
+  };
 
   const onBrandChange = (brandId) => {
     setActive(brandId);
@@ -90,17 +109,30 @@ const Gpu = (props) => {
             </ul>
           </div>
         </div>
-        <div className={styles['tip']}>
-          Please use a supported GPU or you will not be able to join the
-          network. If you would like to add a GPU model, please contact us
-        </div>
       </section>
-      <div className={styles['android-tip']}>
-        Please use a supported GPU or you will not be able to join the network.
-        If you would like to add a GPU model, please contact us
-      </div>
+      <section className={styles['node-logs']}>
+        <hgroup>
+          <h1>Run Command</h1>
+        </hgroup>
+        <div className={styles['node-container']}>
+          <nav>
+            {nodeNav.map((item) => (
+              <button
+                key={item.value}
+                className={
+                  activeNodeNav.value == item.value && styles['active']
+                }
+                onClick={() => onNodeNavClick(item)}
+              >
+                {item.name}
+              </button>
+            ))}
+          </nav>
+        </div>
+        <div className={styles['code-area']}>(code area)</div>
+      </section>
     </div>
   );
 };
 
-export default Gpu;
+export default NodeStatus;

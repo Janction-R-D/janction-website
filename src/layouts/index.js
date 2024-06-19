@@ -9,11 +9,11 @@ export default function Layout(props) {
   const { children } = props;
 
   if (props.location.pathname == '/personal') {
-    return <PersonalLayout rainbowKit>{children}</PersonalLayout>;
+    return <PersonalLayout>{children}</PersonalLayout>;
   }
 
   if (props.location.pathname.includes('/explore')) {
-    return <ExploreLayout rainbowKit>{children}</ExploreLayout>;
+    return <ExploreLayout>{children}</ExploreLayout>;
   }
 
   return (

@@ -5,7 +5,7 @@ const Overview = (props) => {
   return (
     <section className={styles['overview']}>
       <hgroup>
-        <h1>Overview</h1>
+        <h1>Choose your Operating System</h1>
         <span>This is the prompt text</span>
       </hgroup>
       <div className={styles['statistics']}>

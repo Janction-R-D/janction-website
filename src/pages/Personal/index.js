@@ -6,6 +6,7 @@ import GPU from './components/GPU';
 import Header from './components/Header';
 import Points from './components/Points';
 import styles from './index.less';
+import NodeStatus from './components/NodeStatus';
 
 const navList = [
   { name: 'Deploy Node', key: 0, icon: 'branch' },
@@ -15,6 +16,11 @@ const navList = [
 
 const Personal = (props) => {
   const [curNav, setCurNav] = useState(navList[0]);
+  const [fold, setFold] = useState(false);
+
+  const foldHandle = () => {
+    setFold(!fold);
+  };
 
   const onNavChange = (nav) => {
     setCurNav(nav);
@@ -23,23 +29,16 @@ const Personal = (props) => {
   return (
     <div className={styles['personal-container']}>
       <div>
-        <nav>
+        <nav className={fold && styles['fold']}>
           <hgroup className="df ai_c jc_sb">
             <img
               src={require('@/assets/images/icons/jun-icon.png')}
               alt=""
-              width="52"
-              height="52"
+              onClick={foldHandle}
             />
-            <Icons
-              name="exit"
-              className="poi"
-              onClick={() => {
-                history.goBack();
-              }}
-            />
+            <Icons name="exit" className="poi" onClick={foldHandle} />
           </hgroup>
-          <ul>
+          <ul className={fold && styles['fold']}>
             {navList.map((item) => (
               <li
                 key={item.name}
@@ -49,14 +48,14 @@ const Personal = (props) => {
                 onClick={() => onNavChange(item)}
               >
                 <div className={styles['icon-box']}>
-                  <Icons name={item.icon} width={34} height={34} />
+                  <Icons name={item.icon} className={styles['nav-icon']} />
                 </div>
                 <span>{item.name}</span>
               </li>
             ))}
           </ul>
         </nav>
-        <section>
+        <section className={fold && styles['fold']}>
           {/* <div className={styles['shadow']}>
             <div className={styles['shadow-1']}></div>
             <div className={styles['shadow-2']}></div>
@@ -65,7 +64,7 @@ const Personal = (props) => {
           <div className={styles['content']}>
             <Header />
             {curNav.key == 0 && <DeployNode />}
-            {curNav.key == 1 && <GPU />}
+            {curNav.key == 1 && <NodeStatus />}
             {curNav.key == 2 && <Points />}
           </div>
         </section>

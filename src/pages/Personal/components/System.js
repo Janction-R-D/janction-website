@@ -35,7 +35,7 @@ const DeployNode = (props) => {
                 className={styles['check-box']}
               ></Checkbox>
               <Icons name={item.icon} />
-              <span className="mt10">{item.name}</span>
+              <span>{item.name}</span>
             </li>
           ))}
         </ul>

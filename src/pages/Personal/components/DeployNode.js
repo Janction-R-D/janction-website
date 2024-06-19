@@ -37,20 +37,31 @@ const DeployNode = (props) => {
   };
 
   return (
-    <>
-      <div className={styles['next-select']}>
-        <div className={styles['steps']}>
-          <Steps current={curStep.key} items={stepsList} />
+    <div className={styles['deploy-node']}>
+      <div>
+        <div className={styles['next-select']}>
+          <div className={styles['steps']}>
+            <Steps
+              current={curStep.key}
+              items={stepsList}
+              responsive={false}
+              direction="horizontal"
+            />
+          </div>
+          <div className={styles['button-box']}>
+            {!empty(curStep.prestep) && <button onClick={onBack}>BACK</button>}
+            <button onClick={onNext}>NEXT</button>
+          </div>
         </div>
-        <div className={styles['button-box']}>
-          {!empty(curStep.prestep) && <button onClick={onBack}>BACK</button>}
-          <button onClick={onNext}>NEXT</button>
-        </div>
+        {curStep.key == 0 && <Step1 />}
+        {curStep.key == 1 && <Step2 />}
+        {curStep.key == 2 && <Step3 />}
       </div>
-      {curStep.key == 0 && <Step1 />}
-      {curStep.key == 1 && <Step2 />}
-      {curStep.key == 2 && <Step3 />}
-    </>
+      <div className={styles['android-button-box']}>
+        {!empty(curStep.prestep) && <button onClick={onBack}>BACK</button>}
+        <button onClick={onNext}>NEXT</button>
+      </div>
+    </div>
   );
 };
 
