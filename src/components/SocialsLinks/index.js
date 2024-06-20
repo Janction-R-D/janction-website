@@ -3,9 +3,9 @@ import styles from './index.less';
 const SocialsLinks = (props) => {
   return (
     <div className={styles['socials-links']}>
-      <div className={styles['x']}></div>
-      <div className={styles['discord']}></div>
-      <div className={styles['github']}></div>
+      <div className={['hvr-grow', styles['x']].join(' ')}></div>
+      <div className={['hvr-grow', styles['discord']].join(' ')}></div>
+      <div className={['hvr-grow', styles['github']].join(' ')}></div>
     </div>
   );
 };

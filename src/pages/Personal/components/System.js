@@ -29,7 +29,7 @@ const DeployNode = (props) => {
       >
         <ul className={styles['sys-list']}>
           {sysList.map((item) => (
-            <li key={item?.id} className="df ai_c jc_c fd_c">
+            <li key={item?.id} className="df ai_c jc_c fd_c hvr-float">
               <Checkbox
                 value={item.id}
                 className={styles['check-box']}

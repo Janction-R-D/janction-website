@@ -130,9 +130,24 @@ const Point = (props) => {
       </div>
       <section className={styles['node-runing']}>
         <div className="df ai_c jc_sb fw_w gap10 wp100">
-          <Statistic title="Total Points" value={112893} suffix="Point" />
-          <Statistic title="Today Points" value={112893} suffix="Point" />
-          <Statistic title="Top 1 User" value={112893} suffix="Point" />
+          <Statistic
+            title="Total Points"
+            value={112893}
+            suffix="Point"
+            className="hvr-shrink"
+          />
+          <Statistic
+            title="Today Points"
+            value={112893}
+            suffix="Point"
+            className="hvr-shrink"
+          />
+          <Statistic
+            title="Top 1 User"
+            value={112893}
+            suffix="Point"
+            className="hvr-shrink"
+          />
         </div>
       </section>
       <section className={styles['total-network-earning']}>

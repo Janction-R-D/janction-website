@@ -94,7 +94,7 @@ const Overview = (props) => {
         <div className={styles['questions']}>
           <ul className="df fd_c">
             {questions.map((item) => (
-              <li key={item.title}>
+              <li key={item.title} className="hvr-grow-rotate">
                 <div className={styles['shadow']}> </div>
                 <div className={styles['info']}>
                   <p>{item.title}</p>

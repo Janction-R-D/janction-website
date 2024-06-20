@@ -75,11 +75,11 @@ const ExploreHeader = (props) => {
         <div className={styles['login']}>LOGIN</div>
         <div className={styles['connect-account']}>
           {address ? (
-            <ConnectButton />
+            <ConnectButton className="hvr-grow" />
           ) : (
             <button
               onClick={openConnectModal}
-              className={styles['connect-button']}
+              className={['hvr-grow', styles['connect-button']].join(' ')}
             >
               Connect Account
             </button>

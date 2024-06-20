@@ -35,8 +35,13 @@ const Personal = (props) => {
               src={require('@/assets/images/icons/jun-icon.png')}
               alt=""
               onClick={foldHandle}
+              className="hvr-wobble-top"
             />
-            <Icons name="exit" className="poi" onClick={foldHandle} />
+            <Icons
+              name="exit"
+              className="poi hvr-wobble-bottom"
+              onClick={foldHandle}
+            />
           </hgroup>
           <ul className={fold && styles['fold']}>
             {navList.map((item) => (
@@ -47,7 +52,7 @@ const Personal = (props) => {
                 }`}
                 onClick={() => onNavChange(item)}
               >
-                <div className={styles['icon-box']}>
+                <div className={['hvr-grow', styles['icon-box']].join(' ')}>
                   <Icons name={item.icon} className={styles['nav-icon']} />
                 </div>
                 <span>{item.name}</span>

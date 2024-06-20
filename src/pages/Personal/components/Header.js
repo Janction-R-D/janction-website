@@ -31,7 +31,7 @@ const Header = (props) => {
             ) : (
               <button
                 onClick={openConnectModal}
-                className={styles['connect-button']}
+                className={['hvr-grow', styles['connect-button']].join(' ')}
               >
                 Connect Account
               </button>

@@ -1,6 +1,7 @@
 import Footer from '@/components/Layouts/Footer';
 import Header from '@/components/Layouts/Header';
 import 'animate.css';
+import 'hover.css';
 import ExploreLayout from './ExploreLayout';
 import PersonalLayout from './PersonalLayout';
 import styles from './index.less';

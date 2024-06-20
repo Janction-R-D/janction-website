@@ -49,8 +49,14 @@ const DeployNode = (props) => {
             />
           </div>
           <div className={styles['button-box']}>
-            {!empty(curStep.prestep) && <button onClick={onBack}>BACK</button>}
-            <button onClick={onNext}>NEXT</button>
+            {!empty(curStep.prestep) && (
+              <button onClick={onBack} className="hvr-shrink">
+                BACK
+              </button>
+            )}
+            <button onClick={onNext} className="hvr-shrink">
+              NEXT
+            </button>
           </div>
         </div>
         {curStep.key == 0 && <Step1 />}

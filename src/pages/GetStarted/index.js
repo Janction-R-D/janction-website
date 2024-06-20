@@ -58,7 +58,9 @@ const GetStarted = (props) => {
             Janction GPU Marketplace aims to provide unlimited GPU capacity to
             users at lower costs by aggregating GPUs from multiple sources.
           </p>
-          <button onClick={toExplore}>EXPLORE</button>
+          <button class="hvr-pulse-shrink" onClick={toExplore}>
+            EXPLORE
+          </button>
         </hgroup>
         <div className={styles['lottie-animation']}>
           <Lottie
@@ -77,7 +79,10 @@ const GetStarted = (props) => {
           <h1>JOIN NETWORK</h1>
         </hgroup>
         <div className={styles['steps']}>
-          <section className={styles['step1']} onClick={toPersonal}>
+          <section
+            className={['hvr-grow', styles['step1']].join(' ')}
+            onClick={toPersonal}
+          >
             <img
               src={require('@/assets/images/get-started/step1_icon.png')}
               alt=""
@@ -90,7 +95,10 @@ const GetStarted = (props) => {
               </p>
             </div>
           </section>
-          <section className={styles['step2']} onClick={toPersonal}>
+          <section
+            className={['hvr-grow', styles['step2']].join(' ')}
+            onClick={toPersonal}
+          >
             <img
               src={require('@/assets/images/get-started/step2_icon.png')}
               alt=""
@@ -101,7 +109,10 @@ const GetStarted = (props) => {
               <p>Download Janction Binary Setup And Initalize Dataset</p>
             </div>
           </section>
-          <section className={styles['step3']} onClick={toPersonal}>
+          <section
+            className={['hvr-grow', styles['step3']].join(' ')}
+            onClick={toPersonal}
+          >
             <img
               src={require('@/assets/images/get-started/step3_icon.png')}
               alt=""
@@ -112,7 +123,10 @@ const GetStarted = (props) => {
               <p>Join Network, Loading Jobs And Computing</p>
             </div>
           </section>
-          <section className={styles['step4']} onClick={toPersonal}>
+          <section
+            className={['hvr-grow', styles['step4']].join(' ')}
+            onClick={toPersonal}
+          >
             <img
               src={require('@/assets/images/get-started/step4_icon.png')}
               alt=""
@@ -131,7 +145,7 @@ const GetStarted = (props) => {
         </hgroup>
         <div className={styles['compute-info']}>
           <section>
-            <div className={styles['info']}>
+            <div className={['hvr-grow', styles['info']].join(' ')}>
               <img
                 src={require('@/assets/images/get-started/AI.png')}
                 width={144}
@@ -143,7 +157,7 @@ const GetStarted = (props) => {
             <div className={styles['border-box']}></div>
           </section>
           <section className={styles['ai_job']} onClick={toPersonal}>
-            <div className={styles['info']}>
+            <div className={['hvr-grow', styles['info']].join(' ')}>
               <img
                 src={require('@/assets/images/get-started/AI_job.png')}
                 width={97}
@@ -155,7 +169,7 @@ const GetStarted = (props) => {
             <div className={styles['border-box']}></div>
           </section>
           <section className={styles['point']} onClick={toPersonal}>
-            <div className={styles['info']}>
+            <div className={['hvr-grow', styles['info']].join(' ')}>
               <img
                 src={require('@/assets/images/get-started/point.png')}
                 width={213}

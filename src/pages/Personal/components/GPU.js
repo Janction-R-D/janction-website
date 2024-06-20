@@ -60,7 +60,9 @@ const Gpu = (props) => {
             {brandList.map((item) => (
               <button
                 key={item.id}
-                className={active == item.id && styles['active']}
+                className={`hvr-shrink ${
+                  active == item.id && styles['active']
+                }`}
                 onClick={() => onBrandChange(item.id)}
               >
                 {item.name}

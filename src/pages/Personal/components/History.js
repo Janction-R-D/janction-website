@@ -62,7 +62,9 @@ const History = (props) => {
           {nodeNav.map((item) => (
             <button
               key={item.value}
-              className={activeNodeNav.value == item.value && styles['active']}
+              className={`hvr-shrink ${
+                activeNodeNav.value == item.value && styles['active']
+              }`}
               onClick={() => onNodeNavClick(item)}
             >
               {item.name}
