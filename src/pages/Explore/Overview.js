@@ -172,4 +172,5 @@ const Overview = (props) => {
   );
 };
 
+Overview.wrappers = ['@/wrappers/auth'];
 export default Overview;

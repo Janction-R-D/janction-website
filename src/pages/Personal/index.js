@@ -1,12 +1,10 @@
 import Icons from '@/components/Icons';
 import { useState } from 'react';
-import { history } from 'umi';
 import DeployNode from './components/DeployNode';
-import GPU from './components/GPU';
 import Header from './components/Header';
+import NodeStatus from './components/NodeStatus';
 import Points from './components/Points';
 import styles from './index.less';
-import NodeStatus from './components/NodeStatus';
 
 const navList = [
   { name: 'Deploy Node', key: 0, icon: 'branch' },
@@ -78,4 +76,5 @@ const Personal = (props) => {
   );
 };
 
+Personal.wrappers = ['@/wrappers/auth'];
 export default Personal;

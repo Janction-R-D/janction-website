@@ -58,7 +58,7 @@ const GetStarted = (props) => {
             Janction GPU Marketplace aims to provide unlimited GPU capacity to
             users at lower costs by aggregating GPUs from multiple sources.
           </p>
-          <button class="hvr-pulse-shrink" onClick={toExplore}>
+          <button className="hvr-pulse-shrink" onClick={toExplore}>
             EXPLORE
           </button>
         </hgroup>
