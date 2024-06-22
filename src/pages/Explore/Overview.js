@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import styles from './index.less';
+import { motion } from 'framer-motion';
 
 const questions = [
   {
@@ -76,6 +77,29 @@ const Overview = (props) => {
     },
   ]);
   const videoRef = useRef();
+  const [isScrolle, setIsScrolle] = useState(true);
+  const speed = 30;
+  const warper = useRef();
+  const childDom1 = useRef();
+  const childDom2 = useRef();
+
+  useEffect(() => {
+    childDom2.current.innerHTML = childDom1.current.innerHTML;
+    let timer;
+    if (isScrolle)
+      timer = setInterval(
+        () =>
+          warper.current.scrollTop >= childDom1.current.scrollHeight
+            ? (warper.current.scrollTop = 0)
+            : warper.current.scrollTop++,
+        speed,
+      );
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [isScrolle]);
+
+  const hoverHandler = (flag) => setIsScrolle(flag);
 
   useEffect(() => {
     videoRef.current && videoRef.current.play();
@@ -112,8 +136,13 @@ const Overview = (props) => {
           <div className={styles['divider']}>
             <img src={require('@/assets/svgs/divider.svg')} alt="" />
           </div>
-          <div className={styles['records-list']}>
-            <ul>
+          <div
+            className={styles['records-list']}
+            ref={warper}
+            onMouseEnter={() => hoverHandler(false)}
+            onMouseLeave={() => hoverHandler(true)}
+          >
+            <ul ref={childDom1}>
               {recList.map((item) => (
                 <li key={item.name}>
                   {item.userId ? (
@@ -139,6 +168,7 @@ const Overview = (props) => {
                 </li>
               ))}
             </ul>
+            <ul ref={childDom2}></ul>
           </div>
         </div>
       </section>
