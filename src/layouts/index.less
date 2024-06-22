@@ -45,6 +45,78 @@
   }
 }
 
+#login-container {
+  width: 100vw;
+  overflow-x: clip;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  header {
+    width: 100%;
+    padding: 24px 80px;
+    padding-right: 0;
+    background: rgb(10, 10, 10);
+    border-bottom: 1px solid rgb(30, 30, 30);
+  }
+
+  .return {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 32px 0 0 80px;
+    gap: 10px;
+
+    a {
+      font-size: 16px;
+      line-height: 24px;
+      color: rgb(153, 153, 153);
+
+      svg {
+        height: 12px;
+      }
+
+      &:hover {
+        color: #fff;
+      }
+    }
+  }
+
+  main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  footer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 80px;
+    background: rgb(10, 10, 10);
+    border-top: 1px solid rgb(30, 30, 30);
+
+    > div {
+      gap: 20px;
+
+      > a {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+
+        &::before {
+          content: '';
+          height: 20px;
+          border-left: 1px solid rgba(255, 255, 255, 0.5);
+        }
+      }
+    }
+  }
+}
+
 #personal-container {
   width: 100vw;
   overflow-x: clip;

@@ -72,7 +72,6 @@ const ExploreHeader = (props) => {
         />
       </a>
       <div className={styles['extra']}>
-        <div className={styles['login']}>LOGIN</div>
         <div className={styles['connect-account']}>
           {address ? (
             <ConnectButton className="hvr-grow" />
