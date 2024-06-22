@@ -28,6 +28,7 @@
     "echarts": "^5.5.0",
     "echarts-for-react": "^3.0.2",
     "hover.css": "^2.3.2",
+    "js-base64": "^3.7.7",
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
     "react-lottie": "^1.2.4",
