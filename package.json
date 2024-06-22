@@ -27,11 +27,13 @@
     "cross-env": "^7.0.3",
     "echarts": "^5.5.0",
     "echarts-for-react": "^3.0.2",
+    "ethers": "5",
     "hover.css": "^2.3.2",
     "js-base64": "^3.7.7",
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
     "react-lottie": "^1.2.4",
+    "siwe": "^2.3.2",
     "umi": "^3.5.41",
     "viem": "2.9.31",
     "wagmi": "^2.9.2"
