@@ -1,8 +1,8 @@
 import { request } from 'umi';
 
-const baseUrl = '/gateway/shipapi/platShipBiz';
+const baseUrl = '/';
 
 // 列表
-export const fetchHomeMenu = (body) => {
-  return request(`${baseUrl}/userTaskCot `, { method: 'POST', body });
+export const fetchList = (body) => {
+  return request(`${baseUrl}/list `, { method: 'POST', body });
 };
