@@ -1,51 +1,23 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import storage from '@/utils/storage';
-import { message, Spin, Tabs } from 'antd';
-import { decode, encode } from 'js-base64';
-import { history, useModel } from 'umi';
 import {
   codeTypeJsonArr,
-  RESPONSE_CODE,
   SYSPM_REQ_ECY_FLG,
   SYSPM_RSP_ECY_FLG,
 } from '@/constant';
-import { logout, empty } from '@/utils/lang';
+import { logout } from '@/utils/lang';
+import storage from '@/utils/storage';
+import { message } from 'antd';
+import { decode, encode } from 'js-base64';
+import { history } from 'umi';
 
 const loginPath = '/login';
-let lock = false;
 
 /**
  * Request interceptor
  */
 const authHeaderInterceptor = (url, options) => {
   const fdata = new FormData();
-  let upfile = {};
-  const upfileObj = { ...options?.body };
-  if (options?.body?.file) {
-    const files = options.body.file;
-    files.map((item, i) => {
-      const upfileKey = `upfile${i + 1}`;
-      upfile[upfileKey] = item;
-    });
-    delete options.body.file;
-  }
-  if (upfile?.upfile1) {
-    for (let key in upfile) {
-      fdata.append(key, upfile[key]);
-    }
-  }
-  for (let key in upfileObj) {
-    if (key.includes('upfile')) {
-      delete options.body[key];
-      fdata.append(key, upfileObj[key]);
-    }
-  }
-  const _jsonData = options.body;
-  if (!empty(options.updateWithFrontObject)) {
-    // 前端未传的表单值将被修改为空
-    _jsonData.updateWithFrontObject = options.updateWithFrontObject;
-  }
-  let jsonstr = JSON.stringify(_jsonData);
+  let jsonstr = JSON.stringify(options.body);
   let reqData;
   if (options.method === 'post') {
     if (SYSPM_REQ_ECY_FLG === 1) {
@@ -60,8 +32,10 @@ const authHeaderInterceptor = (url, options) => {
     fdata.append('json', reqData);
     options.body = fdata;
   }
-  if (url !== '/nlg/login' && url !== '/nlg/getVerifyCode') {
+  console.log('『url』', url);
+  if (url !== '/api/v1/auth/nonce' && url !== '/api/v1/auth/login') {
     const ACCESS_TOKEN = storage.get('token');
+    console.log('『ACCESS_TOKEN』', ACCESS_TOKEN);
     if (!ACCESS_TOKEN) {
       history.push(loginPath);
     } else {
@@ -82,16 +56,15 @@ const authHeaderInterceptor = (url, options) => {
  * exception handler
  */
 const errorHandler = (error) => {
+  console.log('『error』', error);
   const { response } = error;
+  const errorText =
+    'An error occurred on the server. Please check the server！';
   if (response && response.status) {
-    const errorText =
-      'An error occurred on the server. Please check the server！';
-    const { status, url } = response;
     message.error(errorText);
   } else if (!response) {
     message.error(errorText);
   }
-  storage.set({ name: 'btnLoading', value: false });
   return response;
 };
 
@@ -100,7 +73,7 @@ const errorHandler = (error) => {
  */
 const responHandler = async (response, options) => {
   const res = await response.clone().json();
-  let reBase64Str;
+  console.log('『res』', res);
   let reData;
   if (SYSPM_RSP_ECY_FLG === 1) {
     let reBase64Str = res.redata;
@@ -112,12 +85,11 @@ const responHandler = async (response, options) => {
     reData = res;
   }
   if (reData.code == 0 || reData.code === 110) {
-    message.error(reData?.tipMsg);
+    message.error(reData?.msg);
   }
-  if (reData.code === 110 && reData.tipMsg === 'Token失效') {
+  if (reData.code === 110) {
     logout();
   }
-  storage.set({ name: 'btnLoading', value: false });
   return reData;
 };
 
