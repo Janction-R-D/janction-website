@@ -2,6 +2,7 @@ import styles from './index.less';
 import Icons from '@/components/Icons';
 import { useState } from 'react';
 import { Steps, Checkbox } from 'antd';
+import { motion } from 'framer-motion';
 
 const DeployNode = (props) => {
   const [sysList, setSysList] = useState([
@@ -17,30 +18,36 @@ const DeployNode = (props) => {
   };
 
   return (
-    <section className={styles['sys-choice']}>
-      <hgroup>
-        <h1>Choose your Operating System</h1>
-        <span>This is the prompt text</span>
-      </hgroup>
-      <Checkbox.Group
-        style={{ width: '100%' }}
-        value={sysSelected}
-        onChange={onSysChange}
-      >
-        <ul className={styles['sys-list']}>
-          {sysList.map((item) => (
-            <li key={item?.id} className="df ai_c jc_c fd_c hvr-float">
-              <Checkbox
-                value={item.id}
-                className={styles['check-box']}
-              ></Checkbox>
-              <Icons name={item.icon} />
-              <span>{item.name}</span>
-            </li>
-          ))}
-        </ul>
-      </Checkbox.Group>
-    </section>
+    <motion.div
+      initial={{ x: '-100%' }}
+      animate={{ x: 0 }}
+      transition={{ duration: 0.8 }}
+    >
+      <section className={styles['sys-choice']}>
+        <hgroup>
+          <h1>Choose your Operating System</h1>
+          <span>This is the prompt text</span>
+        </hgroup>
+        <Checkbox.Group
+          style={{ width: '100%' }}
+          value={sysSelected}
+          onChange={onSysChange}
+        >
+          <ul className={styles['sys-list']}>
+            {sysList.map((item) => (
+              <li key={item?.id} className="df ai_c jc_c fd_c hvr-float">
+                <Checkbox
+                  value={item.id}
+                  className={styles['check-box']}
+                ></Checkbox>
+                <Icons name={item.icon} />
+                <span>{item.name}</span>
+              </li>
+            ))}
+          </ul>
+        </Checkbox.Group>
+      </section>
+    </motion.div>
   );
 };
 

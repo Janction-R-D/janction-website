@@ -1,6 +1,6 @@
-import Icons from '@/components/Icons';
-import SearchInput from '@/components/SeachInput';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { fetchList } from '@/services/personal/node';
+import { RESPONSE_CODE } from '@/constant';
 import styles from './index.less';
 
 const brandList = [
@@ -29,6 +29,7 @@ const NodeStatus = (props) => {
       value: 3,
     },
   ]);
+
   const [gpuList, setGpuList] = useState([
     {
       name: 'GPU 1',
@@ -58,6 +59,21 @@ const NodeStatus = (props) => {
   ]);
   const [active, setActive] = useState(brandList[0].id);
   const [activeNodeNav, setActiveNodeNav] = useState(nodeNav[0]);
+
+  useEffect(() => {
+    getAllNodes();
+  }, []);
+
+  const getAllNodes = async () => {
+    try {
+      const res = await fetchList();
+      if (res?.code == RESPONSE_CODE.SUCCESS) {
+        const list = res?.data;
+      }
+    } catch (err) {
+      console.log('『err』', err);
+    }
+  };
 
   const onNodeNavClick = (nav) => {
     setActiveNodeNav(nav);
