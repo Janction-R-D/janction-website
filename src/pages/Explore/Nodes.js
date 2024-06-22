@@ -210,5 +210,4 @@ const Nodes = (props) => {
   );
 };
 
-Nodes.wrappers = ['@/wrappers/auth'];
 export default Nodes;

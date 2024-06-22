@@ -5,7 +5,7 @@ import { history } from 'umi';
 
 const GetStarted = (props) => {
   const toPersonal = () => {
-    history.push('/personal');
+    window.open('/personal');
   };
 
   const toExplore = () => {

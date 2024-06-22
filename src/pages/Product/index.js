@@ -37,7 +37,11 @@ const Products = (props) => {
           <div>
             <img src={require('@/assets/images/product/nexus.png')} />
             <p>Janction Nexus</p>
-            <button>
+            <button
+              onClick={() => {
+                history.push('/explore/overview');
+              }}
+            >
               <span>Exploer</span>
               <i></i>
             </button>
@@ -45,7 +49,11 @@ const Products = (props) => {
           <div>
             <img src={require('@/assets/images/product/eq_cabinet.png')} />
             <p>Janction Genesis</p>
-            <button>
+            <button
+              onClick={() => {
+                window.open('/personal');
+              }}
+            >
               <span>Join Network</span>
               <i></i>
             </button>

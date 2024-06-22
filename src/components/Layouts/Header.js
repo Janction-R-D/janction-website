@@ -12,6 +12,15 @@ const routes = [
   { name: 'Ecosystem', path: '/ecosystem' },
   { name: 'Articles', path: '/articles' },
   { name: 'GetStarted', path: '/getStarted' },
+  {
+    name: 'Nexus',
+    children: [
+      { name: 'Overview', path: '/explore/overview' },
+      { name: 'Nodes', path: '/explore/nodes' },
+      { name: 'Point', path: '/explore/point' },
+    ],
+  },
+  { name: 'Genesis', path: '/personal', target: '_blank' },
 ];
 const Header = (props) => {
   const [active, setActive] = useState();
@@ -22,6 +31,10 @@ const Header = (props) => {
   }, [history.location.pathname]);
 
   const onRouteClick = (route) => {
+    if (route.target == '_blank') {
+      window.open('/personal');
+      return;
+    }
     setMenuVisible(!menuVisible);
     setActive(route.path);
     history.push(route.path);
@@ -37,6 +50,28 @@ const Header = (props) => {
             onClick={() => onRouteClick(item)}
           >
             {item.name}
+          </Menu.Item>
+        ))}
+      </Menu>
+    );
+  };
+
+  const renderChildren = (children) => {
+    return (
+      <Menu className={styles['children-menu']}>
+        {children.map((item) => (
+          <Menu.Item
+            key={item.name}
+            path={item.path}
+            onClick={() => onRouteClick(item)}
+            className={active == item.path ? styles['active'] : ''}
+          >
+            <a>
+              <span>{item.name}</span>
+              <div className={styles['arrow']}>
+                <img src={require('@/assets/svgs/expand.svg')} alt="" />
+              </div>
+            </a>
           </Menu.Item>
         ))}
       </Menu>
@@ -65,7 +100,16 @@ const Header = (props) => {
               }}
               className={active == item.path ? styles['active'] : ''}
             >
-              <a>{item.name}</a>
+              {item.children ? (
+                <Dropdown
+                  overlayClassName={styles['children-dropdown']}
+                  overlay={() => renderChildren(item.children)}
+                >
+                  <a>{item.name}</a>
+                </Dropdown>
+              ) : (
+                <a>{item.name}</a>
+              )}
             </li>
           ))}
         </ul>

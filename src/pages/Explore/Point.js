@@ -221,5 +221,4 @@ const Point = (props) => {
   );
 };
 
-Point.wrappers = ['@/wrappers/auth'];
 export default Point;
