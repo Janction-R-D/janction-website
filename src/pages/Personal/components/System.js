@@ -2,9 +2,10 @@ import styles from './index.less';
 import Icons from '@/components/Icons';
 import { useState } from 'react';
 import { Steps, Checkbox } from 'antd';
-import { motion } from 'framer-motion';
+import { motion, useAnimationControls } from 'framer-motion';
 
 const DeployNode = (props) => {
+  const controls = useAnimationControls();
   const [sysList, setSysList] = useState([
     { id: 1, name: 'Docker (recommend)', icon: 'docker' },
     { id: 2, name: 'MAC', icon: 'mac' },
@@ -35,12 +36,31 @@ const DeployNode = (props) => {
         >
           <ul className={styles['sys-list']}>
             {sysList.map((item) => (
-              <li key={item?.id} className="df ai_c jc_c fd_c hvr-float">
+              <li
+                key={item?.id}
+                className="df ai_c jc_c fd_c hvr-float"
+                onMouseEnter={() =>
+                  controls.start((i) =>
+                    i == item.id
+                      ? { scale: 1.2, transition: { duration: 0.5 } }
+                      : {},
+                  )
+                }
+                onMouseLeave={() =>
+                  controls.start((i) =>
+                    i == item.id
+                      ? { scale: 1, transition: { duration: 0.5 } }
+                      : {},
+                  )
+                }
+              >
                 <Checkbox
                   value={item.id}
                   className={styles['check-box']}
                 ></Checkbox>
-                <Icons name={item.icon} />
+                <motion.div custom={item.id} animate={controls}>
+                  <Icons name={item.icon} />
+                </motion.div>
                 <span>{item.name}</span>
               </li>
             ))}
