@@ -1,21 +1,16 @@
-import styles from './index.less';
 import Icons from '@/components/Icons';
-import { useState } from 'react';
-import { Steps, Checkbox } from 'antd';
+import { SYSTEM_LIST, GPU_CPU } from '@/constant';
 import { motion, useAnimationControls } from 'framer-motion';
+import { useState } from 'react';
+import styles from './index.less';
 
 const DeployNode = (props) => {
   const controls = useAnimationControls();
-  const [sysList, setSysList] = useState([
-    { id: 1, name: 'Docker (recommend)', icon: 'docker' },
-    { id: 2, name: 'MAC', icon: 'mac' },
-    { id: 3, name: 'Linux', icon: 'linux' },
-    { id: 4, name: 'Windows', icon: 'windows' },
-  ]);
   const [sysSelected, setSysSelected] = useState();
+  const [gpuOrCpu, setGpuOrCpu] = useState(GPU_CPU[0]);
 
-  const onSysChange = (sys) => {
-    setSysSelected(sys.slice(-1));
+  const onSysSelect = (sys) => {
+    setSysSelected(sys);
   };
 
   return (
@@ -27,45 +22,43 @@ const DeployNode = (props) => {
       <section className={styles['sys-choice']}>
         <hgroup>
           <h1>Choose your Operating System</h1>
-          <span>This is the prompt text</span>
+          <span>List of supported OS</span>
         </hgroup>
-        <Checkbox.Group
-          style={{ width: '100%' }}
-          value={sysSelected}
-          onChange={onSysChange}
-        >
-          <ul className={styles['sys-list']}>
-            {sysList.map((item) => (
-              <li
-                key={item?.id}
-                className="df ai_c jc_c fd_c hvr-float"
-                onMouseEnter={() =>
-                  controls.start((i) =>
-                    i == item.id
-                      ? { scale: 1.2, transition: { duration: 0.5 } }
-                      : {},
-                  )
-                }
-                onMouseLeave={() =>
-                  controls.start((i) =>
-                    i == item.id
-                      ? { scale: 1, transition: { duration: 0.5 } }
-                      : {},
-                  )
-                }
-              >
-                <Checkbox
-                  value={item.id}
-                  className={styles['check-box']}
-                ></Checkbox>
-                <motion.div custom={item.id} animate={controls}>
-                  <Icons name={item.icon} />
-                </motion.div>
-                <span>{item.name}</span>
-              </li>
-            ))}
-          </ul>
-        </Checkbox.Group>
+        <ul className={styles['sys-list']}>
+          {SYSTEM_LIST.map((item) => (
+            <li
+              key={item.name}
+              className={[
+                'df ai_c jc_c fd_c hvr-float',
+                sysSelected?.name == item.name && styles.active,
+              ].join(' ')}
+              onClick={() => onSysSelect(item)}
+            >
+              <motion.div custom={item.id} animate={controls}>
+                <i className={`iconfont icon-${item.icon}`} />
+              </motion.div>
+              <span>{item.name}</span>
+            </li>
+          ))}
+        </ul>
+        <hgroup>
+          <h1>Choose GPU Or CPU</h1>
+          <span>List of supported platform</span>
+        </hgroup>
+        <ul className={styles['gpu-cpu']}>
+          {GPU_CPU.map((item) => (
+            <li
+              className={[
+                'hvr-float',
+                gpuOrCpu.name == item.name && styles['active'],
+              ].join(' ')}
+              key={item.name}
+              onClick={() => setGpuOrCpu(item)}
+            >
+              <span>{item.name}</span>
+            </li>
+          ))}
+        </ul>
       </section>
     </motion.div>
   );

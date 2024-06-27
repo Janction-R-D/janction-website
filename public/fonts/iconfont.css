@@ -1,0 +1,67 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 4602216 */
+  src: url('iconfont.woff2?t=1719509610430') format('woff2'),
+       url('iconfont.woff?t=1719509610430') format('woff'),
+       url('iconfont.ttf?t=1719509610430') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-next:before {
+  content: "\e624";
+}
+
+.icon-pre:before {
+  content: "\e625";
+}
+
+.icon-dashboard:before {
+  content: "\e636";
+}
+
+.icon-switch:before {
+  content: "\e633";
+}
+
+.icon-coin:before {
+  content: "\e634";
+}
+
+.icon-linux:before {
+  content: "\e62e";
+}
+
+.icon-github:before {
+  content: "\e62f";
+}
+
+.icon-discord:before {
+  content: "\e630";
+}
+
+.icon-doc:before {
+  content: "\e631";
+}
+
+.icon-x:before {
+  content: "\e632";
+}
+
+.icon-android:before {
+  content: "\e62b";
+}
+
+.icon-windows:before {
+  content: "\e62c";
+}
+
+.icon-apple:before {
+  content: "\e62d";
+}
+

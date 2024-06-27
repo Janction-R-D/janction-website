@@ -35,3 +35,12 @@ export const codeTypeJsonArr = [
   { e: '8', d: '<' },
   { e: 'm', d: '!' },
 ];
+
+export const SYSTEM_LIST = [
+  { name: 'Android', icon: 'android' },
+  { name: 'MAC', icon: 'apple' },
+  { name: 'Linux', icon: 'linux' },
+  { name: 'Windows', icon: 'windows' },
+];
+
+export const GPU_CPU = [{ name: 'GPU' }, { name: 'CPU' }];

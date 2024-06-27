@@ -1,0 +1,100 @@
+{
+  "id": "4602216",
+  "name": "janction",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1304892",
+      "name": "next",
+      "font_class": "next",
+      "unicode": "e624",
+      "unicode_decimal": 58916
+    },
+    {
+      "icon_id": "1304897",
+      "name": "pre",
+      "font_class": "pre",
+      "unicode": "e625",
+      "unicode_decimal": 58917
+    },
+    {
+      "icon_id": "40903625",
+      "name": "dashboard",
+      "font_class": "dashboard",
+      "unicode": "e636",
+      "unicode_decimal": 58934
+    },
+    {
+      "icon_id": "40903627",
+      "name": "switch",
+      "font_class": "switch",
+      "unicode": "e633",
+      "unicode_decimal": 58931
+    },
+    {
+      "icon_id": "40903626",
+      "name": "coin",
+      "font_class": "coin",
+      "unicode": "e634",
+      "unicode_decimal": 58932
+    },
+    {
+      "icon_id": "40903623",
+      "name": "linux",
+      "font_class": "linux",
+      "unicode": "e62e",
+      "unicode_decimal": 58926
+    },
+    {
+      "icon_id": "40903621",
+      "name": "github",
+      "font_class": "github",
+      "unicode": "e62f",
+      "unicode_decimal": 58927
+    },
+    {
+      "icon_id": "40903622",
+      "name": "discord",
+      "font_class": "discord",
+      "unicode": "e630",
+      "unicode_decimal": 58928
+    },
+    {
+      "icon_id": "40903620",
+      "name": "doc",
+      "font_class": "doc",
+      "unicode": "e631",
+      "unicode_decimal": 58929
+    },
+    {
+      "icon_id": "40903619",
+      "name": "x",
+      "font_class": "x",
+      "unicode": "e632",
+      "unicode_decimal": 58930
+    },
+    {
+      "icon_id": "40903618",
+      "name": "android",
+      "font_class": "android",
+      "unicode": "e62b",
+      "unicode_decimal": 58923
+    },
+    {
+      "icon_id": "40903617",
+      "name": "windows",
+      "font_class": "windows",
+      "unicode": "e62c",
+      "unicode_decimal": 58924
+    },
+    {
+      "icon_id": "40903616",
+      "name": "apple",
+      "font_class": "apple",
+      "unicode": "e62d",
+      "unicode_decimal": 58925
+    }
+  ]
+}

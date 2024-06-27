@@ -11,29 +11,31 @@ const RunNode = (props) => {
       <section className={styles['run-node']}>
         <hgroup>
           <h1>Run Node</h1>
-          <span>This is the prompt text</span>
+          <span>You need to execute the following command</span>
         </hgroup>
         <div className={styles['content']}>
-          <section>
-            <hgroup>
-              <h2>Install Docker</h2>
-            </hgroup>
-            <p className="mt20">
-              https://www.docker.com/products/docker-desktop/
-            </p>
+          <section className={styles['step']}>
+            <h2>Install Docker</h2>
+            <div>
+              <p>https://www.docker.com/products/docker-desktop/</p>
+              <i></i>
+            </div>
           </section>
-          <section>
-            <hgroup>
-              <h2>Download Binaray</h2>
-            </hgroup>
-            <p className="mt20">https://www</p>
+          <section className={styles['step']}>
+            <h2>Download Binaray</h2>
+            <div>
+              <p>https://www.docker.com/products/docker-desktop/</p>
+              <i></i>
+            </div>
           </section>
           <section className={styles['run-command']}>
-            <hgroup>
-              <h2>Run Command</h2>
-            </hgroup>
-            <p className="mt20">Script</p>
-            <div className={styles['code-area']}>(code area)</div>
+            <h2>Run Command</h2>
+            <div>
+              <h3>Script</h3>
+              <div className={styles['code-area']}>
+                <span>(code area)</span>
+              </div>
+            </div>
           </section>
         </div>
       </section>
