@@ -41,6 +41,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        cursor: pointer;
 
         i {
           color: #fff;
@@ -122,6 +123,7 @@
         font-weight: 700;
         line-height: normal;
         text-transform: capitalize;
+        white-space: nowrap;
       }
 
       p {
@@ -131,6 +133,7 @@
         font-weight: 400;
         line-height: normal;
         text-transform: capitalize;
+        white-space: nowrap;
       }
 
       .unfold {
@@ -373,34 +376,6 @@
             font-style: normal;
             font-weight: 300;
           }
-
-          .select {
-            display: flex;
-            width: 8.889vw;
-            padding: 0.833vw 1.111vw;
-            justify-content: space-between;
-            align-items: center;
-            border-radius: 1.111vw;
-            background: #ffffff1a;
-
-            span {
-              color: #fff;
-              font-size: 0.972vw;
-              font-style: normal;
-              font-weight: 400;
-              line-height: normal;
-              text-transform: capitalize;
-            }
-
-            i.fold {
-              width: 1.111vw;
-              height: 1.111vw;
-              flex-shrink: 0;
-              background: url('../../assets/svgs/fold_bold_vertical.svg')
-                no-repeat;
-              background-size: 100% 100%;
-            }
-          }
         }
 
         .points-total {
@@ -552,13 +527,29 @@
                 gap: 0.833vw;
                 border-radius: 1.111vw;
                 background: #00000040;
+                transition: all 0.3s;
 
-                > i {
+                &:hover {
+                  background: rgba(0, 0, 0, 0.211);
+                  transition: all 0.3s;
+                }
+
+                .nvidia {
                   width: 2.778vw;
                   height: 2.778vw;
                   flex-shrink: 0;
-                  background: url('../../assets/svgs/nvidia.svg') no-repeat;
-                  background-size: 100% 100%;
+                  width: 40px;
+                  height: 40px;
+                  background: rgba(255, 255, 255, 0.25);
+                  border-radius: 50%;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+
+                  i {
+                    color: #76b900;
+                    font-size: 20px;
+                  }
                 }
 
                 > div {
@@ -586,12 +577,6 @@
                       align-items: center;
                       gap: 0.278vw;
 
-                      i {
-                        width: 1.111vw;
-                        height: 1.111vw;
-                        flex-shrink: 0;
-                      }
-
                       span {
                         color: #ffffff;
                         font-family: 'Poppins';
@@ -604,15 +589,26 @@
                     }
 
                     .system {
-                      i {
-                        background: url('../../assets/svgs/window.svg')
-                          no-repeat;
-                        background-size: 100% 100%;
+                      .icon {
+                        width: 16px;
+                        height: 16px;
+                        background: rgba(255, 255, 255, 0.25);
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+
+                        i {
+                          font-size: 8px;
+                        }
                       }
                     }
 
                     .online {
                       i {
+                        width: 1.111vw;
+                        height: 1.111vw;
+                        flex-shrink: 0;
                         border-radius: 1.111vw;
                         background: #ffffff40;
                         position: relative;

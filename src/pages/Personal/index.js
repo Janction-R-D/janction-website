@@ -33,7 +33,7 @@ const Personal = (props) => {
             className={styles['logo']}
             src={require('@/assets/svgs/logo.svg')}
           />
-          <div className={styles['fold']}>
+          <div className={styles['fold']} onClick={foldHandle}>
             <i className="iconfont icon-pre"></i>
           </div>
         </header>
@@ -82,4 +82,5 @@ const Personal = (props) => {
   );
 };
 
+Personal.wrappers = ['@/wrappers/auth'];
 export default Personal;

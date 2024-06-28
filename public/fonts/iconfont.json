@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "40916407",
+      "name": "nvidia",
+      "font_class": "nvidia",
+      "unicode": "e635",
+      "unicode_decimal": 58933
+    },
+    {
+      "icon_id": "40916408",
+      "name": "down_triangle",
+      "font_class": "down_triangle",
+      "unicode": "e637",
+      "unicode_decimal": 58935
+    },
+    {
       "icon_id": "1304892",
       "name": "next",
       "font_class": "next",
