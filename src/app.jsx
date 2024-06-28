@@ -32,10 +32,8 @@ const authHeaderInterceptor = (url, options) => {
     fdata.append('json', reqData);
     options.body = fdata;
   }
-  console.log('『url』', url);
   if (url !== '/api/v1/auth/nonce' && url !== '/api/v1/auth/login') {
     const ACCESS_TOKEN = storage.get('token');
-    console.log('『ACCESS_TOKEN』', ACCESS_TOKEN);
     if (!ACCESS_TOKEN) {
       history.push(loginPath);
     } else {

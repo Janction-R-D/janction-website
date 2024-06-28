@@ -27,17 +27,17 @@ const DeployNode = (props) => {
         <ul className={styles['sys-list']}>
           {SYSTEM_LIST.map((item) => (
             <li
-              key={item.name}
+              key={item.value}
               className={[
                 'df ai_c jc_c fd_c hvr-float',
-                sysSelected?.name == item.name && styles.active,
+                sysSelected?.value == item.value && styles.active,
               ].join(' ')}
               onClick={() => onSysSelect(item)}
             >
-              <motion.div custom={item.id} animate={controls}>
+              <motion.div animate={controls}>
                 <i className={`iconfont icon-${item.icon}`} />
               </motion.div>
-              <span>{item.name}</span>
+              <span>{item.label}</span>
             </li>
           ))}
         </ul>

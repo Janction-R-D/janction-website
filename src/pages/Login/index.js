@@ -27,40 +27,44 @@ const Login = (props) => {
       storage.set({ name: 'userAccount', value: userAccount, expires });
 
       const signAndLogin = async () => {
-        const nonce = await fetchNonce();
+        try {
+          const nonce = await fetchNonce();
 
-        const siweMessage = new SiweMessage({
-          domain: 'janction.com',
-          address,
-          statement: 'Sign in Janction with your wallet.',
-          uri: 'https://janction.com',
-          version: '1',
-          chainId,
-          nonce,
-        });
+          const siweMessage = new SiweMessage({
+            domain: 'janction.com',
+            address,
+            statement: 'Sign in Janction with your wallet.',
+            uri: 'https://janction.com',
+            version: '1',
+            chainId,
+            nonce,
+          });
 
-        const message = siweMessage.prepareMessage();
+          const message = siweMessage.prepareMessage();
 
-        await signMessageAsync(
-          {
-            message,
-          },
-          {
-            onSuccess: async (data) => {
-              const param = {
-                message,
-                signature: data,
-              };
-
-              const token = await fetchLogin(param);
-              setToken(token);
-              storage.set({ name: 'token', value: token, expires });
-
-              const from = history.location.query?.from || '/';
-              history.push(from);
+          await signMessageAsync(
+            {
+              message,
             },
-          },
-        );
+            {
+              onSuccess: async (data) => {
+                const param = {
+                  message,
+                  signature: data,
+                };
+
+                const token = await fetchLogin(param);
+                setToken(token);
+                storage.set({ name: 'token', value: token, expires });
+
+                const from = history.location.query?.from || '/';
+                history.push(from);
+              },
+            },
+          );
+        } catch (err) {
+          console.log('『err』', err);
+        }
       };
 
       signAndLogin();

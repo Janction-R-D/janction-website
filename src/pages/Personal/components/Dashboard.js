@@ -1,10 +1,9 @@
 import styles from '../index.less';
-import { useState } from 'react';
 import { SYSTEM_LIST } from '@/constant';
 import AwardChart from './AwardChart';
+import JactionSelect from '@/components/JactionSelect';
 
 const Dashboard = (props) => {
-  const [sysList, setSysList] = useState(SYSTEM_LIST);
   return (
     <>
       <div className={styles['total']}>
@@ -17,13 +16,13 @@ const Dashboard = (props) => {
           </div>
         </div>
         <div className={styles['right']}>
-          {sysList.map((item) => (
+          {SYSTEM_LIST.map((item) => (
             <div className={styles['item']} key={item.id}>
               <div className={styles['icon']}>
-                <i className={`iconfont icon-${item.icon}`}></i>
+                <i className={`hvr-buzz iconfont icon-${item.icon}`}></i>
               </div>
               <div>
-                <div className={styles['label']}>{item.name}</div>
+                <div className={styles['label']}>{item.label}</div>
                 <div className={styles['value']}>220</div>
               </div>
             </div>
@@ -34,10 +33,10 @@ const Dashboard = (props) => {
         <div className={styles['award']}>
           <div className={styles['header']}>
             <h1>Award</h1>
-            <div className={styles['select']}>
-              <span>All</span>
-              <i className={styles['fold']}></i>
-            </div>
+            <JactionSelect
+              value="all"
+              options={[{ value: 'all', label: 'All' }]}
+            />
           </div>
           <div className={styles['points-total']}>
             <div className={styles['item']}>
@@ -69,22 +68,23 @@ const Dashboard = (props) => {
         <div className={styles['nodes']}>
           <div className={styles['header']}>
             <h1>My Nodes</h1>
-            <div className={styles['select']}>
-              <span>Windows</span>
-              <i className={styles['fold']}></i>
-            </div>
+            <JactionSelect value="window" options={SYSTEM_LIST} />
           </div>
           <div className={styles['info']}>
             <section className={styles['list']}>
               <h2>List</h2>
               <ul>
                 <li>
-                  <i></i>
+                  <div className={styles['nvidia']}>
+                    <i className="iconfont icon-nvidia"></i>
+                  </div>
                   <div>
                     <div className={styles['name']}>Nvidia RTX 4090 Ti</div>
                     <div className={styles['status']}>
                       <div className={styles['system']}>
-                        <i></i>
+                        <div className={styles['icon']}>
+                          <i className="iconfont icon-windows"></i>
+                        </div>
                         <span>Windows</span>
                       </div>
                       <div className={styles['online']}>
@@ -107,12 +107,16 @@ const Dashboard = (props) => {
                   </div>
                 </li>
                 <li>
-                  <i></i>
+                  <div className={styles['nvidia']}>
+                    <i className="iconfont icon-nvidia"></i>
+                  </div>
                   <div>
                     <div className={styles['name']}>Nvidia RTX 4090 Ti</div>
                     <div className={styles['status']}>
                       <div className={styles['system']}>
-                        <i></i>
+                        <div className={styles['icon']}>
+                          <i className="iconfont icon-windows"></i>
+                        </div>
                         <span>Windows</span>
                       </div>
                       <div className={styles['online']}>

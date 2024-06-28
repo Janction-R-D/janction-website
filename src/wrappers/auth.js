@@ -11,6 +11,7 @@ export default (props) => {
   useAccountEffect({
     onDisconnect() {
       storage.remove('userAccount');
+      storage.remove('token');
       setInitialState({
         ...initialState,
         userAccount: null,
