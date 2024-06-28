@@ -7,6 +7,7 @@ import storage from '@/utils/storage';
 import { fetchNonce, fetchLogin } from '@/services/auth';
 import { useState } from 'react';
 
+const expires = 60 * 60 * 24 * 1000;
 const Login = (props) => {
   const { openConnectModal } = useConnectModal();
   const { data, signMessageAsync } = useSignMessage();
@@ -23,7 +24,7 @@ const Login = (props) => {
         ...initialState,
         userAccount,
       });
-      storage.set({ name: 'userAccount', value: userAccount });
+      storage.set({ name: 'userAccount', value: userAccount, expires });
 
       const signAndLogin = async () => {
         const nonce = await fetchNonce();
@@ -53,7 +54,7 @@ const Login = (props) => {
 
               const token = await fetchLogin(param);
               setToken(token);
-              storage.set({ name: 'token', value: token });
+              storage.set({ name: 'token', value: token, expires });
 
               const from = history.location.query?.from || '/';
               history.push(from);
