@@ -26,32 +26,6 @@ const GetStarted = (props) => {
         />
       </div>
       <section className={styles['vision']}>
-        <div className={styles['faq']}>
-          <img
-            src={require('@/assets/images/icons/terminal_icon.png')}
-            alt=""
-            width={32}
-          />
-          <div className={styles['vertical-line']}>
-            <img
-              src={require('@/assets/images/icons/flow_line.png')}
-              width={20}
-            />
-          </div>
-        </div>
-        <div className={`${styles['faq']} ${styles['faq-right']}`}>
-          <img
-            src={require('@/assets/images/icons/terminal_icon.png')}
-            alt=""
-            width={32}
-          />
-          <div className={styles['vertical-line']}>
-            <img
-              src={require('@/assets/images/icons/flow_line.png')}
-              width={20}
-            />
-          </div>
-        </div>
         <hgroup>
           <h1>VISION</h1>
           <p>
@@ -87,7 +61,7 @@ const GetStarted = (props) => {
               src={require('@/assets/images/get-started/step1_icon.png')}
               alt=""
             />
-            <div>
+            <div className={styles['text-info']}>
               <h1>Step 1</h1>
               <h2>Environmental preparation</h2>
               <p>
@@ -103,7 +77,7 @@ const GetStarted = (props) => {
               src={require('@/assets/images/get-started/step2_icon.png')}
               alt=""
             />
-            <div>
+            <div className={styles['text-info']}>
               <h1>Step 2</h1>
               <h2>Initialize</h2>
               <p>Download Janction Binary Setup And Initalize Dataset</p>
@@ -117,26 +91,17 @@ const GetStarted = (props) => {
               src={require('@/assets/images/get-started/step3_icon.png')}
               alt=""
             />
-            <div>
+            <div className={styles['text-info']}>
               <h1>Step 3</h1>
               <h2>Run Node</h2>
               <p>Join Network, Loading Jobs And Computing</p>
             </div>
           </section>
-          <section
-            className={['hvr-grow', styles['step4']].join(' ')}
-            onClick={toPersonal}
-          >
-            <img
-              src={require('@/assets/images/get-started/step4_icon.png')}
-              alt=""
-            />
-            <div>
-              <h1>Step 4</h1>
-              <h2>Manage Your Nodes</h2>
-              <p>Manage nodes and view points</p>
+          <div className={styles['progress-bar']}>
+            <div className={styles['bar']}>
+              <div className={styles['point']}></div>
             </div>
-          </section>
+          </div>
         </div>
       </section>
       <section className={styles['compute']}>
@@ -144,42 +109,44 @@ const GetStarted = (props) => {
           <h1>Let’s Compute</h1>
         </hgroup>
         <div className={styles['compute-info']}>
-          <section>
-            <div className={['hvr-grow', styles['info']].join(' ')}>
+          <section className={styles['ai']}>
+            <div className={[styles['info']].join(' ')}>
               <img
                 src={require('@/assets/images/get-started/AI.png')}
                 width={144}
                 alt=""
               />
-              <h1>View Your AI Jobs</h1>
-              <p>Check your Job status and running status</p>
+              <div>
+                <h1>View Your AI Jobs</h1>
+                <p>Check your Job status and running status</p>
+              </div>
             </div>
-            <div className={styles['border-box']}></div>
           </section>
-          <section className={styles['ai_job']} onClick={toPersonal}>
-            <div className={['hvr-grow', styles['info']].join(' ')}>
+          <section className={styles['ai-job']} onClick={toPersonal}>
+            <div className={[styles['info']].join(' ')}>
               <img
                 src={require('@/assets/images/get-started/AI_job.png')}
                 width={97}
                 alt=""
               />
-              <h1>Submit Your AI Job</h1>
-              <p>Coming Soon</p>
+              <div>
+                <h1>Submit Your AI Job</h1>
+                <p>Coming Soon</p>
+              </div>
             </div>
-            <div className={styles['border-box']}></div>
           </section>
           <section className={styles['point']} onClick={toPersonal}>
-            <div className={['hvr-grow', styles['info']].join(' ')}>
+            <div className={[styles['info']].join(' ')}>
               <img
                 src={require('@/assets/images/get-started/point.png')}
                 width={213}
                 alt=""
               />
-              <h1>Check Your Points</h1>
-              <p>Coming Soon</p>
+              <div>
+                <h1>Check Your Points</h1>
+                <p>Coming Soon</p>
+              </div>
             </div>
-
-            <div className={styles['border-box']}></div>
           </section>
         </div>
       </section>
