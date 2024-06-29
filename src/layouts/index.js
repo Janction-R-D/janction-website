@@ -18,9 +18,9 @@ export default function Layout(props) {
     return <PersonalLayout>{children}</PersonalLayout>;
   }
 
-  // if (props.location.pathname.includes('/explore')) {
-  //   return <ExploreLayout>{children}</ExploreLayout>;
-  // }
+  if (props.location.pathname == '/launch') {
+    return children;
+  }
 
   return (
     <div id={styles['container']}>

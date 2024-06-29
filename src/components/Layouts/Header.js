@@ -17,16 +17,7 @@ const routes = [
   },
   { name: 'Ecosystem', path: '/ecosystem' },
   { name: 'Articles', path: '/articles' },
-  { name: 'Launch', path: '/Launch' },
-  {
-    name: 'Nexus',
-    children: [
-      { name: 'Overview', path: '/explore/overview' },
-      { name: 'Nodes', path: '/explore/nodes' },
-      { name: 'Point', path: '/explore/point' },
-    ],
-  },
-  { name: 'Genesis', path: '/personal', target: '_blank' },
+  { name: 'Launch', path: '/launch', target: '_blank' },
 ];
 const Header = (props) => {
   const [active, setActive] = useState();
@@ -38,7 +29,7 @@ const Header = (props) => {
 
   const onRouteClick = (route) => {
     if (route.target == '_blank') {
-      window.open('/personal');
+      window.open(route.path);
       return;
     }
     setMenuVisible(!menuVisible);
