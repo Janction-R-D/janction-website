@@ -1,25 +1,45 @@
 import { request } from 'umi';
 
-const baseUrl = '/api/v1/auth';
+const baseUrl = '/api/v1';
 
-export const fetchNonce = () => {
-  return request(`${baseUrl}/nonce`, { method: 'GET' }).then((response) => {
+/**
+ * Fetch nonce from the server.
+ * @returns {Promise<string>} The nonce value.
+ */
+export const fetchNonce = async () => {
+  try {
+    const response = await request(`${baseUrl}/nonce`, { method: 'GET' });
     return response.data.nonce;
-  });
+  } catch (error) {
+    throw new Error(`Failed to fetch nonce, ${error}`);
+  }
 };
 
-export const fetchLogin = (params) => {
-  return request(`${baseUrl}/login`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    data: params,
-  }).then((response) => {
+/**
+ * Perform login request.
+ * @param {Object} params - The login parameters.
+ * @param {string} params.message - The message for login.
+ * @param {string} params.signature - The signature for login.
+ * @param {boolean} params.is_node - Whether the login is for a node.
+ * @returns {Promise<string>} The authentication token.
+ * @throws {Error} If the login request fails or returns an error.
+ */
+export const performLogin = async (params) => {
+  try {
+    const response = await request(`${baseUrl}/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: params,
+    });
+
     if (response.code === 1000) {
       return response.data.token;
     } else {
       throw new Error(response.msg);
     }
-  });
+  } catch (error) {
+    throw new Error(`Login failed, ${error}`);
+  }
 };

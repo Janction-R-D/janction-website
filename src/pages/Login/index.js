@@ -4,7 +4,7 @@ import { SiweMessage } from 'siwe';
 import styles from './index.less';
 import { useAccountEffect, useSignMessage } from 'wagmi';
 import storage from '@/utils/storage';
-import { fetchNonce, fetchLogin } from '@/services/auth';
+import { fetchNonce, performLogin } from '@/services/auth';
 import { useState } from 'react';
 
 const expires = 60 * 60 * 24 * 1000;
@@ -51,9 +51,10 @@ const Login = (props) => {
                 const param = {
                   message,
                   signature: data,
+                  is_node: false
                 };
 
-                const token = await fetchLogin(param);
+                const token = await performLogin(param);
                 setToken(token);
                 storage.set({ name: 'token', value: token, expires });
 
