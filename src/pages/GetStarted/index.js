@@ -1,9 +1,65 @@
+import {
+  motion,
+  useScroll,
+  useSpring,
+  useMotionValueEvent,
+  useInView,
+} from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
 import Lottie from 'react-lottie';
+import { history } from 'umi';
 import * as Flow1 from './components/Flow1.json';
 import styles from './index.less';
-import { history } from 'umi';
 
 const GetStarted = (props) => {
+  const scrollRef = useRef();
+  const [h, setH] = useState(0);
+
+  const getPercent = (value) => {
+    if (value < 50) {
+      return '17.33%';
+    }
+    if (value >= 50 && value < 82) {
+      return '50%';
+    }
+    return '82%';
+  };
+
+  useEffect(() => {
+    const domA = scrollRef.current;
+    let variable = 0;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const rect = entry.boundingClientRect;
+          const viewportHeight = window.innerHeight;
+          const elementHeight = rect.height;
+          const elementTop = rect.top;
+          const elementBottomToTop = rect.top + elementHeight / 2;
+          const halfViewportHeight = viewportHeight / 2;
+          // 完全视口中心以下
+          if (elementTop >= halfViewportHeight) {
+            variable = 0;
+            // 完全视口中心以上
+          } else if (elementTop + elementHeight <= halfViewportHeight) {
+            variable = 100;
+          } else {
+            const distance = halfViewportHeight - elementTop;
+            variable = (distance / elementHeight) * 100;
+          }
+          console.log('『variable』', variable);
+          setH(getPercent(variable.toFixed(2)));
+        });
+      },
+      {
+        threshold: new Array(101).fill(0).map((_, i) => i / 100),
+      },
+    );
+
+    observer.observe(domA);
+  }, []);
+
   const toPersonal = () => {
     window.open('/personal');
   };
@@ -52,7 +108,7 @@ const GetStarted = (props) => {
         <hgroup>
           <h1>JOIN NETWORK</h1>
         </hgroup>
-        <div className={styles['steps']}>
+        <div className={styles['steps']} ref={scrollRef}>
           <section
             className={['hvr-grow', styles['step1']].join(' ')}
             onClick={toPersonal}
@@ -99,7 +155,12 @@ const GetStarted = (props) => {
           </section>
           <div className={styles['progress-bar']}>
             <div className={styles['bar']}>
-              <div className={styles['point']}></div>
+              <motion.div
+                className={styles['active-bar']}
+                style={{ height: h }}
+              >
+                <div className={styles['point']}></div>
+              </motion.div>
             </div>
           </div>
         </div>
@@ -121,6 +182,7 @@ const GetStarted = (props) => {
                 <p>Check your Job status and running status</p>
               </div>
             </div>
+            <div className={styles['shadow']}></div>
           </section>
           <section className={styles['ai-job']} onClick={toPersonal}>
             <div className={[styles['info']].join(' ')}>

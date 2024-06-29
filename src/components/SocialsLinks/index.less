@@ -8,40 +8,27 @@
     cursor: pointer;
     width: 34px;
     height: 34px;
-    position: relative;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
 
-    &::after {
-      content: '';
-      display: block;
-      z-index: 2;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
+    i {
+      color: #fff;
+      transition: all 0.3s;
     }
 
     &:hover {
-      &::after {
-        border: 1px solid #fff;
+      background: #fff;
+      transition: all 0.3s;
+
+      i {
+        color: #000;
+        transition: all 0.3s;
       }
     }
-  }
-
-  .x {
-    background: url('../../assets/images/icons/x.png') center center / contain
-      no-repeat;
-  }
-
-  .discord {
-    background: url('../../assets/images/icons/discord.png') center center /
-      contain no-repeat;
-  }
-
-  .github {
-    background: url('../../assets/images/icons/github.png') center center /
-      contain no-repeat;
   }
 }
 
