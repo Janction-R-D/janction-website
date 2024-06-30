@@ -92,16 +92,13 @@ const Overview = (props) => {
       <section className={styles['overview']}>
         <h1>Overview</h1>
         <div className={styles['questions']}>
-          <ul className="df fd_c">
+          <ul>
             {questions.map((item) => (
               <li key={item.title}>
-                <div className={styles['shadow']}> </div>
-                <div className={styles['info']}>
-                  <p>{item.title}</p>
-                  <div className={styles['nodes']}>
-                    <span className={styles['value']}>{item.nodes}</span>
-                    <span>Nodes</span>
-                  </div>
+                <p>{item.title}</p>
+                <div className={styles['nodes']}>
+                  <span className={styles['value']}>{item.nodes}</span>
+                  <span>Nodes</span>
                 </div>
               </li>
             ))}
