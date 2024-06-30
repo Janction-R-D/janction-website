@@ -44,9 +44,8 @@ export const SYSTEM_LIST = [
 ];
 
 export const ARCHITECTURE = [
-  { name: 'AMD64', sys: ['mac', 'linux', 'windows'] },
-  { name: 'CPU ARM', sys: ['mac', 'linux', 'windows'] },
-  { name: 'CPU', sys: ['mac', 'linux', 'windows'] },
-  { name: 'GPU ARM', sys: ['linux', 'windows'] },
-  { name: 'GPU', sys: ['linux', 'windows'] },
+  { name: 'AMD64(CPU)', value: 'cpu64', sys: ['mac', 'linux', 'windows'] },
+  { name: 'ARM(CPU)', value: 'cpu', sys: ['mac', 'linux', 'windows'] },
+  { name: 'AMD64(GPU)', value: 'gpu64', sys: ['linux', 'windows'] },
+  { name: 'ARM(GPU)', value: 'gpu', sys: ['linux', 'windows'] },
 ];

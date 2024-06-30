@@ -1,17 +1,30 @@
-import Icons from '@/components/Icons';
-import { SYSTEM_LIST, ARCHITECTURE } from '@/constant';
+import { ARCHITECTURE, SYSTEM_LIST } from '@/constant';
 import { motion, useAnimationControls } from 'framer-motion';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './index.less';
 
-const DeployNode = (props) => {
+const DeployNode = (props, ref) => {
+  const { selectedValues, setSelectedValues } = props;
   const controls = useAnimationControls();
-  const [sysSelected, setSysSelected] = useState(SYSTEM_LIST[0]);
-  const [gpuOrCpu, setGpuOrCpu] = useState([]);
+  const [architecture, setArchitecture] = useState([]);
+
+  useEffect(() => {
+    if (!selectedValues?.system) return;
+    const _architecture = ARCHITECTURE.filter((item) =>
+      item.sys.includes(selectedValues.system),
+    );
+    setArchitecture(_architecture);
+  }, [selectedValues]);
 
   const onSysSelect = (sys) => {
-    setSysSelected(sys);
-    setGpuOrCpu(ARCHITECTURE.filter((item) => item.sys.includes(sys.value)));
+    const _architecture = ARCHITECTURE.filter((item) =>
+      item.sys.includes(sys.value),
+    );
+    setArchitecture(_architecture);
+    setSelectedValues({
+      architecture: _architecture?.[0]?.value,
+      system: sys.value,
+    });
   };
 
   return (
@@ -31,7 +44,7 @@ const DeployNode = (props) => {
               key={item.value}
               className={[
                 'df ai_c jc_c fd_c hvr-float',
-                sysSelected?.value == item.value && styles.active,
+                selectedValues?.system == item.value && styles.active,
               ].join(' ')}
               onClick={() => onSysSelect(item)}
             >
@@ -42,21 +55,27 @@ const DeployNode = (props) => {
             </li>
           ))}
         </ul>
-        {sysSelected?.value !== 'android' && (
+        {selectedValues?.system !== 'android' && (
           <>
             <hgroup>
               <h1>Choose Architecture</h1>
               <span>List of supported platform</span>
             </hgroup>
             <ul className={styles['gpu-cpu']}>
-              {gpuOrCpu.map((item) => (
+              {architecture.map((item) => (
                 <li
                   className={[
                     'hvr-float',
-                    gpuOrCpu.name == item.name && styles['active'],
+                    selectedValues?.architecture == item.value &&
+                      styles['active'],
                   ].join(' ')}
-                  key={item.name}
-                  onClick={() => setGpuOrCpu(item)}
+                  key={item.value}
+                  onClick={() => {
+                    setSelectedValues({
+                      ...selectedValues,
+                      architecture: item.value,
+                    });
+                  }}
                 >
                   <span>{item.name}</span>
                 </li>
