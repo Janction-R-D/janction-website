@@ -2,12 +2,15 @@ import React from 'react';
 import ReactEcharts from 'echarts-for-react';
 
 const StepChart = ({ data }) => {
-  // const {
-  //   data = [220, 182, 191, 234, 290, 330, 310, 123],
-  //   dataAxis = ['6/1', '6/2', '6/3', '6/4', '6/5', '6/6', '6/7', '6/8'],
-  // } = props;
-  const dataPoints = data.map(dp => dp.Point);
-  const dataAxis = data.map(dp => dp.Date.format('MM/DD'));
+  let dataPoints;
+  let dataAxis;
+  if (data) {
+    dataPoints = data.map((dp) => dp.Point);
+    dataAxis = data.map((dp) => dp.Date.format('MM/DD'));
+  } else {
+    dataPoints = [220, 182, 191, 234, 290, 330, 310, 123];
+    dataAxis = ['6/1', '6/2', '6/3', '6/4', '6/5', '6/6', '6/7', '6/8'];
+  }
 
   let option = {
     backgroundColor: 'transparent',
