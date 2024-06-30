@@ -12,7 +12,7 @@ import {
   fetchPointStatistic,
 } from '../../../services/personal';
 import { useAccount } from 'wagmi';
-import { formatDate, formatTime } from '@/utils/datetime';
+import { formatDateYMD, formatTime } from '@/utils/datetime';
 
 const Dashboard = (props) => {
   const [nodeInfos, setNodeInfos] = useState();
@@ -50,7 +50,7 @@ const Dashboard = (props) => {
 
   const handleFetchPointStatistic = async () => {
     const token = storage.get('token');
-    const pointStatistic = await fetchPointStatistic(token, {
+    const pointStatistic = await fetchPointStatistic({
       wallet_address: address,
     });
     console.log('pointStatistic:', pointStatistic);
@@ -59,7 +59,7 @@ const Dashboard = (props) => {
 
   const handleFetchDailyPointStatistic = async () => {
     const token = storage.get('token');
-    const dailyPointStatistic = await fetchDailyPointStatistic(token, {
+    const dailyPointStatistic = await fetchDailyPointStatistic({
       wallet_address: address,
       days: 7,
     });
@@ -105,14 +105,14 @@ const Dashboard = (props) => {
             <div className={styles['item']}>
               <div className={styles['label']}>Today</div>
               <div className={styles['value']}>
-                <span>{dailyPointStatistic && dailyPointStatistic[7].point}</span>
+                <span>{dailyPointStatistic && dailyPointStatistic[6].point}</span>
                 <span className={styles['unit']}>Points</span>
               </div>
             </div>
             <div className={styles['item']}>
               <div className={styles['label']}>Last Day</div>
               <div className={styles['value']}>
-                <span>{dailyPointStatistic && dailyPointStatistic[6].point}</span>
+                <span>{dailyPointStatistic && dailyPointStatistic[5].point}</span>
                 <span className={styles['unit']}>Points</span>
               </div>
             </div>
@@ -187,7 +187,7 @@ const Dashboard = (props) => {
                   nodeLogs.map((nodeLog) => (
                     <li>
                       <span className={styles['date']}>
-                        {formatDate(nodeLog.timestamp)}
+                        {formatDateYMD(nodeLog.timestamp)}
                       </span>
                       <span className={styles['records']}>
                         {nodeLog.action}

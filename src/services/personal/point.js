@@ -1,3 +1,8 @@
+import axios from 'axios';
+
+// const baseUrl = 'http://43.131.240.184:9767/api/v1';
+const baseUrl = 'http://localhost:9767/api/v1';
+
 /**
  * Represents point statistics for a wallet address.
  * @typedef {Object} PointStatistic
@@ -13,11 +18,6 @@
  * @property {string} date - The date for which the daily point statistic is recorded (primary key).
  */
 
-import { request } from 'umi';
-
-// const baseUrl = 'http://43.131.240.184:9767/api/v1';
-const baseUrl = 'http://localhost:9767/api/v1';
-
 /**
  * Fetch point statistics.
  * @param {Object} [params] - Query parameters to be sent with the GET request.
@@ -27,13 +27,12 @@ const baseUrl = 'http://localhost:9767/api/v1';
  */
 export const fetchPointStatistic = async (params) => {
   try {
-    const response = await request(`${baseUrl}/point_statistic`, {
-      method: 'GET',
+    const response = await axios.get(`${baseUrl}/point_statistic`, {
       params,
     });
-    return response.data;
+    return response.data.data;
   } catch (error) {
-    throw new Error(`FetchPointStatistic failed, ${error}`);
+    throw new Error(`FetchPointStatistic failed, ${error.message}`);
   }
 };
 
@@ -47,12 +46,11 @@ export const fetchPointStatistic = async (params) => {
  */
 export const fetchDailyPointStatistic = async (params) => {
   try {
-    const response = await request(`${baseUrl}/daily_point_statistic`, {
-      method: 'GET',
+    const response = await axios.get(`${baseUrl}/daily_point_statistic`, {
       params,
     });
-    return response.data;
+    return response.data.data;
   } catch (error) {
-    throw new Error(`FetchDailyPointStatistic failed, ${error}`);
+    throw new Error(`FetchDailyPointStatistic failed, ${error.message}`);
   }
 };
