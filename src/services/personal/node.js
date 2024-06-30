@@ -1,13 +1,37 @@
+import axios from 'axios';
+
+// const baseUrl = 'http://43.131.240.184:8767/api/v1/node';
+const baseUrl = 'http://localhost:8767/api/v1/node';
+
+export const NodeType = {
+  MacOS: "macos",
+  Linux: "linux",
+  Windows: "windows",
+  Android: "android"
+}
+
+export const NodeStatus = {
+  Available: 1,
+  Running: 2,
+  Offline: 3,
+};
+
+export const MappingNodeStatus = {
+  [NodeStatus.Available]: 'Available',
+  [NodeStatus.Running]: 'Running',
+  [NodeStatus.Offline]: 'Offline',
+};
+
 /**
  * Represents information about a node.
  * @typedef {Object} NodeInfo
  * @property {string} node_id - The ID of the node.
  * @property {number} heartbeat_count - The heartbeat count of the node.
- * @property {NodeType} node_type - The type of the node (`NodeDarwin`, `NodeLinux`, etc.).
- * @property {Object} darwin - Additional data specific to Darwin nodes (parsed JSON).
- * @property {Object} linux - Additional data specific to Linux nodes (parsed JSON).
- * @property {Object} windows - Additional data specific to Windows nodes (parsed JSON).
- * @property {Object} android - Additional data specific to Android nodes (parsed JSON).
+ * @property {NodeType} node_type - The type of the node (`macos`, `linux`, `windows`, `android`).
+ * @property {ArchitectureType} architecture_type - The architecture type of the node (`ArchitectureAmd64`, `ArchitectureArm`, etc.).
+ * @property {Object} gpu_info - GPU information of the node (parsed JSON).
+ * @property {Object} system_info - System information of the node (parsed JSON).
+ * @property {Object} exec_info - Execution information of the node (parsed JSON).
  * @property {NodeStatus} node_status - The status of the node (`NodeStatusAvailable`, etc.).
  */
 
@@ -19,25 +43,6 @@
  * @property {string} timestamp - The timestamp when the action occurred.
  */
 
-import { request } from 'umi';
-
-const baseUrl = '/api/v1/node';
-
-export const NodeType = {
-  UNKNOWN: 0,
-  DARWIN: 1,
-  LINUX: 2,
-  WINDOWS: 3,
-  ANDROID: 4,
-};
-
-export const NodeStatus = {
-  UNKNOWN: 0,
-  AVAILABLE: 1,
-  RUNNING: 2,
-  OFFLINE: 3,
-};
-
 /**
  * Fetch information about a specific node by its ID.
  * @param {Object} params - Query parameters to be sent with the GET request.
@@ -45,16 +50,18 @@ export const NodeStatus = {
  * @returns {Promise<NodeInfo>} A promise that resolves to the response data.
  * @throws {Error} If the request fails or returns an error response.
  */
-export const fetchNodeInfo = async (params) => {
+export const fetchNodeInfo = async (token, params) => {
   try {
-    const response = await request(`${baseUrl}/info`, {
-      method: 'GET',
+    const response = await axios.get(`${baseUrl}/info`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       params,
     });
-    if (response.code === 1000) {
-      return response.data;
+    if (response.data.code === 1000) {
+      return response.data.data;
     } else {
-      throw new Error(response.msg);
+      throw new Error(response.data.msg);
     }
   } catch (error) {
     throw new Error(`FetchNodeInfo failed, ${error}`);
@@ -70,16 +77,18 @@ export const fetchNodeInfo = async (params) => {
  * @returns {Promise<[]NodeInfo>} A promise that resolves to the response data.
  * @throws {Error} If the request fails or returns an error response.
  */
-export const fetchNodeInfos = async (params) => {
+export const fetchNodeInfos = async (token, params) => {
   try {
-    const response = await request(`${baseUrl}/infos`, {
-      method: 'GET',
+    const response = await axios.get(`${baseUrl}/infos`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       params,
     });
-    if (response.code === 1000) {
-      return response.data;
+    if (response.data.code === 1000) {
+      return response.data.data;
     } else {
-      throw new Error(response.msg);
+      throw new Error(response.data.msg);
     }
   } catch (error) {
     throw new Error(`FetchNodeInfos failed, ${error}`);
@@ -94,16 +103,18 @@ export const fetchNodeInfos = async (params) => {
  * @returns {Promise<NodeLog>} A promise that resolves to the response data.
  * @throws {Error} If the request fails or returns an error response.
  */
-export const fetchNodeLogs = async (params) => {
+export const fetchNodeLogs = async (token, params) => {
   try {
-    const response = await request(`${baseUrl}/logs`, {
-      method: 'GET',
+    const response = await axios.get(`${baseUrl}/logs`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       params,
     });
-    if (response.code === 1000) {
-      return response.data;
+    if (response.data.code === 1000) {
+      return response.data.data;
     } else {
-      throw new Error(response.msg);
+      throw new Error(response.data.msg);
     }
   } catch (error) {
     throw new Error(`FetchNodeLogs failed, ${error}`);

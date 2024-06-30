@@ -1,6 +1,7 @@
-import { request } from 'umi';
+import axios from 'axios';
 
-const baseUrl = '/api/v1';
+// const baseUrl = 'http://43.131.240.184:8767/api/v1/auth';
+const baseUrl = 'http://localhost:8767/api/v1/auth';
 
 /**
  * Fetch nonce from the server.
@@ -8,8 +9,9 @@ const baseUrl = '/api/v1';
  */
 export const fetchNonce = async () => {
   try {
-    const response = await request(`${baseUrl}/nonce`, { method: 'GET' });
-    return response.data.nonce;
+    const response = await axios.get(`${baseUrl}/nonce`);
+    console.log({ response });
+    return response.data.data.nonce;
   } catch (error) {
     throw new Error(`Failed to fetch nonce, ${error}`);
   }
@@ -26,18 +28,17 @@ export const fetchNonce = async () => {
  */
 export const performLogin = async (params) => {
   try {
-    const response = await request(`${baseUrl}/login`, {
-      method: 'POST',
+    const response = await axios.post(`${baseUrl}/login`, params, {
       headers: {
         'Content-Type': 'application/json',
       },
-      data: params,
     });
+    console.log({ response });
 
-    if (response.code === 1000) {
-      return response.data.token;
+    if (response.data.code === 1000) {
+      return response.data.data.token;
     } else {
-      throw new Error(response.msg);
+      throw new Error(response.data.msg);
     }
   } catch (error) {
     throw new Error(`Login failed, ${error}`);

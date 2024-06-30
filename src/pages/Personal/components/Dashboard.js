@@ -2,8 +2,71 @@ import styles from '../index.less';
 import { SYSTEM_LIST } from '@/constant';
 import AwardChart from './AwardChart';
 import JactionSelect from '@/components/JactionSelect';
+import { useEffect, useState } from 'react';
+import storage from '@/utils/storage';
+import {
+  fetchNodeInfos,
+  fetchNodeLogs,
+  MappingNodeStatus,
+  fetchDailyPointStatistic,
+  fetchPointStatistic,
+} from '../../../services/personal';
+import { useAccount } from 'wagmi';
+import { formatDate, formatTime } from '@/utils/datetime';
 
 const Dashboard = (props) => {
+  const [nodeInfos, setNodeInfos] = useState();
+  const [nodeLogs, setNodeLogs] = useState();
+  const [pointStatistic, setPointStatistic] = useState();
+  const [dailyPointStatistic, setDailyPointStatistic] = useState();
+  const { address } = useAccount();
+
+  useEffect(() => {
+    if (address) {
+      handleFetchNodeInfos();
+      handleFetchNodeLogs();
+      handleFetchPointStatistic();
+      handleFetchDailyPointStatistic();
+    }
+  }, [address]);
+
+  const handleFetchNodeInfos = async () => {
+    const token = storage.get('token');
+    const nodeInfos = await fetchNodeInfos(token, {
+      wallet_address: address,
+    });
+    console.log('nodeInfos:', nodeInfos);
+    setNodeInfos(nodeInfos);
+  };
+
+  const handleFetchNodeLogs = async () => {
+    const token = storage.get('token');
+    const nodeLogs = await fetchNodeLogs(token, {
+      wallet_address: address,
+    });
+    console.log('nodeLogs:', nodeLogs);
+    setNodeLogs(nodeLogs);
+  };
+
+  const handleFetchPointStatistic = async () => {
+    const token = storage.get('token');
+    const pointStatistic = await fetchPointStatistic(token, {
+      wallet_address: address,
+    });
+    console.log('pointStatistic:', pointStatistic);
+    setPointStatistic(pointStatistic);
+  };
+
+  const handleFetchDailyPointStatistic = async () => {
+    const token = storage.get('token');
+    const dailyPointStatistic = await fetchDailyPointStatistic(token, {
+      wallet_address: address,
+      days: 7,
+    });
+    console.log('dailyPointStatistic:', dailyPointStatistic);
+    setDailyPointStatistic(dailyPointStatistic);
+  };
+
   return (
     <>
       <div className={styles['total']}>
@@ -42,27 +105,27 @@ const Dashboard = (props) => {
             <div className={styles['item']}>
               <div className={styles['label']}>Today</div>
               <div className={styles['value']}>
-                <span>234.21</span>
+                <span>{dailyPointStatistic && dailyPointStatistic[7].point}</span>
                 <span className={styles['unit']}>Points</span>
               </div>
             </div>
             <div className={styles['item']}>
               <div className={styles['label']}>Last Day</div>
               <div className={styles['value']}>
-                <span>324.33</span>
+                <span>{dailyPointStatistic && dailyPointStatistic[6].point}</span>
                 <span className={styles['unit']}>Points</span>
               </div>
             </div>
             <div className={styles['item']}>
               <div className={styles['label']}>Total</div>
               <div className={styles['value']}>
-                <span>324.33</span>
+                <span>{pointStatistic && pointStatistic.point}</span>
                 <span className={styles['unit']}>Points</span>
               </div>
             </div>
           </div>
           <div className={styles['chart']}>
-            <AwardChart />
+            <AwardChart data={dailyPointStatistic} />
           </div>
         </div>
         <div className={styles['nodes']}>
@@ -74,83 +137,63 @@ const Dashboard = (props) => {
             <section className={styles['list']}>
               <h2>List</h2>
               <ul>
-                <li>
-                  <div className={styles['nvidia']}>
-                    <i className="iconfont icon-nvidia"></i>
-                  </div>
-                  <div>
-                    <div className={styles['name']}>Nvidia RTX 4090 Ti</div>
-                    <div className={styles['status']}>
-                      <div className={styles['system']}>
-                        <div className={styles['icon']}>
-                          <i className="iconfont icon-windows"></i>
+                {nodeInfos &&
+                  nodeInfos.map((nodeInfo) => (
+                    <li>
+                      <div className={styles['nvidia']}>
+                        <i className="iconfont icon-nvidia"></i>
+                      </div>
+                      <div>
+                        <div className={styles['name']}>Nvidia RTX 4090 Ti</div>
+                        <div className={styles['status']}>
+                          <div className={styles['system']}>
+                            <div className={styles['icon']}>
+                              <i
+                                className={`iconfont icon-${nodeInfo.node_type}`}
+                              ></i>
+                            </div>
+                            <span>{nodeInfo.node_type}</span>
+                          </div>
+                          <div className={styles['online']}>
+                            <i></i>
+                            <span>
+                              {MappingNodeStatus[nodeInfo.node_status]}
+                            </span>
+                          </div>
                         </div>
-                        <span>Windows</span>
-                      </div>
-                      <div className={styles['online']}>
-                        <i></i>
-                        <span>Online</span>
-                      </div>
-                    </div>
-                    <div className={styles['extra']}>
-                      <div>
-                        <span className={styles['label']}>Node ID</span>
-                        <span className={styles['value']}>
-                          a32u-2deg-3r3f-223c
-                        </span>
-                      </div>
-                      <div>
-                        <span className={styles['label']}>Online Time</span>
-                        <span className={styles['value']}>120min</span>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div className={styles['nvidia']}>
-                    <i className="iconfont icon-nvidia"></i>
-                  </div>
-                  <div>
-                    <div className={styles['name']}>Nvidia RTX 4090 Ti</div>
-                    <div className={styles['status']}>
-                      <div className={styles['system']}>
-                        <div className={styles['icon']}>
-                          <i className="iconfont icon-windows"></i>
+                        <div className={styles['extra']}>
+                          <div>
+                            <span className={styles['label']}>Node ID</span>
+                            <span className={styles['value']}>
+                              {nodeInfo.node_id}
+                            </span>
+                          </div>
+                          <div>
+                            <span className={styles['label']}>Online Time</span>
+                            <span className={styles['value']}>
+                              {formatTime(nodeInfo.heartbeat_count * 5)}
+                            </span>
+                          </div>
                         </div>
-                        <span>Windows</span>
                       </div>
-                      <div className={styles['online']}>
-                        <i></i>
-                        <span>Online</span>
-                      </div>
-                    </div>
-                    <div className={styles['extra']}>
-                      <div>
-                        <span className={styles['label']}>Node ID</span>
-                        <span className={styles['value']}>
-                          a32u-2deg-3r3f-223c
-                        </span>
-                      </div>
-                      <div>
-                        <span className={styles['label']}>Online Time</span>
-                        <span className={styles['value']}>120min</span>
-                      </div>
-                    </div>
-                  </div>
-                </li>
+                    </li>
+                  ))}
               </ul>
             </section>
             <section className={styles['activity']}>
               <h2>Activity</h2>
               <ul>
-                <li>
-                  <span className={styles['date']}>12-56-48</span>
-                  <span className={styles['records']}>Login in Windows</span>
-                </li>
-                <li>
-                  <span className={styles['date']}>12-56-48</span>
-                  <span className={styles['records']}>Login in Windows</span>
-                </li>
+                {nodeLogs &&
+                  nodeLogs.map((nodeLog) => (
+                    <li>
+                      <span className={styles['date']}>
+                        {formatDate(nodeLog.timestamp)}
+                      </span>
+                      <span className={styles['records']}>
+                        {nodeLog.action}
+                      </span>
+                    </li>
+                  ))}
               </ul>
             </section>
             <section className={styles['history']}>

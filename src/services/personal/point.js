@@ -15,7 +15,8 @@
 
 import { request } from 'umi';
 
-const baseUrl = '/api/v1';
+// const baseUrl = 'http://43.131.240.184:9767/api/v1';
+const baseUrl = 'http://localhost:9767/api/v1';
 
 /**
  * Fetch point statistics.

@@ -30,8 +30,10 @@ const Login = (props) => {
         try {
           const nonce = await fetchNonce();
 
+          console.log("nonce getted:", nonce)
+
           const siweMessage = new SiweMessage({
-            domain: 'janction.com',
+            domain: window.location.host,
             address,
             statement: 'Sign in Janction with your wallet.',
             uri: 'https://janction.com',
@@ -53,6 +55,8 @@ const Login = (props) => {
                   signature: data,
                   is_node: false
                 };
+
+                console.log({param})
 
                 const token = await performLogin(param);
                 setToken(token);
