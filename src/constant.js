@@ -43,4 +43,10 @@ export const SYSTEM_LIST = [
   { label: 'Windows', value: 'windows', icon: 'windows' },
 ];
 
-export const GPU_CPU = [{ name: 'GPU' }, { name: 'CPU' }];
+export const ARCHITECTURE = [
+  { name: 'AMD64', sys: ['mac', 'linux', 'windows'] },
+  { name: 'CPU ARM', sys: ['mac', 'linux', 'windows'] },
+  { name: 'CPU', sys: ['mac', 'linux', 'windows'] },
+  { name: 'GPU ARM', sys: ['linux', 'windows'] },
+  { name: 'GPU', sys: ['linux', 'windows'] },
+];

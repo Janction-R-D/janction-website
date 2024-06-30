@@ -3,12 +3,12 @@ import ReactEcharts from 'echarts-for-react';
 import * as echarts from 'echarts';
 
 const StepChart = (props) => {
-  const { data = 2 } = props;
+  const { data = 2, max = 3 } = props;
 
   let option = {
     backgroundColor: 'transparent',
     title: {
-      text: `{a|${[data]}} {b|of 3}`,
+      text: `{a|${[data]}} {b|of 2}`,
       textStyle: {
         color: '#fff',
         fontSize: 24,
@@ -30,7 +30,7 @@ const StepChart = (props) => {
       show: false,
     },
     angleAxis: {
-      max: 3,
+      max,
       clockwise: true,
       show: false,
       startAngle: 90,

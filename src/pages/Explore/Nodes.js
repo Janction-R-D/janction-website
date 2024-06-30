@@ -109,7 +109,7 @@ const Nodes = (props) => {
     <div className={styles['explore-nodes-container']}>
       <div className={styles['slogan']}>
         <h1>JANCTION</h1>
-        <h2>AYER 2 F0R DECENTRALIZED AI</h2>
+        <h2>LAYER 2 F0R DECENTRALIZED AI</h2>
       </div>
       <section className={styles['node-runing']}>
         <h1>Node Runing</h1>

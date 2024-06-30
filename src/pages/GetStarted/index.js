@@ -36,19 +36,15 @@ const GetStarted = (props) => {
           const viewportHeight = window.innerHeight;
           const elementHeight = rect.height;
           const elementTop = rect.top;
-          const elementBottomToTop = rect.top + elementHeight / 2;
           const halfViewportHeight = viewportHeight / 2;
-          // 完全视口中心以下
           if (elementTop >= halfViewportHeight) {
             variable = 0;
-            // 完全视口中心以上
           } else if (elementTop + elementHeight <= halfViewportHeight) {
             variable = 100;
           } else {
             const distance = halfViewportHeight - elementTop;
             variable = (distance / elementHeight) * 100;
           }
-          console.log('『variable』', variable);
           setH(getPercent(variable.toFixed(2)));
         });
       },

@@ -12,18 +12,18 @@ const stepsList = [
     info: 'Select operating system',
     nextstep: 2,
   },
+  // {
+  //   value: 2,
+  //   name: 'Step 2',
+  //   info: 'Check GPU',
+  //   nextstep: 3,
+  //   prestep: 1,
+  // },
   {
     value: 2,
     name: 'Step 2',
-    info: 'Check GPU',
-    nextstep: 3,
-    prestep: 1,
-  },
-  {
-    value: 3,
-    name: 'Step 3',
     info: 'Run Node',
-    prestep: 2,
+    prestep: 1,
   },
 ];
 const Nodes = (props) => {
@@ -45,7 +45,7 @@ const Nodes = (props) => {
     <>
       <div className={styles['steps']}>
         <div className={styles['step-echart']}>
-          <StepChart data={curStep.value} />
+          <StepChart data={curStep.value} max={stepsList.length} />
         </div>
         <div className={styles['step-info']}>
           <h1>{curStep.name}</h1>
@@ -64,8 +64,8 @@ const Nodes = (props) => {
       </div>
       <div className={styles['step-content']}>
         {curStep.value == 1 && <Step1 />}
-        {curStep.value == 2 && <Step2 />}
-        {curStep.value == 3 && <Step3 />}
+        {/* {curStep.value == 2 && <Step2 />} */}
+        {curStep.value == 2 && <Step3 />}
       </div>
     </>
   );

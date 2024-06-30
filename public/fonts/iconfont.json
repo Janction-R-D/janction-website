@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "40918424",
+      "name": "link",
+      "font_class": "link",
+      "unicode": "e638",
+      "unicode_decimal": 58936
+    },
+    {
+      "icon_id": "40918423",
+      "name": "copy",
+      "font_class": "copy",
+      "unicode": "e639",
+      "unicode_decimal": 58937
+    },
+    {
       "icon_id": "40916407",
       "name": "nvidia",
       "font_class": "nvidia",

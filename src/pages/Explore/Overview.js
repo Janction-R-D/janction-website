@@ -2,47 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import styles from './index.less';
 import { motion } from 'framer-motion';
 
-const questions = [
-  {
-    title: 'How many Nodes we have？',
-    nodes: 1720,
-  },
-  {
-    title: 'How many Jobs have we completed？',
-    nodes: 13420,
-  },
-  {
-    title: 'How many points has the user spent？',
-    nodes: 720,
-  },
-
-  {
-    title: 'How much computing power do we provide？',
-    nodes: 20,
-  },
-];
-const zoonList = [
-  {
-    az: 'AZ-AP-Tokyo',
-    total: 12,
-    available: 7,
-  },
-  {
-    az: 'AZ-AP-Singapore',
-    total: 12,
-    available: 7,
-  },
-  {
-    az: 'AZ-US-:Ohio',
-    total: 12,
-    available: 7,
-  },
-  {
-    az: 'AZ-US-:NewYork',
-    total: 12,
-    available: 7,
-  },
-];
 const Overview = (props) => {
   const [recList, setRecList] = useState([
     {
@@ -74,6 +33,25 @@ const Overview = (props) => {
       name: 'DEVICE-agb32e03u71a',
       deviceId: 'DEVICE-agb32e03u71a',
       completed: 100,
+    },
+  ]);
+  const [questions, setQuestions] = useState([
+    {
+      title: 'How many Nodes we have？',
+      nodes: 1720,
+    },
+    {
+      title: 'How many Jobs have we completed？',
+      nodes: 13420,
+    },
+    {
+      title: 'How many points has the user spent？',
+      nodes: 720,
+    },
+
+    {
+      title: 'How much computing power do we provide？',
+      nodes: 20,
     },
   ]);
   const videoRef = useRef();
