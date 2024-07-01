@@ -11,3 +11,8 @@ export const logout = () => {
   storage.clear();
   window.location.replace('/login');
 };
+
+export const showValue = (value) => {
+  if (empty(value)) return '~';
+  return value;
+};

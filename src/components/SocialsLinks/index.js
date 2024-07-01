@@ -1,17 +1,18 @@
 import styles from './index.less';
 
 const SocialsLinks = (props) => {
+  const { className } = props;
   return (
-    <div className={styles['socials-links']}>
-      <div className="hvr-grow">
+    <div className={[styles['socials-links'], className].join(' ')}>
+      <a className="hvr-grow" href="https://x.com/JanctionMGT">
         <i className="iconfont icon-x"></i>
-      </div>
+      </a>
       <div className="hvr-grow">
         <i className="iconfont icon-discord"></i>
       </div>
-      <div className="hvr-grow">
+      <a className="hvr-grow" href="https://github.com/Janction-R-D">
         <i className="iconfont icon-github"></i>
-      </div>
+      </a>
     </div>
   );
 };

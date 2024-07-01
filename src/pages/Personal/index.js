@@ -58,18 +58,18 @@ const Personal = (props) => {
       <main>
         <header>
           <div className={styles['links']}>
-            <div>
+            <a target="_black">
               <i className="iconfont icon-doc"></i>
-            </div>
-            <div>
+            </a>
+            <a href="https://github.com/Janction-R-D" target="_black">
               <i className="iconfont icon-github"></i>
-            </div>
-            <div>
+            </a>
+            {/* <a target="_black">
               <i className="iconfont icon-discord"></i>
-            </div>
-            <div>
+            </a> */}
+            <a href="https://x.com/JanctionMGT" target="_black">
               <i className="iconfont icon-x"></i>
-            </div>
+            </a>
           </div>
           <ConnectButton></ConnectButton>
         </header>

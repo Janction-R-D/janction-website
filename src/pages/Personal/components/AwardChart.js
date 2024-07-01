@@ -5,7 +5,7 @@ import { formatDateMD } from '@/utils/datetime';
 const StepChart = ({ data }) => {
   let dataPoints;
   let dataAxis;
-  console.log("chart data:", data)
+  console.log('chart data:', data);
   if (data) {
     dataPoints = data.map((dp) => dp.point);
     dataAxis = data.map((dp) => formatDateMD(dp.date));
@@ -36,7 +36,7 @@ const StepChart = ({ data }) => {
         z: 10,
       },
       {
-        data: data,
+        data: dataPoints,
         axisLabel: {
           color: '#fff',
           fontSize: 16,

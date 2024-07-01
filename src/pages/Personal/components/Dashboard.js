@@ -17,6 +17,7 @@ import {
 } from '../../../services/personal';
 import { useAccount } from 'wagmi';
 import { formatDateYMD, formatTime } from '@/utils/datetime';
+import { showValue } from '../../../utils/lang';
 
 const Dashboard = (props) => {
   const [selectedSystem, setSelectedSystem] = useState('all');
@@ -54,12 +55,11 @@ const Dashboard = (props) => {
 
   const handleFetchNodeInfos = async (nodeType) => {
     const token = storage.get('token');
-    const nodeInfos = await fetchNodeInfos(token, {
+    const _nodeInfos = await fetchNodeInfos(token, {
       wallet_address: address,
       node_type: nodeType,
     });
-    console.log('nodeInfos:', nodeInfos);
-    setNodeInfos(nodeInfos);
+    setNodeInfos(_nodeInfos);
   };
 
   const handleFetchNodeLogs = async (nodeType) => {
@@ -99,7 +99,7 @@ const Dashboard = (props) => {
 
   const handleSelectSystem = (value) => {
     setSelectedSystem(value);
-    const nodeType = value === "all" ? undefined : value;
+    const nodeType = value === 'all' ? undefined : value;
     handleFetchNodeInfos(nodeType);
     handleFetchNodeLogs(nodeType);
   };
@@ -150,25 +150,21 @@ const Dashboard = (props) => {
             <div className={styles['item']}>
               <div className={styles['label']}>Today</div>
               <div className={styles['value']}>
-                <span>
-                  {dailyPointStatistic && dailyPointStatistic[6].point}
-                </span>
+                <span>{showValue(dailyPointStatistic?.[6]?.point)}</span>
                 <span className={styles['unit']}>Points</span>
               </div>
             </div>
             <div className={styles['item']}>
               <div className={styles['label']}>Last Day</div>
               <div className={styles['value']}>
-                <span>
-                  {dailyPointStatistic && dailyPointStatistic[5].point}
-                </span>
+                <span>{showValue(dailyPointStatistic?.[5]?.point)}</span>
                 <span className={styles['unit']}>Points</span>
               </div>
             </div>
             <div className={styles['item']}>
               <div className={styles['label']}>Total</div>
               <div className={styles['value']}>
-                <span>{pointStatistic && pointStatistic.point}</span>
+                <span>{showValue(pointStatistic?.point)}</span>
                 <span className={styles['unit']}>Points</span>
               </div>
             </div>
@@ -190,47 +186,48 @@ const Dashboard = (props) => {
             <section className={styles['list']}>
               <h2>List</h2>
               <ul>
-                {nodeInfos &&
-                  nodeInfos.map((nodeInfo) => (
-                    <li>
-                      <div className={styles['nvidia']}>
-                        <i className="iconfont icon-nvidia"></i>
-                      </div>
-                      <div>
-                        <div className={styles['name']}>Nvidia RTX 4090 Ti</div>
-                        <div className={styles['status']}>
-                          <div className={styles['system']}>
-                            <div className={styles['icon']}>
-                              <i
-                                className={`iconfont icon-${nodeInfo.node_type}`}
-                              ></i>
-                            </div>
-                            <span>{nodeInfo.node_type}</span>
+                {(nodeInfos || []).map((nodeInfo) => (
+                  <li>
+                    <div className={styles['nvidia']}>
+                      <i
+                        className={`iconfont icon-${
+                          nodeInfo.graphicsCard ? 'nvidia' : nodeInfo.node_type
+                        }`}
+                      ></i>
+                    </div>
+                    <div>
+                      <div className={styles['name']}>Nvidia RTX 4090 Ti</div>
+                      <div className={styles['status']}>
+                        <div className={styles['system']}>
+                          <div className={styles['icon']}>
+                            <i
+                              className={`iconfont icon-${nodeInfo.node_type}`}
+                            ></i>
                           </div>
-                          <div className={styles['online']}>
-                            <i></i>
-                            <span>
-                              {MappingNodeStatus[nodeInfo.node_status]}
-                            </span>
-                          </div>
+                          <span>{nodeInfo.node_type}</span>
                         </div>
-                        <div className={styles['extra']}>
-                          <div>
-                            <span className={styles['label']}>Node ID</span>
-                            <span className={styles['value']}>
-                              {nodeInfo.node_id}
-                            </span>
-                          </div>
-                          <div>
-                            <span className={styles['label']}>Online Time</span>
-                            <span className={styles['value']}>
-                              {formatTime(nodeInfo.heartbeat_count * 5)}
-                            </span>
-                          </div>
+                        <div className={styles['online']}>
+                          <i></i>
+                          <span>{MappingNodeStatus[nodeInfo.node_status]}</span>
                         </div>
                       </div>
-                    </li>
-                  ))}
+                      <div className={styles['extra']}>
+                        <div>
+                          <span className={styles['label']}>Node ID</span>
+                          <span className={styles['value']}>
+                            {nodeInfo.node_id}
+                          </span>
+                        </div>
+                        <div>
+                          <span className={styles['label']}>Online Time</span>
+                          <span className={styles['value']}>
+                            {formatTime(nodeInfo.heartbeat_count * 5)}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                ))}
               </ul>
             </section>
             <section className={styles['activity']}>

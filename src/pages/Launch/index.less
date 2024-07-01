@@ -26,7 +26,7 @@
       transition: all 0.3s;
 
       i {
-        font-size: 1.25vw;
+        font-size: 24px;
         transition: all 0.3s;
       }
 
@@ -186,6 +186,41 @@
           content: '';
           height: 20px;
           border-left: 1px solid rgba(255, 255, 255, 0.5);
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .socials-links {
+    display: flex;
+  }
+}
+
+@media (max-width: 768px) {
+  .launch-container {
+    main {
+      > section {
+        padding: 0 24px;
+
+        .launch-content {
+          width: 100%;
+          grid-template-columns: repeat(1, 1fr);
+          grid-template-rows: repeat(3, 1fr);
+          gap: 24px;
+
+          .Nexus {
+            grid-column: 1 / span 1;
+
+            .routes {
+              gap: 10px;
+
+              .item {
+                flex: 1;
+              }
+            }
+          }
         }
       }
     }

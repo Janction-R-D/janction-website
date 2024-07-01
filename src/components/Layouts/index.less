@@ -145,7 +145,7 @@
   }
 }
 
-footer {
+footer.main-footer {
   margin: 0 auto;
   margin-top: 60px;
   padding-bottom: 20px;
@@ -205,7 +205,7 @@ footer {
     }
   }
 
-  footer {
+  footer.main-footer {
     width: 924px;
     transition: all 0.3s;
   }
@@ -222,6 +222,10 @@ footer {
 
     .android-menu {
       display: block;
+    }
+
+    .links {
+      display: none;
     }
   }
 
@@ -242,7 +246,7 @@ footer {
     }
   }
 
-  footer {
+  footer.main-footer {
     width: calc(~'100vw - 40px');
     margin-top: 100px;
     transition: all 0.3s;
@@ -275,10 +279,15 @@ footer {
         display: none;
       }
     }
+
+    .links {
+      display: none;
+    }
   }
 
   :global {
-    .ant-dropdown {
+    .ant-dropdown,
+    .ant-dropdown-menu-submenu {
       .ant-dropdown-menu {
         width: 111px;
         padding: 15px 18px;
@@ -286,13 +295,30 @@ footer {
         backdrop-filter: blur(25px);
         border-radius: 10px;
 
-        .ant-dropdown-menu-item {
+        .ant-dropdown-menu-item,
+        .ant-dropdown-menu-submenu {
           padding: 0;
           font-weight: 500;
           font-size: 12px;
+
+          .ant-dropdown-menu-submenu-title {
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: 500;
+            font-size: 12px;
+            flex-wrap: nowrap;
+          }
         }
 
-        .ant-dropdown-menu-item:not(:first-child) {
+        .ant-dropdown-menu-submenu-active .ant-dropdown-menu-submenu-title,
+        .ant-dropdown-menu-item-active {
+          background: transparent;
+        }
+
+        .ant-dropdown-menu-item:not(:first-child),
+        .ant-dropdown-menu-submenu-title {
           margin-top: 15px;
         }
       }

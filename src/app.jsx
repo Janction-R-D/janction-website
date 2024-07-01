@@ -7,7 +7,7 @@ import { message } from 'antd';
  */
 const authHeaderInterceptor = (url, options) => {
   const ACCESS_TOKEN = storage.get('token');
-  const authHeader = { Authorization: ACCESS_TOKEN };
+  const authHeader = { Authorization: `Bearer ${ACCESS_TOKEN}` };
   options.headers = {
     ...options.headers,
     ...authHeader,

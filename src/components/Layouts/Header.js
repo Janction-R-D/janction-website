@@ -38,19 +38,30 @@ const Header = (props) => {
   };
 
   const renderMenu = () => {
-    return (
-      <Menu>
-        {routes.map((item) => (
-          <Menu.Item
-            key={item.name}
-            path={item.path}
-            onClick={() => onRouteClick(item)}
+    const renderChildren = (menuItem) => {
+      if (menuItem.children) {
+        return (
+          <Menu.SubMenu
+            key={menuItem.name}
+            path={menuItem.path}
+            onClick={() => onRouteClick(menuItem)}
+            title={menuItem.name}
           >
-            {item.name}
-          </Menu.Item>
-        ))}
-      </Menu>
-    );
+            {menuItem.children.map((item) => renderChildren(item))}
+          </Menu.SubMenu>
+        );
+      }
+      return (
+        <Menu.Item
+          key={menuItem.name}
+          path={menuItem.path}
+          onClick={() => onRouteClick(menuItem)}
+        >
+          {menuItem.name}
+        </Menu.Item>
+      );
+    };
+    return <Menu>{routes.map((item) => renderChildren(item))}</Menu>;
   };
 
   const renderChildren = (children) => {
@@ -111,8 +122,8 @@ const Header = (props) => {
           ))}
         </ul>
       </nav>
-      <SocialsLinks />
-      <Dropdown overlay={renderMenu}>
+      <SocialsLinks className={styles['links']} />
+      <Dropdown placement="bottomRight" overlay={renderMenu}>
         <div className={styles['android-menu']}>
           <Icons name="menu" />
         </div>

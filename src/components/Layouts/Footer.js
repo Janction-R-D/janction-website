@@ -3,7 +3,9 @@ import styles from './index.less';
 
 const Footer = (props) => {
   return (
-    <footer className="animate__animated animate__zoomIn">
+    <footer
+      className={`animate__animated animate__zoomIn ${styles['main-footer']}`}
+    >
       <div className="df jc_sb ai_c">
         <div className="df fd_c">
           <img
@@ -41,7 +43,7 @@ const Footer = (props) => {
         </div>
       </div>
       <div className={styles['related-container']}>
-        <SocialsLinks />
+        <SocialsLinks className={styles['links']} />
         <a href="/" className="f16">
           ©2024
         </a>
