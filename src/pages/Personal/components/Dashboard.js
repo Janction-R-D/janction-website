@@ -4,6 +4,8 @@ import AwardChart from './AwardChart';
 import JactionSelect from '@/components/JactionSelect';
 import { useEffect, useState } from 'react';
 import storage from '@/utils/storage';
+import { formatThouNumber } from '@/utils/numeric';
+
 import {
   fetchNodeInfos,
   fetchNodeLogs,
@@ -67,15 +69,17 @@ const Dashboard = (props) => {
     setDailyPointStatistic(dailyPointStatistic);
   };
 
+  const totalPoint = formatThouNumber(pointStatistic.Point);
+  console.log(totalPoint);
   return (
     <>
       <div className={styles['total']}>
         <div className={styles['left']}>
           <i className={styles['money']}></i>
           <div className={styles['value']}>
-            <span className={styles['thousand']}>65</span>
-            <span className={styles['hundred']}>,546</span>
-            <span className={styles['decimals']}>.24</span>
+            <span className={styles['thousand']}>{totalPoint.thousands}</span>
+            <span className={styles['hundred']}>{totalPoint.hundreds}</span>
+            <span className={styles['decimals']}>{totalPoint.decimal}</span>
           </div>
         </div>
         <div className={styles['right']}>
@@ -105,14 +109,18 @@ const Dashboard = (props) => {
             <div className={styles['item']}>
               <div className={styles['label']}>Today</div>
               <div className={styles['value']}>
-                <span>{dailyPointStatistic && dailyPointStatistic[6].point}</span>
+                <span>
+                  {dailyPointStatistic && dailyPointStatistic[6].point}
+                </span>
                 <span className={styles['unit']}>Points</span>
               </div>
             </div>
             <div className={styles['item']}>
               <div className={styles['label']}>Last Day</div>
               <div className={styles['value']}>
-                <span>{dailyPointStatistic && dailyPointStatistic[5].point}</span>
+                <span>
+                  {dailyPointStatistic && dailyPointStatistic[5].point}
+                </span>
                 <span className={styles['unit']}>Points</span>
               </div>
             </div>
