@@ -1,8 +1,8 @@
 import styles from '../index.less';
-import { SYSTEM_LIST } from '@/constant';
+import { SYSTEM_LIST, SYSTEM_SELECT_LIST } from '@/constant';
 import AwardChart from './AwardChart';
 import JactionSelect from '@/components/JactionSelect';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import storage from '@/utils/storage';
 import { formatThouNumber } from '@/utils/numeric';
 
@@ -12,46 +12,67 @@ import {
   MappingNodeStatus,
   fetchDailyPointStatistic,
   fetchPointStatistic,
+  fetchReportHistories,
+  fetchOnlineNodesCount,
 } from '../../../services/personal';
 import { useAccount } from 'wagmi';
 import { formatDateYMD, formatTime } from '@/utils/datetime';
 
 const Dashboard = (props) => {
+  const [selectedSystem, setSelectedSystem] = useState('all');
+  const [nodesCount, setNodesCount] = useState();
   const [nodeInfos, setNodeInfos] = useState();
   const [nodeLogs, setNodeLogs] = useState();
   const [pointStatistic, setPointStatistic] = useState();
   const [dailyPointStatistic, setDailyPointStatistic] = useState();
+  const [reportHistories, setReportHistories] = useState();
   const { address } = useAccount();
+
+  const totalPoint = useMemo(() => {
+    if (pointStatistic) {
+      return formatThouNumber(pointStatistic.point);
+    }
+  }, [pointStatistic]);
 
   useEffect(() => {
     if (address) {
+      handleFetchOnlineNodesCount();
       handleFetchNodeInfos();
       handleFetchNodeLogs();
       handleFetchPointStatistic();
       handleFetchDailyPointStatistic();
+      handleFetchReportHistories();
     }
   }, [address]);
 
-  const handleFetchNodeInfos = async () => {
+  const handleFetchOnlineNodesCount = async () => {
+    const token = storage.get('token');
+    const nodesCount = await fetchOnlineNodesCount(token);
+    console.log('nodesCount:', nodesCount);
+    setNodesCount(nodesCount);
+  };
+
+  const handleFetchNodeInfos = async (nodeType) => {
     const token = storage.get('token');
     const nodeInfos = await fetchNodeInfos(token, {
       wallet_address: address,
+      node_type: nodeType,
     });
     console.log('nodeInfos:', nodeInfos);
     setNodeInfos(nodeInfos);
   };
 
-  const handleFetchNodeLogs = async () => {
+  const handleFetchNodeLogs = async (nodeType) => {
     const token = storage.get('token');
     const nodeLogs = await fetchNodeLogs(token, {
       wallet_address: address,
+      node_type: nodeType,
     });
     console.log('nodeLogs:', nodeLogs);
     setNodeLogs(nodeLogs);
   };
 
   const handleFetchPointStatistic = async () => {
-    const token = storage.get('token');
     const pointStatistic = await fetchPointStatistic({
       wallet_address: address,
     });
@@ -60,7 +81,6 @@ const Dashboard = (props) => {
   };
 
   const handleFetchDailyPointStatistic = async () => {
-    const token = storage.get('token');
     const dailyPointStatistic = await fetchDailyPointStatistic({
       wallet_address: address,
       days: 7,
@@ -69,17 +89,36 @@ const Dashboard = (props) => {
     setDailyPointStatistic(dailyPointStatistic);
   };
 
-  const totalPoint = formatThouNumber(pointStatistic.Point);
-  console.log(totalPoint);
+  const handleFetchReportHistories = async () => {
+    const reportHistories = await fetchReportHistories({
+      wallet_address: address,
+    });
+    console.log('reportHistories:', reportHistories);
+    setReportHistories(reportHistories);
+  };
+
+  const handleSelectSystem = (value) => {
+    setSelectedSystem(value);
+    const nodeType = value === "all" ? undefined : value;
+    handleFetchNodeInfos(nodeType);
+    handleFetchNodeLogs(nodeType);
+  };
+
   return (
     <>
       <div className={styles['total']}>
         <div className={styles['left']}>
           <i className={styles['money']}></i>
           <div className={styles['value']}>
-            <span className={styles['thousand']}>{totalPoint.thousands}</span>
-            <span className={styles['hundred']}>{totalPoint.hundreds}</span>
-            <span className={styles['decimals']}>{totalPoint.decimal}</span>
+            <span className={styles['thousand']}>
+              {totalPoint ? totalPoint.thousands : '~'}
+            </span>
+            <span className={styles['hundred']}>
+              {totalPoint ? totalPoint.hundreds : '~'}
+            </span>
+            <span className={styles['decimals']}>
+              {totalPoint ? totalPoint.decimal : '~'}
+            </span>
           </div>
         </div>
         <div className={styles['right']}>
@@ -90,7 +129,9 @@ const Dashboard = (props) => {
               </div>
               <div>
                 <div className={styles['label']}>{item.label}</div>
-                <div className={styles['value']}>220</div>
+                <div className={styles['value']}>
+                  {nodesCount ? nodesCount[item.value] : '~'}
+                </div>
               </div>
             </div>
           ))}
@@ -139,7 +180,11 @@ const Dashboard = (props) => {
         <div className={styles['nodes']}>
           <div className={styles['header']}>
             <h1>My Nodes</h1>
-            <JactionSelect value="window" options={SYSTEM_LIST} />
+            <JactionSelect
+              value={selectedSystem}
+              options={SYSTEM_SELECT_LIST}
+              onSelect={handleSelectSystem}
+            />
           </div>
           <div className={styles['info']}>
             <section className={styles['list']}>
@@ -207,14 +252,17 @@ const Dashboard = (props) => {
             <section className={styles['history']}>
               <h2>History</h2>
               <ul>
-                <li>
-                  <span className={styles['date']}>12-56-48</span>
-                  <span className={styles['records']}>Login in Windows</span>
-                </li>
-                <li>
-                  <span className={styles['date']}>12-56-48</span>
-                  <span className={styles['records']}>Login in Windows</span>
-                </li>
+                {reportHistories &&
+                  reportHistories.map((reportHistory) => (
+                    <li>
+                      <span className={styles['date']}>
+                        {formatDateYMD(reportHistory.created_at)}
+                      </span>
+                      <span
+                        className={styles['records']}
+                      >{`${reportHistory.point} Points earned!`}</span>
+                    </li>
+                  ))}
               </ul>
             </section>
           </div>

@@ -4,11 +4,11 @@ import axios from 'axios';
 const baseUrl = 'http://localhost:8767/api/v1/node';
 
 export const NodeType = {
-  MacOS: "macos",
-  Linux: "linux",
-  Windows: "windows",
-  Android: "android"
-}
+  MacOS: 'macos',
+  Linux: 'linux',
+  Windows: 'windows',
+  Android: 'android',
+};
 
 export const NodeStatus = {
   Available: 1,
@@ -41,6 +41,15 @@ export const MappingNodeStatus = {
  * @property {string} node_id - The ID of the node associated with the log.
  * @property {string} action - The action performed related to the node.
  * @property {string} timestamp - The timestamp when the action occurred.
+ */
+
+/**
+ * Represents the count of online nodes by operating system.
+ * @typedef {Object} RespOnlineNodesCount
+ * @property {number} macos - The number of online nodes running macOS.
+ * @property {number} linux - The number of online nodes running Linux.
+ * @property {number} windows - The number of online nodes running Windows.
+ * @property {number} android - The number of online nodes running Android.
  */
 
 /**
@@ -100,6 +109,7 @@ export const fetchNodeInfos = async (token, params) => {
  * @param {Object} params - Query parameters to be sent with the GET request.
  * @param {string} [params.node_id] - The ID of the node to fetch logs for.
  * @param {string} [params.wallet_address] - The wallet address to filter the nodes.
+ * @param {NodeType} [params.node_type] - The type of the nodes to filter by.
  * @returns {Promise<NodeLog>} A promise that resolves to the response data.
  * @throws {Error} If the request fails or returns an error response.
  */
@@ -118,5 +128,23 @@ export const fetchNodeLogs = async (token, params) => {
     }
   } catch (error) {
     throw new Error(`FetchNodeLogs failed, ${error}`);
+  }
+};
+
+/**
+ * Fetch the count of online nodes by operating system.
+ * @returns {Promise<RespOnlineNodesCount>} - A promise that resolves to the response data.
+ * @throws {Error} If the request fails or returns an error response.
+ */
+export const fetchOnlineNodesCount = async (token) => {
+  try {
+    const response = await axios.get(`${baseUrl}/online_count`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data.data;
+  } catch (error) {
+    throw new Error(`FetchOnlineNodesCount failed, ${error.message}`);
   }
 };

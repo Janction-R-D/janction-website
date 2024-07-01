@@ -5,8 +5,9 @@ import { formatDateMD } from '@/utils/datetime';
 const StepChart = ({ data }) => {
   let dataPoints;
   let dataAxis;
+  console.log("chart data:", data)
   if (data) {
-    dataPoints = data.map((dp) => dp.Point);
+    dataPoints = data.map((dp) => dp.point);
     dataAxis = data.map((dp) => formatDateMD(dp.date));
   } else {
     dataPoints = [220, 182, 191, 234, 290, 330, 310, 123];

@@ -19,6 +19,17 @@ const baseUrl = 'http://localhost:9767/api/v1';
  */
 
 /**
+ * Represents the report history for a node or wallet address.
+ * @typedef {Object} ReportHistory
+ * @property {string} node_id - The ID of the node.
+ * @property {string} wallet_address - The wallet address associated with the report.
+ * @property {number} heartbeats_count - The number of heartbeats recorded.
+ * @property {number} point - The points earned.
+ * @property {Array<string>} job_types - The types of jobs associated with the report.
+ * @property {string} create_at - The creation time of the report.
+ */
+
+/**
  * Fetch point statistics.
  * @param {Object} [params] - Query parameters to be sent with the GET request.
  * @param {string} [params.wallet_address] - The wallet address to filter point statistics by.
@@ -54,3 +65,22 @@ export const fetchDailyPointStatistic = async (params) => {
     throw new Error(`FetchDailyPointStatistic failed, ${error.message}`);
   }
 };
+
+/**
+ * Fetch report history.
+ * @param {Object} [params] - Query parameters to be sent with the GET request.
+ * @param {string} [params.node_id] - The node ID to filter report history by.
+ * @param {string} [params.wallet_address] - The wallet address to filter report history by.
+ * @returns {Promise<ReportHistory[]>} - A promise that resolves to the response data.
+ * @throws {Error} If the request fails or returns an error response.
+ */
+export const fetchReportHistories = async (params) => {
+  try {
+    const response = await axios.get(`${baseUrl}/report_history`, {
+      params,
+    });
+    return response.data.data;
+  } catch (error) {
+    throw new Error(`FetchReportHistories failed, ${error.message}`);
+  }
+}

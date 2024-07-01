@@ -38,14 +38,24 @@ export const codeTypeJsonArr = [
 
 export const SYSTEM_LIST = [
   { label: 'Android', value: 'android', icon: 'android' },
-  { label: 'MAC', value: 'mac', icon: 'apple' },
+  { label: 'MAC', value: 'macos', icon: 'macos' },
   { label: 'Linux', value: 'linux', icon: 'linux' },
   { label: 'Windows', value: 'windows', icon: 'windows' },
 ];
 
+export const SYSTEM_SELECT_LIST = [
+  { label: 'All', value: 'all' },
+  ...SYSTEM_LIST.map((v) => {
+    return {
+      label: v.label,
+      value: v.value,
+    };
+  }),
+];
+
 export const ARCHITECTURE = [
-  { name: 'AMD64(CPU)', value: 'cpu64', sys: ['mac', 'linux', 'windows'] },
-  { name: 'ARM(CPU)', value: 'cpu', sys: ['mac', 'linux', 'windows'] },
+  { name: 'AMD64(CPU)', value: 'cpu64', sys: ['macos', 'linux', 'windows'] },
+  { name: 'ARM(CPU)', value: 'cpu', sys: ['macos', 'linux', 'windows'] },
   { name: 'AMD64(GPU)', value: 'gpu64', sys: ['linux', 'windows'] },
   { name: 'ARM(GPU)', value: 'gpu', sys: ['linux', 'windows'] },
 ];
