@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 // const baseUrl = 'http://43.131.240.184:9767/api/v1';
-const baseUrl = 'http://localhost:9767/api/v1';
+const baseUrl = 'http://43.131.240.184/api/point/v1';
+// const baseUrl = 'http://localhost:9767/api/v1';
 
 /**
  * Represents point statistics for a wallet address.

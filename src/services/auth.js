@@ -1,7 +1,8 @@
 import axios from 'axios';
 
+const baseUrl = 'http://43.131.240.184/api/v1/auth';
 // const baseUrl = 'http://43.131.240.184:8767/api/v1/auth';
-const baseUrl = 'http://localhost:8767/api/v1/auth';
+// const baseUrl = 'http://localhost:8767/api/v1/auth';
 
 /**
  * Fetch nonce from the server.
