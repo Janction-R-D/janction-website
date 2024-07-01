@@ -14,6 +14,8 @@ import {
   fetchPointStatistic,
   fetchReportHistories,
   fetchOnlineNodesCount,
+  NodeStatus,
+  NodeType,
 } from '../../../services/personal';
 import { useAccount } from 'wagmi';
 import { formatDateYMD, formatTime } from '@/utils/datetime';
@@ -104,6 +106,66 @@ const Dashboard = (props) => {
     handleFetchNodeLogs(nodeType);
   };
 
+  const renderNodeInfo = (nodeInfo) => {
+    const {
+      node_type,
+      node_status,
+      node_id,
+      heartbeat_count,
+      deviceName,
+      arm,
+      cpu,
+      gpu,
+    } = nodeInfo;
+    const isCpu = cpu;
+    const isGpu = gpu;
+    const mac = node_type == NodeType.MacOS;
+    const android = node_type == NodeType.Android;
+    const onlineText = MappingNodeStatus[node_status];
+    const isOnline =
+      node_status == NodeStatus.Running || node_status == NodeStatus.Available;
+    return (
+      <>
+        <div className={styles['graphics-card']}>
+          <i className={`iconfont icon-${isGpu ? 'nvidia' : node_type}`}></i>
+        </div>
+        <div>
+          <div className={styles['name']}>{showValue(deviceName)}</div>
+          <div className={styles['status']}>
+            <div className={styles['system']}>
+              {!(mac || android || isCpu) && (
+                <div className={styles['icon']}>
+                  <i className={`iconfont icon-${node_type}`}></i>
+                </div>
+              )}
+              <span>{gpu ? showValue(node_type) : showValue(arm)}</span>
+            </div>
+            <div
+              className={[styles['offline'], isOnline && styles['online']].join(
+                ' ',
+              )}
+            >
+              <i></i>
+              <span>{onlineText}</span>
+            </div>
+          </div>
+          <div className={styles['extra']}>
+            <div>
+              <span className={styles['label']}>Node ID</span>
+              <span className={styles['value']}>{node_id}</span>
+            </div>
+            <div>
+              <span className={styles['label']}>Online Time</span>
+              <span className={styles['value']}>
+                {formatTime(heartbeat_count * 5)}
+              </span>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  };
+
   return (
     <>
       <div className={styles['total']}>
@@ -186,47 +248,8 @@ const Dashboard = (props) => {
             <section className={styles['list']}>
               <h2>List</h2>
               <ul>
-                {(nodeInfos || []).map((nodeInfo) => (
-                  <li>
-                    <div className={styles['nvidia']}>
-                      <i
-                        className={`iconfont icon-${
-                          nodeInfo.graphicsCard ? 'nvidia' : nodeInfo.node_type
-                        }`}
-                      ></i>
-                    </div>
-                    <div>
-                      <div className={styles['name']}>Nvidia RTX 4090 Ti</div>
-                      <div className={styles['status']}>
-                        <div className={styles['system']}>
-                          <div className={styles['icon']}>
-                            <i
-                              className={`iconfont icon-${nodeInfo.node_type}`}
-                            ></i>
-                          </div>
-                          <span>{nodeInfo.node_type}</span>
-                        </div>
-                        <div className={styles['online']}>
-                          <i></i>
-                          <span>{MappingNodeStatus[nodeInfo.node_status]}</span>
-                        </div>
-                      </div>
-                      <div className={styles['extra']}>
-                        <div>
-                          <span className={styles['label']}>Node ID</span>
-                          <span className={styles['value']}>
-                            {nodeInfo.node_id}
-                          </span>
-                        </div>
-                        <div>
-                          <span className={styles['label']}>Online Time</span>
-                          <span className={styles['value']}>
-                            {formatTime(nodeInfo.heartbeat_count * 5)}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </li>
+                {(nodeInfos || []).map((nodeInfo, index) => (
+                  <li key={nodeInfo.node_id}>{renderNodeInfo(nodeInfo)}</li>
                 ))}
               </ul>
             </section>
