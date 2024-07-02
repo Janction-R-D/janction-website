@@ -30,7 +30,7 @@ const Login = (props) => {
         try {
           const nonce = await fetchNonce();
 
-          console.log("nonce getted:", nonce)
+          console.log('nonce getted:', nonce);
 
           const siweMessage = new SiweMessage({
             domain: window.location.host,
@@ -53,10 +53,10 @@ const Login = (props) => {
                 const param = {
                   message,
                   signature: data,
-                  is_node: false
+                  is_node: false,
                 };
 
-                console.log({param})
+                console.log({ param });
 
                 const token = await performLogin(param);
                 setToken(token);
