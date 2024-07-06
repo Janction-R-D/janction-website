@@ -5,13 +5,11 @@ import styles from './index.less';
 import { useAccountEffect, useSignMessage } from 'wagmi';
 import storage from '@/utils/storage';
 import { fetchNonce, performLogin } from '@/services/auth';
-import { useState } from 'react';
 
 const expires = 60 * 60 * 24 * 1000;
 const Login = (props) => {
   const { openConnectModal } = useConnectModal();
   const { data, signMessageAsync } = useSignMessage();
-  const [token, setToken] = useState('');
   const { initialState, setInitialState } = useModel('@@initialState');
 
   useAccountEffect({
@@ -20,11 +18,6 @@ const Login = (props) => {
         address,
         chainId,
       };
-      setInitialState({
-        ...initialState,
-        userAccount,
-      });
-      storage.set({ name: 'userAccount', value: userAccount, expires });
 
       const signAndLogin = async () => {
         try {
@@ -59,7 +52,15 @@ const Login = (props) => {
                 console.log({ param });
 
                 const token = await performLogin(param);
-                setToken(token);
+                setInitialState({
+                  ...initialState,
+                  userAccount,
+                });
+                storage.set({
+                  name: 'userAccount',
+                  value: userAccount,
+                  expires,
+                });
                 storage.set({ name: 'token', value: token, expires });
 
                 const from = history.location.query?.from || '/';

@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "40985662",
+      "name": "next",
+      "font_class": "next",
+      "unicode": "e63b",
+      "unicode_decimal": 58939
+    },
+    {
+      "icon_id": "40985661",
+      "name": "pre",
+      "font_class": "pre",
+      "unicode": "e63c",
+      "unicode_decimal": 58940
+    },
+    {
+      "icon_id": "40985641",
+      "name": "menu",
+      "font_class": "menu",
+      "unicode": "e63a",
+      "unicode_decimal": 58938
+    },
+    {
       "icon_id": "40918424",
       "name": "link",
       "font_class": "link",
@@ -32,20 +53,6 @@
       "font_class": "down_triangle",
       "unicode": "e637",
       "unicode_decimal": 58935
-    },
-    {
-      "icon_id": "1304892",
-      "name": "next",
-      "font_class": "next",
-      "unicode": "e624",
-      "unicode_decimal": 58916
-    },
-    {
-      "icon_id": "1304897",
-      "name": "pre",
-      "font_class": "pre",
-      "unicode": "e625",
-      "unicode_decimal": 58917
     },
     {
       "icon_id": "40903625",
@@ -119,8 +126,8 @@
     },
     {
       "icon_id": "40903616",
-      "name": "apple",
-      "font_class": "apple",
+      "name": "macos",
+      "font_class": "macos",
       "unicode": "e62d",
       "unicode_decimal": 58925
     }

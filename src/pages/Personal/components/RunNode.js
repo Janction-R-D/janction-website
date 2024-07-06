@@ -37,7 +37,9 @@ const RunNode = (props) => {
         <section className={styles['link']}>
           <h2>Download APK</h2>
           <div>
-            <p>{nodeData?.apk}</p>
+            <p className="ell" title={nodeData?.apk}>
+              {nodeData?.apk}
+            </p>
             <a
               href={nodeData?.apk}
               className="iconfont icon-link"
@@ -52,7 +54,7 @@ const RunNode = (props) => {
         <section className={styles['link']}>
           <h2>Install Docker</h2>
           <div>
-            <p>{nodeData?.docker}</p>
+            <p className="ell">{nodeData?.docker}</p>
             <a
               href={nodeData?.docker}
               className="iconfont icon-link"
@@ -63,7 +65,7 @@ const RunNode = (props) => {
         <section className={styles['link']}>
           <h2>Download Binaray</h2>
           <div>
-            <p>{nodeData?.binaray}</p>
+            <p className="ell">{nodeData?.binaray}</p>
             <a
               href={nodeData?.binaray}
               className="iconfont icon-link"
@@ -74,7 +76,10 @@ const RunNode = (props) => {
         <section className={styles['run-command']}>
           <h2>Run Command</h2>
           <div>
-            <h3>Script</h3>
+            <h3>
+              <span>Script</span>
+              <i className="iconfont icon-copy" onClick={onCopy}></i>
+            </h3>
             <div className={styles['code-area']}>
               <span>(code area)</span>
               <i className="iconfont icon-copy" onClick={onCopy}></i>

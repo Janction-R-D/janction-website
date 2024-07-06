@@ -259,10 +259,11 @@ const Dashboard = (props) => {
                 {nodeLogs &&
                   nodeLogs.map((nodeLog) => (
                     <li>
-                      <span className={styles['date']}>
-                        {formatDateYMD(nodeLog.timestamp)}
-                      </span>
-                      <span className={styles['records']}>
+                      <span>{formatDateYMD(nodeLog.timestamp)}</span>
+                      <span
+                        title={nodeLog.action}
+                        className={['ell', styles['action']].join(' ')}
+                      >
                         {nodeLog.action}
                       </span>
                     </li>
@@ -279,7 +280,8 @@ const Dashboard = (props) => {
                         {formatDateYMD(reportHistory.created_at)}
                       </span>
                       <span
-                        className={styles['records']}
+                        title={`${reportHistory.point} Points earned!`}
+                        className={['ell', styles['action']].join(' ')}
                       >{`${reportHistory.point} Points earned!`}</span>
                     </li>
                   ))}

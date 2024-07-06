@@ -370,19 +370,14 @@
       background: #ffffff1a;
       backdrop-filter: blur(25px);
 
-      > hgroup {
-        h2 {
-          display: flex;
-          padding: 24px;
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 12px;
-          align-self: stretch;
-          border-radius: 20px;
-          border: 1px solid #ffffff40;
-          background: #ffffff1a;
-          backdrop-filter: blur(25px);
-        }
+      h2 {
+        color: #ffffff;
+        font-family: 'Poppins';
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        text-transform: capitalize;
       }
     }
 
@@ -395,8 +390,10 @@
         align-self: stretch;
         border-radius: 16px;
         background: #00000040;
+        gap: 12px;
 
         p {
+          flex: 1;
           color: #ffffff;
           font-family: 'Poppins';
           font-size: 14px;
@@ -436,6 +433,10 @@
           font-weight: 400;
           line-height: normal;
           text-transform: capitalize;
+
+          i {
+            display: none;
+          }
         }
 
         .code-area {
@@ -460,6 +461,7 @@
           }
 
           i {
+            display: block;
             position: absolute;
             right: 12px;
             top: 50%;
@@ -470,6 +472,108 @@
 
             &:hover {
               color: #999;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .sys-choice,
+  .gpu-check,
+  .run-node {
+    hgroup {
+      margin-top: 24px;
+
+      h1 {
+        font-size: 20px;
+      }
+
+      span {
+        font-size: 14px;
+      }
+    }
+  }
+
+  .sys-choice {
+    padding-bottom: 16px;
+    ul {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+
+      li {
+        gap: 13px;
+        display: flex;
+      }
+
+      li.active {
+        background: #fff;
+
+        span {
+          color: #333333;
+        }
+      }
+    }
+
+    .sys-list {
+      > li {
+        width: 100%;
+      }
+    }
+
+    .gpu-cpu {
+      padding-bottom: 24px;
+
+      li {
+        width: 100%;
+        padding: 0;
+        height: 62px;
+        align-items: center;
+        justify-content: center;
+
+        span {
+          font-size: 20px;
+        }
+      }
+    }
+  }
+
+  .run-node {
+    .content {
+      margin: 16px 0;
+      gap: 16px;
+
+      section {
+        padding: 16px;
+      }
+
+      .run-command {
+        > div {
+          h3 {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            i {
+              display: block;
+              font-size: 16px;
+              color: #fff;
+              cursor: pointer;
+
+              &:hover {
+                color: #999;
+              }
+            }
+          }
+
+          .code-area {
+            i {
+              display: none;
             }
           }
         }

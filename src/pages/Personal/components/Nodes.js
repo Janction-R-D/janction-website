@@ -66,13 +66,27 @@ const Nodes = (props) => {
         </div>
         <div className={styles['pre-next-btn']}>
           <button onClick={onBack}>
-            <i className={styles['pre']}></i>
+            <i className="iconfont icon-pre"></i>
             <span>Pre</span>
           </button>
           <button onClick={onNext}>
             <span>Next</span>
-            <i className={styles['next']}></i>
+            <i className="iconfont icon-next"></i>
           </button>
+        </div>
+      </div>
+      <div className={styles['android-steps']}>
+        <div className={styles['info']}>
+          <p className="ell f1">{curStep.info}</p>
+          <div>
+            <span>{curStep.value}</span> of 2
+          </div>
+        </div>
+        <div className={styles['progress-bar']}>
+          <div
+            className={styles['value-bar']}
+            style={{ '--width': `${(curStep.value / 2) * 100}%` }}
+          ></div>
         </div>
       </div>
       <div className={styles['step-content']}>
@@ -84,6 +98,20 @@ const Nodes = (props) => {
         )}
         {/* {curStep.value == 2 && <Step2 />} */}
         {curStep.value == 2 && <Step3 selectedValues={selectedValues} />}
+      </div>
+      <div className={styles['pre-next-btn']}>
+        {curStep.prestep && (
+          <button onClick={onBack}>
+            <i className="iconfont icon-pre"></i>
+            <span>Pre</span>
+          </button>
+        )}
+        {curStep.nextstep && (
+          <button onClick={onNext}>
+            <span>Next</span>
+            <i className="iconfont icon-next"></i>
+          </button>
+        )}
       </div>
     </>
   );
