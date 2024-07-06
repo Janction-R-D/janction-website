@@ -85,6 +85,7 @@ const CustomConnectButton = (props) => {
                         </div>
                       )}
                       {chain.name}
+                      <i className="iconfont icon-down"></i>
                     </div>
                     <div className={styles['balance']}>
                       <span>{account.displayBalance || 0}</span>
@@ -96,6 +97,7 @@ const CustomConnectButton = (props) => {
                     >
                       <img src={require('@/assets/images/icons/avatar.png')} />
                       <span>{account.displayName}</span>
+                      <i className="iconfont icon-down"></i>
                     </div>
                   </div>
                   <div className={styles['android-wallet-data']}>
