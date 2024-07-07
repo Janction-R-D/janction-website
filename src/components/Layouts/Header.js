@@ -124,7 +124,7 @@ const Header = (props) => {
       <SocialsLinks className={styles['links']} />
       <Dropdown placement="bottomRight" overlay={renderMenu}>
         <div className={styles['android-menu']}>
-          <i className="iconfont icon-menu" />
+          <i className="iconfont icon-line-menu" />
         </div>
       </Dropdown>
     </header>

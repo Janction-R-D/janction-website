@@ -29,7 +29,7 @@ const Personal = (props) => {
       <header className={styles['android-header']}>
         <div className={styles['menu']}>
           <i
-            className="iconfont icon-menu"
+            className="iconfont icon-point-menu"
             onClick={() => {
               setMenuShow(!menuShow);
             }}

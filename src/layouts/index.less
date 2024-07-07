@@ -127,10 +127,12 @@
   width: 100vw;
   overflow-x: clip;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   main {
-    width: 1088px;
-    margin: 0 auto;
+    width: 100%;
   }
 }
 
@@ -140,22 +142,10 @@
       width: 924px;
     }
   }
-
-  #explore-container {
-    main {
-      width: 924px;
-    }
-  }
 }
 
 @media (max-width: 1280px) {
   #container {
-    main {
-      width: calc(~'100vw - 40px');
-    }
-  }
-
-  #explore-container {
     main {
       width: calc(~'100vw - 40px');
     }

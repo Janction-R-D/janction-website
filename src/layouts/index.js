@@ -5,6 +5,7 @@ import PersonalLayout from './PersonalLayout';
 import 'animate.css';
 import 'hover.css';
 import styles from './index.less';
+import ExploreLayout from './ExploreLayout';
 
 export default function Layout(props) {
   const { children } = props;
@@ -15,6 +16,10 @@ export default function Layout(props) {
 
   if (props.location.pathname == '/personal') {
     return <PersonalLayout>{children}</PersonalLayout>;
+  }
+
+  if (props.location.pathname == '/explore/point') {
+    return <ExploreLayout>{children}</ExploreLayout>;
   }
 
   if (props.location.pathname == '/launch') {

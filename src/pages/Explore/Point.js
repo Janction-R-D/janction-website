@@ -1,221 +1,139 @@
 import styles from './index.less';
-import { useState } from 'react';
-import { Statistic, Table, Pagination } from 'antd';
-import SearchInput from '@/components/SeachInput';
-import Bar from './components/Bar';
+import { useEffect, useState } from 'react';
+import Line from './components/Line';
 
-const statusList = [
-  {
-    name: 'Show all',
-    value: 0,
-  },
-  {
-    name: 'Runing',
-    value: 1,
-  },
-  {
-    name: 'Paused',
-    value: 2,
-  },
-  {
-    name: 'Offline',
-    value: 3,
-  },
-  {
-    name: 'Terminated',
-    value: 4,
-  },
-  {
-    name: 'Unsupported',
-    value: 5,
-  },
-  {
-    name: 'Blocked',
-    value: 6,
-  },
-  {
-    name: 'Pending',
-    value: 7,
-  },
-];
 const Point = (props) => {
-  const [active, setActive] = useState(0);
+  const [userCreditsList, setUserCreditsList] = useState([
+    {
+      userId: '1',
+      userName: '用户0x56ab0649',
+      creditsNum: 124,
+    },
+    {
+      userId: '2',
+      userName: '用户06ab0649',
+      creditsNum: 31,
+    },
+    {
+      userId: '3',
+      userName: '用户0x56ab06491212',
+      creditsNum: 43,
+    },
+    {
+      userId: '4',
+      userName: '用户0x56ab49',
+      creditsNum: 78,
+    },
+  ]);
 
-  const columns = [
-    {
-      title: 'Status',
-      dataIndex: 'name',
-    },
-    {
-      title: 'DEVICE ID',
-      dataIndex: 'age',
-    },
-    {
-      title: 'AI TASK',
-      dataIndex: 'address',
-      render: (value) => <div className={styles['task']}>Test 1</div>,
-    },
-    {
-      title: 'UP FOR',
-      dataIndex: 'address',
-    },
-    {
-      title: 'CHIP/GPUS',
-      dataIndex: 'tags',
-      render: (value) => (
-        <div className={styles['chip-gpus']}>
-          <i className="iconfont icon-nvidia"></i>
-          <span className={styles['name']}>GeForce RTX 3060 Ti</span>
-          <div className={styles['num']}>×4</div>
-        </div>
-      ),
-    },
-  ];
+  useEffect(() => {
+    setInterval(() => {
+      const show = document.querySelector('li[data-show]');
+      const ready =
+        show.nextElementSibling ||
+        document.querySelector('li[data-carousel]:first-child');
+      const next =
+        ready.nextElementSibling ||
+        document.querySelector('li[data-carousel]:first-child');
+      const up = document.querySelector('li[data-up]');
+      if (up) {
+        up.removeAttribute('data-up');
+      }
+      show.removeAttribute('data-show');
+      show.setAttribute('data-up', '');
+      ready.removeAttribute('data-ready', '');
+      ready.setAttribute('data-show', '');
+      next.setAttribute('data-ready', '');
+    }, [5000]);
+  }, []);
 
-  const data = [
-    {
-      key: '1',
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park',
-      tags: ['nice', 'developer'],
-    },
-    {
-      key: '2',
-      name: 'Jim Green',
-      age: 42,
-      address: 'London No. 1 Lake Park',
-      tags: ['loser'],
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sydney No. 1 Lake Park',
-      tags: ['cool', 'teacher'],
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sydney No. 1 Lake Park',
-      tags: ['cool', 'teacher'],
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sydney No. 1 Lake Park',
-      tags: ['cool', 'teacher'],
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sydney No. 1 Lake Park',
-      tags: ['cool', 'teacher'],
-    },
-  ];
-
-  const onStatusClick = (Status) => {
-    setActive(Status);
+  const renderUserCreditsInfo = () => {
+    let item = {
+      userId: '4',
+      userName: '用户0x56ab0649',
+      creditsNum: 124,
+    };
+    return (
+      <ul className={styles['user-credits-info']}>
+        {userCreditsList.map((item, index) => (
+          <li
+            key={item.userId}
+            data-carousel
+            {...(index == 0
+              ? { 'data-show': '' }
+              : index == 1
+              ? { 'data-ready': '' }
+              : {})}
+          >
+            <i></i>
+            <span>{`${item.userName}获得${item.creditsNum}积分`}</span>
+          </li>
+        ))}
+        {/* <li
+            key={item.userId}
+            data-carousel
+            data-up
+          >
+            <i></i>
+            <span>{`${item.userName}获得${item.creditsNum}积分`}</span>
+          </li>
+          <li
+            key={item.userId}
+            data-carousel
+            data-show
+          >
+            <i></i>
+            <span>{`${item.userName}获得${item.creditsNum}积分`}</span>
+          </li>
+          <li
+            key={item.userId}
+            data-carousel
+            data-ready
+          >
+            <i></i>
+            <span>{`${item.userName}获得${item.creditsNum}积分`}</span>
+          </li>
+          <li
+            key={item.userId}
+            data-carousel
+            data-up
+          >
+            <i></i>
+            <span>{`${item.userName}获得${item.creditsNum}积分`}</span>
+          </li> */}
+      </ul>
+    );
   };
 
   return (
     <div className={styles['explore-point-container']}>
-      <div className={styles['slogan']}>
-        <h1>JANCTION</h1>
-        <h2>AYER 2 F0R DECENTRALIZED AI</h2>
-      </div>
-      <section className={styles['node-runing']}>
-        <div className="df ai_c jc_sb fw_w gap10 wp100">
-          <Statistic
-            title="Total Points"
-            value={112893}
-            suffix="Point"
-            className="hvr-shrink"
-          />
-          <Statistic
-            title="Today Points"
-            value={112893}
-            suffix="Point"
-            className="hvr-shrink"
-          />
-          <Statistic
-            title="Top 1 User"
-            value={112893}
-            suffix="Point"
-            className="hvr-shrink"
-          />
-        </div>
-      </section>
-      <section className={styles['total-network-earning']}>
+      <div className={styles['point-slogan']}>
         <h1>
-          <Statistic
-            title="TOTAL NETWORK EARNINGS"
-            value={1060463}
-            prefix="$"
-          />
+          AYER 2 FOR <br />
+          DECENTRALIZED AI
         </h1>
-        <div className={styles['echarts-container']}>
-          <Bar />
+        {renderUserCreditsInfo()}
+      </div>
+      {renderUserCreditsInfo()}
+      <div className={styles['node-statistic']}>
+        <div className={styles['statistic']}>
+          <h1>112,893 +</h1>
+          <p>Points</p>
         </div>
-      </section>
-      <section className={styles['completed-list']}>
-        <div className={styles['filter']}>
-          <SearchInput className={styles['filter-search']} />
-          <div className={styles['status']}>
-            {statusList.map((item) => (
-              <button
-                key={item.value}
-                className={`${item.value == 0 && styles['all']} ${
-                  active == item.value && styles['active']
-                }`}
-                onClick={() => onStatusClick(item.value)}
-              >
-                {item.name}
-              </button>
-            ))}
+        <div className={styles['label']}>Total Points</div>
+      </div>
+      <div className={styles['total-network-earning']}>
+        <div className={styles['header']}>
+          <i></i>
+          <div className={styles['info']}>
+            <h1>TOTAL NETWORK EARNINGS</h1>
+            <p>$ 1,060,463</p>
           </div>
         </div>
-        <div className={styles['table-list']}>
-          <Table
-            columns={columns}
-            dataSource={data}
-            pagination={{
-              position: ['bottomCenter'],
-            }}
-          ></Table>
-          <div className={styles['android-list']}>
-            {data.map((item) => (
-              <div className={styles['item']}>
-                <div className={styles['id']}>{item.id}</div>
-                <div className={styles['status']}>
-                  <span className={styles['name']}>STATUS:</span>
-                  <span className={styles['value']}>2% Completed</span>
-                </div>
-                <div className={styles['timer']}>
-                  <span className={styles['name']}>COMPUTE HRS REMAINING:</span>
-                  <span className={styles['value']}>0 Hrs 59 Mins</span>
-                </div>
-                <div>
-                  <span className={styles['name']}>CHIP/GPUS:</span>
-                  <div className={styles['chip-gpus']}>
-                    <i className="iconfont icon-nvidia"></i>
-                    <span className={styles['name']}>GeForce RTX 3060 Ti</span>
-                    <div className={styles['num']}>×4</div>
-                  </div>
-                </div>
-              </div>
-            ))}
-            {data.length && (
-              <div className={styles['list-pagination']}>
-                <Pagination defaultCurrent={1} total={data.length} />
-              </div>
-            )}
-          </div>
+        <div className={styles['chart-container']}>
+          <Line />
         </div>
-      </section>
+      </div>
     </div>
   );
 };

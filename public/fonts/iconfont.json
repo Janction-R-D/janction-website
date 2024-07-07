@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "40987608",
+      "name": "menu",
+      "font_class": "line-menu",
+      "unicode": "e63f",
+      "unicode_decimal": 58943
+    },
+    {
       "icon_id": "40986994",
       "name": "search",
       "font_class": "search",
@@ -36,7 +43,7 @@
     {
       "icon_id": "40985641",
       "name": "menu",
-      "font_class": "menu",
+      "font_class": "point-menu",
       "unicode": "e63a",
       "unicode_decimal": 58938
     },
