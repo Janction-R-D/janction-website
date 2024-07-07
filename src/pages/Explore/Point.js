@@ -48,11 +48,6 @@ const Point = (props) => {
   }, []);
 
   const renderUserCreditsInfo = () => {
-    let item = {
-      userId: '4',
-      userName: '用户0x56ab0649',
-      creditsNum: 124,
-    };
     return (
       <ul className={styles['user-credits-info']}>
         {userCreditsList.map((item, index) => (
@@ -69,38 +64,6 @@ const Point = (props) => {
             <span>{`${item.userName}获得${item.creditsNum}积分`}</span>
           </li>
         ))}
-        {/* <li
-            key={item.userId}
-            data-carousel
-            data-up
-          >
-            <i></i>
-            <span>{`${item.userName}获得${item.creditsNum}积分`}</span>
-          </li>
-          <li
-            key={item.userId}
-            data-carousel
-            data-show
-          >
-            <i></i>
-            <span>{`${item.userName}获得${item.creditsNum}积分`}</span>
-          </li>
-          <li
-            key={item.userId}
-            data-carousel
-            data-ready
-          >
-            <i></i>
-            <span>{`${item.userName}获得${item.creditsNum}积分`}</span>
-          </li>
-          <li
-            key={item.userId}
-            data-carousel
-            data-up
-          >
-            <i></i>
-            <span>{`${item.userName}获得${item.creditsNum}积分`}</span>
-          </li> */}
       </ul>
     );
   };
@@ -114,7 +77,6 @@ const Point = (props) => {
         </h1>
         {renderUserCreditsInfo()}
       </div>
-      {renderUserCreditsInfo()}
       <div className={styles['node-statistic']}>
         <div className={styles['statistic']}>
           <h1>112,893 +</h1>
