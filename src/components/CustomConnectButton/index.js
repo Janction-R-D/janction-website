@@ -88,8 +88,8 @@ const CustomConnectButton = (props) => {
                       <i className="iconfont icon-down"></i>
                     </div>
                     <div className={styles['balance']}>
-                      <span>{account.displayBalance || 0}</span>
-                      <span>{account.balanceSymbol || 'ETH'}</span>
+                      <span>{(account.displayBalance || 0).toFixed(2)}</span>
+                      {/* <span>{account.balanceSymbol || 'ETH'}</span> */}
                     </div>
                     <div
                       className={styles['user-info']}
@@ -115,7 +115,7 @@ const CustomConnectButton = (props) => {
                     >
                       <div className={styles['balance']}>
                         <span>{account.displayBalance || 0}</span>
-                        <span>{account.balanceSymbol || 'ETH'}</span>
+                        {/* <span>{account.balanceSymbol || 'ETH'}</span> */}
                       </div>
                       <div
                         className={styles['user-info']}
