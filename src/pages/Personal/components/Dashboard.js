@@ -127,7 +127,10 @@ const Dashboard = (props) => {
     return (
       <>
         <div className={styles['graphics-card']}>
-          <i className={`iconfont icon-${isGpu ? 'nvidia' : node_type}`}></i>
+          <i
+            className={`iconfont icon-${isGpu ? 'nvidia' : node_type}`}
+            style={{ color: isGpu ? '#76b900' : '#fff' }}
+          ></i>
         </div>
         <div>
           <div className={styles['name']}>{showValue(deviceName)}</div>
@@ -170,7 +173,9 @@ const Dashboard = (props) => {
     <>
       <div className={styles['total']}>
         <div className={styles['left']}>
-          <i className={styles['money']}></i>
+          <div className={styles['money']}>
+            <i className="iconfont icon-coin"></i>
+          </div>
           <div className={styles['value']}>
             <span className={styles['thousand']}>
               {totalPoint ? totalPoint.thousands : '~'}

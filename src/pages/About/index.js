@@ -52,7 +52,11 @@ const About = (props) => {
       <div className={styles['about-us']}>
         <h1>About Us</h1>
         <div className={styles['info']}>
-          <img src={require('@/assets/images/about/renderings.png')} alt="" />
+          <img
+            src={require('@/assets/images/about/renderings.png')}
+            alt=""
+            width={305}
+          />
           <section>
             <h2>Company Name</h2>
             <p>

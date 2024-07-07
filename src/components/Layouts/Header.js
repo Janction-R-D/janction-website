@@ -1,5 +1,4 @@
 import SocialsLinks from '@/components/SocialsLinks';
-import Icons from '@/components/Icons';
 import { useEffect, useState } from 'react';
 import { Dropdown, Menu } from 'antd';
 import { history } from 'umi';
@@ -125,7 +124,7 @@ const Header = (props) => {
       <SocialsLinks className={styles['links']} />
       <Dropdown placement="bottomRight" overlay={renderMenu}>
         <div className={styles['android-menu']}>
-          <Icons name="menu" />
+          <i className="iconfont icon-menu" />
         </div>
       </Dropdown>
     </header>

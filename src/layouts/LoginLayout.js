@@ -40,7 +40,7 @@ const LoginLayout = (props) => {
         <main>{children}</main>
         <footer>
           <img
-            src={require('@/assets/images/icons/jun-icon.png')}
+            src={require('@/assets/images/icons/logo.png')}
             alt=""
             width="52"
             height="52"

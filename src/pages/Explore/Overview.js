@@ -150,25 +150,6 @@ const Overview = (props) => {
       <section className={styles['availability-zone']}>
         <h1>Availability Zone</h1>
         <div className={styles['content']}>
-          {/* <table>
-            <thead>
-              <th>
-                <td>AZ</td>
-                <td>total</td>
-                <td>available</td>
-              </th>
-            </thead>
-            <tbody>
-              {zoonList.map((item) => (
-                <tr>
-                  <td>{item.az}</td>
-                  <td>{item.total}</td>
-                  <td>{item.available}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <img src={require('@/assets/images/explore/earth.png')} alt="" /> */}
           <div className={styles['video-container']}>
             <video
               loop

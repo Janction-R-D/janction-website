@@ -52,7 +52,11 @@ const Faq = (props) => {
       <div className={styles['about-us']}>
         <h1>About Us</h1>
         <div className={styles['info']}>
-          <img src={require('@/assets/images/faq/renderings.png')} alt="" />
+          <img
+            src={require('@/assets/images/faq/renderings.png')}
+            alt=""
+            width={253}
+          />
           <section>
             <p>
               Our Telegram @Janction ,  email need_help@janction.io. Our
@@ -70,7 +74,7 @@ const Faq = (props) => {
           </div>
           <div>
             <h1>FAQ</h1>
-            <img src={require('@/assets/images/faq/faq.png')} alt="" />
+            <img src={require('@/assets/images/icons/logo.png')} alt="" />
           </div>
           <div className={styles['right-divider']}>
             <img src={require('@/assets/svgs/divider.svg')} alt="" />

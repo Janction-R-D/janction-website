@@ -8,7 +8,11 @@ const Items = (props) => {
     <div className={`${styles['items']} ${className}`}>
       <div className={styles['user-info']}>
         <div className={styles['avatar']}>
-          <img src={require('@/assets/images/about/avatar.png')} alt="" />
+          <img
+            src={require('@/assets/images/about/avatar.png')}
+            alt=""
+            width={65}
+          />
         </div>
         <div className={styles['text']}>
           <span>{user?.name}</span>

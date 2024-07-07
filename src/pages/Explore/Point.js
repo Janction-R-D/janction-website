@@ -1,4 +1,3 @@
-import Icons from '@/components/Icons';
 import styles from './index.less';
 import { useState } from 'react';
 import { Statistic, Table, Pagination } from 'antd';
@@ -65,7 +64,7 @@ const Point = (props) => {
       dataIndex: 'tags',
       render: (value) => (
         <div className={styles['chip-gpus']}>
-          <Icons name="nvidia" />
+          <i className="iconfont icon-nvidia"></i>
           <span className={styles['name']}>GeForce RTX 3060 Ti</span>
           <div className={styles['num']}>×4</div>
         </div>
@@ -202,7 +201,7 @@ const Point = (props) => {
                 <div>
                   <span className={styles['name']}>CHIP/GPUS:</span>
                   <div className={styles['chip-gpus']}>
-                    <Icons name="nvidia" />
+                    <i className="iconfont icon-nvidia"></i>
                     <span className={styles['name']}>GeForce RTX 3060 Ti</span>
                     <div className={styles['num']}>×4</div>
                   </div>

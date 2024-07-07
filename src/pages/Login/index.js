@@ -80,7 +80,7 @@ const Login = (props) => {
   return (
     <div className={styles['login-container']}>
       <div className={styles['logo']}>
-        <img src={require('@/assets/images/faq/faq.png')} alt="" />
+        <img src={require('@/assets/images/icons/logo.png')} alt="" />
       </div>
       <div className={`df gap10 fd_c ai_c ${styles['slogan']}`}>
         <h2 className="tc fw500 f24">

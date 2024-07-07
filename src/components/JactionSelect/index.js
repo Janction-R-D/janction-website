@@ -3,11 +3,15 @@ import styles from './index.less';
 
 const JactionSelect = (props) => {
   return (
-    <Select
-      className={styles['jaction-select']}
-      popupClassName={styles['jaction-popup']}
-      {...props}
-    />
+    <div className={styles['select-container']}>
+      <Select
+        className={styles['jaction-select']}
+        popupClassName={styles['jaction-popup']}
+        showArrow={false}
+        {...props}
+      />
+      <i className="iconfont icon-down_triangle"></i>
+    </div>
   );
 };
 

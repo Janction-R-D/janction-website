@@ -1,4 +1,3 @@
-import Icons from '@/components/Icons';
 import SearchInput from '@/components/SeachInput';
 import { useState } from 'react';
 import styles from './index.less';

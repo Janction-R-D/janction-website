@@ -9,13 +9,13 @@ const Footer = (props) => {
       <div className="df jc_sb ai_c">
         <div className="df fd_c">
           <img
-            src={require('@/assets/images/icons/jun-icon.png')}
+            src={require('@/assets/images/icons/logo.png')}
             alt=""
             width="52"
             height="52"
           />
           <img
-            src={require('@/assets/images/icons/jun.png')}
+            src={require('@/assets/images/icons/jaction.png')}
             alt=""
             width="122"
             height="17"

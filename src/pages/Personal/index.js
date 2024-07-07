@@ -58,11 +58,13 @@ const Personal = (props) => {
             className={styles['logo-name']}
             src={require('@/assets/images/icons/logo_name.png')}
           />
-          <img
-            className={styles['logo']}
-            src={require('@/assets/svgs/logo.svg')}
-          />
-          <div className={styles['fold']} onClick={foldHandle}>
+          <div className={styles['logo']}>
+            <img src={require('@/assets/images/icons/logo.png')} />
+          </div>
+          <div
+            className={['hvr-grow', styles['fold']].join(' ')}
+            onClick={foldHandle}
+          >
             <i className="iconfont icon-pre"></i>
           </div>
         </header>
@@ -73,7 +75,7 @@ const Personal = (props) => {
               className={curNav.key == item.key && styles['active']}
               onClick={() => onNavChange(item)}
             >
-              <i className={styles[item.icon]} />
+              <i className={`iconfont icon-${item.icon}`} />
               <span>{item.name}</span>
             </div>
           ))}
@@ -81,7 +83,12 @@ const Personal = (props) => {
         <div className={styles['footer']}>
           <h1>JANCTION</h1>
           <p>©2024 janction.io</p>
-          <i className={styles['unfold']} onClick={foldHandle}></i>
+          <div
+            className={['hvr-grow', styles['unfold']].join(' ')}
+            onClick={foldHandle}
+          >
+            <i className="iconfont icon-next"></i>
+          </div>
         </div>
       </aside>
       <main>
