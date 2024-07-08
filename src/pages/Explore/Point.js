@@ -72,7 +72,7 @@ const Point = (props) => {
     <div className={styles['explore-point-container']}>
       <div className={styles['point-slogan']}>
         <h1>
-          AYER 2 FOR <br />
+          LAYER 2 FOR <br />
           DECENTRALIZED AI
         </h1>
         {renderUserCreditsInfo()}

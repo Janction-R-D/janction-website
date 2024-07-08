@@ -57,7 +57,7 @@ const GetStarted = (props) => {
   }, []);
 
   const toPersonal = () => {
-    window.open('/personal');
+    window.open('/genesis');
   };
 
   const toExplore = () => {
@@ -87,6 +87,7 @@ const GetStarted = (props) => {
           <button className="hvr-pulse-shrink" onClick={toExplore}>
             EXPLORE
           </button>
+          <img src={require('@/assets/images/get-started/next.png')} alt="" />
         </hgroup>
         <div className={styles['lottie-animation']}>
           <Lottie
@@ -168,11 +169,12 @@ const GetStarted = (props) => {
         <div className={styles['compute-info']}>
           <section className={styles['ai']}>
             <div className={[styles['info']].join(' ')}>
-              <img
-                src={require('@/assets/images/get-started/AI.png')}
-                width={144}
-                alt=""
-              />
+              <div className={styles['img-box']}>
+                <img
+                  src={require('@/assets/images/get-started/AI.png')}
+                  alt=""
+                />
+              </div>
               <div>
                 <h1>View Your AI Jobs</h1>
                 <p>Check your Job status and running status</p>
@@ -182,11 +184,13 @@ const GetStarted = (props) => {
           </section>
           <section className={styles['ai-job']} onClick={toPersonal}>
             <div className={[styles['info']].join(' ')}>
-              <img
-                src={require('@/assets/images/get-started/AI_job.png')}
-                width={97}
-                alt=""
-              />
+              <div className={styles['img-box']}>
+                <img
+                  src={require('@/assets/images/get-started/AI_job.png')}
+                  width={97}
+                  alt=""
+                />
+              </div>
               <div>
                 <h1>Submit Your AI Job</h1>
                 <p>Coming Soon</p>
@@ -195,11 +199,13 @@ const GetStarted = (props) => {
           </section>
           <section className={styles['point']} onClick={toPersonal}>
             <div className={[styles['info']].join(' ')}>
-              <img
-                src={require('@/assets/images/get-started/point.png')}
-                width={213}
-                alt=""
-              />
+              <div className={styles['img-box']}>
+                <img
+                  src={require('@/assets/images/get-started/point.png')}
+                  width={213}
+                  alt=""
+                />
+              </div>
               <div>
                 <h1>Check Your Points</h1>
                 <p>Coming Soon</p>

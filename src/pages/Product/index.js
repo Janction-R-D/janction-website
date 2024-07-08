@@ -51,7 +51,7 @@ const Products = (props) => {
             <p>Janction Genesis</p>
             <button
               onClick={() => {
-                window.open('/personal');
+                window.open('/genesis');
               }}
             >
               <span>Join Network</span>

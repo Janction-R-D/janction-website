@@ -14,7 +14,7 @@ export default function Layout(props) {
     return <LoginLayout>{children}</LoginLayout>;
   }
 
-  if (props.location.pathname == '/personal') {
+  if (props.location.pathname == '/genesis') {
     return <PersonalLayout>{children}</PersonalLayout>;
   }
 

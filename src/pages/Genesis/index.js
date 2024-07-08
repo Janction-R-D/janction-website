@@ -6,8 +6,8 @@ import styles from './index.less';
 import CustomConnectButton from '../../components/CustomConnectButton';
 
 const navList = [
-  { name: 'Dashboard', path: '/personal/dashboard', key: 0, icon: 'dashboard' },
-  { name: 'Deploy Node', path: '/personal/nodes', key: 1, icon: 'switch' },
+  { name: 'Dashboard', path: '/genesis/dashboard', key: 0, icon: 'dashboard' },
+  { name: 'Deploy Node', path: '/genesis/nodes', key: 1, icon: 'switch' },
 ];
 
 const Personal = (props) => {

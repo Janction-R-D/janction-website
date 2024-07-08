@@ -12,7 +12,13 @@ export const logout = () => {
   window.location.replace('/login');
 };
 
-export const showValue = (value) => {
+export const showValue = (value, fixed) => {
   if (empty(value)) return '~';
-  return value;
+  if (empty(fixed)) {
+    return value;
+  }
+  if (isNaN(value)) {
+    return value;
+  }
+  return Number(value).toFixed(fixed);
 };

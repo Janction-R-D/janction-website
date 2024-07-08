@@ -22,7 +22,11 @@ const Line = (props) => {
       },
       textStyle: {
         fontFamily: 'Poppins',
+        color: '#fff',
+        fontSize: 12 * scale,
       },
+      backgroundColor: '#2d2d2d',
+      borderColor: 'transparent',
     },
     grid: {
       top: '10%',
@@ -71,15 +75,15 @@ const Line = (props) => {
         data: [300, 280, 250, 260, 270, 300, 550, 500, 400, 390, 380, 390],
         symbol: 'none',
         lineStyle: {
-          width: 2,
-          color: new echarts.graphic.LinearGradient(0, 1, 1, 1, [
+          width: 3,
+          color: new echarts.graphic.LinearGradient(0, 0, 1, 1, [
             {
               offset: 0,
               color: '#111213',
             },
             {
               offset: 0.5,
-              color: '#DD5CCC',
+              color: '#c453b8',
             },
             {
               offset: 1,

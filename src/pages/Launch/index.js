@@ -12,7 +12,7 @@ const routes = [
       { name: 'Point', path: '/explore/point' },
     ],
   },
-  { name: 'Genesis', path: '/personal', target: '_blank' },
+  { name: 'Genesis', path: '/genesis', target: '_blank' },
   { name: 'Wating' },
 ];
 
