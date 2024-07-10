@@ -4,7 +4,7 @@ import styles from './index.less';
 
 const ExploreLayout = (props) => {
   return (
-    <div id={styles['explore-container']}>
+    <div id={styles['explore-container']} className={props.className}>
       <Header />
       <main className={styles['page-container']}>{props.children}</main>
       <Footer />

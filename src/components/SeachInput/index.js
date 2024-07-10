@@ -6,7 +6,7 @@ const SearchInput = (props) => {
   return (
     <Input
       prefix={
-        <i className="iconfont icon-search" style={{ fontSize: '24px' }} />
+        <i className="iconfont icon-search" style={{ fontSize: '1.25vw' }} />
       }
       placeholder="Search for something"
       className={`${styles['search-input']} ${className}`}

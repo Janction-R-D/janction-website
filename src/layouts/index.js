@@ -22,6 +22,14 @@ export default function Layout(props) {
     return <ExploreLayout>{children}</ExploreLayout>;
   }
 
+  if (props.location.pathname == '/explore/nodes') {
+    return (
+      <ExploreLayout className={styles['explore-nodes-container']}>
+        {children}
+      </ExploreLayout>
+    );
+  }
+
   if (props.location.pathname == '/launch') {
     return children;
   }
