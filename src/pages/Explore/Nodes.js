@@ -1,5 +1,5 @@
 import styles from './index.less';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Statistic, Table, Pagination } from 'antd';
 import SearchInput from '@/components/SeachInput';
 import Pie from './components/Pie';
@@ -7,22 +7,27 @@ import Pie from './components/Pie';
 const statusList = [
   {
     name: 'Show all',
+    id: 'nav-show-all',
     value: 0,
   },
   {
     name: 'Runing',
+    id: 'nav-runing',
     value: 1,
   },
   {
     name: 'Completed',
+    id: 'nav-completed',
     value: 2,
   },
   {
     name: 'Failed',
+    id: 'nav-failed',
     value: 3,
   },
   {
     name: 'Destroyed',
+    id: 'nav-destroyed',
     value: 4,
   },
 ];
@@ -103,6 +108,7 @@ const Nodes = (props) => {
   const [list, setList] = useState();
   const [query, setQuery] = useState({ size: 10, current: 1 });
   const [total, setTotal] = useState(0);
+  const swiperRef = useRef();
 
   useEffect(() => {
     getList();
@@ -150,10 +156,25 @@ const Nodes = (props) => {
       <section className={styles['node-runing']}>
         <h1>Node Runing</h1>
         <div className={styles['divider']}></div>
-        <div className={['df jc_sb', styles['statistic-info']].join(' ')}>
-          <Statistic title="Live Nodes" value={112893} />
-          <Statistic title="Total Compute Hours" value={112893} />
-          <Statistic title="Total Nodes" value={112893} />
+        <div
+          ref={swiperRef}
+          className={['df jc_sb', styles['statistic-info']].join(' ')}
+        >
+          <div style={{ '--d': -3 }}>
+            <Statistic title="Live Nodes" value={112893} />
+          </div>
+          <div style={{ '--d': -2 }}>
+            <Statistic title="Total Compute Hours" value={112893} />
+          </div>
+          <div style={{ '--d': -1 }}>
+            <Statistic title="Total Nodes" value={112893} />
+          </div>
+          <div style={{ '--d': 0 }}>
+            <Statistic title="Live Nodes" value={112893} />
+          </div>
+          <div style={{ '--d': 1 }}>
+            <Statistic title="Total Compute Hours" value={112893} />
+          </div>
           <div className={styles['highlight']}>
             <img src={require('../../assets/images/explore/highlight.png')} />
           </div>
@@ -170,16 +191,20 @@ const Nodes = (props) => {
           <SearchInput className={styles['filter-search']} />
           <div className={styles['status']}>
             {statusList.map((item) => (
-              <button
-                key={item.value}
-                className={`${item.value == 0 && styles['all']} ${
-                  active == item.value && styles['active']
-                }`}
-                onClick={() => onStatusClick(item.value)}
-              >
-                {item.name}
-              </button>
+              <input type="radio" key={item.id} name="nav" id={item.id} />
             ))}
+            <nav>
+              <ul>
+                {statusList.map((item) => (
+                  <li
+                    key={item.value}
+                    onClick={() => onStatusClick(item.value)}
+                  >
+                    <label for={item.id}>{item.name}</label>
+                  </li>
+                ))}
+              </ul>
+            </nav>
           </div>
         </div>
         <div className={styles['table-list']}>

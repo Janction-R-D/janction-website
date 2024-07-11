@@ -1,3 +1,25 @@
+:global {
+  #nav-show-all:checked ~ nav::after {
+    transform: translateX(0);
+  }
+
+  #nav-runing:checked ~ nav::after {
+    transform: translateX(6.25vw);
+  }
+
+  #nav-completed:checked ~ nav::after {
+    transform: translateX(12.5vw);
+  }
+
+  #nav-failed:checked ~ nav::after {
+    transform: translateX(18.75vw);
+  }
+
+  #nav-destroyed:checked ~ nav::after {
+    transform: translateX(25vw);
+  }
+}
+
 .explore-overview-container {
   width: 100%;
 
@@ -406,15 +428,15 @@
 
 .explore-nodes-container {
   .slogan {
-    margin-top: 198px;
+    margin-top: 10.313vw;
 
     h1 {
       width: 100%;
       font-family: 'Poppins';
       font-style: normal;
       font-weight: 600;
-      font-size: 90px;
-      line-height: 135px;
+      font-size: 4.688vw;
+      line-height: 7.031vw;
       text-align: center;
       background: linear-gradient(94.4deg, #ffe4fb 21.72%, #dd5bcc 79.62%);
       -webkit-background-clip: text;
@@ -426,32 +448,32 @@
 
   .node-runing {
     width: 100%;
-    margin-top: 240px;
+    margin-top: 12.5vw;
 
     h1 {
       font-family: 'Poppins';
       font-style: normal;
       font-weight: 700;
-      font-size: 52px;
-      line-height: 78px;
+      font-size: 2.708vw;
+      line-height: 4.063vw;
       text-align: center;
       text-transform: uppercase;
       color: #ffffff;
     }
 
     .divider {
-      width: 1306px;
-      height: 72px;
-      margin: 54px auto 0;
+      width: 68.021vw;
+      height: 3.75vw;
+      margin: 2.813vw auto 0;
       background-image: url('../../assets/images/explore/divider.png');
       background-size: 100% 100%;
     }
 
     .statistic-info {
-      width: 1690px;
-      height: 200px;
-      padding: 28px 0;
-      margin: 110px auto 0;
+      width: 88.021vw;
+      height: 10.417vw;
+      padding: 1.458vw 0;
+      margin: 5.729vw auto 0;
       background-image: url('../../assets/images/explore/nodes_statistic_bg.png');
       background-size: 100% 100%;
       position: relative;
@@ -462,9 +484,9 @@
         content: '';
         display: block;
         position: absolute;
-        width: 271px;
+        width: 14.115vw;
         height: 100%;
-        left: 0;
+        left: -1px;
         top: 0;
         z-index: 2;
         background: linear-gradient(90deg, #000000 0%, rgba(0, 0, 0, 0) 100%);
@@ -472,7 +494,7 @@
 
       &::after {
         left: auto;
-        right: 0;
+        right: -1px;
         background: linear-gradient(90deg, #000000 0%, rgba(0, 0, 0, 0) 100%);
         transform: matrix(-1, 0, 0, 1, 0, 0);
       }
@@ -481,8 +503,8 @@
         position: absolute;
         display: block;
         bottom: 0;
-        width: 424.58px;
-        height: 133.57px;
+        width: 22.114vw;
+        height: 6.957vw;
         bottom: 0;
         left: 50%;
         transform: translateX(-50%);
@@ -493,7 +515,56 @@
         flex-direction: column-reverse;
 
         img {
-          width: 401px;
+          width: 20.885vw;
+        }
+      }
+
+      > div:not(.highlight) {
+        position: absolute;
+        right: 0;
+        top: 1.458vw;
+        opacity: 0;
+        /* 执行动画:动画名称 时长 线性的 无限次播放 */
+        animation: animate 25s linear infinite;
+        /* 这里我们需要给每一个卡片设置一个不同的动画延迟时间 */
+        /* 用到自定义属性,我们设置一个自定义属性--d */
+        /* 通过var函数调用自定义属性--d,计算出动画延迟时间 */
+        animation-delay: calc(5s * var(--d));
+      }
+
+      @keyframes animate {
+        0% {
+          opacity: 0;
+          right: 0;
+          transform: translateX(50%) scale(0.5);
+        }
+
+        5%,
+        20% {
+          opacity: 0.4;
+          right: 0;
+          transform: translateX(50%) scale(0.7);
+        }
+
+        25%,
+        40% {
+          opacity: 1;
+          right: 50%;
+          transform: translateX(50%) scale(1);
+        }
+
+        45%,
+        60% {
+          opacity: 0.4;
+          right: 100%;
+          transform: translateX(50%) scale(0.7);
+        }
+
+        65%,
+        100% {
+          opacity: 0;
+          right: 100%;
+          transform: translateX(50%) scale(0.5);
         }
       }
 
@@ -502,19 +573,17 @@
           display: flex;
           flex-direction: column;
           align-items: center;
-          position: absolute;
-          top: 28px;
           z-index: 1;
 
           .ant-statistic-title {
             font-family: 'Poppins';
             font-style: normal;
             font-weight: 600;
-            font-size: 24px;
-            line-height: 27px;
-            letter-spacing: 0.669248px;
+            font-size: 1.25vw;
+            line-height: 1.406vw;
+            letter-spacing: 0.035vw;
             color: #ffffff;
-            margin-bottom: 24px;
+            margin-bottom: 1.25vw;
           }
 
           .ant-statistic-content {
@@ -522,7 +591,7 @@
               font-family: 'Poppins';
               font-style: normal;
               font-weight: 600;
-              font-size: 70px;
+              font-size: 3.646vw;
               text-align: center;
               background: linear-gradient(
                 94.4deg,
@@ -540,35 +609,20 @@
             }
           }
         }
-
-        .ant-statistic:first-child {
-          left: 0;
-          transform: translateX(-50%);
-        }
-
-        .ant-statistic:nth-child(2) {
-          left: 50%;
-          transform: translateX(-50%);
-        }
-
-        .ant-statistic:nth-child(3) {
-          right: 0;
-          transform: translateX(50%);
-        }
       }
     }
   }
 
   .system-infomation {
-    width: 1448px;
-    margin: 220px auto 0;
+    width: 75.417vw;
+    margin: 11.458vw auto 0;
 
     h1 {
       font-family: 'Poppins';
       font-style: normal;
       font-weight: 700;
-      font-size: 52px;
-      line-height: 78px;
+      font-size: 2.708vw;
+      line-height: 4.063vw;
       text-align: center;
       text-transform: uppercase;
       color: #ffffff;
@@ -576,16 +630,16 @@
 
     .echarts-container {
       width: 100%;
-      margin-top: 65px;
-      height: 459px;
+      margin-top: 3.385vw;
+      height: 23.906vw;
       background-image: url('../../assets/images/explore/echarts_bg.png');
       background-size: 100% 100%;
     }
   }
 
   .completed-list {
-    margin: 225px auto 0;
-    width: 1448px;
+    margin: 11.719vw auto 0;
+    width: 75.417vw;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -597,45 +651,68 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 36px 24px 45px;
+      padding: 1.875vw 1.25vw 2.344vw;
 
       .status {
-        display: flex;
-        align-items: flex-start;
-        height: 40px;
-        overflow: hidden;
-        border-radius: 10px;
-        background: rgba(249, 250, 251, 0.15);
-
-        button {
-          height: 100%;
-          min-width: 120px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          flex-shrink: 0;
-          border: none;
-          outline: none;
-          font-family: 'Poppins';
-          font-style: normal;
-          font-weight: 500;
-          font-size: 16px;
-          line-height: 24px;
-          color: #ffffff;
-          background: transparent;
-          cursor: pointer;
-          transition: all 0.3s;
+        input[type='radio'] {
+          display: none;
         }
 
-        button.active {
-          background: linear-gradient(
-            134.67deg,
-            #ff91f1 36.84%,
-            #ff6bec 64.06%,
-            #ef46d9 180.15%
-          );
-          box-shadow: inset 0px 6px 12px rgba(255, 255, 255, 0.25);
-          transition: all 0.3s;
+        nav {
+          display: flex;
+          align-items: flex-start;
+          height: 2.083vw;
+          overflow: auto;
+          border-radius: 0.521vw;
+          background: rgba(249, 250, 251, 0.15);
+          position: relative;
+
+          &::after {
+            content: '';
+            display: block;
+            width: 6.25vw;
+            height: 2.083vw;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: linear-gradient(
+              134.67deg,
+              #ff91f1 36.84%,
+              #ff6bec 64.06%,
+              #ef46d9 180.15%
+            );
+            box-shadow: inset 0vw 0.313vw 0.625vw rgba(255, 255, 255, 0.25);
+            transition: 0.5s all cubic-bezier(0.42, 0, 0.68, 1.35);
+          }
+
+          ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            height: 2.083vw;
+            position: relative;
+            z-index: 10;
+            cursor: pointer;
+
+            li {
+              width: 6.25vw;
+              text-align: center;
+              color: #ffffff;
+              font-family: 'Poppins';
+              font-style: normal;
+              font-weight: 500;
+              font-size: 0.833vw;
+              line-height: 1.25vw;
+              color: #ffffff;
+              background: transparent;
+
+              label {
+                cursor: pointer;
+              }
+            }
+          }
         }
       }
     }
@@ -652,7 +729,7 @@
             font-family: 'Poppins';
             font-style: normal;
             font-weight: 500;
-            font-size: 18px;
+            font-size: 0.938vw;
             line-height: 120%;
             color: #ffffff;
 
@@ -661,7 +738,7 @@
               font-family: 'Poppins';
               font-style: normal;
               font-weight: 600;
-              font-size: 20px;
+              font-size: 1.042vw;
               color: rgba(255, 255, 255, 0.8);
 
               &::before {
@@ -673,12 +750,12 @@
             .ant-table-tbody > tr > td,
             .ant-table tfoot > tr > th,
             .ant-table tfoot > tr > td {
-              padding: 20px 42px;
-              border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+              padding: 1.042vw 2.188vw;
+              border-bottom: 0.052vw solid rgba(255, 255, 255, 0.04);
             }
 
             .ant-table-thead > tr > th {
-              border-top: 1px solid rgba(255, 255, 255, 0.04);
+              border-top: 0.052vw solid rgba(255, 255, 255, 0.04);
             }
 
             .ant-table-cell-row-hover {
@@ -693,10 +770,10 @@
           .ant-pagination-prev,
           .ant-pagination-next,
           .ant-pagination-item {
-            width: 48px;
-            height: 48px;
+            width: 2.5vw;
+            height: 2.5vw;
             background: #252626;
-            border-radius: 6px;
+            border-radius: 0.313vw;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -707,7 +784,7 @@
             .ant-pagination-item-link {
               color: rgba(255, 255, 255, 0.64);
               border: none;
-              font-size: 15px;
+              font-size: 0.781vw;
             }
           }
 
@@ -717,11 +794,11 @@
             a {
               font-family: 'Poppins';
               font-style: normal;
-              font-size: 21px;
-              line-height: 33px;
+              font-size: 1.094vw;
+              line-height: 1.719vw;
               font-weight: 400;
               color: #ffffff;
-              font-weight: 700px;
+              font-weight: 36.458vw;
             }
 
             &:hover {
@@ -736,15 +813,15 @@
               #ff6bec 64.06%,
               #ef46d9 180.15%
             );
-            box-shadow: 0px 6px 49.2px rgba(255, 229, 0, 0.25),
-              inset 0px 6px 12px rgba(255, 255, 255, 0.25);
+            box-shadow: 0vw 0.313vw 2.563vw rgba(255, 229, 0, 0.25),
+              inset 0vw 0.313vw 0.625vw rgba(255, 255, 255, 0.25);
 
             a {
               font-family: 'Poppins';
               font-style: normal;
               font-weight: 500;
-              font-size: 21px;
-              line-height: 33px;
+              font-size: 1.094vw;
+              line-height: 1.719vw;
               color: #333333;
             }
           }
@@ -1171,8 +1248,8 @@
 
   .explore-nodes-container {
     .slogan {
-      margin-top: 41px;
-      height: 204px;
+      margin-top: 10.933vw;
+      height: 54.4vw;
       width: 100%;
       display: flex;
       align-items: center;
@@ -1182,9 +1259,9 @@
 
       h1 {
         font-family: Poppins;
-        font-size: 32px;
+        font-size: 8.533vw;
         font-weight: 600;
-        line-height: 40px;
+        line-height: 10.667vw;
         text-align: center;
         background: linear-gradient(94.08deg, #ffffff 50.47%, #dd5ccc 93.77%);
         -webkit-background-clip: text;
@@ -1195,62 +1272,62 @@
     }
 
     .node-runing {
-      margin-top: 10px;
+      margin-top: 2.667vw;
 
       h1 {
         font-family: 'Poppins';
         font-style: normal;
         font-weight: 500;
-        font-size: 24px;
-        line-height: 36px;
+        font-size: 6.4vw;
+        line-height: 9.6vw;
         color: #ffffff;
       }
 
       .divider {
-        margin-top: 16px;
-        width: 335px;
-        height: 20px;
+        margin-top: 4.267vw;
+        width: 89.333vw;
+        height: 5.333vw;
       }
 
       .statistic-info {
-        margin-top: 24px;
-        width: 335px;
-        height: 84px;
-        padding: 16px 0;
+        margin-top: 6.4vw;
+        width: 89.333vw;
+        height: 22.4vw;
+        padding: 4.267vw 0;
 
         &::after,
         &::before {
-          width: 70px;
+          width: 18.667vw;
         }
 
         .highlight {
-          width: 98px;
-          height: 69px;
+          width: 26.133vw;
+          height: 18.4vw;
 
           img {
-            width: 92px;
+            width: 24.533vw;
           }
         }
 
         :global {
           .ant-statistic {
-            top: 16px;
+            top: 4.267vw;
 
             .ant-statistic-title {
               font-family: Poppins;
-              font-size: 12px;
+              font-size: 3.2vw;
               font-weight: 600;
-              line-height: 12px;
-              letter-spacing: 0.1548328846693039px;
-              margin-bottom: 10px;
+              line-height: 3.2vw;
+              letter-spacing: 0.041vw;
+              margin-bottom: 2.667vw;
             }
 
             .ant-statistic-content {
               .ant-statistic-content-value {
                 font-family: Poppins;
-                font-size: 20px;
+                font-size: 5.333vw;
                 font-weight: 600;
-                line-height: 30px;
+                line-height: 8vw;
               }
             }
           }
@@ -1259,59 +1336,59 @@
     }
 
     .system-infomation {
-      width: 335px;
-      margin: 80px auto 0;
+      width: 89.333vw;
+      margin: 21.333vw auto 0;
 
       h1 {
         font-family: 'Poppins';
         font-style: normal;
         font-weight: 500;
-        font-size: 24px;
-        line-height: 36px;
+        font-size: 6.4vw;
+        line-height: 9.6vw;
         color: #ffffff;
       }
 
       .echarts-container {
-        margin-top: 25px;
+        margin-top: 6.667vw;
         width: 100%;
-        height: 223px;
+        height: 59.467vw;
         background-image: url('../../assets/images/explore/echarts_bg.png');
         background-size: 100% 100%;
       }
     }
 
     .completed-list {
-      margin: 79px auto 0;
-      width: 335px;
-      height: 398px;
+      margin: 21.067vw auto 0;
+      width: 89.333vw;
+      height: 106.133vw;
       background-image: url('../../assets/images/explore/complete_list_android_bg.png');
       background-size: 100% 100%;
-      padding: 16px;
+      padding: 4.267vw;
 
       .filter {
         width: 100%;
         flex-direction: column;
         justify-content: flex-start;
         padding: 0;
-        gap: 16px;
+        gap: 4.267vw;
 
         .filter-search {
           width: 100%;
-          height: 32px;
-          border-radius: 50px;
+          height: 8.533vw;
+          border-radius: 13.333vw;
           font-family: Montserrat;
-          font-size: 11px;
+          font-size: 2.933vw;
           font-weight: 500;
-          line-height: 11px;
+          line-height: 2.933vw;
           text-align: left;
-          padding-left: 10px;
+          padding-left: 2.667vw;
 
           :global {
             .ant-input-prefix {
-              margin-right: 6px;
+              margin-right: 1.6vw;
 
               i {
-                font-size: 16px !important;
+                font-size: 4.267vw !important;
               }
             }
           }
@@ -1319,26 +1396,39 @@
 
         .status {
           width: 100%;
-          height: 32px;
-          overflow: auto;
-          border-radius: 6px;
-          background: rgba(249, 250, 251, 0.15);
 
-          button {
-            height: 100%;
-            min-width: 90px;
-            font-family: Inter;
-            font-size: 14px;
-            font-weight: 700;
-            line-height: 24px;
-            text-align: left;
+          nav {
+            height: 8.533vw;
+            border-radius: 1.6vw;
+
+            &::after {
+              width: 24vw;
+              height: 8.533vw;
+              background: linear-gradient(
+                134.67deg,
+                #ff91f1 36.84%,
+                #ff6bec 64.06%,
+                #ef46d9 180.15%
+              );
+              box-shadow: inset 0vw 0.313vw 0.625vw rgba(255, 255, 255, 0.25);
+            }
+
+            ul {
+              height: 8.533vw;
+
+              li {
+                width: 24vw;
+                font-size: 3.733vw;
+                line-height: 6.4vw;
+              }
+            }
           }
         }
       }
 
       .table-list {
         width: 100%;
-        margin-top: 22px;
+        margin-top: 5.867vw;
 
         :global {
           .ant-table-wrapper {
@@ -1349,17 +1439,17 @@
         .android-list {
           display: flex;
           flex-direction: column;
-          gap: 10px;
-          height: 270px;
+          gap: 2.667vw;
+          height: 72vw;
           overflow: auto;
           width: 100%;
 
           li {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            border-bottom: 0.267vw solid rgba(255, 255, 255, 0.04);
             display: flex;
             flex-direction: column;
-            gap: 6px;
-            padding-bottom: 12px;
+            gap: 1.6vw;
+            padding-bottom: 3.2vw;
             flex-wrap: nowrap;
             width: 100%;
 
@@ -1374,8 +1464,8 @@
                 font-family: 'Poppins';
                 font-style: normal;
                 font-weight: 400;
-                font-size: 14px;
-                line-height: 17px;
+                font-size: 3.733vw;
+                line-height: 4.533vw;
                 color: rgba(255, 255, 255, 0.64);
               }
 
@@ -1387,8 +1477,8 @@
                 font-family: 'Poppins';
                 font-style: normal;
                 font-weight: 400;
-                font-size: 14px;
-                line-height: 17px;
+                font-size: 3.733vw;
+                line-height: 4.533vw;
                 color: #ffffff;
               }
             }
@@ -1492,6 +1582,28 @@
         padding-left: 0;
         border-radius: 0 0 1.333vw 0;
       }
+    }
+  }
+
+  :global {
+    #nav-show-all:checked ~ nav::after {
+      transform: translateX(0);
+    }
+
+    #nav-runing:checked ~ nav::after {
+      transform: translateX(24vw);
+    }
+
+    #nav-completed:checked ~ nav::after {
+      transform: translateX(48vw);
+    }
+
+    #nav-failed:checked ~ nav::after {
+      transform: translateX(72vw);
+    }
+
+    #nav-destroyed:checked ~ nav::after {
+      transform: translateX(96vw);
     }
   }
 }

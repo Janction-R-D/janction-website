@@ -2,28 +2,18 @@ import React, { useEffect, useRef, useState } from 'react';
 import ReactEcharts from 'echarts-for-react';
 
 const Pie = (props) => {
-  const data = [
-    { value: 800, name: 'A' },
-    { value: 635, name: 'B' },
-    { value: 580, name: 'C' },
-    { value: 484, name: 'D' },
-    { value: 300, name: 'E' },
-    { value: 200, name: 'F' },
-  ];
-  const defaultPalette = [
-    // '#51689b', '#ce5c5c', '#fbc357', '#8fbf8f', '#659d84', '#fb8e6a', '#c77288', '#786090', '#91c4c5', '#6890ba'
-    '#5470c6',
-    '#91cc75',
-    '#fac858',
-    '#ee6666',
-    '#73c0de',
-    '#3ba272',
-    '#fc8452',
-    '#9a60b4',
-    '#ea7ccc',
-  ];
+  const {
+    data = [
+      { value: 800, name: 'A' },
+      { value: 635, name: 'B' },
+      { value: 580, name: 'C' },
+      { value: 484, name: 'D' },
+    ],
+  } = props;
+  const defaultPalette = ['#DD5CCC', '#611FFC', '#00DFDF', '#00A3DF'];
   const radius = ['30%', '80%'];
   const pieOption = {
+    color: defaultPalette,
     series: [
       {
         type: 'pie',
