@@ -2,64 +2,36 @@ import styles from './index.less';
 import { useEffect, useState } from 'react';
 import Line from './components/Line';
 
+function extendArray(arr, len) {
+  if (arr.length === 0 || arr.length >= len) return arr.slice(0, len);
+
+  let result = arr.slice();
+  while (result.length < len) {
+    result.push(...arr.slice(0, len - result.length));
+  }
+  return result;
+}
+
 const Point = (props) => {
-  const [userCreditsList, setUserCreditsList] = useState([
-    {
-      userId: '1',
-      userName: '用户0x56ab0649',
-      creditsNum: 124,
-    },
-    {
-      userId: '2',
-      userName: '用户06ab0649',
-      creditsNum: 31,
-    },
-    {
-      userId: '3',
-      userName: '用户0x56ab06491212',
-      creditsNum: 43,
-    },
-    {
-      userId: '4',
-      userName: '用户0x56ab49',
-      creditsNum: 78,
-    },
-  ]);
+  const [userCreditsList, setUserCreditsList] = useState();
 
   useEffect(() => {
-    setInterval(() => {
-      const show = document.querySelector('li[data-show]');
-      const ready =
-        show.nextElementSibling ||
-        document.querySelector('li[data-carousel]:first-child');
-      const next =
-        ready.nextElementSibling ||
-        document.querySelector('li[data-carousel]:first-child');
-      const up = document.querySelector('li[data-up]');
-      if (up) {
-        up.removeAttribute('data-up');
-      }
-      show.removeAttribute('data-show');
-      show.setAttribute('data-up', '');
-      ready.removeAttribute('data-ready', '');
-      ready.setAttribute('data-show', '');
-      next.setAttribute('data-ready', '');
-    }, [5000]);
+    const _userCreditsList = [
+      {
+        userId: '1',
+        userName: '用户0x56ab0649',
+        creditsNum: 124,
+      },
+    ];
+    const arr = extendArray(_userCreditsList, 5);
+    setUserCreditsList(arr);
   }, []);
 
   const renderUserCreditsInfo = () => {
     return (
       <ul className={styles['user-credits-info']}>
-        {userCreditsList.map((item, index) => (
-          <li
-            key={item.userId}
-            data-carousel
-            {...(index == 0
-              ? { 'data-show': '' }
-              : index == 1
-              ? { 'data-ready': '' }
-              : {})}
-          >
+        {(userCreditsList || []).map((item, index) => (
+          <li key={`${item.userId}${index}`} style={{ '--d': index - 2 }}>
             <i></i>
             <span>{`${item.userName}获得${item.creditsNum}积分`}</span>
           </li>

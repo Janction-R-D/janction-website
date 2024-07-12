@@ -234,72 +234,6 @@
       height: 100%;
       position: absolute;
 
-      // table {
-      //   width: 978px;
-      //   background: #333333;
-      //   border-radius: 10px;
-      //   border-top: 1px solid #4d4d4d;
-      //   border-left: 1px solid #4d4d4d;
-      //   overflow: hidden;
-
-      //   thead {
-      //     width: 100%;
-
-      //     th {
-      //       width: 100%;
-      //       display: flex;
-
-      //       td {
-      //         flex: 1;
-      //         height: 58px;
-      //         line-height: 58px;
-      //         text-align: center;
-      //         font-size: 20px;
-      //         font-weight: 400;
-      //         border-bottom: 1px solid #4d4d4d;
-
-      //         &:not(:last-child) {
-      //           border-right: 1px solid #4d4d4d;
-      //         }
-      //       }
-      //     }
-      //   }
-
-      //   tbody {
-      //     width: 100%;
-
-      //     tr {
-      //       width: 100%;
-      //       display: flex;
-
-      //       td {
-      //         flex: 1;
-      //         height: 58px;
-      //         line-height: 58px;
-      //         text-align: center;
-      //         font-size: 16px;
-
-      //         &:not(:last-child) {
-      //           border-right: 1px solid #4d4d4d;
-      //         }
-      //       }
-
-      //       &:not(:last-child) {
-      //         td {
-      //           border-bottom: 1px solid #4d4d4d;
-      //         }
-      //       }
-      //     }
-      //   }
-      // }
-
-      // img {
-      //   position: relative;
-      //   top: -27%;
-      //   display: block;
-      //   width: 100%;
-      // }
-
       .video-container {
         width: 100%;
         height: 100%;
@@ -839,66 +773,72 @@
   padding-bottom: 5.729vw;
 
   .user-credits-info {
+    position: relative;
     width: 58.125vw;
+    min-height: 4.74vw;
     display: flex;
     align-items: center;
     flex-direction: column;
-    height: 4.74vw;
-    overflow: hidden;
-    position: relative;
     margin-top: 2.083vw;
+    overflow: hidden;
 
     li {
-      position: absolute;
-      top: 100%;
-      height: 3.385vw;
-      display: none;
+      height: 1.875vw;
+      display: flex;
       align-items: center;
       gap: 0.313vw;
+      position: absolute;
       font-family: 'Poppins';
       font-style: normal;
       font-weight: 500;
       line-height: 3.385vw;
       color: #ffffff;
-      transition: all 0.5s;
-
-      i {
-        background: url('../../assets/images/explore/avatar.png') no-repeat;
-        background-size: 100% 100%;
-        border-radius: 50%;
-      }
-    }
-
-    li[data-ready] {
-      font-size: 0.729vw;
-      opacity: 0.2;
-      display: flex;
-      transform: translateY(-90%);
-      transition: all 0.5s;
-
-      i {
-        width: 1.667vw;
-        height: 1.667vw;
-      }
-    }
-
-    li[data-show] {
-      font-size: 0.833vw;
-      opacity: 1;
-      display: flex;
-      transform: translateY(-130%);
-      transition: all 0.5s;
+      opacity: 0;
+      animation: animate 25s linear infinite;
+      animation-delay: calc(5s * var(--d));
 
       i {
         width: 1.875vw;
         height: 1.875vw;
+        background: url('../../assets/images/explore/avatar.png') no-repeat;
+        background-size: 100% 100%;
+        border-radius: 50%;
       }
-    }
 
-    li[data-up] {
-      transform: translateY(-200%);
-      opacity: 0;
-      transition: all 0.5s;
+      @keyframes animate {
+        0% {
+          opacity: 0;
+          z-index: 1;
+          transform: translateY(100%) scale(0.5);
+        }
+
+        5%,
+        20% {
+          opacity: 0.4;
+          z-index: 2;
+          transform: translateY(100%) scale(0.7);
+        }
+
+        25%,
+        40% {
+          opacity: 1;
+          z-index: 3;
+          transform: translateY(0%) scale(1);
+        }
+
+        45%,
+        60% {
+          opacity: 0.4;
+          z-index: 2;
+          transform: translateY(-100%) scale(0.7);
+        }
+
+        65%,
+        100% {
+          z-index: 1;
+          transform: translateY(-100%) scale(0.5);
+        }
+      }
     }
   }
 
@@ -1508,27 +1448,13 @@
 
         li {
           font-size: 2.667vw;
-          height: 5.333vw;
+          height: 3.733vw;
           gap: 1.6vw;
           line-height: 12.694px;
 
           i {
             width: 3.733vw;
             height: 3.733vw;
-          }
-        }
-
-        li[data-show] {
-          transform: translateY(-145%);
-        }
-
-        li:first-child {
-          font-size: 2.667vw;
-          opacity: 1;
-
-          i {
-            width: 4.267vw;
-            height: 4.267vw;
           }
         }
       }

@@ -104,7 +104,6 @@ const data = [
   },
 ];
 const Nodes = (props) => {
-  const [active, setActive] = useState(0);
   const [list, setList] = useState();
   const [query, setQuery] = useState({ size: 10, current: 1 });
   const [total, setTotal] = useState(0);
@@ -116,13 +115,14 @@ const Nodes = (props) => {
 
   const getList = async (params = {}) => {
     const _params = { ...query, ...params };
+    // const lsit = await fetchList(_params)
     setList(data);
     setQuery(_params);
     setTotal(100);
   };
 
-  const onStatusClick = (Status) => {
-    setActive(Status);
+  const onStatusClick = (status) => {
+    getList({ status });
   };
 
   const columns = [
