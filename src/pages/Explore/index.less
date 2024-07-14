@@ -459,14 +459,14 @@
         top: 1.458vw;
         opacity: 0;
         /* 执行动画:动画名称 时长 线性的 无限次播放 */
-        animation: animate 25s linear infinite;
+        animation: acrossAnimate 25s linear infinite;
         /* 这里我们需要给每一个卡片设置一个不同的动画延迟时间 */
         /* 用到自定义属性,我们设置一个自定义属性--d */
         /* 通过var函数调用自定义属性--d,计算出动画延迟时间 */
         animation-delay: calc(5s * var(--d));
       }
 
-      @keyframes animate {
+      @keyframes acrossAnimate {
         0% {
           opacity: 0;
           right: 0;
@@ -794,7 +794,7 @@
       line-height: 3.385vw;
       color: #ffffff;
       opacity: 0;
-      animation: animate 25s linear infinite;
+      animation: verticalAnimate 25s linear infinite;
       animation-delay: calc(5s * var(--d));
 
       i {
@@ -805,7 +805,7 @@
         border-radius: 50%;
       }
 
-      @keyframes animate {
+      @keyframes verticalAnimate {
         0% {
           opacity: 0;
           z-index: 1;
