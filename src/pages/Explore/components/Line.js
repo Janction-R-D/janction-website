@@ -32,7 +32,7 @@ const Line = (props) => {
       top: '10%',
       left,
       right: '3%',
-      bottom: '4%',
+      bottom: '9%',
       containLabel: true,
     },
     xAxis: {
