@@ -10,8 +10,7 @@ export default (props) => {
   // Monitor active exit
   useAccountEffect({
     onDisconnect() {
-      storage.remove('userAccount');
-      storage.remove('token');
+      storage.clear();
       setInitialState({
         ...initialState,
         userAccount: null,

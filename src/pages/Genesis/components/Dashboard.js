@@ -56,8 +56,7 @@ const Dashboard = (props) => {
   };
 
   const handleFetchNodeInfos = async (nodeType) => {
-    const token = storage.get('token');
-    const _nodeInfos = await fetchNodeInfos(token, {
+    const _nodeInfos = await fetchNodeInfos({
       wallet_address: address,
       node_type: nodeType,
     });
@@ -65,12 +64,10 @@ const Dashboard = (props) => {
   };
 
   const handleFetchNodeLogs = async (nodeType) => {
-    const token = storage.get('token');
-    const nodeLogs = await fetchNodeLogs(token, {
+    const nodeLogs = await fetchNodeLogs({
       wallet_address: address,
       node_type: nodeType,
     });
-    console.log('nodeLogs:', nodeLogs);
     setNodeLogs(nodeLogs);
   };
 

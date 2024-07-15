@@ -1,13 +1,21 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import storage from '@/utils/storage';
 import { message } from 'antd';
+import { logout } from './utils/lang';
 
 /**
  * Request interceptor
  */
 const authHeaderInterceptor = (url, options) => {
   const ACCESS_TOKEN = storage.get('token');
-  const authHeader = { Authorization: `Bearer ${ACCESS_TOKEN}` };
+  let authHeader = {};
+  if (options?.loginAuth) {
+    if (!ACCESS_TOKEN) {
+      logout();
+    } else {
+      authHeader = { Authorization: `Bearer ${ACCESS_TOKEN}` };
+    }
+  }
   options.headers = {
     ...options.headers,
     ...authHeader,

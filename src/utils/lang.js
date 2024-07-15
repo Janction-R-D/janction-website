@@ -1,4 +1,5 @@
 import storage from '@/utils/storage';
+import { history } from 'umi';
 
 export const empty = (value) => {
   return value === undefined || value === null || value === '';
@@ -9,7 +10,7 @@ export const empty = (value) => {
  */
 export const logout = () => {
   storage.clear();
-  window.location.replace('/login');
+  history.push(`/login?from=${history.location.pathname}`);
 };
 
 export const showValue = (value, fixed) => {

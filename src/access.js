@@ -1,5 +1,7 @@
+import storage from '@/utils/storage';
+
 export default function (initialState) {
   return {
-    isLogin: !!initialState?.userAccount,
+    isLogin: storage.get('token'),
   };
 }

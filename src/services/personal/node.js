@@ -1,7 +1,6 @@
-import axios from 'axios';
+import { request } from 'umi';
 
-const baseUrl = 'http://43.131.240.184/api/v1/node';
-// const baseUrl = 'http://localhost:8767/api/v1/node';
+const baseUrl = '/api/v1/node';
 
 export const NodeType = {
   MacOS: 'macos',
@@ -59,18 +58,16 @@ export const MappingNodeStatus = {
  * @returns {Promise<NodeInfo>} A promise that resolves to the response data.
  * @throws {Error} If the request fails or returns an error response.
  */
-export const fetchNodeInfo = async (token, params) => {
+export const fetchNodeInfo = async (params) => {
   try {
-    const response = await axios.get(`${baseUrl}/info`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+    const response = await request(`${baseUrl}/info`, {
       params,
+      loginAuth: true,
     });
-    if (response.data.code === 1000) {
-      return response.data.data;
+    if (response.code === 1000) {
+      return response.data;
     } else {
-      throw new Error(response.data.msg);
+      throw new Error(response.msg);
     }
   } catch (error) {
     throw new Error(`FetchNodeInfo failed, ${error}`);
@@ -86,18 +83,16 @@ export const fetchNodeInfo = async (token, params) => {
  * @returns {Promise<[]NodeInfo>} A promise that resolves to the response data.
  * @throws {Error} If the request fails or returns an error response.
  */
-export const fetchNodeInfos = async (token, params) => {
+export const fetchNodeInfos = async (params) => {
   try {
-    const response = await axios.get(`${baseUrl}/infos`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+    const response = await request(`${baseUrl}/infos`, {
       params,
+      loginAuth: true,
     });
-    if (response.data.code === 1000) {
-      return response.data.data;
+    if (response.code === 1000) {
+      return response.data;
     } else {
-      throw new Error(response.data.msg);
+      throw new Error(response.msg);
     }
   } catch (error) {
     throw new Error(`FetchNodeInfos failed, ${error}`);
@@ -113,18 +108,16 @@ export const fetchNodeInfos = async (token, params) => {
  * @returns {Promise<NodeLog>} A promise that resolves to the response data.
  * @throws {Error} If the request fails or returns an error response.
  */
-export const fetchNodeLogs = async (token, params) => {
+export const fetchNodeLogs = async (params) => {
   try {
-    const response = await axios.get(`${baseUrl}/logs`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+    const response = await request(`${baseUrl}/logs`, {
       params,
+      loginAuth: true,
     });
-    if (response.data.code === 1000) {
-      return response.data.data;
+    if (response.code === 1000) {
+      return response.data;
     } else {
-      throw new Error(response.data.msg);
+      throw new Error(response.msg);
     }
   } catch (error) {
     throw new Error(`FetchNodeLogs failed, ${error}`);
@@ -136,14 +129,12 @@ export const fetchNodeLogs = async (token, params) => {
  * @returns {Promise<RespOnlineNodesCount>} - A promise that resolves to the response data.
  * @throws {Error} If the request fails or returns an error response.
  */
-export const fetchOnlineNodesCount = async (token) => {
+export const fetchOnlineNodesCount = async () => {
   try {
-    const response = await axios.get(`${baseUrl}/online_count`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+    const response = await request(`${baseUrl}/online_count`, {
+      loginAuth: true,
     });
-    return response.data.data;
+    return response.data;
   } catch (error) {
     throw new Error(`FetchOnlineNodesCount failed, ${error.message}`);
   }

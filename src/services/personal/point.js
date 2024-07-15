@@ -1,8 +1,6 @@
-import axios from 'axios';
+import { request } from 'umi';
 
-// const baseUrl = 'http://43.131.240.184:9767/api/v1';
-const baseUrl = 'http://43.131.240.184/api/point/v1';
-// const baseUrl = 'http://localhost:9767/api/v1';
+const baseUrl = '/api/point/v1/';
 
 /**
  * Represents point statistics for a wallet address.
@@ -39,10 +37,10 @@ const baseUrl = 'http://43.131.240.184/api/point/v1';
  */
 export const fetchPointStatistic = async (params) => {
   try {
-    const response = await axios.get(`${baseUrl}/point_statistic`, {
+    const response = await request(`${baseUrl}/point_statistic`, {
       params,
     });
-    return response.data.data;
+    return response.data;
   } catch (error) {
     throw new Error(`FetchPointStatistic failed, ${error.message}`);
   }
@@ -58,10 +56,10 @@ export const fetchPointStatistic = async (params) => {
  */
 export const fetchDailyPointStatistic = async (params) => {
   try {
-    const response = await axios.get(`${baseUrl}/daily_point_statistic`, {
+    const response = await request(`${baseUrl}/daily_point_statistic`, {
       params,
     });
-    return response.data.data;
+    return response.data;
   } catch (error) {
     throw new Error(`FetchDailyPointStatistic failed, ${error.message}`);
   }
@@ -77,11 +75,11 @@ export const fetchDailyPointStatistic = async (params) => {
  */
 export const fetchReportHistories = async (params) => {
   try {
-    const response = await axios.get(`${baseUrl}/report_history`, {
+    const response = await request(`${baseUrl}/report_history`, {
       params,
     });
-    return response.data.data;
+    return response.data;
   } catch (error) {
     throw new Error(`FetchReportHistories failed, ${error.message}`);
   }
-}
+};
