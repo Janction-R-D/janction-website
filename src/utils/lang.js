@@ -20,5 +20,7 @@ export const showValue = (value, fixed) => {
   if (isNaN(value)) {
     return value;
   }
-  return Number(value).toFixed(fixed);
+  const numStr = Number(value).toFixed(fixed);
+  if (Number(numStr) == 0) return 0;
+  return numStr;
 };

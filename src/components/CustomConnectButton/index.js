@@ -1,9 +1,12 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import styles from './index.less';
 import { useState } from 'react';
+import { useModel } from 'umi';
+import { showValue } from '../../utils/lang';
+import styles from './index.less';
 
 const CustomConnectButton = (props) => {
   const { afterClick } = props;
+  const { initialState, setInitialState } = useModel('@@initialState');
   const [userShow, setUserShow] = useState(false);
   return (
     <ConnectButton.Custom>
@@ -87,8 +90,8 @@ const CustomConnectButton = (props) => {
                       <i className="iconfont icon-down"></i>
                     </div>
                     <div className={styles['balance']}>
-                      <span>{account.displayBalance}</span>
-                      {/* <span>{account.balanceSymbol || 'ETH'}</span> */}
+                      <span>{showValue(account.balanceFormatted, 2)}</span>
+                      <span>{account.balanceSymbol || 'ETH'}</span>
                     </div>
                     <div
                       className={styles['user-info']}
@@ -113,8 +116,8 @@ const CustomConnectButton = (props) => {
                       style={{ display: userShow ? 'flex' : 'none' }}
                     >
                       <div className={styles['balance']}>
-                        <span>{account.displayBalance || 0}</span>
-                        {/* <span>{account.balanceSymbol || 'ETH'}</span> */}
+                        <span>{showValue(account.balanceFormatted, 2)}</span>
+                        <span>{account.balanceSymbol || 'ETH'}</span>
                       </div>
                       <div
                         className={styles['user-info']}
