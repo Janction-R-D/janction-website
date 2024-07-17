@@ -15,27 +15,15 @@
     align-items: center;
     justify-content: space-between;
 
-    div {
-      width: 2.084vw;
-      height: 2.084vw;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s;
-
+    .doc {
       i {
         font-size: 24px;
         transition: all 0.3s;
       }
 
       &:hover {
-        background: #fff;
-        transition: all 0.3s;
-
         i {
-          color: #333;
+          color: rgba(255, 255, 255, 0.5);
           transition: all 0.3s;
         }
       }
@@ -111,7 +99,6 @@
           height: 120px;
           padding: 12px;
           border-radius: 5px;
-          cursor: pointer;
           border: 1px solid transparent;
           background-image: url('../../assets/images/launch/bg_genesis.png');
           background-size: 100% 100%;
@@ -195,6 +182,15 @@
 @media (max-width: 1024px) {
   .socials-links {
     display: flex;
+  }
+
+  .launch-container {
+    header {
+      padding: 24px;
+    }
+    footer {
+      padding: 24px;
+    }
   }
 }
 

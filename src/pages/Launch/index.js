@@ -34,9 +34,9 @@ const Launch = (props) => {
               height="24"
             />
           </a>
-          <div>
+          <a className={styles['doc']}>
             <i className="iconfont icon-doc"></i>
-          </div>
+          </a>
         </header>
         <main>
           <section>
@@ -45,7 +45,11 @@ const Launch = (props) => {
               {routes.map((route) => (
                 <div
                   key={route.name}
-                  className={[styles['function'], styles[route.name]].join(' ')}
+                  className={[
+                    styles['function'],
+                    !!route.path && 'poi',
+                    styles[route.name],
+                  ].join(' ')}
                   onClick={() => {
                     if (route.children) return;
                     onRouteClick(route);
