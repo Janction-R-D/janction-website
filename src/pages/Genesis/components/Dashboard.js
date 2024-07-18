@@ -2,6 +2,7 @@ import styles from '../index.less';
 import { SYSTEM_LIST, SYSTEM_SELECT_LIST } from '@/constant';
 import AwardChart from './AwardChart';
 import JactionSelect from '@/components/JactionSelect';
+import JactionEmpty from '@/components/JactionEmpty';
 import { useEffect, useState, useMemo } from 'react';
 import storage from '@/utils/storage';
 import { formatThouNumber } from '@/utils/numeric';
@@ -254,40 +255,41 @@ const Dashboard = (props) => {
                   <li key={nodeInfo.node_id}>{renderNodeInfo(nodeInfo)}</li>
                 ))}
               </ul>
+              {!nodeInfos?.length && <JactionEmpty />}
             </section>
             <section className={styles['activity']}>
               <h2>Activity</h2>
               <ul>
-                {nodeLogs &&
-                  nodeLogs.map((nodeLog) => (
-                    <li>
-                      <span>{formatDateYMD(nodeLog.timestamp)}</span>
-                      <span
-                        title={nodeLog.action}
-                        className={['ell', styles['action']].join(' ')}
-                      >
-                        {nodeLog.action}
-                      </span>
-                    </li>
-                  ))}
+                {(nodeLogs || []).map((nodeLog) => (
+                  <li>
+                    <span>{formatDateYMD(nodeLog.timestamp)}</span>
+                    <span
+                      title={nodeLog.action}
+                      className={['ell', styles['action']].join(' ')}
+                    >
+                      {nodeLog.action}
+                    </span>
+                  </li>
+                ))}
               </ul>
+              {!nodeLogs?.length && <JactionEmpty />}
             </section>
             <section className={styles['history']}>
               <h2>History</h2>
               <ul>
-                {reportHistories &&
-                  reportHistories.map((reportHistory) => (
-                    <li>
-                      <span className={styles['date']}>
-                        {formatDateYMD(reportHistory.created_at)}
-                      </span>
-                      <span
-                        title={`${reportHistory.point} Points earned!`}
-                        className={['ell', styles['action']].join(' ')}
-                      >{`${reportHistory.point} Points earned!`}</span>
-                    </li>
-                  ))}
+                {(reportHistories || []).map((reportHistory) => (
+                  <li>
+                    <span className={styles['date']}>
+                      {formatDateYMD(reportHistory.created_at)}
+                    </span>
+                    <span
+                      title={`${reportHistory.point} Points earned!`}
+                      className={['ell', styles['action']].join(' ')}
+                    >{`${reportHistory.point} Points earned!`}</span>
+                  </li>
+                ))}
               </ul>
+              {!reportHistories?.length && <JactionEmpty />}
             </section>
           </div>
         </div>

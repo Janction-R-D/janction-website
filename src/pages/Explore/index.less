@@ -653,6 +653,7 @@
 
     .table-list {
       width: 100%;
+      padding: 0 0.208vw;
 
       :global {
         .ant-table-wrapper {
@@ -678,6 +679,13 @@
               &::before {
                 display: none;
               }
+            }
+
+            .ant-table-tbody
+              > .ant-table-placeholder
+              > .ant-table-cell
+              .ant-empty {
+              min-height: 34.635vw;
             }
 
             .ant-table-thead > tr > th,

@@ -1,8 +1,9 @@
 import styles from './index.less';
 import { useEffect, useRef, useState } from 'react';
-import { Statistic, Table, Pagination } from 'antd';
+import { Statistic, Table, Pagination, ConfigProvider } from 'antd';
 import SearchInput from '@/components/SeachInput';
 import Pie from './components/Pie';
+import JactionEmpty from '../../components/JactionEmpty';
 
 const statusList = [
   {
@@ -208,21 +209,23 @@ const Nodes = (props) => {
           </div>
         </div>
         <div className={styles['table-list']}>
-          <Table
-            columns={columns}
-            dataSource={list}
-            pagination={{
-              current: query?.current,
-              size: query?.size,
-              total,
-              showLessItems: true,
-              showSizeChanger: false,
-              position: ['bottomRight'],
-              onChange: (page) => {
-                getList({ current: page });
-              },
-            }}
-          ></Table>
+          <ConfigProvider renderEmpty={() => <JactionEmpty />}>
+            <Table
+              columns={columns}
+              dataSource={list}
+              pagination={{
+                current: query?.current,
+                size: query?.size,
+                total,
+                showLessItems: true,
+                showSizeChanger: false,
+                position: ['bottomRight'],
+                onChange: (page) => {
+                  getList({ current: page });
+                },
+              }}
+            ></Table>
+          </ConfigProvider>
           <ul className={styles['android-list']}>
             {(list || []).map((item) => (
               <li key={item.key}>
