@@ -9,7 +9,7 @@ import { fetchNonce, performLogin } from '@/services/auth';
 const expires = 60 * 60 * 24 * 1000;
 const Login = (props) => {
   const { openConnectModal } = useConnectModal();
-  const { data, signMessageAsync } = useSignMessage();
+  const { signMessageAsync } = useSignMessage();
   const { initialState, setInitialState } = useModel('@@initialState');
 
   useAccountEffect({
@@ -52,6 +52,7 @@ const Login = (props) => {
                 console.log({ param });
 
                 const token = await performLogin(param);
+                console.log({token})
                 setInitialState({
                   ...initialState,
                   userAccount,

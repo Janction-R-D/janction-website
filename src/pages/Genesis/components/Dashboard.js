@@ -56,11 +56,12 @@ const Dashboard = (props) => {
   };
 
   const handleFetchNodeInfos = async (nodeType) => {
-    const _nodeInfos = await fetchNodeInfos({
+    const nodeInfos = await fetchNodeInfos({
       wallet_address: address,
       node_type: nodeType,
     });
-    setNodeInfos(_nodeInfos);
+    console.log('nodeInfos:', nodeInfos);
+    setNodeInfos(nodeInfos);
   };
 
   const handleFetchNodeLogs = async (nodeType) => {
@@ -68,6 +69,7 @@ const Dashboard = (props) => {
       wallet_address: address,
       node_type: nodeType,
     });
+    console.log('nodeLogs:', nodeLogs);
     setNodeLogs(nodeLogs);
   };
 
@@ -107,17 +109,15 @@ const Dashboard = (props) => {
     const {
       node_type,
       node_status,
+      architecture_type,
       node_id,
       heartbeat_count,
-      deviceName,
-      arm,
-      cpu,
-      gpu,
+      exec_info,
     } = nodeInfo;
-    const isCpu = cpu;
-    const isGpu = gpu;
-    const mac = node_type == NodeType.MacOS;
-    const android = node_type == NodeType.Android;
+    const isCpu = exec_info.use_cpu === 1;
+    const isGpu = exec_info.use_gpu === 1;
+    const mac = node_type === NodeType.MacOS;
+    const android = node_type === NodeType.Android;
     const onlineText = MappingNodeStatus[node_status];
     const isOnline =
       node_status == NodeStatus.Running || node_status == NodeStatus.Available;
@@ -130,7 +130,7 @@ const Dashboard = (props) => {
           ></i>
         </div>
         <div>
-          <div className={styles['name']}>{showValue(deviceName)}</div>
+          <div className={styles['name']}>{showValue(node_id)}</div>
           <div className={styles['status']}>
             <div className={styles['system']}>
               {!(mac || android || isCpu) && (
@@ -138,7 +138,8 @@ const Dashboard = (props) => {
                   <i className={`iconfont icon-${node_type}`}></i>
                 </div>
               )}
-              <span>{gpu ? showValue(node_type) : showValue(arm)}</span>
+              {/* <span>{isGpu ? showValue(node_type) : showValue("arm")}</span> */}
+              <span>{showValue(architecture_type)}</span>
             </div>
             <div
               className={[styles['offline'], isOnline && styles['online']].join(
