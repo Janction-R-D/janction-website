@@ -1,6 +1,6 @@
 import { request } from 'umi';
 
-const baseUrl = '/api/point/v1/';
+const baseUrl = '/api/point/v1';
 
 /**
  * Represents point statistics for a wallet address.

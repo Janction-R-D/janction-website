@@ -1,6 +1,6 @@
 import { request } from 'umi';
 
-const baseUrl = 'http://127.0.0.1:8767/api/v1/node';
+const baseUrl = 'http://43.131.240.184/api/v1/node';
 
 export const NodeType = {
   MacOS: 'macos',
