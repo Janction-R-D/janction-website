@@ -5,6 +5,7 @@ import { MONTH } from '@/constant';
 import useScale from '../../../hooks/useScale';
 
 const Line = (props) => {
+  const { data } = props;
   const scale = useScale();
 
   const left = useMemo(() => {
@@ -38,7 +39,7 @@ const Line = (props) => {
     xAxis: {
       type: 'category',
       boundaryGap: false,
-      data: MONTH,
+      data: MONTH.map((item) => item.label),
       axisLabel: {
         fontFamily: 'Poppins',
         color: '#FFFFFF',
@@ -72,7 +73,7 @@ const Line = (props) => {
         name: 'Earnings',
         type: 'line',
         smooth: true,
-        data: [300, 280, 250, 260, 270, 300, 550, 500, 400, 390, 380, 390],
+        data,
         symbol: 'none',
         lineStyle: {
           width: 3,

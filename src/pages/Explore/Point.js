@@ -2,9 +2,13 @@ import styles from './index.less';
 import { useEffect, useState } from 'react';
 import Line from './components/Line';
 import {
+  fetchNetworkEarnings,
+  fetchTotalNetworkEarnings,
   fetchTotalPoints,
   fetchUserCreditsInfo,
 } from '../../services/explore/point';
+import numeral from 'numeral';
+import { MONTH } from '../../constant';
 
 function extendArray(arr, len) {
   if (arr.length === 0 || arr.length >= len) return arr.slice(0, len);
@@ -19,10 +23,14 @@ function extendArray(arr, len) {
 const Point = (props) => {
   const [userCreditsList, setUserCreditsList] = useState();
   const [totalPoints, setTotalPoints] = useState();
+  const [totalNetworkEarnings, setTotalNetworkEarnings] = useState();
+  const [networkEarnings, setNetworkEarnings] = useState([]);
 
   useEffect(() => {
     getUserCreditsInfo();
     getTotalPoints();
+    getTotalNetworkEarnings();
+    getNetworkEarnings();
   }, []);
 
   const getUserCreditsInfo = async () => {
@@ -34,6 +42,22 @@ const Point = (props) => {
   const getTotalPoints = async () => {
     const totalPoints = await fetchTotalPoints();
     setTotalPoints(totalPoints);
+  };
+
+  const getTotalNetworkEarnings = async () => {
+    const totalNetworkEarnings = await fetchTotalNetworkEarnings();
+    setTotalNetworkEarnings(totalNetworkEarnings);
+  };
+
+  const getNetworkEarnings = async () => {
+    const networkEarningsList = await fetchNetworkEarnings();
+    const networkEarnings = MONTH.map((item) => {
+      const res = networkEarningsList.find(
+        (earnItem) => earnItem.month == item.value,
+      );
+      return res?.earning || 0;
+    });
+    setNetworkEarnings(networkEarnings);
   };
 
   const renderUserCreditsInfo = () => {
@@ -60,7 +84,7 @@ const Point = (props) => {
       </div>
       <div className={styles['node-statistic']}>
         <div className={styles['statistic']}>
-          <h1>{totalPoints ? `${totalPoints} +` : '~'}</h1>
+          <h1>{totalPoints ? numeral(totalPoints).format('0,0 +') : '~'}</h1>
           <p>Points</p>
         </div>
         <div className={styles['label']}>Total Points</div>
@@ -70,11 +94,15 @@ const Point = (props) => {
           <i></i>
           <div className={styles['info']}>
             <h1>TOTAL NETWORK EARNINGS</h1>
-            <p>$ 1,060,463</p>
+            <p>
+              {totalNetworkEarnings
+                ? numeral(totalNetworkEarnings).format('$0,0.00')
+                : '~'}
+            </p>
           </div>
         </div>
         <div className={styles['chart-container']}>
-          <Line />
+          <Line data={networkEarnings} />
         </div>
       </div>
     </div>

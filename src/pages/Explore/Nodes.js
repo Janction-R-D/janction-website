@@ -4,6 +4,12 @@ import { Statistic, Table, Pagination, ConfigProvider } from 'antd';
 import SearchInput from '@/components/SeachInput';
 import Pie from './components/Pie';
 import JactionEmpty from '../../components/JactionEmpty';
+import {
+  fetchNodesList,
+  fetchRuningNodes,
+  fetchSystemInfo,
+} from '../../services/explore/nodes';
+import numeral from 'numeral';
 
 const statusList = [
   {
@@ -32,98 +38,44 @@ const statusList = [
     value: 4,
   },
 ];
-const data = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    chipOrGpu: 'Geforce Rtx 3060 ti',
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    chipOrGpu: 'Geforce Rtx 3060 ti',
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sydney No. 1 Lake Park',
-    chipOrGpu: 'Geforce Rtx 3060 ti',
-  },
-  {
-    key: '4',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sydney No. 1 Lake Park',
-    chipOrGpu: 'Geforce Rtx 3060 ti',
-  },
-  {
-    key: '5',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sydney No. 1 Lake Park',
-    chipOrGpu: 'Geforce Rtx 3060 ti',
-  },
-  {
-    key: '6',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sydney No. 1 Lake Park',
-    chipOrGpu: 'Geforce Rtx 3060 ti',
-  },
-  {
-    key: '7',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sydney No. 1 Lake Park',
-    chipOrGpu: 'Geforce Rtx 3060 ti',
-  },
-  {
-    key: '8',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sydney No. 1 Lake Park',
-    chipOrGpu: 'Geforce Rtx 3060 ti',
-  },
-  {
-    key: '9',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sydney No. 1 Lake Park',
-    chipOrGpu: 'Geforce Rtx 3060 ti',
-  },
-  {
-    key: '10',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sydney No. 1 Lake Park',
-    chipOrGpu: 'Geforce Rtx 3060 ti',
-  },
-];
+
 const Nodes = (props) => {
-  const [list, setList] = useState();
+  const swiperRef = useRef();
+  const [runingNodes, setRuningNodes] = useState();
+  const [systemInfo, setSystemInfo] = useState([]);
+  const [nodesList, setNodesList] = useState([]);
   const [query, setQuery] = useState({ size: 10, current: 1 });
   const [total, setTotal] = useState(0);
-  const swiperRef = useRef();
+  const [loading, setLoading] = useState();
 
   useEffect(() => {
-    getList();
+    getRuningNodes();
+    getSystemInfo();
+    getNodesList();
   }, []);
 
-  const getList = async (params = {}) => {
+  const getRuningNodes = async () => {
+    const runingNodes = await fetchRuningNodes();
+    setRuningNodes(runingNodes);
+  };
+
+  const getSystemInfo = async () => {
+    const systemInfo = await fetchSystemInfo();
+    setSystemInfo(systemInfo);
+  };
+
+  const getNodesList = async (params = {}) => {
+    setLoading(true);
     const _params = { ...query, ...params };
-    // const lsit = await fetchList(_params)
-    setList(data);
+    const { list, total } = await fetchNodesList(_params);
+    setNodesList(list);
     setQuery(_params);
-    setTotal(100);
+    setTotal(total);
+    setLoading(false);
   };
 
   const onStatusClick = (status) => {
-    getList({ status });
+    getNodesList({ status });
   };
 
   const columns = [
@@ -162,19 +114,38 @@ const Nodes = (props) => {
           className={['df jc_sb', styles['statistic-info']].join(' ')}
         >
           <div style={{ '--d': -3 }}>
-            <Statistic title="Live Nodes" value={112893} />
+            <Statistic
+              title="Live Nodes"
+              value={numeral(runingNodes?.liveNodes || 0).format('0,0')}
+            />
           </div>
           <div style={{ '--d': -2 }}>
-            <Statistic title="Total Compute Hours" value={112893} />
+            <Statistic
+              title="Total Compute Hours"
+              value={numeral(runingNodes?.totalComputerHours || 0).format(
+                '0,0',
+              )}
+            />
           </div>
           <div style={{ '--d': -1 }}>
-            <Statistic title="Total Nodes" value={112893} />
+            <Statistic
+              title="Total Nodes"
+              value={numeral(runingNodes?.totalNodes || 0).format('0,0')}
+            />
           </div>
           <div style={{ '--d': 0 }}>
-            <Statistic title="Live Nodes" value={112893} />
+            <Statistic
+              title="Live Nodes"
+              value={numeral(runingNodes?.liveNodes || 0).format('0,0')}
+            />
           </div>
           <div style={{ '--d': 1 }}>
-            <Statistic title="Total Compute Hours" value={112893} />
+            <Statistic
+              title="Total Compute Hours"
+              value={numeral(runingNodes?.totalComputerHours || 0).format(
+                '0,0',
+              )}
+            />
           </div>
           <div className={styles['highlight']}>
             <img src={require('../../assets/images/explore/highlight.png')} />
@@ -184,7 +155,7 @@ const Nodes = (props) => {
       <section className={styles['system-infomation']}>
         <h1>System Infomation</h1>
         <div className={styles['echarts-container']}>
-          <Pie />
+          {!!systemInfo?.length ? <Pie data={systemInfo} /> : <JactionEmpty />}
         </div>
       </section>
       <section className={styles['completed-list']}>
@@ -211,8 +182,9 @@ const Nodes = (props) => {
         <div className={styles['table-list']}>
           <ConfigProvider renderEmpty={() => <JactionEmpty />}>
             <Table
+              loading={loading}
               columns={columns}
-              dataSource={list}
+              dataSource={nodesList}
               pagination={{
                 current: query?.current,
                 size: query?.size,
@@ -221,13 +193,13 @@ const Nodes = (props) => {
                 showSizeChanger: false,
                 position: ['bottomRight'],
                 onChange: (page) => {
-                  getList({ current: page });
+                  getNodesList({ current: page });
                 },
               }}
             ></Table>
           </ConfigProvider>
           <ul className={styles['android-list']}>
-            {(list || []).map((item) => (
+            {(nodesList || []).map((item) => (
               <li key={item.key}>
                 <div>
                   <span className={styles['label']}>STATUS：</span>

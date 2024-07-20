@@ -2,14 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import ReactEcharts from 'echarts-for-react';
 
 const Pie = (props) => {
-  const {
-    data = [
-      { value: 800, name: 'A' },
-      { value: 635, name: 'B' },
-      { value: 580, name: 'C' },
-      { value: 484, name: 'D' },
-    ],
-  } = props;
+  const { data } = props;
+  const timerRef = useRef();
   const defaultPalette = ['#DD5CCC', '#611FFC', '#00DFDF', '#00A3DF'];
   const radius = ['30%', '80%'];
   const pieOption = {
@@ -111,7 +105,14 @@ const Pie = (props) => {
   const [currentOption, setCurrentOption] = useState(pieOption);
 
   useEffect(() => {
-    setInterval(function () {
+    if (!data?.length) {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
+      return;
+    }
+    timerRef.current = setInterval(function () {
       setCurrentOption((_currentOption) => {
         if (_currentOption == pieOption) {
           return parliamentOption;
@@ -119,7 +120,11 @@ const Pie = (props) => {
         return pieOption;
       });
     }, 2000);
-  }, []);
+    return () => {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    };
+  }, [data]);
 
   return (
     <div className="wp100 hp100">

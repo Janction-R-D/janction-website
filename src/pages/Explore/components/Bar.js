@@ -25,7 +25,7 @@ const Bar = (props) => {
     xAxis: {
       type: 'category',
       boundaryGap: false,
-      data: MONTH,
+      data: MONTH.map((item) => item.label),
       axisLabel: {
         color: '#92929D',
         fontSize: 17.79,
