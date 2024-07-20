@@ -1,82 +1,89 @@
 import { useConnectModal } from '@rainbow-me/rainbowkit';
-import { useModel, history } from 'umi';
+import { useModel, history, useAccess } from 'umi';
 import { SiweMessage } from 'siwe';
 import styles from './index.less';
-import { useAccountEffect, useSignMessage } from 'wagmi';
+import { useAccount, useAccountEffect, useSignMessage } from 'wagmi';
 import storage from '@/utils/storage';
 import { fetchNonce, performLogin } from '@/services/auth';
+import { useEffect, useState } from 'react';
 
 const expires = 60 * 60 * 24 * 1000;
 const Login = (props) => {
+  const { isLogin } = useAccess();
   const { openConnectModal } = useConnectModal();
   const { signMessageAsync } = useSignMessage();
   const { initialState, setInitialState } = useModel('@@initialState');
+  const { address, chainId } = useAccount();
+  const [buttonText, setButtonText] = useState('');
 
-  useAccountEffect({
-    onConnect({ address, chainId }) {
-      const userAccount = {
-        address,
-        chainId,
-      };
+  useEffect(() => {
+    if (address) {
+      setButtonText('Sign in with Ethereum');
+    } else {
+      setButtonText('Connect Wallet');
+    }
+  }, [address]);
 
-      const signAndLogin = async () => {
-        try {
-          const nonce = await fetchNonce();
+  useEffect(() => {
+    if (isLogin) {
+      const from = history.location.query?.from || '/';
+      history.push(from);
+    }
+  }, [isLogin]);
 
-          console.log('nonce getted:', nonce);
+  const handleClickButton = () => {
+    if (address) {
+      signAndLogin({ address, chainId });
+    } else {
+      openConnectModal();
+    }
+  };
 
-          const siweMessage = new SiweMessage({
-            domain: window.location.host,
-            address,
-            statement: 'Sign in Janction with your wallet.',
-            uri: 'https://janction.com',
-            version: '1',
-            chainId,
-            nonce,
+  const signAndLogin = async (userAccount) => {
+    const nonce = await fetchNonce();
+
+    console.log('nonce getted:', nonce);
+
+    const siweMessage = new SiweMessage({
+      domain: window.location.host,
+      address: userAccount.address,
+      statement: 'Sign in Janction with your wallet.',
+      uri: 'https://janction.com',
+      version: '1',
+      chainId: userAccount.chainId,
+      nonce,
+    });
+
+    const message = siweMessage.prepareMessage();
+
+    await signMessageAsync(
+      {
+        message,
+      },
+      {
+        onSuccess: async (data) => {
+          const param = {
+            message,
+            signature: data,
+            is_node: false,
+          };
+
+          const token = await performLogin(param);
+          console.log({ token });
+          setInitialState({
+            ...initialState,
+            userAccount,
           });
-
-          const message = siweMessage.prepareMessage();
-
-          await signMessageAsync(
-            {
-              message,
-            },
-            {
-              onSuccess: async (data) => {
-                const param = {
-                  message,
-                  signature: data,
-                  is_node: false,
-                };
-
-                console.log({ param });
-
-                const token = await performLogin(param);
-                console.log({token})
-                setInitialState({
-                  ...initialState,
-                  userAccount,
-                });
-                storage.set({
-                  name: 'userAccount',
-                  value: userAccount,
-                  expires,
-                });
-                storage.set({ name: 'token', value: token, expires });
-
-                const from = history.location.query?.from || '/';
-                history.push(from);
-              },
-            },
-          );
-        } catch (err) {
-          console.log('『err』', err);
-        }
-      };
-
-      signAndLogin();
-    },
-  });
+          storage.set({
+            name: 'userAccount',
+            value: userAccount,
+            expires,
+          });
+          storage.set({ name: 'token', value: token, expires });
+        },
+      },
+    );
+  };
 
   return (
     <div className={styles['login-container']}>
@@ -91,8 +98,8 @@ const Login = (props) => {
         </h2>
         <p>One account for everything Janction</p>
       </div>
-      <a className={styles['login-btn']} onClick={openConnectModal}>
-        Sign in with Ethereum
+      <a className={styles['login-btn']} onClick={handleClickButton}>
+        {buttonText}
       </a>
     </div>
   );
