@@ -131,7 +131,7 @@ const Dashboard = (props) => {
           ></i>
         </div>
         <div>
-          <div className={styles['name']}>{showValue(node_id)}</div>
+          <div className={styles['name']}>{showValue(node_type)}</div>
           <div className={styles['status']}>
             <div className={styles['system']}>
               {!(mac || android || isCpu) && (
