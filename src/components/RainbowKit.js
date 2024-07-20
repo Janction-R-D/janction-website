@@ -11,7 +11,7 @@ import { optimism, optimismSepolia } from 'wagmi/chains';
 const config = getDefaultConfig({
   appName: 'Janction',
   projectId: 'YOUR_PROJECT_ID',
-  chains: [optimism, optimismSepolia],
+  chains: [optimismSepolia, optimism],
   ssr: true, // If your dApp uses server side rendering (SSR)
 });
 
