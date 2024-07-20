@@ -1,6 +1,10 @@
 import styles from './index.less';
 import { useEffect, useState } from 'react';
 import Line from './components/Line';
+import {
+  fetchTotalPoints,
+  fetchUserCreditsInfo,
+} from '../../services/explore/point';
 
 function extendArray(arr, len) {
   if (arr.length === 0 || arr.length >= len) return arr.slice(0, len);
@@ -14,18 +18,23 @@ function extendArray(arr, len) {
 
 const Point = (props) => {
   const [userCreditsList, setUserCreditsList] = useState();
+  const [totalPoints, setTotalPoints] = useState();
 
   useEffect(() => {
-    const _userCreditsList = [
-      {
-        userId: '1',
-        userName: '用户0x56ab0649',
-        creditsNum: 124,
-      },
-    ];
-    const arr = extendArray(_userCreditsList, 5);
-    setUserCreditsList(arr);
+    getUserCreditsInfo();
+    getTotalPoints();
   }, []);
+
+  const getUserCreditsInfo = async () => {
+    const userCreditsList = await fetchUserCreditsInfo();
+    const arr = extendArray(userCreditsList, 5);
+    setUserCreditsList(arr);
+  };
+
+  const getTotalPoints = async () => {
+    const totalPoints = await fetchTotalPoints();
+    setTotalPoints(totalPoints);
+  };
 
   const renderUserCreditsInfo = () => {
     return (
@@ -51,7 +60,7 @@ const Point = (props) => {
       </div>
       <div className={styles['node-statistic']}>
         <div className={styles['statistic']}>
-          <h1>112,893 +</h1>
+          <h1>{totalPoints ? `${totalPoints} +` : '~'}</h1>
           <p>Points</p>
         </div>
         <div className={styles['label']}>Total Points</div>
