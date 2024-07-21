@@ -6,6 +6,7 @@ import 'animate.css';
 import 'hover.css';
 import styles from './index.less';
 import ExploreLayout from './ExploreLayout';
+import { useMemo } from 'react';
 
 export default function Layout(props) {
   const { children } = props;
@@ -34,12 +35,16 @@ export default function Layout(props) {
     return children;
   }
 
+  const fullWidth = useMemo(() => {
+    return props.location.pathname == '/home';
+  }, [props.location.pathname]);
+
   return (
     <div id={styles['container']}>
       <Header />
-      <main className={styles['page-container']}>{children}</main>
-      <div className={styles['shadow-box-1']}></div>
-      <div className={styles['shadow-box-2']}></div>
+      <main className={fullWidth && styles['main-wp100']}>{children}</main>
+      {/* <div className={styles['shadow-box-1']}></div> */}
+      {/* <div className={styles['shadow-box-2']}></div> */}
       <Footer />
     </div>
   );
