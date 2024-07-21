@@ -10,6 +10,22 @@ const RunNode = (props) => {
     binaray: 'https://www.docker.com/products/docker-desktop/',
     code: '(code area)',
   });
+  const docker = {
+    macos: {
+      cpu64:
+        'docker run -d -e PRIVATE_KEY=0xab... --name janction-node roddyneo/jct-macos-amd64:0.0.9',
+      cpu: 'docker run -d -e PRIVATE_KEY=0xab... --name janction-node roddyneo/jct-macos-arm:0.0.9',
+    },
+    linux: {
+      cpu64:
+        'docker run -d -e PRIVATE_KEY=0xab... --name janction-node roddyneo/jct-linux-amd64:0.0.9',
+      cpu: 'docker run -d -e PRIVATE_KEY=0xab... --name janction-node roddyneo/jct-linux-arm:0.0.9',
+    },
+    windows: {
+      cpu64:
+        'docker run -d -e PRIVATE_KEY=0xab... --name janction-node roddyneo/jct-windows-amd64:0.0.9',
+    },
+  };
 
   useEffect(() => {
     if (selectedValues?.system == 'android') {
@@ -46,6 +62,18 @@ const RunNode = (props) => {
               target="_blank"
             ></a>
           </div>
+          <ul>
+            <li>
+              You can get our apk installation package through the following
+              link (Tip: remove the .1 suffix).
+            </li>
+            <li>Install the app.</li>
+            <li>Enter the Janction app and click wallet connect.</li>
+            <li>
+              Then click the login button, which will redirect you to the wallet
+              app of your choice, then approve and sign in.
+            </li>
+          </ul>
         </section>
       );
     }
@@ -62,7 +90,7 @@ const RunNode = (props) => {
             ></a>
           </div>
         </section>
-        <section className={styles['link']}>
+        {/* <section className={styles['link']}>
           <h2>Download Binaray</h2>
           <div>
             <p className="ell">{nodeData?.binaray}</p>
@@ -72,7 +100,7 @@ const RunNode = (props) => {
               target="_blank"
             ></a>
           </div>
-        </section>
+        </section> */}
         <section className={styles['run-command']}>
           <h2>Run Command</h2>
           <div>
@@ -81,10 +109,19 @@ const RunNode = (props) => {
               <i className="iconfont icon-copy" onClick={onCopy}></i>
             </h3>
             <div className={styles['code-area']}>
-              <span>(code area)</span>
+              {docker[selectedValues.system]?.[selectedValues?.architecture]}
+              {/* <span>(code area)</span> */}
               <i className="iconfont icon-copy" onClick={onCopy}></i>
             </div>
           </div>
+          <ul>
+            <li>
+              You can set your account private key by "-e PRIVATE_KEY=0xab..."
+            </li>
+            <li>
+              You can change the container name by "--name your-node-name"
+            </li>
+          </ul>
         </section>
       </>
     );
@@ -98,7 +135,11 @@ const RunNode = (props) => {
     >
       <section className={styles['run-node']}>
         <hgroup>
-          <h1>Run Node</h1>
+          <h1>
+            {selectedValues?.system == 'android'
+              ? 'Running on Android'
+              : 'Run Node'}
+          </h1>
           <span>You need to execute the following command</span>
         </hgroup>
         <div className={styles['content']}>{renderLinks()}</div>
