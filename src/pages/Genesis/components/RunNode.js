@@ -2,43 +2,28 @@ import { useEffect, useState } from 'react';
 import styles from './index.less';
 import { motion } from 'framer-motion';
 import { message } from 'antd';
+import { COMMAND, DOCKER_PATH, ANDROID_APK_PATH } from '@/constant';
 
 const RunNode = (props) => {
   const { selectedValues } = props;
-  const [nodeData, setNodaData] = useState({
-    docker: 'https://www.docker.com/products/docker-desktop/',
-    binaray: 'https://www.docker.com/products/docker-desktop/',
-    code: '(code area)',
-  });
-  const docker = {
-    macos: {
-      cpu64:
-        'docker run -d -e PRIVATE_KEY=0xab... --name janction-node roddyneo/jct-macos-amd64:0.0.9',
-      cpu: 'docker run -d -e PRIVATE_KEY=0xab... --name janction-node roddyneo/jct-macos-arm:0.0.9',
-    },
-    linux: {
-      cpu64:
-        'docker run -d -e PRIVATE_KEY=0xab... --name janction-node roddyneo/jct-linux-amd64:0.0.9',
-      cpu: 'docker run -d -e PRIVATE_KEY=0xab... --name janction-node roddyneo/jct-linux-arm:0.0.9',
-    },
-    windows: {
-      cpu64:
-        'docker run -d -e PRIVATE_KEY=0xab... --name janction-node roddyneo/jct-windows-amd64:0.0.9',
-    },
-  };
+  const [nodeData, setNodaData] = useState();
 
   useEffect(() => {
+    let nodeData = {
+      docker: DOCKER_PATH,
+      script:
+        COMMAND[selectedValues?.system]?.[selectedValues?.architecture] ||
+        '(code area)',
+    };
     if (selectedValues?.system == 'android') {
-      setNodaData({
-        ...nodeData,
-        apk: 'https://janction-test-1324956105.cos.ap-tokyo.myqcloud.com/janction.apk?q-sign-algorithm=sha1&q-ak=AKID--CAKWwFjso0Ddr-cBx98Vcd-Dvd5uswajldZLPXjPTjRNezGgZE6Pi87AA1EZ-2&q-sign-time=1719758323;1719761923&q-key-time=1719758323;1719761923&q-header-list=host&q-url-param-list=&q-signature=1e081b7f6eff8410a1d4a44829a58093c7600b42&x-cos-security-token=acBbXNgU3t64LR8t1WzD4i4FBM94s1hafb7f71301f6769bfebfe1453fffc7a1fvJPm9TUe_khwMPRyyithBH6Q69I_-D21dN5W-X8-MuTL3eElmLMrNccf6fb1__i7wGaMTH4CSdEx-DS91fce_8XTNywaxkwhzXuWkdlnxtkO3YGJqZ-22-ha6GptPQscPLvXp582SGuxu-0EfOHFloyb5-qf-lZZiZAIzjiMRGuC60AX3FwKCvPJbbkIe4pt',
-      });
+      nodeData.apk = ANDROID_APK_PATH;
     }
+    setNodaData(nodeData);
   }, [selectedValues]);
 
   const onCopy = () => {
     navigator.clipboard
-      .writeText(nodeData?.code)
+      .writeText(nodeData?.script)
       .then(() => {
         message.success('Copied!');
       })
@@ -109,8 +94,7 @@ const RunNode = (props) => {
               <i className="iconfont icon-copy" onClick={onCopy}></i>
             </h3>
             <div className={styles['code-area']}>
-              {docker[selectedValues.system]?.[selectedValues?.architecture]}
-              {/* <span>(code area)</span> */}
+              {nodeData?.script}
               <i className="iconfont icon-copy" onClick={onCopy}></i>
             </div>
           </div>
