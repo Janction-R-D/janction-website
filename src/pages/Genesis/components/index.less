@@ -188,6 +188,7 @@
 .gpu-check,
 .run-node {
   user-select: text;
+
   hgroup {
     margin-top: 40px;
 
@@ -371,14 +372,25 @@
       background: #ffffff1a;
       backdrop-filter: blur(25px);
 
+      h1 {
+        font-size: 20px;
+        font-weight: 600;
+        color: #ffffff;
+        font-family: 'Poppins';
+      }
+
       h2 {
         color: #ffffff;
         font-family: 'Poppins';
         font-size: 16px;
         font-style: normal;
-        font-weight: 400;
+        font-weight: 500;
         line-height: normal;
         text-transform: capitalize;
+      }
+
+      > p {
+        margin: 10px 0;
       }
     }
 
@@ -417,6 +429,7 @@
         padding: 16px;
         list-style-type: circle;
         list-style-position: inside;
+
         li {
           margin-bottom: 10px;
         }
@@ -426,7 +439,6 @@
     .run-command {
       > div {
         display: flex;
-        height: 240px;
         padding: 12px;
         flex-direction: column;
         align-items: flex-start;
@@ -451,7 +463,7 @@
 
         .code-area {
           display: flex;
-          padding: 12px;
+          padding: 24px 12px;
           // justify-content: center;
           align-items: center;
           flex: 1 0 0;
@@ -491,6 +503,7 @@
         padding: 16px;
         list-style-type: circle;
         list-style-position: inside;
+
         li {
           margin-bottom: 10px;
         }
@@ -518,6 +531,7 @@
 
   .sys-choice {
     padding-bottom: 16px;
+
     ul {
       display: grid;
       grid-template-columns: repeat(2, 1fr);

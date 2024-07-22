@@ -10,7 +10,7 @@ const RunNode = (props) => {
 
   useEffect(() => {
     let nodeData = {
-      docker: DOCKER_PATH,
+      docker: DOCKER_PATH[selectedValues?.system],
       script:
         COMMAND[selectedValues?.system]?.[selectedValues?.architecture] ||
         '(code area)',
@@ -21,9 +21,9 @@ const RunNode = (props) => {
     setNodaData(nodeData);
   }, [selectedValues]);
 
-  const onCopy = () => {
+  const onCopy = (text) => {
     navigator.clipboard
-      .writeText(nodeData?.script)
+      .writeText(text)
       .then(() => {
         message.success('Copied!');
       })
@@ -62,16 +62,212 @@ const RunNode = (props) => {
         </section>
       );
     }
+    if (selectedValues?.system == 'macos') {
+      return (
+        <>
+          <section className={styles['link']}>
+            <h1>Prerequisites: Install Docker</h1>
+            <p>
+              Install the latest version of{' '}
+              <a
+                className="cm"
+                href="https://docs.docker.com/desktop/install/mac-install/"
+                target="_blank"
+              >
+                Docker Desktop
+              </a>{' '}
+              if it is not already installed.
+            </p>
+            <ul>
+              <li>
+                For Apple M series (e.g. M1/M2/M3), please click the “Docker
+                Desktop for Mac with Apple silicon” button to download and
+                install.
+              </li>
+              <li>
+                For Intel chips (e.g. i7/i5/i3), please click the “Docker
+                Desktop for Mac with Intel chip” button to download and install.
+              </li>
+            </ul>
+            <p>
+              Once installed, you can check the version of docker on the command
+              line.
+            </p>
+            <div>
+              <p>
+                <span className="db">$ docker --version</span>
+                <span className="db">Docker version 24.0.7, build afdd53b</span>
+              </p>
+              <a
+                className="iconfont icon-copy"
+                onClick={() =>
+                  onCopy(`$ docker --version
+                  Docker version 24.0.7, build afdd53b`)
+                }
+              ></a>
+            </div>
+          </section>
+          <section className={styles['run-command']}>
+            <h2>Start the node</h2>
+            <div>
+              <h3>
+                <span>Script</span>
+                <i
+                  className="iconfont icon-copy"
+                  onClick={() => onCopy(nodeData?.script)}
+                ></i>
+              </h3>
+              <div className={styles['code-area']}>
+                {nodeData?.script}
+                <i
+                  className="iconfont icon-copy"
+                  onClick={() => onCopy(nodeData?.script)}
+                ></i>
+              </div>
+            </div>
+            <ul>
+              <li>
+                You can set your account private key by "-e PRIVATE_KEY=0xab..."
+              </li>
+              <li>
+                You can change the container name by "--name your-node-name"
+              </li>
+            </ul>
+          </section>
+        </>
+      );
+    }
+    if (selectedValues?.system == 'linux') {
+      return (
+        <>
+          <section className={styles['link']}>
+            <h1 className="mb20">Prerequisites: Install docker</h1>
+            <p>1. You can install docker by executing the following command</p>
+            <div>
+              <p className="ell">curl https://get.docker.com/ | sh</p>
+              <a
+                className="iconfont icon-copy"
+                onClick={() => onCopy('curl https://get.docker.com/ | sh')}
+              ></a>
+            </div>
+            <p>
+              2. Once installed, confirm that the latest versions of both Docker
+              and Docker Compose executables were installed.
+            </p>
+            <div>
+              <p>
+                <span className="db">$ docker --version</span>
+                <span className="db">Docker version 26.1.2, build 211e74b</span>
+              </p>
+              <a
+                className="iconfont icon-copy"
+                onClick={() =>
+                  onCopy(`$ docker --version
+                  Docker version 26.1.2, build 211e74b`)
+                }
+              ></a>
+            </div>
+            <p>3. Make sure the Docker daemon is running.</p>
+            <div>
+              <p>sudo systemctl start docker</p>
+              <a
+                className="iconfont icon-copy"
+                onClick={() => onCopy(`sudo systemctl start docker`)}
+              ></a>
+            </div>
+            <p>
+              4. Optional: If you want the Docker daemon to start when the
+              system starts, use the following:
+            </p>
+            <div>
+              <p>sudo systemctl enable docker</p>
+              <a
+                className="iconfont icon-copy"
+                onClick={() => onCopy(`sudo systemctl enable docker`)}
+              ></a>
+            </div>
+            <p>5. Add your user to the Docker group.</p>
+            <div>
+              <p>
+                <span className="db">{`sudo usermod -a -G docker <username>`}</span>
+              </p>
+              <a
+                className="iconfont icon-copy"
+                onClick={() => onCopy(`sudo usermod -a -G docker <username>`)}
+              ></a>
+            </div>
+          </section>
+          <section className={styles['run-command']}>
+            <h1 className="mb20">Start the node</h1>
+            <div>
+              <h3>
+                <span>Script</span>
+                <i
+                  className="iconfont icon-copy"
+                  onClick={() => onCopy(nodeData?.script)}
+                ></i>
+              </h3>
+              <div className={styles['code-area']}>
+                {nodeData?.script}
+                <i
+                  className="iconfont icon-copy"
+                  onClick={() => onCopy(nodeData?.script)}
+                ></i>
+              </div>
+            </div>
+            <ul>
+              <li>
+                You can set your account private key by "-e PRIVATE_KEY=0xab..."
+              </li>
+              <li>
+                You can change the container name by "--name your-node-name"
+              </li>
+            </ul>
+          </section>
+        </>
+      );
+    }
     return (
       <>
         <section className={styles['link']}>
-          <h2>Install Docker</h2>
-          <div>
-            <p className="ell">{nodeData?.docker}</p>
+          <h1>Prerequisites</h1>
+          <p>
+            Install the latest version of{' '}
             <a
-              href={nodeData?.docker}
-              className="iconfont icon-link"
+              className="cm"
+              href="https://docs.docker.com/desktop/install/windows-install/"
               target="_blank"
+            >
+              Docker Desktop
+            </a>{' '}
+            if it is not already installed.
+          </p>
+          <p>
+            click the “Docker Desktop for Windows - x86_64” button to download
+            and install.
+          </p>
+          <p>
+            If after installation, you see an error message "Docker Engine
+            stopped" when opening the application, you need to{' '}
+            <a href="https://learn.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v">
+              enable hyper-v
+            </a>
+          </p>
+          <p>
+            Once installed, you can check the version of docker on the command
+            line.
+          </p>
+          <div>
+            <p className="ell">
+              <span className="db">$ docker --version</span>
+              <span className="db">Docker version 27.0.3, build 7d4bcd8</span>
+            </p>
+            <a
+              className="iconfont icon-copy"
+              onClick={() =>
+                onCopy(`$ docker --version
+              Docker version 27.0.3, build 7d4bcd8`)
+              }
             ></a>
           </div>
         </section>
@@ -87,15 +283,21 @@ const RunNode = (props) => {
           </div>
         </section> */}
         <section className={styles['run-command']}>
-          <h2>Run Command</h2>
+          <h1>Start the node</h1>
           <div>
             <h3>
               <span>Script</span>
-              <i className="iconfont icon-copy" onClick={onCopy}></i>
+              <i
+                className="iconfont icon-copy"
+                onClick={() => onCopy(nodeData?.script)}
+              ></i>
             </h3>
             <div className={styles['code-area']}>
               {nodeData?.script}
-              <i className="iconfont icon-copy" onClick={onCopy}></i>
+              <i
+                className="iconfont icon-copy"
+                onClick={() => onCopy(nodeData?.script)}
+              ></i>
             </div>
           </div>
           <ul>
