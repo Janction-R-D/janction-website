@@ -249,7 +249,10 @@ const RunNode = (props) => {
           <p>
             If after installation, you see an error message "Docker Engine
             stopped" when opening the application, you need to{' '}
-            <a href="https://learn.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v">
+            <a
+              className="cm"
+              href="https://learn.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v"
+            >
               enable hyper-v
             </a>
           </p>
