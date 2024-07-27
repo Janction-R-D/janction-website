@@ -39,7 +39,7 @@ const Products = (props) => {
             <p>Janction Nexus</p>
             <button
               onClick={() => {
-                history.push('/explore/overview');
+                history.push('/explore/nodes');
               }}
             >
               <span>Exploer</span>

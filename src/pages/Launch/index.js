@@ -5,15 +5,14 @@ import { history } from 'umi';
 
 const routes = [
   {
-    name: 'Nexus',
+    name: 'App',
     children: [
-      { name: 'Overview', path: '/explore/overview' },
-      { name: 'Nodes', path: '/explore/nodes' },
-      { name: 'Point', path: '/explore/point' },
+      // { name: 'Overview', path: '/explore/overview' },
+      { name: 'Dashboard', path: '/genesis', target: '_blank', icon: 'deploy' },
+      { name: 'Nodes Status', path: '/explore/nodes', icon: 'nodes' },
+      { name: 'Award', path: '/explore/point', icon: 'point' },
     ],
   },
-  { name: 'Genesis', path: '/genesis', target: '_blank' },
-  { name: 'Wating' },
 ];
 
 const Launch = (props) => {
@@ -43,18 +42,7 @@ const Launch = (props) => {
             <h1>Launch</h1>
             <div className={styles['launch-content']}>
               {routes.map((route) => (
-                <div
-                  key={route.name}
-                  className={[
-                    styles['function'],
-                    !!route.path && 'poi',
-                    styles[route.name],
-                  ].join(' ')}
-                  onClick={() => {
-                    if (route.children) return;
-                    onRouteClick(route);
-                  }}
-                >
+                <div key={route.name} className={styles['function']}>
                   <div className="df ai_c gap10">
                     <i></i>
                     <h2>{route.name}</h2>
@@ -67,7 +55,12 @@ const Launch = (props) => {
                           key={item.name}
                           onClick={() => onRouteClick(item)}
                         >
-                          {item.name}
+                          <div className={styles['icon']}>
+                            <img
+                              src={require(`@/assets/images/icons/${item.icon}.png`)}
+                            ></img>
+                          </div>
+                          <span>{item.name}</span>
                         </a>
                       ))}
                     </div>
