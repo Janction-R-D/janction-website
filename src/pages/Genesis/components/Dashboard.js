@@ -1,35 +1,38 @@
-import styles from '../index.less';
-import { SYSTEM_LIST, SYSTEM_SELECT_LIST } from '@/constant';
-import AwardChart from './AwardChart';
-import JactionSelect from '@/components/JactionSelect';
 import JactionEmpty from '@/components/JactionEmpty';
-import { useEffect, useState, useMemo } from 'react';
-import storage from '@/utils/storage';
+import JactionSelect from '@/components/JactionSelect';
+import { SYSTEM_LIST, SYSTEM_SELECT_LIST } from '@/constant';
+import { formatDateYMD, formatTime } from '@/utils/datetime';
 import { formatThouNumber } from '@/utils/numeric';
-
+import storage from '@/utils/storage';
+import { Divider, Skeleton } from 'antd';
+import { useEffect, useMemo, useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { useAccount } from 'wagmi';
 import {
+  fetchDailyPointStatistic,
   fetchNodeInfos,
   fetchNodeLogs,
-  MappingNodeStatus,
-  fetchDailyPointStatistic,
+  fetchOnlineNodesCount,
   fetchPointStatistic,
   fetchReportHistories,
-  fetchOnlineNodesCount,
+  MappingNodeStatus,
   NodeStatus,
   NodeType,
 } from '../../../services/personal';
-import { useAccount } from 'wagmi';
-import { formatDateYMD, formatTime } from '@/utils/datetime';
 import { showValue } from '../../../utils/lang';
+import styles from '../index.less';
+import AwardChart from './AwardChart';
 
 const Dashboard = (props) => {
   const [selectedSystem, setSelectedSystem] = useState('all');
   const [nodesCount, setNodesCount] = useState();
   const [nodeInfos, setNodeInfos] = useState();
-  const [nodeLogs, setNodeLogs] = useState();
+  const [nodeLogs, setNodeLogs] = useState([]);
   const [pointStatistic, setPointStatistic] = useState();
   const [dailyPointStatistic, setDailyPointStatistic] = useState();
   const [reportHistories, setReportHistories] = useState();
+  const [nodesPage, setNodesPage] = useState(1);
+  const [loading, setLoading] = useState(false);
   const { address } = useAccount();
 
   const totalPoint = useMemo(() => {
@@ -64,13 +67,20 @@ const Dashboard = (props) => {
     setNodeInfos(nodeInfos);
   };
 
-  const handleFetchNodeLogs = async (nodeType) => {
-    const nodeLogs = await fetchNodeLogs({
+  const handleFetchNodeLogs = async (params = {}) => {
+    if (loading) {
+      return;
+    }
+    setLoading(true);
+    const _nodeLogs = await fetchNodeLogs({
+      page: nodesPage,
       wallet_address: address,
-      node_type: nodeType,
+      ...params,
     });
+    setNodesPage(params.page || 1);
+    setLoading(false);
     console.log('nodeLogs:', nodeLogs);
-    setNodeLogs(nodeLogs);
+    setNodeLogs([...nodeLogs, ...(_nodeLogs || [])]);
   };
 
   const handleFetchPointStatistic = async () => {
@@ -102,7 +112,7 @@ const Dashboard = (props) => {
     setSelectedSystem(value);
     const nodeType = value === 'all' ? undefined : value;
     handleFetchNodeInfos(nodeType);
-    handleFetchNodeLogs(nodeType);
+    handleFetchNodeLogs({ node_type: nodeType });
   };
 
   const renderNodeInfo = (nodeInfo) => {
@@ -259,18 +269,27 @@ const Dashboard = (props) => {
             </section>
             <section className={styles['activity']}>
               <h2>Activity</h2>
-              <ul>
-                {(nodeLogs || []).map((nodeLog) => (
-                  <li>
-                    <span>{formatDateYMD(nodeLog.timestamp)}</span>
-                    <span
-                      title={nodeLog.action}
-                      className={['ell', styles['action']].join(' ')}
-                    >
-                      {nodeLog.action}
-                    </span>
-                  </li>
-                ))}
+              <ul id="scrollableDiv">
+                <InfiniteScroll
+                  dataLength={nodeLogs.length}
+                  next={() => handleFetchNodeLogs({ page: nodesPage + 1 })}
+                  hasMore={nodeLogs.length < 20000}
+                  loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
+                  endMessage={<Divider plain>It is all, nothing more</Divider>}
+                  scrollableTarget="scrollableDiv"
+                >
+                  {(nodeLogs || []).map((nodeLog) => (
+                    <li>
+                      <span>{formatDateYMD(nodeLog.timestamp)}</span>
+                      <span
+                        title={nodeLog.action}
+                        className={['ell', styles['action']].join(' ')}
+                      >
+                        {nodeLog.action}
+                      </span>
+                    </li>
+                  ))}
+                </InfiniteScroll>
               </ul>
               {!nodeLogs?.length && <JactionEmpty />}
             </section>

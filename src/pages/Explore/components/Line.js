@@ -52,7 +52,6 @@ const Line = (props) => {
       type: 'value',
       axisLabel: {
         fontFamily: 'Poppins',
-        formatter: '${value}',
         color: '#FFFFFF',
         fontSize: 24 * scale > 9 ? 24 * scale : 9,
         padding: [0, 30, 0, 0],

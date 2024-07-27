@@ -96,7 +96,7 @@ const Point = (props) => {
             <h1>TOTAL NETWORK EARNINGS</h1>
             <p>
               {totalNetworkEarnings
-                ? numeral(totalNetworkEarnings).format('$0,0.00')
+                ? numeral(totalNetworkEarnings).format('0,0.00')
                 : '~'}
             </p>
           </div>

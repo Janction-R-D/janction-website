@@ -61,7 +61,7 @@ const GetStarted = (props) => {
   };
 
   const toExplore = () => {
-    history.push('/explore/overview');
+    history.push('/explore/nodes');
   };
 
   return (
