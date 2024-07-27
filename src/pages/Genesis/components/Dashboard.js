@@ -64,7 +64,25 @@ const Dashboard = (props) => {
       node_type: nodeType,
     });
     console.log('nodeInfos:', nodeInfos);
-    setNodeInfos(nodeInfos);
+    setNodeInfos(
+      nodeInfos.sort((a, b) => {
+        if (
+          a.node_status === NodeStatus.Running &&
+          b.node_status !== NodeStatus.Running
+        ) {
+          return -1;
+        }
+        // If b.status is 2 and a.status is not 2, b should come before a
+        if (
+          b.node_status === NodeStatus.Running &&
+          a.node_status !== NodeStatus.Running
+        ) {
+          return 1;
+        }
+        // Otherwise, the order remains the same
+        return 0;
+      }),
+    );
   };
 
   const handleFetchNodeLogs = async (params = {}) => {
