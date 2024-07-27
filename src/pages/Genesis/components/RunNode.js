@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
-import styles from './index.less';
+import { ANDROID_APK_PATH, COMMAND, DOCKER_PATH } from '@/constant';
 import { motion } from 'framer-motion';
-import { message } from 'antd';
-import { COMMAND, DOCKER_PATH, ANDROID_APK_PATH } from '@/constant';
+import { useEffect, useState } from 'react';
+import { copy } from '../../../utils/lang';
+import styles from './index.less';
 
 const RunNode = (props) => {
   const { selectedValues } = props;
@@ -20,17 +20,6 @@ const RunNode = (props) => {
     }
     setNodaData(nodeData);
   }, [selectedValues]);
-
-  const onCopy = (text) => {
-    navigator.clipboard
-      .writeText(text)
-      .then(() => {
-        message.success('Copied!');
-      })
-      .catch((err) => {
-        console.error('Copied failed', err);
-      });
-  };
 
   const renderLinks = () => {
     if (selectedValues?.system == 'android') {
@@ -101,7 +90,7 @@ const RunNode = (props) => {
               <a
                 className="iconfont icon-copy"
                 onClick={() =>
-                  onCopy(`$ docker --version
+                  copy(`$ docker --version
                   Docker version 24.0.7, build afdd53b`)
                 }
               ></a>
@@ -114,14 +103,14 @@ const RunNode = (props) => {
                 <span>Script</span>
                 <i
                   className="iconfont icon-copy"
-                  onClick={() => onCopy(nodeData?.script)}
+                  onClick={() => copy(nodeData?.script)}
                 ></i>
               </h3>
               <div className={styles['code-area']}>
                 {nodeData?.script}
                 <i
                   className="iconfont icon-copy"
-                  onClick={() => onCopy(nodeData?.script)}
+                  onClick={() => copy(nodeData?.script)}
                 ></i>
               </div>
             </div>
@@ -147,7 +136,7 @@ const RunNode = (props) => {
               <p className="ell">curl https://get.docker.com/ | sh</p>
               <a
                 className="iconfont icon-copy"
-                onClick={() => onCopy('curl https://get.docker.com/ | sh')}
+                onClick={() => copy('curl https://get.docker.com/ | sh')}
               ></a>
             </div>
             <p>
@@ -162,7 +151,7 @@ const RunNode = (props) => {
               <a
                 className="iconfont icon-copy"
                 onClick={() =>
-                  onCopy(`$ docker --version
+                  copy(`$ docker --version
                   Docker version 26.1.2, build 211e74b`)
                 }
               ></a>
@@ -172,7 +161,7 @@ const RunNode = (props) => {
               <p>sudo systemctl start docker</p>
               <a
                 className="iconfont icon-copy"
-                onClick={() => onCopy(`sudo systemctl start docker`)}
+                onClick={() => copy(`sudo systemctl start docker`)}
               ></a>
             </div>
             <p>
@@ -183,7 +172,7 @@ const RunNode = (props) => {
               <p>sudo systemctl enable docker</p>
               <a
                 className="iconfont icon-copy"
-                onClick={() => onCopy(`sudo systemctl enable docker`)}
+                onClick={() => copy(`sudo systemctl enable docker`)}
               ></a>
             </div>
             <p>5. Add your user to the Docker group.</p>
@@ -193,7 +182,7 @@ const RunNode = (props) => {
               </p>
               <a
                 className="iconfont icon-copy"
-                onClick={() => onCopy(`sudo usermod -a -G docker <username>`)}
+                onClick={() => copy(`sudo usermod -a -G docker <username>`)}
               ></a>
             </div>
           </section>
@@ -204,14 +193,14 @@ const RunNode = (props) => {
                 <span>Script</span>
                 <i
                   className="iconfont icon-copy"
-                  onClick={() => onCopy(nodeData?.script)}
+                  onClick={() => copy(nodeData?.script)}
                 ></i>
               </h3>
               <div className={styles['code-area']}>
                 {nodeData?.script}
                 <i
                   className="iconfont icon-copy"
-                  onClick={() => onCopy(nodeData?.script)}
+                  onClick={() => copy(nodeData?.script)}
                 ></i>
               </div>
             </div>
@@ -268,7 +257,7 @@ const RunNode = (props) => {
             <a
               className="iconfont icon-copy"
               onClick={() =>
-                onCopy(`$ docker --version
+                copy(`$ docker --version
               Docker version 27.0.3, build 7d4bcd8`)
               }
             ></a>
@@ -292,14 +281,14 @@ const RunNode = (props) => {
               <span>Script</span>
               <i
                 className="iconfont icon-copy"
-                onClick={() => onCopy(nodeData?.script)}
+                onClick={() => copy(nodeData?.script)}
               ></i>
             </h3>
             <div className={styles['code-area']}>
               {nodeData?.script}
               <i
                 className="iconfont icon-copy"
-                onClick={() => onCopy(nodeData?.script)}
+                onClick={() => copy(nodeData?.script)}
               ></i>
             </div>
           </div>

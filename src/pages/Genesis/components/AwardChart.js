@@ -1,18 +1,26 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import ReactEcharts from 'echarts-for-react';
 import { formatDateMD } from '@/utils/datetime';
 
 const StepChart = ({ data }) => {
-  let dataPoints;
-  let dataAxis;
-  console.log('chart data:', data);
-  if (data) {
-    dataPoints = data.map((dp) => dp.point);
-    dataAxis = data.map((dp) => formatDateMD(dp.date));
-  } else {
-    dataPoints = [220, 182, 191, 234, 290, 330, 310, 123];
-    dataAxis = ['6/1', '6/2', '6/3', '6/4', '6/5', '6/6', '6/7', '6/8'];
-  }
+  const [dataPoints, setDataPoints] = useState([]);
+  const [dataAxis, setDataAxis] = useState([]);
+
+  useEffect(() => {
+    if (!data) {
+      setDataPoints([]);
+      setDataAxis([]);
+      return;
+    }
+    let _dataPoints = [];
+    let _dataAixs = [];
+    data.map((dp) => {
+      _dataPoints.push(dp.point);
+      _dataAixs.push(formatDateMD(dp.date));
+    });
+    setDataAxis(_dataAixs);
+    setDataPoints(_dataPoints);
+  }, [data]);
 
   let option = {
     backgroundColor: 'transparent',

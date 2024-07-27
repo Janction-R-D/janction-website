@@ -1,11 +1,10 @@
 import { ARCHITECTURE, SYSTEM_LIST } from '@/constant';
-import { motion, useAnimationControls } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import styles from './index.less';
 
 const DeployNode = (props, ref) => {
   const { selectedValues, setSelectedValues } = props;
-  const controls = useAnimationControls();
   const [architecture, setArchitecture] = useState([]);
 
   useEffect(() => {
@@ -48,9 +47,7 @@ const DeployNode = (props, ref) => {
               ].join(' ')}
               onClick={() => onSysSelect(item)}
             >
-              <motion.div animate={controls}>
-                <i className={`iconfont icon-${item.icon}`} />
-              </motion.div>
+              <i className={`iconfont icon-${item.icon}`} />
               <span>{item.label}</span>
             </li>
           ))}

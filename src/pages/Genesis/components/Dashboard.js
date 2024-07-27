@@ -39,14 +39,13 @@ const Dashboard = (props) => {
   }, [pointStatistic]);
 
   useEffect(() => {
-    if (address) {
-      handleFetchOnlineNodesCount();
-      handleFetchNodeInfos();
-      handleFetchNodeLogs();
-      handleFetchPointStatistic();
-      handleFetchDailyPointStatistic();
-      handleFetchReportHistories();
-    }
+    if (!address) return;
+    handleFetchOnlineNodesCount();
+    handleFetchNodeInfos();
+    handleFetchNodeLogs();
+    handleFetchPointStatistic();
+    handleFetchDailyPointStatistic();
+    handleFetchReportHistories();
   }, [address]);
 
   const handleFetchOnlineNodesCount = async () => {

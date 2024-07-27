@@ -1,4 +1,5 @@
 import storage from '@/utils/storage';
+import { message } from 'antd';
 import { history } from 'umi';
 
 export const empty = (value) => {
@@ -24,4 +25,16 @@ export const showValue = (value, fixed) => {
   const numStr = Number(value).toFixed(fixed);
   if (Number(numStr) == 0) return 0;
   return numStr;
+};
+
+// copy text
+export const copy = (text) => {
+  navigator.clipboard
+    .writeText(text)
+    .then(() => {
+      message.success('Copied!');
+    })
+    .catch((err) => {
+      console.error('Copied failed', err);
+    });
 };
