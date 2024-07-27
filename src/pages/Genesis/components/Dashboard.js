@@ -12,7 +12,7 @@ import {
   fetchDailyPointStatistic,
   fetchNodeInfos,
   fetchNodeLogs,
-  fetchOnlineNodesCount,
+  fetchNodesCount,
   fetchPointStatistic,
   fetchReportHistories,
   MappingNodeStatus,
@@ -43,7 +43,7 @@ const Dashboard = (props) => {
 
   useEffect(() => {
     if (!address) return;
-    handleFetchOnlineNodesCount();
+    handlefetchNodesCount({ wallet_address: address });
     handleFetchNodeInfos();
     handleFetchNodeLogs();
     handleFetchPointStatistic();
@@ -51,9 +51,9 @@ const Dashboard = (props) => {
     handleFetchReportHistories();
   }, [address]);
 
-  const handleFetchOnlineNodesCount = async () => {
+  const handlefetchNodesCount = async () => {
     const token = storage.get('token');
-    const nodesCount = await fetchOnlineNodesCount(token);
+    const nodesCount = await fetchNodesCount(token);
     console.log('nodesCount:', nodesCount);
     setNodesCount(nodesCount);
   };

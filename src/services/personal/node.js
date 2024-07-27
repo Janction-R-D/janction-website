@@ -43,12 +43,14 @@ export const MappingNodeStatus = {
  */
 
 /**
- * Represents the count of online nodes by operating system.
+ * Represents the count of nodes by operating system.
  * @typedef {Object} RespOnlineNodesCount
- * @property {number} macos - The number of online nodes running macOS.
- * @property {number} linux - The number of online nodes running Linux.
- * @property {number} windows - The number of online nodes running Windows.
- * @property {number} android - The number of online nodes running Android.
+ * @property {number} macos - The number of nodes running macOS.
+ * @property {number} linux - The number of nodes running Linux.
+ * @property {number} windows - The number of nodes running Windows.
+ * @property {number} android - The number of nodes running Android.
+ * @property {number} total - The total number of filtered nodes.
+ * @property {number} [total_online_time] - The total online of all filtered nodes.
  */
 
 /**
@@ -80,6 +82,9 @@ export const fetchNodeInfo = async (params) => {
  * @param {string} [params.wallet_address] - The wallet address to filter the nodes.
  * @param {NodeType} [params.node_type] - The type of the nodes to filter by.
  * @param {NodeStatus} [params.node_status] - The status of the nodes to filter by.
+ * @param {bool} [params.is_online] - Filter by IsOnline.
+ * @param {number} [params.page] - Page number default 1.
+ * @param {number} [params.size] - Page size number default 1.
  * @returns {Promise<[]NodeInfo>} A promise that resolves to the response data.
  * @throws {Error} If the request fails or returns an error response.
  */
@@ -105,6 +110,8 @@ export const fetchNodeInfos = async (params) => {
  * @param {string} [params.node_id] - The ID of the node to fetch logs for.
  * @param {string} [params.wallet_address] - The wallet address to filter the nodes.
  * @param {NodeType} [params.node_type] - The type of the nodes to filter by.
+ * @param {number} [params.page] - Page number default 1.
+ * @param {number} [params.size] - Page size number default 1.
  * @returns {Promise<NodeLog>} A promise that resolves to the response data.
  * @throws {Error} If the request fails or returns an error response.
  */
@@ -125,17 +132,20 @@ export const fetchNodeLogs = async (params) => {
 };
 
 /**
- * Fetch the count of online nodes by operating system.
+ * Fetch the count of all types of nodes.
+ * @param {Object} params - Query parameters to be sent with the GET request.
+ * @param {string} [params.wallet_address] - The wallet address to filter the nodes.
+ * @param {bool} [params.is_online] - Filter by IsOnline.
  * @returns {Promise<RespOnlineNodesCount>} - A promise that resolves to the response data.
  * @throws {Error} If the request fails or returns an error response.
  */
-export const fetchOnlineNodesCount = async () => {
+export const fetchNodesCount = async () => {
   try {
-    const response = await request(`${baseUrl}/online_count`, {
+    const response = await request(`${baseUrl}/count`, {
       loginAuth: true,
     });
     return response.data;
   } catch (error) {
-    throw new Error(`FetchOnlineNodesCount failed, ${error.message}`);
+    throw new Error(`fetchNodesCount failed, ${error.message}`);
   }
 };

@@ -20,6 +20,7 @@ import complete_list_bg from '@/assets/images/explore/complete_list_bg.png';
 import nodes_android_bg from '@/assets/images/explore/nodes_android_bg.png';
 import complete_list_android_bg from '@/assets/images/explore/complete_list_android_bg.png';
 import useIsPC from '../../hooks/usePC';
+import { fetchNodeInfos, fetchNodesCount } from '../../services/personal';
 
 const statusList = [
   {
@@ -51,7 +52,6 @@ const statusList = [
 
 const Nodes = (props) => {
   const swiperRef = useRef();
-  const [runingNodes, setRuningNodes] = useState();
   const [systemInfo, setSystemInfo] = useState([]);
   const [nodesList, setNodesList] = useState([]);
   const [query, setQuery] = useState({ size: 10, current: 1 });
@@ -59,15 +59,42 @@ const Nodes = (props) => {
   const [loading, setLoading] = useState();
   const isPC = useIsPC();
 
+  const [allNodesCount, setAllNodesCount] = useState();
+  const [onlineNodesCount, setOnlineNodesCount] = useState();
+  const [allNodeInfos, setAllNodeInfos] = useState([]);
+  const [onlineNodeInfos, setOnlineNodeInfos] = useState([]);
+  const [offlineNodeInfos, setOfflineNodeInfos] = useState([]);
+
   useEffect(() => {
-    getRuningNodes();
+    getAllNodesCount();
+    getOnlineNodesCount();
     getSystemInfo();
     getNodesList();
   }, []);
 
-  const getRuningNodes = async () => {
-    const runingNodes = await fetchRuningNodes();
-    setRuningNodes(runingNodes);
+  const getAllNodesCount = async () => {
+    const count = await fetchNodesCount();
+    setAllNodesCount(count);
+  };
+
+  const getOnlineNodesCount = async () => {
+    const count = await fetchNodesCount({ is_online: true });
+    setOnlineNodesCount(count);
+  };
+
+  const getAllNodesInfos = async (page, size = 10) => {
+    const nodeInfos = await fetchNodeInfos({ page, size });
+    setAllNodeInfos(nodeInfos);
+  };
+
+  const getOnlineNodesInfos = async (page, size = 10) => {
+    const nodeInfos = await fetchNodeInfos({ is_online: true, page, size });
+    setOnlineNodeInfos(nodeInfos);
+  };
+
+  const getOfflineNodesInfos = async (page, size = 10) => {
+    const nodeInfos = await fetchNodeInfos({ is_online: false, page, size });
+    setOfflineNodeInfos(nodeInfos);
   };
 
   const getSystemInfo = async () => {
@@ -134,13 +161,13 @@ const Nodes = (props) => {
           <div style={{ '--d': -3 }}>
             <Statistic
               title="Live Nodes"
-              value={numeral(runingNodes?.liveNodes || 0).format('0,0')}
+              value={numeral(onlineNodesCount?.total || 0).format('0,0')}
             />
           </div>
           <div style={{ '--d': -2 }}>
             <Statistic
               title="Total Compute Hours"
-              value={numeral(runingNodes?.totalComputerHours || 0).format(
+              value={numeral(allNodesCount?.total_online_time || 0).format(
                 '0,0',
               )}
             />
@@ -148,19 +175,19 @@ const Nodes = (props) => {
           <div style={{ '--d': -1 }}>
             <Statistic
               title="Total Nodes"
-              value={numeral(runingNodes?.totalNodes || 0).format('0,0')}
+              value={numeral(allNodesCount?.total || 0).format('0,0')}
             />
           </div>
           <div style={{ '--d': 0 }}>
             <Statistic
               title="Live Nodes"
-              value={numeral(runingNodes?.liveNodes || 0).format('0,0')}
+              value={numeral(onlineNodesCount?.total || 0).format('0,0')}
             />
           </div>
           <div style={{ '--d': 1 }}>
             <Statistic
               title="Total Compute Hours"
-              value={numeral(runingNodes?.totalComputerHours || 0).format(
+              value={numeral(allNodesCount?.total_online_time || 0).format(
                 '0,0',
               )}
             />
