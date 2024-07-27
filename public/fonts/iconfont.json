@@ -6,6 +6,41 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "41233780",
+      "name": "database",
+      "font_class": "database",
+      "unicode": "e647",
+      "unicode_decimal": 58951
+    },
+    {
+      "icon_id": "41233396",
+      "name": "sources",
+      "font_class": "sources",
+      "unicode": "e643",
+      "unicode_decimal": 58947
+    },
+    {
+      "icon_id": "41233395",
+      "name": "cpu",
+      "font_class": "cpu",
+      "unicode": "e644",
+      "unicode_decimal": 58948
+    },
+    {
+      "icon_id": "41233394",
+      "name": "chart",
+      "font_class": "chart",
+      "unicode": "e645",
+      "unicode_decimal": 58949
+    },
+    {
+      "icon_id": "41160212",
+      "name": "link",
+      "font_class": "link1",
+      "unicode": "e642",
+      "unicode_decimal": 58946
+    },
+    {
       "icon_id": "41015410",
       "name": "pre_page",
       "font_class": "pre_page",

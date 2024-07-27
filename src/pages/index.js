@@ -1,7 +1,7 @@
 import { Redirect } from 'umi';
 
 const index = (props) => {
-  return <Redirect to="/product"></Redirect>;
+  return <Redirect to="/home"></Redirect>;
 };
 
 export default index;

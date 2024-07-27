@@ -38,3 +38,11 @@ export const copy = (text) => {
       console.error('Copied failed', err);
     });
 };
+
+export const renderBackgroudImg = (img) => {
+  return {
+    backgroundImage: `url(${img})`,
+    backgroundSize: '100% 100%',
+    backgroundRepeat: 'no-repeat',
+  };
+};
