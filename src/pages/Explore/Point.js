@@ -9,6 +9,10 @@ import {
 } from '../../services/explore/point';
 import numeral from 'numeral';
 import { MONTH } from '../../constant';
+import { renderBackgroudImg } from '@/utils/lang';
+import ripple from '@/assets/images/explore/ripple.png';
+import wave_line from '@/assets/images/explore/wave_line.png';
+import statistic_bg from '@/assets/images/explore/statistic_bg.png';
 
 function extendArray(arr, len) {
   if (arr.length === 0 || arr.length >= len) return arr.slice(0, len);
@@ -75,15 +79,24 @@ const Point = (props) => {
 
   return (
     <div className={styles['explore-point-container']}>
-      <div className={styles['point-slogan']}>
+      <div
+        className={styles['point-slogan']}
+        style={renderBackgroudImg(ripple)}
+      >
         <h1>
           LAYER 2 FOR <br />
           DECENTRALIZED AI
         </h1>
         {renderUserCreditsInfo()}
       </div>
-      <div className={styles['node-statistic']}>
-        <div className={styles['statistic']}>
+      <div
+        className={styles['node-statistic']}
+        style={renderBackgroudImg(wave_line)}
+      >
+        <div
+          className={styles['statistic']}
+          style={renderBackgroudImg(statistic_bg)}
+        >
           <h1>{totalPoints ? numeral(totalPoints).format('0,0 +') : '~'}</h1>
           <p>Points</p>
         </div>

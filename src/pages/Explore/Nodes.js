@@ -10,6 +10,16 @@ import {
   fetchSystemInfo,
 } from '../../services/explore/nodes';
 import numeral from 'numeral';
+import { renderBackgroudImg } from '@/utils/lang';
+import divider from '@/assets/images/explore/divider.png';
+import nodes_statistic_bg from '@/assets/images/explore/nodes_statistic_bg.png';
+import highlight_shadow from '@/assets/images/explore/highlight_shadow.png';
+import highlight from '@/assets/images/explore/highlight.png';
+import echarts_bg from '@/assets/images/explore/echarts_bg.png';
+import complete_list_bg from '@/assets/images/explore/complete_list_bg.png';
+import nodes_android_bg from '@/assets/images/explore/nodes_android_bg.png';
+import complete_list_android_bg from '@/assets/images/explore/complete_list_android_bg.png';
+import useIsPC from '../../hooks/usePC';
 
 const statusList = [
   {
@@ -47,6 +57,7 @@ const Nodes = (props) => {
   const [query, setQuery] = useState({ size: 10, current: 1 });
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState();
+  const isPC = useIsPC();
 
   useEffect(() => {
     getRuningNodes();
@@ -99,7 +110,10 @@ const Nodes = (props) => {
 
   return (
     <div className={styles['explore-nodes-container']}>
-      <div className={styles['slogan']}>
+      <div
+        className={styles['slogan']}
+        style={!isPC ? renderBackgroudImg(nodes_android_bg) : {}}
+      >
         <h1>
           LAYER 2 FOR
           <br />
@@ -108,10 +122,14 @@ const Nodes = (props) => {
       </div>
       <section className={styles['node-runing']}>
         <h1>Node Runing</h1>
-        <div className={styles['divider']}></div>
+        <div
+          className={styles['divider']}
+          style={renderBackgroudImg(divider)}
+        ></div>
         <div
           ref={swiperRef}
           className={['df jc_sb', styles['statistic-info']].join(' ')}
+          style={renderBackgroudImg(nodes_statistic_bg)}
         >
           <div style={{ '--d': -3 }}>
             <Statistic
@@ -147,18 +165,29 @@ const Nodes = (props) => {
               )}
             />
           </div>
-          <div className={styles['highlight']}>
-            <img src={require('../../assets/images/explore/highlight.png')} />
+          <div
+            className={styles['highlight']}
+            style={renderBackgroudImg(highlight_shadow)}
+          >
+            <img src={highlight} />
           </div>
         </div>
       </section>
       <section className={styles['system-infomation']}>
         <h1>System Infomation</h1>
-        <div className={styles['echarts-container']}>
+        <div
+          className={styles['echarts-container']}
+          style={renderBackgroudImg(echarts_bg)}
+        >
           {!!systemInfo?.length ? <Pie data={systemInfo} /> : <JactionEmpty />}
         </div>
       </section>
-      <section className={styles['completed-list']}>
+      <section
+        className={styles['completed-list']}
+        style={renderBackgroudImg(
+          isPC ? complete_list_bg : complete_list_android_bg,
+        )}
+      >
         <div className={styles['filter']}>
           <SearchInput className={styles['filter-search']} />
           <div className={styles['status']}>
