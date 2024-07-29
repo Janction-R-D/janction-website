@@ -175,16 +175,16 @@ const Home = (props) => {
         style={renderBackgroudImg(isPC ? slogan_bg : slogan_android_bg)}
       >
         <h1>
-          Layer 2 For verifiable,
-          <br /> synergic and scalable AI
+          <span className="nowrap">Layer 2 For verifiable,</span>
+          <br /> synergic and {!isPC && <br />}scalable AI
         </h1>
         <p>
           Janction is building a service network for the data and computing{' '}
-          <br />
+          {isPC && <br />}
           power sides of artificial intelligence, featuring a fair and efficient{' '}
-          <br />
+          {isPC && <br />}
           revenue distribution algorithm, a data verification layer specifically{' '}
-          <br />
+          {isPC && <br />}
           designed for AI, and an efficient distributed resource allocation
           system.
         </p>
@@ -210,14 +210,14 @@ const Home = (props) => {
         </h1>
         <p className={styles['desc']}>
           Janction decouples data, computing power, and models within the AI
-          <br />
+          {isPC && <br />}
           system, allowing tasks and resources to run in isolated yet pipeline
-          <br />
+          {isPC && <br />}
           processes. The Janction Network provides decentralized AI services for
-          <br />
+          {isPC && <br />}
           contribution verification, revenue distribution, and data
           verifiability,
-          <br />
+          {isPC && <br />}
           using unique algorithms for node and route management.
         </p>
         <a href="javascript:viod(0)" style={renderBackgroudImg(learnMore)}></a>
@@ -225,6 +225,7 @@ const Home = (props) => {
           className={styles['products']}
           style={renderBackgroudImg(products)}
         ></div>
+        <div className={styles['shadow']}></div>
       </div>
 
       <div className={styles['banner']}>
@@ -325,7 +326,7 @@ const Home = (props) => {
         <h1>Want to ask something from us?</h1>
         <p>
           The brand new PUI 5.8.x is coming soon for PICO Neo3 / Neo3 Pro / Neo3{' '}
-          <br /> Pro Eye users
+          {isPC && <br />} Pro Eye users
         </p>
         <div className={styles['question-list']}>
           <Collapse
