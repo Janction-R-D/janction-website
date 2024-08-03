@@ -43,7 +43,7 @@ const Dashboard = (props) => {
 
   useEffect(() => {
     if (!address) return;
-    handlefetchNodesCount({ wallet_address: address });
+    handleFetchNodesCount();
     handleFetchNodeInfos();
     handleFetchNodeLogs();
     handleFetchPointStatistic();
@@ -51,9 +51,8 @@ const Dashboard = (props) => {
     handleFetchReportHistories();
   }, [address]);
 
-  const handlefetchNodesCount = async () => {
-    const token = storage.get('token');
-    const nodesCount = await fetchNodesCount(token);
+  const handleFetchNodesCount = async () => {
+    const nodesCount = await fetchNodesCount({ wallet_address: address });
     console.log('nodesCount:', nodesCount);
     setNodesCount(nodesCount);
   };
