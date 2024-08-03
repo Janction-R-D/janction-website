@@ -335,5 +335,4 @@ const Dashboard = (props) => {
   );
 };
 
-Dashboard.wrappers = ['@/wrappers/auth'];
 export default Dashboard;

@@ -4,11 +4,7 @@ import { Statistic, Table, Pagination, ConfigProvider } from 'antd';
 import SearchInput from '@/components/SeachInput';
 import Pie from './components/Pie';
 import JactionEmpty from '../../components/JactionEmpty';
-import {
-  fetchNodesList,
-  fetchRuningNodes,
-  fetchSystemInfo,
-} from '../../services/explore/nodes';
+import { fetchNodesList, fetchSystemInfo } from '../../services/explore/nodes';
 import numeral from 'numeral';
 import { renderBackgroudImg } from '@/utils/lang';
 import divider from '@/assets/images/explore/divider.png';
@@ -25,28 +21,18 @@ import { fetchNodeInfos, fetchNodesCount } from '../../services/personal';
 const statusList = [
   {
     name: 'Show all',
-    id: 'nav-show-all',
+    id: 'nav-0',
     value: 0,
   },
   {
-    name: 'Runing',
-    id: 'nav-runing',
+    name: 'On line',
+    id: 'nav-1',
     value: 1,
   },
   {
-    name: 'Completed',
-    id: 'nav-completed',
+    name: 'Off line',
+    id: 'nav-2',
     value: 2,
-  },
-  {
-    name: 'Failed',
-    id: 'nav-failed',
-    value: 3,
-  },
-  {
-    name: 'Destroyed',
-    id: 'nav-destroyed',
-    value: 4,
   },
 ];
 

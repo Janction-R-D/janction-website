@@ -55,11 +55,9 @@ const Launch = (props) => {
                           key={item.name}
                           onClick={() => onRouteClick(item)}
                         >
-                          <div className={styles['icon']}>
-                            <img
-                              src={require(`@/assets/images/icons/${item.icon}.png`)}
-                            ></img>
-                          </div>
+                          <img
+                            src={require(`@/assets/images/icons/${item.icon}.png`)}
+                          />
                           <span>{item.name}</span>
                         </a>
                       ))}

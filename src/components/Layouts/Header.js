@@ -6,14 +6,8 @@ import styles from './index.less';
 
 const routes = [
   { name: 'Home', path: '/' },
-  { name: 'About', path: '/about' },
-  {
-    name: 'Product',
-    children: [
-      { name: 'Product', path: '/product' },
-      { name: 'GetStarted', path: '/getStarted' },
-    ],
-  },
+  // { name: 'About', path: '/about' },
+  { name: 'GetStarted', path: '/getStarted' },
   { name: 'Ecosystem', path: '/ecosystem' },
   { name: 'Articles', path: '/articles' },
   { name: 'Launch', path: '/launch', target: '_blank' },

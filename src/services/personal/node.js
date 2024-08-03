@@ -92,7 +92,6 @@ export const fetchNodeInfos = async (params) => {
   try {
     const response = await request(`${baseUrl}/infos`, {
       params,
-      loginAuth: true,
     });
     if (response.code === 1000) {
       return response.data;
@@ -141,9 +140,7 @@ export const fetchNodeLogs = async (params) => {
  */
 export const fetchNodesCount = async () => {
   try {
-    const response = await request(`${baseUrl}/count`, {
-      loginAuth: true,
-    });
+    const response = await request(`${baseUrl}/count`, {});
     return response.data;
   } catch (error) {
     throw new Error(`fetchNodesCount failed, ${error.message}`);

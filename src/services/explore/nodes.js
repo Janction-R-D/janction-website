@@ -27,7 +27,6 @@ export const fetchSystemInfo = async (params) => {
   try {
     const response = await request(`${baseUrl}/systemInfo`, {
       params,
-      loginAuth: true,
     });
     // if (response.code === 1000) {
     //   return response.data;
@@ -49,7 +48,6 @@ export const fetchNodesList = async (params) => {
   try {
     const response = await request(`${baseUrl}/nodesList`, {
       params,
-      loginAuth: true,
     });
     // if (response.code === 1000) {
     //   return response.data;

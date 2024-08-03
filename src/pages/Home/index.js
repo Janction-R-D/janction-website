@@ -1,20 +1,24 @@
 import styles from './index.less';
 import slogan_bg from '@/assets/images/home/slogan_bg.png';
 import slogan_android_bg from '@/assets/images/home/slogan_android_bg.png';
-import readDoc from '@/assets/images/home/read_docs.png';
-import learnMore from '@/assets/images/home/learn_more.png';
+import team_bg from '@/assets/images/home/team_bg.png';
 import whyIcon1 from '@/assets/images/home/why_icon1.png';
 import whyIcon2 from '@/assets/images/home/why_icon2.png';
 import whyIcon3 from '@/assets/images/home/why_icon3.png';
 import hiroshi_harada from '@/assets/images/home/hiroshi_harada.png';
+import hiroshi_harada_android from '@/assets/images/home/hiroshi_harada_android.png';
 import kunitake_ando from '@/assets/images/home/kunitake_ando.png';
+import kunitake_ando_android from '@/assets/images/home/kunitake_ando_android.png';
 import kazumasa_sato from '@/assets/images/home/kazumasa_sato.png';
+import kazumasa_sato_android from '@/assets/images/home/kazumasa_sato_android.png';
 import takashi_hagiwara from '@/assets/images/home/takashi_hagiwara.png';
 import ai_banner from '@/assets/images/home/ai_banner.png';
 import gpu_banner from '@/assets/images/home/gpu_banner.png';
 import layer_banner from '@/assets/images/home/layer_banner.png';
+import ai_android_banner from '@/assets/images/home/ai_android_banner.png';
+import gpu_android_banner from '@/assets/images/home/gpu_android_banner.png';
+import layer_android_banner from '@/assets/images/home/layer_android_banner.png';
 import avatar_bg from '@/assets/images/home/avatar_bg.png';
-import user_bg from '@/assets/images/home/user_bg.png';
 import products from '@/assets/images/home/products.png';
 import { renderBackgroudImg } from '../../utils/lang';
 import { Collapse, Carousel } from 'antd';
@@ -26,24 +30,24 @@ const { Panel } = Collapse;
 const Home = (props) => {
   const characteristics = [
     {
-      name: 'Data service network',
+      name: 'Data service network compatible with various data sources',
       icon: 'icon-database',
-      desc: 'We have designed a robust resource scheduling mechanism, using Shapley value and PVCG mechanisms to ensure fair benefit distribution among contributors. This approach facilitates the trustless operation of the collaborative system. Additionally, we use additive homomorphism to build a node reputation system to prevent malicious behavior.',
+      desc: 'Standardize protocol flows for data crawling, storage, indexing, caching and querying. On-chain data, browser content, IoT devices, etc. can be used as data sources.',
     },
     {
-      name: 'Processor service network',
+      name: 'Ensuring each processor is used efficiently',
       icon: 'icon-cpu',
-      desc: 'The computing power service network enhances distributed application and efficiency of computing power through pooling, microservices, and colocation. Different resources, tasks, and streams can operate independently without interference, while securely isolating the training and inference processes of models. Non-GPU processor resources can also be integrated into the computing power network.',
+      desc: 'The computing power service network containerizes various resources and efficiently schedules them to match suitable tasks.',
     },
     {
-      name: 'Proof of Contribution',
+      name: 'Proof of Contribution specifically designed for AI',
       icon: 'icon-sources',
-      desc: 'We have designed a robust resource scheduling mechanism, using Shapley value and PVCG mechanisms to ensure fair benefit distribution among contributors. This approach facilitates the trustless operation of the collaborative system. Additionally, we use additive homomorphism to build a node reputation system to prevent malicious behavior.',
+      desc: 'Fair contribution verification algorithms ensure the maximization of benefits for each honest participant.',
     },
     {
-      name: 'Indexing',
+      name: 'Fast and secure node management and resource indexing',
       icon: 'icon-chart',
-      desc: 'Janction uses Kademlia to uniformly manage all node types, with system resources being standardized, processed, and indexed. Role identifiers are assigned based on node roles, attributes, and weight levels. During data processing, data is automatically tagged with formats, labels, attributes, and access control information to facilitate automated indexing, while computing resources are annotated with specifications, system versions, etc.',
+      desc: 'Janction uses Kademlia and K8s to uniformly manage all node and containers, with system resources being standardized, processed, and indexed.',
     },
   ];
 
@@ -70,6 +74,7 @@ const Home = (props) => {
       userName: 'HIROSHI HARADA',
       role: 'FOUNDER',
       avatar: hiroshi_harada,
+      avatar_android: hiroshi_harada_android,
       introductions: [
         'Worked at KPMG AZSA & Co. as a statutory auditor, mainly for listed companies in a wide range of industries, including broadcasting, subject joints, IT and manufacturing.',
         'He has also been involved in the auditing and support of many companies oreparing to go public, and was involved in the listing of one of his clients on the JASDAQ market.',
@@ -80,6 +85,7 @@ const Home = (props) => {
     {
       userName: 'KUNITAKE ANDO',
       avatar: kunitake_ando,
+      avatar_android: kunitake_ando_android,
       introductions: [
         'Currently, Director of the Japan Innovation Network, Chairman of theUniversity of Nagano, etc.',
         'Appointed Representative Director in April 2016',
@@ -89,6 +95,7 @@ const Home = (props) => {
     {
       userName: 'KAZUMASA SATO',
       avatar: kazumasa_sato,
+      avatar_android: kazumasa_sato_android,
       introductions: [
         'President and Representative Director of Sonystyle.com Japan K.K.. Presidentof Sony Style Company, Executive Officer of Sony Marketing Inc. and Presidenof Sony Style Japan K.K.. Executive Officer of Sony Marketing Inc. and GeneralManager of Creative Center, Sony Corporation. and President andRepresentative Director of BJlT Inc.',
         'Appointed Representative Director in April 2016 and President, COO of theCompany in November 2018',
@@ -97,6 +104,7 @@ const Home = (props) => {
     {
       userName: 'TAKASHI HAGIWARA',
       avatar: takashi_hagiwara,
+      avatar_android: takashi_hagiwara,
       introductions: [
         'Joined Sony Corporation, where he worked in software product design forconsumer products and was responsible for PC/VAlO development and designfor many years.In 2000, he became President of Sony Digital NetworkApplications Corporation (SDNA). After serving as Deputy General Manager ofthe VAl0 & Mobile Business Unit, in 2015 he was Appointed President andRepresentative Director of Vision Arts Corporation. He has developed varioussystem construction projects based on cloud technology for variouscompanies in the group.',
         'Since 2020, he has overseen the development of Jasmy Software.',
@@ -164,7 +172,10 @@ const Home = (props) => {
     },
   ];
 
+  const defaultCollapse = ['0', '1', '2', '3'];
+
   const [activeBanner, setActiveBanner] = useState(0);
+  const [activeCollapse, setActiveCollapse] = useState(defaultCollapse);
   const bannerRef = useRef();
   const isPC = useIsPC();
 
@@ -189,38 +200,39 @@ const Home = (props) => {
           system.
         </p>
         <div className={styles['buttons']}>
-          <a href="javascript:viod(0)" className={styles['get-started']}>
+          <a className={styles['get-started']}>
             <span>Get Started</span>
-            <i className="iconfont icon-link"></i>
+            <i className="iconfont icon-lt-arrow"></i>
           </a>
-          <a
-            href="javascript:viod(0)"
-            className={styles['read-docs']}
-            style={renderBackgroudImg(readDoc)}
-          ></a>
+          <a className={styles['read-docs']}></a>
           <div className={styles['shadow']}></div>
         </div>
       </div>
       <div className={styles['how-works']}>
-        <p className={styles['title']}>HOW IT WORKS</p>
-        <h1>
-          Decoupling,
-          <br />
-          Pipeline and Proof
-        </h1>
-        <p className={styles['desc']}>
-          Janction decouples data, computing power, and models within the AI
-          {isPC && <br />}
-          system, allowing tasks and resources to run in isolated yet pipeline
-          {isPC && <br />}
-          processes. The Janction Network provides decentralized AI services for
-          {isPC && <br />}
-          contribution verification, revenue distribution, and data
-          verifiability,
-          {isPC && <br />}
-          using unique algorithms for node and route management.
-        </p>
-        <a href="javascript:viod(0)" style={renderBackgroudImg(learnMore)}></a>
+        <div className={styles['info']}>
+          <p className={styles['title']}>HOW IT WORKS</p>
+          <h1>
+            Decoupling,
+            <br />
+            Pipeline and Proof
+          </h1>
+          <p className={styles['desc']}>
+            Janction decouples data, computing power, and models within the AI
+            {isPC && <br />}
+            system, allowing tasks and resources to run in isolated yet pipeline
+            {isPC && <br />}
+            processes. The Janction Network provides decentralized AI services
+            for
+            {isPC && <br />}
+            contribution verification, revenue distribution, and data
+            verifiability,
+            {isPC && <br />}
+            using unique algorithms for node and route management.
+          </p>
+          <div className={styles['learn-more']}>
+            <a>Learn more</a>
+          </div>
+        </div>
         <div
           className={styles['products']}
           style={renderBackgroudImg(products)}
@@ -231,13 +243,17 @@ const Home = (props) => {
       <div className={styles['banner']}>
         <Carousel
           ref={bannerRef}
+          infinite={false}
           afterChange={(current) => {
             setActiveBanner(current);
           }}
         >
-          <img src={gpu_banner} alt="gpu banner" />
-          <img src={layer_banner} alt="layer banner" />
-          <img src={ai_banner} alt="ai banner" />
+          <img src={isPC ? gpu_banner : gpu_android_banner} alt="gpu banner" />
+          <img
+            src={isPC ? layer_banner : layer_android_banner}
+            alt="layer banner"
+          />
+          <img src={isPC ? ai_banner : ai_android_banner} alt="ai banner" />
         </Carousel>
         <nav>
           <ul style={{ '--index': activeBanner }}>
@@ -255,12 +271,63 @@ const Home = (props) => {
             ))}
           </ul>
         </nav>
+        <div className={styles['toggle-wrapper']}>
+          <a
+            className={activeBanner > 0 && styles['active']}
+            onClick={() => {
+              bannerRef.current.prev();
+            }}
+          >
+            <i className="iconfont icon-pre"></i>
+          </a>
+          <a
+            className={activeBanner < 2 && styles['active']}
+            onClick={() => {
+              bannerRef.current.next();
+            }}
+          >
+            <i className="iconfont icon-next"></i>
+          </a>
+        </div>
       </div>
 
       <div className={styles['decentral-ai-hub']}>
         <h1>Decentralized AI hub</h1>
         <div className={styles['characteristic-list']}>
-          <ul>
+          <Collapse
+            accordion={!isPC}
+            bordered={false}
+            activeKey={isPC ? defaultCollapse : activeCollapse}
+            expandIcon={({ isActive }) => (
+              <div
+                className={`${styles['expand-icon']} ${
+                  isActive && styles['active-expand-icon']
+                }`}
+              >
+                <i className="iconfont icon-down" />
+              </div>
+            )}
+            expandIconPosition="end"
+            onChange={(keys) => {
+              if (isPC) return;
+              setActiveCollapse(keys);
+            }}
+          >
+            {characteristics.map((item) => (
+              <Panel
+                header={
+                  <h2>
+                    <i className={`iconfont ${item.icon}`}></i>
+                    <span>{item.name}</span>
+                  </h2>
+                }
+                key={item.title}
+              >
+                <p>{item.desc}</p>
+              </Panel>
+            ))}
+          </Collapse>
+          {/* <ul>
             {characteristics.map((item) => (
               <li key={item.name}>
                 <h2>
@@ -271,7 +338,7 @@ const Home = (props) => {
                 <div className={styles['shadow']}></div>
               </li>
             ))}
-          </ul>
+          </ul> */}
         </div>
       </div>
 
@@ -279,50 +346,110 @@ const Home = (props) => {
         <h1>Why Janction？</h1>
         <div className={styles['reason-list']}>
           <ul>
-            {reasons.map((item) => (
-              <li className={styles['item.name']}>
+            {reasons.map((item, index) => (
+              <li className={styles['item.name']} key={item.name}>
                 <img src={item.img} alt="" />
-                <h2>{item.name}</h2>
-                <p>{item.desc}</p>
+                <Collapse
+                  accordion
+                  bordered={false}
+                  expandIcon={({ isActive }) => (
+                    <div
+                      className={`${styles['expand-icon']} ${
+                        isActive && styles['active-expand-icon']
+                      }`}
+                    >
+                      <i className="iconfont icon-down" />
+                    </div>
+                  )}
+                  expandIconPosition="end"
+                >
+                  <Panel header={<h2>{item.name}</h2>} key={item.title}>
+                    <p>{item.desc}</p>
+                  </Panel>
+                </Collapse>
               </li>
             ))}
           </ul>
         </div>
       </div>
 
-      <div className={styles['team']}>
+      <div
+        className={styles['team']}
+        style={isPC ? renderBackgroudImg(team_bg) : {}}
+      >
         <h1>Team</h1>
         <div className={styles['team-list']}>
-          <ul>
-            {teamList.map((item) => (
-              <li
-                className={styles['item.name']}
-                style={renderBackgroudImg(user_bg)}
-              >
-                <div
-                  className={styles['user']}
-                  style={renderBackgroudImg(avatar_bg)}
-                >
+          {isPC && (
+            <ul>
+              {teamList.map((item) => (
+                <li className={styles['item.name']}>
                   <img src={item.avatar} alt="" />
-                  <div className={styles['user-info']}>
-                    <span className={styles['name']}>{item.userName}</span>
-                    {item.role && (
-                      <span className={styles['role']}>{item.role}</span>
-                    )}
+                  <div className={styles['user']}>
+                    <div className={styles['user-info']}>
+                      <span className={styles['name']}>{item.userName}</span>
+                      {item.role && (
+                        <span className={styles['role']}>{item.role}</span>
+                      )}
+                    </div>
+                    <ul>
+                      {item.introductions.map((introduction) => (
+                        <li>{introduction}</li>
+                      ))}
+                    </ul>
                   </div>
+                </li>
+              ))}
+            </ul>
+          )}
+          {!isPC && (
+            <Collapse
+              accordion
+              bordered={false}
+              expandIcon={({ isActive }) => (
+                <div
+                  className={`${styles['expand-icon']} ${
+                    isActive && styles['active-expand-icon']
+                  }`}
+                >
+                  <i className="iconfont icon-down" />
                 </div>
-                <ul>
-                  {item.introductions.map((introduction) => (
-                    <li>{introduction}</li>
-                  ))}
-                </ul>
-              </li>
-            ))}
-          </ul>
+              )}
+              expandIconPosition="end"
+            >
+              {teamList.map((item) => (
+                <Panel
+                  header={
+                    <div
+                      className={styles['user']}
+                      style={renderBackgroudImg(avatar_bg)}
+                    >
+                      <img
+                        src={isPC ? item.avatar : item.avatar_android}
+                        alt=""
+                      />
+                      <div className={styles['user-info']}>
+                        <span className={styles['name']}>{item.userName}</span>
+                        {item.role && (
+                          <span className={styles['role']}>{item.role}</span>
+                        )}
+                      </div>
+                    </div>
+                  }
+                  key={item.userName}
+                >
+                  <ul className={styles['introductions']}>
+                    {item.introductions.map((introduction) => (
+                      <li>{introduction}</li>
+                    ))}
+                  </ul>
+                </Panel>
+              ))}
+            </Collapse>
+          )}
         </div>
       </div>
 
-      <div className={styles['questions']}>
+      {/* <div className={styles['questions']}>
         <h1>Want to ask something from us?</h1>
         <p>
           The brand new PUI 5.8.x is coming soon for PICO Neo3 / Neo3 Pro / Neo3{' '}
@@ -330,6 +457,7 @@ const Home = (props) => {
         </p>
         <div className={styles['question-list']}>
           <Collapse
+            accordion
             bordered={false}
             defaultActiveKey={['1']}
             expandIcon={({ isActive }) => (
@@ -350,7 +478,7 @@ const Home = (props) => {
             ))}
           </Collapse>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
