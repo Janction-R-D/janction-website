@@ -19,6 +19,8 @@ import ai_android_banner from '@/assets/images/home/ai_android_banner.png';
 import gpu_android_banner from '@/assets/images/home/gpu_android_banner.png';
 import layer_android_banner from '@/assets/images/home/layer_android_banner.png';
 import avatar_bg from '@/assets/images/home/avatar_bg.png';
+import read_docs from '@/assets/images/home/read_docs.png';
+import read_docs_active from '@/assets/images/home/read_docs_active.png';
 import products from '@/assets/images/home/products.png';
 import { renderBackgroudImg } from '../../utils/lang';
 import { Collapse, Carousel } from 'antd';
@@ -200,11 +202,11 @@ const Home = (props) => {
           system.
         </p>
         <div className={styles['buttons']}>
-          <a className={styles['get-started']}>
+          <div className={styles['get-started']}>
             <span>Get Started</span>
             <i className="iconfont icon-lt-arrow"></i>
-          </a>
-          <a className={styles['read-docs']}></a>
+          </div>
+          <div className={styles['read-docs']}></div>
           <div className={styles['shadow']}></div>
         </div>
       </div>

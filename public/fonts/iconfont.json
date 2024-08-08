@@ -35,8 +35,8 @@
     },
     {
       "icon_id": "41160212",
-      "name": "link",
-      "font_class": "link1",
+      "name": "lt-arrow",
+      "font_class": "lt-arrow",
       "unicode": "e642",
       "unicode_decimal": 58946
     },
