@@ -26,6 +26,7 @@ import { renderBackgroudImg } from '../../utils/lang';
 import { Collapse, Carousel } from 'antd';
 import { useRef, useState } from 'react';
 import useIsPC from '../../hooks/usePC';
+import { history } from 'umi';
 
 const { Panel } = Collapse;
 
@@ -202,7 +203,12 @@ const Home = (props) => {
           system.
         </p>
         <div className={styles['buttons']}>
-          <div className={styles['get-started']}>
+          <div
+            className={styles['get-started']}
+            onClick={() => {
+              history.push('/getStarted');
+            }}
+          >
             <span>Get Started</span>
             <i className="iconfont icon-lt-arrow"></i>
           </div>
@@ -231,7 +237,12 @@ const Home = (props) => {
             {isPC && <br />}
             using unique algorithms for node and route management.
           </p>
-          <div className={styles['learn-more']}>
+          <div
+            className={styles['learn-more']}
+            onClick={() => {
+              history.push('/genesis');
+            }}
+          >
             <a>Learn more</a>
           </div>
         </div>
