@@ -2,6 +2,8 @@
 import storage from '@/utils/storage';
 import { message } from 'antd';
 import { logout } from './utils/lang';
+import React from 'react';
+import RainbowKit from '@/components/RainbowKit';
 
 /**
  * Request interceptor
@@ -49,4 +51,8 @@ export async function getInitialState() {
   return {
     userAccount,
   };
+}
+
+export function rootContainer(container) {
+  return React.createElement(RainbowKit, null, container);
 }

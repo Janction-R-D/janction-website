@@ -11,7 +11,7 @@ export const empty = (value) => {
  */
 export const logout = () => {
   storage.clear();
-  history.push(`/login?from=${history.location.pathname}`);
+  history.push('/login');
 };
 
 export const showValue = (value, fixed) => {

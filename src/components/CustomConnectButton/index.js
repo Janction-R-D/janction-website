@@ -6,7 +6,6 @@ import styles from './index.less';
 
 const CustomConnectButton = (props) => {
   const { afterClick } = props;
-  const { initialState, setInitialState } = useModel('@@initialState');
   const [userShow, setUserShow] = useState(false);
   return (
     <ConnectButton.Custom>
