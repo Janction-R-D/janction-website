@@ -6,7 +6,6 @@ export const fetchUserCreditsInfo = async (params) => {
   try {
     const response = await request(`${baseUrl}/userCreditsInfo`, {
       params,
-      loginAuth: true,
     });
     // if (response.code === 1000) {
     //   return response.data;
@@ -29,7 +28,6 @@ export const fetchTotalPoints = async (params) => {
   try {
     const response = await request(`${baseUrl}/totalPoints`, {
       params,
-      loginAuth: true,
     });
     // if (response.code === 1000) {
     //   return response.data;
@@ -46,7 +44,6 @@ export const fetchTotalNetworkEarnings = async (params) => {
   try {
     const response = await request(`${baseUrl}/totalNetworkEarnings`, {
       params,
-      loginAuth: true,
     });
     // if (response.code === 1000) {
     //   return response.data;
@@ -63,7 +60,6 @@ export const fetchNetworkEarnings = async (params) => {
   try {
     const response = await request(`${baseUrl}/networkEarnings`, {
       params,
-      loginAuth: true,
     });
     // if (response.code === 1000) {
     //   return response.data;

@@ -4,7 +4,7 @@ const PersonalLayout = (props) => {
   const { children } = props;
 
   return (
-    <div id={styles['personal-container']}>
+    <div id={styles['personal-layout']}>
       <main>{children}</main>
     </div>
   );

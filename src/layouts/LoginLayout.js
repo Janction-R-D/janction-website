@@ -4,7 +4,7 @@ import SocialsLinks from '@/components/SocialsLinks';
 const LoginLayout = (props) => {
   const { children } = props;
   return (
-    <div id={styles['login-container']}>
+    <div id={styles['login-layout']}>
       <header>
         <a className={styles['logo']} href="/">
           <img

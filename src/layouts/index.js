@@ -19,7 +19,7 @@ export default function Layout(props) {
     return <PersonalLayout>{children}</PersonalLayout>;
   }
 
-  if (props.location.pathname == '/explore/point') {
+  if (props.location.pathname == '/explore') {
     return <ExploreLayout>{children}</ExploreLayout>;
   }
 
@@ -40,7 +40,7 @@ export default function Layout(props) {
   }, [props.location.pathname]);
 
   return (
-    <div id={styles['container']}>
+    <div id={styles['main-layout']}>
       <Header />
       <main className={fullWidth && styles['main-wp100']}>{children}</main>
       {/* <div className={styles['shadow-box-1']}></div> */}

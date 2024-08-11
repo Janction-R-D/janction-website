@@ -32,6 +32,7 @@
     "hover.css": "^2.3.2",
     "js-base64": "^3.7.7",
     "numeral": "^2.0.6",
+    "rc-bullets": "^1.5.16",
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
     "react-infinite-scroll-component": "^6.1.0",

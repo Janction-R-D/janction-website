@@ -8,8 +8,8 @@ const routes = [
     children: [
       // { name: 'Overview', path: '/explore/overview' },
       { name: 'Dashboard', path: '/genesis', target: '_blank', icon: 'deploy' },
-      { name: 'Nodes Status', path: '/explore/nodes', icon: 'nodes' },
-      { name: 'Award', path: '/explore/point', icon: 'point' },
+      { name: 'Nodes Status', path: '/explore', icon: 'nodes' },
+      { name: 'Award', path: '/explore', icon: 'point' },
     ],
   },
 ];
