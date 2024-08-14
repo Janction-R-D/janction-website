@@ -26,29 +26,68 @@ const Points = (props) => {
   const [total, setTotal] = useState(0);
   const [pointsList, setPointsList] = useState([
     {
-      username: 'GeForce RTX 3080',
-      type: 'nvidia',
-      price: '2338/hr',
+      username: 'Sam Johaannes',
+      jobId: '123891h12as118883j',
+      finishedTime: 'Aug 02, 2024 10:00:02 UTC',
+      rewardPoints: '888,888,888.88',
+      txHash: '0xc72c5c324422e7',
+      platform: 'CPU',
     },
     {
       username: 'GeForce RTX 3090',
-      type: 'nvidia',
-      price: '1002/hr',
+      jobId: '123891h12as118883j',
+      finishedTime: 'Aug 02, 2024 10:00:02 UTC',
+      rewardPoints: '888,888,888.88',
+      txHash: '0xc72c5c324422e7',
+      platform: 'CPU',
     },
     {
       username: 'M2 MAX',
-      type: 'macos',
-      price: '784/hr',
+      jobId: '123891h12as118883j',
+      finishedTime: 'Aug 02, 2024 10:00:02 UTC',
+      rewardPoints: '888,888,888.88',
+      txHash: '0xc72c5c324422e7',
+      platform: 'CPU',
     },
     {
       username: 'GeForce RTX 3070',
-      type: 'nvidia',
-      price: '448/hr',
+      jobId: '123891h12as118883j',
+      finishedTime: 'Aug 02, 2024 10:00:02 UTC',
+      rewardPoints: '888,888,888.88',
+      txHash: '0xc72c5c324422e7',
+      platform: 'CPU',
     },
     {
       username: 'GeForce RTX 4090',
-      type: 'nvidia',
-      price: '128/hr',
+      jobId: '123891h12as118883j',
+      finishedTime: 'Aug 02, 2024 10:00:02 UTC',
+      rewardPoints: '888,888,888.88',
+      txHash: '0xc72c5c324422e7',
+      platform: 'CPU',
+    },
+    {
+      username: 'GeForce RTX 4090',
+      jobId: '123891h12as118883j',
+      finishedTime: 'Aug 02, 2024 10:00:02 UTC',
+      rewardPoints: '888,888,888.88',
+      txHash: '0xc72c5c324422e7',
+      platform: 'CPU',
+    },
+    {
+      username: 'GeForce RTX 4090',
+      jobId: '123891h12as118883j',
+      finishedTime: 'Aug 02, 2024 10:00:02 UTC',
+      rewardPoints: '888,888,888.88',
+      txHash: '0xc72c5c324422e7',
+      platform: 'CPU',
+    },
+    {
+      username: 'GeForce RTX 4090',
+      jobId: '123891h12as118883j',
+      finishedTime: 'Aug 02, 2024 10:00:02 UTC',
+      rewardPoints: '888,888,888.88',
+      txHash: '0xc72c5c324422e7',
+      platform: 'CPU',
     },
   ]);
   const [ranking, setRanking] = useState([]);
@@ -109,23 +148,23 @@ const Points = (props) => {
     },
     {
       title: 'Job Id',
-      dataIndex: 'type',
+      dataIndex: 'jobId',
     },
     {
       title: 'Finished Time',
-      dataIndex: 'price',
+      dataIndex: 'finishedTime',
     },
     {
       title: 'Reward Points',
-      dataIndex: 'chipOrGpu',
+      dataIndex: 'rewardPoints',
     },
     {
       title: 'Tx Hash',
-      dataIndex: 'chipOrGpu',
+      dataIndex: 'txHash',
     },
     {
       title: 'Platform',
-      dataIndex: 'chipOrGpu',
+      dataIndex: 'platform',
     },
   ];
 
@@ -188,7 +227,6 @@ const Points = (props) => {
             current={query?.current}
             size={query?.size}
             total={total}
-            showLessItems
             showSizeChanger={false}
             onChange={(page) => {
               getPointsList({ current: page });
