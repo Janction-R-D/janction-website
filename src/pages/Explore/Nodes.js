@@ -1,267 +1,264 @@
-import styles from './index.less';
-import { useEffect, useRef, useState } from 'react';
-import { Statistic, Table, Pagination, ConfigProvider } from 'antd';
-import SearchInput from '@/components/SeachInput';
-import Pie from './components/Pie';
-import JactionEmpty from '../../components/JactionEmpty';
-import { fetchNodesList, fetchSystemInfo } from '../../services/explore/nodes';
-import numeral from 'numeral';
+import device_bg from '@/assets/images/explore/device_bg.png';
+import node_overview_bg from '@/assets/images/explore/node_overview_bg.png';
+import '@/assets/images/explore/statistic_bg.png';
 import { renderBackgroudImg } from '@/utils/lang';
-import divider from '@/assets/images/explore/divider.png';
-import nodes_statistic_bg from '@/assets/images/explore/nodes_statistic_bg.png';
-import highlight_shadow from '@/assets/images/explore/highlight_shadow.png';
-import highlight from '@/assets/images/explore/highlight.png';
-import echarts_bg from '@/assets/images/explore/echarts_bg.png';
-import complete_list_bg from '@/assets/images/explore/complete_list_bg.png';
-import nodes_android_bg from '@/assets/images/explore/nodes_android_bg.png';
-import complete_list_android_bg from '@/assets/images/explore/complete_list_android_bg.png';
-import useIsPC from '../../hooks/usePC';
-import { fetchNodeInfos, fetchNodesCount } from '../../services/personal';
+import { List, Statistic } from 'antd';
+import numeral from 'numeral';
+import { useEffect, useState } from 'react';
+import { fetchUserCreditsInfo } from '../../services/explore/point';
+import DevicePie from './components/DevicePie';
+import styles from './main.less';
+import useScale from '../../hooks/useScale';
 
-const statusList = [
+function extendArray(arr, len) {
+  if (arr.length === 0 || arr.length >= len) return arr.slice(0, len);
+
+  let result = arr.slice();
+  while (result.length < len) {
+    result.push(...arr.slice(0, len - result.length));
+  }
+  return result;
+}
+
+const filters = [
+  { value: 'all', label: 'All' },
+  { value: 'nvidia', label: 'Nvidia' },
+  { value: 'macos', label: 'Apple' },
+  { value: 'cpu', label: 'CPU' },
+];
+const testDeviceList = [
   {
-    name: 'Show all',
-    id: 'nav-0',
-    value: 0,
+    deviceName: 'GeForce RTX 3080',
+    type: 'nvidia',
+    price: '2338/hr',
   },
   {
-    name: 'On line',
-    id: 'nav-1',
-    value: 1,
+    deviceName: 'GeForce RTX 3090',
+    type: 'nvidia',
+    price: '1002/hr',
   },
   {
-    name: 'Off line',
-    id: 'nav-2',
-    value: 2,
+    deviceName: 'M2 MAX',
+    type: 'macos',
+    price: '784/hr',
+  },
+  {
+    deviceName: 'GeForce RTX 3070',
+    type: 'nvidia',
+    price: '448/hr',
+  },
+  {
+    deviceName: 'GeForce RTX 4090',
+    type: 'nvidia',
+    price: '128/hr',
+  },
+];
+
+const deviceColumns = [
+  {
+    title: 'Device',
+    dataIndex: 'deviceName',
+  },
+  {
+    title: 'Live nodes',
+    dataIndex: 'liveNodes',
   },
 ];
 
 const Nodes = (props) => {
-  const swiperRef = useRef();
-  const [systemInfo, setSystemInfo] = useState([]);
-  const [nodesList, setNodesList] = useState([]);
-  const [query, setQuery] = useState({ size: 10, current: 1 });
-  const [total, setTotal] = useState(0);
-  const [loading, setLoading] = useState();
-  const isPC = useIsPC();
+  const [statisticData, setStatisticData] = useState({
+    liveNodes: 44667,
+    computeHours: 112893,
+    total: 57122,
+  });
+  const [filterActive, setFilterActive] = useState('all');
+  const [devices, setDevices] = useState([]);
+  const [initLoading, setInitLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [deviceList, setDeviceList] = useState(testDeviceList);
+  const [query, setQuery] = useState({ page: 1, size: 15 });
+  const [noMore, setNoMore] = useState(false);
 
-  const [allNodesCount, setAllNodesCount] = useState();
-  const [onlineNodesCount, setOnlineNodesCount] = useState();
-  const [allNodeInfos, setAllNodeInfos] = useState([]);
-  const [onlineNodeInfos, setOnlineNodeInfos] = useState([]);
-  const [offlineNodeInfos, setOfflineNodeInfos] = useState([]);
+  const scale = useScale();
 
   useEffect(() => {
-    getAllNodesCount();
-    getOnlineNodesCount();
-    getSystemInfo();
-    getNodesList();
+    getDevices();
+    getDeviceList();
   }, []);
 
-  const getAllNodesCount = async () => {
-    const count = await fetchNodesCount();
-    setAllNodesCount(count);
+  const onFilterChange = (filter) => {
+    setFilterActive(filter);
   };
 
-  const getOnlineNodesCount = async () => {
-    const count = await fetchNodesCount({ is_online: true });
-    setOnlineNodesCount(count);
+  const loadMore = async () => {
+    await getDeviceList({ page: query.page + 1 });
   };
 
-  const getAllNodesInfos = async (page, size = 10) => {
-    const nodeInfos = await fetchNodeInfos({ page, size });
-    setAllNodeInfos(nodeInfos);
+  const getDevices = async () => {
+    const devices = await fetchUserCreditsInfo();
+    setDevices([
+      {
+        deviceName: 'GeForce RTX 3080',
+        type: 'nvidia',
+        liveNodes: 2338,
+      },
+      {
+        deviceName: 'GeForce RTX 3090',
+        type: 'nvidia',
+        liveNodes: 1002,
+      },
+      {
+        deviceName: 'M2 MAX',
+        type: 'macos',
+        liveNodes: 784,
+      },
+      {
+        deviceName: 'GeForce RTX 3070',
+        type: 'nvidia',
+        liveNodes: 448,
+      },
+      {
+        deviceName: 'GeForce RTX 4090',
+        type: 'nvidia',
+        liveNodes: 128,
+      },
+      {
+        deviceName: 'other',
+        type: 'other',
+        liveNodes: 38,
+      },
+    ]);
   };
 
-  const getOnlineNodesInfos = async (page, size = 10) => {
-    const nodeInfos = await fetchNodeInfos({ is_online: true, page, size });
-    setOnlineNodeInfos(nodeInfos);
-  };
-
-  const getOfflineNodesInfos = async (page, size = 10) => {
-    const nodeInfos = await fetchNodeInfos({ is_online: false, page, size });
-    setOfflineNodeInfos(nodeInfos);
-  };
-
-  const getSystemInfo = async () => {
-    const systemInfo = await fetchSystemInfo();
-    setSystemInfo(systemInfo);
-  };
-
-  const getNodesList = async (params = {}) => {
+  const getDeviceList = async (values = {}) => {
+    const params = { ...query, ...values };
     setLoading(true);
-    const _params = { ...query, ...params };
-    const { list, total } = await fetchNodesList(_params);
-    setNodesList(list);
-    setQuery(_params);
-    setTotal(total);
+    const devices = await fetchUserCreditsInfo(params);
+    console.log('『devices』', devices);
+    // if (!devices || !devices.total || devices?.total < params.size) {
+    //   setNoMore(true);
+    // } else {
+    //   setQuery(params);
+    // }
+    // if (params.page !== 1) {
+    //   setDeviceList(devices.list);
+    // } else {
+    //   setDeviceList([...deviceList, ...(devices.list || [])]);
+    // }
+    setDeviceList([...deviceList, ...testDeviceList]);
     setLoading(false);
   };
 
-  const onStatusClick = (status) => {
-    getNodesList({ status });
-  };
-
-  const columns = [
-    {
-      title: 'Status',
-      dataIndex: 'name',
-    },
-    {
-      title: 'CLUSTER ID',
-      dataIndex: 'age',
-    },
-    {
-      title: 'COMPUTE HRS REMAINING',
-      dataIndex: 'address',
-    },
-    {
-      title: 'CHIP/GPUS',
-      dataIndex: 'chipOrGpu',
-    },
-  ];
-
   return (
-    <div className={styles['explore-nodes-container']}>
-      <div
-        className={styles['slogan']}
-        style={!isPC ? renderBackgroudImg(nodes_android_bg) : {}}
-      >
-        <h1>
-          LAYER 2 FOR
-          <br />
-          DECENTRALIZED AI
-        </h1>
-      </div>
-      <section className={styles['node-runing']}>
+    <div className={styles['node-wrapper']}>
+      <div className={[styles['wrapper'], styles['node-running']].join(' ')}>
         <h1>Node Runing</h1>
+        <div className={styles['content']}>
+          <Statistic
+            title="Live Nodes"
+            value={numeral(statisticData?.liveNodes || 0).format('0,0')}
+          />
+          <Statistic
+            title="Total Compute Hours"
+            value={numeral(statisticData?.computeHours || 0).format('0,0')}
+          />
+          <Statistic
+            title="Total Nodes"
+            value={numeral(statisticData?.total || 0).format('0,0')}
+          />
+        </div>
+      </div>
+      <div className={[styles['wrapper'], styles['node-overview']].join(' ')}>
+        <h1>Node Overview</h1>
         <div
-          className={styles['divider']}
-          style={renderBackgroudImg(divider)}
-        ></div>
-        <div
-          ref={swiperRef}
-          className={['df jc_sb', styles['statistic-info']].join(' ')}
-          style={renderBackgroudImg(nodes_statistic_bg)}
+          className={styles['content']}
+          style={renderBackgroudImg(node_overview_bg)}
         >
-          <div style={{ '--d': -3 }}>
-            <Statistic
-              title="Live Nodes"
-              value={numeral(onlineNodesCount?.total || 0).format('0,0')}
-            />
-          </div>
-          <div style={{ '--d': -2 }}>
-            <Statistic
-              title="Total Compute Hours"
-              value={numeral(allNodesCount?.total_online_time || 0).format(
-                '0,0',
-              )}
-            />
-          </div>
-          <div style={{ '--d': -1 }}>
-            <Statistic
-              title="Total Nodes"
-              value={numeral(allNodesCount?.total || 0).format('0,0')}
-            />
-          </div>
-          <div style={{ '--d': 0 }}>
-            <Statistic
-              title="Live Nodes"
-              value={numeral(onlineNodesCount?.total || 0).format('0,0')}
-            />
-          </div>
-          <div style={{ '--d': 1 }}>
-            <Statistic
-              title="Total Compute Hours"
-              value={numeral(allNodesCount?.total_online_time || 0).format(
-                '0,0',
-              )}
-            />
+          <div className={styles['echart-wrapper']}>
+            <DevicePie scale={scale} />
           </div>
           <div
-            className={styles['highlight']}
-            style={renderBackgroudImg(highlight_shadow)}
+            className={styles['device-wrapper']}
+            style={renderBackgroudImg(device_bg)}
           >
-            <img src={highlight} />
+            <div className={styles['header']}>
+              {deviceColumns.map((item) => (
+                <div className={styles['th']} key={item.dataIndex}>
+                  {item.title}
+                </div>
+              ))}
+            </div>
+            <div className={styles['body']}>
+              {devices.map((item, index) => (
+                <div
+                  className={styles['td']}
+                  key={item.deviceName}
+                  style={{
+                    '--opacity': index == 0 ? 1 : 1 - 0.2 * (index - 1),
+                    '--color': index == 0 ? '#73D5F4' : '#D9ACA2',
+                  }}
+                >
+                  <i
+                    className={[
+                      'iconfont',
+                      `icon-${item.type}`,
+                      styles[item.type],
+                    ].join(' ')}
+                  ></i>
+                  <div className={styles['name']}>{item.deviceName}</div>
+                  <div className={styles['value']}>{item.liveNodes}</div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      </section>
-      <section className={styles['system-infomation']}>
-        <h1>System Infomation</h1>
-        <div
-          className={styles['echarts-container']}
-          style={renderBackgroudImg(echarts_bg)}
-        >
-          {!!systemInfo?.length ? <Pie data={systemInfo} /> : <JactionEmpty />}
+      </div>
+      <div className={[styles['wrapper'], styles['node-points']].join(' ')}>
+        <h1>Nodes Points</h1>
+        <div className={styles['filters']}>
+          {filters.map((item) => (
+            <div
+              key={item.value}
+              onClick={() => onFilterChange(item.value)}
+              className={filterActive == item.value && styles['active']}
+            >
+              {item.label}
+            </div>
+          ))}
         </div>
-      </section>
-      <section
-        className={styles['completed-list']}
-        style={renderBackgroudImg(
-          isPC ? complete_list_bg : complete_list_android_bg,
-        )}
-      >
-        <div className={styles['filter']}>
-          <SearchInput className={styles['filter-search']} />
-          <div className={styles['status']}>
-            {statusList.map((item) => (
-              <input type="radio" key={item.id} name="nav" id={item.id} />
-            ))}
-            <nav>
-              <ul>
-                {statusList.map((item) => (
-                  <li
-                    key={item.value}
-                    onClick={() => onStatusClick(item.value)}
-                  >
-                    <label for={item.id}>{item.name}</label>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          </div>
+        <div className={styles['content']}>
+          <List
+            className={styles['device-list']}
+            loading={initLoading}
+            itemLayout="vertical"
+            loadMore={
+              initLoading || loading || noMore ? null : (
+                <div className={styles['load-more']}>
+                  <span onClick={loadMore}>Show More</span>
+                </div>
+              )
+            }
+            dataSource={deviceList}
+            renderItem={(item) => (
+              <List.Item>
+                <div className={styles['device-item']}>
+                  <div className={styles['icon']}>
+                    <i
+                      className={[
+                        'iconfont',
+                        `icon-${item.type}`,
+                        styles[item.type],
+                      ].join(' ')}
+                    ></i>
+                  </div>
+                  <div className={styles['name']}>{item.deviceName}</div>
+                  <div className={styles['price']}>{item.price}</div>
+                </div>
+              </List.Item>
+            )}
+          />
         </div>
-        <div className={styles['table-list']}>
-          <ConfigProvider renderEmpty={() => <JactionEmpty />}>
-            <Table
-              loading={loading}
-              columns={columns}
-              dataSource={nodesList}
-              pagination={{
-                current: query?.current,
-                size: query?.size,
-                total,
-                showLessItems: true,
-                showSizeChanger: false,
-                position: ['bottomRight'],
-                onChange: (page) => {
-                  getNodesList({ current: page });
-                },
-              }}
-            ></Table>
-          </ConfigProvider>
-          <ul className={styles['android-list']}>
-            {(nodesList || []).map((item) => (
-              <li key={item.key}>
-                <div>
-                  <span className={styles['label']}>STATUS：</span>
-                  <span className={styles['value']}>{item.name}</span>
-                </div>
-                <div>
-                  <span className={styles['label']}>
-                    COMPUTE HRS REMAINING：
-                  </span>
-                  <span className={styles['value']}>{item.address}</span>
-                </div>
-                <div>
-                  <span className={styles['label']}>CHIP/GPUS：</span>
-                  <span className={styles['value']}>{item.chipOrGpu}</span>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
+      </div>
     </div>
   );
 };
