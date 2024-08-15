@@ -4,8 +4,10 @@ import '@/assets/images/explore/statistic_bg.png';
 import third from '@/assets/images/explore/third.png';
 import line_charts from '@/assets/images/explore/line_charts.png';
 import total_bg from '@/assets/images/explore/total_bg.png';
+import total_android_bg from '@/assets/images/explore/total_android_bg.png';
 import ranking_bg from '@/assets/images/explore/ranking_bg.png';
 import table_bg from '@/assets/images/explore/table_bg.png';
+import table_android_bg from '@/assets/images/explore/table_android_bg.png';
 import { ConfigProvider, Table, Pagination } from 'antd';
 import { useEffect, useState } from 'react';
 import JactionEmpty from '../../components/JactionEmpty';
@@ -204,7 +206,7 @@ const Points = (props) => {
       <div className={[styles['wrapper'], styles['table-wrapper']].join(' ')}>
         <div className={styles['header']}>
           <h1>Put title here...</h1>
-          <div className={styles['total']} style={renderBackgroudImg(total_bg)}>
+          <div className={styles['total']}>
             <div className="df ai_c">
               <img src={line_charts} alt="" />
               <span className={styles['name']}>Total Points</span>
@@ -212,13 +214,14 @@ const Points = (props) => {
             </div>
           </div>
         </div>
-        <div className={styles['content']} style={renderBackgroudImg(table_bg)}>
+        <div className={styles['content']}>
           <ConfigProvider renderEmpty={() => <JactionEmpty />}>
             <Table
               loading={loading}
               columns={columns}
               dataSource={pointsList}
               pagination={false}
+              scroll={{ x: 'max-content' }}
             ></Table>
           </ConfigProvider>
         </div>
@@ -227,6 +230,7 @@ const Points = (props) => {
             current={query?.current}
             size={query?.size}
             total={total}
+            showLessItems={true}
             showSizeChanger={false}
             onChange={(page) => {
               getPointsList({ current: page });

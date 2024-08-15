@@ -83,8 +83,9 @@ const Explore = (props) => {
   const renderUserCreditsInfo = (item) => {
     return (
       <div className={styles['user-credits-info']}>
-        {/* <i></i>
-        <span>{`${item.userName} Get ${item.creditsNum} Points`}</span> */}
+        <i></i>
+        <span>{`${item.userName} Get `}</span>
+        <span className={styles['points']}>{`${item.creditsNum} Points`}</span>
       </div>
     );
   };
