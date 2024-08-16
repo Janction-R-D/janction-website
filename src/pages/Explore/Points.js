@@ -1,18 +1,20 @@
+import '@/assets/images/explore/statistic_bg.png';
 import first from '@/assets/images/explore/first.png';
 import second from '@/assets/images/explore/second.png';
-import '@/assets/images/explore/statistic_bg.png';
 import third from '@/assets/images/explore/third.png';
 import line_charts from '@/assets/images/explore/line_charts.png';
-import total_bg from '@/assets/images/explore/total_bg.png';
-import total_android_bg from '@/assets/images/explore/total_android_bg.png';
 import ranking_bg from '@/assets/images/explore/ranking_bg.png';
-import table_bg from '@/assets/images/explore/table_bg.png';
-import table_android_bg from '@/assets/images/explore/table_android_bg.png';
+import '@/assets/images/explore/total_bg.png';
+import '@/assets/images/explore/total_android_bg.png';
+import '@/assets/images/explore/device_item_android_bg.png';
+import '@/assets/images/explore/device_item_bg.png';
+import '@/assets/images/explore/table_bg.png';
+import '@/assets/images/explore/table_android_bg.png';
 import { ConfigProvider, Table, Pagination } from 'antd';
 import { useEffect, useState } from 'react';
 import JactionEmpty from '../../components/JactionEmpty';
 import { fetchUserCreditsInfo } from '../../services/explore/point';
-import styles from './main.less';
+import styles from './index.less';
 import numeral from 'numeral';
 import { renderBackgroudImg } from '@/utils/lang';
 

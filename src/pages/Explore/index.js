@@ -1,11 +1,10 @@
 import '@/assets/images/explore/statistic_bg.png';
 import '@/assets/images/explore/slogan_bg.png';
-import '@/assets/images/explore/user_get_points.png';
 import BulletScreen from 'rc-bullets';
 import { useEffect, useRef, useState } from 'react';
 import useScale from '../../hooks/useScale';
 import { fetchUserCreditsInfo } from '../../services/explore/point';
-import styles from './main.less';
+import styles from './index.less';
 import Nodes from './Nodes';
 import Points from './Points';
 

@@ -2,7 +2,7 @@ import React from 'react';
 import ReactEcharts from 'echarts-for-react';
 
 const DevicePie = (props) => {
-  const { scale } = props;
+  const { scale, isPC } = props;
 
   let option = {
     title: {
@@ -13,15 +13,15 @@ const DevicePie = (props) => {
       textStyle: {
         fontFamily: 'Poppins',
         fontWeight: 700,
-        fontSize: scale * 32,
-        lineHeight: scale * 48,
+        fontSize: scale * (isPC ? 32 : 14),
+        lineHeight: scale * (isPC ? 48 : 21),
         color: '#FFFFFF',
       },
       subtextStyle: {
         fontFamily: 'Poppins',
         fontWeight: 500,
-        fontSize: scale * 20,
-        lineHeight: scale * 30,
+        fontSize: scale * (isPC ? 20 : 12),
+        lineHeight: scale * (isPC ? 30 : 18),
         color: 'rgba(255, 255, 255, 0.5)',
       },
     },
@@ -45,6 +45,7 @@ const DevicePie = (props) => {
         type: 'pie',
         radius: ['62%', '70%'],
         center: ['50%', 'center'],
+        percentPrecision: 0,
         itemStyle: {
           normal: {
             borderRadius: '50%',
@@ -54,10 +55,11 @@ const DevicePie = (props) => {
               position: 'outter',
               fontFamily: 'Poppins',
               fontWeight: 500,
-              fontSize: scale * 32,
-              lineHeight: scale * 48,
+              fontSize: scale * (isPC ? 32 : 12),
+              lineHeight: scale * (isPC ? 48 : 18),
               color: '#FFFFFF',
               formatter: '{d}%',
+              // distanceToLabelLine: 0,
             },
             labelLine: {
               show: false,

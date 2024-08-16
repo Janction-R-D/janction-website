@@ -1,5 +1,6 @@
 import device_bg from '@/assets/images/explore/device_bg.png';
-import node_overview_bg from '@/assets/images/explore/node_overview_bg.png';
+import '@/assets/images/explore/node_overview_bg.png';
+import '@/assets/images/explore/node_overview_android_bg.png';
 import '@/assets/images/explore/statistic_bg.png';
 import { renderBackgroudImg } from '@/utils/lang';
 import { List, Statistic } from 'antd';
@@ -7,8 +8,9 @@ import numeral from 'numeral';
 import { useEffect, useState } from 'react';
 import { fetchUserCreditsInfo } from '../../services/explore/point';
 import DevicePie from './components/DevicePie';
-import styles from './main.less';
+import styles from './index.less';
 import useScale from '../../hooks/useScale';
+import usePC from '../../hooks/usePC';
 
 function extendArray(arr, len) {
   if (arr.length === 0 || arr.length >= len) return arr.slice(0, len);
@@ -79,7 +81,8 @@ const Nodes = (props) => {
   const [query, setQuery] = useState({ page: 1, size: 15 });
   const [noMore, setNoMore] = useState(false);
 
-  const scale = useScale();
+  const isPC = usePC();
+  const scale = useScale(isPC ? 1920 : 375);
 
   useEffect(() => {
     getDevices();
@@ -170,12 +173,9 @@ const Nodes = (props) => {
       </div>
       <div className={[styles['wrapper'], styles['node-overview']].join(' ')}>
         <h1>Node Overview</h1>
-        <div
-          className={styles['content']}
-          style={renderBackgroudImg(node_overview_bg)}
-        >
+        <div className={styles['content']}>
           <div className={styles['echart-wrapper']}>
-            <DevicePie scale={scale} />
+            <DevicePie isPC={isPC} scale={scale} />
           </div>
           <div
             className={styles['device-wrapper']}
