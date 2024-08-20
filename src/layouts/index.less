@@ -1,19 +1,14 @@
 #main-layout {
   width: 100vw;
-  overflow-x: clip;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
 
   main {
-    flex: 1;
     display: flex;
     justify-content: center;
     width: 1088px;
+    margin: 0 auto;
     position: relative;
     z-index: 2;
+    margin-top: 112px;
   }
 
   .main-wp100 {
@@ -137,6 +132,7 @@
 
   main {
     width: 100%;
+    margin-top: 112px;
   }
 }
 
@@ -147,23 +143,20 @@
 }
 
 @media (max-width: 1280px) {
-  #layout {
+  #main-layout {
     main {
-      width: 924px;
+      width: 100%;
+      padding: 0 20px;
+      margin-top: 20vw;
     }
+
     .main-wp100 {
       width: 100%;
     }
   }
-}
-
-@media (max-width: 1280px) {
-  #layout {
+  #explore-layout {
     main {
-      width: calc(~'100vw - 40px');
-    }
-    .main-wp100 {
-      width: 100%;
+      margin-top: 20vw;
     }
   }
 }

@@ -1,39 +1,50 @@
-.main-header {
-  width: 1392px;
-  padding: 30px 0;
+header.main-header {
+  width: 87.5vw;
+  height: 4.167vw;
+  padding: 0 0.781vw 0 3.125vw;
+  border-radius: 5.208vw;
+  background: rgba(48, 48, 48, 0.35);
+  backdrop-filter: blur(1.318vw);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  position: relative;
-  z-index: 2;
+  position: fixed;
+  top: 1.667vw;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: all 0.3s;
+  z-index: 15;
 
   .logo {
     display: flex;
     align-items: center;
+    width: 7.083vw;
+    height: 1.406vw;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
   }
 
   > nav {
     ul {
-      display: flex;
       position: relative;
+      display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 0px 16px;
-      height: 36px;
-      border: 1px solid #fff;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: bold;
-      color: #fff;
-      gap: 0.75rem;
+      justify-content: center;
+      gap: 3.438vw;
 
       li {
         height: 100%;
 
         a {
-          display: flex;
-          align-items: center;
-          height: 100%;
+          font-family: 'Poppins';
+          font-style: normal;
+          font-weight: 600;
+          font-size: 0.938vw;
+          line-height: 1.406vw;
+          color: #ffffff;
         }
       }
 
@@ -43,113 +54,31 @@
     }
   }
 
+  .dashboard {
+    width: 7.865vw;
+    height: 2.552vw;
+    cursor: pointer;
+  }
+
   .android-menu {
     display: none;
   }
 }
 
-.explore-header {
-  width: 1392px;
-  height: 100px;
-  margin: 0 auto;
-  position: relative;
-
-  .logo {
-    display: flex;
-    align-items: center;
-  }
-
-  > nav {
-    position: absolute;
-    height: 100px;
-    left: 50%;
-    transform: translateX(-50%);
-
-    ul {
-      height: 100%;
-      gap: 60px;
-
-      li {
-        gap: 10px;
-        height: 24px;
-        font-family: 'Poppins';
-        font-style: normal;
-        font-weight: 600;
-        font-size: 20px;
-        line-height: 24px;
-        color: #b7b8b8;
-        cursor: pointer;
-        overflow: hidden;
-
-        img {
-          position: relative;
-          transform: translateX(-24px);
-          filter: drop-shadow(#b7b8b8 24px 0);
-        }
-
-        &.active {
-          color: #fff;
-
-          img {
-            filter: drop-shadow(#fff 24px 0);
-          }
-        }
-      }
-    }
-  }
-
-  .extra {
-    display: flex;
-    align-items: center;
-    gap: 30px;
-
-    .login {
-      height: 19px;
-      font-family: 'Poppins';
-      font-style: normal;
-      font-weight: 500;
-      font-size: 16px;
-      line-height: 19px;
-      text-transform: uppercase;
-      color: #ffffff;
-      cursor: pointer;
-
-      &:hover {
-        color: #177ddc;
-      }
-    }
-
-    .connect-account {
-      .connect-button {
-        height: 50px;
-        padding: 10px;
-        background: #dd5acc;
-        border-radius: 9px;
-        outline: none;
-        border: none;
-        font-family: 'Poppins';
-        font-style: normal;
-        font-weight: 600;
-        font-size: 15px;
-        line-height: 18px;
-        text-align: center;
-        letter-spacing: 2px;
-        color: #ffffff;
-        cursor: pointer;
-      }
-    }
-  }
-
-  .android-menu {
-    display: none;
-  }
+header.main-header.fixed {
+  position: fixed;
+  padding: 0 6.25vw;
+  top: 0;
+  width: 100%;
+  border-radius: 0;
+  transition: all 0.3s;
 }
 
 footer.main-footer {
+  width: 1200px;
   margin: 0 auto;
   margin-top: 144px;
   padding-bottom: 20px;
-  width: 1200px;
 
   .links-container {
     display: flex;
@@ -188,66 +117,54 @@ footer.main-footer {
   }
 }
 
-@media (max-width: 1280px) {
-  .main-header {
-    width: 924px;
+@media (max-width: 1024px) {
+  header.main-header {
+    width: 100%;
+    height: 20vw;
+    padding: 0 5.333vw;
+    border-radius: 0;
+    background: #000;
+    backdrop-filter: blur(0);
+    position: fixed;
+    top: 0;
     transition: all 0.3s;
-  }
 
-  .explore-header {
-    width: 924px;
-    transition: all 0.3s;
+    .logo {
+      width: 45.867vw;
+      height: 9.067vw;
 
-    nav {
-      ul {
-        gap: 30px;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    > nav {
+      display: none;
+    }
+
+    .dashboard {
+      display: none;
+    }
+
+    .android-menu {
+      display: block;
+
+      i {
+        font-size: 8vw;
       }
     }
   }
 
-  footer.main-footer {
-    width: 924px;
-    transition: all 0.3s;
-  }
-}
-
-@media (max-width: 1024px) {
-  .main-header {
-    width: calc(~'100vw - 40px');
-    transition: all 0.3s;
-
-    > nav {
-      display: none;
-    }
-
-    .android-menu {
-      display: block;
-    }
-
-    .links {
-      display: none;
-    }
-  }
-
-  .explore-header {
-    width: calc(~'100vw - 40px');
-    transition: all 0.3s;
-
-    > nav {
-      display: none;
-    }
-
-    .extra {
-      display: none;
-    }
-
-    .android-menu {
-      display: block;
-    }
+  header.main-header.fixed {
+    position: fixed;
+    top: 0;
+    padding: 8vw 5.333vw;
   }
 
   footer.main-footer {
-    width: calc(~'100vw - 40px');
+    width: 100%;
+    padding: 0 20px;
     margin-top: 100px;
     transition: all 0.3s;
     display: flex;
@@ -289,17 +206,17 @@ footer.main-footer {
     .ant-dropdown,
     .ant-dropdown-menu-submenu {
       .ant-dropdown-menu {
-        width: 111px;
-        padding: 15px 18px;
+        width: 29.6vw;
+        padding: 4vw 4.8vw;
         background: rgba(255, 255, 255, 0.08);
-        backdrop-filter: blur(25px);
-        border-radius: 10px;
+        backdrop-filter: blur(6.667vw);
+        border-radius: 2.667vw;
 
         .ant-dropdown-menu-item,
         .ant-dropdown-menu-submenu {
           padding: 0;
           font-weight: 500;
-          font-size: 12px;
+          font-size: 3.2vw;
 
           .ant-dropdown-menu-submenu-title {
             padding: 0;
@@ -307,7 +224,7 @@ footer.main-footer {
             align-items: center;
             justify-content: space-between;
             font-weight: 500;
-            font-size: 12px;
+            font-size: 3.2vw;
             flex-wrap: nowrap;
           }
         }
@@ -319,7 +236,7 @@ footer.main-footer {
 
         .ant-dropdown-menu-item:not(:first-child),
         .ant-dropdown-menu-submenu-title {
-          margin-top: 15px;
+          margin-top: 4vw;
         }
       }
     }
@@ -329,19 +246,19 @@ footer.main-footer {
 .children-dropdown {
   :global {
     .ant-dropdown-menu {
-      padding: 8px;
+      padding: 2.133vw;
       background: rgba(18, 20, 21, 0.49);
-      border: 1px solid #1f2327;
-      backdrop-filter: blur(25px);
-      border-radius: 15px;
+      border: 0.267vw solid #1f2327;
+      backdrop-filter: blur(6.667vw);
+      border-radius: 4vw;
 
       li {
-        width: 150px;
+        width: 40vw;
         font-weight: 500;
-        font-size: 12px;
+        font-size: 3.2vw;
         color: #fff;
-        padding: 10px 16px;
-        border-radius: 10px;
+        padding: 2.667vw 4.267vw;
+        border-radius: 2.667vw;
         transition: background 0.4s;
 
         a {
@@ -352,12 +269,12 @@ footer.main-footer {
 
           div {
             position: absolute;
-            right: 24px;
+            right: 6.4vw;
             top: 50%;
             translate: 0 -50%;
             opacity: 0;
-            width: 12px;
-            height: 12px;
+            width: 3.2vw;
+            height: 3.2vw;
             transform: rotate(-90deg);
             transition: opacity 0.4s, right 0.4s;
 

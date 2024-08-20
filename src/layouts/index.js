@@ -11,6 +11,10 @@ import { useMemo } from 'react';
 export default function Layout(props) {
   const { children } = props;
 
+  const fullWidth = useMemo(() => {
+    return props.location.pathname == '/home';
+  }, [props.location.pathname]);
+
   if (props.location.pathname.includes('/login')) {
     return <LoginLayout>{children}</LoginLayout>;
   }
@@ -30,14 +34,6 @@ export default function Layout(props) {
       </ExploreLayout>
     );
   }
-
-  if (props.location.pathname == '/launch') {
-    return children;
-  }
-
-  const fullWidth = useMemo(() => {
-    return props.location.pathname == '/home';
-  }, [props.location.pathname]);
 
   return (
     <div id={styles['main-layout']}>

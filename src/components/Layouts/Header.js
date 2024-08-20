@@ -1,20 +1,29 @@
-import SocialsLinks from '@/components/SocialsLinks';
+import dashboard from '@/assets/images/icons/dashboard.png';
+import { renderBackgroudImg } from '@/utils/lang';
 import { useEffect, useState } from 'react';
 import { Dropdown, Menu } from 'antd';
 import { history } from 'umi';
 import styles from './index.less';
+import { useScroll } from 'framer-motion';
 
 const routes = [
-  { name: 'Home', path: '/' },
-  // { name: 'About', path: '/about' },
-  { name: 'GetStarted', path: '/getStarted' },
-  { name: 'Ecosystem', path: '/ecosystem' },
-  { name: 'Articles', path: '/articles' },
-  { name: 'Launch', path: '/launch', target: '_blank' },
+  { name: 'Home', path: '/', redirect: '/home' },
+  { name: 'Explore', path: '/explore' },
+  { name: 'Get started', path: '/getStarted' },
 ];
 const Header = (props) => {
   const [active, setActive] = useState();
   const [menuVisible, setMenuVisible] = useState(false);
+  const { scrollY } = useScroll();
+  const [fixed, setFixed] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = scrollY.onChange((latest) => {
+      setFixed(latest > 32);
+    });
+
+    return () => unsubscribe();
+  }, [scrollY]);
 
   useEffect(() => {
     setActive(history.location.pathname);
@@ -65,7 +74,11 @@ const Header = (props) => {
             key={item.name}
             path={item.path}
             onClick={() => onRouteClick(item)}
-            className={active == item.path ? styles['active'] : ''}
+            className={
+              active == item.path || active == item.redirect
+                ? styles['active']
+                : ''
+            }
           >
             <a>
               <span>{item.name}</span>
@@ -81,15 +94,15 @@ const Header = (props) => {
 
   return (
     <header
-      className={`animate__animated animate__fadeInDown ${styles['main-header']}`}
+      className={[styles['main-header'], fixed && styles['fixed']].join(' ')}
     >
-      <a className={styles['logo']} href="/">
-        <img
-          src={require('@/assets/images/icons/logo_name.png')}
-          alt="logo"
-          width="116"
-          height="24"
-        />
+      <a
+        className={styles['logo']}
+        onClick={() => {
+          history.push('/');
+        }}
+      >
+        <img src={require('@/assets/images/icons/logo_name.png')} alt="logo" />
       </a>
       <nav>
         <ul>
@@ -99,7 +112,11 @@ const Header = (props) => {
               onClick={() => {
                 onRouteClick(item);
               }}
-              className={active == item.path ? styles['active'] : ''}
+              className={
+                active == item.path || active == item.redirect
+                  ? styles['active']
+                  : ''
+              }
             >
               {item.children ? (
                 <Dropdown
@@ -115,7 +132,13 @@ const Header = (props) => {
           ))}
         </ul>
       </nav>
-      <SocialsLinks className={styles['links']} />
+      <a
+        onClick={() => {
+          history.push('/genesis');
+        }}
+        className={styles['dashboard']}
+        style={renderBackgroudImg(dashboard)}
+      ></a>
       <Dropdown placement="bottomRight" overlay={renderMenu}>
         <div className={styles['android-menu']}>
           <i className="iconfont icon-line-menu" />
