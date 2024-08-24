@@ -9,8 +9,6 @@ import { useEffect, useState } from 'react';
 import { fetchUserCreditsInfo } from '../../services/explore/point';
 import DevicePie from './components/DevicePie';
 import styles from './index.less';
-import useScale from '../../hooks/useScale';
-import usePC from '../../hooks/usePC';
 
 function extendArray(arr, len) {
   if (arr.length === 0 || arr.length >= len) return arr.slice(0, len);
@@ -80,9 +78,6 @@ const Nodes = (props) => {
   const [deviceList, setDeviceList] = useState(testDeviceList);
   const [query, setQuery] = useState({ page: 1, size: 15 });
   const [noMore, setNoMore] = useState(false);
-
-  const isPC = usePC();
-  const scale = useScale(isPC ? 1920 : 375);
 
   useEffect(() => {
     getDevices();
@@ -175,7 +170,7 @@ const Nodes = (props) => {
         <h1>Node Overview</h1>
         <div className={styles['content']}>
           <div className={styles['echart-wrapper']}>
-            <DevicePie isPC={isPC} scale={scale} />
+            <DevicePie />
           </div>
           <div
             className={styles['device-wrapper']}

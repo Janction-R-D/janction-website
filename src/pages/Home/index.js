@@ -25,8 +25,8 @@ import products from '@/assets/images/home/products.png';
 import { renderBackgroudImg } from '../../utils/lang';
 import { Collapse, Carousel } from 'antd';
 import { useRef, useState } from 'react';
-import useIsPC from '../../hooks/usePC';
 import { history } from 'umi';
+import useScale from '../../hooks/useScale';
 
 const { Panel } = Collapse;
 
@@ -180,7 +180,7 @@ const Home = (props) => {
   const [activeBanner, setActiveBanner] = useState(0);
   const [activeCollapse, setActiveCollapse] = useState(defaultCollapse);
   const bannerRef = useRef();
-  const isPC = useIsPC();
+  const { isPC } = useScale();
 
   return (
     <div className={styles['home-container']}>

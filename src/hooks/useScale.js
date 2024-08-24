@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { debounce } from 'lodash';
 
 // 获取缩放比例
-const useScale = (basicWidth = 1920) => {
+const useScale = () => {
   const [scale, setScale] = useState(false);
+  const [isPC, setIsPc] = useState(false);
 
   useEffect(() => {
     getScale();
@@ -11,11 +11,13 @@ const useScale = (basicWidth = 1920) => {
   }, []);
 
   const getScale = () => {
-    const _scale = window.innerWidth / basicWidth;
+    const _isPC = window.innerWidth > 1024;
+    const _scale = window.innerWidth / (_isPC ? 1920 : 375);
+    setIsPc(_isPC);
     setScale(_scale);
   };
 
-  return scale;
+  return { scale, isPC };
 };
 
 export default useScale;

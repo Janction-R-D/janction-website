@@ -6,7 +6,7 @@ import useScale from '../../../hooks/useScale';
 
 const Line = (props) => {
   const { data } = props;
-  const scale = useScale();
+  const { scale } = useScale();
 
   const left = useMemo(() => {
     if (scale >= 0.7) return '3%';

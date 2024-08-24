@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactEcharts from 'echarts-for-react';
+import useScale from '../../../hooks/useScale';
 
 const DevicePie = (props) => {
-  const { scale, isPC } = props;
+  const { scale, isPC } = useScale();
 
   let option = {
     title: {

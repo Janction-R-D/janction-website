@@ -2,7 +2,6 @@ import '@/assets/images/explore/statistic_bg.png';
 import '@/assets/images/explore/slogan_bg.png';
 import BulletScreen from 'rc-bullets';
 import { useEffect, useRef, useState } from 'react';
-import useScale from '../../hooks/useScale';
 import { fetchUserCreditsInfo } from '../../services/explore/point';
 import styles from './index.less';
 import Nodes from './Nodes';
@@ -29,7 +28,6 @@ const Explore = (props) => {
   const [screen, setScreen] = useState(null);
 
   const timer = useRef();
-  const scale = useScale();
 
   useEffect(() => {
     initBullet();
