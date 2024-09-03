@@ -1,5 +1,7 @@
 import '@/assets/images/explore/statistic_bg.png';
 import '@/assets/images/explore/slogan_bg.png';
+import shadow_left from '@/assets/images/home/shadow_left.png';
+import shadow_right from '@/assets/images/home/shadow_right.png';
 import BulletScreen from 'rc-bullets';
 import { useEffect, useRef, useState } from 'react';
 import { fetchUserCreditsInfo } from '../../services/explore/point';
@@ -89,6 +91,7 @@ const Explore = (props) => {
 
   return (
     <div className={styles['explore-container']}>
+      <div className={styles['shadow']}></div>
       <div className={[styles['slogan'], styles[navActive]].join(' ')}>
         <div className={styles['left']}>
           <h1>

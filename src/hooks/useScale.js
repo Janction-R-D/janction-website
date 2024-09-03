@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 // 获取缩放比例
 const useScale = () => {
   const [scale, setScale] = useState(false);
-  const [isPC, setIsPc] = useState(false);
+  const [isPC, setIsPc] = useState(true);
 
   useEffect(() => {
     getScale();

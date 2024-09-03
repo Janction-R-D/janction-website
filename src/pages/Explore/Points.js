@@ -165,6 +165,15 @@ const Points = (props) => {
     {
       title: 'Tx Hash',
       dataIndex: 'txHash',
+      render: (text) => {
+        return (
+          <div className={styles['tx-hash']}>
+            <i className={styles['status']}></i>
+            <span>{text}</span>
+            <i className="iconfont icon-next_page"></i>
+          </div>
+        );
+      },
     },
     {
       title: 'Platform',
@@ -229,7 +238,7 @@ const Points = (props) => {
         </div>
         <div className={styles['pagination-wrapper']}>
           <Pagination
-            current={query?.current}
+            current={query?.page}
             size={query?.size}
             total={total}
             showLessItems={true}

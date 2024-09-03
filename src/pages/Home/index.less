@@ -1,5 +1,31 @@
 .home-container {
   width: 100%;
+  position: relative;
+  z-index: 2;
+
+  &::before {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    top: 2000px;
+    width: 38.49vw;
+    height: 64.792vw;
+    background: url('../../assets/images/home/shadow_left.png');
+    background-size: 100% 100%;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    top: 2782px;
+    width: 34.688vw;
+    height: 58.438vw;
+    background: url('../../assets/images/home/shadow_right.png');
+    background-size: 100% 100%;
+  }
 
   .slogan {
     width: 100%;
@@ -210,6 +236,8 @@
       height: 3.333vw;
       display: flex;
       align-items: center;
+      position: relative;
+      z-index: 2;
 
       ul {
         width: 100%;
@@ -288,6 +316,7 @@
 
   .decentral-ai-hub {
     padding: 10.938vw 6.198vw 15.885vw;
+    position: relative;
 
     h1 {
       font-family: 'Poppins';
@@ -319,6 +348,8 @@
           background: transparent;
           flex-wrap: wrap;
           gap: 1.406vw;
+          position: relative;
+          z-index: 2;
 
           .ant-collapse-item {
             width: calc(50% - 0.729vw);
@@ -329,6 +360,21 @@
             position: relative;
             overflow: hidden;
             border: none;
+            transition: all 0.3s;
+
+            &::before {
+              content: '';
+              position: absolute;
+              width: 100%;
+              height: 100%;
+              top: 0;
+              left: 0;
+              opacity: 0;
+              background-image: url('../../assets/images/home/ai_hub_hover_bg.png');
+              background-repeat: no-repeat;
+              background-size: 100%;
+              transition: all 0.3s;
+            }
 
             .ant-collapse-header {
               font-size: 4.267vw;
@@ -381,6 +427,12 @@
                   margin-top: 0.833vw;
                 }
               }
+            }
+          }
+
+          .ant-collapse-item:hover {
+            &::before {
+              opacity: 1;
             }
           }
         }
@@ -516,10 +568,28 @@
           border: 0.052vw solid #21232b;
           border-radius: 1.042vw;
           overflow: hidden;
+          position: relative;
+
+          &::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: block;
+            width: 100%;
+            height: 100%;
+            background: url('../../assets/images/home/reason_hover_bg.png')
+              no-repeat;
+            background-size: cover;
+            opacity: 0;
+            transition: all 0.3s;
+          }
 
           img {
             width: 100%;
             height: 20.729vw;
+            position: relative;
+            z-index: 2;
           }
 
           :global {
@@ -529,6 +599,7 @@
               .ant-collapse-item {
                 padding: 2.083vw;
                 position: relative;
+                z-index: 2;
                 overflow: hidden;
                 border: none;
 
@@ -594,6 +665,13 @@
             transition: all 0.3s;
           }
         }
+
+        li.active {
+          &::before {
+            opacity: 1;
+            transition: all 0.3s;
+          }
+        }
       }
     }
   }
@@ -647,10 +725,11 @@
             position: absolute;
             top: 100%;
             left: 0;
-            transform: translateY(-5.833vw);
+            transform: translateY(-5.78vw);
             width: 100%;
-            background: rgba(129, 129, 129, 0.1);
-            backdrop-filter: blur(30px);
+            background: url('../../assets/images/home/user_hover_bg.png')
+              no-repeat;
+            background-size: cover;
 
             .user-info {
               height: 5.833vw;
@@ -843,6 +922,18 @@
 @media (max-width: 1024px) {
   .home-container {
     width: 100%;
+
+    &::before {
+      top: 2267px;
+      width: 44.8vw;
+      height: 76.8vw;
+    }
+
+    &::after {
+      top: 805.067vw;
+      width: 61.867vw;
+      height: 116vw;
+    }
 
     .slogan {
       width: 100%;
@@ -1086,6 +1177,10 @@
               overflow: hidden;
               border: none;
 
+              &::before {
+                background-image: none;
+              }
+
               .ant-collapse-header {
                 font-size: 4.267vw;
                 line-height: 6.4vw;
@@ -1273,6 +1368,12 @@
               }
             }
           }
+
+          li.active {
+            &::before {
+              opacity: 0;
+            }
+          }
         }
       }
     }
@@ -1435,6 +1536,19 @@
           .user-info {
             font-size: 4.267vw;
             line-height: 6.4vw;
+            display: flex;
+            align-items: flex-start;
+            flex-direction: column;
+            justify-content: center;
+
+            .name {
+              display: block;
+              font-weight: 700;
+            }
+
+            .role {
+              font-weight: 400;
+            }
           }
         }
 
