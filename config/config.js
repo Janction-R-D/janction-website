@@ -1,5 +1,6 @@
 import { defineConfig } from 'umi';
 import proxy from './proxy';
+import metas from './metas';
 const { REACT_APP_ENV } = process.env;
 
 export default defineConfig({
@@ -16,4 +17,5 @@ export default defineConfig({
   fastRefresh: {},
   webpack5: {},
   hash: true,
+  metas: metas,
 });
