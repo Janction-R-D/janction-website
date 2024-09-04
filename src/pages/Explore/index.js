@@ -45,7 +45,7 @@ const Explore = (props) => {
         screen.push(
           renderUserCreditsInfo({ userName: '0x56ab0649', creditsNum: 124 }),
         );
-      }, 1000);
+      }, 3000);
     } else if (timer) {
       clearTimer();
     }
@@ -75,7 +75,6 @@ const Explore = (props) => {
   const getUserCreditsInfo = async () => {
     const userCreditsList = await fetchUserCreditsInfo();
     const arr = extendArray(userCreditsList, 5);
-    console.log('『arr』', arr);
     setUserCreditsList(arr);
   };
 
@@ -109,6 +108,8 @@ const Explore = (props) => {
           <input type="radio" key={item.value} name="nav" id={item.value} />
         ))}
         <nav>
+          <div className={styles['shadow-left']}></div>
+          <div className={styles['shadow-right']}></div>
           <ul>
             {nav.map((item) => (
               <li

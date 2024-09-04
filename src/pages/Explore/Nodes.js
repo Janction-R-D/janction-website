@@ -2,6 +2,7 @@ import device_bg from '@/assets/images/explore/device_bg.png';
 import '@/assets/images/explore/node_overview_bg.png';
 import '@/assets/images/explore/node_overview_android_bg.png';
 import '@/assets/images/explore/statistic_bg.png';
+import '@/assets/images/explore/nav_bg.png';
 import { renderBackgroudImg } from '@/utils/lang';
 import { List, Statistic } from 'antd';
 import numeral from 'numeral';
