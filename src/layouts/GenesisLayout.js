@@ -1,13 +1,13 @@
 import styles from './index.less';
 
-const PersonalLayout = (props) => {
+const GenesisLayout = (props) => {
   const { children } = props;
 
   return (
-    <div id={styles['personal-layout']}>
+    <div id={styles['genesis-layout']}>
       <main>{children}</main>
     </div>
   );
 };
 
-export default PersonalLayout;
+export default GenesisLayout;

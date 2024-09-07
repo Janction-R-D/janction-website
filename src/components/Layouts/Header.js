@@ -10,6 +10,7 @@ const routes = [
   { name: 'Home', path: '/', redirect: '/home' },
   { name: 'Explore', path: '/explore' },
   { name: 'Get started', path: '/getStarted' },
+  { name: 'Solution', path: '/solution' },
 ];
 const Header = (props) => {
   const [active, setActive] = useState();

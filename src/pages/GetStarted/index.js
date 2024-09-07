@@ -1,67 +1,16 @@
-import {
-  motion,
-  useScroll,
-  useSpring,
-  useMotionValueEvent,
-  useInView,
-} from 'framer-motion';
-import { useEffect, useRef, useState } from 'react';
 import Lottie from 'react-lottie';
 import { history } from 'umi';
 import * as Flow1 from './components/Flow1.json';
 import styles from './index.less';
+import { computes, steps } from './data';
 
 const GetStarted = (props) => {
-  const scrollRef = useRef();
-  const [h, setH] = useState(0);
-
-  const getPercent = (value) => {
-    if (value < 50) {
-      return '17.33%';
-    }
-    if (value >= 50 && value < 82) {
-      return '50%';
-    }
-    return '82%';
-  };
-
-  useEffect(() => {
-    const domA = scrollRef.current;
-    let variable = 0;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const rect = entry.boundingClientRect;
-          const viewportHeight = window.innerHeight;
-          const elementHeight = rect.height;
-          const elementTop = rect.top;
-          const halfViewportHeight = viewportHeight / 2;
-          if (elementTop >= halfViewportHeight) {
-            variable = 0;
-          } else if (elementTop + elementHeight <= halfViewportHeight) {
-            variable = 100;
-          } else {
-            const distance = halfViewportHeight - elementTop;
-            variable = (distance / elementHeight) * 100;
-          }
-          setH(getPercent(variable.toFixed(2)));
-        });
-      },
-      {
-        threshold: new Array(101).fill(0).map((_, i) => i / 100),
-      },
-    );
-
-    observer.observe(domA);
-  }, []);
-
   const toPersonal = () => {
     window.open('/genesis');
   };
 
   const toExplore = () => {
-    history.push('/explore/nodes');
+    history.push('/explore');
   };
 
   return (
@@ -79,14 +28,15 @@ const GetStarted = (props) => {
       </div>
       <section className={styles['vision']}>
         <hgroup>
-          <h1>VISION</h1>
+          <h1>Vision</h1>
           <p>
             Janction GPU Marketplace aims to provide unlimited GPU capacity to
             users at lower costs by aggregating GPUs from multiple sources.
           </p>
-          <button className="hvr-pulse-shrink" onClick={toExplore}>
-            EXPLORE
-          </button>
+          <div className={styles['get-started']} onClick={toExplore}>
+            <span>Explore</span>
+            <i className="iconfont icon-lt-arrow"></i>
+          </div>
           <img src={require('@/assets/images/get-started/next.png')} alt="" />
         </hgroup>
         <div className={styles['lottie-animation']}>
@@ -96,8 +46,8 @@ const GetStarted = (props) => {
               autoplay: true,
               animationData: Flow1,
             }}
-            height={322}
-            width={518}
+            height={516}
+            width={814}
           />
         </div>
       </section>
@@ -105,113 +55,39 @@ const GetStarted = (props) => {
         <hgroup>
           <h1>JOIN NETWORK</h1>
         </hgroup>
-        <div className={styles['steps']} ref={scrollRef}>
-          <section
-            className={['hvr-grow', styles['step1']].join(' ')}
-            onClick={toPersonal}
-          >
-            <img
-              src={require('@/assets/images/get-started/step1_icon.png')}
-              alt=""
-            />
-            <div className={styles['text-info']}>
-              <h1>Step 1</h1>
-              <h2>Environmental preparation</h2>
-              <p>
-                Choose Your Operating System, Install Softwares Such As Docker
-              </p>
+        <div className={styles['steps']}>
+          {steps.map((item) => (
+            <div className={styles['step']} key={item.name}>
+              <div className={styles['banner']}>
+                <img src={item.banner} />
+              </div>
+              <div className={styles['info']}>
+                <h2>{item.name}</h2>
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+              </div>
             </div>
-          </section>
-          <section
-            className={['hvr-grow', styles['step2']].join(' ')}
-            onClick={toPersonal}
-          >
-            <img
-              src={require('@/assets/images/get-started/step2_icon.png')}
-              alt=""
-            />
-            <div className={styles['text-info']}>
-              <h1>Step 2</h1>
-              <h2>Initialize</h2>
-              <p>Download Janction Binary Setup And Initalize Dataset</p>
-            </div>
-          </section>
-          <section
-            className={['hvr-grow', styles['step3']].join(' ')}
-            onClick={toPersonal}
-          >
-            <img
-              src={require('@/assets/images/get-started/step3_icon.png')}
-              alt=""
-            />
-            <div className={styles['text-info']}>
-              <h1>Step 3</h1>
-              <h2>Run Node</h2>
-              <p>Join Network, Loading Jobs And Computing</p>
-            </div>
-          </section>
-          <div className={styles['progress-bar']}>
-            <div className={styles['bar']}>
-              <motion.div
-                className={styles['active-bar']}
-                style={{ height: h }}
-              >
-                <div className={styles['point']}></div>
-              </motion.div>
-            </div>
-          </div>
+          ))}
         </div>
       </section>
       <section className={styles['compute']}>
         <hgroup>
           <h1>Let’s Compute</h1>
         </hgroup>
-        <div className={styles['compute-info']}>
-          <section className={styles['ai']}>
-            <div className={[styles['info']].join(' ')}>
-              <div className={styles['img-box']}>
-                <img
-                  src={require('@/assets/images/get-started/AI.png')}
-                  alt=""
-                />
+        <div className={styles['compute-wrapper']}>
+          {computes.map((item) => (
+            <section style={{ gridRow: item.rows }}>
+              <div className={styles['icon']}>
+                <img src={item.icon} alt="" />
               </div>
-              <div>
-                <h1>View Your AI Jobs</h1>
-                <p>Check your Job status and running status</p>
+              <h2>{item.title}</h2>
+              <p>{item.description}</p>
+              <div className={styles['get-started']} onClick={toPersonal}>
+                <span>Get Started</span>
+                <i className="iconfont icon-lt-arrow"></i>
               </div>
-            </div>
-            <div className={styles['shadow']}></div>
-          </section>
-          <section className={styles['ai-job']} onClick={toPersonal}>
-            <div className={[styles['info']].join(' ')}>
-              <div className={styles['img-box']}>
-                <img
-                  src={require('@/assets/images/get-started/AI_job.png')}
-                  width={97}
-                  alt=""
-                />
-              </div>
-              <div>
-                <h1>Submit Your AI Job</h1>
-                <p>Coming Soon</p>
-              </div>
-            </div>
-          </section>
-          <section className={styles['point']} onClick={toPersonal}>
-            <div className={[styles['info']].join(' ')}>
-              <div className={styles['img-box']}>
-                <img
-                  src={require('@/assets/images/get-started/point.png')}
-                  width={213}
-                  alt=""
-                />
-              </div>
-              <div>
-                <h1>Check Your Points</h1>
-                <p>Coming Soon</p>
-              </div>
-            </div>
-          </section>
+            </section>
+          ))}
         </div>
       </section>
     </div>
