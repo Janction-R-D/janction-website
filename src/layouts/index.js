@@ -6,7 +6,8 @@ import 'animate.css';
 import 'hover.css';
 import styles from './index.less';
 import ExploreLayout from './ExploreLayout';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
+import { history } from 'umi';
 
 export const fullWidthRoute = ['/home', '/explore', '/getStarted', '/solution'];
 export const marginTopRoute = ['/home', '/explore', '/getStarted'];
@@ -25,6 +26,13 @@ export default function Layout(props) {
 
   const padding = useMemo(() => {
     return paddingRoute.includes(props.location.pathname);
+  }, [props.location.pathname]);
+
+  useEffect(() => {
+    history.listen(() => {
+      //当路由切换时
+      window.scrollTo(0, 0);
+    });
   }, [props.location.pathname]);
 
   if (props.location.pathname.includes('/login')) {

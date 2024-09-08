@@ -8,6 +8,7 @@ import { fetchUserCreditsInfo } from '../../services/explore/point';
 import styles from './index.less';
 import Nodes from './Nodes';
 import Points from './Points';
+import { history } from 'umi';
 
 function extendArray(arr, len) {
   if (arr.length === 0 || arr.length >= len) return arr.slice(0, len);
@@ -32,10 +33,11 @@ const Explore = (props) => {
   const timer = useRef();
 
   useEffect(() => {
+    const _nav = history.location.query?.nav;
+    if (_nav) {
+      setNavActive(_nav);
+    }
     initBullet();
-  }, []);
-
-  useEffect(() => {
     getUserCreditsInfo();
   }, []);
 
@@ -49,8 +51,16 @@ const Explore = (props) => {
     } else if (timer) {
       clearTimer();
     }
-    return clearTimer;
   }, [screen]);
+
+  useEffect(() => {
+    if (!screen) return;
+    if (navActive == 'node') {
+      screen.hide();
+    } else {
+      screen.show();
+    }
+  }, [navActive, screen]);
 
   const initBullet = () => {
     let s = new BulletScreen('.bullet', { duration: 20 });
@@ -65,11 +75,6 @@ const Explore = (props) => {
 
   const onNavChange = (nav) => {
     setNavActive(nav);
-    if (nav == 'node') {
-      screen.hide();
-    } else {
-      screen.show();
-    }
   };
 
   const getUserCreditsInfo = async () => {
@@ -105,7 +110,13 @@ const Explore = (props) => {
       </div>
       <div className={styles['nav-wrapper']}>
         {nav.map((item) => (
-          <input type="radio" key={item.value} name="nav" id={item.value} />
+          <input
+            type="radio"
+            key={item.value}
+            name="nav"
+            id={item.value}
+            checked={item.value == navActive}
+          />
         ))}
         <nav>
           <div className={styles['shadow-left']}></div>

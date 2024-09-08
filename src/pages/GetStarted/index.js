@@ -18,13 +18,17 @@ const GetStarted = (props) => {
     <div className={styles['get-started-container']}>
       <section className={styles['vision']}>
         <hgroup>
-          <h1>Vision</h1>
+          <h1>
+            The Open
+            <br />
+            Computing Power Layer
+          </h1>
           <p>
             Janction GPU Marketplace aims to provide unlimited GPU capacity to
             users at lower costs by aggregating GPUs from multiple sources.
           </p>
-          <div className={styles['get-started']} onClick={toExplore}>
-            <span>Explore</span>
+          <div className={styles['get-started']} onClick={toPersonal}>
+            <span>Get Started</span>
             <i className="iconfont icon-lt-arrow"></i>
           </div>
           <img src={require('@/assets/images/get-started/next.png')} alt="" />
@@ -72,8 +76,13 @@ const GetStarted = (props) => {
               </div>
               <h2>{item.title}</h2>
               <p>{item.description}</p>
-              <div className={styles['get-started']} onClick={toPersonal}>
-                <span>Get Started</span>
+              <div
+                className={styles['get-started']}
+                onClick={() => {
+                  history.push(item.path);
+                }}
+              >
+                <span>{item.buttonText}</span>
                 <i className="iconfont icon-lt-arrow"></i>
               </div>
             </section>

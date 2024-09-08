@@ -30,18 +30,24 @@ export const steps = [
 
 export const computes = [
   {
-    title: 'View Your AI Jobs',
-    description: 'Check your Job status and running status',
-    icon: eye,
-  },
-  {
-    title: 'Check Your Points',
-    description: 'Coming Soon',
+    title: 'Run A Node',
+    description: 'Anyone can run a node and join janction network',
     icon: path,
+    buttonText: 'Get Started',
+    path: '/genesis',
   },
   {
-    title: 'Submit Your AI Job',
-    description: 'Coming Soon',
+    title: 'View Your  Point',
+    description: 'Points leaderboard, points dynamic history',
     icon: data_bank,
+    buttonText: 'Explore',
+    path: '/explore?nav=points',
+  },
+  {
+    title: 'View Your Nodes',
+    description: 'View global node status',
+    icon: eye,
+    buttonText: 'Explore',
+    path: '/explore?nav=node',
   },
 ];

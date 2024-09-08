@@ -107,7 +107,7 @@ const Points = (props) => {
       res.data || [
         {
           type: 'daily',
-          title: 'daily Rank',
+          title: 'Daily Rank',
           rankingList: [
             { userName: 'User Name', total: 230881290 },
             { userName: 'User Name', total: 220881290 },
@@ -116,7 +116,7 @@ const Points = (props) => {
         },
         {
           type: 'total',
-          title: 'total Rank',
+          title: 'Total Rank',
           rankingList: [
             { userName: 'User Name', total: 430881290 },
             { userName: 'User Name', total: 420881290 },
@@ -125,7 +125,7 @@ const Points = (props) => {
         },
         {
           type: 'month',
-          title: 'month Rank',
+          title: 'Month Rank',
           rankingList: [
             { userName: 'User Name', total: 330881290 },
             { userName: 'User Name', total: 320881290 },
@@ -184,7 +184,7 @@ const Points = (props) => {
   return (
     <div className={styles['points-wrapper']}>
       <div className={[styles['wrapper'], styles['ranking-wrapper']].join(' ')}>
-        <h1>Put title here...</h1>
+        <h1>Leaderboard</h1>
         <div className={styles['content']}>
           {ranking.map((item) => (
             <div
@@ -216,7 +216,7 @@ const Points = (props) => {
       </div>
       <div className={[styles['wrapper'], styles['table-wrapper']].join(' ')}>
         <div className={styles['header']}>
-          <h1>Put title here...</h1>
+          <h1>Points</h1>
           <div className={styles['total']}>
             <div className="df ai_c">
               <img src={line_charts} alt="" />

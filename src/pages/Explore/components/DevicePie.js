@@ -7,8 +7,8 @@ const DevicePie = (props) => {
 
   let option = {
     title: {
-      text: 'Put words here...',
-      subtext: 'Put words here...',
+      text: 'Device Status',
+      subtext: 'Public GPU Nodes',
       left: 'center',
       top: '44%',
       textStyle: {
