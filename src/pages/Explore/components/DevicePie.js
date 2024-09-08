@@ -44,7 +44,7 @@ const DevicePie = (props) => {
       {
         name: '',
         type: 'pie',
-        radius: ['62%', '70%'],
+        radius: ['58%', '66%'],
         center: ['50%', 'center'],
         percentPrecision: 0,
         itemStyle: {

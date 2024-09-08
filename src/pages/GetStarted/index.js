@@ -19,9 +19,9 @@ const GetStarted = (props) => {
       <section className={styles['vision']}>
         <hgroup>
           <h1>
-            The Open
+            Join & share
             <br />
-            Computing Power Layer
+            your processor resources
           </h1>
           <p>
             Janction GPU Marketplace aims to provide unlimited GPU capacity to
