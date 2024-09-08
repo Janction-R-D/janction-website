@@ -9,12 +9,22 @@ import ExploreLayout from './ExploreLayout';
 import { useMemo } from 'react';
 
 export const fullWidthRoute = ['/home', '/explore', '/getStarted', '/solution'];
+export const marginTopRoute = ['/home', '/explore', '/getStarted'];
+export const paddingRoute = ['/home', '/explore', '/getStarted'];
 
 export default function Layout(props) {
   const { children } = props;
 
   const fullWidth = useMemo(() => {
     return fullWidthRoute.includes(props.location.pathname);
+  }, [props.location.pathname]);
+
+  const marginTop = useMemo(() => {
+    return marginTopRoute.includes(props.location.pathname);
+  }, [props.location.pathname]);
+
+  const padding = useMemo(() => {
+    return paddingRoute.includes(props.location.pathname);
   }, [props.location.pathname]);
 
   if (props.location.pathname.includes('/login')) {
@@ -28,7 +38,15 @@ export default function Layout(props) {
   return (
     <div id={styles['main-layout']}>
       <Header />
-      <main className={fullWidth && styles['main-wp100']}>{children}</main>
+      <main
+        className={[
+          fullWidth && styles['main-wp100'],
+          marginTop && styles['main-mt'],
+          padding && styles['main-pd'],
+        ].join(' ')}
+      >
+        {children}
+      </main>
       <Footer />
     </div>
   );

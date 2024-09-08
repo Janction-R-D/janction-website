@@ -1,13 +1,6 @@
 import { history } from 'umi';
-import * as Flow1 from './components/Flow1.json';
 import styles from './index.less';
-import {
-  characteristic,
-  computes,
-  slogan,
-  solutionSection,
-  steps,
-} from './data';
+import { characteristic, slogan, solutionSection } from './data';
 
 const Solution = (props) => {
   const learnMore = () => {
@@ -50,10 +43,7 @@ const Solution = (props) => {
       </section>
       <section className={styles['characteristic']}>
         {characteristic.map((item) => (
-          <div
-            className={styles['characteristic-wrapper']}
-            style={{ flexDirection: item.direction }}
-          >
+          <div className={styles['characteristic-wrapper']}>
             <div className={styles['icon']}>
               <img src={item.icon} alt="" />
             </div>

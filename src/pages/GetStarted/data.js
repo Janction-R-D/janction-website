@@ -42,6 +42,5 @@ export const computes = [
     title: 'Submit Your AI Job',
     description: 'Coming Soon',
     icon: data_bank,
-    rows: '1 / 3',
   },
 ];

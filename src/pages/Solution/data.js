@@ -1,6 +1,7 @@
 import banner1 from '@/assets/images/solution/banner1.png';
 import banner2 from '@/assets/images/solution/banner2.png';
 import banner3 from '@/assets/images/solution/banner3.png';
+import '@/assets/images/solution/slogan_bg.png';
 
 export const slogan = {
   title: 'GPU MarketPlace',
@@ -46,7 +47,6 @@ export const characteristic = [
     title: 'Faster Distributed Cluster Management',
     description:
       'We use Kubernetes to manage pooled GPU resources for users. Kademlia algorithm is employed to manage various GPU nodes and data centers, accelerating communication between nodes and containers. By assigning role identifiers based on node roles, attributes, and weight levels, participants can quickly locate the desired service nodes, similar to data localization.',
-    direction: 'row-reverse',
     icon: banner2,
   },
   {
