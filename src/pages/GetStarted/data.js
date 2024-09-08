@@ -4,6 +4,7 @@ import step3 from '@/assets/images/get-started/step3.png';
 import eye from '@/assets/images/get-started/eye.png';
 import data_bank from '@/assets/images/get-started/data_bank.png';
 import path from '@/assets/images/get-started/path.png';
+import '@/assets/images/get-started/flow.png';
 
 export const steps = [
   {
