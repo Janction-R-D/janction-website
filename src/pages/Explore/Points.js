@@ -139,9 +139,9 @@ const Points = (props) => {
   const getPointsList = async (values) => {
     const params = { ...query, ...values };
     setLoading(true);
+    setQuery(params);
     const res = await fetchUserCreditsInfo(params);
     setLoading(false);
-    setQuery(params);
     setTotal(res.total || 100);
   };
 
@@ -244,7 +244,7 @@ const Points = (props) => {
             showLessItems={true}
             showSizeChanger={false}
             onChange={(page) => {
-              getPointsList({ current: page });
+              getPointsList({ page: page });
             }}
           />
         </div>

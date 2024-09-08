@@ -1,7 +1,6 @@
 import Lottie from 'react-lottie';
 import { history } from 'umi';
-import * as Flow1 from './components/Flow1.json';
-import './components/flow.svg';
+import * as Flow1 from './components/Flow2.json';
 import styles from './index.less';
 import { computes, steps } from './data';
 
@@ -34,15 +33,13 @@ const GetStarted = (props) => {
           <img src={require('@/assets/images/get-started/next.png')} alt="" />
         </hgroup>
         <div className={styles['lottie-animation']}>
-          {/* <Lottie
+          <Lottie
             options={{
               loop: true,
               autoplay: true,
               animationData: Flow1,
             }}
-            height={516}
-            width={814}
-          /> */}
+          />
         </div>
       </section>
       <section className={styles['join']}>
