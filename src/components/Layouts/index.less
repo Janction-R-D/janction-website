@@ -75,10 +75,10 @@ header.main-header.fixed {
 }
 
 footer.main-footer {
-  width: 1200px;
+  background-color: #101112;
+  width: 100%;
   margin: 0 auto;
-  margin-top: 144px;
-  padding-bottom: 20px;
+  padding: 30px 265px 60px;
   position: relative;
   z-index: 2;
 
@@ -112,9 +112,7 @@ footer.main-footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-bottom: 30px;
-    margin-bottom: 30px;
-    margin-top: 0px;
+    padding-bottom: 40px;
     border-bottom: 1px solid rgba(245, 245, 255, 0.1);
   }
 }
@@ -166,13 +164,12 @@ footer.main-footer {
 
   footer.main-footer {
     width: 100%;
-    padding: 0 20px;
-    margin-top: 100px;
+    padding: 75px 20px 30px;
     transition: all 0.3s;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 50px;
+    gap: 35px;
     position: relative;
     z-index: 2;
 
@@ -189,11 +186,19 @@ footer.main-footer {
         gap: 0;
         width: 100%;
         justify-content: space-between;
+
+        > div {
+          > div,
+          > a {
+            margin-bottom: 10px;
+          }
+        }
       }
     }
 
     .related-container {
       width: 100%;
+      padding-bottom: 25px;
       justify-content: center;
 
       .socials-links {
