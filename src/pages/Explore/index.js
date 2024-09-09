@@ -1,7 +1,8 @@
 import '@/assets/images/explore/statistic_bg.png';
 import '@/assets/images/explore/slogan_bg.png';
-import shadow_left from '@/assets/images/home/shadow_left.png';
-import shadow_right from '@/assets/images/home/shadow_right.png';
+import '@/assets/images/explore/device_item_active_bg.png';
+import '@/assets/images/home/shadow_left.png';
+import '@/assets/images/home/shadow_right.png';
 import BulletScreen from 'rc-bullets';
 import { useEffect, useRef, useState } from 'react';
 import { fetchUserCreditsInfo } from '../../services/explore/point';
@@ -10,20 +11,12 @@ import Nodes from './Nodes';
 import Points from './Points';
 import { history } from 'umi';
 
-function extendArray(arr, len) {
-  if (arr.length === 0 || arr.length >= len) return arr.slice(0, len);
-
-  let result = arr.slice();
-  while (result.length < len) {
-    result.push(...arr.slice(0, len - result.length));
-  }
-  return result;
-}
-
 const nav = [
   { value: 'node', label: 'Node' },
   { value: 'points', label: 'Points' },
 ];
+
+const time = 3000;
 
 const Explore = (props) => {
   const [userCreditsList, setUserCreditsList] = useState();
@@ -39,19 +32,20 @@ const Explore = (props) => {
     }
     initBullet();
     getUserCreditsInfo();
+    return () => {
+      setScreen(null);
+      clearTimer(timer.current);
+    };
   }, []);
 
   useEffect(() => {
-    if (screen) {
+    if (screen && userCreditsList?.length > 0) {
+      createBullet();
       timer.current = setInterval(() => {
-        screen.push(
-          renderUserCreditsInfo({ userName: '0x56ab0649', creditsNum: 124 }),
-        );
-      }, 3000);
-    } else if (timer) {
-      clearTimer();
+        createBullet();
+      }, time * (userCreditsList?.length + 1));
     }
-  }, [screen]);
+  }, [screen, userCreditsList]);
 
   useEffect(() => {
     if (!screen) return;
@@ -79,8 +73,17 @@ const Explore = (props) => {
 
   const getUserCreditsInfo = async () => {
     const userCreditsList = await fetchUserCreditsInfo();
-    const arr = extendArray(userCreditsList, 5);
-    setUserCreditsList(arr);
+    setUserCreditsList(userCreditsList);
+  };
+
+  const createBullet = () => {
+    if (screen) {
+      userCreditsList.map((item, index) => {
+        setTimeout(() => {
+          screen.push(renderUserCreditsInfo(item));
+        }, index * time);
+      });
+    }
   };
 
   const renderUserCreditsInfo = (item) => {

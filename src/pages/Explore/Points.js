@@ -13,10 +13,11 @@ import '@/assets/images/explore/table_android_bg.png';
 import { ConfigProvider, Table, Pagination } from 'antd';
 import { useEffect, useState } from 'react';
 import JactionEmpty from '../../components/JactionEmpty';
-import { fetchUserCreditsInfo } from '../../services/explore/point';
+import { fetchPointsList, fetchRanking } from '../../services/explore/point';
 import styles from './index.less';
 import numeral from 'numeral';
 import { renderBackgroudImg } from '@/utils/lang';
+import { rankList } from './data';
 
 const rankingImg = {
   1: first,
@@ -25,76 +26,13 @@ const rankingImg = {
 };
 
 const Points = (props) => {
+  // Leaderboard's data
+  const [rankData, setRankData] = useState();
+  // Points's data
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState({ page: 1, size: 15 });
   const [total, setTotal] = useState(0);
-  const [pointsList, setPointsList] = useState([
-    {
-      username: 'Sam Johaannes',
-      jobId: '123891h12as118883j',
-      finishedTime: 'Aug 02, 2024 10:00:02 UTC',
-      rewardPoints: '888,888,888.88',
-      txHash: '0xc72c5c324422e7',
-      platform: 'CPU',
-    },
-    {
-      username: 'GeForce RTX 3090',
-      jobId: '123891h12as118883j',
-      finishedTime: 'Aug 02, 2024 10:00:02 UTC',
-      rewardPoints: '888,888,888.88',
-      txHash: '0xc72c5c324422e7',
-      platform: 'CPU',
-    },
-    {
-      username: 'M2 MAX',
-      jobId: '123891h12as118883j',
-      finishedTime: 'Aug 02, 2024 10:00:02 UTC',
-      rewardPoints: '888,888,888.88',
-      txHash: '0xc72c5c324422e7',
-      platform: 'CPU',
-    },
-    {
-      username: 'GeForce RTX 3070',
-      jobId: '123891h12as118883j',
-      finishedTime: 'Aug 02, 2024 10:00:02 UTC',
-      rewardPoints: '888,888,888.88',
-      txHash: '0xc72c5c324422e7',
-      platform: 'CPU',
-    },
-    {
-      username: 'GeForce RTX 4090',
-      jobId: '123891h12as118883j',
-      finishedTime: 'Aug 02, 2024 10:00:02 UTC',
-      rewardPoints: '888,888,888.88',
-      txHash: '0xc72c5c324422e7',
-      platform: 'CPU',
-    },
-    {
-      username: 'GeForce RTX 4090',
-      jobId: '123891h12as118883j',
-      finishedTime: 'Aug 02, 2024 10:00:02 UTC',
-      rewardPoints: '888,888,888.88',
-      txHash: '0xc72c5c324422e7',
-      platform: 'CPU',
-    },
-    {
-      username: 'GeForce RTX 4090',
-      jobId: '123891h12as118883j',
-      finishedTime: 'Aug 02, 2024 10:00:02 UTC',
-      rewardPoints: '888,888,888.88',
-      txHash: '0xc72c5c324422e7',
-      platform: 'CPU',
-    },
-    {
-      username: 'GeForce RTX 4090',
-      jobId: '123891h12as118883j',
-      finishedTime: 'Aug 02, 2024 10:00:02 UTC',
-      rewardPoints: '888,888,888.88',
-      txHash: '0xc72c5c324422e7',
-      platform: 'CPU',
-    },
-  ]);
-  const [ranking, setRanking] = useState([]);
+  const [pointsList, setPointsList] = useState();
 
   useEffect(() => {
     getRaking();
@@ -102,47 +40,18 @@ const Points = (props) => {
   }, []);
 
   const getRaking = async () => {
-    const res = await fetchUserCreditsInfo();
-    setRanking(
-      res.data || [
-        {
-          type: 'daily',
-          title: 'Daily Rank',
-          rankingList: [
-            { userName: 'User Name', total: 230881290 },
-            { userName: 'User Name', total: 220881290 },
-            { userName: 'User Name', total: 210881290 },
-          ],
-        },
-        {
-          type: 'total',
-          title: 'Total Rank',
-          rankingList: [
-            { userName: 'User Name', total: 430881290 },
-            { userName: 'User Name', total: 420881290 },
-            { userName: 'User Name', total: 410881290 },
-          ],
-        },
-        {
-          type: 'month',
-          title: 'Month Rank',
-          rankingList: [
-            { userName: 'User Name', total: 330881290 },
-            { userName: 'User Name', total: 320881290 },
-            { userName: 'User Name', total: 310881290 },
-          ],
-        },
-      ],
-    );
+    const res = await fetchRanking();
+    setRankData(res);
   };
 
   const getPointsList = async (values) => {
     const params = { ...query, ...values };
     setLoading(true);
     setQuery(params);
-    const res = await fetchUserCreditsInfo(params);
+    const res = await fetchPointsList(params);
+    setPointsList(res.list);
     setLoading(false);
-    setTotal(res.total || 100);
+    setTotal(res.total);
   };
 
   const columns = [
@@ -186,7 +95,7 @@ const Points = (props) => {
       <div className={[styles['wrapper'], styles['ranking-wrapper']].join(' ')}>
         <h1>Leaderboard</h1>
         <div className={styles['content']}>
-          {ranking.map((item) => (
+          {rankList.map((item) => (
             <div
               className={styles['ranking-info']}
               style={renderBackgroudImg(ranking_bg)}
@@ -195,7 +104,7 @@ const Points = (props) => {
                 <span>{item.title}</span>
               </div>
               <div className={styles['list']}>
-                {item.rankingList.map((rankingItem, index) => (
+                {(rankData?.[item.type] || []).map((rankingItem, index) => (
                   <div className={styles[`ranking-${index}`]}>
                     <img src={rankingImg[index + 1]} />
                     <span
