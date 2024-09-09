@@ -156,13 +156,6 @@
           transition: all 0.3s ease-out;
         }
 
-        &:hover {
-          &::after {
-            opacity: 1;
-            transition: all 0.3s ease-in;
-          }
-        }
-
         .banner {
           width: 100%;
           height: 14.583vw;
@@ -220,6 +213,13 @@
             line-height: 1.25vw;
             color: rgba(255, 255, 255, 0.8);
           }
+        }
+      }
+
+      .step:hover {
+        &::after {
+          opacity: 1;
+          transition: all 0.3s ease-in;
         }
       }
     }
@@ -520,7 +520,7 @@
       }
 
       .compute-wrapper {
-        margin-top: 21.333vw;
+        margin-top: 8.533vw;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
@@ -577,7 +577,7 @@
           }
 
           .get-started {
-            margin-top: 0;
+            margin-top: 2.133vw;
             padding: 2.133vw 4.8vw;
             width: 33.867vw;
             height: 9.067vw;
