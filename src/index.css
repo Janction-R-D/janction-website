@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  padding: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: #000;
+  color: #fff;
+}
+
+.text-gradient {
+  background: linear-gradient(to right, #ffffff 10%, #fcc7bc 5%, #73d5f4 8%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.button-gradient {
+  background: linear-gradient(to right, #ffffff, #fcc7bc, #73d5f4);
+}
