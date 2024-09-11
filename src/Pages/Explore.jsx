@@ -7,7 +7,7 @@ export default function Explore() {
       <header className="px-3 py-6 relative rounded-2xl   ">
         <Header />
       </header>
-      <main className="max-w-[928px] mx-auto px-3 pb-16 pt-28 flex flex-col gap-10">
+      <main className="max-w-[928px] mx-auto px-3 pb-16 md:pt-28 pt-16 flex flex-col gap-10">
         <h1 className="text-4xl font-bold text-center ">
           {" "}
           Self Service Repair
