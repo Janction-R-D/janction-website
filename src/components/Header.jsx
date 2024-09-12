@@ -11,7 +11,7 @@ export default function Header({ children }) {
         <MenuNav />
         <NavLink
           to="#"
-          className="border p-1 text-xs px-3 rounded-3xl hidden md:flex"
+          className="border p-1 text-xs px-3 rounded-3xl hidden md:flex bg-custom-gradient-2"
         >
           Dashboard
         </NavLink>

@@ -8,6 +8,8 @@ export default {
       },
       backgroundImage: {
         "custom-gradient": "linear-gradient(115deg, #0d0d0d 35%, #1a1a1a 85%)",
+        "custom-gradient-2":
+          "linear-gradient(50deg, transparent 80%, rgb(251, 249, 248  , .4) 95%)",
       },
     },
   },
