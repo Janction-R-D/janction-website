@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import MenuNav from "./MenuNav";
 
 export default function Header({ children }) {
@@ -9,12 +9,12 @@ export default function Header({ children }) {
           <img src="./assets/logo.png" alt="Logo" className="md:h-6" />
         </picture>
         <MenuNav />
-        <Link
+        <NavLink
           to="#"
           className="border p-1 text-xs px-3 rounded-3xl hidden md:flex"
         >
           Dashboard
-        </Link>
+        </NavLink>
       </section>
       {children}
     </>
