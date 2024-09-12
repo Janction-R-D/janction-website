@@ -1,7 +1,6 @@
-import React from "react";
 import Header from "../components/Header";
 
-export default function Explore() {
+export default function Jct() {
   return (
     <>
       <header className="px-3 py-6 relative rounded-2xl   ">

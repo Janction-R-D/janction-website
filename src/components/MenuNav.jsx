@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 export default function MenuNav() {
   return (
     <nav className="hidden md:flex    ">
-      <ul className="flex justify-between gap-4">
+      <ul className="flex justify-between gap-5">
         <li>
           <NavLink
             to="/"
@@ -15,13 +15,26 @@ export default function MenuNav() {
           </NavLink>
         </li>
         <li>
+          <NavLink to="#">Product</NavLink>
+        </li>
+        <li>
           <NavLink
-            to="/products"
+            to="/price"
             className={({ isActive, isPending }) =>
               isPending ? "pending" : isActive ? "font-bold" : ""
             }
           >
-            Product
+            Price
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            to="/jct"
+            className={({ isActive, isPending }) =>
+              isPending ? "pending" : isActive ? "font-bold" : ""
+            }
+          >
+            JCT
           </NavLink>
         </li>
         <li>
@@ -35,14 +48,7 @@ export default function MenuNav() {
           </NavLink>
         </li>
         <li>
-          <NavLink
-            to="get-started"
-            className={({ isActive, isPending }) =>
-              isPending ? "pending" : isActive ? "font-bold" : ""
-            }
-          >
-            Get started
-          </NavLink>
+          <NavLink to="#">Get started</NavLink>
         </li>
       </ul>
     </nav>
