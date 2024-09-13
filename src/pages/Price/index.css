@@ -1,0 +1,206 @@
+.main {
+  padding-top: 100px;
+  position: relative;
+  max-width: 1128px;
+  width: 100%;
+  margin-inline: auto;
+}
+@media screen and (max-width) {
+  .main {
+    padding-top: 40px;
+  }
+}
+/* Header container styles */
+.header-container {
+  padding-left: 0.75rem; /* Equivalent to px-3 */
+  padding-right: 0.75rem; /* Equivalent to px-3 */
+  padding-top: 1.5rem; /* Equivalent to py-6 */
+  padding-bottom: 1.5rem; /* Equivalent to py-6 */
+  /* position: absolute; */
+  inset: 0; /* Equivalent to relative */
+  border-radius: 1rem; /* Equivalent to rounded-2xl */
+  height: 450px; /* Equivalent to h-[450px] */
+}
+
+/* Pricing header section styles */
+.pricing-header {
+  height: 400px; /* Full height */
+  width: 100%; /* Full width */
+}
+
+/* Image styles */
+.img-md-hidden {
+  display: block; /* Hidden by default */
+  width: 100vw; /* Equivalent to w-screen */
+  position: absolute;
+  inset: 0;
+  height: 100px; /* Full height */
+  object-fit: cover; /* Equivalent to object-cover */
+  object-position: top; /* Equivalent to object-top */
+}
+
+.img-md-block {
+  display: block;
+  width: 100vw;
+  position: absolute;
+  inset: 0;
+  height: 100px;
+  object-fit: cover;
+  object-position: top;
+}
+
+/* .img-banner-shadow {
+  height: 100%;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+} */
+
+/* Media queries */
+@media (min-width: 768px) {
+  .img-md-hidden {
+    display: block;
+  }
+  .img-md-block {
+    display: none;
+  }
+}
+
+/* Pricing section */
+.pricing-header {
+  position: absolute;
+  inset: 0;
+}
+.pricing-header > img {
+  width: 100vw;
+  position: absolute;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+.pricing-main {
+  max-width: 1120px;
+  width: 100%;
+  margin-inline: auto;
+  padding-top: 20px;
+  padding-inline: 12px;
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+}
+.pricing-main__header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-bottom: 8px;
+  margin-bottom: 48px;
+}
+.text-gray {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: rgb(161, 161, 170);
+}
+.text-description {
+  max-width: 85ch;
+  opacity: 0.95;
+}
+.text-title {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: white;
+}
+.text-subtitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+}
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 40px;
+  padding: 40px 0px;
+}
+
+/* Global styles */
+:root {
+  --custom-gradient: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+  --shadow-custom-1: 0px 10px 20px rgba(0, 0, 0, 0.1);
+  --text-gradient: linear-gradient(to right, #f6d365, #fda085);
+}
+
+.text-gradient {
+  background: var(--text-gradient);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Article styles */
+.article-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem; /* Equivalent to gap-5 */
+  padding: 1rem; /* Equivalent to p-4 */
+  border-radius: 1rem; /* Equivalent to rounded-2xl */
+  border: 1px solid rgba(204, 204, 204, 0.15); /* Equivalent to border-opacity-15 border-[#ccc] */
+  background-image: linear-gradient(
+    115deg,
+    #0d0d0d 35%,
+    #1a1a1a 85%
+  ); /* Equivalent to bg-custom-gradient */
+  box-shadow: var(--shadow-custom-1); /* Equivalent to shadow-custom-1 */
+}
+
+.article-container p:first-of-type {
+  margin: 0;
+}
+
+.button-gradient {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border-radius: 1rem;
+  color: #0d0d0d;
+  width: 8rem;
+  padding: 4px;
+  font-weight: 600;
+  background: linear-gradient(to right, #ffffff, #fcc7bc, #73d5f4);
+}
+.article-price {
+  font-size: 1.5rem; /* Equivalent to text-2xl */
+  font-weight: bold;
+  background: linear-gradient(to right, #ffffff 10%, #fcc7bc 5%, #73d5f4 8%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.article-description {
+  color: rgba(189, 189, 189, 0.8);
+}
+
+.article-list {
+  color: rgba(107, 107, 107, 0.8);
+  font-size: 0.875rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.article-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.article-list img {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+.article-button-container {
+  display: flex;
+  align-items: center;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}

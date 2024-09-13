@@ -3,10 +3,13 @@ import Header from '@/components/Layouts/Header';
 import LoginLayout from './LoginLayout';
 import GenesisLayout from './GenesisLayout';
 import 'animate.css';
+import '../index.css';
 import 'hover.css';
 import styles from './index.less';
 import { useEffect, useMemo } from 'react';
 import { history } from 'umi';
+import PricingLayout from './PricingLayout';
+import JctLayout from './JctLayout';
 
 export const fullWidthRoute = ['/home', '/explore', '/getStarted', '/solution'];
 export const marginTopRoute = ['/home', '/explore', '/getStarted'];
@@ -32,6 +35,12 @@ export default function Layout(props) {
 
   if (props.location.pathname == '/genesis') {
     return <GenesisLayout>{children}</GenesisLayout>;
+  }
+  if (props.location.pathname == '/price') {
+    return <PricingLayout>{children}</PricingLayout>;
+  }
+  if (props.location.pathname == '/jct') {
+    return <JctLayout>{children}</JctLayout>;
   }
 
   return (

@@ -1,0 +1,58 @@
+/* Main container styles */
+.jct-main-container {
+  max-width: 928px; /* Equivalent to max-w-[928px] */
+  margin-left: auto; /* Equivalent to mx-auto */
+  margin-right: auto; /* Equivalent to mx-auto */
+  padding-left: 0.75rem; /* Equivalent to px-3 */
+  padding-right: 0.75rem; /* Equivalent to px-3 */
+  padding-bottom: 4rem; /* Equivalent to pb-16 */
+  padding-top: 5rem; /* Equivalent to pt-16 */
+  display: flex; /* Equivalent to flex */
+  flex-direction: column; /* Equivalent to flex-col */
+  gap: 2.5rem; /* Equivalent to gap-10 */
+}
+
+@media (min-width: 768px) {
+  .jct-main-container {
+    padding-top: 10rem; /* Equivalent to md:pt-28 */
+  }
+  .jct-main-heading {
+    margin-top: 0;
+  }
+}
+
+/* Heading 1 styles */
+.jct-main-heading {
+  font-size: 2.25rem; /* Equivalent to text-4xl */
+  font-weight: bold; /* Equivalent to font-bold */
+  text-align: center; /* Equivalent to text-center */
+  margin-top: 3rem;
+}
+
+/* Paragraph styles */
+.jct-main-paragraph {
+  color: #a1a1aa; /* Equivalent to text-zinc-400 */
+  opacity: 0.95; /* Equivalent to opacity-95 */
+  font-size: 0.875rem; /* Equivalent to text-sm */
+}
+
+/* Section styles */
+.jct-main-section {
+  width: 100%; /* Full width */
+  height: 18rem; /* Equivalent to h-72 */
+  background-color: #71717abe; /* Equivalent to bg-zinc-500 */
+  border-radius: 1.5rem; /* Equivalent to rounded-3xl */
+}
+
+/* Article styles */
+.jct-main-article {
+  display: flex; /* Equivalent to flex */
+  flex-direction: column; /* Equivalent to flex-col */
+  gap: 0.5rem; /* Equivalent to gap-2 */
+}
+
+/* Heading 2 styles */
+.jct-main-heading-2 {
+  font-size: 1.5rem; /* Equivalent to text-2xl */
+  font-weight: 500; /* Equivalent to font-medium */
+}

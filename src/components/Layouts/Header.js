@@ -9,6 +9,8 @@ import { useScroll } from 'framer-motion';
 const routes = [
   { name: 'Home', path: '/', redirect: '/home' },
   { name: 'Explore', path: '/explore' },
+  { name: 'Jct', path: '/jct' },
+  { name: 'Price', path: '/price' },
   { name: 'Get started', path: '/getStarted' },
   { name: 'Solution', path: '/solution' },
 ];
