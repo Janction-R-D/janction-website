@@ -1,0 +1,40 @@
+@media screen and (width <= 768px) {
+
+  .table-custom caption {
+    font-size: 22px;
+  }
+
+  .table-custom thead {
+    display: none;
+  }
+
+  .table-custom tr {
+    display: block;
+    margin-bottom: 8px;
+    border: 2px solid rgb(194 191 191);
+    border-bottom: 4px solid #ddd;
+    border-radius: 4px;
+  }
+
+  .table-custom th, .table-custom td {
+    font-size: 12px;
+  }
+
+  .table-custom td {
+    display: block;
+    text-align: right;
+    border-bottom: 1px solid #ddd;
+        
+  }
+
+  .table-custom  td:last-child {
+    border-bottom: 0;
+  }
+
+  .table-custom td::before {
+    float: left;
+    font-weight: bold;
+    text-transform: uppercase;
+    content: attr(data-label);
+  }
+}

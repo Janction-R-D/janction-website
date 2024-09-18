@@ -1,0 +1,162 @@
+ {
+    
+    "locations1": [
+      {
+        "name": "重庆A区",
+        "priceFactor": 1
+      },
+      {
+        "name": "西北B区",
+        "priceFactor": 1.1
+      },
+      {
+        "name": "北京B区",
+        "priceFactor": 1.2
+      },
+      {
+        "name": "北京A区",
+        "priceFactor": 1.3
+      },
+      {
+        "name": "佛山区",
+        "priceFactor": 1.3
+      }
+    ],
+    "locations2": [
+      {
+        "name": "3090专区",
+        "priceFactor": 1
+      },
+      {
+        "name": "L20专区",
+        "priceFactor": 1.1
+      },
+      {
+        "name": "V100专区",
+        "priceFactor": 1.2
+      },
+      {
+        "name": "A800专区",
+        "priceFactor": 1.3
+      }
+    ],
+    "paymentMethod": [
+      {
+        "name": "按量计费",
+        "discount": 0.1
+      },
+      {
+        "name": "包日",
+        "discount": 0.1
+      },
+      {
+        "name": "包周",
+        "discount": 0.1
+      },
+      {
+        "name": "包月",
+        "discount": 0
+      }
+    ],
+    "gpuModel": [
+      {
+        "name": "RTX 4090D (543/2040)",
+        "pricePerGPU": 200
+      },
+      {
+        "name": "RTX 3090 (0/140)",
+        "pricePerGPU": 500
+      },
+      {
+        "name": "RTX 2028 Ti x2 (2/40)",
+        "pricePerGPU": 1000
+      },
+      {
+        "name": "RTX 2028 Ti x2 (12/1000)",
+        "pricePerGPU": 1000
+      }
+    ],
+    "gpuQuantity": [
+      {
+        "quantity": 1,
+        "priceFactor": 1
+      },
+      {
+        "quantity": 2,
+        "priceFactor": 1.8
+      },
+      {
+        "quantity": 3,
+        "priceFactor": 3.5
+      },
+      {
+        "quantity": 4,
+        "priceFactor": 3.5
+      },
+      {
+        "quantity": 5,
+        "priceFactor": 3.5
+      },
+      {
+        "quantity": 6,
+        "priceFactor": 3.5
+      },
+      {
+        "quantity": 7,
+        "priceFactor": 3.5
+      }
+    ],
+    "processorType": [
+      {
+        "id": "139机",
+        "name": "RTX 4090D 24GB",
+        "cpu": "CPU: 16核 - 内存: 80GB",
+        "cpuModel": "Xeon(R) Platinum 8474C",
+        "innactiveTime": "1/12",
+        "hardDisk": "数据盘: 50GB - 可扩容: 0GB",
+        "maxCpu": "12.4",
+        "basePrice": 100
+      },
+      {
+        "id": "140机",
+        "name": "RTX 4080D 20GB",
+        "cpu": "CPU: 12核 - 内存: 64GB",
+        "cpuModel": "Xeon(R) Gold 6254",
+        "innactiveTime": "1/10",
+        "hardDisk": "数据盘: 40GB - 可扩容: 0GB",
+        "maxCpu": "10.0",
+        "basePrice": 90
+      },
+      {
+        "id": "141机",
+        "name": "RTX 3070D 16GB",
+        "cpu": "CPU: 8核 - 内存: 32GB",
+        "cpuModel": "Xeon(R) Silver 4214",
+        "innactiveTime": "1/8",
+        "hardDisk": "数据盘: 30GB - 可扩容: 0GB",
+        "maxCpu": "8.5",
+        "basePrice": 70
+      },
+      {
+        "id": "142机",
+        "name": "GTX 1080 8GB",
+        "cpu": "CPU: 4核 - 内存: 16GB",
+        "cpuModel": "Xeon(R) Bronze 3106",
+        "innactiveTime": "1/6",
+        "hardDisk": "数据盘: 20GB - 可扩容: 0GB",
+        "maxCpu": "6.0",
+        "basePrice": 50
+      },
+      {
+        "id": "143机",
+        "name": "RTX 2060 6GB",
+        "cpu": "CPU: 6核 - 内存: 24GB",
+        "cpuModel": "Xeon(R) Silver 4210",
+        "innactiveTime": "1/10",
+        "hardDisk": "数据盘: 25GB - 可扩容: 0GB",
+        "maxCpu": "7.2",
+        "basePrice": 60
+      }
+    ]
+  
+}
