@@ -1,6 +1,6 @@
 .get-started-container {
   width: 100%;
-  padding: 0 6.25vw 9.375vw;
+  padding: 11.146vw 6.25vw 15.469vw;
   position: relative;
   z-index: 2;
 
@@ -33,7 +33,7 @@
     align-items: center;
     justify-content: space-between;
     position: relative;
-    padding-top: 5.313vw;
+    // padding-top: 5.313vw;
 
     hgroup {
       flex: 1;
@@ -156,13 +156,6 @@
           transition: all 0.3s ease-out;
         }
 
-        &:hover {
-          &::after {
-            opacity: 1;
-            transition: all 0.3s ease-in;
-          }
-        }
-
         .banner {
           width: 100%;
           height: 14.583vw;
@@ -220,6 +213,13 @@
             line-height: 1.25vw;
             color: rgba(255, 255, 255, 0.8);
           }
+        }
+      }
+
+      .step:hover {
+        &::after {
+          opacity: 1;
+          transition: all 0.3s ease-in;
         }
       }
     }
@@ -365,9 +365,9 @@
 @media (max-width: 1024px) {
   .get-started-container {
     width: 100%;
-    padding: 0;
     position: static;
     z-index: 2;
+    padding: 46.667vw 6.4vw 42.667vw;
 
     &::before {
       content: '';
@@ -398,7 +398,6 @@
       align-items: center;
       justify-content: flex-start;
       gap: 10.667vw;
-      padding-top: 21.867vw;
 
       hgroup {
         flex: 1;
@@ -521,7 +520,7 @@
       }
 
       .compute-wrapper {
-        margin-top: 21.333vw;
+        margin-top: 8.533vw;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
@@ -578,7 +577,7 @@
           }
 
           .get-started {
-            margin-top: 0;
+            margin-top: 2.133vw;
             padding: 2.133vw 4.8vw;
             width: 33.867vw;
             height: 9.067vw;

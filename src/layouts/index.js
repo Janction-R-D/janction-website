@@ -5,7 +5,6 @@ import GenesisLayout from './GenesisLayout';
 import 'animate.css';
 import 'hover.css';
 import styles from './index.less';
-import ExploreLayout from './ExploreLayout';
 import { useEffect, useMemo } from 'react';
 import { history } from 'umi';
 
@@ -18,14 +17,6 @@ export default function Layout(props) {
 
   const fullWidth = useMemo(() => {
     return fullWidthRoute.includes(props.location.pathname);
-  }, [props.location.pathname]);
-
-  const marginTop = useMemo(() => {
-    return marginTopRoute.includes(props.location.pathname);
-  }, [props.location.pathname]);
-
-  const padding = useMemo(() => {
-    return paddingRoute.includes(props.location.pathname);
   }, [props.location.pathname]);
 
   useEffect(() => {
@@ -46,15 +37,7 @@ export default function Layout(props) {
   return (
     <div id={styles['main-layout']}>
       <Header />
-      <main
-        className={[
-          fullWidth && styles['main-wp100'],
-          marginTop && styles['main-mt'],
-          padding && styles['main-pd'],
-        ].join(' ')}
-      >
-        {children}
-      </main>
+      <main className={fullWidth && styles['main-wp100']}>{children}</main>
       <Footer />
     </div>
   );

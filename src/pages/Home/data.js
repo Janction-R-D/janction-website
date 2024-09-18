@@ -8,6 +8,7 @@ import kunitake_ando_android from '@/assets/images/home/kunitake_ando_android.pn
 import kazumasa_sato from '@/assets/images/home/kazumasa_sato.png';
 import kazumasa_sato_android from '@/assets/images/home/kazumasa_sato_android.png';
 import takashi_hagiwara from '@/assets/images/home/takashi_hagiwara.png';
+import takashi_hagiwara_android from '@/assets/images/home/takashi_hagiwara_android.png';
 
 export const characteristics = [
   {
@@ -93,7 +94,7 @@ export const teamList = [
   {
     userName: 'TAKASHI HAGIWARA',
     avatar: takashi_hagiwara,
-    avatar_android: takashi_hagiwara,
+    avatar_android: takashi_hagiwara_android,
     introductions: [
       'Joined Sony Corporation, where he worked in software product design forconsumer products and was responsible for PC/VAlO development and designfor many years.In 2000, he became President of Sony Digital NetworkApplications Corporation (SDNA). After serving as Deputy General Manager ofthe VAl0 & Mobile Business Unit, in 2015 he was Appointed President andRepresentative Director of Vision Arts Corporation. He has developed varioussystem construction projects based on cloud technology for variouscompanies in the group.',
       'Since 2020, he has overseen the development of Jasmy Software.',
