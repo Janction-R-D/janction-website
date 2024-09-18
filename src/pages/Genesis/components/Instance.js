@@ -3,6 +3,7 @@ import JanctionTable from "@/components/JanctionTable";
 import SearchInput from "@/components/SeachInput";
 import { Tooltip, Tag, Button, Space, Col, Row } from 'antd';
 import { QuestionCircleOutlined, ReloadOutlined } from '@ant-design/icons';
+import { history } from 'umi';
 
 export default function Instance() {
   const tableRef = useRef();
@@ -144,7 +145,7 @@ export default function Instance() {
       <Row>
         <Col span={12}>
           <Space>
-            <Button type="primary">租用新实例</Button>
+            <Button type="primary" onClick={() => history.push('/genesis/create')}>租用新实例</Button>
             <Button>批量续费</Button>
             <Button onClick={onRefresh}><ReloadOutlined /></Button>
           </Space>
