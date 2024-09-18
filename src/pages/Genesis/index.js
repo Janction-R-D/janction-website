@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Dashboard from './components/Dashboard';
 import Nodes from './components/Nodes';
+import Instance from './components/Instance';
 import SocialsLinks from '@/components/SocialsLinks';
 import styles from './index.less';
 import CustomConnectButton from '../../components/CustomConnectButton';
@@ -8,6 +9,7 @@ import CustomConnectButton from '../../components/CustomConnectButton';
 const navList = [
   { name: 'Dashboard', path: '/genesis/dashboard', key: 0, icon: 'dashboard' },
   { name: 'Deploy Node', path: '/genesis/nodes', key: 1, icon: 'switch' },
+  { name: 'Instance', path: '/genesis/instance', key: 2, icon: 'switch' },
 ];
 
 const Personal = (props) => {
@@ -113,6 +115,7 @@ const Personal = (props) => {
         <div className={styles['content']}>
           {curNav.key == 0 && <Dashboard />}
           {curNav.key == 1 && <Nodes />}
+          {curNav.key == 2 && <Instance />}
         </div>
       </main>
       <footer className={styles['android-footer']}>
