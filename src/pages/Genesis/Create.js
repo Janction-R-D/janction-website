@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-
+import { Button, Flex } from 'antd';
 import data from './create.json';
 import './create.less';
+import Modal from './Modal';
 
 export default function Create() {
   const {
@@ -12,6 +13,7 @@ export default function Create() {
     locations1,
     locations2,
   } = data;
+  const [showModal, setShowModal] = useState(true);
   const [totalAmount, setTotalAmount] = useState(0.0);
   const [payMethod, setPayMethod] = useState({
     name: '按量计费',
@@ -274,6 +276,10 @@ export default function Create() {
         </section>
       </form>
       <section className="footer">
+        <Button type="primary" onClick={() => setShowModal(true)}>
+          Click to show Modal
+        </Button>
+
         <div className="footer-info">
           <p className="cost">
             费用 : <b className="cost-amount"> {totalAmount} &#165;</b> /
@@ -287,6 +293,8 @@ export default function Create() {
           <p className="details">费用明细</p>
         </div>
       </section>
+
+      {showModal && <Modal setShowModal={setShowModal} />}
     </div>
   );
 }
