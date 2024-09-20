@@ -13,7 +13,7 @@ export default function Create() {
     locations1,
     locations2,
   } = data;
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
   const [totalAmount, setTotalAmount] = useState(0.0);
   const [payMethod, setPayMethod] = useState({
     name: '按量计费',
