@@ -295,7 +295,7 @@ export default function Create() {
 
       {showModal && (
         <main className="modal-container">
-          <RemoteLoginModal setShowModal={setShowModal} />
+          <RemoteLoginModal setShowModal={setShowModal} showModal={showModal} />
         </main>
       )}
     </div>
