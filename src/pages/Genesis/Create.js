@@ -292,7 +292,6 @@ export default function Create() {
           <p className="details">费用明细</p>
         </div>
       </section>
-
       {showModal && (
         <main className="modal-container">
           <RemoteLoginModal setShowModal={setShowModal} showModal={showModal} />

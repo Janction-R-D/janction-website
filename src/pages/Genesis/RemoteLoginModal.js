@@ -4,7 +4,6 @@ import {
   GlobalOutlined,
 } from '@ant-design/icons';
 import { Button, Card, Select, Form } from 'antd';
-
 import './create.less';
 import { useState } from 'react';
 import { Modal } from 'antd';
