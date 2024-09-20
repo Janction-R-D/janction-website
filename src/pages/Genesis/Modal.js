@@ -1,7 +1,13 @@
-import { CloseOutlined } from '@ant-design/icons';
+import {
+  CloseOutlined,
+  DesktopOutlined,
+  GlobalOutlined,
+} from '@ant-design/icons';
 import { Button, Card, Select } from 'antd';
 
 import './create.less';
+import { useState } from 'react';
+import { input } from 'framer-motion/client';
 export default function Modal({ setShowModal }) {
   const options = [
     {
@@ -21,13 +27,17 @@ export default function Modal({ setShowModal }) {
       label: 'pem-janction-server(MacBook)',
     },
   ];
+
+  const [linkMode, setLinkMode] = useState({
+    name: 'web',
+    options: ['Web SFTP'],
+  });
   return (
     <section className="modal-container">
       <div className="modal">
         <Card
           style={{
             width: 600,
-            height: 380,
             backgroundColor: 'white',
             color: 'black',
           }}
@@ -83,6 +93,50 @@ export default function Modal({ setShowModal }) {
               />
             </label>
           </div>
+          <div className="method-links">
+            <p>连接方式</p>
+            <div className="method-box">
+              <section className="method-link-option">
+                <p
+                  onClick={() =>
+                    setLinkMode({
+                      name: 'web',
+                      options: ['Web SFTP'],
+                    })
+                  }
+                  className="active-method-link"
+                >
+                  <GlobalOutlined />
+                  Web
+                </p>
+                <p
+                  onClick={() =>
+                    setLinkMode({
+                      name: 'web',
+                      options: ['Web SFTP'],
+                    })
+                  }
+                >
+                  <DesktopOutlined />
+                  客户端
+                </p>
+              </section>
+              {linkMode.options.map((item, index) => (
+                <label className="method-link-label">
+                  <input
+                    type="radio"
+                    name="link-connect"
+                    value={item}
+                    id={item}
+                    data-id="web"
+                    className="show-input"
+                  />
+                  <span>{item}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
           <div
             style={{
               marginTop: '8px',
