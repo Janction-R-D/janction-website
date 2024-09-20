@@ -20,7 +20,7 @@
     ]
   },
   "dependencies": {
-    "@ant-design/icons": "^5.4.0",
+    "@ant-design/icons": "^5.5.1",
     "@ant-design/pro-components": "^2.7.19",
     "@ant-design/pro-layout": "^6.5.0",
     "@rainbow-me/rainbowkit": "^2.1.2",

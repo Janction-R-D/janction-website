@@ -11,6 +11,7 @@ const routes = [
   { name: 'Explore', path: '/explore' },
   { name: 'Get started', path: '/getStarted' },
   { name: 'Solution', path: '/solution' },
+  { name: 'Create', path: '/create' },
 ];
 const Header = (props) => {
   const [active, setActive] = useState();
