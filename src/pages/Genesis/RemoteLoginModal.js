@@ -4,7 +4,7 @@ import {
   GlobalOutlined,
 } from '@ant-design/icons';
 import { Button, Card, Select, Form } from 'antd';
-import './create.less';
+import styles from './RemoteLoginModal.less';
 import { useState } from 'react';
 import { Modal } from 'antd';
 
@@ -47,59 +47,39 @@ export default function RemoteLoginModal({ setShowModal, showModal }) {
       bodyStyle={{ backgroundColor: 'white' }}
       footer={false}
     >
-      <Form style={{ color: '#000' }}>
+      <Form className={styles['form']}>
         <header>
           <p className="text-title">连接 - V100-8C-32G</p>
           <CloseOutlined
-            style={{ fontSize: '1.3rem', cursor: 'pointer' }}
+            className={styles['icon-close']}
             onClick={() => setShowModal(false)}
           />
         </header>
         <div className="methods">
-          <div className="btn  ">
-            <Button
-              type="text"
-              style={{
-                color: '#000',
-                fontWeight: 'bold',
-                fontSize: '1.2rem',
-              }}
-            >
+          <div className="btn">
+            <Button type="text" className={styles['btn-text']}>
               SSH
             </Button>
           </div>
           <div className="btn active-method">
-            <Button
-              type="text"
-              style={{
-                color: '#000',
-                fontWeight: 'bold',
-                fontSize: '1.2rem',
-              }}
-            >
+            <Button type="text" className={styles['btn-text']}>
               SFTP
             </Button>
           </div>
         </div>
-        <div>
+        <div className="group-label">
           <label>
             <p>选择账号</p>
             <Select
-              style={{
-                width: '100%',
-                border: 'none',
-                outline: 'none',
-                marginTop: '8px',
-                borderBottom: 'solid 1px black',
-                color: '#000',
-              }}
+              bordered={false}
+              className={styles['modal-select']}
               labelrender={labelrender}
               defaultValue="1"
               options={options}
             />
           </label>
         </div>
-        <div className="method-links">
+        <div className="method-links  group-label">
           <p>连接方式</p>
           <div className="method-box">
             <section className="method-link-option">
@@ -145,50 +125,30 @@ export default function RemoteLoginModal({ setShowModal, showModal }) {
             ))}
           </div>
         </div>
-
-        <div
-          style={{
-            marginTop: '8px',
-          }}
-        >
+        <div>
           <label>
             <Select
-              style={{
-                width: '100%',
-                border: 'none',
-                outline: 'none',
-                marginTop: '8px',
-                borderBottom: 'solid 1px black',
-                color: '#000',
-              }}
+              bordered={false}
+              className={styles['modal-select']}
               labelrender={labelrender}
               defaultValue="1"
               options={[
                 {
                   value: '1',
-                  label: '选择账号',
+                  label: '高级选项',
                 },
               ]}
             />
           </label>
         </div>
-        <div style={{ marginBlock: '8px' }}>
+        <div className="group-label">
           <p>记住选择</p>
           <div className="terms">
             <input type="checkbox" name="check" />
             <p>下次自动登录 （右击资严连接可以重新选择）</p>
           </div>
         </div>
-        <Button
-          style={{
-            backgroundColor: '#529340',
-            color: 'white',
-            width: '100%',
-            marginBlock: '8px',
-          }}
-        >
-          连接
-        </Button>
+        <Button className={styles['btn-new']}>连接</Button>
       </Form>
     </Modal>
   );
