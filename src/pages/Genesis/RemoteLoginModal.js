@@ -43,31 +43,27 @@ export default function RemoteLoginModal({ setShowModal, showModal }) {
       open={showModal}
       onOk={handleOk}
       onCancel={handleCancel}
-      className="modal"
+      className={styles['modal']}
       bodyStyle={{ backgroundColor: 'white' }}
       footer={false}
     >
       <Form className={styles['form']}>
         <header>
-          <p className="text-title">连接 - V100-8C-32G</p>
+          <p className={styles['text-title']}>连接 - V100-8C-32G</p>
           <CloseOutlined
             className={styles['icon-close']}
             onClick={() => setShowModal(false)}
           />
         </header>
-        <div className="methods">
-          <div className="btn">
-            <Button type="text" className={styles['btn-text']}>
-              SSH
-            </Button>
+        <div className={styles['methods']}>
+          <div className={styles['btn']}>
+            <div className={styles['btn-text']}>SSH</div>
           </div>
-          <div className="btn active-method">
-            <Button type="text" className={styles['btn-text']}>
-              SFTP
-            </Button>
+          <div className={styles[('btn', 'active-method')]}>
+            <div className={styles['btn-text']}>SFTP</div>
           </div>
         </div>
-        <div className="group-label">
+        <div className={styles['group-label']}>
           <label>
             <p>选择账号</p>
             <Select
@@ -79,10 +75,10 @@ export default function RemoteLoginModal({ setShowModal, showModal }) {
             />
           </label>
         </div>
-        <div className="method-links  group-label">
+        <div className={styles[('method-links ', ' group-label')]}>
           <p>连接方式</p>
-          <div className="method-box">
-            <section className="method-link-option">
+          <div className={styles['method-box']}>
+            <section className={styles['method-link-option']}>
               <p
                 onClick={() =>
                   setLinkMode({
@@ -90,7 +86,9 @@ export default function RemoteLoginModal({ setShowModal, showModal }) {
                     options: ['Web SFTP', ' Web SMTP'],
                   })
                 }
-                className={linkMode.name === 'web' ? 'active-method-link ' : ''}
+                className={
+                  linkMode.name === 'web' ? styles['active-method-link'] : ''
+                }
               >
                 <GlobalOutlined />
                 Web
@@ -103,7 +101,7 @@ export default function RemoteLoginModal({ setShowModal, showModal }) {
                   })
                 }
                 className={
-                  linkMode.name === 'client' ? 'active-method-link ' : ''
+                  linkMode.name === 'client' ? styles['active-method-link'] : ''
                 }
               >
                 <DesktopOutlined />
@@ -111,14 +109,14 @@ export default function RemoteLoginModal({ setShowModal, showModal }) {
               </p>
             </section>
             {linkMode.options.map((item, index) => (
-              <label className="method-link-label" key={index}>
+              <label className={styles['method-link-label']} key={index}>
                 <input
                   type="radio"
                   name={linkMode.name}
                   value={item}
                   id={item}
+                  defaultChecked={index === 0}
                   data-id="web"
-                  className="show-input"
                 />
                 <span>{item}</span>
               </label>
@@ -141,9 +139,9 @@ export default function RemoteLoginModal({ setShowModal, showModal }) {
             />
           </label>
         </div>
-        <div className="group-label">
+        <div className={styles['group-label']}>
           <p>记住选择</p>
-          <div className="terms">
+          <div className={styles['terms']}>
             <input type="checkbox" name="check" />
             <p>下次自动登录 （右击资严连接可以重新选择）</p>
           </div>

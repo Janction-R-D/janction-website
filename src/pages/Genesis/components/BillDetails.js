@@ -1,8 +1,9 @@
-import { useState, useRef } from "react";
-import JanctionTable from "@/components/JanctionTable";
-import JanctionRangePicker from "@/components/JanctionRangePicker";
+import { useState, useRef } from 'react';
+import JanctionTable from '@/components/JanctionTable';
+import JanctionRangePicker from '@/components/JanctionRangePicker';
 import { Col, Row, Space, Button } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
+import Papa from 'papaparse';
 
 export default function Instance() {
   const tableRef = useRef();
@@ -83,26 +84,65 @@ export default function Instance() {
   const onOk = (value) => {
     console.log('onOk: ', value);
   };
+
+  const handleDownload = () => {
+    // Crear un array para las cabeceras basado en las columnas
+    const headers = columns.map((column) => column.title);
+
+    // Crear un array para los datos basado en las columnas y filas
+    const csvData = data.map((row) => {
+      return columns.map((column) => row[column.dataIndex]);
+    });
+
+    // Incluir las cabeceras al principio del array de datos
+    csvData.unshift(headers);
+
+    const tsv = Papa.unparse(csvData, {
+      delimiter: '--',
+    });
+    const blob = new Blob([tsv], {
+      type: 'text/tab-separated-values;charset=utf-8;',
+    });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'table-data.csv');
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
   return (
     <>
       <Row justify="space-between">
         <Col>
           <Space>
-            账单时间：<JanctionRangePicker
+            账单时间：
+            <JanctionRangePicker
               showTime={{ format: 'HH:mm' }}
               format="YYYY-MM-DD HH:mm"
               onChange={(value, dateString) => {
                 console.log('Selected Time: ', value);
                 console.log('Formatted Selected Time: ', dateString);
               }}
-              onOk={onOk} />
+              onOk={onOk}
+            />
           </Space>
         </Col>
         <Col>
-          <Button type="link"><DownloadOutlined />导出日结账单CSV文件</Button>
+          <Button type="link" onClick={handleDownload}>
+            <DownloadOutlined />
+            导出日结账单CSV文件
+          </Button>
         </Col>
       </Row>
-      <JanctionTable tableRef={tableRef} rowSelection={rowSelection} columns={columns} dataSource={data} />
+      <JanctionTable
+        tableRef={tableRef}
+        rowSelection={rowSelection}
+        columns={columns}
+        dataSource={data}
+      />
     </>
   );
 }
