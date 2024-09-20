@@ -142,7 +142,7 @@ export default function Instance() {
         <blod>容器实例</blod>
         <span>实例连续关机15天会释放实例，实例释放会导致数据清空且不可恢复，释放前实例在数据在。</span>
       </Space>
-      <Row>
+      <Row justify="space-between">
         <Col span={12}>
           <Space>
             <Button type="primary" onClick={() => history.push('/genesis/create')}>租用新实例</Button>
@@ -150,16 +150,14 @@ export default function Instance() {
             <Button onClick={onRefresh}><ReloadOutlined /></Button>
           </Space>
         </Col>
-        <Row justify="end">
-          <Col span={24}>
-            <Space>
-              <span>订阅GPU通知</span>
-              <span>设置登录密钥</span>
-              <span>小程序管理实例</span>
-              <SearchInput />
-            </Space>
-          </Col>
-        </Row>
+        <Col >
+          <Space>
+            <span>订阅GPU通知</span>
+            <span>设置登录密钥</span>
+            <span>小程序管理实例</span>
+            <SearchInput />
+          </Space>
+        </Col>
       </Row>
       <JanctionTable tableRef={tableRef} rowSelection={rowSelection} columns={columns} dataSource={data} />
     </>
