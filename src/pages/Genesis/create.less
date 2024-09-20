@@ -1,5 +1,4 @@
 .container {
-  position: relative;
   padding: 2em;
   margin-top: 8em;
   max-width: 1200px;
@@ -244,9 +243,9 @@ input[type='radio'][data-id='web'] {
   cursor: pointer;
 }
 .modal-container {
-  position: absolute;
+  position: fixed;
   inset: 0;
-
+  z-index: 10;
   width: 100vw;
   height: 100%;
   background-color: #050221d6;
@@ -344,4 +343,6 @@ input[type='radio'][data-id='web'] {
 .method-link-label {
   padding: 8px;
   display: flex;
+  gap: 4px;
+  cursor: pointer;
 }

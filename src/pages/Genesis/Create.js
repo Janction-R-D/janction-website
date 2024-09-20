@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Button, Flex } from 'antd';
 import data from './create.json';
 import './create.less';
-import Modal from './Modal';
+import RemoteLoginModal from './RemoteLoginModal';
 
 export default function Create() {
   const {
@@ -234,7 +234,7 @@ export default function Create() {
                 </tr>
               </thead>
               <tbody className="table-body">
-                {processorType.map((item) => (
+                {processorType.map((item, index) => (
                   <tr className="table-row" key={item.id}>
                     <td className="cell-data clickable" data-label="王机ID">
                       <label htmlFor={item.name} className="label-row">
@@ -244,7 +244,6 @@ export default function Create() {
                           data-id={'idcpu'}
                           name="王机"
                           value={item.name}
-                          checked={processor.id === item.id}
                           onClick={() => handleChangeProcessor(item)}
                         />
                         {item.id}
@@ -294,7 +293,11 @@ export default function Create() {
         </div>
       </section>
 
-      {showModal && <Modal setShowModal={setShowModal} />}
+      {showModal && (
+        <main className="modal-container">
+          <RemoteLoginModal setShowModal={setShowModal} />
+        </main>
+      )}
     </div>
   );
 }

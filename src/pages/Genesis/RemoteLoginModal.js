@@ -3,12 +3,13 @@ import {
   DesktopOutlined,
   GlobalOutlined,
 } from '@ant-design/icons';
-import { Button, Card, Select } from 'antd';
+import { Button, Card, Select, Form } from 'antd';
 
 import './create.less';
 import { useState } from 'react';
-import { input } from 'framer-motion/client';
-export default function Modal({ setShowModal }) {
+import { Modal } from 'antd';
+
+export default function RemoteLoginModal({ setShowModal }) {
   const options = [
     {
       value: '1',
@@ -30,18 +31,18 @@ export default function Modal({ setShowModal }) {
 
   const [linkMode, setLinkMode] = useState({
     name: 'web',
-    options: ['Web SFTP'],
+    options: ['Web SFTP', ' Web SMTP'],
   });
   return (
-    <section className="modal-container">
-      <div className="modal">
-        <Card
-          style={{
-            width: 600,
-            backgroundColor: 'white',
-            color: 'black',
-          }}
-        >
+    <div className="modal">
+      <Card
+        style={{
+          width: 600,
+          backgroundColor: 'white',
+          color: 'black',
+        }}
+      >
+        <Form style={{ color: '#000' }}>
           <header>
             <p className="text-title">连接 - V100-8C-32G</p>
             <CloseOutlined
@@ -87,7 +88,7 @@ export default function Modal({ setShowModal }) {
                   borderBottom: 'solid 1px black',
                   color: '#000',
                 }}
-                labelRender={labelRender}
+                labelrender={labelrender}
                 defaultValue="1"
                 options={options}
               />
@@ -101,10 +102,12 @@ export default function Modal({ setShowModal }) {
                   onClick={() =>
                     setLinkMode({
                       name: 'web',
-                      options: ['Web SFTP'],
+                      options: ['Web SFTP', ' Web SMTP'],
                     })
                   }
-                  className="active-method-link"
+                  className={
+                    linkMode.name === 'web' ? 'active-method-link ' : ''
+                  }
                 >
                   <GlobalOutlined />
                   Web
@@ -112,9 +115,12 @@ export default function Modal({ setShowModal }) {
                 <p
                   onClick={() =>
                     setLinkMode({
-                      name: 'web',
-                      options: ['Web SFTP'],
+                      name: 'client',
+                      options: ['client FTP', ' client SMTP'],
                     })
+                  }
+                  className={
+                    linkMode.name === 'client' ? 'active-method-link ' : ''
                   }
                 >
                   <DesktopOutlined />
@@ -122,10 +128,10 @@ export default function Modal({ setShowModal }) {
                 </p>
               </section>
               {linkMode.options.map((item, index) => (
-                <label className="method-link-label">
+                <label className="method-link-label" key={index}>
                   <input
                     type="radio"
-                    name="link-connect"
+                    name={linkMode.name}
                     value={item}
                     id={item}
                     data-id="web"
@@ -152,7 +158,7 @@ export default function Modal({ setShowModal }) {
                   borderBottom: 'solid 1px black',
                   color: '#000',
                 }}
-                labelRender={labelRender}
+                labelrender={labelrender}
                 defaultValue="1"
                 options={[
                   {
@@ -166,7 +172,7 @@ export default function Modal({ setShowModal }) {
           <div style={{ marginBlock: '8px' }}>
             <p>记住选择</p>
             <div className="terms">
-              <input type="checkbox" />
+              <input type="checkbox" name="check" />
               <p>下次自动登录 （右击资严连接可以重新选择）</p>
             </div>
           </div>
@@ -180,15 +186,15 @@ export default function Modal({ setShowModal }) {
           >
             连接
           </Button>
-        </Card>
-      </div>
-    </section>
+        </Form>
+      </Card>
+    </div>
   );
 }
-const labelRender = (props) => {
+const labelrender = (props) => {
   const { label, value } = props;
   if (label) {
-    return value;
+    return <div>{value}</div>;
   }
   return <span>No option match</span>;
 };
