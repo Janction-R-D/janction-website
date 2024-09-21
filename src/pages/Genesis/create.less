@@ -1,0 +1,259 @@
+.container {
+  padding: 2em;
+  margin-top: 8em;
+  max-width: 1200px;
+  width: 100%;
+  margin-inline: auto;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.subtitle {
+  padding: 0.5rem;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  border: 1px solid #ccc;
+  border-radius: 0.375rem;
+  padding: 1.5rem 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.payment-method {
+  flex-direction: row;
+}
+.payment-method > section {
+  display: flex;
+  gap: 1em;
+  flex-direction: column;
+}
+
+.gpu,
+.quantity,
+.processor {
+  margin-bottom: 1.5rem;
+}
+.payment-method,
+.section-header,
+.location,
+.gpu,
+.quantity {
+  display: flex;
+  gap: 2em;
+}
+.label {
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+input[type='radio'] {
+  display: none;
+}
+input[type='radio'][data-id='idcpu'] {
+  display: block;
+}
+input[type='radio'][data-id='web'] {
+  display: block;
+}
+
+.payment-options,
+.location-options,
+.gpu-options,
+.quantity-list {
+  display: flex;
+  gap: 1rem;
+}
+.location-options {
+  flex-direction: column;
+  gap: 3em;
+}
+.payment-list,
+.location-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.payment-item,
+.location-item,
+.quantity-item {
+  font-weight: bold;
+}
+
+.payment-label,
+.location-label,
+.quantity-label {
+  border: 1px solid #ccc;
+  padding: 1rem 1rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s, outline 0.15s;
+}
+
+.payment-label.active,
+.location-label.active,
+.quantity-label.active {
+  background-color: rgba(0, 128, 0, 0.2);
+  color: green;
+  outline: 2px solid green;
+}
+
+.rule-link,
+.details {
+  font-weight: medium;
+  color: green;
+  cursor: pointer;
+}
+
+.description {
+  padding: 0.5rem 0;
+  font-size: 0.875rem;
+}
+.processor {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+.gpu-option {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+}
+
+.table-custom {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-header {
+  background-color: #f0f0f0;
+  font-size: 0.75rem;
+  color: #000;
+}
+
+.header-cell,
+.cell-data {
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.table-row:nth-child(even) {
+  background-color: rgba(240, 240, 240, 0.495);
+}
+.label-row {
+  display: flex;
+  align-items: center;
+  color: rgb(30, 174, 30);
+  font-weight: bold;
+  cursor: pointer;
+  gap: 5px;
+}
+.clickable {
+  color: green;
+  cursor: pointer;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  height: 4rem;
+}
+
+.footer-info {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.cost {
+  font-weight: semi-bold;
+}
+
+.cost-amount {
+  font-size: 1.125rem;
+  color: red;
+}
+
+.config-cost {
+  font-weight: semi-bold;
+}
+
+.config-amount {
+  font-size: 1.125rem;
+  color: red;
+}
+
+.details {
+  font-weight: semi-bold;
+  color: green;
+}
+
+@media screen and (max-width: 768px) {
+  .table-custom caption {
+    font-size: 22px;
+  }
+
+  .table-custom thead {
+    display: none;
+  }
+
+  .table-custom tr {
+    display: block;
+    margin-bottom: 8px;
+    border: 2px solid rgb(194 191 191);
+    border-bottom: 4px solid #ddd;
+    border-radius: 4px;
+  }
+
+  .table-custom th,
+  .table-custom td {
+    font-size: 12px;
+  }
+
+  .table-custom td {
+    display: block;
+    text-align: right;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .table-custom td:last-child {
+    border-bottom: 0;
+  }
+
+  .table-custom td::before {
+    float: left;
+    font-weight: bold;
+    text-transform: uppercase;
+    content: attr(data-label);
+  }
+}
+.show-modal {
+  padding: 8px;
+  background-color: #529340;
+  width: min-content;
+  text-wrap: nowrap;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.modal-container {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  width: 100vw;
+  height: 100%;
+  background-color: #050221d6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.methos-link-label {
+  display: flex;
+  gap: 4px;
+}
