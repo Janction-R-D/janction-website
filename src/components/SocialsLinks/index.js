@@ -4,13 +4,17 @@ const SocialsLinks = (props) => {
   const { className } = props;
   return (
     <div className={[styles['socials-links'], className].join(' ')}>
-      <a className="hvr-grow" href="https://x.com/JanctionMGT">
+      <a className="hvr-grow" href="https://x.com/JanctionMGT" target="_black">
         <i className="iconfont icon-x"></i>
       </a>
-      <div className="hvr-grow">
+      {/* <a className="hvr-grow" target="_black">
         <i className="iconfont icon-discord"></i>
-      </div>
-      <a className="hvr-grow" href="https://github.com/Janction-R-D">
+      </a> */}
+      <a
+        className="hvr-grow"
+        href="https://github.com/Janction-R-D"
+        target="_black"
+      >
         <i className="iconfont icon-github"></i>
       </a>
     </div>

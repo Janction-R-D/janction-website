@@ -94,7 +94,7 @@ const Personal = (props) => {
       <main>
         <header>
           <div className={styles['links']}>
-            <a target="_black">
+            <a href="https://janction-docs.gitbook.io/start" target="_black">
               <i className="iconfont icon-doc"></i>
             </a>
             <a href="https://github.com/Janction-R-D" target="_black">
