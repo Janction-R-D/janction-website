@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Button, Flex } from 'antd';
 import data from './create.json';
-import './create.less';
+// import './create.less';
 import RemoteLoginModal from './RemoteLoginModal';
 
-export default function Create() {
+export default function Create1() {
   const {
     gpuModel,
     gpuQuantity,

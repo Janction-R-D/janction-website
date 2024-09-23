@@ -34,9 +34,9 @@ export default function Layout(props) {
   if (props.location.pathname == '/genesis') {
     return <GenesisLayout>{children}</GenesisLayout>;
   }
-  if (props.location.pathname == '/create') {
-    return <CreateLayout>{children}</CreateLayout>;
-  }
+  // if (props.location.pathname == '/create') {
+  //   return <CreateLayout>{children}</CreateLayout>;
+  // }
 
   return (
     <div id={styles['main-layout']}>

@@ -6,11 +6,18 @@ import BillDetails from './components/BillDetails';
 import SocialsLinks from '@/components/SocialsLinks';
 import styles from './index.less';
 import CustomConnectButton from '../../components/CustomConnectButton';
+import Create from './components/Create';
 
 const navList = [
   { name: 'Dashboard', path: '/genesis/dashboard', key: 0, icon: 'dashboard' },
   { name: 'Deploy Node', path: '/genesis/nodes', key: 1, icon: 'switch' },
   { name: 'My Nodes', path: '/genesis/instance', key: 2, icon: 'switch' },
+  {
+    name: 'Configuration Instance',
+    path: '/genesis/create',
+    key: 5,
+    icon: 'switch',
+  },
   { name: 'Orders', path: '/genesis/instance', key: 3, icon: 'switch' },
   { name: 'Billings', path: '/genesis/billDetails', key: 4, icon: 'switch' },
 ];
@@ -120,6 +127,7 @@ const Personal = (props) => {
           {curNav.key == 1 && <Nodes />}
           {curNav.key == 2 && <Instance />}
           {curNav.key == 4 && <BillDetails />}
+          {curNav.key == 5 && <Create />}
         </div>
       </main>
       <footer className={styles['android-footer']}>
