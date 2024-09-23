@@ -12,8 +12,8 @@
     justify-content: space-between;
     align-items: flex-start;
     flex-shrink: 0;
-    border-right: 1px solid #ffffff1a;
     transition: all 0.3s;
+    background: #1A1B1D;
 
     header {
       width: 100%;
@@ -83,7 +83,6 @@
         gap: 8px;
         align-self: stretch;
         border-radius: 12px;
-        background: #ffffff1a;
         transition: all 0.3s;
         cursor: pointer;
         color: #fff;
@@ -101,12 +100,8 @@
         }
 
         &.active {
-          background: linear-gradient(
-            104deg,
-            #2571b0 -1.54%,
-            #a83c99 62.45%,
-            #c7855a 97.7%
-          );
+          background: #5e5e5e80;
+          background-blend-mode: color-dodge;
         }
 
         &:hover {
@@ -205,13 +200,8 @@
 
   > main {
     flex: 1;
-    padding: 24px;
-    background: linear-gradient(
-      226deg,
-      #192d52 5.03%,
-      #201436 39.86%,
-      #010003 74.68%
-    );
+    padding: 40px;
+    background: #141416;
     height: 100vh;
     overflow: auto;
 

@@ -1,9 +1,11 @@
-import { useState, useRef } from "react";
-import JanctionTable from "@/components/JanctionTable";
-import SearchInput from "@/components/SeachInput";
+import { useState, useRef } from 'react';
+import JanctionTable from '@/components/JanctionTable';
+import SearchInput from '@/components/SeachInput';
 import { Tooltip, Tag, Button, Space, Col, Row } from 'antd';
 import { QuestionCircleOutlined, ReloadOutlined } from '@ant-design/icons';
 import { history } from 'umi';
+import styles from './Instance.less';
+import { custom } from 'viem';
 
 export default function Instance() {
   const tableRef = useRef();
@@ -12,47 +14,60 @@ export default function Instance() {
     console.log('selectedRowKeys changed: ', newSelectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
   };
+  // 选择框
   const rowSelection = {
     selectedRowKeys,
     onChange: onSelectChange,
   };
   const columns = [
     {
-      title: '实例ID/名称',
+      title: <div className="name">Instance ID / Name</div>,
       dataIndex: 'name',
       key: 'name',
-      render: (text) => <a>{text}</a>,
+      ellipsis: true,
+      width: 160,
     },
     {
-      title: '状态',
-      dataIndex: 'age',
-      key: 'age',
-      filters: [
-        {
-          text: 'Joe',
-          value: 'Joe',
-        },
-        {
-          text: 'Jim',
-          value: 'Jim',
-        },
-      ],
-      onFilter: (value, record) => record.name.indexOf(value) === 0,
+      title: <div className="status">Status</div>,
+      dataIndex: 'status',
+      key: 'status',
+      ellipsis: true,
+      width: 60,
+      render: (text) => (
+        <>
+          {text === 'created' ? (
+            <div className='status-created'>created</div>
+          ) : text === 'allow' ? (
+            <div className="status-allow">allow</div>
+          ) : text === 'refuse' ? (
+            <div className='status-refuse'>refuse</div>
+          ) : text === 'offline' ? (
+            <div className='status-offline'>offline</div>
+          ) : (
+            <div>other</div>
+          )}
+        </>
+      ),
     },
     {
-      title: '规格详情',
-      dataIndex: 'address',
-      key: 'address',
+      title: 'Specification',
+      dataIndex: 'specification',
+      key: 'specification',
+      ellipsis: true,
+      width: 120,
     },
     {
-      title: '本地磁盘',
-      dataIndex: 'address',
-      key: 'address',
+      title: 'Local Disk',
+      dataIndex: 'disk',
+      key: 'disk',
+      ellipsis: true,
+      width: 80,
     },
     {
-      title: '健康状态',
+      title: 'Health Status',
       key: 'tags',
       dataIndex: 'tags',
+      width: 80,
       render: (_, { tags }) => (
         <>
           {tags.map((tag) => {
@@ -70,49 +85,45 @@ export default function Instance() {
       ),
     },
     {
-      title: '付费方式',
+      title: 'Payment method',
       dataIndex: 'age',
       key: 'age',
-      filters: [
-        {
-          text: 'Joe',
-          value: 'Joe',
-        },
-        {
-          text: 'Jim',
-          value: 'Jim',
-        },
-      ],
-      onFilter: (value, record) => record.name.indexOf(value) === 0,
+      width: 80,
     },
     {
-      title: (
-        <>
-          释放时间/停机时间
-          <Tooltip title="租用时间/到期时间">
-            <QuestionCircleOutlined />
-          </Tooltip>
-        </>
+      title: 'Release time / Downtime',
+      key: 'action',
+      width: 180,
+    },
+    {
+      title: 'SSH login',
+      key: 'action',
+      width: 80,
+    },
+    {
+      title: 'Quick tools',
+      key: 'action',
+      width: 80,
+    },
+    {
+      title: <div className="operation">Operation</div>,
+      key: 'action',
+      width: 100,
+      render: (_, record) => (
+        <Space size="middle">
+          <a>edit</a>
+          <a>monitor</a>
+        </Space>
       ),
-      key: 'action',
-    },
-    {
-      title: 'SSH登录',
-      key: 'action',
-    },
-    {
-      title: '快捷工具',
-      key: 'action',
-    },
-    {
-      title: '操作',
-      key: 'action',
     },
   ];
   const data = [
     {
       key: '1',
-      name: 'John Brown',
+      name: 'Instance ID',
+      status: 'created',
+      specification: 'c5.large',
+      disk: '100G',
       age: 32,
       address: 'New York No. 1 Lake Park',
       tags: ['nice', 'developer'],
@@ -120,6 +131,9 @@ export default function Instance() {
     {
       key: '2',
       name: 'Jim Green',
+      status: 'allow',
+      specification: 'c5.large',
+      disk: '100G',
       age: 42,
       address: 'London No. 1 Lake Park',
       tags: ['loser'],
@@ -127,39 +141,79 @@ export default function Instance() {
     {
       key: '3',
       name: 'Joe Black',
+      status: 'refuse',
+      specification: 'c5.large',
+      disk: '100G',
+      age: 32,
+      address: 'Sydney No. 1 Lake Park',
+      tags: ['cool', 'teacher'],
+    },
+    {
+      key: '4',
+      name: 'John Bsdnf,sdlkfjlskdjflksdjflk dsf rown',
+      status: 'offline',
+      specification: 'c5.large',
+      disk: '100G',
+      age: 32,
+      address: 'New York No. 1 Lake Park',
+      tags: ['nice', 'developer'],
+    },
+    {
+      key: '5',
+      name: 'Jim Green',
+      status: 'offline',
+      specification: 'c5.large',
+      disk: '100G',
+      age: 42,
+      address: 'London No. 1 Lake Park',
+      tags: ['loser'],
+    },
+    {
+      key: '6',
+      name: 'Joe Black',
+      status: 'offline',
+      specification: 'c5.large',
+      disk: '100G',
       age: 32,
       address: 'Sydney No. 1 Lake Park',
       tags: ['cool', 'teacher'],
     },
   ];
-  const onRefresh = () => {
-    console.log('refresh', tableRef);
-    tableRef.current.reload()
-  };
   return (
     <>
-      <Space>
-        <blod>容器实例</blod>
-        <span>实例连续关机15天会释放实例，实例释放会导致数据清空且不可恢复，释放前实例在数据在。</span>
-      </Space>
-      <Row justify="space-between">
+      <div className={styles['title']}>My Nodes</div>
+      <Row justify="space-between" align="middle">
         <Col span={12}>
           <Space>
-            <Button type="primary" onClick={() => history.push('/genesis/create')}>租用新实例</Button>
-            <Button>批量续费</Button>
-            <Button onClick={onRefresh}><ReloadOutlined /></Button>
+            <Button
+              className={styles['create-btn']}
+              type="primary"
+              onClick={() => history.push('/genesis/create')}
+            >
+              Create
+            </Button>
+            {/* <Button>批量续费</Button>
+            <Button onClick={onRefresh}><ReloadOutlined /></Button> */}
           </Space>
         </Col>
-        <Col >
+        <Col>
           <Space>
-            <span>订阅GPU通知</span>
+            {/* <span>订阅GPU通知</span>
             <span>设置登录密钥</span>
-            <span>小程序管理实例</span>
+            <span>小程序管理实例</span> */}
             <SearchInput />
           </Space>
         </Col>
       </Row>
-      <JanctionTable tableRef={tableRef} rowSelection={rowSelection} columns={columns} dataSource={data} />
+      <JanctionTable
+        className={styles['table']}
+        columns={columns}
+        dataSource={data}
+        pagination={{
+          pageSize: 5,
+          position: ['bottomCenter'],
+        }}
+      />
     </>
   );
 }

@@ -10,8 +10,9 @@ import CustomConnectButton from '../../components/CustomConnectButton';
 const navList = [
   { name: 'Dashboard', path: '/genesis/dashboard', key: 0, icon: 'dashboard' },
   { name: 'Deploy Node', path: '/genesis/nodes', key: 1, icon: 'switch' },
-  { name: 'Instance', path: '/genesis/instance', key: 2, icon: 'switch' },
-  { name: 'Bill Details', path: '/genesis/billDetails', key: 3, icon: 'switch' },
+  { name: 'My Nodes', path: '/genesis/instance', key: 2, icon: 'switch' },
+  { name: 'Orders', path: '/genesis/instance', key: 3, icon: 'switch' },
+  { name: 'Billings', path: '/genesis/billDetails', key: 4, icon: 'switch' },
 ];
 
 const Personal = (props) => {
@@ -118,7 +119,7 @@ const Personal = (props) => {
           {curNav.key == 0 && <Dashboard />}
           {curNav.key == 1 && <Nodes />}
           {curNav.key == 2 && <Instance />}
-          {curNav.key == 3 && <BillDetails />}
+          {curNav.key == 4 && <BillDetails />}
         </div>
       </main>
       <footer className={styles['android-footer']}>
