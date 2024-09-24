@@ -7,6 +7,7 @@ import SocialsLinks from '@/components/SocialsLinks';
 import styles from './index.less';
 import CustomConnectButton from '../../components/CustomConnectButton';
 import Create from './components/Create';
+import Orders from './components/Orders';
 
 const navList = [
   { name: 'Dashboard', path: '/genesis/dashboard', key: 0, icon: 'dashboard' },
@@ -126,6 +127,7 @@ const Personal = (props) => {
           {curNav.key == 0 && <Dashboard />}
           {curNav.key == 1 && <Nodes />}
           {curNav.key == 2 && <Instance />}
+          {curNav.key == 3 && <Orders />}
           {curNav.key == 4 && <BillDetails />}
           {curNav.key == 5 && <Create />}
         </div>
