@@ -1,24 +1,10 @@
-import { useState, useRef } from 'react';
 import JanctionTable from '@/components/JanctionTable';
 import SearchInput from '@/components/SeachInput';
-import { Tooltip, Tag, Button, Space, Col, Row } from 'antd';
-import { QuestionCircleOutlined, ReloadOutlined } from '@ant-design/icons';
+import { Tag, Button, Space, Col, Row } from 'antd';
 import { history } from 'umi';
 import styles from './Instance.less';
-import { custom } from 'viem';
 
 export default function Instance() {
-  const tableRef = useRef();
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const onSelectChange = (newSelectedRowKeys) => {
-    console.log('selectedRowKeys changed: ', newSelectedRowKeys);
-    setSelectedRowKeys(newSelectedRowKeys);
-  };
-  // 选择框
-  const rowSelection = {
-    selectedRowKeys,
-    onChange: onSelectChange,
-  };
   const columns = [
     {
       title: <div className="name">Instance ID / Name</div>,
