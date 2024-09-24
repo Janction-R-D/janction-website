@@ -1,8 +1,10 @@
 import JanctionTable from '@/components/JanctionTable';
 import SearchInput from '@/components/SeachInput';
 import { Tag, Button, Space, Col, Row } from 'antd';
+import { CheckCircleOutlined, MinusCircleOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { history } from 'umi';
 import styles from './Instance.less';
+import data from './Instance.json';
 
 export default function Instance() {
   const columns = [
@@ -51,45 +53,54 @@ export default function Instance() {
     },
     {
       title: 'Health Status',
-      key: 'tags',
-      dataIndex: 'tags',
+      key: 'healthstatus',
+      dataIndex: 'healthstatus',
       width: 80,
-      render: (_, { tags }) => (
+      render: (text) => (
         <>
-          {tags.map((tag) => {
-            let color = tag.length > 5 ? 'geekblue' : 'green';
-            if (tag === 'loser') {
-              color = 'volcano';
-            }
-            return (
-              <Tag color={color} key={tag}>
-                {tag.toUpperCase()}
-              </Tag>
-            );
-          })}
-        </>
-      ),
+          {text === 'health' ? (
+            <div className="status-allow"><CheckCircleOutlined /> health</div>
+          ) : text === 'dubi' ? (
+            <div className='status-question'><QuestionCircleOutlined /> dubi</div>
+          ) : text === 'abno' ? (
+            <div className='status-refuse'><MinusCircleOutlined /> abno</div>
+          ) : (
+            <div>other</div>
+          )}
+        </>)
     },
     {
       title: 'Payment method',
-      dataIndex: 'age',
-      key: 'age',
+      dataIndex: 'method',
+      key: 'method',
       width: 80,
     },
     {
       title: 'Release time / Downtime',
-      key: 'action',
+      key: 'downtime',
+      dataIndex: 'downtime',
       width: 180,
+      render: (_, record) =>
+        <div style={{ whiteSpace: 'pre' }}>{record.downtime}</div>
     },
     {
       title: 'SSH login',
-      key: 'action',
+      key: 'ssh',
+      dataIndex: 'ssh',
       width: 80,
+      render: (_, record) => (
+        <>
+          <div>command</div>
+          <div>password</div>
+        </>
+      ),
     },
     {
       title: 'Quick tools',
-      key: 'action',
+      key: 'tools',
+      dataIndex: 'tools',
       width: 80,
+      render: (_, record) => <div>JupyterLab</div>
     },
     {
       title: <div className="operation">Operation</div>,
@@ -101,68 +112,6 @@ export default function Instance() {
           <a>monitor</a>
         </Space>
       ),
-    },
-  ];
-  const data = [
-    {
-      key: '1',
-      name: 'Instance ID',
-      status: 'created',
-      specification: 'c5.large',
-      disk: '100G',
-      age: 32,
-      address: 'New York No. 1 Lake Park',
-      tags: ['nice', 'developer'],
-    },
-    {
-      key: '2',
-      name: 'Jim Green',
-      status: 'allow',
-      specification: 'c5.large',
-      disk: '100G',
-      age: 42,
-      address: 'London No. 1 Lake Park',
-      tags: ['loser'],
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      status: 'refuse',
-      specification: 'c5.large',
-      disk: '100G',
-      age: 32,
-      address: 'Sydney No. 1 Lake Park',
-      tags: ['cool', 'teacher'],
-    },
-    {
-      key: '4',
-      name: 'John Bsdnf,sdlkfjlskdjflksdjflk dsf rown',
-      status: 'offline',
-      specification: 'c5.large',
-      disk: '100G',
-      age: 32,
-      address: 'New York No. 1 Lake Park',
-      tags: ['nice', 'developer'],
-    },
-    {
-      key: '5',
-      name: 'Jim Green',
-      status: 'offline',
-      specification: 'c5.large',
-      disk: '100G',
-      age: 42,
-      address: 'London No. 1 Lake Park',
-      tags: ['loser'],
-    },
-    {
-      key: '6',
-      name: 'Joe Black',
-      status: 'offline',
-      specification: 'c5.large',
-      disk: '100G',
-      age: 32,
-      address: 'Sydney No. 1 Lake Park',
-      tags: ['cool', 'teacher'],
     },
   ];
   return (
