@@ -7,7 +7,7 @@ import 'hover.css';
 import styles from './index.less';
 import { useEffect, useMemo } from 'react';
 import { history } from 'umi';
-import CreateLayout from './CreateLayout';
+import Create from '../pages/Genesis/components/Create';
 
 export const fullWidthRoute = ['/home', '/explore', '/getStarted', '/solution'];
 export const marginTopRoute = ['/home', '/explore', '/getStarted'];
@@ -34,9 +34,6 @@ export default function Layout(props) {
   if (props.location.pathname == '/genesis') {
     return <GenesisLayout>{children}</GenesisLayout>;
   }
-  // if (props.location.pathname == '/create') {
-  //   return <CreateLayout>{children}</CreateLayout>;
-  // }
 
   return (
     <div id={styles['main-layout']}>

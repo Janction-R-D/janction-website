@@ -130,6 +130,7 @@ const Personal = (props) => {
           {curNav.key == 3 && <Orders />}
           {curNav.key == 4 && <BillDetails />}
           {curNav.key == 5 && <Create />}
+          {window.location.pathname === '/genesis/create' && <Create />}
         </div>
       </main>
       <footer className={styles['android-footer']}>

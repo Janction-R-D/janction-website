@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Select, Input, Button, Radio } from 'antd';
 import styles from './create.less';
 import JanctionTable from '@/components/JanctionTable';
@@ -7,6 +7,32 @@ import CounterQuantity from './InstanceComponents/CounterQuantity';
 import FoterPrice from './InstanceComponents/FoterPrice';
 
 export default function Create() {
+  const [totalAmount, setTotalAmount] = useState(0);
+  const [selectedInstance, setInstance] = useState({
+    name: 'Architecture',
+    price: 20,
+    value: 'x86 computing',
+  });
+  const [instancesFamily, setFamily] = useState({
+    name: 'instance',
+    price: 80,
+    value: 'Standard',
+  });
+  const [selectedModel, setModel] = useState({
+    key: '1',
+    price: 10,
+    vCPU: 'SA5.MEDIUM2 Xxxx',
+  });
+
+  useEffect(() => {
+    const getTotalPrice = () => {
+      let total =
+        selectedInstance.price * instancesFamily.price * selectedModel.price;
+      return total.toFixed(2);
+    };
+    setTotalAmount(getTotalPrice());
+  }, [selectedInstance, instancesFamily, selectedModel]);
+
   const options = [
     { value: 'jack', label: 'Jack' },
     { value: 'lucy', label: 'Lucy' },
@@ -16,48 +42,59 @@ export default function Create() {
   const optionsRadio = [
     {
       name: 'Architecture',
+      price: 20,
       value: 'x86 computing',
     },
     {
       name: 'Architecture',
+      price: 40,
       value: 'ARM Computing',
     },
     {
       name: 'Architecture',
+      price: 60,
       value: 'Heterogenious continius',
     },
     {
       name: 'Architecture',
+      price: 80,
       value: 'Bare Metal instance',
     },
   ];
   const instanceFamily = [
     {
       name: 'instance',
+      price: 80,
       value: 'Standard',
     },
     {
       name: 'instance',
+      price: 85,
       value: 'MEM-optimized',
     },
     {
       name: 'instance',
+      price: 90,
       value: 'Compute',
     },
     {
       name: 'instance',
+      price: 95,
       value: 'High IO',
     },
     {
       name: 'instance',
+      price: 100,
       value: 'Big Data',
     },
     {
       name: 'instance',
+      price: 110,
       value: 'Be Fast',
     },
     {
       name: 'instance',
+      price: 120,
       value: 'Preferential',
     },
   ];
@@ -126,6 +163,7 @@ export default function Create() {
   const data = [
     {
       key: '1',
+      price: 300,
       vCPU: 'SA5.MEDIUM2 Xxxx',
       name: (
         <label
@@ -139,6 +177,9 @@ export default function Create() {
             value={'SA5.MEDIUM2 Xxxx'}
             defaultChecked
             id={'SA5.MEDIUM2 Xxxx'}
+            onClick={() =>
+              setModel({ key: '1', price: 300, vCPU: 'SA5.MEDIUM2 Xxxx' })
+            }
           />
           <p>Instance ID</p>
         </label>
@@ -152,7 +193,8 @@ export default function Create() {
       operations: <div className="operation-text">Operation</div>,
     },
     {
-      key: '1',
+      key: '2',
+      price: 400,
       vCPU: 'SA5.SMALL2 Xxxx',
       name: (
         <label
@@ -165,6 +207,9 @@ export default function Create() {
             name="instance-model"
             value={'SA5.SMALL2 Xxxx'}
             id={'SA5.SMALL2 Xxxx'}
+            onClick={() =>
+              setModel({ key: '2', price: 400, vCPU: 'SA5.MEDIUM2 Xxxx' })
+            }
           />
           <p>Instance ID</p>
         </label>
@@ -228,6 +273,7 @@ export default function Create() {
                   name={item.name}
                   defaultChecked={index === 0}
                   id={item.value}
+                  onClick={() => setInstance(item)}
                 />
                 <label
                   htmlFor={item.value}
@@ -252,6 +298,7 @@ export default function Create() {
                   name={item.name}
                   defaultChecked={index === 0}
                   id={item.value}
+                  onClick={() => setFamily(item)}
                 />
                 <label
                   htmlFor={item.value}
@@ -287,11 +334,19 @@ export default function Create() {
           <span className={styles['text-subtitle']}>Configuration fee</span>
           <ul className={styles['filters-list']}>
             <div className={styles['counters']}>
-              <TimeCounter styles={styles} />
-              <CounterQuantity styles={styles} />
+              <TimeCounter
+                styles={styles}
+                setTotalAmount={setTotalAmount}
+                totalAmount={totalAmount}
+              />
+              <CounterQuantity
+                styles={styles}
+                setTotalAmount={setTotalAmount}
+                totalAmount={totalAmount}
+              />
             </div>
           </ul>
-          <FoterPrice styles={styles} />
+          <FoterPrice styles={styles} totalAmount={totalAmount} />
         </section>
       </section>
     </main>
