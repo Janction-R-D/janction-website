@@ -61,14 +61,14 @@ export const reasons = [
 export const teamList = [
   {
     userName: 'HIROSHI HARADA',
-    role: 'FOUNDER',
+    role: 'CEO',
     avatar: hiroshi_harada,
     avatar_android: hiroshi_harada_android,
     introductions: [
-      'Worked at KPMG AZSA & Co. as a statutory auditor, mainly for listed companies in a wide range of industries, including broadcasting, subject joints, IT and manufacturing.',
-      'He has also been involved in the auditing and support of many companies oreparing to go public, and was involved in the listing of one of his clients on the JASDAQ market.',
-      'Certified public accountant (registration no. 30168), member of the JapaneseInstitute of Certified Public Accountantse ',
-      'Joined Jasmy as CFo in January 2020.',
+      'In 2008, he joined KPMG JAPAN, where he was engaged in IPO support services, financial statement audits, internal control audits, and M&A advisory services. He is familiar with many businesses, manufacturing, telecom, broadcast, construction, advertising, publishing, and has insights of IPOs.',
+      'Joined JASMY in 2018; as CFO, he was the first Japanese company to be listed on Coinbase/Binance and achieved CAP $2B, leading it to become the largest cryptocurrency in Japan.',
+      'In 2023, he funded JANCTION, a project to solve the data challenges of the monopolized GPU and AI market through decentralization.',
+      'Certified Public Accountant (#30168), Certified Tax Accountant (#150298)',
     ],
   },
   {
@@ -77,27 +77,29 @@ export const teamList = [
     avatar: kunitake_ando,
     avatar_android: kunitake_ando_android,
     introductions: [
-      'Currently, Director of the Japan Innovation Network, Chairman of theUniversity of Nagano, etc.',
-      'Appointed Representative Director in April 2016',
-      'President and COO of Sony Corporation; President and COO of SonyEngineering and Manufacturing of America; Chairman of the Board, SonyFinancial Holdings Inc. and Chairman of the Board, Sony Life InsuranceCompany; Chairman, Frontier Human Resources Study Group, Ministry ofEconomy, Trade and Industry',
+      'Dr. Hollerit earned his PhD degree in Engineering with a specialization in Systems Innovation from The University of Tokyo and has worked in tech leadership roles for over a decade.',
+      'After managing global teams in research & development, software engineering, and data science at organizations such as the National Institute of Informatics and Fast Retailing, he became Chief Technology Officer in the crypto/artificial intelligence/web 3.0 space. Previous successes include writing a white paper that led to a sales increase of 164%, developing a DevOps CI/CD pipeline that reduced feedback time from 2-3 days to 10 minutes, and saving ¥23M JPY per year by improving an image recognition system.',
+      'For Jasmy Lab’s JANCTION project, Dr. Hollerit is leading the technical development of the GPU pool, layer 1 and layer 2 blockchains, decentralized applications, and data marketplace.',
     ],
   },
   {
-    userName: 'KAZUMASA SATO',
+    userName: 'AKIRA SUGANUMA',
+    role: 'Co-Founder',
     avatar: kazumasa_sato,
     avatar_android: kazumasa_sato_android,
     introductions: [
-      'President and Representative Director of Sonystyle.com Japan K.K.. Presidentof Sony Style Company, Executive Officer of Sony Marketing Inc. and Presidenof Sony Style Japan K.K.. Executive Officer of Sony Marketing Inc. and GeneralManager of Creative Center, Sony Corporation. and President andRepresentative Director of BJlT Inc.',
-      'Appointed Representative Director in April 2016 and President, COO of theCompany in November 2018',
+      'The individual has extensive experience in launching new businesses with various companies, including subsidiaries of ITOCHU-SHOKUHIN Co.,Ltd., covering both Japanese and foreign enterprises. Subsequently, they began a consulting business focused on establishing new ventures in Japan and China and negotiating with government agencies. In their role as the head of a new business division at a cryptocurrency exchange, they were involved in a broad range of activities, including marketing.',
+      'In 2023, JasmyLab participated in Janction as a Co-Founder.',
     ],
   },
   {
-    userName: 'TAKASHI HAGIWARA',
+    userName: 'KEISUKE KATO',
+    role: 'Community Manager',
     avatar: takashi_hagiwara,
     avatar_android: takashi_hagiwara_android,
     introductions: [
-      'Joined Sony Corporation, where he worked in software product design forconsumer products and was responsible for PC/VAlO development and designfor many years.In 2000, he became President of Sony Digital NetworkApplications Corporation (SDNA). After serving as Deputy General Manager ofthe VAl0 & Mobile Business Unit, in 2015 he was Appointed President andRepresentative Director of Vision Arts Corporation. He has developed varioussystem construction projects based on cloud technology for variouscompanies in the group.',
-      'Since 2020, he has overseen the development of Jasmy Software.',
+      'He has always been at the forefront of experience in crypto assets, starting trading in 2018 and creating and selling his own NFT in 2022.',
+      'After graduating from college, he joined a web3 related company, where he gained experience in listing crypto assets and building a community. He joined JANCTION in January 2024 as a further challenge. With his natural energy and enthusiasm, he built a dynamic community of over 10,000 people in just a few months.',
     ],
   },
 ];
