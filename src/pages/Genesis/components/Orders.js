@@ -2,7 +2,7 @@ import React from 'react';
 import OrderCard from './OrdersComponents/OrderCard';
 import styles from './OrdersComponents/orders.less';
 export default function Orders() {
-  const orders = [1, 2, 3, 4];
+  const orders = [1, 2, 3, 4, 5];
   return (
     <main className={styles['orders-component']}>
       <h1>Orders</h1>
