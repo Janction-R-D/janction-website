@@ -15,6 +15,7 @@ import {
   fetchOverviewNodes,
   fetchRuningNodes,
 } from '../../services/explore/nodes';
+import { formatToHours } from '../../utils/datetime';
 
 const Nodes = (props) => {
   // Node Runing's data
@@ -45,7 +46,8 @@ const Nodes = (props) => {
   const getStatistic = async () => {
     try {
       const data = await fetchRuningNodes();
-      setStatisticData(data);
+      const liveData = await fetchRuningNodes({ is_online: true });
+      setStatisticData({ ...data, liveNodes: liveData.total });
     } catch (err) {}
   };
 
@@ -61,7 +63,6 @@ const Nodes = (props) => {
     setLoading(true);
     try {
       const data = await fetchNodesPoints(params);
-      console.log('『data』', data);
       if (!data || !data.total || data?.total < params.size) {
         setNoMore(true);
       } else {
@@ -91,7 +92,9 @@ const Nodes = (props) => {
           />
           <Statistic
             title="Total Compute Hours"
-            value={numeral(statisticData?.computeHours || 0).format('0,0')}
+            value={numeral(
+              formatToHours(statisticData?.total_online_time) || 0,
+            ).format('0,0')}
           />
           <Statistic
             title="Total Nodes"

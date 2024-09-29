@@ -1,3 +1,5 @@
+import { empty } from './lang';
+
 export const formatDateYMD = (dateString) => {
   const date = new Date(dateString);
   const year = date.getFullYear();
@@ -26,4 +28,9 @@ export const formatTime = (seconds) => {
       return `${minutes + 1} MIN`; // Round up if not an exact minute
     }
   }
+};
+
+export const formatToHours = (seconds) => {
+  if (empty(seconds) || isNaN(seconds)) return '';
+  return Math.floor(seconds / 3600); // Round up if not an exact minute
 };

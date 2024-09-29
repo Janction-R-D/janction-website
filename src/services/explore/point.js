@@ -46,3 +46,18 @@ export const fetchRanking = async (params) => {
     throw new Error(`FetchNodeInfo failed, ${error}`);
   }
 };
+
+export const fetchPointsTotal = async (params) => {
+  try {
+    const response = await request(`${baseUrl}/total_points`, {
+      params,
+    });
+    if (response.code === 1000) {
+      return response.data;
+    } else {
+      console.log(response.msg);
+    }
+  } catch (error) {
+    throw new Error(`FetchNodeInfo failed, ${error}`);
+  }
+};

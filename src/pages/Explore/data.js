@@ -135,15 +135,15 @@ export const nodesPointsFilters = [
 
 export const rankList = [
   {
-    type: 'daily',
+    type: 'top_today',
     title: 'Daily Rank',
   },
   {
-    type: 'total',
+    type: 'top_total',
     title: 'Total Rank',
   },
   {
-    type: 'month',
+    type: 'top_month',
     title: 'Month Rank',
   },
 ];

@@ -90,8 +90,8 @@ const Explore = (props) => {
     return (
       <div className={styles['user-credits-info']}>
         <i></i>
-        <span>{`${item.userName} Get `}</span>
-        <span className={styles['points']}>{`${item.creditsNum} Points`}</span>
+        <span>{`${item.wallet_address} Get `}</span>
+        <span className={styles['points']}>{`${item.point} Points`}</span>
       </div>
     );
   };

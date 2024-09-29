@@ -2,7 +2,6 @@ import React from 'react';
 import { Card, Table } from 'antd';
 import styles from './orders.less';
 import JanctionTable from '@/components/JanctionTable';
-import { style } from 'framer-motion/client';
 export default function OrderCard({ order }) {
   const columns = [
     {

@@ -13,7 +13,11 @@ import '@/assets/images/explore/table_android_bg.png';
 import { ConfigProvider, Table, Pagination } from 'antd';
 import { useEffect, useState } from 'react';
 import JactionEmpty from '../../components/JactionEmpty';
-import { fetchPointsList, fetchRanking } from '../../services/explore/point';
+import {
+  fetchPointsList,
+  fetchPointsTotal,
+  fetchRanking,
+} from '../../services/explore/point';
 import styles from './index.less';
 import numeral from 'numeral';
 import { renderBackgroudImg } from '@/utils/lang';
@@ -33,10 +37,12 @@ const Points = (props) => {
   const [query, setQuery] = useState({ page: 1, size: 15 });
   const [total, setTotal] = useState(0);
   const [pointsList, setPointsList] = useState();
+  const [pointsTotal, setPointsTotal] = useState(0);
 
   useEffect(() => {
     getRaking();
     getPointsList();
+    getPointsTotal();
   }, []);
 
   const getRaking = async () => {
@@ -54,26 +60,33 @@ const Points = (props) => {
     setTotal(res.total);
   };
 
+  const getPointsTotal = async () => {
+    try {
+      const res = await fetchPointsTotal();
+      setPointsTotal(res || 0);
+    } catch (err) {}
+  };
+
   const columns = [
     {
       title: 'User',
-      dataIndex: 'username',
+      dataIndex: 'chain_id',
     },
     {
       title: 'Job Id',
-      dataIndex: 'jobId',
+      dataIndex: 'sumed_jobs',
     },
     {
       title: 'Finished Time',
-      dataIndex: 'finishedTime',
+      dataIndex: 'create_at',
     },
     {
       title: 'Reward Points',
-      dataIndex: 'rewardPoints',
+      dataIndex: 'sumed_points',
     },
     {
       title: 'Tx Hash',
-      dataIndex: 'txHash',
+      dataIndex: 'tx_hash',
       render: (text) => {
         return (
           <div className={styles['tx-hash']}>
@@ -109,12 +122,12 @@ const Points = (props) => {
                     <img src={rankingImg[index + 1]} />
                     <span
                       className={`${styles['username']} ell`}
-                      title={rankingItem.userName}
+                      title={rankingItem.wallet_address}
                     >
-                      {rankingItem.userName}
+                      {rankingItem.wallet_address}
                     </span>
                     <span className={styles['total']}>
-                      {numeral(rankingItem.total || 0).format('$0,0')}
+                      {numeral(rankingItem.point || 0).format('$0,0')}
                     </span>
                   </div>
                 ))}
@@ -130,7 +143,9 @@ const Points = (props) => {
             <div className="df ai_c">
               <img src={line_charts} alt="" />
               <span className={styles['name']}>Total Points</span>
-              <span className={styles['value']}>112,893 +</span>
+              <span className={styles['value']}>
+                {numeral(pointsTotal).format('0,0')}+
+              </span>
             </div>
           </div>
         </div>
