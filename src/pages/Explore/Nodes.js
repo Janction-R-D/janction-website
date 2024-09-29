@@ -22,7 +22,7 @@ const Nodes = (props) => {
   // Node Overview's data
   const [nodes, setNodes] = useState([]);
   // NODES POINTS's data
-  const [nodesPoints, setNodesPoints] = useState();
+  const [nodesPoints, setNodesPoints] = useState([]);
   const [initLoading, setInitLoading] = useState(false);
   const [loading, setLoading] = useState(false);
   const [deviceType, setDeviceType] = useState('all');
@@ -43,30 +43,36 @@ const Nodes = (props) => {
   };
 
   const getStatistic = async () => {
-    const data = await fetchRuningNodes();
-    setStatisticData(data);
+    try {
+      const data = await fetchRuningNodes();
+      setStatisticData(data);
+    } catch (err) {}
   };
 
   const getNodes = async () => {
-    const data = await fetchOverviewNodes();
-    setNodes(data);
+    try {
+      const data = await fetchOverviewNodes();
+      setNodes(data);
+    } catch (err) {}
   };
 
   const getNodesPoints = async (values = {}) => {
     const params = { ...query, ...values };
     setLoading(true);
-    const data = await fetchNodesPoints(params);
-    console.log('『data』', data);
-    if (!data || !data.total || data?.total < params.size) {
-      setNoMore(true);
-    } else {
-      setQuery(params);
-    }
-    if (params.page == 1) {
-      setNodesPoints(data.list);
-    } else {
-      setNodesPoints([...nodesPoints, ...(data.list || [])]);
-    }
+    try {
+      const data = await fetchNodesPoints(params);
+      console.log('『data』', data);
+      if (!data || !data.total || data?.total < params.size) {
+        setNoMore(true);
+      } else {
+        setQuery(params);
+      }
+      if (params.page == 1) {
+        setNodesPoints(data.list);
+      } else {
+        setNodesPoints([...nodesPoints, ...(data.list || [])]);
+      }
+    } catch (err) {}
     setLoading(false);
   };
 

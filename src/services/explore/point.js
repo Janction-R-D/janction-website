@@ -1,59 +1,48 @@
 import { request } from 'umi';
-import {
-  mockPointsData,
-  mockRakingData,
-  mockUserCreditsInfo,
-} from '../../pages/Explore/data';
 
-const baseUrl = '/api/v1/point';
+const baseUrl = '/api/point/v1';
 
 export const fetchUserCreditsInfo = async (params) => {
   try {
-    const response = await request(`${baseUrl}/userCreditsInfo`, {
+    const response = await request(`${baseUrl}/report_history`, {
       params,
     });
-    // if (response.code === 1000) {
-    //   return response.data;
-    // } else {
-    //   console.log(response.msg);
-    // }
-    return mockUserCreditsInfo;
+    if (response.code === 1000) {
+      return response.data;
+    } else {
+      console.log(response.msg);
+    }
   } catch (error) {
-    console.log(`FetchNodeInfo failed, ${error}`);
+    throw new Error(`FetchNodeInfo failed, ${error}`);
   }
 };
 
 export const fetchPointsList = async (params) => {
   try {
-    const response = await request(`${baseUrl}/pointsList`, {
+    const response = await request(`${baseUrl}/transactions`, {
       params,
     });
-    // if (response.code === 1000) {
-    //   return response.data;
-    // } else {
-    //   console.log(response.msg);
-    // }
-    return {
-      total: 100,
-      list: mockPointsData,
-    };
+    if (response.code === 1000) {
+      return response.data;
+    } else {
+      console.log(response.msg);
+    }
   } catch (error) {
-    console.log(`FetchNodeInfo failed, ${error}`);
+    throw new Error(`FetchNodeInfo failed, ${error}`);
   }
 };
 
 export const fetchRanking = async (params) => {
   try {
-    const response = await request(`${baseUrl}/ranking`, {
+    const response = await request(`${baseUrl}/top_point_statistic`, {
       params,
     });
-    // if (response.code === 1000) {
-    //   return response.data;
-    // } else {
-    //   console.log(response.msg);
-    // }
-    return mockRakingData;
+    if (response.code === 1000) {
+      return response.data;
+    } else {
+      console.log(response.msg);
+    }
   } catch (error) {
-    console.log(`FetchNodeInfo failed, ${error}`);
+    throw new Error(`FetchNodeInfo failed, ${error}`);
   }
 };

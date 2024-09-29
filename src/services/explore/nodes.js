@@ -1,59 +1,47 @@
 import { request } from 'umi';
-import {
-  mockNodes,
-  mockNodesPoints,
-  mockStatisticData,
-} from '../../pages/Explore/data';
 
 const baseUrl = '/api/v1/node';
 
 export const fetchRuningNodes = async (params) => {
   try {
-    const response = await request(`${baseUrl}/runingNodes`, {
+    const response = await request(`${baseUrl}/count`, {
       params,
     });
-    // if (response.code === 1000) {
-    //   return response.data;
-    // } else {
-    //   console.log(response.msg);
-    // }
-    return mockStatisticData;
+    if (response.code === 1000) {
+      return response.data;
+    } else {
+      console.log(response.msg);
+    }
   } catch (error) {
-    console.log(`FetchNodeInfo failed, ${error}`);
+    throw new Error(`FetchNodeInfo failed, ${error}`);
   }
 };
 
 export const fetchOverviewNodes = async (params) => {
   try {
-    const response = await request(`${baseUrl}/overviewNodes`, {
+    const response = await request(`${baseUrl}/count`, {
       params,
     });
-    // if (response.code === 1000) {
-    //   return response.data;
-    // } else {
-    //   console.log(response.msg);
-    // }
-    return mockNodes;
+    if (response.code === 1000) {
+      return response.data;
+    }
+    throw new Error(`FetchNodeInfo failed, ${error}`);
   } catch (error) {
-    console.log(`FetchNodeInfo failed, ${error}`);
+    throw new Error(`FetchNodeInfo failed, ${error}`);
   }
 };
 
 export const fetchNodesPoints = async (params) => {
   try {
-    const response = await request(`${baseUrl}/nodesPoints`, {
+    const response = await request(`${baseUrl}/count`, {
       params,
     });
-    // if (response.code === 1000) {
-    //   return response.data;
-    // } else {
-    //   console.log(response.msg);
-    // }
-    return {
-      total: 100,
-      list: mockNodesPoints,
-    };
+    if (response.code === 1000) {
+      return response.data;
+    } else {
+      console.log(response.msg);
+    }
   } catch (error) {
-    console.log(`FetchNodeInfo failed, ${error}`);
+    throw new Error(`FetchNodeInfo failed, ${error}`);
   }
 };
