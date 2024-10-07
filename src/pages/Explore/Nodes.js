@@ -48,14 +48,18 @@ const Nodes = (props) => {
       const data = await fetchRuningNodes();
       const liveData = await fetchRuningNodes({ is_online: true });
       setStatisticData({ ...data, liveNodes: liveData.total });
-    } catch (err) {}
+    } catch (err) {
+      console.log('『err』', err);
+    }
   };
 
   const getNodes = async () => {
     try {
       const data = await fetchOverviewNodes();
       setNodes(data);
-    } catch (err) {}
+    } catch (err) {
+      console.log('『err』', err);
+    }
   };
 
   const getNodesPoints = async (values = {}) => {

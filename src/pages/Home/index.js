@@ -66,7 +66,11 @@ const Home = (props) => {
             <span>Get Started</span>
             <i className="iconfont icon-lt-arrow"></i>
           </div>
-          <div className={styles['read-docs']}></div>
+          <a
+            className={styles['read-docs']}
+            href="https://docs.janction.io"
+            target="__black"
+          ></a>
           <div className={styles['shadow']}></div>
         </div>
       </div>

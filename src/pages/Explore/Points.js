@@ -46,25 +46,35 @@ const Points = (props) => {
   }, []);
 
   const getRaking = async () => {
-    const res = await fetchRanking();
-    setRankData(res);
+    try {
+      const res = await fetchRanking();
+      setRankData(res);
+    } catch (err) {
+      console.log('『err』', err);
+    }
   };
 
   const getPointsList = async (values) => {
     const params = { ...query, ...values };
     setLoading(true);
-    setQuery(params);
-    const res = await fetchPointsList(params);
-    setPointsList(res.list);
+    try {
+      const res = await fetchPointsList(params);
+      setQuery(params);
+      setPointsList(res.list);
+      setTotal(res.total);
+    } catch (err) {
+      console.log('『err』', err);
+    }
     setLoading(false);
-    setTotal(res.total);
   };
 
   const getPointsTotal = async () => {
     try {
       const res = await fetchPointsTotal();
       setPointsTotal(res || 0);
-    } catch (err) {}
+    } catch (err) {
+      console.log('『err』', err);
+    }
   };
 
   const columns = [

@@ -72,8 +72,12 @@ const Explore = (props) => {
   };
 
   const getUserCreditsInfo = async () => {
-    const userCreditsList = await fetchUserCreditsInfo();
-    setUserCreditsList(userCreditsList);
+    try {
+      const userCreditsList = await fetchUserCreditsInfo();
+      setUserCreditsList(userCreditsList);
+    } catch (err) {
+      console.log('『err』', err);
+    }
   };
 
   const createBullet = () => {

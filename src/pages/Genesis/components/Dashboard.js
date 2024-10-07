@@ -3,7 +3,6 @@ import JactionSelect from '@/components/JactionSelect';
 import { SYSTEM_LIST, SYSTEM_SELECT_LIST } from '@/constant';
 import { formatDateYMD, formatTime } from '@/utils/datetime';
 import { formatThouNumber } from '@/utils/numeric';
-import storage from '@/utils/storage';
 import { Divider, Skeleton } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -52,36 +51,44 @@ const Dashboard = (props) => {
   }, [address]);
 
   const handleFetchNodesCount = async () => {
-    const nodesCount = await fetchNodesCount({ wallet_address: address });
-    console.log('nodesCount:', nodesCount);
-    setNodesCount(nodesCount);
+    try {
+      const nodesCount = await fetchNodesCount({ wallet_address: address });
+      console.log('nodesCount:', nodesCount);
+      setNodesCount(nodesCount);
+    } catch (err) {
+      console.log('『err』', err);
+    }
   };
 
   const handleFetchNodeInfos = async (nodeType) => {
-    const nodeInfos = await fetchNodeInfos({
-      wallet_address: address,
-      node_type: nodeType,
-    });
-    console.log('nodeInfos:', nodeInfos);
-    setNodeInfos(
-      nodeInfos.sort((a, b) => {
-        if (
-          a.node_status === NodeStatus.Running &&
-          b.node_status !== NodeStatus.Running
-        ) {
-          return -1;
-        }
-        // If b.status is 2 and a.status is not 2, b should come before a
-        if (
-          b.node_status === NodeStatus.Running &&
-          a.node_status !== NodeStatus.Running
-        ) {
-          return 1;
-        }
-        // Otherwise, the order remains the same
-        return 0;
-      }),
-    );
+    try {
+      const nodeInfos = await fetchNodeInfos({
+        wallet_address: address,
+        node_type: nodeType,
+      });
+      console.log('nodeInfos:', nodeInfos);
+      setNodeInfos(
+        nodeInfos.sort((a, b) => {
+          if (
+            a.node_status === NodeStatus.Running &&
+            b.node_status !== NodeStatus.Running
+          ) {
+            return -1;
+          }
+          // If b.status is 2 and a.status is not 2, b should come before a
+          if (
+            b.node_status === NodeStatus.Running &&
+            a.node_status !== NodeStatus.Running
+          ) {
+            return 1;
+          }
+          // Otherwise, the order remains the same
+          return 0;
+        }),
+      );
+    } catch (err) {
+      console.log('『err』', err);
+    }
   };
 
   const handleFetchNodeLogs = async (params = {}) => {
@@ -89,40 +96,52 @@ const Dashboard = (props) => {
       return;
     }
     setLoading(true);
-    const _nodeLogs = await fetchNodeLogs({
-      page: nodesPage,
-      wallet_address: address,
-      ...params,
-    });
-    setNodesPage(params.page || 1);
+    try {
+      const _nodeLogs = await fetchNodeLogs({
+        page: nodesPage,
+        wallet_address: address,
+        ...params,
+      });
+      setNodesPage(params.page || 1);
+      setNodeLogs([...nodeLogs, ...(_nodeLogs || [])]);
+    } catch (err) {
+      console.log('『err』', err);
+    }
     setLoading(false);
-    console.log('nodeLogs:', nodeLogs);
-    setNodeLogs([...nodeLogs, ...(_nodeLogs || [])]);
   };
 
   const handleFetchPointStatistic = async () => {
-    const pointStatistic = await fetchPointStatistic({
-      wallet_address: address,
-    });
-    console.log('pointStatistic:', pointStatistic);
-    setPointStatistic(pointStatistic);
+    try {
+      const pointStatistic = await fetchPointStatistic({
+        wallet_address: address,
+      });
+      setPointStatistic(pointStatistic);
+    } catch (err) {
+      console.log('『err』', err);
+    }
   };
 
   const handleFetchDailyPointStatistic = async () => {
-    const dailyPointStatistic = await fetchDailyPointStatistic({
-      wallet_address: address,
-      days: 7,
-    });
-    console.log('dailyPointStatistic:', dailyPointStatistic);
-    setDailyPointStatistic(dailyPointStatistic);
+    try {
+      const dailyPointStatistic = await fetchDailyPointStatistic({
+        wallet_address: address,
+        days: 7,
+      });
+      setDailyPointStatistic(dailyPointStatistic);
+    } catch (err) {
+      console.log('『err』', err);
+    }
   };
 
   const handleFetchReportHistories = async () => {
-    const reportHistories = await fetchReportHistories({
-      wallet_address: address,
-    });
-    console.log('reportHistories:', reportHistories);
-    setReportHistories(reportHistories);
+    try {
+      const reportHistories = await fetchReportHistories({
+        wallet_address: address,
+      });
+      setReportHistories(reportHistories);
+    } catch (err) {
+      console.log('『err』', err);
+    }
   };
 
   const handleSelectSystem = (value) => {
