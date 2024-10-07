@@ -1,4 +1,4 @@
-html,body {user-select: none;scroll-behavior: smooth;}
+html,body {scroll-behavior: smooth;}
 canvas {display: block;}
 body {text-rendering: optimizeLegibility;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;line-height:1.4;color:#fff;font-size: 14px;}
 input,textarea,select{font-size:12px;font-size:100%;font-family:arial;font-family:inherit;}
