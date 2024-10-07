@@ -1,13 +1,14 @@
-import { useConnectModal } from '@rainbow-me/rainbowkit';
-import { useModel, history } from 'umi';
-import { SiweMessage } from 'siwe';
-import styles from './index.less';
-import { useAccountEffect, useSignMessage } from 'wagmi';
-import storage from '@/utils/storage';
 import { fetchNonce, performLogin } from '@/services/auth';
+import storage from '@/utils/storage';
+import { useConnectModal } from '@rainbow-me/rainbowkit';
+import { SiweMessage } from 'siwe';
+import { history, useModel } from 'umi';
+import { useAccount, useAccountEffect, useSignMessage } from 'wagmi';
+import styles from './index.less';
 
 const expires = 60 * 60 * 24 * 1000;
 const Login = (props) => {
+  const { address } = useAccount();
   const { openConnectModal } = useConnectModal();
   const { signMessageAsync } = useSignMessage();
   const { initialState, setInitialState } = useModel('@@initialState');
@@ -78,6 +79,16 @@ const Login = (props) => {
     },
   });
 
+  const onConnect = async () => {
+    if (address) {
+      // Triggered when the user clears local data
+      location.reload();
+      openConnectModal();
+    } else {
+      openConnectModal();
+    }
+  };
+
   return (
     <div className={styles['login-container']}>
       <div className={styles['logo']}>
@@ -91,7 +102,7 @@ const Login = (props) => {
         </h2>
         <p>One account for everything Janction</p>
       </div>
-      <a className={styles['login-btn']} onClick={openConnectModal}>
+      <a className={styles['login-btn']} onClick={onConnect}>
         Sign in with Ethereum
       </a>
     </div>
