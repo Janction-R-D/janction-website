@@ -8,19 +8,20 @@ import styles from './index.less';
 import CustomConnectButton from '../../components/CustomConnectButton';
 import Create from './components/Create';
 import Orders from './components/Orders';
+import { QuestionCircleOutlined, SettingOutlined } from '@ant-design/icons';
 
 const navList = [
-  { name: 'Dashboard', path: '/genesis/dashboard', key: 0, icon: 'dashboard' },
-  { name: 'Deploy Node', path: '/genesis/nodes', key: 1, icon: 'switch' },
-  { name: 'My Nodes', path: '/genesis/instance', key: 2, icon: 'switch' },
+  { name: 'Dashboard', path: '/genesis/dashboard', key: 0, icon: 'home' },
+  { name: 'Deploy Node', path: '/genesis/nodes', key: 1, icon: 'deploy-node' },
+  { name: 'My Nodes', path: '/genesis/instance', key: 2, icon: 'my-nodes' },
   {
     name: 'Configuration Instance',
     path: '/genesis/create',
     key: 5,
-    icon: 'switch',
+    icon: 'purchase',
   },
-  { name: 'Orders', path: '/genesis/instance', key: 3, icon: 'switch' },
-  { name: 'Billings', path: '/genesis/billDetails', key: 4, icon: 'switch' },
+  { name: 'Orders', path: '/genesis/instance', key: 3, icon: 'my-nodes' },
+  { name: 'Billings', path: '/genesis/billDetails', key: 4, icon: 'billings' },
 ];
 
 const Personal = (props) => {
@@ -74,12 +75,6 @@ const Personal = (props) => {
           <div className={styles['logo']}>
             <img src={require('@/assets/images/icons/logo.png')} />
           </div>
-          <div
-            className={['hvr-grow', styles['fold']].join(' ')}
-            onClick={foldHandle}
-          >
-            <i className="iconfont icon-pre"></i>
-          </div>
         </header>
         <nav>
           {navList.map((item) => (
@@ -88,39 +83,33 @@ const Personal = (props) => {
               className={curNav.key == item.key && styles['active']}
               onClick={() => onNavChange(item)}
             >
-              <i className={`iconfont icon-${item.icon}`} />
+              <div className={styles['icon']}>
+                <i className={`iconfont icon-${item.icon}`} />
+              </div>
               <span>{item.name}</span>
             </div>
           ))}
         </nav>
         <div className={styles['footer']}>
-          <h1>JANCTION</h1>
-          <p>©2024 janction.io</p>
-          <div
-            className={['hvr-grow', styles['unfold']].join(' ')}
-            onClick={foldHandle}
-          >
-            <i className="iconfont icon-next"></i>
+          <div className={styles['item']}>
+            <div className={styles['icon']}>
+              <QuestionCircleOutlined />
+            </div>
+            <span>Help</span>
           </div>
+          <div className={styles['item']}>
+            <div className={styles['icon']}>
+              <SettingOutlined />
+            </div>
+            <span>Settings</span>
+          </div>
+        </div>
+        <div className={styles['fold-wrapper']} onClick={foldHandle}>
+          <i className={`iconfont ${fold ? 'icon-unfold' : 'icon-fold'}`}></i>
         </div>
       </aside>
       <main>
         <header>
-          <div className={styles['links']}>
-            <a href="https://docs.janction.io" target="_black">
-              <i className="iconfont icon-doc"></i>
-            </a>
-            <a href="https://github.com/Janction-R-D" target="_black">
-              <i className="iconfont icon-github"></i>
-            </a>
-            {/* <a target="_black">
-              <i className="iconfont icon-discord"></i>
-            </a> */}
-            <a href="https://x.com/JanctionMGT" target="_black">
-              <i className="iconfont icon-x"></i>
-            </a>
-          </div>
-          {/* <ConnectButton/> */}
           <CustomConnectButton />
         </header>
         <div className={styles['content']}>

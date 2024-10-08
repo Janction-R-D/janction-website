@@ -6,6 +6,55 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "42039115",
+      "name": "unfold",
+      "font_class": "unfold",
+      "unicode": "e64f",
+      "unicode_decimal": 58959
+    },
+    {
+      "icon_id": "42039114",
+      "name": "fold",
+      "font_class": "fold",
+      "unicode": "e650",
+      "unicode_decimal": 58960
+    },
+    {
+      "icon_id": "42039113",
+      "name": "purchase",
+      "font_class": "purchase",
+      "unicode": "e64e",
+      "unicode_decimal": 58958
+    },
+    {
+      "icon_id": "42039109",
+      "name": "billings",
+      "font_class": "billings",
+      "unicode": "e64d",
+      "unicode_decimal": 58957
+    },
+    {
+      "icon_id": "42039087",
+      "name": "my-nodes",
+      "font_class": "my-nodes",
+      "unicode": "e64a",
+      "unicode_decimal": 58954
+    },
+    {
+      "icon_id": "42039088",
+      "name": "deploy-node",
+      "font_class": "deploy-node",
+      "unicode": "e64b",
+      "unicode_decimal": 58955
+    },
+    {
+      "icon_id": "42039086",
+      "name": "dashboard",
+      "font_class": "home",
+      "unicode": "e64c",
+      "unicode_decimal": 58956
+    },
+    {
       "icon_id": "41773937",
       "name": "location",
       "font_class": "location",
