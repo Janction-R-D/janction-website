@@ -7,12 +7,13 @@ import {
   QuestionCircleOutlined,
 } from '@ant-design/icons';
 import { history } from 'umi';
-import styles from './Instance.less';
+import styles from './index.less';
 import data from './Instance.json';
 import HeaderCard from './InstanceComponents/HeaderCard';
 import { useState } from 'react';
+import OperationModal from './InstanceComponents/OperationModal';
 
-export default function Instance() {
+function Instance() {
   const [showOverView, setShowOverView] = useState(true);
   const columns = [
     {
@@ -106,7 +107,8 @@ export default function Instance() {
         >
           <a>Stop</a>
           <a>Start</a>
-          <a className="ellipsis">More function</a>
+
+          <OperationModal record={record} styles={styles} />
         </Space>
       ),
     },
@@ -187,3 +189,5 @@ export default function Instance() {
     </>
   );
 }
+Instance.wrappers = ['@/wrappers/auth'];
+export default Instance;

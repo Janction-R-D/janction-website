@@ -1,0 +1,43 @@
+.card-modal {
+  display: flex;
+  position: absolute;
+  background: #000;
+  bottom: -70px;
+  right: 12px;
+  border-radius: 12px;
+  z-index: 10;
+  width: 200px;
+  padding: 0 !important;
+  div {
+    padding: 8px 0px;
+    width: 100%;
+  }
+}
+
+.card-modal-show {
+  display: none;
+}
+.panel {
+  width: 100%;
+
+  padding: 6px 0px;
+  gap: 6px;
+  display: flex;
+  flex-direction: column;
+}
+.panel > span {
+  cursor: pointer;
+  width: 100%;
+  padding: 3px 12px;
+}
+.panel > span:hover {
+  background-color: #bbbaba94;
+}
+.ellipsis {
+  text-overflow: ellipsis;
+
+  text-wrap: nowrap;
+}
+// .operation-modal {
+//   position: relative;
+// }

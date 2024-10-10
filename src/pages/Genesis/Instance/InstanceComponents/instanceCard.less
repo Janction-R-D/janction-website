@@ -1,0 +1,94 @@
+.instance-card {
+  background-color: #1b1b1c;
+  border-radius: 8px;
+  padding: 16px;
+  display: grid;
+  grid-template-columns: 60% 40%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+.instance-card span {
+  color: #767677;
+  font-size: 0.8rem;
+}
+.instance-card p {
+  color: #c0bfbf;
+  font-size: 0.9rem;
+}
+.instance-description {
+  flex: 1;
+}
+.instance-header {
+  display: flex;
+  flex: 1;
+  padding: 4px;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+.instance-title,
+.instance-operation {
+  flex: 1;
+}
+.instance-title {
+  display: flex;
+  flex: 1;
+  gap: 3px;
+  flex-direction: column;
+}
+.instance-title h1 {
+  font-size: 1.1rem;
+}
+.instance-title div {
+  display: flex;
+  gap: 12px;
+  flex: 1;
+}
+.instance-property {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid #cccccc25;
+  border-bottom: 1px solid #cccccc25;
+}
+.instance-property > li {
+  padding: 0px 12px;
+  margin: 12px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.instance-property > li:not(:last-child) {
+  border-right: 1px solid #cccccc25;
+}
+.status-running {
+  display: flex;
+  align-items: center;
+  color: green;
+}
+.status-expired {
+  color: red;
+}
+.status-expiring-soon {
+  color: yellow;
+}
+.status-stopped {
+  color: orange;
+}
+.status-question {
+  color: #ebe061;
+}
+.instance-operation {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.instance-operation div {
+  display: flex;
+  gap: 8px;
+}
+
+.instance-operation div a {
+  color: #73d5f4;
+}
+
+.selected-status {
+  color: #545455 !important;
+}

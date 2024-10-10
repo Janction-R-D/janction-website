@@ -7,7 +7,6 @@ import 'hover.css';
 import styles from './index.less';
 import { useEffect, useMemo } from 'react';
 import { history } from 'umi';
-import Create from '../pages/Genesis/components/Create';
 
 export const fullWidthRoute = ['/home', '/explore', '/getStarted', '/solution'];
 export const marginTopRoute = ['/home', '/explore', '/getStarted'];
