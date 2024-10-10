@@ -12,15 +12,15 @@ import Orders from './components/Orders';
 const navList = [
   { name: 'Dashboard', path: '/genesis/dashboard', key: 0, icon: 'dashboard' },
   { name: 'Deploy Node', path: '/genesis/nodes', key: 1, icon: 'switch' },
-  { name: 'My Nodes', path: '/genesis/instance', key: 2, icon: 'switch' },
-  {
-    name: 'Configuration Instance',
-    path: '/genesis/create',
-    key: 5,
-    icon: 'switch',
-  },
-  { name: 'Orders', path: '/genesis/instance', key: 3, icon: 'switch' },
-  { name: 'Billings', path: '/genesis/billDetails', key: 4, icon: 'switch' },
+  // { name: 'My Nodes', path: '/genesis/instance', key: 2, icon: 'switch' },
+  // {
+  //   name: 'Configuration Instance',
+  //   path: '/genesis/create',
+  //   key: 5,
+  //   icon: 'switch',
+  // },
+  // { name: 'Orders', path: '/genesis/instance', key: 3, icon: 'switch' },
+  // { name: 'Billings', path: '/genesis/billDetails', key: 4, icon: 'switch' },
 ];
 
 const Personal = (props) => {

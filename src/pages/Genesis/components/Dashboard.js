@@ -159,6 +159,7 @@ const Dashboard = (props) => {
       node_id,
       heartbeat_count,
       exec_info,
+      env_info,
     } = nodeInfo;
     const isCpu = exec_info.use_cpu === 1;
     const isGpu = exec_info.use_gpu === 1;
@@ -176,7 +177,10 @@ const Dashboard = (props) => {
           ></i>
         </div>
         <div>
-          <div className={styles['name']}>{showValue(node_type)}</div>
+          <div className={styles['name']}>
+            <span>{showValue(node_type)}</span>{' '}
+            {isGpu && <span>{env_info?.gpu}</span>}
+          </div>
           <div className={styles['status']}>
             <div className={styles['system']}>
               {!(mac || android || isCpu) && (
@@ -201,6 +205,12 @@ const Dashboard = (props) => {
               <span className={styles['label']}>Node ID</span>
               <span className={styles['value']}>{node_id}</span>
             </div>
+            {isGpu && (
+              <div>
+                <span className={styles['label']}>GPU ID</span>
+                <span className={styles['value']}>{env_info?.gpu_uuid}</span>
+              </div>
+            )}
             <div>
               <span className={styles['label']}>Online Time</span>
               <span className={styles['value']}>

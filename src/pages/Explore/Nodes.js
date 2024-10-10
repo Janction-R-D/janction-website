@@ -9,7 +9,12 @@ import numeral from 'numeral';
 import { useEffect, useState } from 'react';
 import DevicePie from './components/DevicePie';
 import styles from './index.less';
-import { nodesOverviewColumns, nodesPointsFilters } from './data';
+import {
+  mockNodesPoints,
+  mockPointsData,
+  nodesOverviewColumns,
+  nodesPointsFilters,
+} from './data';
 import {
   fetchNodesPoints,
   fetchOverviewNodes,
@@ -27,7 +32,7 @@ const Nodes = (props) => {
   const [initLoading, setInitLoading] = useState(false);
   const [loading, setLoading] = useState(false);
   const [deviceType, setDeviceType] = useState('all');
-  const [query, setQuery] = useState({ page: 1, size: 15 });
+  const [query, setQuery] = useState({});
   const [noMore, setNoMore] = useState(false);
 
   useEffect(() => {
@@ -36,7 +41,7 @@ const Nodes = (props) => {
   }, []);
 
   useEffect(() => {
-    getNodesPoints({ page: 1, deviceType });
+    getNodesPoints({ task_name: 'simple_linear_regression' });
   }, [deviceType]);
 
   const onFilterChange = (filter) => {
@@ -56,7 +61,14 @@ const Nodes = (props) => {
   const getNodes = async () => {
     try {
       const data = await fetchOverviewNodes();
-      setNodes(data);
+      setNodes(
+        Object.keys(data)
+          .filter((item) => item !== 'total_online_time' && item !== 'total')
+          .map((item) => ({
+            name: item,
+            value: data[item],
+          })),
+      );
     } catch (err) {
       console.log('『err』', err);
     }
@@ -110,7 +122,7 @@ const Nodes = (props) => {
         <h1>Node Overview</h1>
         <div className={styles['content']}>
           <div className={styles['echart-wrapper']}>
-            <DevicePie />
+            <DevicePie data={nodes} />
           </div>
           <div
             className={styles['device-wrapper']}
@@ -127,7 +139,7 @@ const Nodes = (props) => {
               {nodes.map((item, index) => (
                 <div
                   className={styles['td']}
-                  key={item.deviceName}
+                  key={item.name}
                   style={{
                     '--opacity': index == 0 ? 1 : 1 - 0.2 * (index - 1),
                     '--color': index == 0 ? '#73D5F4' : '#D9ACA2',
@@ -140,8 +152,8 @@ const Nodes = (props) => {
                       styles[item.type],
                     ].join(' ')}
                   ></i>
-                  <div className={styles['name']}>{item.deviceName}</div>
-                  <div className={styles['value']}>{item.liveNodes}</div>
+                  <div className={styles['name']}>{item.name}</div>
+                  <div className={styles['value']}>{item.value}</div>
                 </div>
               ))}
             </div>

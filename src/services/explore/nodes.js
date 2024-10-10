@@ -33,7 +33,7 @@ export const fetchOverviewNodes = async (params) => {
 
 export const fetchNodesPoints = async (params) => {
   try {
-    const response = await request(`${baseUrl}/count`, {
+    const response = await request(`/api/v1/task/info`, {
       params,
     });
     if (response.code === 1000) {
