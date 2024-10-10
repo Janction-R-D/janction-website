@@ -8,8 +8,10 @@ import data2 from './InstanceComponents/instance2.json';
 import HeaderCard from './InstanceComponents/HeaderCard';
 import OperationModal from './InstanceComponents/OperationModal';
 import InstanceCard from './InstanceComponents/InstanceCard';
+import InstanceTable from './instanceTable';
 
 function Instance() {
+  const [view, setView] = useState(false);
   const [showOverView, setShowOverView] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(3);
@@ -70,7 +72,7 @@ function Instance() {
                 className={styles['create-btn']}
                 style={{ width: '200px' }}
                 type="primary"
-                onClick={() => history.push('/genesis/create')}
+                onClick={() => setView(!view)}
               >
                 Change view
               </Button>
@@ -90,20 +92,24 @@ function Instance() {
             />
           </Col>
         </Row>
-        <section className={styles['instances']}>
-          {currentInstances.map((instance, index) => (
-            <InstanceCard key={index} instance={instance} />
-          ))}
-          <div className={styles['pagination-wrapper']}>
-            <Pagination
-              current={currentPage}
-              pageSize={itemsPerPage}
-              total={filteredData.length}
-              showLessItems
-              onChange={(page) => setCurrentPage(page)}
-            />
-          </div>
-        </section>
+        {view ? (
+          <section className={styles['instances']}>
+            {currentInstances.map((instance, index) => (
+              <InstanceCard key={index} instance={instance} />
+            ))}
+            <div className={styles['pagination-wrapper']}>
+              <Pagination
+                current={currentPage}
+                pageSize={itemsPerPage}
+                total={filteredData.length}
+                showLessItems
+                onChange={(page) => setCurrentPage(page)}
+              />
+            </div>
+          </section>
+        ) : (
+          <InstanceTable />
+        )}
       </Card>
     </>
   );

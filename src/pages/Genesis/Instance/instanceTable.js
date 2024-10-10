@@ -13,7 +13,7 @@ import HeaderCard from './InstanceComponents/HeaderCard';
 import { useState } from 'react';
 import OperationModal from './InstanceComponents/OperationModal';
 
-function Instance() {
+function InstanceTable() {
   const [showOverView, setShowOverView] = useState(true);
   const columns = [
     {
@@ -121,73 +121,17 @@ function Instance() {
     : 'iconfont icon-eye';
   return (
     <>
-      <div className={styles['title']}>
-        <h1>My Nodes</h1>
-        <div>
-          <i className={classname} onClick={handleModal}></i>
-          {showOverView ? (
-            <p>Close Resource Overview</p>
-          ) : (
-            <p>Expand Resource Overview</p>
-          )}
-        </div>
-      </div>
-      {showOverView && <HeaderCard />}
-      <Card className={styles['card-table']}>
-        <Row justify="space-between" align="middle">
-          <Col>
-            <Space>
-              <Button
-                className={styles['create-btn']}
-                type="primary"
-                onClick={() => history.push('/genesis/create')}
-              >
-                Create
-              </Button>
-              {/* <Button>批量续费</Button>
-            <Button onClick={onRefresh}><ReloadOutlined /></Button> */}
-            </Space>
-          </Col>
-          <Col span={12} style={{ display: 'flex', gap: '16px' }}>
-            <Input
-              suffix={
-                <i
-                  className="iconfont icon-search"
-                  style={{ fontSize: '1vw' }}
-                />
-              }
-              placeholder="You can fuzzy search for cloud servers by ID, name, and IP. Multiple keywords are separated by commas ()"
-              className={`${styles['search-input']}`}
-            />
-            <div className={styles['buttons']}>
-              <Button className={styles['button']}>
-                <i
-                  className="iconfont icon-multipleselectlist"
-                  style={{ fontSize: '0.8rem' }}
-                ></i>
-              </Button>
-              <span style={{ fontSize: '0.8rem', color: '#ccf' }}>|</span>
-              <Button className={styles['button']}>
-                <i
-                  className="iconfont icon-listblock"
-                  style={{ fontSize: '0.8rem' }}
-                ></i>
-              </Button>
-            </div>
-          </Col>
-        </Row>
-        <JanctionTable
-          className={styles['table']}
-          columns={columns}
-          dataSource={data}
-          pagination={{
-            pageSize: 5,
-            position: ['bottomCenter'],
-          }}
-        />
-      </Card>
+      <JanctionTable
+        className={styles['table']}
+        columns={columns}
+        dataSource={data}
+        pagination={{
+          pageSize: 5,
+          position: ['bottomCenter'],
+        }}
+      />
     </>
   );
 }
-Instance.wrappers = ['@/wrappers/auth'];
-export default Instance;
+
+export default InstanceTable;
