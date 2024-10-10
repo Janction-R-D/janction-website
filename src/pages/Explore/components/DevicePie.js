@@ -1,9 +1,44 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import ReactEcharts from 'echarts-for-react';
 import useScale from '../../../hooks/useScale';
 
 const DevicePie = (props) => {
+  const { data = [] } = props;
   const { scale, isPC } = useScale();
+
+  const series = useMemo(() => {
+    console.log('『data』', data);
+    return [
+      {
+        name: '',
+        type: 'pie',
+        radius: ['58%', '66%'],
+        center: ['50%', 'center'],
+        percentPrecision: 0,
+        itemStyle: {
+          normal: {
+            borderRadius: '50%',
+            borderColor: 'transparent',
+            borderWidth: scale * 20,
+            label: {
+              position: 'outter',
+              fontFamily: 'Poppins',
+              fontWeight: 500,
+              fontSize: scale * (isPC ? 32 : 12),
+              lineHeight: scale * (isPC ? 48 : 18),
+              color: '#FFFFFF',
+              formatter: '{d}%',
+              // distanceToLabelLine: 0,
+            },
+            labelLine: {
+              show: false,
+            },
+          },
+        },
+        data: data,
+      },
+    ];
+  }, [data]);
 
   let option = {
     title: {
@@ -40,43 +75,7 @@ const DevicePie = (props) => {
       'rgba(217, 172, 162, 0.4)',
       'rgba(217, 172, 162, 0.2)',
     ],
-    series: [
-      {
-        name: '',
-        type: 'pie',
-        radius: ['58%', '66%'],
-        center: ['50%', 'center'],
-        percentPrecision: 0,
-        itemStyle: {
-          normal: {
-            borderRadius: '50%',
-            borderColor: 'transparent',
-            borderWidth: scale * 20,
-            label: {
-              position: 'outter',
-              fontFamily: 'Poppins',
-              fontWeight: 500,
-              fontSize: scale * (isPC ? 32 : 12),
-              lineHeight: scale * (isPC ? 48 : 18),
-              color: '#FFFFFF',
-              formatter: '{d}%',
-              // distanceToLabelLine: 0,
-            },
-            labelLine: {
-              show: false,
-            },
-          },
-        },
-        data: [
-          { value: 2338, name: 'GeForce RTX 3080' },
-          { value: 1002, name: 'GeForce RTX 3090' },
-          { value: 784, name: 'M2 MAX' },
-          { value: 448, name: 'GeForce RTX 3070' },
-          { value: 128, name: 'GeForce RTX 4090' },
-          { value: 38, name: 'other' },
-        ],
-      },
-    ],
+    series,
   };
 
   return (
