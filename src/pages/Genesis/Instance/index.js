@@ -70,7 +70,7 @@ function Instance() {
               </Button>
               <Button
                 className={styles['create-btn']}
-                style={{ width: '200px' }}
+                style={{ width: '160px' }}
                 type="primary"
                 onClick={() => setView(!view)}
               >
@@ -78,7 +78,7 @@ function Instance() {
               </Button>
             </Space>
           </Col>
-          <Col span={12} style={{ display: 'flex', gap: '16px' }}>
+          <Col span={13} style={{ display: 'flex', gap: '16px' }}>
             <Input
               suffix={
                 <i
@@ -86,10 +86,19 @@ function Instance() {
                   style={{ fontSize: '1vw' }}
                 />
               }
-              placeholder="Search by ID, name, or IP."
+              placeholder="You can fuzzy search for cloud servers by ID, name, and IP. Multiple keywords are separated by commas ()"
               onChange={(e) => handleSearch(e.target.value)}
               className={styles['search-input']}
             />
+            <div className={styles['buttons']}>
+              <Button className={styles['button']}>
+                <i className="iconfont icon-multipleselectlist"></i>
+              </Button>
+              <span>|</span>
+              <Button className={styles['button']}>
+                <i className="iconfont icon-listblock"></i>
+              </Button>
+            </div>
           </Col>
         </Row>
         {view ? (
