@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4602216 */
-  src: url('iconfont.woff2?t=1728476611890') format('woff2'),
-       url('iconfont.woff?t=1728476611890') format('woff'),
-       url('iconfont.ttf?t=1728476611890') format('truetype');
+  src: url('iconfont.woff2?t=1728654793964') format('woff2'),
+       url('iconfont.woff?t=1728654793964') format('woff'),
+       url('iconfont.ttf?t=1728654793964') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,18 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-telegram:before {
+  content: "\e6ea";
+}
+
+.icon-email:before {
+  content: "\e657";
+}
+
+.icon-bell:before {
+  content: "\e655";
 }
 
 .icon-icforbidden:before {

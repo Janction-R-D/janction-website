@@ -2,8 +2,8 @@ import React, { useMemo } from 'react';
 import ReactEcharts from 'echarts-for-react';
 import * as echarts from 'echarts';
 import { MONTH } from '@/constant';
-import useScale from '../../../hooks/useScale';
-import { balanceData } from './data';
+import useScale from '../../../../hooks/useScale';
+import { balanceData } from '../data';
 
 const Line = (props) => {
   const { data = balanceData } = props;

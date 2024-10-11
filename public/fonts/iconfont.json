@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "10784890",
+      "name": "telegram",
+      "font_class": "telegram",
+      "unicode": "e6ea",
+      "unicode_decimal": 59114
+    },
+    {
+      "icon_id": "42072346",
+      "name": "email",
+      "font_class": "email",
+      "unicode": "e657",
+      "unicode_decimal": 58967
+    },
+    {
+      "icon_id": "42066872",
+      "name": "bell",
+      "font_class": "bell",
+      "unicode": "e655",
+      "unicode_decimal": 58965
+    },
+    {
       "icon_id": "540378",
       "name": "ic_forbidden",
       "font_class": "icforbidden",

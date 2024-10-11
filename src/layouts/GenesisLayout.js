@@ -2,8 +2,11 @@ import SocialsLinks from '@/components/SocialsLinks';
 import CustomConnectButton from '@/components/CustomConnectButton';
 import { QuestionCircleOutlined, SettingOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
-import { history } from 'umi';
+import { history, useModel } from 'umi';
+import { Button } from 'antd';
+import storage from '@/utils/storage';
 import styles from './genesis.less';
+import ProfileHeader from '../components/ProfileHeader';
 
 const navList = [
   {
@@ -41,6 +44,10 @@ const GenesisLayout = (props) => {
   const [fold, setFold] = useState(false);
   const [menuShow, setMenuShow] = useState(false);
 
+  const { initialState, setInitialState } = useModel('@@initialState');
+
+  const { isLessees } = initialState;
+
   useEffect(() => {
     setActive(history.location.pathname);
   }, [history.location.pathname]);
@@ -53,6 +60,15 @@ const GenesisLayout = (props) => {
     setMenuShow(false);
     history.push(nav.path);
   };
+
+  // const onIdentityChange = () => {
+  //   storage.set({ name: 'isLessees', value: !isLessees });
+  //   setInitialState({
+  //     ...initialState,
+  //     isLessees: !isLessees,
+  //   });
+  //   location.reload();
+  // };
 
   return (
     <div id={styles['genesis-layout']}>
@@ -134,6 +150,7 @@ const GenesisLayout = (props) => {
           </aside>
           <main>
             <header>
+              <ProfileHeader />
               <CustomConnectButton />
             </header>
             <div className={styles['content']}>{children}</div>
