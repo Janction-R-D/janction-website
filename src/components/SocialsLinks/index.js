@@ -10,6 +10,9 @@ const SocialsLinks = (props) => {
       {/* <a className="hvr-grow" target="_black">
         <i className="iconfont icon-discord"></i>
       </a> */}
+      <a className="hvr-grow" href="https://t.me/jasmyofficial" target="_black">
+        <i className="iconfont icon-telegram"></i>
+      </a>
       <a
         className="hvr-grow"
         href="https://github.com/Janction-R-D"
