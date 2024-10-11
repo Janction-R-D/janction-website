@@ -29,3 +29,20 @@ export const newsData = [
     desc: 'Opt in and refer to earn a share',
   },
 ];
+
+export const mockSalesPipeline = [
+  {
+    name: 'Online memory footprint',
+    value: '15 GB',
+  },
+  {
+    name: 'Online memory footprint',
+    value: '1.2 GB',
+  },
+  {
+    name: 'Online memory footprint',
+    value: '128 MB',
+  },
+];
+
+export const pieColors = ['#00BBD4', '#00BBD4', '#87C969'];

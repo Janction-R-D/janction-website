@@ -1,7 +1,7 @@
 export default {
   dev: {
     '/api/': {
-      target: 'http://43.131.240.184',
+      target: 'https://www.janction.io/',
       changeOrigin: true,
     },
   },

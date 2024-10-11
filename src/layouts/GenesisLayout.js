@@ -2,7 +2,7 @@ import SocialsLinks from '@/components/SocialsLinks';
 import CustomConnectButton from '@/components/CustomConnectButton';
 import { QuestionCircleOutlined, SettingOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
-import { history } from 'umi';
+import { history, useModel } from 'umi';
 import styles from './genesis.less';
 
 const navList = [
@@ -40,6 +40,8 @@ const GenesisLayout = (props) => {
   const [active, setActive] = useState();
   const [fold, setFold] = useState(false);
   const [menuShow, setMenuShow] = useState(false);
+
+  const { initialState, setInitialState } = useModel('@@initialState');
 
   useEffect(() => {
     setActive(history.location.pathname);

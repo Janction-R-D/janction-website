@@ -26,7 +26,7 @@
       backdrop-filter: blur(50px);
       border-radius: 16px;
 
-      .title {
+      > .title {
         display: flex;
         align-items: center;
 
@@ -306,6 +306,205 @@
     .collect-wrapper {
       width: calc(~'54% - 10px');
       height: 458px;
+    }
+
+    .sales-wrapper {
+      width: calc(~'57% - 10px');
+      height: 458px;
+    }
+
+    .state-wrapper {
+      width: calc(~'43% - 10px');
+      height: 458px;
+
+      .content {
+        .chart-wrapper {
+        }
+
+        .progress-wrapper {
+          margin-top: 11px;
+          height: 48px;
+
+          .title,
+          .range {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 9.96195px;
+            line-height: 15px;
+            letter-spacing: 0.00259011px;
+            color: rgba(255, 255, 255, 0.64);
+          }
+        }
+      }
+    }
+
+    .sales-pipeline-wrapper {
+      width: calc(~'57% - 10px');
+      height: 319px;
+
+      .content {
+        display: flex;
+        align-items: center;
+
+        .chart-wrapper {
+          width: 42%;
+          flex-shrink: 0;
+        }
+
+        .info {
+          flex: 1;
+
+          .info-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 42px;
+            border-bottom: 1px solid #3f3f41;
+
+            .name {
+              display: flex;
+              align-items: center;
+              gap: 6px;
+              font-family: 'Poppins';
+              font-style: normal;
+              font-weight: 400;
+              font-size: 13.9467px;
+              line-height: 21px;
+              color: rgba(255, 255, 255, 0.8);
+
+              &::before {
+                content: '';
+                flex-shrink: 0;
+                width: 7.97px;
+                height: 7.97px;
+                background: var(--color);
+                border-radius: 2.98859px;
+              }
+            }
+
+            .value {
+              font-family: 'Poppins';
+              font-style: normal;
+              font-weight: 400;
+              font-size: 13.9467px;
+              line-height: 21px;
+              color: rgba(255, 255, 255, 0.8);
+            }
+          }
+        }
+      }
+    }
+
+    .profit-wrapper {
+      width: calc(~'43% - 10px');
+      height: 319px;
+
+      .content {
+        .total-wrapper {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          .total-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+
+            .value {
+              font-family: 'Poppins';
+              font-style: normal;
+              font-weight: 400;
+              font-size: 24px;
+              line-height: 39px;
+              color: rgba(255, 255, 255, 0.8);
+            }
+
+            .name {
+              font-family: 'Poppins';
+              font-style: normal;
+              font-weight: 400;
+              font-size: 14px;
+              line-height: 24px;
+              color: rgba(255, 255, 255, 0.64);
+            }
+          }
+        }
+
+        .progress-wrapper {
+          margin-top: 8px;
+
+          .title {
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 17.9315px;
+            line-height: 27px;
+            color: rgba(255, 255, 255, 0.4);
+          }
+
+          .goal {
+            text-align: right;
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 39px;
+            color: rgba(255, 255, 255, 0.4);
+          }
+
+          :global {
+            .ant-progress {
+              border-radius: 40px;
+
+              .ant-progress-outer {
+                border-radius: 40px;
+              }
+
+              .ant-progress-inner {
+                border-radius: 40px;
+                overflow: visible;
+
+                .ant-progress-bg {
+                  border-radius: 40px 0 0 40px;
+                  position: relative;
+
+                  &::before {
+                    content: '';
+                    position: absolute;
+                    right: 0;
+                    bottom: 0;
+                    transform: translate(0, 100%);
+                    display: block;
+                    height: 15px;
+                    width: 1px;
+                    background-color: #00bbd4;
+                  }
+
+                  &::after {
+                    content: var(--curVal);
+                    display: block;
+                    position: absolute;
+                    right: 0;
+                    bottom: -15px;
+                    transform: translate(-50%, 100%);
+                    height: 15px;
+                    width: 1px;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .monitor-wrapper {
+      width: 100%;
+      height: 756px;
     }
   }
 }

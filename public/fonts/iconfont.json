@@ -6,6 +6,90 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "42066872",
+      "name": "bell",
+      "font_class": "bell",
+      "unicode": "e655",
+      "unicode_decimal": 58965
+    },
+    {
+      "icon_id": "540378",
+      "name": "ic_forbidden",
+      "font_class": "icforbidden",
+      "unicode": "e653",
+      "unicode_decimal": 58963
+    },
+    {
+      "icon_id": "1381448",
+      "name": "questioncircle",
+      "font_class": "questioncircle",
+      "unicode": "e654",
+      "unicode_decimal": 58964
+    },
+    {
+      "icon_id": "8365142",
+      "name": "check",
+      "font_class": "check",
+      "unicode": "e810",
+      "unicode_decimal": 59408
+    },
+    {
+      "icon_id": "9567579",
+      "name": "play_pause",
+      "font_class": "play_pause",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "42053524",
+      "name": "workbench",
+      "font_class": "workbench",
+      "unicode": "e652",
+      "unicode_decimal": 58962
+    },
+    {
+      "icon_id": "743258",
+      "name": "listBlock",
+      "font_class": "listblock",
+      "unicode": "e656",
+      "unicode_decimal": 58966
+    },
+    {
+      "icon_id": "11250113",
+      "name": "multiple select list",
+      "font_class": "multipleselectlist",
+      "unicode": "e651",
+      "unicode_decimal": 58961
+    },
+    {
+      "icon_id": "10678418",
+      "name": "info",
+      "font_class": "info",
+      "unicode": "e6de",
+      "unicode_decimal": 59102
+    },
+    {
+      "icon_id": "1555790",
+      "name": "refresh",
+      "font_class": "refresh",
+      "unicode": "e6a0",
+      "unicode_decimal": 59040
+    },
+    {
+      "icon_id": "4765896",
+      "name": "eye",
+      "font_class": "eye",
+      "unicode": "e78f",
+      "unicode_decimal": 59279
+    },
+    {
+      "icon_id": "15838471",
+      "name": "eye-close",
+      "font_class": "eye-close",
+      "unicode": "e66f",
+      "unicode_decimal": 58991
+    },
+    {
       "icon_id": "42039115",
       "name": "unfold",
       "font_class": "unfold",
