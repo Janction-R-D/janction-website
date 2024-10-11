@@ -7,6 +7,7 @@ import VerticalBar from './components/VerticalBar';
 import { mockSalesPipeline, newsData, pieColors } from './data';
 import data from './Instance.json';
 import styles from './index.less';
+import Invite from './components/Invite';
 
 const Lessors = (props) => {
   const [news, setNews] = useState(newsData);
@@ -53,6 +54,7 @@ const Lessors = (props) => {
   return (
     <div className={styles['dashboard-wrapper']}>
       <h1>Dashboard</h1>
+      <Invite />
       <div className={styles['dashboard-content']}>
         <div
           className={[styles['content-item'], styles['sales-wrapper']].join(
