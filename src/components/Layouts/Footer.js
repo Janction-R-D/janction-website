@@ -24,39 +24,35 @@ const Footer = (props) => {
         </div>
         <div className={styles['links-container']}>
           <div>
-            <a className={styles['m-t']}>Developers</a>
-            <a>Product</a>
-            <a>Ecosystem</a>
+            <a href="https://jasmy.co.jp/en.html" target="_blank">
+              Company
+            </a>
+            <a href="https://github.com/Janction-R-D" target="_blank">
+              Github
+            </a>
             <a href="https://docs.janction.io/" target="_blank">
               Whitepaper
             </a>
           </div>
           <div>
-            <a
-              href="https://jasmy.co.jp/en.html"
-              target="_blank"
-              className={styles['m-t']}
-            >
-              Company
-            </a>
             <a href="/">Home</a>
-            <a>About</a>
+            <a href="/about" target="_blank">
+              About
+            </a>
             <a href="https://medium.com/@janctionmgt" target="_blank">
               Articles
             </a>
           </div>
           <div>
-            <a
-              href="https://jasmy.co.jp/en.html"
-              target="_blank"
-              className={styles['m-t']}
-            >
+            <a href="https://jasmy.co.jp/en.html" target="_blank">
               Community
             </a>
             <a href="https://x.com/JanctionMGT" target="_blank">
               Twitter
             </a>
-            <a>Discord</a>
+            <a href="https://t.me/jasmyofficial" target="_blank">
+              Telegram
+            </a>
           </div>
         </div>
       </div>
