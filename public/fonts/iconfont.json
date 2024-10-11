@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "10784890",
+      "name": "telegram",
+      "font_class": "telegram",
+      "unicode": "e6ea",
+      "unicode_decimal": 59114
+    },
+    {
       "icon_id": "42072346",
       "name": "email",
       "font_class": "email",
