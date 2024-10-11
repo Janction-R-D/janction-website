@@ -47,8 +47,10 @@ export const request = {
 };
 
 export async function getInitialState() {
+  const isLessees = storage.get('isLessees');
   const userAccount = storage.get('userAccount');
   return {
+    isLessees,
     userAccount,
   };
 }

@@ -3,6 +3,8 @@ import CustomConnectButton from '@/components/CustomConnectButton';
 import { QuestionCircleOutlined, SettingOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import { history, useModel } from 'umi';
+import { Button } from 'antd';
+import storage from '@/utils/storage';
 import styles from './genesis.less';
 
 const navList = [
@@ -43,6 +45,8 @@ const GenesisLayout = (props) => {
 
   const { initialState, setInitialState } = useModel('@@initialState');
 
+  const { isLessees } = initialState;
+
   useEffect(() => {
     setActive(history.location.pathname);
   }, [history.location.pathname]);
@@ -54,6 +58,15 @@ const GenesisLayout = (props) => {
   const onNavChange = (nav) => {
     setMenuShow(false);
     history.push(nav.path);
+  };
+
+  const onIdentityChange = () => {
+    storage.set({ name: 'isLessees', value: !isLessees });
+    setInitialState({
+      ...initialState,
+      isLessees: !isLessees,
+    });
+    location.reload();
   };
 
   return (
@@ -136,6 +149,11 @@ const GenesisLayout = (props) => {
           </aside>
           <main>
             <header>
+              {isLessees ? (
+                <Button onClick={onIdentityChange}>切换出租方</Button>
+              ) : (
+                <Button onClick={onIdentityChange}>切换承租方</Button>
+              )}
               <CustomConnectButton />
             </header>
             <div className={styles['content']}>{children}</div>

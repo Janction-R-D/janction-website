@@ -6,6 +6,7 @@ import styles from './index.less';
 import data from './Instance.json';
 import numeral from 'numeral';
 import Line from './components/Line';
+import Invite from './components/Invite';
 
 const Lessees = (props) => {
   const [news, setNews] = useState(newsData);
