@@ -20,34 +20,59 @@ const Lessors = (props) => {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
-      render: (text) => <a>{text}</a>,
+      render: (text) => (
+        <div>
+          <div>
+            <img src="" />
+          </div>
+          <a>{text}</a>
+        </div>
+      ),
     },
     {
-      title: 'Balance',
-      dataIndex: 'balance',
+      title: '%CPU',
+      dataIndex: 'GPU-PERCENT',
+      render: (text) => <p>{numeral(text || 0).format('$0,0')}</p>,
+    },
+    {
+      title: 'CPU Time',
+      dataIndex: 'CPUtime',
+      key: 'CPUtime',
+    },
+    {
+      title: 'Threads',
+      dataIndex: 'Threads',
+      key: 'Threads',
+    },
+    {
+      title: 'Idle wake-up',
+      dataIndex: 'Idle',
+      key: 'Idle',
+    },
+    {
+      title: 'Type',
+      dataIndex: 'Type',
+      key: 'Type',
+    },
+    {
+      title: '%GPU',
+      dataIndex: 'GPUPERCENT',
       render: (text) => numeral(text || 0).format('$0,0'),
     },
     {
-      title: 'Change',
-      dataIndex: 'pricechange',
-      key: 'addre1ss',
-      render: (text) => numeral(text || 0).format('0,0%'),
+      title: 'GPU Time',
+      dataIndex: 'GPUTime',
+      key: 'GPUTime',
     },
     {
-      title: 'Market cap',
-      dataIndex: 'pricechange',
-      render: (text) => numeral(text || 0).format('0,0%'),
+      title: 'PID',
+      dataIndex: 'PID',
+      key: 'PID',
     },
     {
-      title: 'Watch',
-      dataIndex: 'address',
-      key: 'address',
-      render: (text) => (
-        <div className={styles['action']}>
-          <span>Buy</span>
-          <i className="iconfont icon-next_page"></i>
-        </div>
-      ),
+      title: 'other',
+      dataIndex: 'other',
+      key: 'other',
     },
   ];
 

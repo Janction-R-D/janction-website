@@ -151,7 +151,7 @@ const GenesisLayout = (props) => {
           <main>
             <header>
               <ProfileHeader />
-              <CustomConnectButton />
+              {/* <CustomConnectButton /> */}
             </header>
             <div className={styles['content']}>{children}</div>
           </main>
