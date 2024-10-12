@@ -9,7 +9,7 @@ import HeaderCard from './InstanceComponents/HeaderCard';
 import OperationModal from './InstanceComponents/OperationModal';
 import InstanceCard from './InstanceComponents/InstanceCard';
 import InstanceTable from './instanceTable';
-import { fetchNodeList } from '@/services/personal/instance';
+import { fetchNodeList } from '@/services/genesis';
 
 function Instance() {
   const [view, setView] = useState(false);

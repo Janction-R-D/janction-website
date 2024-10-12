@@ -17,7 +17,7 @@ import {
   MappingNodeStatus,
   NodeStatus,
   NodeType,
-} from '../../../services/personal';
+} from '@/services/genesis';
 import { showValue } from '../../../utils/lang';
 import styles from '../index.less';
 import AwardChart from './AwardChart';
