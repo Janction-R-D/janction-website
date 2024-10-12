@@ -15,7 +15,10 @@ const authHeaderInterceptor = (url, options) => {
     if (!ACCESS_TOKEN) {
       logout();
     } else {
-      authHeader = { Authorization: `Bearer ${ACCESS_TOKEN}` };
+      authHeader = {
+        Authorization: `Bearer ${ACCESS_TOKEN}`,
+        'x-user-id': `6d5b03ae-6205-417d-8749-5ac1f40fac07`,
+      };
     }
   }
   options.headers = {
