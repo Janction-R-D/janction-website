@@ -55,6 +55,11 @@ function ProfileModal({ styles, classname, setShowModal }) {
         };
         const handleLogOut = () => {
           disconnect();
+          storage.clear();
+          setInitialState({
+            ...initialState,
+            userAccount: null,
+          });
           history.push('/');
         };
         return (

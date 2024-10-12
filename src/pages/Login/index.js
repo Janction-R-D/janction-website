@@ -6,7 +6,7 @@ import { history, useModel } from 'umi';
 import { useAccount, useAccountEffect, useSignMessage } from 'wagmi';
 import styles from './index.less';
 
-const expires = 60 * 60 * 24 * 1000;
+const expires = 60 * 60 * 10 * 1000;
 const Login = (props) => {
   const { address } = useAccount();
   const { openConnectModal } = useConnectModal();
