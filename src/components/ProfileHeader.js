@@ -91,17 +91,18 @@ function ProfileModal({ styles, classname, setShowModal }) {
             </section>
             <ul>
               <li>
-                <i className="iconfont icon-my-nodes"></i>
+                <i className="iconfont icon-user"></i>
                 <a>Personal information</a>
               </li>
               <li>
-                <i className="iconfont icon-my-nodes"></i> <a>Access control</a>
+                <i className="iconfont icon-search_doc"></i>{' '}
+                <a>Access control</a>
               </li>
               <li>
-                <i className="iconfont icon-my-nodes"></i> <a>Pledge</a>
+                <i className="iconfont icon-pledge"></i> <a>Pledge</a>
               </li>
               <li>
-                <i className="iconfont icon-my-nodes"></i>
+                <i className="iconfont icon-income"></i>
                 <a>Income management</a>
               </li>
             </ul>

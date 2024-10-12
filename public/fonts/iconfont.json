@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "2695536",
+      "name": "search_doc",
+      "font_class": "search_doc",
+      "unicode": "e658",
+      "unicode_decimal": 58968
+    },
+    {
+      "icon_id": "3040098",
+      "name": "pledge",
+      "font_class": "pledge",
+      "unicode": "e616",
+      "unicode_decimal": 58902
+    },
+    {
+      "icon_id": "18978056",
+      "name": "user",
+      "font_class": "user",
+      "unicode": "e74f",
+      "unicode_decimal": 59215
+    },
+    {
+      "icon_id": "41423236",
+      "name": "income",
+      "font_class": "income",
+      "unicode": "ecc8",
+      "unicode_decimal": 60616
+    },
+    {
       "icon_id": "10784890",
       "name": "telegram",
       "font_class": "telegram",

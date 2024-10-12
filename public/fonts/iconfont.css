@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4602216 */
-  src: url('iconfont.woff2?t=1728654793964') format('woff2'),
-       url('iconfont.woff?t=1728654793964') format('woff'),
-       url('iconfont.ttf?t=1728654793964') format('truetype');
+  src: url('iconfont.woff2?t=1728742152253') format('woff2'),
+       url('iconfont.woff?t=1728742152253') format('woff'),
+       url('iconfont.ttf?t=1728742152253') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,22 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-search_doc:before {
+  content: "\e658";
+}
+
+.icon-pledge:before {
+  content: "\e616";
+}
+
+.icon-user:before {
+  content: "\e74f";
+}
+
+.icon-income:before {
+  content: "\ecc8";
 }
 
 .icon-telegram:before {
