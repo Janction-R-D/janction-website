@@ -50,8 +50,8 @@ const Footer = (props) => {
             <a href="https://x.com/JanctionMGT" target="_blank">
               Twitter
             </a>
-            <a href="https://t.me/jasmyofficial" target="_blank">
-              Telegram
+            <a href="#" target="_blank">
+              Discord
             </a>
           </div>
         </div>
