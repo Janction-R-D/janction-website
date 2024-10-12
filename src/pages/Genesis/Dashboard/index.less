@@ -61,149 +61,6 @@
         flex: 1;
         border-radius: 8px;
         overflow: auto;
-
-        .table {
-          :global {
-            .ant-table {
-              padding: 0;
-              border-radius: 16px;
-
-              .ant-table-container {
-                table {
-                  .ant-table-thead {
-                    border-radius: 16px 16px 0 0;
-                    overflow: hidden;
-
-                    tr {
-                      border-radius: 16px 16px 0 0;
-
-                      th {
-                        height: 36px;
-                        font-family: 'Poppins';
-                        font-style: normal;
-                        font-weight: 400;
-                        font-size: 12px;
-                        line-height: 20px;
-                        color: rgba(255, 255, 255, 0.6);
-                        padding: 0 16px;
-                        background-color: #323234;
-                        border: none;
-
-                        &::before {
-                          background-color: transparent;
-                        }
-
-                        &:first-child {
-                          border-radius: 16px 0 0 0;
-                        }
-
-                        &:last-child {
-                          border-radius: 0 16px 0 0;
-                        }
-                      }
-                    }
-                  }
-
-                  .ant-table-tbody {
-                    tr {
-                      td {
-                        border: none;
-                        padding: 0 16px;
-                        height: 70px;
-                      }
-
-                      &:hover {
-                        td {
-                          background-color: #212123;
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-
-          .name-column {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-
-            .icon {
-              width: 40px;
-              height: 40px;
-              background: rgba(255, 255, 255, 0.1);
-              border-radius: 8px;
-              display: inline-flex;
-              align-items: center;
-              justify-content: center;
-
-              i {
-                font-size: 15px;
-              }
-            }
-          }
-
-          .info {
-            display: inline-flex;
-            flex-direction: column;
-
-            .name {
-              font-family: 'Poppins';
-              font-style: normal;
-              font-weight: 400;
-              font-size: 12px;
-              line-height: 20px;
-              color: #ffffff;
-            }
-
-            .value {
-              font-family: 'Poppins';
-              font-style: normal;
-              font-weight: 400;
-              font-size: 12px;
-              line-height: 20px;
-              color: rgba(255, 255, 255, 0.4);
-            }
-
-            .up {
-              font-family: 'Poppins';
-              font-style: normal;
-              font-weight: 400;
-              font-size: 12px;
-              line-height: 20px;
-              color: #ee385c;
-            }
-
-            .down {
-              font-family: 'Poppins';
-              font-style: normal;
-              font-weight: 400;
-              font-size: 12px;
-              line-height: 20px;
-              color: #00e195;
-            }
-          }
-
-          .action {
-            display: inline-flex;
-            align-items: center;
-            color: #73d5f4;
-            gap: 9px;
-
-            span {
-              font-family: 'Poppins';
-              font-style: normal;
-              font-weight: 400;
-              font-size: 14px;
-              line-height: 21px;
-            }
-
-            i {
-              font-size: 8px;
-            }
-          }
-        }
       }
     }
 
@@ -503,7 +360,260 @@
 
     .monitor-wrapper {
       width: 100%;
-      height: 756px;
+      padding: 0;
+      height: min-content;
+      background-color: #282d2f;
+      border: #606263 solid 1px;
+      overflow: hidden;
+      grid-gap: 0 !important;
     }
   }
+}
+.table {
+  :global {
+    .ant-table {
+      padding: 0;
+      background: #222327;
+      border-bottom: 1px solid #222327;
+      .ant-table-container {
+        table {
+          width: 100%;
+          padding: 12px;
+          .ant-table-thead {
+            overflow: hidden;
+
+            tr {
+              border-bottom: 1px solid #222327;
+
+              th {
+                height: 36px;
+                font-family: 'Poppins';
+                font-style: normal;
+                font-weight: 600;
+                font-size: 12px;
+                line-height: 20px;
+                color: rgba(255, 255, 255, 0.963);
+                padding: 0 16px;
+                background: transparent !important;
+
+                &::before {
+                  background-color: transparent;
+                }
+              }
+            }
+          }
+
+          .ant-table-tbody {
+            tr {
+              border-radius: 25px !important;
+              border: 1px solid red !important;
+              td {
+                border: none;
+                padding: 4px 16px;
+                height: 20px;
+                text-align: right;
+                text-overflow: ellipsis;
+              }
+              .activity-name > a {
+                max-width: 1ch;
+              }
+              .activity-name {
+                display: flex;
+                gap: 12px;
+                align-items: center;
+              }
+              .activity-name-img {
+                height: 14px;
+                width: 14px;
+              }
+              /* Colores de fondo alternativos para filas impares y pares */
+              &:nth-child(odd) {
+                background-color: #1f2426; /* Color para filas impares */
+              }
+
+              &:nth-child(even) {
+                background-color: #292e30; /* Color para filas pares */
+              }
+
+              &:hover {
+                td {
+                  background-color: #212123; /* Color al pasar el mouse */
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .name-column {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+
+    .icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      i {
+        font-size: 15px;
+      }
+    }
+  }
+
+  .info {
+    display: inline-flex;
+    flex-direction: column;
+
+    .name {
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 20px;
+      color: #ffffff;
+    }
+
+    .value {
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 20px;
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .up {
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 20px;
+      color: #ee385c;
+    }
+
+    .down {
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 20px;
+      color: #00e195;
+    }
+  }
+
+  .action {
+    display: inline-flex;
+    align-items: center;
+    color: #73d5f4;
+    gap: 9px;
+
+    span {
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 21px;
+    }
+
+    i {
+      font-size: 8px;
+    }
+  }
+}
+
+.activity-header {
+  display: flex;
+  background: #353a3b;
+  justify-content: space-between;
+  padding: 15px 22px;
+}
+.activity-title {
+  width: 35%;
+}
+.activity-content {
+  flex: 1;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 300px;
+}
+.activity-process {
+  display: flex;
+  flex-wrap: nowrap;
+  border-radius: 12px;
+}
+
+.activity-process
+  .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+  background-color: #1890ff; /* Cambia el color de fondo del botón seleccionado */
+  border-color: #1890ff; /* Opcional: Cambia el color del borde si es necesario */
+  color: white; /* Cambia el color del texto del botón seleccionado */
+}
+.search-input {
+  border-radius: 12px;
+}
+
+.graph {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  padding-top: 24px;
+}
+.graph-container {
+  display: flex;
+  border: #606263 solid 2px;
+  width: 100%;
+  border-radius: 12px;
+  max-width: 500px;
+  height: 120px;
+  padding: 0px 4px;
+  background: #303537;
+}
+.graph-data > span,
+.graph-infos > span {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 4px;
+  border-bottom: #606263 solid 2px;
+  font-weight: 500;
+}
+.graph-data > span:last-child,
+.graph-infos > span:last-child {
+  border-bottom: none;
+}
+.graph-cpu {
+  text-align: center;
+}
+.graph-cpu > h4 {
+  padding: 6px 4px;
+  border-bottom: #606263 solid 2px;
+  font-weight: 500;
+  color: #a6a6a5;
+}
+
+.graph-cpu,
+.graph-data,
+.graph-infos {
+  flex: 1;
+  padding-inline: 6px;
+}
+.graph-cpu {
+  border-left: #606263 solid 2px;
+  border-right: #606263 solid 2px;
+}
+
+.red {
+  color: red;
+}
+.blue {
+  color: skyblue;
 }

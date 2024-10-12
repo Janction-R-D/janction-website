@@ -1,6 +1,6 @@
 import { request } from 'umi';
 
-const baseUrl = '/v0';
+const baseUrl = 'http://18.181.196.49:8080/v0';
 
 /**
  * Webshell demo，websockt

@@ -1,4 +1,4 @@
-import { Progress, Table } from 'antd';
+import { Progress, Table, Input, Radio } from 'antd';
 import numeral from 'numeral';
 import { useState } from 'react';
 import HorizontalBar from './components/HorizontalBar';
@@ -8,24 +8,26 @@ import { mockSalesPipeline, newsData, pieColors } from './data';
 import data from './Instance.json';
 import styles from './index.less';
 import Invite from './components/Invite';
+import Graph from './Graph';
 
 const Lessors = (props) => {
   const [news, setNews] = useState(newsData);
   const [watchList, setWatchList] = useState([]);
   const [recommendList, setRecommendList] = useState([]);
   const [salesPipeline, setSalesPipeline] = useState(mockSalesPipeline);
-
+  const [size, setSize] = useState('large');
+  const handleSearch = (text) => {};
   const watchColumns = [
     {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
       render: (text) => (
-        <div>
-          <div>
+        <div className="activity-name">
+          <div className="activity-name-img">
             <img src="" />
           </div>
-          <a>{text}</a>
+          <p>{text}</p>
         </div>
       ),
     },
@@ -198,6 +200,35 @@ const Lessors = (props) => {
             ' ',
           )}
         >
+          <div className={styles['activity-header']}>
+            <h2 className={styles['activity-title']}>Activity</h2>
+            <section className={styles['activity-content']}>
+              <article>
+                <Radio.Group
+                  value={size}
+                  className={styles['activity-process']}
+                  onChange={(e) => setSize(e.target.value)}
+                >
+                  <Radio.Button value="large">CPU</Radio.Button>
+
+                  <Radio.Button value="memory">Memory</Radio.Button>
+                  <Radio.Button value="disk">Disk</Radio.Button>
+                  <Radio.Button value="network">Network</Radio.Button>
+                </Radio.Group>
+              </article>
+              <Input
+                prefix={
+                  <i
+                    className="iconfont icon-search"
+                    style={{ fontSize: '1vw' }}
+                  />
+                }
+                placeholder="You can fuzzy search for cloud servers"
+                onChange={(e) => handleSearch(e.target.value)}
+                className={styles['search-input']}
+              />
+            </section>
+          </div>
           <Table
             bordered={false}
             className={styles['table']}
@@ -205,6 +236,38 @@ const Lessors = (props) => {
             dataSource={data}
             pagination={false}
           ></Table>
+          <section className={styles['graph']}>
+            <div className={styles['graph-container']}>
+              <div className={styles['graph-data']}>
+                <span>
+                  <p>系统:</p>
+                  <p className={styles['red']}>4.24%</p>
+                </span>
+                <span>
+                  <p>用户:</p>
+                  <p className={styles['blue']}>7.24%</p>
+                </span>
+                <span>
+                  <p>闲置:</p>
+                  <p>7.24%</p>
+                </span>
+              </div>
+              <div className={styles['graph-cpu']}>
+                <h4>CPU 负载</h4>
+                <Graph />
+              </div>
+              <div className={styles['graph-infos']}>
+                <span>
+                  <p>线程:</p>
+                  <p>6,226</p>
+                </span>
+                <span>
+                  <p>进程:</p>
+                  <p>956</p>
+                </span>
+              </div>
+            </div>
+          </section>
         </div>
       </div>
     </div>
