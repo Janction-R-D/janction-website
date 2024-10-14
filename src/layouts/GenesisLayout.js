@@ -142,6 +142,11 @@ const GenesisLayout = (props) => {
                 <span>Settings</span>
               </div>
             </div>
+            <div className={styles['fold-wrapper-2']}>
+              <a href="https://www.janction.io">
+                <i className="iconfont icon-home1"></i>
+              </a>
+            </div>
             <div className={styles['fold-wrapper']} onClick={foldHandle}>
               <i
                 className={`iconfont ${fold ? 'icon-unfold' : 'icon-fold'}`}
