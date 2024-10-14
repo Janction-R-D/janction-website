@@ -1,6 +1,6 @@
 import { Progress, Table, Input, Radio } from 'antd';
 import numeral from 'numeral';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import HorizontalBar from './components/HorizontalBar';
 import Pie from './components/Pie';
 import VerticalBar from './components/VerticalBar';
@@ -16,6 +16,15 @@ const Lessors = (props) => {
   const [recommendList, setRecommendList] = useState([]);
   const [salesPipeline, setSalesPipeline] = useState(mockSalesPipeline);
   const [size, setSize] = useState('large');
+  const [monthlyGoal, setMonthlyGoal] = useState({ value: 9.2, goal: 10 });
+
+  const percent = useMemo(() => {
+    if (!monthlyGoal) return 0;
+    const { value, goal } = monthlyGoal;
+    if (goal) return (value / goal) * 100;
+    return 0;
+  }, monthlyGoal);
+
   const handleSearch = (text) => {};
   const watchColumns = [
     {
@@ -111,17 +120,6 @@ const Lessors = (props) => {
             <div className={styles['chart-wrapper']}>
               <VerticalBar />
             </div>
-            <div className={styles['progress-wrapper']}>
-              <div className={styles['title']}>
-                <span>Conversion</span>
-                <span>100 / 30 % </span>
-              </div>
-              <Progress percent={30} strokeColor="#00BBD4" showInfo={false} />
-              <div className={styles['range']}>
-                <span>0</span>
-                <span>100%</span>
-              </div>
-            </div>
           </div>
         </div>
         <div
@@ -131,7 +129,7 @@ const Lessors = (props) => {
           ].join(' ')}
         >
           <div className={styles['title']}>
-            <span>Sales Pipeline</span>
+            <span>Arithmetic situation</span>
             <div className={styles['extra']}>
               <span>See All</span>
               <i className="iconfont icon-next_page"></i>
@@ -167,31 +165,39 @@ const Lessors = (props) => {
           <div className={styles['content']}>
             <div className={styles['total-wrapper']}>
               <div className={styles['total-item']}>
-                <div className={styles['value']}>$1900.00</div>
                 <div className={styles['name']}>Total</div>
+                <div className={styles['value']}>$1900.00</div>
               </div>
               <div className={styles['total-item']}>
-                <div className={styles['value']}>$190.00</div>
                 <div className={styles['name']}>Rental income</div>
+                <div className={styles['value']}>$190.00</div>
               </div>
               <div className={styles['total-item']}>
-                <div className={styles['value']}>$19.00</div>
                 <div className={styles['name']}>Pledge proceeds</div>
+                <div className={styles['value']}>$19.00</div>
               </div>
             </div>
             <div className={styles['progress-wrapper']}>
-              <div className={styles['title']}>Monthly Goal</div>
-              <div className={styles['goal']}>
-                <span>Goal $8.2m</span>
+              <div className={styles['title']}>
+                <div className={styles['name']}>Monthly Goal</div>
+                <div className={styles['goal']}>
+                  <span>Goal $8.2m</span>
+                </div>
               </div>
-              <Progress
-                percent={30}
-                strokeColor="#00BBD4"
-                strokeWidth={33}
-                style={{ '--curVal': '$6.2m' }}
-                // strokeLinecap="butt"
-                showInfo={false}
-              />
+              <div className={styles['progress-bar']}>
+                <div
+                  className={styles['value-bar']}
+                  style={{ width: `${percent}%` }}
+                >
+                  <span
+                    style={
+                      percent > 90
+                        ? { right: '8px', transform: `translate(0, -50%)` }
+                        : { right: '-8px', transform: `translate(100%, -50%)` }
+                    }
+                  >{`$${monthlyGoal.value}m`}</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>

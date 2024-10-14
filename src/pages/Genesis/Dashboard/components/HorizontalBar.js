@@ -34,11 +34,6 @@ const Bar = (props) => {
       value: (Math.random() * 10).toFixed(0),
       sum: 10,
     },
-    {
-      name: 'M4 Max',
-      value: (Math.random() * 10).toFixed(0),
-      sum: 10,
-    },
   ];
   const getArrByKey = (data, k) => {
     let key = k || 'value';

@@ -20,7 +20,7 @@
       padding: 16px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 32px;
       background: rgba(128, 128, 128, 0.15);
       background-blend-mode: luminosity;
       backdrop-filter: blur(50px);
@@ -175,6 +175,7 @@
 
       .content {
         .chart-wrapper {
+          height: 100%;
         }
 
         .progress-wrapper {
@@ -208,18 +209,26 @@
 
         .chart-wrapper {
           width: 42%;
+          height: 100%;
           flex-shrink: 0;
         }
 
         .info {
           flex: 1;
+          background: #202123;
+          border-radius: 12px;
 
           .info-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
             height: 42px;
+            padding: 0 8px;
             border-bottom: 1px solid #3f3f41;
+
+            &:last-child {
+              border: none;
+            }
 
             .name {
               display: flex;
@@ -268,7 +277,7 @@
           .total-item {
             display: flex;
             flex-direction: column;
-            gap: 2px;
+            gap: 8px;
 
             .value {
               font-family: 'Poppins';
@@ -287,19 +296,31 @@
               line-height: 24px;
               color: rgba(255, 255, 255, 0.64);
             }
+
+            &:first-child {
+              .value {
+                color: #ff9f5a;
+              }
+            }
           }
         }
 
         .progress-wrapper {
-          margin-top: 8px;
+          margin-top: 32px;
+          content: var(-value);
 
           .title {
-            font-family: 'Poppins';
-            font-style: normal;
-            font-weight: 400;
-            font-size: 17.9315px;
-            line-height: 27px;
-            color: rgba(255, 255, 255, 0.4);
+            display: flex;
+            justify-content: space-between;
+
+            .name {
+              font-family: 'Poppins';
+              font-style: normal;
+              font-weight: 600;
+              font-size: 16px;
+              line-height: 24px;
+              color: rgba(255, 255, 255, 0.96);
+            }
           }
 
           .goal {
@@ -312,46 +333,24 @@
             color: rgba(255, 255, 255, 0.4);
           }
 
-          :global {
-            .ant-progress {
-              border-radius: 40px;
+          .progress-bar {
+            width: 100%;
+            height: 24px;
+            background: #444444;
+            border-radius: 40px;
+            overflow: hidden;
+          }
 
-              .ant-progress-outer {
-                border-radius: 40px;
-              }
+          .value-bar {
+            height: 100%;
+            background-color: #00bbd4;
+            position: relative;
 
-              .ant-progress-inner {
-                border-radius: 40px;
-                overflow: visible;
-
-                .ant-progress-bg {
-                  border-radius: 40px 0 0 40px;
-                  position: relative;
-
-                  &::before {
-                    content: '';
-                    position: absolute;
-                    right: 0;
-                    bottom: 0;
-                    transform: translate(0, 100%);
-                    display: block;
-                    height: 15px;
-                    width: 1px;
-                    background-color: #00bbd4;
-                  }
-
-                  &::after {
-                    content: var(--curVal);
-                    display: block;
-                    position: absolute;
-                    right: 0;
-                    bottom: -15px;
-                    transform: translate(-50%, 100%);
-                    height: 15px;
-                    width: 1px;
-                  }
-                }
-              }
+            span {
+              display: block;
+              position: absolute;
+              top: 50%;
+              transform: translate(0, -50%);
             }
           }
         }
@@ -369,16 +368,19 @@
     }
   }
 }
+
 .table {
   :global {
     .ant-table {
       padding: 0;
       background: #222327;
       border-bottom: 1px solid #222327;
+
       .ant-table-container {
         table {
           width: 100%;
           padding: 12px;
+
           .ant-table-thead {
             overflow: hidden;
 
@@ -407,6 +409,7 @@
             tr {
               border-radius: 25px !important;
               border: 1px solid red !important;
+
               td {
                 border: none;
                 padding: 4px 16px;
@@ -414,30 +417,37 @@
                 text-align: right;
                 text-overflow: ellipsis;
               }
+
               .activity-name > a {
                 max-width: 1ch;
               }
+
               .activity-name {
                 display: flex;
                 gap: 12px;
                 align-items: center;
               }
+
               .activity-name-img {
                 height: 14px;
                 width: 14px;
               }
+
               /* Colores de fondo alternativos para filas impares y pares */
               &:nth-child(odd) {
-                background-color: #1f2426; /* Color para filas impares */
+                background-color: #1f2426;
+                /* Color para filas impares */
               }
 
               &:nth-child(even) {
-                background-color: #292e30; /* Color para filas pares */
+                background-color: #292e30;
+                /* Color para filas pares */
               }
 
               &:hover {
                 td {
-                  background-color: #212123; /* Color al pasar el mouse */
+                  background-color: #212123;
+                  /* Color al pasar el mouse */
                 }
               }
             }
@@ -534,9 +544,11 @@
   justify-content: space-between;
   padding: 15px 22px;
 }
+
 .activity-title {
   width: 35%;
 }
+
 .activity-content {
   flex: 1;
 
@@ -545,6 +557,7 @@
   gap: 12px;
   width: 300px;
 }
+
 .activity-process {
   display: flex;
   flex-wrap: nowrap;
@@ -553,10 +566,14 @@
 
 .activity-process
   .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
-  background-color: #1890ff; /* Cambia el color de fondo del botón seleccionado */
-  border-color: #1890ff; /* Opcional: Cambia el color del borde si es necesario */
-  color: white; /* Cambia el color del texto del botón seleccionado */
+  background-color: #1890ff;
+  /* Cambia el color de fondo del botón seleccionado */
+  border-color: #1890ff;
+  /* Opcional: Cambia el color del borde si es necesario */
+  color: white;
+  /* Cambia el color del texto del botón seleccionado */
 }
+
 .search-input {
   border-radius: 12px;
 }
@@ -568,6 +585,7 @@
   padding: 12px;
   padding-top: 24px;
 }
+
 .graph-container {
   display: flex;
   border: #606263 solid 2px;
@@ -578,6 +596,7 @@
   padding: 0px 4px;
   background: #303537;
 }
+
 .graph-data > span,
 .graph-infos > span {
   display: flex;
@@ -586,13 +605,16 @@
   border-bottom: #606263 solid 2px;
   font-weight: 500;
 }
+
 .graph-data > span:last-child,
 .graph-infos > span:last-child {
   border-bottom: none;
 }
+
 .graph-cpu {
   text-align: center;
 }
+
 .graph-cpu > h4 {
   padding: 6px 4px;
   border-bottom: #606263 solid 2px;
@@ -606,6 +628,7 @@
   flex: 1;
   padding-inline: 6px;
 }
+
 .graph-cpu {
   border-left: #606263 solid 2px;
   border-right: #606263 solid 2px;
@@ -614,6 +637,7 @@
 .red {
   color: red;
 }
+
 .blue {
   color: skyblue;
 }
