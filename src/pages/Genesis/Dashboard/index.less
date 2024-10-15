@@ -361,10 +361,6 @@
       width: 100%;
       padding: 0;
       height: min-content;
-      background-color: #282d2f;
-      border: #606263 solid 1px;
-      overflow: hidden;
-      grid-gap: 0 !important;
     }
   }
 }
@@ -373,13 +369,15 @@
   :global {
     .ant-table {
       padding: 0;
-      background: #222327;
+      background: #1b1b1d;
       border-bottom: 1px solid #222327;
-
+      border-radius: 22px;
+      overflow: hidden;
+      overflow-y: scroll;
+      max-height: 600px;
       .ant-table-container {
         table {
           width: 100%;
-          padding: 12px;
 
           .ant-table-thead {
             overflow: hidden;
@@ -394,9 +392,9 @@
                 font-weight: 600;
                 font-size: 12px;
                 line-height: 20px;
-                color: rgba(255, 255, 255, 0.963);
-                padding: 0 16px;
-                background: transparent !important;
+                color: #adadae;
+                padding: 10px 18px;
+                background: #333335;
 
                 &::before {
                   background-color: transparent;
@@ -412,9 +410,12 @@
 
               td {
                 border: none;
-                padding: 4px 16px;
+                padding: 12px 16px;
                 height: 20px;
-                text-align: right;
+                max-width: 60px;
+                text-wrap: nowrap;
+                color: #a3a3a4;
+                overflow: hidden;
                 text-overflow: ellipsis;
               }
 
@@ -431,17 +432,6 @@
               .activity-name-img {
                 height: 14px;
                 width: 14px;
-              }
-
-              /* Colores de fondo alternativos para filas impares y pares */
-              &:nth-child(odd) {
-                background-color: #1f2426;
-                /* Color para filas impares */
-              }
-
-              &:nth-child(even) {
-                background-color: #292e30;
-                /* Color para filas pares */
               }
 
               &:hover {
@@ -541,22 +531,38 @@
 
 .activity-header {
   display: flex;
-  background: #353a3b;
+  gap: 12px;
+  flex-direction: column;
+
   justify-content: space-between;
-  padding: 15px 22px;
+  padding: 15px 0px;
+  margin-bottom: 18px;
+}
+.activity-monitor {
+  border-radius: 10px;
+  display: inline-block;
 }
 
-.activity-title {
-  width: 35%;
+.activity-monitor .ant-radio-button-wrapper {
+  border-radius: 0;
+}
+
+.activity-monitor label:first-child {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.activity-monitor label:last-child {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 
 .activity-content {
   flex: 1;
-
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 12px;
-  width: 300px;
 }
 
 .activity-process {
@@ -568,15 +574,23 @@
 .activity-process
   .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
   background-color: #1890ff;
-  /* Cambia el color de fondo del botón seleccionado */
   border-color: #1890ff;
-  /* Opcional: Cambia el color del borde si es necesario */
   color: white;
-  /* Cambia el color del texto del botón seleccionado */
 }
 
+.activity-monitor label span {
+  padding: 12px;
+}
+.activity-monitor label:not(.ant-radio-button-wrapper-disabled) {
+  background-color: #1b1b1c;
+  color: #a4a4a4;
+}
 .search-input {
-  border-radius: 12px;
+  border-radius: 15px;
+  outline: none;
+  padding-right: 4;
+  background-color: #2e2e30;
+  max-width: 400px;
 }
 
 .graph {

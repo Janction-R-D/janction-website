@@ -7,7 +7,15 @@ import { balanceData } from '../data';
 
 const Bar = (props) => {
   const { data = balanceData } = props;
-
+  const getBarColor = (value) => {
+    return value > 20 ? '#00bbd4' : '#EE385C';
+  };
+  const seriesData = [120, 200, 150, 10, 80, 70].map((value) => ({
+    value,
+    itemStyle: {
+      color: getBarColor(value),
+    },
+  }));
   let option = {
     xAxis: {
       type: 'category',
@@ -27,7 +35,14 @@ const Bar = (props) => {
         color: 'rgba(255, 255, 255, 0.64)',
         margin: 20,
       },
-      data: ['Leased', 'Leisure', 'Alarm', 'On-chain task', 'Off-chain task'],
+      data: [
+        'Conversion',
+        'Leisure',
+        'Leased',
+        'Alarm',
+        'On-chain task',
+        'Off-chain task',
+      ],
     },
     yAxis: {
       type: 'value',
@@ -43,17 +58,14 @@ const Bar = (props) => {
     },
     series: [
       {
-        data: [120, 200, 150, 80, 70],
+        data: seriesData,
         type: 'bar',
         showBackground: true,
         backgroundStyle: {
           color: '#515153',
-          borderRadius: 3,
+          borderRadius: 10,
         },
-        itemStyle: {
-          color: '#00bbd4',
-          borderRadius: 3,
-        },
+
         barWidth: 36,
       },
     ],

@@ -1,4 +1,4 @@
-import { Progress, Table, Input, Radio } from 'antd';
+import { Progress, Table, Input, Radio, Card } from 'antd';
 import numeral from 'numeral';
 import { useMemo, useState } from 'react';
 import HorizontalBar from './components/HorizontalBar';
@@ -26,64 +26,128 @@ const Lessors = (props) => {
   }, monthlyGoal);
 
   const handleSearch = (text) => {};
+  // const watchColumns = [
+  //   {
+  //     title: 'Name',
+  //     dataIndex: 'name',
+  //     key: 'name',
+  //     render: (text) => (
+  //       <div className="activity-name">
+  //         <p>{text}</p>
+  //       </div>
+  //     ),
+  //   },
+  //   {
+  //     title: '%CPU',
+  //     dataIndex: 'GPU-PERCENT',
+  //     render: (text) => <p>{numeral(text || 0).format('$0,0')}</p>,
+  //   },
+  //   {
+  //     title: 'CPU Time',
+  //     dataIndex: 'CPUtime',
+  //     key: 'CPUtime',
+  //   },
+  //   {
+  //     title: 'Threads',
+  //     dataIndex: 'Threads',
+  //     key: 'Threads',
+  //   },
+  //   {
+  //     title: 'Idle wake-up',
+  //     dataIndex: 'Idle',
+  //     key: 'Idle',
+  //   },
+  //   {
+  //     title: 'Type',
+  //     dataIndex: 'Type',
+  //     key: 'Type',
+  //   },
+  //   {
+  //     title: '%GPU',
+  //     dataIndex: 'GPUPERCENT',
+  //     render: (text) => numeral(text || 0).format('$0,0'),
+  //   },
+  //   {
+  //     title: 'GPU Time',
+  //     dataIndex: 'GPUTime',
+  //     key: 'GPUTime',
+  //   },
+  //   {
+  //     title: 'PID',
+  //     dataIndex: 'PID',
+  //     key: 'PID',
+  //   },
+  //   {
+  //     title: 'other',
+  //     dataIndex: 'other',
+  //     key: 'other',
+  //   },
+  // ];
   const watchColumns = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
-      render: (text) => (
-        <div className="activity-name">
-          <div className="activity-name-img">
-            <img src="" />
-          </div>
-          <p>{text}</p>
-        </div>
-      ),
-    },
-    {
-      title: '%CPU',
-      dataIndex: 'GPU-PERCENT',
-      render: (text) => <p>{numeral(text || 0).format('$0,0')}</p>,
-    },
-    {
-      title: 'CPU Time',
-      dataIndex: 'CPUtime',
-      key: 'CPUtime',
-    },
-    {
-      title: 'Threads',
-      dataIndex: 'Threads',
-      key: 'Threads',
-    },
-    {
-      title: 'Idle wake-up',
-      dataIndex: 'Idle',
-      key: 'Idle',
-    },
-    {
-      title: 'Type',
-      dataIndex: 'Type',
-      key: 'Type',
-    },
-    {
-      title: '%GPU',
-      dataIndex: 'GPUPERCENT',
-      render: (text) => numeral(text || 0).format('$0,0'),
-    },
-    {
-      title: 'GPU Time',
-      dataIndex: 'GPUTime',
-      key: 'GPUTime',
-    },
     {
       title: 'PID',
       dataIndex: 'PID',
       key: 'PID',
     },
+
     {
-      title: 'other',
-      dataIndex: 'other',
-      key: 'other',
+      title: 'Command',
+      dataIndex: 'Command',
+      key: 'Command',
+    },
+    {
+      title: '%CPU',
+      dataIndex: 'GPU-PERCENT',
+    },
+    {
+      title: '%CPU',
+      dataIndex: 'CPU',
+      key: 'CPU',
+    },
+    {
+      title: '#TH',
+      dataIndex: 'TH',
+      key: 'TH',
+    },
+    {
+      title: '#WQ',
+      dataIndex: 'WQ',
+      key: 'WQ',
+    },
+    {
+      title: '#Ports',
+      dataIndex: 'Ports',
+      key: 'Ports',
+    },
+    {
+      title: 'MEM',
+      dataIndex: 'MEM',
+      key: 'MEM',
+    },
+    {
+      title: 'PURG',
+      dataIndex: 'PURG',
+      key: 'PURG',
+    },
+    {
+      title: 'Cmprs',
+      dataIndex: 'Cmprs',
+      key: 'Cmprs',
+    },
+    {
+      title: 'PPID',
+      dataIndex: 'PPID',
+      key: 'PPID',
+    },
+    {
+      title: 'State',
+      dataIndex: 'State',
+      key: 'State',
+    },
+    {
+      title: 'Boosts',
+      dataIndex: 'Boosts',
+      key: 'Boosts',
     },
   ];
 
@@ -201,35 +265,35 @@ const Lessors = (props) => {
             </div>
           </div>
         </div>
-        <div
+        <Card
           className={[styles['content-item'], styles['monitor-wrapper']].join(
             ' ',
           )}
         >
           <div className={styles['activity-header']}>
-            <h2 className={styles['activity-title']}>Activity</h2>
+            <h2 className={styles['activity-title']}>Activity Monitor</h2>
             <section className={styles['activity-content']}>
               <article>
                 <Radio.Group
-                  value={size}
-                  className={styles['activity-process']}
-                  onChange={(e) => setSize(e.target.value)}
+                  defaultValue="large"
+                  buttonStyle="solid"
+                  className={styles['activity-monitor']}
                 >
                   <Radio.Button value="large">CPU</Radio.Button>
-
-                  <Radio.Button value="memory">Memory</Radio.Button>
-                  <Radio.Button value="disk">Disk</Radio.Button>
-                  <Radio.Button value="network">Network</Radio.Button>
+                  <Radio.Button value="memory">内存</Radio.Button>
+                  <Radio.Button value="energy">能耗</Radio.Button>
+                  <Radio.Button value="disk">磁盘</Radio.Button>
+                  <Radio.Button value="network">网络</Radio.Button>
                 </Radio.Group>
               </article>
               <Input
-                prefix={
+                suffix={
                   <i
                     className="iconfont icon-search"
                     style={{ fontSize: '1vw' }}
                   />
                 }
-                placeholder="You can fuzzy search for cloud servers"
+                placeholder="Search"
                 onChange={(e) => handleSearch(e.target.value)}
                 className={styles['search-input']}
               />
@@ -274,7 +338,7 @@ const Lessors = (props) => {
               </div>
             </div>
           </section>
-        </div>
+        </Card>
       </div>
     </div>
   );

@@ -45,4 +45,4 @@ export const mockSalesPipeline = [
   },
 ];
 
-export const pieColors = ['#00BBD4', '#00BBD4', '#87C969'];
+export const pieColors = ['#00BBD4', '#87C969', '#ECC560'];
