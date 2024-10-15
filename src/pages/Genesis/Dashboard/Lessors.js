@@ -306,38 +306,6 @@ const Lessors = (props) => {
             dataSource={data}
             pagination={false}
           ></Table>
-          <section className={styles['graph']}>
-            <div className={styles['graph-container']}>
-              <div className={styles['graph-data']}>
-                <span>
-                  <p>系统:</p>
-                  <p className={styles['red']}>4.24%</p>
-                </span>
-                <span>
-                  <p>用户:</p>
-                  <p className={styles['blue']}>7.24%</p>
-                </span>
-                <span>
-                  <p>闲置:</p>
-                  <p>7.24%</p>
-                </span>
-              </div>
-              <div className={styles['graph-cpu']}>
-                <h4>CPU 负载</h4>
-                <Graph />
-              </div>
-              <div className={styles['graph-infos']}>
-                <span>
-                  <p>线程:</p>
-                  <p>6,226</p>
-                </span>
-                <span>
-                  <p>进程:</p>
-                  <p>956</p>
-                </span>
-              </div>
-            </div>
-          </section>
         </Card>
       </div>
     </div>
