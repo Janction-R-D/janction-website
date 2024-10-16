@@ -44,14 +44,14 @@ const Footer = (props) => {
             </a>
           </div>
           <div>
-            <a href="https://jasmy.co.jp/en.html" target="_blank">
+            <a href="https://t.me/jasmyofficial" target="_blank">
               Community
             </a>
             <a href="https://x.com/JanctionMGT" target="_blank">
               Twitter
             </a>
-            <a href="#" target="_blank">
-              Discord
+            <a href="https://t.me/jasmyofficial" target="_blank">
+              Telegram
             </a>
           </div>
         </div>
