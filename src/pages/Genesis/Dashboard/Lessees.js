@@ -7,21 +7,41 @@ import data from './Instance.json';
 import numeral from 'numeral';
 import Line from './components/Line';
 import Invite from './components/Invite';
+import useLesses from './Hooks/useLesses';
 
 const Lessees = (props) => {
   const [news, setNews] = useState(newsData);
   const [watchList, setWatchList] = useState([]);
   const [recommendList, setRecommendList] = useState([]);
-
+  const { lessesData } = useLesses();
+  const { portfolio_balance: balance, details, watchlist } = lessesData;
+  const detailsData = details?.map((item) => ({
+    Name: item?.Name,
+    Balance: item?.Balance,
+    Price: item?.Price,
+    Allocation: item?.Allocation,
+    Brand: item?.Brand,
+    Description: item?.Description,
+    PriceChanges: item?.PriceChanges,
+  }));
+  const watchlistData = watchlist?.map((item) => ({
+    Name: item?.Name,
+    Balance: item?.Balance,
+    MarketCap: item?.MarketCap,
+    Change: item?.Change,
+    Brand: item?.Brand,
+    Description: item?.Description,
+  }));
+  console.log(detailsData);
   const detailColumns = [
     {
       title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
-      render: (text) => (
+      dataIndex: 'Name',
+      key: 'Name',
+      render: (text, record) => (
         <div className={styles['name-column']}>
           <div className={styles['icon']}>
-            <i className="iconfont icon-nvidia"></i>
+            <i className="iconfont icon-nvidia green"></i>
           </div>
           <div className={styles['info']}>
             <span className={styles['name']}>Name</span>
@@ -32,64 +52,91 @@ const Lessees = (props) => {
     },
     {
       title: 'Balance',
-      dataIndex: 'count',
-      key: 'age',
+      dataIndex: 'Balance',
+      key: 'Balance',
       render: (text, record) => (
         <div className={styles['info']}>
-          <span className={styles['name']}>{record.balance}</span>
-          <span className={styles['value']}>{`${text}${
-            record.unit || ''
-          }`}</span>
+          {/* <span className={styles['name']}>{record.Balance}</span> */}
+          <span className={(styles['value'], styles['white'])}>
+            ${`${text}${record.unit || ''}`}
+          </span>
         </div>
       ),
     },
     {
       title: 'Price',
-      dataIndex: 'price',
+      dataIndex: 'Price',
       render: (text, record) => (
         <div className={styles['info']}>
           <span className={styles['name']}>
             {numeral(text || 0).format('$0,0')}
           </span>
           <span
-            className={record.pricechange > 0 ? styles['up'] : styles['down']}
-          >{`${numeral(record.pricechange || 0).format('0,0%')}`}</span>
+            className={record.PriceChanges > 0 ? styles['up'] : styles['down']}
+          >{`${record.PriceChanges > 0 ? '+' : ''}${numeral(
+            record.PriceChanges || 0,
+          ).format('0,0%')}`}</span>
         </div>
       ),
     },
     {
       title: 'Allocation',
-      dataIndex: 'pricechange',
+      dataIndex: 'Allocation',
       render: (text) => numeral(text || 0).format('0,0%'),
     },
   ];
   const watchColumns = [
     {
       title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
-      render: (text) => <a>{text}</a>,
+      dataIndex: 'Name',
+      key: 'Name',
+      render: (text, record) => (
+        <div className={styles['name-column-2']}>
+          <div className={styles['icon-2']}>
+            <i className="iconfont icon-nvidia green"></i>
+          </div>
+          <div className={styles['info']}>
+            <span className={styles['name']}>Name</span>
+            <span className={styles['value']}>{text}</span>
+          </div>
+        </div>
+      ),
     },
     {
       title: 'Balance',
-      dataIndex: 'balance',
-      render: (text) => numeral(text || 0).format('$0,0'),
+      dataIndex: 'Balance',
+      render: (text) => (
+        <p className={styles['white']}>{numeral(text || 0).format('$0,0')}</p>
+      ),
     },
     {
       title: 'Change',
-      dataIndex: 'pricechange',
-      key: 'addre1ss',
-      render: (text) => numeral(text || 0).format('0,0%'),
+      dataIndex: 'Change',
+      key: 'Change',
+      render: (text) => {
+        if (text < 0) {
+          return (
+            <p className={styles['red']}>{numeral(text || 0).format('0,0%')}</p>
+          );
+        }
+        return (
+          <p className={styles['green']}>
+            +{numeral(text || 0).format('0,0%')}
+          </p>
+        );
+      },
     },
     {
       title: 'Market cap',
-      dataIndex: 'pricechange',
-      render: (text) => numeral(text || 0).format('0,0%'),
+      dataIndex: 'MarketCap',
+      render: (text) => (
+        <p className={styles['white']}>{numeral(text || 0).format('$0,0')}</p>
+      ),
     },
     {
       title: 'Watch',
-      dataIndex: 'address',
-      key: 'address',
+      dataIndex: 'Watch',
+      key: 'Watch',
       render: (text) => (
         <div className={styles['action']}>
           <span>Buy</span>
@@ -113,7 +160,7 @@ const Lessees = (props) => {
             <span>Title</span>
           </div>
           <div className={styles['content']}>
-            <Line />
+            <Line balance={balance} />
           </div>
         </div>
         <div
@@ -161,7 +208,7 @@ const Lessees = (props) => {
               bordered={false}
               className={styles['table']}
               columns={detailColumns}
-              dataSource={data}
+              dataSource={detailsData}
               pagination={false}
             />
           </div>
@@ -181,9 +228,9 @@ const Lessees = (props) => {
           <div className={styles['content']}>
             <Table
               bordered={false}
-              className={styles['table']}
+              className={styles['table-2']}
               columns={watchColumns}
-              dataSource={data}
+              dataSource={watchlistData}
               pagination={false}
             ></Table>
           </div>

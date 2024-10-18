@@ -4,11 +4,29 @@ import * as echarts from 'echarts';
 import { MONTH } from '@/constant';
 import useScale from '../../../../hooks/useScale';
 import { balanceData } from '../data';
+import useLesses from '../Hooks/useLesses';
 
 const Line = (props) => {
   const { data = balanceData } = props;
+  const { lessesData } = useLesses();
+  const balance = lessesData?.portfolio_balance;
   const { scale } = useScale();
+  // Procesa las fechas de las GPUs extrayendo solo la parte de la fecha antes de la 'T'
+  const gpuArrayX = Object.keys(balance?.gpu || {}).map(
+    (item) => item?.split('T')[0],
+  );
+  const gpuArrayY = Object.values(balance?.gpu || {});
 
+  // Procesa las fechas de las CPUs creando un array de objetos con valor y etiqueta
+  const cpuArrayX = Object.keys(balance?.cpu || {}).map((item, index) => ({
+    value: index + 1,
+    label: item?.split('T')[0],
+  }));
+  const cpuArrayY = Object.values(balance?.cpu || {});
+
+  // Combina los arrays de datos de CPU y GPU
+  const data2 = [cpuArrayY, gpuArrayY];
+  const month = [cpuArrayX, gpuArrayX];
   const left = useMemo(() => {
     if (scale >= 0.7) return '3%';
     if (scale >= 0.5) return '4%';
