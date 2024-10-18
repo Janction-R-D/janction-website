@@ -80,10 +80,12 @@ const Lessors = (props) => {
   }, [lessorsData]);
 
   const handleSearch = (text) => {};
-  const onSortChange = (sortField) => {
-    setMonitorList((_monitorList) =>
-      _monitorList.sort((a, b) => a[sortField] - b[sortField]),
+  const onSortChange = (e) => {
+    const sortField = e.target.value;
+    const _monitorList = monitorList.sort(
+      (a, b) => b[sortField] - a[sortField],
     );
+    setMonitorList([..._monitorList]);
   };
   const watchColumns = [
     // {
