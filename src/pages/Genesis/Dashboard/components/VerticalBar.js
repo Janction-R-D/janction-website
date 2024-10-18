@@ -66,7 +66,7 @@ const Bar = (props) => {
           borderRadius: 10,
         },
 
-        barWidth: 36,
+        barWidth: 30,
       },
     ],
   };

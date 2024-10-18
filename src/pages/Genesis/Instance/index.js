@@ -10,6 +10,7 @@ import OperationModal from './InstanceComponents/OperationModal';
 import InstanceCard from './InstanceComponents/InstanceCard';
 import InstanceTable from './instanceTable';
 import { fetchNodeList } from '@/services/genesis';
+import useNodes from './Hooks/useNodes';
 
 function Instance() {
   const [view, setView] = useState(false);
@@ -18,14 +19,8 @@ function Instance() {
   const [itemsPerPage] = useState(3);
   const [filteredData, setFilteredData] = useState(data2);
 
-  useEffect(() => {
-    getNodeList();
-  }, []);
-
-  const getNodeList = async () => {
-    const res = await fetchNodeList();
-    console.log('『res』', res);
-  };
+  const { nodes } = useNodes();
+  console.log(nodes);
 
   const handleModal = () => {
     setShowOverView(!showOverView);
@@ -127,7 +122,7 @@ function Instance() {
             </div>
           </section>
         ) : (
-          <InstanceTable />
+          <InstanceTable data={nodes} />
         )}
       </Card>
     </>

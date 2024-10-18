@@ -8,7 +8,6 @@ import { mockSalesPipeline, newsData, pieColors } from './data';
 import data from './Instance.json';
 import styles from './index.less';
 import Invite from './components/Invite';
-import Graph from './Graph';
 
 const Lessors = (props) => {
   const [news, setNews] = useState(newsData);

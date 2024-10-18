@@ -8,13 +8,14 @@ import {
 } from '@ant-design/icons';
 import { history } from 'umi';
 import styles from './index.less';
-import data from './Instance.json';
+import data1 from './Instance.json';
 import HeaderCard from './InstanceComponents/HeaderCard';
 import { useState } from 'react';
 import OperationModal from './InstanceComponents/OperationModal';
 
-function InstanceTable() {
+function InstanceTable({ data }) {
   const [showOverView, setShowOverView] = useState(true);
+  console.log(data);
   const columns = [
     {
       title: <div className="name">Instance ID / Name</div>,
@@ -113,6 +114,17 @@ function InstanceTable() {
       ),
     },
   ];
+  const mappedOrders = data.map((order) => ({
+    key: order.id,
+    name: order.name,
+    Cores: order.architechture,
+    memory: order.attr.memory,
+    status: order.status,
+    PublicIp: '192.168.0.1',
+    GPUrate: '0.254%',
+    MemoryUsage: '25%',
+    downtime: '2024-09-15 10:00:00\r\n2024-09-16 18:00:00',
+  }));
   const handleModal = () => {
     setShowOverView(!showOverView);
   };
@@ -124,7 +136,7 @@ function InstanceTable() {
       <JanctionTable
         className={styles['table']}
         columns={columns}
-        dataSource={data}
+        dataSource={data1}
         pagination={{
           pageSize: 5,
           position: ['bottomCenter'],

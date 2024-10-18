@@ -3,6 +3,7 @@ import { Card, Table } from 'antd';
 import styles from './orders.less';
 import JanctionTable from '@/components/JanctionTable';
 export default function OrderCard({ order }) {
+  console.log(order);
   const columns = [
     {
       title: 'Product',
@@ -32,7 +33,7 @@ export default function OrderCard({ order }) {
       Product: (
         <section className={styles['card-product']} key={'SA5.MEDIUM2 Xxxx'}>
           <div className={styles['card-product-img-container']}>
-            <img src="./nvidia.png" className={styles['card-product-img']} />
+            <i className="iconfont icon-nvidia icon-nvidia-color"></i>
           </div>
           <div className={styles['card-product-description']}>
             <p className={styles['card-product-title']}>Geforce RTX 4090</p>
@@ -55,11 +56,11 @@ export default function OrderCard({ order }) {
       PriceThree: '$8.9',
     },
     {
-      key: '1',
+      key: '2',
       Product: (
         <section className={styles['card-product']} key={'SA5.MEDIUM2 Xxxx'}>
           <div className={styles['card-product-img-container']}>
-            <img src="./nvidia.png" className={styles['card-product-img']} />
+            <i className="iconfont icon-nvidia icon-nvidia-color"></i>
           </div>
           <div className={styles['card-product-description']}>
             <p className={styles['card-product-title']}>Geforce RTX 4090</p>

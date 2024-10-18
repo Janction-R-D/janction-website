@@ -1,6 +1,6 @@
 import { request } from 'umi';
 
-const baseUrl = 'http://18.181.196.49:8080/v0';
+const baseUrl = '/v0/';
 
 /**
  * Webshell demo，websockt
@@ -26,7 +26,11 @@ export const fetchNodeList = async () => {
   try {
     const response = await request(`${baseUrl}/node/list`, {
       loginAuth: true,
+      headers: {
+        'x-user-id': '6d5b03ae-6205-417d-8749-5ac1f40fac07',
+      },
     });
+    console.log(response);
     return response;
   } catch (error) {
     console.log('『error』', error);
