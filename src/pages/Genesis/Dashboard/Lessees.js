@@ -41,7 +41,12 @@ const Lessees = (props) => {
       render: (text, record) => (
         <div className={styles['name-column']}>
           <div className={styles['icon']}>
-            <i className="iconfont icon-nvidia green"></i>
+            {record.Brand === 'Apple' && (
+              <i className="iconfont icon-nvidia green"></i>
+            )}
+            {record.Brand === 'Brand 2' && (
+              <i className="iconfont icon-linux white"></i>
+            )}
           </div>
           <div className={styles['info']}>
             <span className={styles['name']}>Name</span>
