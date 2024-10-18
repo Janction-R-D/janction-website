@@ -1,107 +1,127 @@
-import { Progress, Table, Input, Radio, Card } from 'antd';
-import numeral from 'numeral';
-import { useMemo, useState } from 'react';
+import { fetchLessor } from '@/services/genesis/dashboard';
+import { Card, Input, Radio, Table } from 'antd';
+import { useEffect, useMemo, useState } from 'react';
 import HorizontalBar from './components/HorizontalBar';
+import Invite from './components/Invite';
 import Pie from './components/Pie';
 import VerticalBar from './components/VerticalBar';
-import { mockSalesPipeline, newsData, pieColors } from './data';
-import data from './Instance.json';
+import { ARITHMETIC_SITUATION, pieColors } from './data';
+import numeral from 'numeral';
 import styles from './index.less';
-import Invite from './components/Invite';
+
+function convertMBtoGB(mb) {
+  const gb = mb / 1024; // 1 GB = 1024 MB
+  if (gb >= 1) {
+    return `${gb.toFixed(2)} GB`; // 保留两位小数
+  } else {
+    return `${mb} MB`; // 直接返回MB格式
+  }
+}
 
 const Lessors = (props) => {
-  const [news, setNews] = useState(newsData);
-  const [watchList, setWatchList] = useState([]);
-  const [recommendList, setRecommendList] = useState([]);
-  const [salesPipeline, setSalesPipeline] = useState(mockSalesPipeline);
-  const [size, setSize] = useState('large');
-  const [monthlyGoal, setMonthlyGoal] = useState({ value: 9.2, goal: 10 });
+  const [lessorsData, setLessorsData] = useState();
+  const [monitorList, setMonitorList] = useState([]);
 
   const percent = useMemo(() => {
-    if (!monthlyGoal) return 0;
-    const { value, goal } = monthlyGoal;
-    if (goal) return (value / goal) * 100;
+    const { monthly_goal = 0, total = 0 } = lessorsData?.Profit || {};
+    if (monthly_goal) return (total / monthly_goal) * 100;
     return 0;
-  }, monthlyGoal);
+  }, [lessorsData]);
+
+  useEffect(() => {
+    getLessors();
+  }, []);
+  const getLessors = async () => {
+    const res = await fetchLessor();
+    setLessorsData(res);
+    setMonitorList(res?.activites || []);
+  };
+
+  const sales_by_rep = useMemo(() => {
+    const maxPrice = (lessorsData?.sales_by_rep || []).reduce(
+      (max, item) => (item.price > max ? item.price : max),
+      0,
+    );
+    return (lessorsData?.sales_by_rep || []).map((item) => {
+      let brand = (item.brand || '').toLowerCase();
+      const isNvidia = brand == 'nvdia';
+      return {
+        ...item,
+        icon: brand == 'nvdia' ? 'nvidia' : brand == 'apple' ? 'macos' : brand,
+        color: isNvidia ? '#76b900' : '#fff',
+        percent: maxPrice ? `${(item.price / maxPrice) * 100}%` : 0,
+      };
+    });
+  }, [lessorsData]);
+
+  const arithmetic_situation = useMemo(() => {
+    const {
+      online_memory_footprint = 0,
+      offline_memory_footprint = 0,
+      free_memory = 0,
+    } = lessorsData?.arithmetic_situation || {};
+    return [
+      {
+        name: ARITHMETIC_SITUATION.online_memory_footprint,
+        value: online_memory_footprint,
+        format: convertMBtoGB(online_memory_footprint),
+      },
+      {
+        name: ARITHMETIC_SITUATION.offline_memory_footprint,
+        value: offline_memory_footprint,
+        format: convertMBtoGB(offline_memory_footprint),
+      },
+      {
+        name: ARITHMETIC_SITUATION.free_memory,
+        value: free_memory,
+        format: convertMBtoGB(free_memory),
+      },
+    ];
+  }, [lessorsData]);
 
   const handleSearch = (text) => {};
-  // const watchColumns = [
-  //   {
-  //     title: 'Name',
-  //     dataIndex: 'name',
-  //     key: 'name',
-  //     render: (text) => (
-  //       <div className="activity-name">
-  //         <p>{text}</p>
-  //       </div>
-  //     ),
-  //   },
-  //   {
-  //     title: '%CPU',
-  //     dataIndex: 'GPU-PERCENT',
-  //     render: (text) => <p>{numeral(text || 0).format('$0,0')}</p>,
-  //   },
-  //   {
-  //     title: 'CPU Time',
-  //     dataIndex: 'CPUtime',
-  //     key: 'CPUtime',
-  //   },
-  //   {
-  //     title: 'Threads',
-  //     dataIndex: 'Threads',
-  //     key: 'Threads',
-  //   },
-  //   {
-  //     title: 'Idle wake-up',
-  //     dataIndex: 'Idle',
-  //     key: 'Idle',
-  //   },
-  //   {
-  //     title: 'Type',
-  //     dataIndex: 'Type',
-  //     key: 'Type',
-  //   },
-  //   {
-  //     title: '%GPU',
-  //     dataIndex: 'GPUPERCENT',
-  //     render: (text) => numeral(text || 0).format('$0,0'),
-  //   },
-  //   {
-  //     title: 'GPU Time',
-  //     dataIndex: 'GPUTime',
-  //     key: 'GPUTime',
-  //   },
-  //   {
-  //     title: 'PID',
-  //     dataIndex: 'PID',
-  //     key: 'PID',
-  //   },
-  //   {
-  //     title: 'other',
-  //     dataIndex: 'other',
-  //     key: 'other',
-  //   },
-  // ];
+  const onSortChange = (e) => {
+    const sortField = e.target.value;
+    const _monitorList = monitorList.sort(
+      (a, b) => b[sortField] - a[sortField],
+    );
+    setMonitorList([..._monitorList]);
+  };
   const watchColumns = [
-    {
-      title: 'PID',
-      dataIndex: 'PID',
-      key: 'PID',
-    },
+    // {
+    //   title: 'PID',
+    //   dataIndex: 'PID',
+    //   key: 'PID',
+    // },
 
+    // {
+    //   title: 'Command',
+    //   dataIndex: 'Command',
+    //   key: 'Command',
+    // },
     {
-      title: 'Command',
-      dataIndex: 'Command',
-      key: 'Command',
+      title: 'Platform',
+      dataIndex: 'platform',
+    },
+    {
+      title: 'Progress',
+      dataIndex: 'progress',
     },
     {
       title: '%CPU',
-      dataIndex: 'GPU-PERCENT',
+      dataIndex: 'cpu_usage',
     },
     {
-      title: '%CPU',
-      dataIndex: 'CPU',
-      key: 'CPU',
+      title: 'ENERGY',
+      dataIndex: 'energy',
+    },
+    {
+      title: 'DISK',
+      dataIndex: 'disk_usage',
+    },
+    {
+      title: 'Time',
+      dataIndex: 'uptime',
     },
     {
       title: '#TH',
@@ -120,8 +140,7 @@ const Lessors = (props) => {
     },
     {
       title: 'MEM',
-      dataIndex: 'MEM',
-      key: 'MEM',
+      dataIndex: 'memory_usage',
     },
     {
       title: 'PURG',
@@ -140,8 +159,7 @@ const Lessors = (props) => {
     },
     {
       title: 'State',
-      dataIndex: 'State',
-      key: 'State',
+      dataIndex: 'status',
     },
     {
       title: 'Boosts',
@@ -168,7 +186,7 @@ const Lessors = (props) => {
             </div>
           </div>
           <div className={styles['content']}>
-            <HorizontalBar />
+            <HorizontalBar data={sales_by_rep || []} />
           </div>
         </div>
         <div
@@ -181,7 +199,7 @@ const Lessors = (props) => {
           </div>
           <div className={styles['content']}>
             <div className={styles['chart-wrapper']}>
-              <VerticalBar />
+              <VerticalBar data={lessorsData?.states || {}} />
             </div>
           </div>
         </div>
@@ -200,10 +218,10 @@ const Lessors = (props) => {
           </div>
           <div className={styles['content']}>
             <div className={styles['chart-wrapper']}>
-              <Pie />
+              <Pie data={arithmetic_situation} />
             </div>
             <div className={styles['info']}>
-              {salesPipeline.map((item, index) => (
+              {arithmetic_situation.map((item, index) => (
                 <div className={styles['info-item']} key={item.name}>
                   <div
                     className={styles['name']}
@@ -211,7 +229,7 @@ const Lessors = (props) => {
                   >
                     {item.name}
                   </div>
-                  <div className={styles['value']}>{item.value}</div>
+                  <div className={styles['value']}>{item.format}</div>
                 </div>
               ))}
             </div>
@@ -229,22 +247,38 @@ const Lessors = (props) => {
             <div className={styles['total-wrapper']}>
               <div className={styles['total-item']}>
                 <div className={styles['name']}>Total</div>
-                <div className={styles['value']}>$1900.00</div>
+                <div className={styles['value']}>
+                  {numeral(lessorsData?.Profit?.total || 0).format('$0.00')}
+                </div>
               </div>
               <div className={styles['total-item']}>
                 <div className={styles['name']}>Rental income</div>
-                <div className={styles['value']}>$190.00</div>
+                <div className={styles['value']}>
+                  {numeral(lessorsData?.Profit?.rental_income || 0).format(
+                    '$0.00',
+                  )}
+                </div>
               </div>
               <div className={styles['total-item']}>
                 <div className={styles['name']}>Pledge proceeds</div>
-                <div className={styles['value']}>$19.00</div>
+                <div className={styles['value']}>
+                  {numeral(lessorsData?.Profit?.pledge_proceeds || 0).format(
+                    '$0.00',
+                  )}
+                </div>
               </div>
             </div>
             <div className={styles['progress-wrapper']}>
               <div className={styles['title']}>
                 <div className={styles['name']}>Monthly Goal</div>
                 <div className={styles['goal']}>
-                  <span>Goal $8.2m</span>
+                  <span>
+                    Goal{' '}
+                    {numeral(lessorsData?.Profit?.monthly_goal || 0).format(
+                      '$0.00',
+                    )}
+                    {' m'}
+                  </span>
                 </div>
               </div>
               <div className={styles['progress-bar']}>
@@ -258,7 +292,9 @@ const Lessors = (props) => {
                         ? { right: '8px', transform: `translate(0, -50%)` }
                         : { right: '-8px', transform: `translate(100%, -50%)` }
                     }
-                  >{`$${monthlyGoal.value}m`}</span>
+                  >
+                    {numeral(lessorsData?.Profit?.total || 0).format('$0.00')}m
+                  </span>
                 </div>
               </div>
             </div>
@@ -277,11 +313,12 @@ const Lessors = (props) => {
                   defaultValue="large"
                   buttonStyle="solid"
                   className={styles['activity-monitor']}
+                  onChange={onSortChange}
                 >
-                  <Radio.Button value="large">CPU</Radio.Button>
-                  <Radio.Button value="memory">内存</Radio.Button>
+                  <Radio.Button value="cpu_usage">CPU</Radio.Button>
+                  <Radio.Button value="memory_usage">内存</Radio.Button>
                   <Radio.Button value="energy">能耗</Radio.Button>
-                  <Radio.Button value="disk">磁盘</Radio.Button>
+                  <Radio.Button value="disk_usage">磁盘</Radio.Button>
                   <Radio.Button value="network">网络</Radio.Button>
                 </Radio.Group>
               </article>
@@ -302,7 +339,7 @@ const Lessors = (props) => {
             bordered={false}
             className={styles['table']}
             columns={watchColumns}
-            dataSource={data}
+            dataSource={monitorList}
             pagination={false}
           ></Table>
         </Card>

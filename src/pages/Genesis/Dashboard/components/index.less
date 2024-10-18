@@ -195,3 +195,55 @@
     }
   }
 }
+
+.sale-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  .sale-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    height: 36px;
+
+    .icon {
+      width: 24px;
+      height: 24px;
+      background: #0a0a0a;
+      border-radius: 4.90909px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      i {
+        font-size: 12px;
+      }
+    }
+
+    > span {
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 20px;
+      color: #fffcfc;
+    }
+
+    .name {
+      width: 100px;
+      flex-shrink: 0;
+      margin-right: 4px;
+    }
+
+    .bar {
+      flex: 1;
+
+      .value-bar {
+        height: 12px;
+        border-radius: 39.85px;
+        background-color: rgba(0, 187, 212, 1);
+      }
+    }
+  }
+}

@@ -1,12 +1,9 @@
-import React, { useMemo } from 'react';
 import ReactEcharts from 'echarts-for-react';
-import * as echarts from 'echarts';
-import { MONTH } from '@/constant';
-import useScale from '../../../../hooks/useScale';
-import { balanceData, pieColors } from '../data';
+import React from 'react';
+import { pieColors } from '../data';
 
 const Pie = (props) => {
-  const { data = balanceData } = props;
+  const { data } = props;
 
   let option = {
     tooltip: {
@@ -39,11 +36,7 @@ const Pie = (props) => {
         labelLine: {
           show: false,
         },
-        data: [
-          { value: 1048, name: 'Search Engine' },
-          { value: 735, name: 'Direct' },
-          { value: 580, name: 'Email' },
-        ],
+        data,
       },
     ],
   };

@@ -46,3 +46,19 @@ export const mockSalesPipeline = [
 ];
 
 export const pieColors = ['#00BBD4', '#87C969', '#ECC560'];
+
+export const STATE_CONS = {
+  0: 'Leased',
+  1: 'Leisure',
+  2: 'Alarm',
+  3: 'On-chain task',
+  4: 'Off-chain task',
+};
+
+export const ALARAM_STATE = 2;
+
+export const ARITHMETIC_SITUATION = {
+  online_memory_footprint: 'Online memory footprint',
+  offline_memory_footprint: 'Offline memory footprint',
+  free_memory: 'Free memory',
+};
