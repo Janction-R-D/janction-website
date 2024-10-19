@@ -78,16 +78,19 @@ const Lessees = (props) => {
           </span>
           <span
             className={record.PriceChanges > 0 ? styles['up'] : styles['down']}
-          >{`${record.PriceChanges > 0 ? '+' : ''}${numeral(
-            record.PriceChanges || 0,
-          ).format('0,0%')}`}</span>
+          >
+            {`${record.PriceChanges > 0 ? '+' : ''}${numeral(
+              record.PriceChanges || 0,
+            ).format('0,0')}`}
+            %
+          </span>
         </div>
       ),
     },
     {
       title: 'Allocation',
       dataIndex: 'Allocation',
-      render: (text) => numeral(text || 0).format('0,0%'),
+      render: (text) => <p>{numeral(text || 0).format('0,0')}%</p>,
     },
   ];
   const watchColumns = [
@@ -121,12 +124,12 @@ const Lessees = (props) => {
       render: (text) => {
         if (text < 0) {
           return (
-            <p className={styles['red']}>{numeral(text || 0).format('0,0%')}</p>
+            <p className={styles['red']}>{numeral(text || 0).format('0,0')}%</p>
           );
         }
         return (
           <p className={styles['green']}>
-            +{numeral(text || 0).format('0,0%')}
+            +{numeral(text || 0).format('0,0')}%
           </p>
         );
       },
