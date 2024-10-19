@@ -1,5 +1,5 @@
 import JanctionTable from '@/components/JanctionTable';
-import { Input } from 'antd';
+import { Input, Modal } from 'antd';
 import { Tag, Button, Space, Col, Row, Card } from 'antd';
 import {
   CheckCircleOutlined,
@@ -12,11 +12,40 @@ import data1 from './Instance.json';
 import HeaderCard from './InstanceComponents/HeaderCard';
 import { useState } from 'react';
 import OperationModal from './InstanceComponents/OperationModal';
+import { convertMBtoGB } from '../Dashboard/Lessors';
+import { fetchNodeOperation } from '../../../services/genesis/instance';
 
 function InstanceTable({ data }) {
   const [showOverView, setShowOverView] = useState(true);
-  console.log(data, 'hola');
 
+  const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
+  console.log(data, 'hola');
+  const handleOperation = (operation, resource, id) => {
+    const payload = JSON.stringify({
+      resource_id: resource,
+      operation,
+      id,
+    });
+
+    fetchNodeOperation(payload)
+      .then((res) => {
+        console.log(res);
+        setSuccess(true);
+      })
+      .catch((err) => {
+        setError(true);
+        console.log(err);
+      })
+      .finally(() => {
+        setTimeout(() => {
+          setError(false);
+          setSuccess(false);
+        }, 5000);
+
+        window.location.reload();
+      });
+  };
   const columns = [
     {
       title: <div className="name">Instance ID / Name</div>,
@@ -103,17 +132,42 @@ function InstanceTable({ data }) {
       title: <div className="operation">Operation</div>,
       key: 'action',
       width: 100,
-      render: (_, record) => (
-        <Space
-          size="middle"
-          style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}
-        >
-          <a>Stop</a>
-          <a>Start</a>
+      render: (error, record) => {
+        console.log(record);
+        return (
+          <Space
+            size="middle"
+            style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}
+          >
+            <a
+              className={styles['operation-action']}
+              onClick={() =>
+                handleOperation(
+                  'stop',
+                  record?.activity?.resource_id,
+                  record?.id,
+                )
+              }
+            >
+              <p>Stop</p>
+            </a>
+            <a
+              className={styles['operation-action']}
+              onClick={() =>
+                handleOperation(
+                  'start',
+                  record?.activity?.resource_id,
+                  record?.id,
+                )
+              }
+            >
+              <p>Start</p>
+            </a>
 
-          <OperationModal record={record} styles={styles} />
-        </Space>
-      ),
+            <OperationModal record={record} styles={styles} />
+          </Space>
+        );
+      },
     },
   ];
   const mappedOrders = data?.map((order) => ({
@@ -124,8 +178,9 @@ function InstanceTable({ data }) {
     status: order?.activity.status,
     Location: order?.node.attr.location,
     GPUrate: '0.254%',
-    MemoryUsage: order?.activity.memory_usage,
+    MemoryUsage: convertMBtoGB(order?.activity.memory_usage.toFixed(2)),
     downtime: '2024-09-15 10:00:00\r\n2024-09-16 18:00:00',
+    activity: order.activity,
   }));
   const handleModal = () => {
     setShowOverView(!showOverView);
