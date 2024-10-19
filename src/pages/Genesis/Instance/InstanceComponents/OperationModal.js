@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Card } from 'antd';
 import styles from './operation.less';
 export default function OperationModal({ record }) {
-  console.log(record);
   const [showModal, setShowModal] = useState(true);
   const classname = showModal
     ? styles['card-modal-show']

@@ -24,7 +24,7 @@ export const fetchTerminal = async (params) => {
  */
 export const fetchNodeList = async () => {
   try {
-    const response = await request(`${baseUrl}/node/list`, {
+    const response = await request(`${baseUrl}/resource/dashboard`, {
       loginAuth: true,
     });
     return response;

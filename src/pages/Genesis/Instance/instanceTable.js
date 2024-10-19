@@ -15,7 +15,8 @@ import OperationModal from './InstanceComponents/OperationModal';
 
 function InstanceTable({ data }) {
   const [showOverView, setShowOverView] = useState(true);
-  console.log(data);
+  console.log(data, 'hola');
+
   const columns = [
     {
       title: <div className="name">Instance ID / Name</div>,
@@ -30,6 +31,7 @@ function InstanceTable({ data }) {
       key: 'Cores',
       ellipsis: true,
       width: 55,
+      render: (text) => <p>{text} Cores</p>,
     },
     {
       title: <div className="memory">Memory</div>,
@@ -45,19 +47,19 @@ function InstanceTable({ data }) {
       width: 75,
       render: (text) => (
         <>
-          {text === 'Running' ? (
+          {text.toLowerCase() === 'running' ? (
             <div className="status status-running">
               <i className="iconfont  icon-check"></i> Running
             </div>
-          ) : text === 'Stopped' ? (
+          ) : text.toLowerCase() === 'stopped' ? (
             <div className="status status-stopped">
               <i className="iconfont  icon-play_pause"></i> Stopped
             </div>
-          ) : text === 'Expired' ? (
+          ) : text.toLowerCase() === 'expired' ? (
             <div className="status status-expired">
               <i className="iconfont  icon-icforbidden"></i> Expired
             </div>
-          ) : text === 'Expiring Soon' ? (
+          ) : text.toLowerCase() === 'expiring soon' ? (
             <div className="status status-expiring-soon">
               <i className="iconfont  icon-questioncircle"></i> Expiring Soon
             </div>
@@ -68,9 +70,9 @@ function InstanceTable({ data }) {
       ),
     },
     {
-      title: 'Public IP',
-      dataIndex: 'PublicIp',
-      key: 'PublicIp',
+      title: 'Location',
+      dataIndex: 'Location',
+      key: 'Location',
       ellipsis: true,
       width: 50,
     },
@@ -114,15 +116,15 @@ function InstanceTable({ data }) {
       ),
     },
   ];
-  const mappedOrders = data.map((order) => ({
-    key: order.id,
-    name: order.name,
-    Cores: order.architechture,
-    memory: order.attr.memory,
-    status: order.status,
-    PublicIp: '192.168.0.1',
+  const mappedOrders = data?.map((order) => ({
+    key: order?.id,
+    name: order?.name,
+    Cores: order?.node.attr.cpu,
+    memory: order?.node.attr.memory,
+    status: order?.activity.status,
+    Location: order?.node.attr.location,
     GPUrate: '0.254%',
-    MemoryUsage: '25%',
+    MemoryUsage: order?.activity.memory_usage,
     downtime: '2024-09-15 10:00:00\r\n2024-09-16 18:00:00',
   }));
   const handleModal = () => {
@@ -136,7 +138,7 @@ function InstanceTable({ data }) {
       <JanctionTable
         className={styles['table']}
         columns={columns}
-        dataSource={data1}
+        dataSource={mappedOrders}
         pagination={{
           pageSize: 5,
           position: ['bottomCenter'],

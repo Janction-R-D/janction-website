@@ -2,26 +2,26 @@ import React from 'react';
 import { Card } from 'antd';
 import styles from './headerCard.less';
 
-export default function HeaderCard() {
+export default function HeaderCard({ summary }) {
   const data = [
     {
       name: 'Cloud server',
-      value: 46,
+      value: summary?.total,
       color: 'white',
     },
     {
       name: 'Running',
-      value: 23,
+      value: summary?.running,
       color: 'white',
     },
     {
       name: 'Expiring Soon',
-      value: 23,
+      value: summary?.expiring_soon,
       color: 'yellow',
     },
     {
       name: 'Expired',
-      value: 1,
+      value: summary?.expired,
       color: 'red',
     },
   ];

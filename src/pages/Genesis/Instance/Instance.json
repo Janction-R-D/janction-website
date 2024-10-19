@@ -5,7 +5,7 @@
     "Cores": "4 Cores",
     "memory": "8GiB",
     "status": "Running",
-    "PublicIp": "192.168.0.1",
+    "Location": "192.168.0.1",
     "GPUrate": "0.254%",
     "MemoryUsage": "25%",
     "downtime": "2024-09-15 10:00:00\r\n2024-09-16 18:00:00"
@@ -16,7 +16,7 @@
     "Cores": "8 Cores",
     "memory": "16GiB",
     "status": "Stopped",
-    "PublicIp": "192.168.0.2",
+    "Location": "192.168.0.2",
     "GPUrate": "0.143%",
     "MemoryUsage": "15%",
     "downtime": "2024-09-10 12:00:00\r\n2024-09-11 12:00:00"
@@ -27,7 +27,7 @@
     "Cores": "16 Cores",
     "memory": "32GiB",
     "status": "Expired",
-    "PublicIp": "192.168.0.3",
+    "Location": "192.168.0.3",
     "GPUrate": "0.345%",
     "MemoryUsage": "45%",
     "downtime": "2024-09-12 08:00:00\r\n2024-09-13 20:00:00"
@@ -38,7 +38,7 @@
     "Cores": "2 Cores",
     "memory": "4GiB",
     "status": "Expiring Soon",
-    "PublicIp": "192.168.0.4",
+    "Location": "192.168.0.4",
     "GPUrate": "0.098%",
     "MemoryUsage": "5%",
     "downtime": "2024-09-14 14:00:00\r\n2024-09-14 22:00:00"
@@ -49,7 +49,7 @@
     "Cores": "8 Cores",
     "memory": "16GiB",
     "status": "Running",
-    "PublicIp": "192.168.0.5",
+    "Location": "192.168.0.5",
     "GPUrate": "0.187%",
     "MemoryUsage": "30%",
     "downtime": "2024-09-11 09:00:00\r\n2024-09-12 17:00:00"
@@ -60,7 +60,7 @@
     "Cores": "12 Cores",
     "memory": "24GiB",
     "status": "Stopped",
-    "PublicIp": "192.168.0.6",
+    "Location": "192.168.0.6",
     "GPUrate": "0.200%",
     "MemoryUsage": "35%",
     "downtime": "2024-09-09 07:00:00\r\n2024-09-10 19:00:00"
@@ -71,7 +71,7 @@
     "Cores": "6 Cores",
     "memory": "12GiB",
     "status": "Expired",
-    "PublicIp": "192.168.0.7",
+    "Location": "192.168.0.7",
     "GPUrate": "0.276%",
     "MemoryUsage": "20%",
     "downtime": "2024-09-13 06:00:00\r\n2024-09-14 21:00:00"
@@ -82,7 +82,7 @@
     "Cores": "10 Cores",
     "memory": "20GiB",
     "status": "Expiring Soon",
-    "PublicIp": "192.168.0.8",
+    "Location": "192.168.0.8",
     "GPUrate": "0.305%",
     "MemoryUsage": "40%",
     "downtime": "2024-09-14 13:00:00\r\n2024-09-15 23:00:00"
@@ -93,7 +93,7 @@
     "Cores": "14 Cores",
     "memory": "28GiB",
     "status": "Running",
-    "PublicIp": "192.168.0.9",
+    "Location": "192.168.0.9",
     "GPUrate": "0.123%",
     "MemoryUsage": "50%",
     "downtime": "2024-09-12 11:00:00\r\n2024-09-13 17:00:00"

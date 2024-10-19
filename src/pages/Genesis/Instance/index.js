@@ -13,32 +13,39 @@ import { fetchNodeList } from '@/services/genesis';
 import useNodes from './Hooks/useNodes';
 
 function Instance() {
-  const [view, setView] = useState(false);
+  const [view, setView] = useState('table');
   const [showOverView, setShowOverView] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(3);
-  const [filteredData, setFilteredData] = useState(data2);
-
+  const [itemsPerPage] = useState(1);
   const { nodes } = useNodes();
-  console.log(nodes);
+
+  const { summary, resource } = nodes;
+  const [filteredData, setFilteredData] = useState(resource);
 
   const handleModal = () => {
     setShowOverView(!showOverView);
   };
 
   const handleSearch = (value) => {
-    const filtered = data2.filter(
+    const filtered = resource?.filter(
       (instance) =>
         instance.name.toLowerCase().includes(value.toLowerCase()) ||
         instance.PublicIp.includes(value),
     );
     setFilteredData(filtered);
   };
-
+  const handleSetView = () => {
+    if (view === 'table') {
+      setView('graph');
+      return;
+    }
+    setView('table');
+  };
+  console.log(filteredData);
   // Control de paginación
   const indexOfLastInstance = currentPage * itemsPerPage;
   const indexOfFirstInstance = indexOfLastInstance - itemsPerPage;
-  const currentInstances = filteredData.slice(
+  const currentInstances = resource?.slice(
     indexOfFirstInstance,
     indexOfLastInstance,
   );
@@ -61,7 +68,7 @@ function Instance() {
           </p>
         </div>
       </div>
-      {showOverView && <HeaderCard />}
+      {showOverView && <HeaderCard summary={summary} />}
       <Card className={styles['card-table']}>
         <Row justify="space-between" align="middle">
           <Col>
@@ -72,14 +79,6 @@ function Instance() {
                 onClick={() => history.push('/genesis/create')}
               >
                 Create
-              </Button>
-              <Button
-                className={styles['create-btn']}
-                style={{ width: '160px' }}
-                type="primary"
-                onClick={() => setView(!view)}
-              >
-                Change view
               </Button>
             </Space>
           </Col>
@@ -96,34 +95,33 @@ function Instance() {
               className={styles['search-input']}
             />
             <div className={styles['buttons']}>
-              <Button className={styles['button']}>
+              <Button className={styles['button']} onClick={handleSetView}>
                 <i className="iconfont icon-multipleselectlist"></i>
               </Button>
               <span>|</span>
-              <Button className={styles['button']}>
+              <Button className={styles['button']} onClick={handleSetView}>
                 <i className="iconfont icon-listblock"></i>
               </Button>
             </div>
           </Col>
         </Row>
-        {view ? (
+        {view === 'graph' && (
           <section className={styles['instances']}>
-            {currentInstances.map((instance, index) => (
+            {currentInstances?.map((instance, index) => (
               <InstanceCard key={index} instance={instance} />
             ))}
             <div className={styles['pagination-wrapper']}>
               <Pagination
                 current={currentPage}
                 pageSize={itemsPerPage}
-                total={filteredData.length}
+                total={resource?.length}
                 showLessItems
                 onChange={(page) => setCurrentPage(page)}
               />
             </div>
           </section>
-        ) : (
-          <InstanceTable data={nodes} />
         )}
+        {view === 'table' && <InstanceTable data={resource} />}
       </Card>
     </>
   );
