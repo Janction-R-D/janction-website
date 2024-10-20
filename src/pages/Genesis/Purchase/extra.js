@@ -7,7 +7,7 @@ export const DEFAULT_PURCHASE_TYPE = PURCHASES[0].value;
 
 export const CONFIGURATIONS = [
   {
-    name: '基础配置',
+    name: 'Basic',
     disk: 40,
     memory: 2,
     cpu: 2,
@@ -48,7 +48,7 @@ export const CONFIGURATIONS = [
     ],
   },
   {
-    name: '标准配置',
+    name: 'Standard',
     disk: 40,
     memory: 2,
     cpu: 4,
@@ -89,7 +89,7 @@ export const CONFIGURATIONS = [
     ],
   },
   {
-    name: '专业配置',
+    name: 'Professional',
     disk: 40,
     memory: 8,
     cpu: 2,
@@ -130,7 +130,7 @@ export const CONFIGURATIONS = [
     ],
   },
   {
-    name: '增强配置',
+    name: 'Enhanced',
     disk: 40,
     memory: 8,
     cpu: 4,
