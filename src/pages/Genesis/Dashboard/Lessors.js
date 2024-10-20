@@ -9,7 +9,7 @@ import { ARITHMETIC_SITUATION, pieColors } from './data';
 import numeral from 'numeral';
 import styles from './index.less';
 
-function convertMBtoGB(mb) {
+export function convertMBtoGB(mb) {
   const gb = mb / 1024; // 1 GB = 1024 MB
   if (gb >= 1) {
     return `${gb.toFixed(2)} GB`; // 保留两位小数

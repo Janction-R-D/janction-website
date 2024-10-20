@@ -35,6 +35,25 @@ export const fetchNodeList = async () => {
 };
 
 /**
+ *
+ *operation POST
+ */
+export const fetchNodeOperation = async (params) => {
+  console.log(params);
+  try {
+    const response = await request(`${baseUrl}resource/operate`, {
+      method: 'POST',
+      body: params,
+      loginAuth: true,
+    });
+    return response;
+  } catch (error) {
+    console.log('『error』', error);
+    return null;
+  }
+};
+
+/**
  * Buyers */
 
 export const fetchLessesData = async () => {

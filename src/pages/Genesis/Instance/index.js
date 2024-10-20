@@ -16,7 +16,7 @@ function Instance() {
   const [view, setView] = useState('table');
   const [showOverView, setShowOverView] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(1);
+  const [itemsPerPage] = useState(5);
   const { nodes } = useNodes();
 
   const { summary, resource } = nodes;
@@ -42,7 +42,7 @@ function Instance() {
     setView('table');
   };
   console.log(filteredData);
-  // Control de paginación
+  //Pagination Control
   const indexOfLastInstance = currentPage * itemsPerPage;
   const indexOfFirstInstance = indexOfLastInstance - itemsPerPage;
   const currentInstances = resource?.slice(
