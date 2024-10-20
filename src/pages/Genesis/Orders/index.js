@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import OrderCard from './components/OrderCard';
 import styles from './components/orders.less';
-import axios from 'axios';
 import { fetchResouceList } from '../../../services/genesis/instance';
 
 function Orders() {

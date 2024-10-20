@@ -122,6 +122,9 @@ const Lessors = (props) => {
     {
       title: 'Time',
       dataIndex: 'uptime',
+      render: (text) => {
+        return numeral(text || 0).format('0.0s');
+      },
     },
     {
       title: '#TH',

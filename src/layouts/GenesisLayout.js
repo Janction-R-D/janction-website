@@ -137,7 +137,7 @@ const GenesisLayout = (props) => {
               </div>
             </div>
             <div className={styles['fold-wrapper-2']}>
-              <a href="https://www.janction.io">
+              <a href="/">
                 <i className="iconfont icon-home1"></i>
               </a>
             </div>

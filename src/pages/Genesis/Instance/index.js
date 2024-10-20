@@ -76,7 +76,7 @@ function Instance() {
               <Button
                 className={styles['create-btn']}
                 type="primary"
-                onClick={() => history.push('/genesis/create')}
+                onClick={() => history.push('/genesis/purchase')}
               >
                 Create
               </Button>
