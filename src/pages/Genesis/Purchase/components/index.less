@@ -594,6 +594,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
+
   gap: 16px;
 
   h1.sub-title {
@@ -606,8 +607,10 @@
   }
 
   .content {
-    display: flex;
-    align-items: center;
+    // display: flex;
+    // align-items: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 16px;
   }
 
