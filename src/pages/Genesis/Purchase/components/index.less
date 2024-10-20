@@ -10,7 +10,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
+    // align-items: flex-start;
     padding: 32px;
     gap: 32px;
     background: #252527;
@@ -111,19 +111,22 @@
       }
 
       .configuration-options {
-        display: flex;
-        align-items: center;
+        // display: flex;
+        // align-items: center;
         gap: 16px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 
         .configuration-option {
-          flex: 1;
-          height: 294px;
+          // flex: 1;
+          // height: 294px;
           border-radius: 16px;
-          min-width: 302px;
+          min-width: 240px;
           overflow: hidden;
           border: 2px solid;
           border-color: transparent;
           cursor: pointer;
+          text-wrap: wrap;
 
           > .head {
             display: flex;
@@ -187,7 +190,7 @@
             }
 
             .desc {
-              width: 270px;
+              // width: 270px;
               font-family: 'Poppins';
               font-style: normal;
               font-weight: 400;
@@ -274,6 +277,7 @@
     .application {
       .content {
         display: flex;
+
         align-items: center;
         gap: 16px;
       }
@@ -328,10 +332,15 @@
 
       .value {
         display: flex;
+        flex-wrap: wrap;
         align-items: center;
-        gap: 60px;
+        gap: 25px;
 
         .band-radio-wrapper {
+          display: flex;
+          gap: 12px;
+          align-items: center;
+          margin-right: 40px;
           > span {
             font-family: 'Poppins';
             font-style: normal;
@@ -343,7 +352,8 @@
 
           .band-radio {
             margin-right: 8px;
-
+            display: flex;
+            flex-wrap: nowrap;
             :global {
               .ant-radio-button-wrapper {
                 border: none;
@@ -402,11 +412,12 @@
     .item,
     .vertical-item {
       display: flex;
-      align-items: center;
+      flex-wrap: wrap;
+      // align-items: center;
       gap: 16px;
 
       .name {
-        width: 260px;
+        // width: 260px;
         flex-shrink: 0;
         font-family: 'Poppins';
         font-style: normal;
@@ -414,6 +425,7 @@
         font-size: 14px;
         line-height: 22px;
         color: rgba(255, 255, 255, 0.9);
+        text-wrap: nowrap;
       }
 
       .value {

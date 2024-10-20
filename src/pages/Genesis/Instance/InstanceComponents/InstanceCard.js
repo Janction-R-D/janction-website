@@ -29,7 +29,7 @@ export default function InstanceCard({ instance }) {
           setSuccess(false);
         }, 5000);
 
-        // window.location.reload();
+        window.location.reload();
       });
   };
   const formatDate = (dateString) => {
