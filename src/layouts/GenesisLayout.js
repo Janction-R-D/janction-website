@@ -129,7 +129,10 @@ const GenesisLayout = (props) => {
                 </div>
                 <span>Help</span>
               </div>
-              <div className={styles['item']}>
+              <div
+                className={styles['item']}
+                onClick={() => history.push('/genesis/settings')}
+              >
                 <div className={styles['icon']}>
                   <SettingOutlined />
                 </div>
