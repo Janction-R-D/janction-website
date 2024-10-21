@@ -6,6 +6,48 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "11356207",
+      "name": "add",
+      "font_class": "add",
+      "unicode": "e65b",
+      "unicode_decimal": 58971
+    },
+    {
+      "icon_id": "27768817",
+      "name": "secured",
+      "font_class": "secured",
+      "unicode": "e65c",
+      "unicode_decimal": 58972
+    },
+    {
+      "icon_id": "34952003",
+      "name": "certified",
+      "font_class": "certified",
+      "unicode": "e6c5",
+      "unicode_decimal": 59077
+    },
+    {
+      "icon_id": "35247659",
+      "name": "delete",
+      "font_class": "delete",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "42174929",
+      "name": "icon-down",
+      "font_class": "icon-down",
+      "unicode": "e659",
+      "unicode_decimal": 58969
+    },
+    {
+      "icon_id": "42174928",
+      "name": "icon-up",
+      "font_class": "up",
+      "unicode": "e65a",
+      "unicode_decimal": 58970
+    },
+    {
       "icon_id": "690917",
       "name": "首页",
       "font_class": "home1",
