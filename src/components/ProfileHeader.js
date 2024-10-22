@@ -62,6 +62,10 @@ function ProfileModal({ styles, classname, setShowModal }) {
           });
           history.push('/');
         };
+        const handleNavigate = (path) => {
+          setShowModal(false);
+          history.push(path);
+        };
         return (
           <div className={styles[classname]}>
             <section className={styles['header-card']}>
@@ -92,7 +96,9 @@ function ProfileModal({ styles, classname, setShowModal }) {
             <ul>
               <li>
                 <i className="iconfont icon-user"></i>
-                <a>Personal information</a>
+                <a onClick={() => handleNavigate('/genesis/settings')}>
+                  Personal information
+                </a>
               </li>
               <li>
                 <i className="iconfont icon-search_doc"></i>{' '}
