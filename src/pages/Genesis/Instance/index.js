@@ -11,8 +11,11 @@ import InstanceCard from './InstanceComponents/InstanceCard';
 import InstanceTable from './instanceTable';
 import { fetchNodeList } from '@/services/genesis';
 import useNodes from './Hooks/useNodes';
+import { useModel } from 'umi';
 
 function Instance() {
+  const { initialState } = useModel('@@initialState');
+  const { isLessees } = initialState;
   const [view, setView] = useState('table');
   const [showOverView, setShowOverView] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -73,13 +76,24 @@ function Instance() {
         <Row justify="space-between" align="middle">
           <Col>
             <Space>
-              <Button
-                className={styles['create-btn']}
-                type="primary"
-                onClick={() => history.push('/genesis/purchase')}
-              >
-                Create
-              </Button>
+              {!isLessees && (
+                <Button
+                  className={styles['create-btn']}
+                  type="primary"
+                  onClick={() => history.push('/genesis/purchase')}
+                >
+                  Create
+                </Button>
+              )}
+              {isLessees && (
+                <Button
+                  className={styles['create-btn']}
+                  type="primary"
+                  onClick={() => history.push('/genesis/mount')}
+                >
+                  Mount
+                </Button>
+              )}
             </Space>
           </Col>
           <Col span={13} style={{ display: 'flex', gap: '16px' }}>
