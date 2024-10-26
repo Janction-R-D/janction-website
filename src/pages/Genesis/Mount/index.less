@@ -277,6 +277,17 @@
   justify-content: space-between;
   align-items: center;
 }
+
+@media screen and (max-width: 620px) {
+  .card-prices > div {
+    flex: 1;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    gap: 22px;
+  }
+}
+
 .card-input {
   display: flex;
   gap: 12px;
@@ -346,7 +357,13 @@ input[type='number']::-webkit-outer-spin-button {
           color: rgba(255, 255, 255, 0.9);
         }
       }
-
+      @media screen and (max-width: 620px) {
+        .ant-radio-button-wrapper {
+          width: 65px;
+          height: 44px;
+          font-size: 0.65rem;
+        }
+      }
       .ant-radio-button-wrapper-checked {
         background: #484849;
         color: rgba(255, 255, 255, 0.9);
@@ -460,19 +477,23 @@ input[type='number']::-webkit-outer-spin-button {
 }
 
 .duration {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
   margin-bottom: 12px;
-  align-items: center;
+  max-width: 100%;
   gap: 12px;
 }
+
 .duration-item {
   display: flex;
-  width: 100%;
+
   align-items: center;
   gap: 24px;
 }
+
 .duration-item > p {
   width: 200px;
+  text-wrap: nowrap;
 }
 .duration-group {
   display: flex;
@@ -530,4 +551,38 @@ input[type='number']::-webkit-outer-spin-button {
   color: #fff;
   border-radius: 20px;
   text-wrap: nowrap;
+}
+
+@media screen and (max-width: 620px) {
+  .duration {
+    flex-direction: column;
+    gap: 22px;
+  }
+  .duration-item {
+    justify-content: start;
+    align-items: start;
+  }
+  .duration-group {
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    flex-direction: column;
+    align-items: start;
+    gap: 14px;
+  }
+  .check-side {
+    padding-inline: 14px;
+  }
+  .check-side span {
+    font-size: 0.75rem;
+  }
+  .ant-radio-button-wrapper {
+    width: 60px;
+    height: 34px;
+  }
+}
+@media screen and (max-width: 420px) {
+  .duration-item {
+    flex-direction: column;
+  }
 }

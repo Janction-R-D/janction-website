@@ -157,7 +157,7 @@ function MemoryUsage() {
   };
 
   return (
-    <ReactECharts option={option} style={{ height: '200px', width: '100%' }} />
+    <ReactECharts option={option} style={{ height: '200px', width: '50%' }} />
   );
 }
 
@@ -294,6 +294,6 @@ function ExpirationGraph() {
     ],
   };
   return (
-    <ReactECharts option={option} style={{ height: '200px', width: '100%' }} />
+    <ReactECharts option={option} style={{ height: '200px', width: '50%' }} />
   );
 }
