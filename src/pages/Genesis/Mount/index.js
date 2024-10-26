@@ -5,7 +5,7 @@ import { Button, Card, Input, Select, Checkbox, Radio } from 'antd';
 import MountEchart from './components/Graps';
 
 export default function Mount() {
-  const [minDuration, setMininDuration] = useState(1);
+  const [minDuration, setMinDuration] = useState(1);
   const [maxduration, setMaxDuration] = useState(1);
   const [period, setPeriod] = useState(1);
   const tags = [
