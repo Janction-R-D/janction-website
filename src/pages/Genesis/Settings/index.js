@@ -119,15 +119,10 @@ export default function UserAccount() {
         <section className={styles['card-security']}>
           <span>My private key</span>
           <div className={styles['card-security-items']}>
-            <Input
-              prefix={
-                <span className="icon-blue">
-                  <i className="iconfont icon-add"></i>
-                </span>
-              }
-              placeholder="Please enter name"
-              className={styles['card-security-input']}
-            />
+            <div className={styles['add-btn']}>
+              <i className="iconfont icon-add"></i>
+              <span>Please enter name</span>
+            </div>
             <ul className={styles['card-security-keys']}>
               <div className={styles['card-security-key']}>
                 <div>

@@ -255,7 +255,9 @@ const Lessors = (props) => {
                 </div>
               </div>
               <div className={styles['total-item']}>
-                <div className={styles['name']}>Rental income</div>
+                <div className={styles['name']} title="Rental income">
+                  Rental income
+                </div>
                 <div className={styles['value']}>
                   {numeral(lessorsData?.Profit?.rental_income || 0).format(
                     '$0.00',
@@ -263,7 +265,9 @@ const Lessors = (props) => {
                 </div>
               </div>
               <div className={styles['total-item']}>
-                <div className={styles['name']}>Pledge proceeds</div>
+                <div className={styles['name']} title="Pledge proceeds">
+                  Pledge proceeds
+                </div>
                 <div className={styles['value']}>
                   {numeral(lessorsData?.Profit?.pledge_proceeds || 0).format(
                     '$0.00',
@@ -273,7 +277,9 @@ const Lessors = (props) => {
             </div>
             <div className={styles['progress-wrapper']}>
               <div className={styles['title']}>
-                <div className={styles['name']}>Monthly Goal</div>
+                <div className={styles['name']} title="Monthly Goal">
+                  Monthly Goal
+                </div>
                 <div className={styles['goal']}>
                   <span>
                     Goal{' '}
@@ -303,40 +309,38 @@ const Lessors = (props) => {
             </div>
           </div>
         </div>
-        <Card
+        <div
           className={[styles['content-item'], styles['monitor-wrapper']].join(
             ' ',
           )}
         >
-          <div className={styles['activity-header']}>
-            <h2 className={styles['activity-title']}>Activity Monitor</h2>
-            <section className={styles['activity-content']}>
-              <article>
-                <Radio.Group
-                  defaultValue="large"
-                  buttonStyle="solid"
-                  className={styles['activity-monitor']}
-                  onChange={onSortChange}
-                >
-                  <Radio.Button value="cpu_usage">CPU</Radio.Button>
-                  <Radio.Button value="memory_usage">内存</Radio.Button>
-                  <Radio.Button value="energy">能耗</Radio.Button>
-                  <Radio.Button value="disk_usage">磁盘</Radio.Button>
-                  <Radio.Button value="network">网络</Radio.Button>
-                </Radio.Group>
-              </article>
-              <Input
-                suffix={
-                  <i
-                    className="iconfont icon-search"
-                    style={{ fontSize: '1vw' }}
-                  />
-                }
-                placeholder="Search"
-                onChange={(e) => handleSearch(e.target.value)}
-                className={styles['search-input']}
-              />
-            </section>
+          <div className={styles['title']}>
+            <span>Activity Monitor</span>
+          </div>
+          <div className={styles['activity-filter']}>
+            <Radio.Group
+              defaultValue="large"
+              buttonStyle="solid"
+              className={styles['activity-monitor']}
+              onChange={onSortChange}
+            >
+              <Radio.Button value="cpu_usage">CPU</Radio.Button>
+              <Radio.Button value="memory_usage">内存</Radio.Button>
+              <Radio.Button value="energy">能耗</Radio.Button>
+              <Radio.Button value="disk_usage">磁盘</Radio.Button>
+              <Radio.Button value="network">网络</Radio.Button>
+            </Radio.Group>
+            <Input
+              suffix={
+                <i
+                  className="iconfont icon-search"
+                  style={{ fontSize: '1vw' }}
+                />
+              }
+              placeholder="Search"
+              onChange={(e) => handleSearch(e.target.value)}
+              className={styles['search-input']}
+            />
           </div>
           <Table
             bordered={false}
@@ -345,7 +349,7 @@ const Lessors = (props) => {
             dataSource={monitorList}
             pagination={false}
           ></Table>
-        </Card>
+        </div>
       </div>
     </div>
   );
