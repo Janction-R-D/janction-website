@@ -42,7 +42,7 @@ function ProfileModal({ styles, classname, setShowModal }) {
       }) => {
         const { initialState, setInitialState } = useModel('@@initialState');
 
-        const { isLessees } = initialState;
+        const { isLessees } = initialState || {};
         const { disconnect } = useDisconnect();
         const onIdentityChange = () => {
           storage.set({ name: 'isLessees', value: !isLessees });

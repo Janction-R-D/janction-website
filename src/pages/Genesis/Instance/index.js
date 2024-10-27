@@ -15,7 +15,7 @@ import { useModel } from 'umi';
 
 function Instance() {
   const { initialState } = useModel('@@initialState');
-  const { isLessees } = initialState;
+  const { isLessees } = initialState || {};
   const [view, setView] = useState('table');
   const [showOverView, setShowOverView] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);

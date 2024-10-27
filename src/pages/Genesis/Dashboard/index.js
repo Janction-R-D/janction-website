@@ -5,7 +5,7 @@ import Lessors from './Lessors';
 const Dashboard = (props) => {
   const { initialState } = useModel('@@initialState');
 
-  const { isLessees } = initialState;
+  const { isLessees } = initialState || {};
 
   if (isLessees) return <Lessees />;
   return <Lessors />;
