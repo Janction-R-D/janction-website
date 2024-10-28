@@ -4,7 +4,7 @@ import { Modal } from 'antd';
 import { Terminal } from '@xterm/xterm';
 
 const XtermComponent = (props) => {
-  const { visible, onCancel, socketData } = props;
+  const { visible, onCancel, socketData, clientRef } = props;
   const terminalRef = useRef(null); // 终端容器的引用
   const xterm = useRef(null); // 终端实例的引用
   const currentInput = useRef(''); // 用于存储当前输入的命令
@@ -50,29 +50,16 @@ const XtermComponent = (props) => {
     if (!socketData) return;
     if (!xterm.current) return;
     console.log('『socketData』', socketData);
-    xterm.current.write(JSON.stringify(socketData));
+    xterm.current.write(`\r\n${socketData.data}\r\n`);
+    xterm.current.write('$ ');
   }, [socketData]);
 
   // 处理输入的命令
   const handleCommand = (command) => {
-    switch (command.trim()) {
-      case 'help':
-        xterm.current.write(
-          '\r\nAvailable commands: help, clear, echo [text]\r\n',
-        );
-        break;
-      case 'clear':
-        xterm.current.clear();
-        break;
-      default:
-        if (command.startsWith('echo ')) {
-          xterm.current.write(`\r\n${command.slice(5)}\r\n`);
-        } else {
-          xterm.current.write(`\r\nCommand not found: ${command}\r\n`);
-        }
-        break;
-    }
-    xterm.current.write('$ ');
+    let commandStr = command.trim();
+    let msg = { operation: 'stdin', data: commandStr };
+    console.log('『clientRef.current』', clientRef.current);
+    clientRef.current.client.onsend(`${JSON.stringify(msg)}`);
   };
 
   return (

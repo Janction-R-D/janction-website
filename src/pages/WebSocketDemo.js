@@ -28,11 +28,6 @@ const websocketTest = (props) => {
       'ws://18.181.196.49:8080/v0/resource/shell?resource_id=2178f72b-9d53-4f9a-99bd-07f29a795cef',
       '',
       (data) => receiveMessage(data),
-      (c) => {
-        c.onsend({
-          'x-user-id': '6d5b03ae-6205-417d-8749-5ac1f40fac07',
-        });
-      },
     );
   };
 
@@ -59,6 +54,7 @@ const websocketTest = (props) => {
       {visible && (
         <XtermComponent
           visible={visible}
+          clientRef={clientRef}
           socketData={socketData}
           onCancel={() => {
             setVisible(false);
