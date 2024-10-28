@@ -1,13 +1,13 @@
 import { useEffect, useRef } from 'react';
 import WebSocketClient from '@/utils/websocket';
 
-const isDev = process.env.REACT_APP_ENV == 'dev';
+const isDev = process.env.NODE_ENV == 'development';
 const getProtocal = window.location.protocol;
 const wsProtocol = getProtocal.indexOf('s') === -1 ? 'ws://' : 'wss://';
 const socketUrl = () =>
   isDev
-    ? `${wsProtocol}18.181.196.49:8080/resource/shell`
-    : `${wsProtocol}${window.location.host}/resource/shell`;
+    ? `${wsProtocol}janction.fdkevin.cloud:8443/0/resource/shell`
+    : `${wsProtocol}${window.location.host}/v0/resource/shell`;
 
 const websocketTest = (props) => {
   const clientRef = useRef();
