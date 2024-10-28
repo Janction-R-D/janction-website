@@ -1,8 +1,6 @@
 /* eslint-disable no-console */
 import { isJSON } from './lang';
-import storage from './storage';
-const token = storage.get('token');
-const userId = '6d5b03ae-6205-417d-8749-5ac1f40fac07';
+const resource_id = '2178f72b-9d53-4f9a-99bd-07f29a795cef';
 const READY_STATE = {
   CONNECTING: 0,
   OPEN: 1,
@@ -13,7 +11,7 @@ const READY_STATE = {
 export default class WebSocketClient {
   constructor(url, path = '/', receive, openCallback) {
     this.url = `${url}${path}`;
-    this.client = new WebSocket(`${this.url}?userId=${userId}`, [userId]);
+    this.client = new WebSocket(url);
     this.receive = receive;
     this.connect();
     this.lockReconnect = false;

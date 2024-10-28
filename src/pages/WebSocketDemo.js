@@ -1,16 +1,13 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import WebSocketClient from '@/utils/websocket';
-
-const isDev = process.env.NODE_ENV == 'development';
-const getProtocal = window.location.protocol;
-const wsProtocol = getProtocal.indexOf('s') === -1 ? 'ws://' : 'wss://';
-const socketUrl = () =>
-  isDev
-    ? `${wsProtocol}janction.fdkevin.cloud:8443/0/resource/shell`
-    : `${wsProtocol}${window.location.host}/v0/resource/shell`;
+import { Button } from 'antd';
+import XtermComponent from './XtermDemo';
 
 const websocketTest = (props) => {
   const clientRef = useRef();
+  const terminalRef = useRef(null); // 终端容器的引用
+  const [visible, setVisible] = useState(false);
+  const [socketData, setSocketData] = useState();
 
   useEffect(() => {
     getSocketData();
@@ -28,7 +25,7 @@ const websocketTest = (props) => {
   // Connect to WebSocket
   const connectWebSocket = () => {
     clientRef.current = new WebSocketClient(
-      socketUrl(),
+      'ws://18.181.196.49:8080/v0/resource/shell?resource_id=2178f72b-9d53-4f9a-99bd-07f29a795cef',
       '',
       (data) => receiveMessage(data),
       (c) => {
@@ -41,7 +38,7 @@ const websocketTest = (props) => {
 
   // Processing socket data
   const receiveMessage = (socketData) => {
-    console.log('『socketData』', socketData);
+    setSocketData(socketData);
   };
 
   // Close WebSocket
@@ -51,7 +48,25 @@ const websocketTest = (props) => {
     client.current = null;
   };
 
-  return <div>WebSocket Demo</div>;
+  const onTerminal = () => {
+    // 创建一个 xterm 实例
+    setVisible(true);
+  };
+
+  return (
+    <div style={{ marginTop: '200px' }}>
+      <Button onClick={onTerminal}>terminal</Button>
+      {visible && (
+        <XtermComponent
+          visible={visible}
+          socketData={socketData}
+          onCancel={() => {
+            setVisible(false);
+          }}
+        />
+      )}
+    </div>
+  );
 };
 
 export default websocketTest;

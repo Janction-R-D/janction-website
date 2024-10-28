@@ -4,6 +4,7 @@ import { message } from 'antd';
 import { logout } from './utils/lang';
 import React from 'react';
 import RainbowKit from '@/components/RainbowKit';
+import '@xterm/xterm/css/xterm.css';
 
 /**
  * Request interceptor
