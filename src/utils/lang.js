@@ -46,3 +46,15 @@ export const renderBackgroudImg = (img) => {
     backgroundRepeat: 'no-repeat',
   };
 };
+
+// Determine whether it is a JSON string
+export const isJSON = (str) => {
+  if (typeof str == 'string') {
+    try {
+      JSON.parse(str);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+};
