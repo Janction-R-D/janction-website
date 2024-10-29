@@ -74,7 +74,7 @@
     .balance-wrapper {
       width: calc(~'68% - 10px');
       height: 412px;
-
+      min-width: 420px;
       .content {
         overflow: hidden;
       }
@@ -1143,5 +1143,52 @@
         height: min-content;
       }
     }
+  }
+}
+
+@media screen and (max-width: 670px) {
+  .dashboard-wrapper {
+    .dashboard-content {
+      flex-direction: column;
+      .balance-wrapper {
+        width: 100%;
+      }
+      .news-wrapper {
+        width: 100%;
+        height: 412px;
+      }
+      .recommend-wrapper {
+        width: 100%;
+        height: 458px;
+      }
+
+      .collect-wrapper {
+        width: 100%;
+        height: 458px;
+      }
+      .sales-wrapper {
+        width: 100%;
+        height: 332px;
+      }
+
+      .state-wrapper {
+        width: 100%;
+        height: 332px;
+      }
+      .sales-pipeline-wrapper {
+        width: 100%;
+        height: 319px;
+      }
+      .profit-wrapper {
+        width: 100%;
+        height: 319px;
+      }
+    }
+  }
+  .activity-filter {
+    flex-direction: column;
+    align-items: start !important;
+    justify-content: start;
+    gap: 8px;
   }
 }

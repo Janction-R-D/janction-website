@@ -73,7 +73,7 @@ function InstanceTable({ data }) {
       title: 'Status',
       key: 'status',
       dataIndex: 'status',
-      width: 75,
+      width: 70,
       render: (text) => (
         <>
           {text.toLowerCase() === 'running' ? (

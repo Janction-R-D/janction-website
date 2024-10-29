@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terminal</title>
+    <!-- Incluir la hoja de estilos de xterm -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@4.12.0/css/xterm.css" />
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #1e1e1e;
+        }
+        #terminal {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="terminal"></div>
+
+    <!-- Incluir la biblioteca xterm.js desde el CDN de jsdelivr -->
+    <script src="https://cdn.jsdelivr.net/npm/xterm@4.12.0/lib/xterm.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Verificar si Terminal está definida
+            if (typeof Terminal === 'undefined') {
+                console.error('Error: xterm.js no se ha cargado correctamente');
+                return;
+            }
+
+            // Obtener el resource_id de la URL
+            const resourceId = new URLSearchParams(window.location.search).get('resource_id');
+            
+            if (!resourceId) {
+                console.error('resource_id no proporcionado en la URL');
+                return;
+            }
+
+            // Crear una nueva instancia de Terminal
+            const terminal = new Terminal();
+
+            // Abrir la terminal en el div
+            terminal.open(document.getElementById('terminal'));
+           let currentInput = '';
+
+// 定义一个命令处理函数
+function handleCommand(command) {
+  switch (command) {
+    case 'help':
+      terminal.write('\r\nAvailable commands: help, clear, echo [text]\r\n');
+      break;
+    case 'clear':
+      terminal.clear();
+      break;
+    default:
+      if (command.startsWith('echo ')) {
+        terminal.write(`\r\n${command.slice(5)}\r\n`);
+      } else {
+        terminal.write(`\r\nCommand not found: ${command}\r\n`);
+      }
+      break;
+  }
+  // 提示符
+  terminal.write('\r\n$ ');
+}
+
+// 监听用户输入
+terminal.onData((data) => {
+  const code = data.charCodeAt(0);
+
+  // 处理回车 (Enter) 键
+  if (code === 13) { 
+    handleCommand(currentInput.trim());
+    currentInput = '';
+  }
+  // 处理退格 (Backspace) 键
+  else if (code === 127) {
+    if (currentInput.length > 0) {
+      currentInput = currentInput.slice(0, -1);
+      terminal.write('\b \b');
+    }
+  }
+  // 处理普通字符输入
+  else {
+    currentInput += data;
+    terminal.write(data);
+  }
+});
+
+// 初始提示符
+terminal.write('$ ');
+            // Crear una conexión WebSocket con el resource_id
+            const ws = new WebSocket(`ws://18.181.196.49:8080/v0/resource/shell?resource_id=${resourceId}`);
+
+            ws.onopen = () => {
+                console.log('WebSocket conectado');
+            };
+
+            ws.onmessage = (event) => {
+                terminal.write(event.data); // Escribir los datos recibidos en la terminal
+            };
+
+            ws.onclose = () => {
+                console.log('WebSocket desconectado');
+                terminal.write('\r\n*** Conexión cerrada ***\r\n');
+            };
+
+            ws.onerror = (error) => {
+                console.error('Error en WebSocket:', error);
+            };
+
+            // Manejar la entrada de la terminal
+             terminal.onKey((e) => {
+            if (ws.readyState === WebSocket.OPEN) {
+                const key = e.key === 'Enter' ? '\r' : e.key; // Enviar 'Enter' como retorno de carro
+                ws.send(JSON.stringify({
+                    type: 'command',
+                    data: key,
+                }));
+            } else {
+                console.error('WebSocket no está abierto');
+            }
+        });
+        });
+    </script>
+</body>
+</html>
