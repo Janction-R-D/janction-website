@@ -31,6 +31,7 @@ export default class WebSocketClient {
 
     this.client.onmessage = (message) => {
       const { data } = message;
+      console.log(this.receive);
       if (!data || !isJSON(data.toString())) return;
       this.receive && this.receive(JSON.parse(data));
     };

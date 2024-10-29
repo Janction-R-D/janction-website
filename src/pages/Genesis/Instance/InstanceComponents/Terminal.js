@@ -1,6 +1,7 @@
 // XtermComponent.js
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Modal } from 'antd';
+import WebSocketClient from '@/utils/websocket';
 import { Terminal } from '@xterm/xterm';
 
 const XtermComponent = (props) => {
@@ -20,7 +21,7 @@ const XtermComponent = (props) => {
     // 监听用户输入
     xterm.current.onData((data) => {
       const code = data.charCodeAt(0);
-
+      console.log(data);
       // 回车键（Enter）
       if (code === 13) {
         handleCommand(currentInput.current);
@@ -72,4 +73,61 @@ const XtermComponent = (props) => {
   );
 };
 
-export default XtermComponent;
+function Window({ visible, setVisible }) {
+  const clientRef = useRef(null);
+  const terminalRef = useRef(null); // 终端容器的引用
+  const [socketData, setSocketData] = useState(null);
+
+  useEffect(() => {
+    if (clientRef.current != null) return;
+    connectWebSocket();
+    return () => {
+      disconnectWebSocket();
+    };
+  }, [visible]);
+
+  // Connect to WebSocket
+  const connectWebSocket = () => {
+    if (clientRef.current) return;
+
+    clientRef.current = new WebSocketClient(
+      'ws://18.181.196.49:8080/v0/resource/shell?resource_id=2178f72b-9d53-4f9a-99bd-07f29a795cef',
+      '',
+      (data) => receiveMessage(data),
+      (error) => handleError(error), // Manejador de errores opcional
+    );
+  };
+
+  // Processing socket data
+  const receiveMessage = (data) => {
+    setSocketData(data);
+  };
+
+  // Handle WebSocket errors
+  const handleError = (error) => {
+    console.error('WebSocket Error:', error);
+  };
+
+  // Close WebSocket
+  const disconnectWebSocket = () => {
+    if (!clientRef.current) return;
+    clientRef.current.disconnect();
+    clientRef.current = null;
+  };
+  return (
+    <XtermComponent
+      visible={visible}
+      clientRef={clientRef}
+      socketData={socketData}
+      terminalRef={terminalRef}
+      onCancel={() => {
+        setVisible(false);
+        clientRef.current = null;
+        terminalRef.current = null;
+        socketData.current = null;
+        disconnectWebSocket();
+      }}
+    />
+  );
+}
+export default Window;
