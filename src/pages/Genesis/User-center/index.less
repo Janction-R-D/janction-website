@@ -72,6 +72,7 @@
 }
 
 .edit-info {
+  justify-content: center;
   display: flex;
   gap: 12px;
 }
@@ -211,7 +212,7 @@
 }
 
 .card-security-key {
-  width: 302px;
+  width: 300px;
   height: 44px;
   padding: 0 20px;
   display: flex;
@@ -226,8 +227,13 @@
   width: 230px;
   align-items: center;
   gap: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-
+.card-security-key > div > span {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
 .card-security-input {
   padding: 12px;
   background-color: #2f2f31;
@@ -271,7 +277,7 @@
   max-width: 350px;
   display: flex;
   align-items: center;
-  cursor: pointer;
+  justify-content: space-between;
 }
 
 .card-assets-select {

@@ -96,7 +96,7 @@ function ProfileModal({ styles, classname, setShowModal }) {
             <ul>
               <li>
                 <i className="iconfont icon-user"></i>
-                <a onClick={() => handleNavigate('/genesis/settings')}>
+                <a onClick={() => handleNavigate('/genesis/user-center')}>
                   Personal information
                 </a>
               </li>

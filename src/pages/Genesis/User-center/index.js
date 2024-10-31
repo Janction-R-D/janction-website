@@ -1,7 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Card, Input, Select } from 'antd';
 import styles from './index.less';
+import { fetchUserCenter } from '@/services/genesis/instance';
 export default function UserAccount() {
+  const [data, setData] = useState({});
+  const [error, setError] = useState(false);
+  const [addKey, setAddKey] = useState(null);
+  useEffect(() => {
+    fetchUserCenter()
+      .then((res) => {
+        setData(res);
+        console.log(res);
+      })
+      .catch((err) => setError(true))
+      .finally(() => {
+        setTimeout(() => {
+          setError(false);
+        }, 1500);
+      });
+  }, []);
+  const handleDelete = (key) => {
+    //Delet a privateKey
+  };
+  const handleAdd = (key) => {};
   const options = [
     {
       value: '1',
@@ -45,11 +66,11 @@ export default function UserAccount() {
       <article className={styles['user-info']}>
         <h2>Naila</h2>
         <div>
-          <p>ID: 26378192</p>
-          <p>Registration date: 2019-10-01</p>
+          <p>ID: {data.id}</p>
+          <p>Registration date: {data.registered_at?.split('T')[0]}</p>
           <p>ID: 26378192</p>
           <div className={styles['edit-info']}>
-            <p>E-mail: 235365498@gmail.com </p>
+            <p>E-mail: {data.email} </p>
             <span>Edit</span>
           </div>
         </div>
@@ -68,45 +89,49 @@ export default function UserAccount() {
           <ul>
             <ol>
               <li>
-                <p>Account type:</p> <span>Enterprise account</span>
+                <p>Account type:</p>{' '}
+                <span>{data.real_name_auth?.account_type}</span>
               </li>
               <li>
                 <p>Legal person document type:</p>
-                <span> Naila Wu</span>
+                <span>{data.real_name_auth?.corporate_name}</span>
               </li>
               <li>
                 <p>The name of firm :</p>
-                <span>xxxxxx</span>
+                <span>{data.real_name_auth?.the_name_of_firm}</span>
               </li>
             </ol>
             <ol>
               <li>
                 <p>Authentication status:</p>
                 <span className={styles['text-blue-certified']}>
-                  <p>Certified</p>
+                  <p>{data.real_name_auth?.authentication_status}</p>
                   <i className="iconfont icon-certified"></i>
                 </span>
               </li>
               <li>
                 <p>Legal person document type:</p>
-                <span> ID card</span>
+                <span>{data.real_name_auth?.legal_person_document_type}</span>
               </li>
               <li>
-                <p>TEnterprise type: </p>
-                <span>Business license</span>
+                <p>Enterprise type: </p>
+                <span>{data.real_name_auth?.enterprise_type}</span>
               </li>
             </ol>
             <ol>
               <li>
-                <p>Authentication time: </p> <span>2020-10-10</span>
+                <p>Authentication time: </p>{' '}
+                <span>
+                  {data.real_name_auth?.authentication_time.split('T')[0]}
+                </span>
               </li>
               <li>
                 <p>Authentication email:</p>
-                <span>Naila@gmail.com</span>
+                <span>{data.real_name_auth?.authentication_email}</span>
               </li>
               <li>
                 <p>Organization code: </p>
-                <span>192381093819</span>
+                <span>{data.real_name_auth?.organization_code}</span>
               </li>
             </ol>
           </ul>
@@ -120,37 +145,38 @@ export default function UserAccount() {
           <span>My private key</span>
           <div className={styles['card-security-items']}>
             <div className={styles['add-btn']}>
-              <i className="iconfont icon-add"></i>
-              <span>Please enter name</span>
+              <Input
+                bordered={false}
+                placeholder="Please enter name"
+                prefix={
+                  <i
+                    className="iconfont icon-add"
+                    onClick={() => handleAdd(addKey)}
+                  ></i>
+                }
+                onChange={() => setAddKey(event.target.value)}
+                value={addKey}
+              />
+              {/* <i className="iconfont icon-add" onClick={() => handleAdd()}></i>
+              <span>Please enter name</span> */}
             </div>
             <ul className={styles['card-security-keys']}>
-              <div className={styles['card-security-key']}>
-                <div>
-                  <p>Private key 1</p>
-                  <span>1256998854785</span>
-                </div>
-                <span className={styles['icon-red']}>
-                  <i className="iconfont icon-delete "></i>
-                </span>
-              </div>
-              <div className={styles['card-security-key']}>
-                <div>
-                  <p>Private key 2</p>
-                  <span>1256998854785</span>
-                </div>
-                <span className={styles['icon-red']}>
-                  <i className="iconfont icon-delete "></i>
-                </span>
-              </div>
-              <div className={styles['card-security-key']}>
-                <div>
-                  <p>Private key 2</p>
-                  <span>1256998854785</span>
-                </div>
-                <span className={styles['icon-red']}>
-                  <i className="iconfont icon-delete "></i>
-                </span>
-              </div>
+              {data.securities?.map((item) => {
+                return (
+                  <div className={styles['card-security-key']} key={item.id}>
+                    <div>
+                      <p>{item.name}</p>
+                      <span>{item.private_key}</span>
+                    </div>
+                    <span
+                      className={styles['icon-red']}
+                      onClick={() => handleDelete(item.private_key)}
+                    >
+                      <i className="iconfont icon-delete "></i>
+                    </span>
+                  </div>
+                );
+              })}
             </ul>
           </div>
         </section>
@@ -163,37 +189,23 @@ export default function UserAccount() {
         <section className={styles['card-assets-items']}>
           <div>
             <p>Quantity pledged (ETH)</p>
-            <Input
-              placeholder="Please enter the amount pledged"
-              className={styles['card-assets-input']}
-              suffix="ETH"
-            />
+            <section className={styles['card-assets-input']}>
+              <p> {data.address?.amount}</p>
+              <span>ETH</span>
+            </section>
           </div>
           <div>
             <p>Quantity pledged (ETH)</p>
-            <Select
-              showSearch
-              bordered={false}
-              className={styles['card-assets-select']}
-              placeholder="Please enter the amount pledged"
-              optionFilterProp="label"
-              filterSort={(optionA, optionB) =>
-                (optionA?.label ?? '')
-                  .toLowerCase()
-                  .localeCompare((optionB?.label ?? '').toLowerCase())
-              }
-              defaultValue={options[0].label}
-              options={options}
-            />
+            <section className={styles['card-assets-input']}>
+              {options[0].label}
+            </section>
           </div>
           <div>
             <p>Anticipated income</p>
-            <Input
-              suffix="ETH"
-              value={125}
-              placeholder="Please enter the amount pledged"
-              className={styles['card-assets-input']}
-            />
+            <section className={styles['card-assets-input']}>
+              <p>{data.address?.anticipated_income}</p>
+              <span>ETH</span>
+            </section>
           </div>
         </section>
       </Card>

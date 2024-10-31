@@ -129,7 +129,18 @@ export const fetchResouceShell = async (params) => {
     return null;
   }
 };
-
+//user center data
+export const fetchUserCenter = async () => {
+  try {
+    const response = await request(`${baseUrl}/user/center`, {
+      loginAuth: true,
+    });
+    return response;
+  } catch (error) {
+    console.log('『error』', error);
+    return null;
+  }
+};
 // List rent records
 export const fetchMarketList = async () => {
   try {
