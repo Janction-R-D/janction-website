@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card } from 'antd';
 import styles from './operation.less';
-import Window from './Terminal';
+import WindowTerm from './WindowTerm';
 
 export default function OperationModal({ record }) {
   const [showModal, setShowModal] = useState(true);
@@ -27,7 +27,13 @@ export default function OperationModal({ record }) {
           <span>Renewal</span>
         </div>
       </Card>
-      {visible && <Window visible={visible} setVisible={setVisible} />}
+      {visible && (
+        <WindowTerm
+          visible={visible}
+          setVisible={setVisible}
+          resource_id={record.activity?.resource_id}
+        />
+      )}
     </div>
   );
 }
