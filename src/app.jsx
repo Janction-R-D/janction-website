@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import storage from '@/utils/storage';
 import { message } from 'antd';
-import { logout } from './utils/lang';
+import { empty, logout } from './utils/lang';
 import React from 'react';
 import RainbowKit from '@/components/RainbowKit';
 import '@xterm/xterm/css/xterm.css';
@@ -54,7 +54,7 @@ export async function getInitialState() {
   const isLessees = storage.get('isLessees');
   const userAccount = storage.get('userAccount');
   return {
-    isLessees,
+    isLessees: empty(isLessees) ? true : false,
     userAccount,
   };
 }

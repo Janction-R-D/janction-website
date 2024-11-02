@@ -1,6 +1,14 @@
 import storage from '@/utils/storage';
 import { message } from 'antd';
 import { history } from 'umi';
+import is from './is';
+
+export const isEmpty = (value) => {
+  if (empty(value)) return true;
+  if (is.isArray(value)) return value.length == 0;
+  if (is.isObject(value)) return Object.keys(value).length == 0;
+  return false;
+};
 
 export const empty = (value) => {
   return value === undefined || value === null || value === '';

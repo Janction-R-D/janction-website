@@ -1,19 +1,10 @@
 import JanctionTable from '@/components/JanctionTable';
-import { Input, Modal } from 'antd';
-import { Tag, Button, Space, Col, Row, Card } from 'antd';
-import {
-  CheckCircleOutlined,
-  MinusCircleOutlined,
-  QuestionCircleOutlined,
-} from '@ant-design/icons';
-import { history } from 'umi';
-import styles from './index.less';
-import data1 from './Instance.json';
-import HeaderCard from './InstanceComponents/HeaderCard';
+import { Space } from 'antd';
 import { useState } from 'react';
-import OperationModal from './InstanceComponents/OperationModal';
+import { fetchNodeOperation } from '@/services/genesis/instance';
 import { convertMBtoGB } from '../Dashboard/Lessors';
-import { fetchNodeOperation } from '../../../services/genesis/instance';
+import styles from './index.less';
+import OperationModal from './InstanceComponents/OperationModal';
 
 function InstanceTable({ data }) {
   const [showOverView, setShowOverView] = useState(true);
@@ -194,6 +185,7 @@ function InstanceTable({ data }) {
         className={styles['table']}
         columns={columns}
         dataSource={mappedOrders}
+        emptyDescription="目前无实例，请添加实例"
         pagination={{
           pageSize: 5,
           position: ['bottomCenter'],
