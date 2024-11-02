@@ -1,0 +1,58 @@
+.card {
+  background-color: #242426;
+  border-radius: 22px;
+  margin-bottom: 22px;
+  padding: 15px;
+}
+.cloud-resources {
+  display: flex;
+
+  align-items: center;
+  gap: 12px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 15px;
+}
+.card h2 {
+  flex-grow: 1;
+  font-size: 1rem;
+  margin-bottom: 18px;
+  color: #fff;
+  font-weight: 600;
+}
+.card ul {
+  display: flex;
+  justify-content: start;
+}
+.card ul > li {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 4px;
+  flex-grow: 1;
+}
+.card ul > li > span {
+  color: #ffffff99;
+  font-size: 0.8rem;
+}
+.card ul > li > p {
+  font-size: 2.2rem;
+}
+@media screen and (max-width: 420px) {
+  .card ul {
+    flex-direction: column;
+  }
+}
+.red {
+  color: red;
+}
+.yellow {
+  color: yellow;
+}
+.blue {
+  color: #40b3f4;
+  cursor: pointer;
+}
