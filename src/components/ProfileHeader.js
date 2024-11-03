@@ -111,7 +111,9 @@ function ProfileModal({ styles, classname, setShowModal }) {
               </li>
               <li>
                 <i className="iconfont icon-income"></i>
-                <a>Income management</a>
+                <a onClick={() => handleNavigate('/genesis/income')}>
+                  Income management
+                </a>
               </li>
             </ul>
             <Button className={styles['log-out']} onClick={handleLogOut}>

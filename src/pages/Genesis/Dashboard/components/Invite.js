@@ -1,11 +1,45 @@
-import { GiftOutlined, MailOutlined } from '@ant-design/icons';
-import styles from './index.less';
-import { Button, Input, Modal } from 'antd';
-import { useState } from 'react';
 import gift from '@/assets/images/genesis/gift.png';
+import { fetchInviteLink, fetchInviteSend } from '@/services/genesis';
+import { copy } from '@/utils/lang';
+import { GiftOutlined } from '@ant-design/icons';
+import { Input, message, Modal } from 'antd';
+import { useEffect, useState } from 'react';
+import styles from './index.less';
+import reg from '@/utils/reg';
 
 const Invite = (props) => {
+  const [inviteLink, setInviteLink] = useState();
+  const [email, setEmail] = useState();
   const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    getLink();
+  }, []);
+
+  const getLink = async () => {
+    try {
+      const res = await fetchInviteLink();
+      setInviteLink(res);
+    } catch (err) {
+      console.log('『err』', err);
+    }
+  };
+
+  const onInvite = async () => {
+    try {
+      const flag = reg.email.test(email);
+      if (!flag) {
+        message.warning('Please enter the correct email address!');
+        return;
+      }
+      await fetchInviteSend({ email });
+      message.success('Email sent successfully!');
+      setVisible(false);
+      setEmail();
+    } catch (error) {
+      console.log('『error』', error);
+    }
+  };
 
   return (
     <div className={styles['invite-wrapper']}>
@@ -37,19 +71,26 @@ const Invite = (props) => {
             </p>
             <div className={styles['email']}>
               <Input
+                value={email}
                 prefix={<i className="iconfont icon-email" />}
                 placeholder="Enter email addresses"
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <p className={styles['tip']}>
               *Only certain users can accept your invitation.
             </p>
             <a href="">View Terms and Conditions.</a>
-            <div className={styles['invite']}>
+            <div className={styles['invite']} onClick={onInvite}>
               <span>invite</span>
             </div>
             <div className={styles['footer']}>
-              <div className={[styles['item'], styles['copy']].join(' ')}>
+              <div
+                className={[styles['item'], styles['copy']].join(' ')}
+                onClick={() => {
+                  copy(inviteLink);
+                }}
+              >
                 <div className={styles['icon']}>
                   <i className="iconfont icon-copy"></i>
                 </div>

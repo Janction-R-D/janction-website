@@ -1,40 +1,44 @@
-import JanctionTable from '@/components/JanctionTable';
-import { Input, Pagination, Card, Row, Col, Space, Button } from 'antd';
-import { useState, useEffect } from 'react';
-import { history } from 'umi';
+import { fetchNodeList } from '@/services/genesis/instance';
+import { isEmpty } from '@/utils/lang';
+import { Button, Card, Col, Input, Pagination, Row, Space } from 'antd';
+import { useEffect, useState } from 'react';
+import { history, useModel } from 'umi';
+import JactionEmpty from '../../../components/JactionEmpty';
 import styles from './index.less';
-import data from './Instance.json';
-import data2 from './InstanceComponents/instance2.json';
 import HeaderCard from './InstanceComponents/HeaderCard';
-import OperationModal from './InstanceComponents/OperationModal';
 import InstanceCard from './InstanceComponents/InstanceCard';
 import InstanceTable from './instanceTable';
-import { fetchNodeList } from '@/services/genesis';
-import useNodes from './Hooks/useNodes';
-import { useModel } from 'umi';
 
+const initQuery = { current: 1, size: 10 };
 function Instance() {
   const { initialState } = useModel('@@initialState');
   const { isLessees } = initialState || {};
   const [view, setView] = useState('table');
   const [showOverView, setShowOverView] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(5);
-  const { nodes } = useNodes();
+  const [query, setQuery] = useState(initQuery);
+  const [summary, setSummary] = useState();
+  const [resource, setResource] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
 
-  const { summary, resource } = nodes;
-  const [filteredData, setFilteredData] = useState(resource);
+  useEffect(() => {
+    fetchNodeList()
+      .then((data) => {
+        setSummary(data?.summary || null);
+        setResource(data?.resource || []);
+        setFilteredData(data?.resource || []);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   const handleModal = () => {
     setShowOverView(!showOverView);
   };
 
   const handleSearch = (value) => {
-    const filtered = resource?.filter(
-      (instance) =>
-        instance.name.toLowerCase().includes(value.toLowerCase()) ||
-        instance.PublicIp.includes(value),
+    const filtered = resource?.filter((instance) =>
+      instance.name.toLowerCase().includes(value.toLowerCase()),
     );
+    setQuery({ ...query, current: 1 });
     setFilteredData(filtered);
   };
   const handleSetView = () => {
@@ -44,14 +48,15 @@ function Instance() {
     }
     setView('table');
   };
-  console.log(filteredData);
-  //Pagination Control
-  const indexOfLastInstance = currentPage * itemsPerPage;
-  const indexOfFirstInstance = indexOfLastInstance - itemsPerPage;
-  const currentInstances = resource?.slice(
-    indexOfFirstInstance,
-    indexOfLastInstance,
-  );
+
+  const onPageChange = (page) => {
+    setQuery({ ...query, current: page });
+    //Pagination Control
+    const endIndex = page * query.size;
+    const startINdex = indexOfLastInstance - query.size;
+    const filterData = resource?.slice(startINdex, endIndex);
+    setFilteredData(filterData);
+  };
 
   return (
     <>
@@ -106,6 +111,7 @@ function Instance() {
               }
               placeholder="You can fuzzy search for cloud servers by ID, name, and IP. Multiple keywords are separated by commas ()"
               onChange={(e) => handleSearch(e.target.value)}
+              onPressEnter={(e) => handleSearch(e.target.value)}
               className={styles['search-input']}
             />
             <div className={styles['buttons']}>
@@ -121,21 +127,28 @@ function Instance() {
         </Row>
         {view === 'graph' && (
           <section className={styles['instances']}>
-            {currentInstances?.map((instance, index) => (
-              <InstanceCard key={index} instance={instance} />
-            ))}
-            <div className={styles['pagination-wrapper']}>
-              <Pagination
-                current={currentPage}
-                pageSize={itemsPerPage}
-                total={resource?.length}
-                showLessItems
-                onChange={(page) => setCurrentPage(page)}
-              />
-            </div>
+            {!isEmpty(filteredData) && (
+              <>
+                {filteredData?.map((instance, index) => (
+                  <InstanceCard key={index} instance={instance} />
+                ))}
+                <div className={styles['pagination-wrapper']}>
+                  <Pagination
+                    current={query?.current}
+                    pageSize={query?.size}
+                    total={resource?.length}
+                    showLessItems
+                    onChange={onPageChange}
+                  />
+                </div>
+              </>
+            )}
+            {isEmpty(filteredData) && (
+              <JactionEmpty description="目前无实例，请添加实例" />
+            )}
           </section>
         )}
-        {view === 'table' && <InstanceTable data={resource} />}
+        {view === 'table' && <InstanceTable data={filteredData} />}
       </Card>
     </>
   );

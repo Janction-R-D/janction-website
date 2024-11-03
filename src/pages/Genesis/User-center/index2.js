@@ -62,7 +62,32 @@ export default function UserAccount() {
       })
       .catch((err) => console.log(err));
   };
-
+  const options = [
+    {
+      value: '1',
+      label: '1 Month',
+    },
+    {
+      value: '2',
+      label: '2 Months',
+    },
+    {
+      value: '3',
+      label: '3 Month',
+    },
+    {
+      value: '4',
+      label: '4 Months',
+    },
+    {
+      value: '5',
+      label: '5 Months',
+    },
+    {
+      value: '6',
+      label: '6 Months',
+    },
+  ];
   return (
     <main>
       <h1 className={styles['title']}>Income management</h1>
