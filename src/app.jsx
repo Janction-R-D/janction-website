@@ -42,7 +42,7 @@ const errorHandler = (error) => {
   if (response?.status == 504) {
     message.error(errorText);
   }
-  return response;
+  throw new Error(response?.statusText);
 };
 
 export const request = {
