@@ -165,7 +165,23 @@ export const deleteKeysUserCenter = async (data) => {
     return null;
   }
 };
-
+//  Mount fetching
+export const postFecthMount = async (data) => {
+  try {
+    const response = await request(`${baseUrl}/market/rent`, {
+      method: 'POST',
+      loginAuth: true,
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    return response;
+  } catch (error) {
+    console.log('『error』', error);
+    return null;
+  }
+};
 // Function to post data to user center
 export const postKeyUserData = async (data) => {
   try {
