@@ -308,6 +308,47 @@ input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+.device-box {
+  display: flex;
+  gap: 16px;
+}
+.currency_box {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 32px;
+  margin-bottom: 12px;
+}
+.currency_box > div {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.currency_text {
+  max-width: 120px;
+}
+.search-input {
+  border: none;
+  flex-grow: 1;
+  outline-style: none;
+  width: 100%;
+  max-width: 380px;
+  background: #3c3a3d;
+  border-radius: 2.604vw;
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 0.833vw;
+  line-height: 1.25vw;
+  padding: 8px 12px;
+  padding-left: 0.833vw;
+
+  :global {
+    .ant-input-prefix {
+      margin-right: 0.488vw;
+    }
+  }
+}
 .band-radio-wrapper {
   display: flex;
   gap: 12px;
@@ -447,11 +488,19 @@ input[type='number']::-webkit-outer-spin-button {
 .check-side {
   background-color: #1c1c1d;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
   padding: 24px;
   border-radius: 18px;
   margin-top: 18px;
+}
+.checked-box {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+  flex: 1;
 }
 .select {
   padding: 6px 12px;

@@ -5,6 +5,8 @@ import { Button, Card, Input, Select, Checkbox, Radio } from 'antd';
 import MountEchart from './components/Graps';
 
 export default function Mount() {
+  const [searchId, setSearchId] = useState('');
+  const [walletAddress, setWalletAddress] = useState('');
   const [minDuration, setMinDuration] = useState(1);
   const [maxduration, setMaxDuration] = useState(1);
   const [period, setPeriod] = useState(1);
@@ -22,6 +24,7 @@ export default function Mount() {
   const onPeriodValueChange = (value) => {
     setPeriod(value);
   };
+  const handleSearch = () => {};
   const options = [
     {
       value: '1',
@@ -48,6 +51,7 @@ export default function Mount() {
       label: '6 Months',
     },
   ];
+  const options_payment = [{ name: 'USDC', value: 'USDC' }];
   return (
     <main className={styles['main']}>
       <h1 className={styles['title']}>Device Rental Configuration</h1>
@@ -57,9 +61,21 @@ export default function Mount() {
         </Button>
       </div>
       <Card className={styles['card']}>
-        <Button className={styles['btn-orange']} type="primary">
-          Auto-Recognition
-        </Button>
+        <div className={styles['device-box']}>
+          <Input
+            suffix={
+              <i className="iconfont icon-search" style={{ fontSize: '1vw' }} />
+            }
+            placeholder="Please enter the device identification number"
+            onChange={(e) => setSearchId(e.target.value)}
+            onPressEnter={handleSearch}
+            className={styles['search-input']}
+          />
+          <Button className={styles['btn-orange']} type="primary">
+            Auto-Recognition
+          </Button>
+        </div>
+
         <section className={styles['card-header']}>
           <h3>Configurable Parameters</h3>
         </section>
@@ -209,7 +225,7 @@ export default function Mount() {
                   width: '190px',
                 }}
                 className={styles['select']}
-                defaultActiveFirstOption={options[0].value}
+                defaultValue={options[0].value}
               />
             </div>
           </div>
@@ -229,7 +245,7 @@ export default function Mount() {
                   width: '190px',
                 }}
                 className={styles['select']}
-                defaultActiveFirstOption={options[0].value}
+                defaultOpen={options[0].value}
               />
             </div>
           </div>
@@ -247,12 +263,42 @@ export default function Mount() {
           </div>
         </div>
         <section className={styles['check-side']}>
-          {' '}
-          <Checkbox>
-            I have read and agreed to the{' '}
-            <span className={styles['blue']}>relevant service terms</span>.
-          </Checkbox>
-          <Button className={styles['btn-orange']}>Confirm</Button>
+          <section className={styles['currency_box']}>
+            <div>
+              <p className={styles['currency_text']}>
+                cryptocurrencies for receiving payments
+              </p>
+              <label>
+                <Select
+                  bordered={false}
+                  options={options_payment}
+                  name="crypto_currencuy"
+                  style={{
+                    width: '190px',
+                  }}
+                  className={styles['select']}
+                  defaultValue={options_payment[0].value}
+                />
+              </label>
+            </div>
+            <div>
+              <p>payee's wallet address</p>
+            </div>
+            <Input
+              className={styles['search-input']}
+              placeholder="Please enter  your wallet adress"
+              value={walletAddress}
+              onChange={(e) => setWalletAddress(e.target.value)}
+              name="wallet_address"
+            />
+          </section>
+          <div className={styles['checked-box']}>
+            <Checkbox>
+              I have read and agreed to the{' '}
+              <span className={styles['blue']}>relevant service terms</span>.
+            </Checkbox>
+            <Button className={styles['btn-orange']}>Confirm</Button>
+          </div>
         </section>
       </Card>
     </main>
