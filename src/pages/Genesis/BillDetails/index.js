@@ -2,61 +2,87 @@ import JanctionRangePicker from '@/components/JanctionRangePicker';
 import JanctionTable from '@/components/JanctionTable';
 import SearchInput from '@/components/SeachInput';
 import { Col, Drawer, List, Row, Space } from 'antd';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import styles from './BillDetails.less';
 import { fetchBillingList } from '@/services/genesis/billings';
+import { useModel } from 'umi';
+import numeral from 'numeral';
 
 function BillDetails() {
+  const { initialState } = useModel('@@initialState');
+  const { isLessees = true } = initialState || {};
+
   const [open, setOpen] = useState(false);
   const [selectedBill, setSelectedBill] = useState({});
   const [list, setList] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
 
   useEffect(() => {
     getList();
-  }, []);
+  }, [isLessees]);
 
   const getList = async () => {
     try {
-      const res = await fetchBillingList();
+      const res = await fetchBillingList({
+        role: isLessees ? 'tenant' : 'lessor',
+      });
       setList(res || []);
+      setFilteredData(res || []);
     } catch (error) {
       console.log('『error』', error);
     }
   };
 
+  const total = useMemo(() => {
+    let cash = 0;
+    let share = 0;
+    let gift = 0;
+    let coupon = 0;
+    filteredData.map((item) => {
+      cash += item.cash_payment || 0;
+      share += item.share_bonus || 0;
+      gift += item.gift_money || 0;
+      coupon += item.coupon || 0;
+    });
+    return { sum: cash + share + gift + coupon, cash, share, gift, coupon };
+  }, [filteredData]);
+
+  const handleSearch = (value) => {
+    const filtered = list?.filter((instance) =>
+      instance.instance_id.toLowerCase().includes(value.toLowerCase()),
+    );
+    setFilteredData(filtered);
+  };
+
   const columns = [
     {
       title: 'Instance ID / Name',
-      dataIndex: 'name',
-      key: 'name',
-      render: (text) => <a>{text}</a>,
+      dataIndex: 'instance_id',
     },
     {
       title: 'Specification',
-      dataIndex: 'age',
-      key: 'age',
+      dataIndex: 'specification',
     },
     {
       title: 'Status',
-      dataIndex: 'address',
-      key: 'addre1ss',
+      dataIndex: 'status',
     },
     {
       title: 'Local disk',
-      dataIndex: 'address',
-      key: 'address',
+      dataIndex: 'local_disk',
     },
     {
       title: 'Health Status',
-      key: 'act2ion',
+      dataIndex: 'health_status',
     },
     {
       title: 'Payment method',
-      key: 'Payment',
+      dataIndex: 'payment_method',
     },
     {
       title: <div className="operation">Operation</div>,
-      key: 'operation',
+      dataIndex: 'operation',
+      align: 'center',
       render: (_, record) => (
         <Space size="middle">
           <a onClick={() => showDrawer(record)}>Billing details</a>
@@ -64,26 +90,7 @@ function BillDetails() {
       ),
     },
   ];
-  const data = [
-    {
-      key: '1',
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park',
-    },
-    {
-      key: '2',
-      name: 'Jim Green',
-      age: 42,
-      address: 'London No. 1 Lake Park',
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sydney No. 1 Lake Park',
-    },
-  ];
+
   const onOk = (value) => {
     console.log('onOk: ', value);
   };
@@ -99,26 +106,29 @@ function BillDetails() {
   };
 
   const renderTotal = () => {
-    const cash = 180000001;
-    const share = 180000001;
-    const gift = 180000001;
-    const coupon = 180000001;
     const unit = '¥';
-    const total = cash + share + gift + coupon;
     return (
       <div className={styles['total-wrapper']}>
         <span>Total cost </span>
         <span
           className={[styles['value'], styles['total-value']].join(' ')}
-        >{`${unit} ${total}`}</span>
+        >{`${unit} ${numeral(total?.sum).format('0.00')}`}</span>
         <span>{` = Cash payment `}</span>
-        <span className={styles['value']}>{`${unit} ${cash}`}</span>
+        <span className={styles['value']}>{`${unit} ${numeral(
+          total?.cash,
+        ).format('0.00')}`}</span>
         <span>{` + share bonus `}</span>
-        <span className={styles['value']}>{`${unit} ${share}`}</span>
+        <span className={styles['value']}>{`${unit} ${numeral(
+          total?.share,
+        ).format('0.00')}`}</span>
         <span>{` + gift money `}</span>
-        <span className={styles['value']}>{`${unit} ${gift}`}</span>
+        <span className={styles['value']}>{`${unit} ${numeral(
+          total?.gift,
+        ).format('0.00')}`}</span>
         <span>{` + Coupon `}</span>
-        <span className={styles['value']}>{`${unit} ${coupon}`}</span>
+        <span className={styles['value']}>{`${unit} ${numeral(
+          total?.coupon,
+        ).format('0.00')}`}</span>
       </div>
     );
   };
@@ -126,9 +136,9 @@ function BillDetails() {
   return (
     <>
       <div className={styles['title']}>Billings</div>
-      <Row justify="space-between" align="middle">
+      <Row justify="end" align="middle">
         <Col>
-          <Space>
+          {/* <Space>
             <span className={styles['time-period']}>Time period</span>
             <JanctionRangePicker
               showTime={{ format: 'HH:mm' }}
@@ -139,10 +149,10 @@ function BillDetails() {
               }}
               onOk={onOk}
             />
-          </Space>
+          </Space> */}
         </Col>
         <Col>
-          <SearchInput />
+          <SearchInput onChange={(e) => handleSearch(e.target.value)} />
         </Col>
       </Row>
       <div className={styles['table-wrapper']}>
@@ -150,7 +160,7 @@ function BillDetails() {
         <JanctionTable
           className={styles['billings-table']}
           columns={columns}
-          dataSource={list}
+          dataSource={filteredData}
           // pagination={{
           //   pageSize: 5,
           //   position: ['bottomCenter'],
@@ -167,91 +177,67 @@ function BillDetails() {
           className={styles['drawer-list']}
           header={<div>Instance</div>}
           bordered
-          dataSource={list}
+          dataSource={filteredData}
           renderItem={(item) => (
             <>
               <List.Item>
                 <Row justify="space-between" align="middle">
-                  <Col>Status</Col>
-                  <Col>{item.age}</Col>
+                  <Col>Instance ID / Name</Col>
+                  <Col>{item.instance_id}</Col>
+                </Row>
+              </List.Item>
+              <List.Item>
+                <Row justify="space-between" align="middle">
+                  <Col>specification</Col>
+                  <Col>{item.specification}</Col>
                 </Row>
               </List.Item>
               <List.Item>
                 <Row justify="space-between" align="middle">
                   <Col>Status</Col>
-                  <Col>{item.age}</Col>
+                  <Col>{item.status}</Col>
                 </Row>
               </List.Item>
               <List.Item>
                 <Row justify="space-between" align="middle">
-                  <Col>Status</Col>
-                  <Col>{item.age}</Col>
+                  <Col>Local disk</Col>
+                  <Col>{item.local_disk}</Col>
                 </Row>
               </List.Item>
               <List.Item>
                 <Row justify="space-between" align="middle">
-                  <Col>Status</Col>
-                  <Col>{item.age}</Col>
+                  <Col>Health Status</Col>
+                  <Col>{item.health_status}</Col>
                 </Row>
               </List.Item>
               <List.Item>
                 <Row justify="space-between" align="middle">
-                  <Col>Status</Col>
-                  <Col>{item.age}</Col>
+                  <Col>Payment method</Col>
+                  <Col>{item.payment_method}</Col>
                 </Row>
               </List.Item>
               <List.Item>
                 <Row justify="space-between" align="middle">
-                  <Col>Status</Col>
-                  <Col>{item.age}</Col>
+                  <Col>Cash payment</Col>
+                  <Col>{item.cash_payment}</Col>
                 </Row>
               </List.Item>
               <List.Item>
                 <Row justify="space-between" align="middle">
-                  <Col>Status</Col>
-                  <Col>{item.age}</Col>
+                  <Col>Share bonus</Col>
+                  <Col>{item.share_bonus}</Col>
                 </Row>
               </List.Item>
               <List.Item>
                 <Row justify="space-between" align="middle">
-                  <Col>Status</Col>
-                  <Col>{item.age}</Col>
+                  <Col>Gift money</Col>
+                  <Col>{item.gift_money}</Col>
                 </Row>
               </List.Item>
               <List.Item>
                 <Row justify="space-between" align="middle">
-                  <Col>Status</Col>
-                  <Col>{item.age}</Col>
-                </Row>
-              </List.Item>
-              <List.Item>
-                <Row justify="space-between" align="middle">
-                  <Col>Status</Col>
-                  <Col>{item.age}</Col>
-                </Row>
-              </List.Item>
-              <List.Item>
-                <Row justify="space-between" align="middle">
-                  <Col>Status</Col>
-                  <Col>{item.age}</Col>
-                </Row>
-              </List.Item>
-              <List.Item>
-                <Row justify="space-between" align="middle">
-                  <Col>Status</Col>
-                  <Col>{item.age}</Col>
-                </Row>
-              </List.Item>
-              <List.Item>
-                <Row justify="space-between" align="middle">
-                  <Col>Status</Col>
-                  <Col>{item.age}</Col>
-                </Row>
-              </List.Item>
-              <List.Item>
-                <Row justify="space-between" align="middle">
-                  <Col>Status</Col>
-                  <Col>{item.age}</Col>
+                  <Col>Coupon</Col>
+                  <Col>{item.coupon}</Col>
                 </Row>
               </List.Item>
             </>
