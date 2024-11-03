@@ -1,61 +1,68 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Card, Input, Select } from 'antd';
 import styles from './index.less';
-import BindEmail from './components/BindEmail';
-import { fetchUserInfo } from '@/services/genesis';
-
+import { fetchUserCenter } from '@/services/genesis/instance';
+import {
+  deleteKeysUserCenter,
+  fetchUserKeys,
+  postKeyUserData,
+} from '../../../services/genesis/instance';
 export default function UserAccount() {
-  const [addKey, setAddKey] = useState(null);
-  const [userInfo, setUserInfo] = useState();
-  const [visible, setVisible] = useState(false);
-
+  const [data, setData] = useState({});
+  const [error, setError] = useState(false);
+  const [key, setKey] = useState(null);
+  const [keys, setKeys] = useState([
+    { name: 'test2', id: 'd950a962-9768-489e-80dc-751c1cb9bdcf' },
+  ]);
+  const getUserCenterData = () => {
+    fetchUserCenter()
+      .then((res) => {
+        setData(res);
+        console.log(res);
+      })
+      .catch((err) => setError(true))
+      .finally(() => {
+        setTimeout(() => {
+          setError(false);
+        }, 1500);
+      });
+  };
+  const getUserKeysData = () => {
+    fetchUserKeys()
+      .then((res) => {
+        console.log(res);
+        setKeys(res);
+      })
+      .catch((err) => setError(true));
+  };
   useEffect(() => {
-    getUserInfo();
+    getUserCenterData();
+    getUserKeysData();
   }, []);
-
-  const getUserInfo = async () => {
-    try {
-      const res = await fetchUserInfo();
-      setUserInfo(res);
-    } catch (error) {
-      console.log('『error』', error);
-    }
-  };
-
-  const onEditEmail = () => {
-    setVisible(true);
-  };
-
   const handleDelete = (key) => {
-    //Delet a privateKey
+    const data = {
+      id: key,
+    };
+    deleteKeysUserCenter(data)
+      .then((res) => {
+        const filtered = keys.filter((item) => item.id !== data.id);
+        setKeys(filtered);
+        console.log('Succeded :  Key Deleted successfully');
+        getUserKeysData();
+      })
+      .catch((err) => console.log(err));
   };
-  const handleAdd = (key) => {};
-  const options = [
-    {
-      value: '1',
-      label: '1 Month',
-    },
-    {
-      value: '2',
-      label: '2 Months',
-    },
-    {
-      value: '3',
-      label: '3 Month',
-    },
-    {
-      value: '4',
-      label: '4 Months',
-    },
-    {
-      value: '5',
-      label: '5 Months',
-    },
-    {
-      value: '6',
-      label: '6 Months',
-    },
-  ];
+  const handleAdd = (name) => {
+    const data = { name };
+    postKeyUserData(data)
+      .then((res) => {
+        getUserKeysData();
+        setKey(undefined);
+        console.log('Succeded :  Key created successfully');
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <main>
       <h1 className={styles['title']}>Income management</h1>
@@ -73,12 +80,12 @@ export default function UserAccount() {
       <article className={styles['user-info']}>
         <h2>Naila</h2>
         <div>
-          <p>ID: {userInfo?.id}</p>
-          <p>Registration date: {userInfo?.registered_at?.split('T')[0]}</p>
+          <p>ID: {data.id}</p>
+          <p>Registration date: {data.registered_at?.split('T')[0]}</p>
           <p>ID: 26378192</p>
           <div className={styles['edit-info']}>
-            <p>E-mail: {userInfo?.email} </p>
-            <span onClick={onEditEmail}>Edit</span>
+            <p>E-mail: {data.email} </p>
+            <span>Edit</span>
           </div>
         </div>
         <Button className={styles['create-btn']} type="primary">
@@ -97,50 +104,48 @@ export default function UserAccount() {
             <ol>
               <li>
                 <p>Account type:</p>{' '}
-                <span>{userInfo?.real_name_auth?.account_type}</span>
+                <span>{data.real_name_auth?.account_type}</span>
               </li>
               <li>
                 <p>Legal person document type:</p>
-                <span>{userInfo?.real_name_auth?.corporate_name}</span>
+                <span>{data.real_name_auth?.corporate_name}</span>
               </li>
               <li>
                 <p>The name of firm :</p>
-                <span>{userInfo?.real_name_auth?.the_name_of_firm}</span>
+                <span>{data.real_name_auth?.the_name_of_firm}</span>
               </li>
             </ol>
             <ol>
               <li>
                 <p>Authentication status:</p>
                 <span className={styles['text-blue-certified']}>
-                  <p>{userInfo?.real_name_auth?.authentication_status}</p>
+                  <p>{data.real_name_auth?.authentication_status}</p>
                   <i className="iconfont icon-certified"></i>
                 </span>
               </li>
               <li>
                 <p>Legal person document type:</p>
-                <span>
-                  {userInfo?.real_name_auth?.legal_person_document_type}
-                </span>
+                <span>{data.real_name_auth?.legal_person_document_type}</span>
               </li>
               <li>
                 <p>Enterprise type: </p>
-                <span>{userInfo?.real_name_auth?.enterprise_type}</span>
+                <span>{data.real_name_auth?.enterprise_type}</span>
               </li>
             </ol>
             <ol>
               <li>
                 <p>Authentication time: </p>{' '}
                 <span>
-                  {userInfo?.real_name_auth?.authentication_time.split('T')[0]}
+                  {data.real_name_auth?.authentication_time.split('T')[0]}
                 </span>
               </li>
               <li>
                 <p>Authentication email:</p>
-                <span>{userInfo?.real_name_auth?.authentication_email}</span>
+                <span>{data.real_name_auth?.authentication_email}</span>
               </li>
               <li>
                 <p>Organization code: </p>
-                <span>{userInfo?.real_name_auth?.organization_code}</span>
+                <span>{data.real_name_auth?.organization_code}</span>
               </li>
             </ol>
           </ul>
@@ -159,18 +164,23 @@ export default function UserAccount() {
                 placeholder="Please enter name"
                 prefix={
                   <i
-                    className="iconfont icon-add"
-                    onClick={() => handleAdd(addKey)}
+                    className="iconfont icon-add add-key"
+                    style={{
+                      color: '#73d5f4',
+                      fontSize: '1.1rem',
+                      marginRight: '8px',
+                    }}
+                    onClick={() => handleAdd(key)}
                   ></i>
                 }
-                onChange={() => setAddKey(event.target.value)}
-                value={addKey}
+                onChange={(e) => setKey(e.target.value)}
+                value={key}
               />
               {/* <i className="iconfont icon-add" onClick={() => handleAdd()}></i>
               <span>Please enter name</span> */}
             </div>
             <ul className={styles['card-security-keys']}>
-              {userInfo?.securities?.map((item) => {
+              {keys?.map((item) => {
                 return (
                   <div className={styles['card-security-key']} key={item.id}>
                     <div>
@@ -199,30 +209,26 @@ export default function UserAccount() {
           <div>
             <p>Quantity pledged (ETH)</p>
             <section className={styles['card-assets-input']}>
-              <p> {userInfo?.address?.amount}</p>
+              <p> {data.assets?.amount}</p>
               <span>ETH</span>
             </section>
           </div>
           <div>
             <p>Quantity pledged (ETH)</p>
             <section className={styles['card-assets-input']}>
-              {options[0].label}
+              {data.assets?.duration_months}{' '}
+              {data.assets?.duration_months > 1 ? 'Months' : 'Month'}
             </section>
           </div>
           <div>
             <p>Anticipated income</p>
             <section className={styles['card-assets-input']}>
-              <p>{userInfo?.address?.anticipated_income}</p>
+              <p>{data.assets?.anticipated_income}</p>
               <span>ETH</span>
             </section>
           </div>
         </section>
       </Card>
-      <BindEmail
-        visible={visible}
-        onCancel={() => setVisible(false)}
-        userInfo={userInfo}
-      />
     </main>
   );
 }

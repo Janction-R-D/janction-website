@@ -102,7 +102,9 @@ function ProfileModal({ styles, classname, setShowModal }) {
               </li>
               <li>
                 <i className="iconfont icon-search_doc"></i>{' '}
-                <a>Access control</a>
+                <a onClick={() => handleNavigate('/genesis/access-control')}>
+                  Access control
+                </a>
               </li>
               <li>
                 <i className="iconfont icon-pledge"></i> <a>Pledge</a>
