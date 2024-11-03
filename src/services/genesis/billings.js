@@ -4,7 +4,7 @@ const baseUrl = '/v0/';
 
 // List bills
 export const fetchBillingList = async (params) => {
-  return request(`${baseUrl}/billing/list`, {
+  return request(`${baseUrl}/market/billings`, {
     params,
     loginAuth: true,
   });
