@@ -2,12 +2,28 @@ import JanctionRangePicker from '@/components/JanctionRangePicker';
 import JanctionTable from '@/components/JanctionTable';
 import SearchInput from '@/components/SeachInput';
 import { Col, Drawer, List, Row, Space } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './BillDetails.less';
+import { fetchBillingList } from '@/services/genesis/billings';
 
 function BillDetails() {
   const [open, setOpen] = useState(false);
   const [selectedBill, setSelectedBill] = useState({});
+  const [list, setList] = useState([]);
+
+  useEffect(() => {
+    getList();
+  }, []);
+
+  const getList = async () => {
+    try {
+      const res = await fetchBillingList();
+      setList(res || []);
+    } catch (error) {
+      console.log('『error』', error);
+    }
+  };
+
   const columns = [
     {
       title: 'Instance ID / Name',
@@ -82,6 +98,31 @@ function BillDetails() {
     setOpen(false);
   };
 
+  const renderTotal = () => {
+    const cash = 180000001;
+    const share = 180000001;
+    const gift = 180000001;
+    const coupon = 180000001;
+    const unit = '¥';
+    const total = cash + share + gift + coupon;
+    return (
+      <div className={styles['total-wrapper']}>
+        <span>Total cost </span>
+        <span
+          className={[styles['value'], styles['total-value']].join(' ')}
+        >{`${unit} ${total}`}</span>
+        <span>{` = Cash payment `}</span>
+        <span className={styles['value']}>{`${unit} ${cash}`}</span>
+        <span>{` + share bonus `}</span>
+        <span className={styles['value']}>{`${unit} ${share}`}</span>
+        <span>{` + gift money `}</span>
+        <span className={styles['value']}>{`${unit} ${gift}`}</span>
+        <span>{` + Coupon `}</span>
+        <span className={styles['value']}>{`${unit} ${coupon}`}</span>
+      </div>
+    );
+  };
+
   return (
     <>
       <div className={styles['title']}>Billings</div>
@@ -104,15 +145,19 @@ function BillDetails() {
           <SearchInput />
         </Col>
       </Row>
-      <JanctionTable
-        className={styles['table']}
-        columns={columns}
-        dataSource={data}
-        pagination={{
-          pageSize: 5,
-          position: ['bottomCenter'],
-        }}
-      />
+      <div className={styles['table-wrapper']}>
+        {renderTotal()}
+        <JanctionTable
+          className={styles['billings-table']}
+          columns={columns}
+          dataSource={list}
+          // pagination={{
+          //   pageSize: 5,
+          //   position: ['bottomCenter'],
+          // }}
+          pagination={false}
+        />
+      </div>
       <Drawer className="drawer" width={510} onClose={onClose} open={open}>
         <div className={styles['drawer-header']}>
           <img src={require('@/assets/svgs/drawer-header.svg')} />
@@ -122,7 +167,7 @@ function BillDetails() {
           className={styles['drawer-list']}
           header={<div>Instance</div>}
           bordered
-          dataSource={data}
+          dataSource={list}
           renderItem={(item) => (
             <>
               <List.Item>
