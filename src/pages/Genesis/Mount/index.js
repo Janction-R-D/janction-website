@@ -245,7 +245,7 @@ export default function Mount() {
                   width: '190px',
                 }}
                 className={styles['select']}
-                defaultOpen={options[0].value}
+                defaultValue={options[options.length - 1].value}
               />
             </div>
           </div>

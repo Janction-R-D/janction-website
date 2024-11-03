@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Card, Input, Select } from 'antd';
 import styles from './index.less';
-import { fetchUserCenter } from '@/services/genesis/instance';
+import BindEmail from './components/BindEmail';
+import { fetchUserInfo } from '@/services/genesis';
 import {
   deleteKeysUserCenter,
+  fetchUserCenter,
   fetchUserKeys,
   postKeyUserData,
 } from '../../../services/genesis/instance';
+
 export default function UserAccount() {
   const [data, setData] = useState({});
   const [error, setError] = useState(false);
+  const [visible, setVisible] = useState(false);
   const [key, setKey] = useState(null);
   const [keys, setKeys] = useState([
     { name: 'test2', id: 'd950a962-9768-489e-80dc-751c1cb9bdcf' },
@@ -39,7 +43,22 @@ export default function UserAccount() {
     getUserCenterData();
     getUserKeysData();
   }, []);
+
+  // const getUserInfo = async () => {
+  //   try {
+  //     const res = await fetchUserInfo();
+  //     setUserInfo(res);
+  //   } catch (error) {
+  //     console.log('『error』', error);
+  //   }
+  // };
+
+  const onEditEmail = () => {
+    setVisible(true);
+  };
+
   const handleDelete = (key) => {
+    console.log(key);
     const data = {
       id: key,
     };
@@ -80,12 +99,12 @@ export default function UserAccount() {
       <article className={styles['user-info']}>
         <h2>Naila</h2>
         <div>
-          <p>ID: {data.id}</p>
-          <p>Registration date: {data.registered_at?.split('T')[0]}</p>
+          <p>ID: {data?.id}</p>
+          <p>Registration date: {data?.registered_at?.split('T')[0]}</p>
           <p>ID: 26378192</p>
           <div className={styles['edit-info']}>
-            <p>E-mail: {data.email} </p>
-            <span>Edit</span>
+            <p>E-mail: {data?.email} </p>
+            <span onClick={onEditEmail}>Edit</span>
           </div>
         </div>
         <Button className={styles['create-btn']} type="primary">
@@ -104,48 +123,48 @@ export default function UserAccount() {
             <ol>
               <li>
                 <p>Account type:</p>{' '}
-                <span>{data.real_name_auth?.account_type}</span>
+                <span>{data?.real_name_auth?.account_type}</span>
               </li>
               <li>
                 <p>Legal person document type:</p>
-                <span>{data.real_name_auth?.corporate_name}</span>
+                <span>{data?.real_name_auth?.corporate_name}</span>
               </li>
               <li>
                 <p>The name of firm :</p>
-                <span>{data.real_name_auth?.the_name_of_firm}</span>
+                <span>{data?.real_name_auth?.the_name_of_firm}</span>
               </li>
             </ol>
             <ol>
               <li>
                 <p>Authentication status:</p>
                 <span className={styles['text-blue-certified']}>
-                  <p>{data.real_name_auth?.authentication_status}</p>
+                  <p>{data?.real_name_auth?.authentication_status}</p>
                   <i className="iconfont icon-certified"></i>
                 </span>
               </li>
               <li>
                 <p>Legal person document type:</p>
-                <span>{data.real_name_auth?.legal_person_document_type}</span>
+                <span>{data?.real_name_auth?.legal_person_document_type}</span>
               </li>
               <li>
                 <p>Enterprise type: </p>
-                <span>{data.real_name_auth?.enterprise_type}</span>
+                <span>{data?.real_name_auth?.enterprise_type}</span>
               </li>
             </ol>
             <ol>
               <li>
                 <p>Authentication time: </p>{' '}
                 <span>
-                  {data.real_name_auth?.authentication_time.split('T')[0]}
+                  {data?.real_name_auth?.authentication_time.split('T')[0]}
                 </span>
               </li>
               <li>
                 <p>Authentication email:</p>
-                <span>{data.real_name_auth?.authentication_email}</span>
+                <span>{data?.real_name_auth?.authentication_email}</span>
               </li>
               <li>
                 <p>Organization code: </p>
-                <span>{data.real_name_auth?.organization_code}</span>
+                <span>{data?.real_name_auth?.organization_code}</span>
               </li>
             </ol>
           </ul>
@@ -180,7 +199,7 @@ export default function UserAccount() {
               <span>Please enter name</span> */}
             </div>
             <ul className={styles['card-security-keys']}>
-              {keys?.map((item) => {
+              {data?.securities?.map((item) => {
                 return (
                   <div className={styles['card-security-key']} key={item.id}>
                     <div>
@@ -209,7 +228,7 @@ export default function UserAccount() {
           <div>
             <p>Quantity pledged (ETH)</p>
             <section className={styles['card-assets-input']}>
-              <p> {data.assets?.amount}</p>
+              <p> {data?.assets?.amount}</p>
               <span>ETH</span>
             </section>
           </div>
@@ -223,12 +242,17 @@ export default function UserAccount() {
           <div>
             <p>Anticipated income</p>
             <section className={styles['card-assets-input']}>
-              <p>{data.assets?.anticipated_income}</p>
+              <p>{data?.assets?.anticipated_income}</p>
               <span>ETH</span>
             </section>
           </div>
         </section>
       </Card>
+      <BindEmail
+        visible={visible}
+        onCancel={() => setVisible(false)}
+        userInfo={data}
+      />
     </main>
   );
 }
