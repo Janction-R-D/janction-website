@@ -132,8 +132,50 @@ export const fetchResouceShell = async (params) => {
 //user center data
 export const fetchUserCenter = async () => {
   try {
-    const response = await request(`${baseUrl}/user/center`, {
+    const response = await request(`${baseUrl}user/center`, {
       loginAuth: true,
+    });
+    return response;
+  } catch (error) {
+    console.log('『error』', error);
+    return null;
+  }
+};
+export const fetchUserKeys = async () => {
+  try {
+    const response = await request(`${baseUrl}user/securities`, {
+      loginAuth: true,
+    });
+    return response;
+  } catch (error) {
+    console.log('『error』', error);
+    return null;
+  }
+};
+export const deleteKeysUserCenter = async (data) => {
+  const { id } = data;
+  try {
+    const response = await request(`${baseUrl}user/security?id=${id}`, {
+      method: 'DELETE',
+      loginAuth: true,
+    });
+    return response;
+  } catch (error) {
+    console.log('『error』', error);
+    return null;
+  }
+};
+
+// Function to post data to user center
+export const postKeyUserData = async (data) => {
+  try {
+    const response = await request(`${baseUrl}/user/data`, {
+      method: 'POST',
+      loginAuth: true,
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
     return response;
   } catch (error) {

@@ -2,11 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { Button, Card, Input, Select } from 'antd';
 import styles from './index.less';
 import { fetchUserCenter } from '@/services/genesis/instance';
+import {
+  deleteKeysUserCenter,
+  fetchUserKeys,
+  postKeyUserData,
+} from '../../../services/genesis/instance';
 export default function UserAccount() {
   const [data, setData] = useState({});
   const [error, setError] = useState(false);
-  const [addKey, setAddKey] = useState(null);
-  useEffect(() => {
+  const [key, setKey] = useState(null);
+  const [keys, setKeys] = useState([
+    { name: 'test2', id: 'd950a962-9768-489e-80dc-751c1cb9bdcf' },
+  ]);
+  const getUserCenterData = () => {
     fetchUserCenter()
       .then((res) => {
         setData(res);
@@ -18,11 +26,42 @@ export default function UserAccount() {
           setError(false);
         }, 1500);
       });
+  };
+  const getUserKeysData = () => {
+    fetchUserKeys()
+      .then((res) => {
+        console.log(res);
+        setKeys(res);
+      })
+      .catch((err) => setError(true));
+  };
+  useEffect(() => {
+    getUserCenterData();
+    getUserKeysData();
   }, []);
   const handleDelete = (key) => {
-    //Delet a privateKey
+    const data = {
+      id: key,
+    };
+    deleteKeysUserCenter(data)
+      .then((res) => {
+        const filtered = keys.filter((item) => item.id !== data.id);
+        setKeys(filtered);
+        console.log('Succeded :  Key Deleted successfully');
+        getUserKeysData();
+      })
+      .catch((err) => console.log(err));
   };
-  const handleAdd = (key) => {};
+  const handleAdd = (name) => {
+    const data = { name };
+    postKeyUserData(data)
+      .then((res) => {
+        getUserKeysData();
+        setKey(undefined);
+        console.log('Succeded :  Key created successfully');
+      })
+      .catch((err) => console.log(err));
+  };
   const options = [
     {
       value: '1',
@@ -150,18 +189,23 @@ export default function UserAccount() {
                 placeholder="Please enter name"
                 prefix={
                   <i
-                    className="iconfont icon-add"
-                    onClick={() => handleAdd(addKey)}
+                    className="iconfont icon-add add-key"
+                    style={{
+                      color: '#73d5f4',
+                      fontSize: '1.1rem',
+                      marginRight: '8px',
+                    }}
+                    onClick={() => handleAdd(key)}
                   ></i>
                 }
-                onChange={() => setAddKey(event.target.value)}
-                value={addKey}
+                onChange={(e) => setKey(e.target.value)}
+                value={key}
               />
               {/* <i className="iconfont icon-add" onClick={() => handleAdd()}></i>
               <span>Please enter name</span> */}
             </div>
             <ul className={styles['card-security-keys']}>
-              {data.securities?.map((item) => {
+              {keys?.map((item) => {
                 return (
                   <div className={styles['card-security-key']} key={item.id}>
                     <div>
@@ -190,20 +234,21 @@ export default function UserAccount() {
           <div>
             <p>Quantity pledged (ETH)</p>
             <section className={styles['card-assets-input']}>
-              <p> {data.address?.amount}</p>
+              <p> {data.assets?.amount}</p>
               <span>ETH</span>
             </section>
           </div>
           <div>
             <p>Quantity pledged (ETH)</p>
             <section className={styles['card-assets-input']}>
-              {options[0].label}
+              {data.assets?.duration_months}{' '}
+              {data.assets?.duration_months > 1 ? 'Months' : 'Month'}
             </section>
           </div>
           <div>
             <p>Anticipated income</p>
             <section className={styles['card-assets-input']}>
-              <p>{data.address?.anticipated_income}</p>
+              <p>{data.assets?.anticipated_income}</p>
               <span>ETH</span>
             </section>
           </div>
