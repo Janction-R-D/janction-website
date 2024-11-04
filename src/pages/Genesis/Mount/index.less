@@ -327,6 +327,28 @@ input[type='number']::-webkit-outer-spin-button {
 .currency_text {
   max-width: 120px;
 }
+.search-input-wallet {
+  border: none;
+  flex-grow: 1;
+  outline-style: none;
+  width: 100%;
+  max-width: 380px;
+  background: #3c3a3d;
+  border-radius: 2.604vw;
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 0.833vw;
+  line-height: 1.25vw;
+  padding: 8px 12px;
+  padding-left: 0.833vw;
+  text-align: center;
+  :global {
+    .ant-input-prefix {
+      margin-right: 0.488vw;
+    }
+  }
+}
 .search-input {
   border: none;
   flex-grow: 1;
@@ -565,6 +587,7 @@ input[type='number']::-webkit-outer-spin-button {
   color: #fff;
   border-radius: 20px;
   text-wrap: nowrap;
+  cursor: pointer;
 }
 .btn-orange:hover {
   background: transparent;

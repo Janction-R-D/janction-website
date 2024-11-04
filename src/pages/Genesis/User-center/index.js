@@ -19,7 +19,7 @@ export default function UserAccount() {
   const getUserCenterData = () => {
     return fetchUserCenter()
       .then((res) => {
-        setData(res);
+        setData(res || {});
         console.log(res);
       })
       .catch((err) => setError(true))
@@ -33,7 +33,7 @@ export default function UserAccount() {
     return fetchUserKeys()
       .then((res) => {
         console.log(res);
-        setKeys(res);
+        setKeys(res || []);
       })
       .catch((err) => setError(true));
   };

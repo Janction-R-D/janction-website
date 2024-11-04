@@ -20,6 +20,19 @@ export default function Mount() {
     'Suitable for AI training',
     'Deep Learning Optimization',
   ]);
+  const options_payment = [
+    { name: 'BTC', value: 'BTC' },
+    { name: 'ETH', value: 'ETH' },
+    { name: 'USDT', value: 'USDT' },
+    { name: 'USDC', value: 'USDC' },
+  ];
+  const [selectedPayment, setSelectedPayment] = useState(
+    options_payment[0].value,
+  );
+
+  const handleChange = (value) => {
+    setSelectedPayment(value);
+  };
   const AddTag = (name) => {
     if (!name) return;
     const newTags = [...tags, name];
@@ -60,19 +73,19 @@ export default function Mount() {
       label: 'Year',
     },
   ];
-  const handleSearch = () => {
+  const handleSearch = (e) => {
+    e.preventDefault();
     fetchConfigInfo(searchId)
       .then((res) => {
         console.log(res);
-        setUserInfo(res);
+        setUserInfo(res || {});
         setShowInfo(true);
       })
       .catch((err) => console.log(err));
   };
-  const options_payment = [{ name: 'USDC', value: 'USDC' }];
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('holaa');
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData);
 
@@ -81,13 +94,14 @@ export default function Mount() {
       tags: tags,
       minimum_lease_unit: minDuration.time,
       maximum_lease_unit: maxDuration.time,
-      billing_method_token: 'USDC',
+      billing_method_token: selectedPayment,
       ...data,
     };
+    console.log(payload);
+
     postConfigInfo(payload)
       .then((res) => {
-        console.log(res);
-        // history.push()
+        history.push('/genesis/instance');
       })
       .catch((err) => console.log(err));
   };
@@ -107,13 +121,13 @@ export default function Mount() {
             }
             placeholder="Please enter the device identification number"
             onChange={(e) => setSearchId(e.target.value)}
-            onPressEnter={handleSearch}
+            onPressEnter={(e) => handleSearch(e)}
             className={styles['search-input']}
           />
           <Button
             className={styles['btn-orange']}
             type="primary"
-            onClick={handleSearch}
+            onClick={(e) => handleSearch(e)}
           >
             Auto-Recognition
           </Button>
@@ -354,6 +368,7 @@ export default function Mount() {
                 }}
                 name="billing_method_token"
                 defaultValue={options_payment[0].value}
+                onChange={handleChange}
                 className={styles['select']}
               />
             </div>
@@ -361,7 +376,7 @@ export default function Mount() {
               <p>payee's wallet address</p>
             </div>
             <Input
-              className={styles['search-input']}
+              className={styles['search-input-wallet']}
               placeholder="Please enter  your wallet adress"
               value={walletAddress}
               onChange={(e) => setWalletAddress(e.target.value)}
