@@ -14,7 +14,7 @@ const Lessees = (props) => {
   const [watchList, setWatchList] = useState([]);
   const [recommendList, setRecommendList] = useState([]);
   const { lessesData } = useLesses();
-  const { portfolio_balance: balance, details, watchlist } = lessesData;
+  const { portfolio_balance: balance, details, watchlist } = lessesData || {};
   const detailsData = details?.map((item) => ({
     Name: item?.Name,
     Balance: item?.Balance,
