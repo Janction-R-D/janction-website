@@ -2,85 +2,88 @@ import drop from '@/assets/images/icons/drop.png';
 import rise from '@/assets/images/icons/rise.png';
 import { Card, Col, Input, Row, Table } from 'antd';
 import numeral from 'numeral';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import styles from './index.less';
+import { fetchIncomeInfo } from '@/services/genesis';
+import { empty } from '@/utils/lang';
+import dayjs from 'dayjs';
 
 export default function Income() {
   const [list, setList] = useState([]);
+  const [revenue, setRevenue] = useState();
   const [statisticData, setStatisticData] = useState(null);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    getData();
+  }, []);
+  const getData = async () => {
+    try {
+      const { statistical_info, transaction_records, ...extra } =
+        await fetchIncomeInfo();
+      setStatisticData(statistical_info);
+      setList(transaction_records);
+      setRevenue(extra);
+    } catch (error) {
+      console.log('『error』', error);
+    }
+  };
+
+  const compared_yesterday = useMemo(() => {
+    let node_i = '~';
+    let rentalServer_i = '~';
+    if (!revenue) return { node_i, rentalServer_i };
+    const {
+      node_income = 0,
+      node_income_yesterday = 0,
+      rental_server_revenue = 0,
+      rental_server_revenue_yesterday = 0,
+    } = revenue;
+    if (!node_income_yesterday) {
+      node_i = 1;
+    }
+    if (!rental_server_revenue_yesterday) {
+      rentalServer_i = 1;
+    }
+    node_i = (node_income - node_income_yesterday) / node_income_yesterday;
+    rentalServer_i =
+      (rental_server_revenue - rental_server_revenue_yesterday) /
+      rental_server_revenue_yesterday;
+    return { node_i, rentalServer_i };
+  }, [revenue]);
 
   const columns = [
     {
-      title: 'Platform',
-      dataIndex: 'platform',
-    },
-    {
-      title: 'Progress',
-      dataIndex: 'progress',
-    },
-    {
-      title: '%CPU',
-      dataIndex: 'cpu_usage',
-    },
-    {
-      title: 'ENERGY',
-      dataIndex: 'energy',
-    },
-    {
-      title: 'DISK',
-      dataIndex: 'disk_usage',
-    },
-    {
-      title: 'Time',
-      dataIndex: 'uptime',
-      render: (text) => {
-        return numeral(text || 0).format('0.0s');
+      title: 'Date',
+      dataIndex: 'date',
+      render: (text, record) => {
+        if (empty(text)) return '--';
+        return dayjs(text).format('YYYY-MM-DD HH:mm:ss');
       },
     },
     {
-      title: '#TH',
-      dataIndex: 'TH',
-      key: 'TH',
+      title: 'Type',
+      dataIndex: 'type',
     },
     {
-      title: '#WQ',
-      dataIndex: 'WQ',
-      key: 'WQ',
+      title: 'Number',
+      dataIndex: 'ammount',
+      render: (text, record) => {
+        if (empty(text)) return '--';
+        return `${text} ${record.unit}`;
+      },
     },
     {
-      title: '#Ports',
-      dataIndex: 'Ports',
-      key: 'Ports',
-    },
-    {
-      title: 'MEM',
-      dataIndex: 'memory_usage',
-    },
-    {
-      title: 'PURG',
-      dataIndex: 'PURG',
-      key: 'PURG',
-    },
-    {
-      title: 'Cmprs',
-      dataIndex: 'Cmprs',
-      key: 'Cmprs',
-    },
-    {
-      title: 'PPID',
-      dataIndex: 'PPID',
-      key: 'PPID',
-    },
-    {
-      title: 'State',
+      title: 'Status',
       dataIndex: 'status',
     },
     {
-      title: 'Boosts',
-      dataIndex: 'Boosts',
-      key: 'Boosts',
+      title: 'Operator',
+      dataIndex: 'operator',
+      render: (text) => text || '--',
+    },
+    {
+      title: 'Remark',
+      dataIndex: 'comment',
     },
   ];
 
@@ -114,18 +117,18 @@ export default function Income() {
         <Col span={12}>
           {renderIncomeCard({
             title: 'Node income',
-            value: '5831.20',
+            value: revenue?.node_income,
             unit: 'JTT',
-            diffValue: '-0.15',
+            diffValue: compared_yesterday?.node_i,
             date: '2020-09-31 20:59:59',
           })}
         </Col>
         <Col span={12}>
           {renderIncomeCard({
             title: 'Rental server revenue',
-            value: '5831.20',
+            value: revenue?.rental_server_revenue,
             unit: 'JTT',
-            diffValue: '0.15',
+            diffValue: compared_yesterday?.rentalServer_i,
             date: '2020-09-31 20:59:59',
           })}
         </Col>
