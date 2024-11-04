@@ -183,6 +183,39 @@ export const postKeyUserData = async (data) => {
     return null;
   }
 };
+
+//fetch ConfigInfo
+export const fetchConfigInfo = async (data) => {
+  const id = data;
+  console.log(id);
+
+  try {
+    const response = await request(`${baseUrl}node/config?node_id=${id}`, {
+      loginAuth: true,
+    });
+    return response;
+  } catch (error) {
+    console.log('『error』', error);
+    return null;
+  }
+};
+// fetchPost ConfigInfo
+export const postConfigInfo = async (data) => {
+  try {
+    const response = await request(`${baseUrl}node/config`, {
+      loginAuth: true,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    return response;
+  } catch (error) {
+    console.log('『error』', error);
+    return null;
+  }
+};
 // List rent records
 export const fetchMarketList = async () => {
   try {
