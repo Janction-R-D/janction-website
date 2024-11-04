@@ -15,11 +15,9 @@ export default function UserAccount() {
   const [error, setError] = useState(false);
   const [visible, setVisible] = useState(false);
   const [key, setKey] = useState(null);
-  const [keys, setKeys] = useState([
-    { name: 'test2', id: 'd950a962-9768-489e-80dc-751c1cb9bdcf' },
-  ]);
+  const [keys, setKeys] = useState([]);
   const getUserCenterData = () => {
-    fetchUserCenter()
+    return fetchUserCenter()
       .then((res) => {
         setData(res);
         console.log(res);
@@ -32,7 +30,7 @@ export default function UserAccount() {
       });
   };
   const getUserKeysData = () => {
-    fetchUserKeys()
+    return fetchUserKeys()
       .then((res) => {
         console.log(res);
         setKeys(res);
@@ -60,23 +58,30 @@ export default function UserAccount() {
   const handleDelete = (key) => {
     console.log(key);
     const data = {
-      id: key,
+      name: key,
     };
     deleteKeysUserCenter(data)
       .then((res) => {
-        const filtered = keys.filter((item) => item.id !== data.id);
+        getUserKeysData();
+        const filtered = keys.filter((item) => item.name !== data.name);
         setKeys(filtered);
         console.log('Succeded :  Key Deleted successfully');
-        getUserKeysData();
       })
       .catch((err) => console.log(err));
   };
   const handleAdd = (name) => {
+    console.log(name);
+    if (!name) return;
     const data = { name };
     postKeyUserData(data)
       .then((res) => {
         getUserKeysData();
         setKey(undefined);
+        // const newKeys = [
+        //   ...keys,
+        //   { name, private_key: `qwssa - sdddas - e3dsad - we4dasd` },
+        // ];
+        // setKeys(newKeys);
         console.log('Succeded :  Key created successfully');
       })
       .catch((err) => console.log(err));
@@ -181,6 +186,7 @@ export default function UserAccount() {
               <Input
                 bordered={false}
                 placeholder="Please enter name"
+                onPressEnter={() => handleAdd(key)}
                 prefix={
                   <i
                     className="iconfont icon-add add-key"
@@ -199,7 +205,7 @@ export default function UserAccount() {
               <span>Please enter name</span> */}
             </div>
             <ul className={styles['card-security-keys']}>
-              {data?.securities?.map((item) => {
+              {keys?.map((item) => {
                 return (
                   <div className={styles['card-security-key']} key={item.id}>
                     <div>
@@ -208,7 +214,7 @@ export default function UserAccount() {
                     </div>
                     <span
                       className={styles['icon-red']}
-                      onClick={() => handleDelete(item.private_key)}
+                      onClick={() => handleDelete(item.name)}
                     >
                       <i className="iconfont icon-delete "></i>
                     </span>

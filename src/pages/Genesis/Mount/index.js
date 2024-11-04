@@ -21,7 +21,7 @@ export default function Mount() {
     'Deep Learning Optimization',
   ]);
   const AddTag = (name) => {
-    if (name == '') return;
+    if (!name) return;
     const newTags = [...tags, name];
     setTags(newTags);
   };
