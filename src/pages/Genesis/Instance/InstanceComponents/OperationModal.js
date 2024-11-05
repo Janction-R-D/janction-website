@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card } from 'antd';
 import styles from './operation.less';
-import WindowTerm from './WindowTerm';
+import TerminalModal from './TerminalModal';
 
 export default function OperationModal({ record }) {
   const [showModal, setShowModal] = useState(true);
@@ -28,9 +28,9 @@ export default function OperationModal({ record }) {
         </div>
       </Card>
       {visible && (
-        <WindowTerm
+        <TerminalModal
           visible={visible}
-          setVisible={setVisible}
+          onCancel={() => setVisible(false)}
           resource_id={record.activity?.resource_id}
         />
       )}
