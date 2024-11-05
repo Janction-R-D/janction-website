@@ -43,7 +43,7 @@ export default function InstanceCard({ instance }) {
 
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
   };
-  const hola = 'hola';
+
   const instanceData = {
     key: instance?.id,
     name: instance?.name,
