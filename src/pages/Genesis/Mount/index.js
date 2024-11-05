@@ -34,7 +34,7 @@ export default function Mount() {
     setSelectedPayment(value);
   };
   const AddTag = (name) => {
-    if (!name) return;
+    if (!name || tags.length === 6) return;
     const newTags = [...tags, name];
     setTags(newTags);
   };
@@ -108,133 +108,130 @@ export default function Mount() {
   return (
     <form className={styles['main']} onSubmit={(e) => handleSubmit(e)}>
       <h1 className={styles['title']}>Device Rental Configuration</h1>
-      <div className={styles['btn-box']}>
-        <Button className={styles['btn-special']} type="primary">
-          Device information Upload
-        </Button>
-      </div>
-      <Card className={styles['card']}>
-        <div className={styles['device-box']}>
-          <Input
-            suffix={
-              <i className="iconfont icon-search" style={{ fontSize: '1vw' }} />
-            }
-            placeholder="Please enter the device identification number"
-            onChange={(e) => setSearchId(e.target.value)}
-            onPressEnter={(e) => handleSearch(e)}
-            className={styles['search-input']}
-          />
-          <Button
-            className={styles['btn-orange']}
-            type="primary"
-            onClick={(e) => handleSearch(e)}
-          >
-            Auto-Recognition
-          </Button>
-        </div>
 
+      <Card className={styles['card']}>
         <section className={styles['card-header']}>
-          <h3>Configurable Parameters</h3>
+          <h3> Device information Upload</h3>
         </section>
-        <main className={styles['card-content']}>
-          <ul>
-            <ol>
-              <li>
-                <p>node-names:</p> <span>4090xxx</span>
-              </li>
-              <li>
-                <p>Cores:</p>
-                <span>8</span>
-              </li>
-              <li>
-                <p>memory :</p>
-                <span>IT</span>
-              </li>
-            </ol>
-            <ol>
-              <li>
-                <p>disk:</p>
-                <span>1500</span>
-              </li>
-              <li>
-                <p>Region: </p>
-                <span>Manchester,UK</span>
-              </li>
-              <li>
-                <p>vCPU: </p> <span>ESSD Entry 40GiB</span>
-              </li>
-            </ol>
-            <ol>
-              <li>
-                <p>internal storage:</p> <span>4 GiB </span>
-              </li>
-              <li>
-                <p>Available area:</p>
-                <span> 25</span>
-              </li>
-              <li>
-                <p>Processor: </p>
-                <span>intel</span>
-              </li>
-            </ol>
-          </ul>
+        <main className={styles['main-card']}>
+          <section className={styles['input-box']}>
+            <div className={styles['device-box']}>
+              <Input
+                placeholder="Please enter the device identification number"
+                onChange={(e) => setSearchId(e.target.value)}
+                onPressEnter={(e) => handleSearch(e)}
+                className={styles['search-input-node']}
+              />
+              <Button
+                className={styles['create-btn']}
+                type="primary"
+                onClick={(e) => handleSearch(e)}
+              >
+                Auto-Recognition
+              </Button>
+            </div>
+            <i className="iconfont icon-info"></i>
+          </section>
+          <main className={styles['card-content']}>
+            <h3>Configurable Parameters</h3>
+            <ul>
+              <ol>
+                <li>
+                  <p>identification number:</p> <span> 879q43yv8hbvn</span>
+                </li>
+                <li>
+                  <p>node-names:</p> <span>4090xxx</span>
+                </li>
+                <li>
+                  <p>Cores:</p>
+                  <span>8</span>
+                </li>
+                <li>
+                  <p>memory :</p>
+                  <span>IT</span>
+                </li>
+              </ol>
+              <ol>
+                <li>
+                  <p>status:</p>
+                  <span>idle</span>
+                </li>
+                <li>
+                  <p>disk:</p>
+                  <span>1500</span>
+                </li>
+                <li>
+                  <p>Region: </p>
+                  <span>Manchester,UK</span>
+                </li>
+                <li>
+                  <p>vCPU: </p> <span>ESSD Entry 40GiB</span>
+                </li>
+              </ol>
+              <ol>
+                <li>
+                  <p>quantity:</p> <span>4</span>
+                </li>
+                <li>
+                  <p>internal storage:</p> <span>4 GiB </span>
+                </li>
+                <li>
+                  <p>Available area:</p>
+                  <span> 25</span>
+                </li>
+                <li>
+                  <p>Processor: </p>
+                  <span>intel</span>
+                </li>
+              </ol>
+            </ul>
+            <section className={styles['card-security']}>
+              <span>Custom description</span>
+              <div className={styles['card-security-items']}>
+                <Input
+                  prefix={
+                    <span
+                      className="icon-blue"
+                      onClick={() => AddTag(tagInput)}
+                    >
+                      <i className="iconfont icon-add"></i>
+                    </span>
+                  }
+                  placeholder={`Add tag(${tags.length}/6)`}
+                  className={styles['card-security-input']}
+                  value={tagInput}
+                  onChange={(e) => setTagInput(e.target.value)}
+                  onPressEnter={() => {
+                    AddTag(tagInput);
+                    setTagInput('');
+                  }}
+                />
+                <ul className={styles['card-security-keys']}>
+                  {tags.map((item, index) => (
+                    <div className={styles['card-security-key']} key={index}>
+                      <div>
+                        <p>{item}</p>
+                      </div>
+                      <span
+                        className={styles['icon-red']}
+                        onClick={() => removeTag(item)}
+                      >
+                        <i className="iconfont icon-delete "></i>
+                      </span>
+                    </div>
+                  ))}
+                </ul>
+              </div>
+            </section>
+          </main>
         </main>
       </Card>
-      <Card className={styles['card']}>
-        <section className={styles['card-header']}>
-          <h3>Supplementary information</h3>
-        </section>
-        <section className={styles['card-security']}>
-          <span>Custom description</span>
-          <div className={styles['card-security-items']}>
-            <Input
-              prefix={
-                <span className="icon-blue" onClick={() => AddTag(tagInput)}>
-                  <i className="iconfont icon-add"></i>
-                </span>
-              }
-              placeholder="Add tag"
-              className={styles['card-security-input']}
-              value={tagInput}
-              onChange={(e) => setTagInput(e.target.value)}
-              onPressEnter={() => {
-                AddTag(tagInput);
-                setTagInput('');
-              }}
-            />
-            <ul className={styles['card-security-keys']}>
-              {tags.map((item, index) => (
-                <div className={styles['card-security-key']} key={index}>
-                  <div>
-                    <p>{item}</p>
-                  </div>
-                  <span
-                    className={styles['icon-red']}
-                    onClick={() => removeTag(item)}
-                  >
-                    <i className="iconfont icon-delete "></i>
-                  </span>
-                </div>
-              ))}
-            </ul>
-          </div>
-        </section>
-      </Card>
-      <div
-        className={styles['btn-box']}
-        style={{
-          marginBlock: '8px',
-        }}
-      >
-        <Button className={styles['btn-special']} type="primary">
-          Prices and rental Settings
-        </Button>
-      </div>
+
       <section>
         <Card className={styles['card']}>
           <section className={styles['card-header-graph']}>
             <h3>Prices</h3>
-            <MountEchart />
+            <MountEchart styles={styles} />
           </section>
           <section className={styles['card-prices']}>
             <div>
@@ -271,17 +268,11 @@ export default function Mount() {
           </section>
         </Card>
       </section>
-      <div
-        className={styles['btn-box']}
-        style={{
-          marginBlock: '8px',
-        }}
-      >
-        <Button className={styles['btn-special']} type="primary">
-          Billing method
-        </Button>
-      </div>
+
       <Card className={styles['card']}>
+        <section className={styles['card-header']}>
+          <h3>Rental</h3>
+        </section>
         <div className={styles['duration']}>
           <div className={styles['duration-item']}>
             <p>Minimum lease duration</p>
@@ -332,66 +323,35 @@ export default function Mount() {
               </label>
             </div>
           </div>
-        </div>
-        <div className={styles['duration-item']}>
-          <p>Available period</p>
-          <div className={styles['duration-group']}>
-            <div className={styles['input-duration']}>
-              <JanctionRange
-                value={minPeriod}
-                onChange={onMinPeriodValueChange}
-                name="available_period_down"
-              />
-            </div>
-            <div className={styles['input-duration']}>
-              <JanctionRange
-                value={maxPeriod}
-                onChange={onMaxPeriodValueChange}
-                unit="Oclock"
-                name="available_period_up"
-              />
+          <div className={styles['duration-item']}>
+            <p>Available period</p>
+            <div className={styles['duration-group']}>
+              <div className={styles['input-duration']}>
+                <JanctionRange
+                  value={minPeriod}
+                  onChange={onMinPeriodValueChange}
+                  name="available_period_down"
+                />
+              </div>
+              <div className={styles['input-duration']}>
+                <JanctionRange
+                  value={maxPeriod}
+                  onChange={onMaxPeriodValueChange}
+                  unit="Oclock"
+                  name="available_period_up"
+                />
+              </div>
             </div>
           </div>
         </div>
-        <section className={styles['check-side']}>
-          <section className={styles['currency_box']}>
-            <div>
-              <p className={styles['currency_text']}>
-                cryptocurrencies for receiving payments
-              </p>
-
-              <Select
-                bordered={false}
-                options={options_payment}
-                style={{
-                  width: '190px',
-                }}
-                name="billing_method_token"
-                defaultValue={options_payment[0].value}
-                onChange={handleChange}
-                className={styles['select']}
-              />
-            </div>
-            <div>
-              <p>payee's wallet address</p>
-            </div>
-            <Input
-              className={styles['search-input-wallet']}
-              placeholder="Please enter  your wallet adress"
-              value={walletAddress}
-              onChange={(e) => setWalletAddress(e.target.value)}
-              name="billing_method_address"
-            />
-          </section>
-          <div className={styles['checked-box']}>
-            <Checkbox>
-              I have read and agreed to the{' '}
-              <span className={styles['blue']}>relevant service terms</span>.
-            </Checkbox>
-            <button className={styles['btn-orange']}>Confirm</button>
-          </div>
-        </section>
       </Card>
+      <section className={styles['check-side']}>
+        <Checkbox>
+          I have read and agreed to the{' '}
+          <span className={styles['blue']}>relevant service terms</span>.
+        </Checkbox>
+        <button className={styles['btn-orange']}>Confirm</button>
+      </section>
     </form>
   );
 }

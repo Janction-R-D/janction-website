@@ -145,10 +145,27 @@
   border-radius: 5px;
   background-color: #73d5f4;
 }
+
+.main-card {
+  padding-block: 12px;
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.card-content {
+  background-color: #1c1c1d;
+  padding: 18px 14px;
+  border-radius: 14px;
+}
+.card-content > h3 {
+  font-size: 0.95rem;
+}
 .card-content > ul {
   display: flex;
-  padding-top: 24px;
+  padding-block: 20px;
   justify-content: space-between;
+  border-bottom: 1px solid #2f2f31;
 }
 
 .card-content > ul > ol {
@@ -163,11 +180,24 @@
   align-items: center;
   gap: 4px;
 }
+.card-content > ul > ol > li > p {
+  color: #a4a4a5;
+}
+.input-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  i {
+    font-size: 2rem;
+  }
+}
 .card-security {
   display: flex;
+  flex-direction: column;
   text-wrap: nowrap;
-  gap: 60px;
-  padding-top: 24px;
+  gap: 28px;
+  padding-top: 18px;
 }
 .card-security > span {
   min-width: 200px;
@@ -175,7 +205,7 @@
 
 .card-security-items {
   display: flex;
-  flex-direction: column;
+
   gap: 18px;
   width: 100%;
 }
@@ -199,19 +229,17 @@
 
 .card-security-key > div {
   display: flex;
-  width: 230px;
+  width: 240px;
   align-items: center;
   gap: 12px;
 }
 
 .card-security-input {
-  padding: 12px;
+  padding: 16px 12px;
   background-color: #2f2f31;
   border-radius: 14px;
-  width: 100%;
   width: 280px;
-  display: flex;
-  align-items: center;
+  height: 48px;
   cursor: pointer;
   color: #73d5f4 !important;
 }
@@ -310,7 +338,12 @@ input[type='number']::-webkit-outer-spin-button {
 }
 .device-box {
   display: flex;
+  width: fit-content;
+  align-items: center;
   gap: 16px;
+  background: #3c3a3d;
+  border-radius: 24px;
+  padding: 6px;
 }
 .currency_box {
   display: flex;
@@ -365,6 +398,31 @@ input[type='number']::-webkit-outer-spin-button {
   padding: 8px 12px;
   padding-left: 0.833vw;
 
+  :global {
+    .ant-input-prefix {
+      margin-right: 0.488vw;
+    }
+  }
+}
+.search-input-node {
+  border: none;
+  flex-grow: 1;
+  outline-style: none;
+
+  width: 480px;
+  background: #3c3a3d;
+  border-radius: 2.604vw;
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 0.9rem;
+  line-height: 1.25vw;
+  padding: 8px 12px;
+  padding-left: 0.833vw;
+  :focus {
+    border: none;
+    outline: none;
+  }
   :global {
     .ant-input-prefix {
       margin-right: 0.488vw;
@@ -508,14 +566,11 @@ input[type='number']::-webkit-outer-spin-button {
   color: #47c2e8;
 }
 .check-side {
-  background-color: #1c1c1d;
   display: flex;
-  flex-direction: column;
-  align-items: start;
-  justify-content: start;
-  padding: 24px;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 8px 0px;
   border-radius: 18px;
-  margin-top: 18px;
 }
 .checked-box {
   display: flex;
@@ -548,9 +603,9 @@ input[type='number']::-webkit-outer-spin-button {
 }
 
 .duration {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
-  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 22px;
   max-width: 100%;
   gap: 12px;
 }
@@ -559,7 +614,7 @@ input[type='number']::-webkit-outer-spin-button {
   display: flex;
 
   align-items: center;
-  gap: 24px;
+  gap: 22px;
 }
 
 .duration-item > p {
@@ -569,9 +624,23 @@ input[type='number']::-webkit-outer-spin-button {
 .duration-group {
   display: flex;
   align-items: center;
-  gap: 24px;
 }
-
+.create-btn {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-inline: 18px;
+  background: linear-gradient(275.81deg, #72deff 18.68%, #ffebe7 100%);
+  font-family: Poppins;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  text-align: center;
+  border-radius: 20px;
+  text-wrap: nowrap;
+  cursor: pointer;
+}
 .btn-orange {
   height: 45px;
   display: flex;
@@ -595,21 +664,6 @@ input[type='number']::-webkit-outer-spin-button {
   color: #ff8c27;
 }
 
-.btn-special {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: transparent;
-  border-radius: 20px;
-  border: 2px solid #73d5f4;
-  padding: 10px 18px;
-  font-size: 1.1rem;
-  width: 240px;
-}
-.btn-special:hover {
-  background: unset;
-  border: 2px solid #1ea7d1;
-}
 .btn-box {
   width: min-content;
   display: flex;

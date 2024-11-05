@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactECharts from 'echarts-for-react';
-export default function MountEchart() {
+import { BandRadioGroup } from './BandRadioGroup';
+
+export default function MountEchart({ styles }) {
   return (
     <div
       style={{
@@ -8,166 +10,25 @@ export default function MountEchart() {
         alignItems: 'center',
         justifyContent: 'space-between',
         width: '100%',
-        height: '150px',
-        maxWidth: '450px',
+        height: '300px',
+        maxWidth: '650px',
         backgroundColor: '#1E1E1E',
         padding: '10px',
-        MargingBottom: '12px',
+        marginBottom: '12px',
         borderRadius: '10px',
       }}
     >
       <ExpirationGraph />
-      <span
-        style={{
-          width: '2px', // Ajusta el ancho de la barra
-          backgroundColor: '#A0A0A0', // Color de la barra
-          margin: '0 20px', // Espaciado alrededor de la barra
-          height: '100%', // Ocupa todo el alto posible
-        }}
-      ></span>
-      <MemoryUsage />
     </div>
   );
 }
 
-function MemoryUsage() {
-  const option = {
-    title: {
-      text: 'occupancy',
-      left: '0%',
-      top: '7%',
-      textStyle: {
-        color: '#A0A0A0',
-        fontSize: 14,
-      },
-    },
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        type: 'cross',
-        label: {
-          backgroundColor: '#19191A',
-        },
-      },
-    },
-    grid: {
-      left: '3%',
-      right: '4%',
-      bottom: '3%',
-      containLabel: true,
-    },
-    xAxis: {
-      type: 'category',
-      boundaryGap: false,
-      data: [
-        '2020-12-01',
-        '2020-12-02',
-        '2020-12-03',
-        '2020-12-04',
-        '2020-12-05',
-        '2020-12-17',
-        '2020-12-18',
-        '2020-12-19',
-        '2020-12-20',
-      ],
-      axisLine: {
-        lineStyle: {
-          color: '#A0A0A0',
-        },
-      },
-      axisLabel: {
-        show: false, // Ocultar etiquetas del eje X
-      },
-      splitLine: {
-        show: false, // Ocultar líneas de cuadrícula verticales
-      },
-    },
-    yAxis: {
-      type: 'value',
-      axisLine: {
-        lineStyle: {
-          color: '#A0A0A0',
-        },
-      },
-      axisLabel: {
-        show: false, // Ocultar etiquetas del eje Y
-      },
-      splitLine: {
-        show: false, // Ocultar líneas de cuadrícula horizontales
-      },
-    },
-    series: [
-      {
-        name: 'Expiration',
-        type: 'line',
-        stack: 'Total',
-        data: [28, 22, 20, 21, 22, 23, 21, 26, 22],
-        areaStyle: {
-          color: {
-            type: 'linear',
-            x: 0,
-            y: 0,
-            x2: 0,
-            y2: 1,
-            colorStops: [
-              { offset: 0, color: 'rgba(255, 0, 0, 0.5)' },
-              { offset: 1, color: 'rgba(255, 0, 0, 0)' },
-            ],
-            global: false,
-          },
-        },
-        lineStyle: {
-          color: 'red',
-        },
-        showSymbol: false,
-        smooth: true,
-      },
-      {
-        type: 'line',
-        stack: 'Total',
-        data: [20, 18, 15, 19, 22, 20, 23, 25, 28], // Datos de la segunda línea
-        lineStyle: {
-          color: 'blue', // Color de la segunda línea
-        },
-        showSymbol: false,
-        smooth: true,
-      },
-    ],
-    graphic: [
-      {
-        type: 'text',
-        left: '0%',
-        top: '10%',
-        style: {
-          fill: '#A0A0A0',
-          font: '14px sans-serif',
-        },
-      },
-      {
-        type: 'text',
-        right: '0%',
-        top: '10%',
-        style: {
-          text: '10%',
-          fill: '#fff',
-          font: 'bolder 14px sans-serif',
-        },
-      },
-    ],
-  };
-
-  return (
-    <ReactECharts option={option} style={{ height: '200px', width: '50%' }} />
-  );
-}
-
-function ExpirationGraph() {
+function ExpirationGraph({ styles }) {
   const option = {
     title: {
       text: 'Price',
-
-      left: '0%',
-      top: '10%',
+      left: '2px',
+      top: '8px',
       textStyle: {
         color: '#A0A0A0',
         fontSize: 14,
@@ -219,7 +80,11 @@ function ExpirationGraph() {
         },
       },
       axisLabel: {
-        show: false,
+        show: true, // Mostrar las etiquetas del eje x
+        color: '#A0A0A0', // Color de las etiquetas
+        style: {
+          marginBottom: '5px',
+        },
       },
       splitLine: {
         show: false, // Ocultar las líneas de cuadrícula verticales
@@ -230,14 +95,18 @@ function ExpirationGraph() {
       axisLine: {
         lineStyle: {
           color: '#A0A0A0',
-          //   show: false,
         },
       },
       axisLabel: {
-        show: false,
+        show: true, // Mostrar las etiquetas del eje y
+        color: '#A0A0A0', // Color de las etiquetas
       },
       splitLine: {
-        show: false, // Ocultar las líneas de cuadrícula horizontales
+        show: true,
+        lineStyle: {
+          color: '#444', // Color de las líneas de cuadrícula
+          type: 'dashed', // Tipo de línea (puede ser 'solid', 'dashed', etc.)
+        },
       },
     },
     series: [
@@ -286,7 +155,6 @@ function ExpirationGraph() {
         right: '0%', // Centrado horizontalmente
         top: '10%', // Ajusta esta posición según lo que necesites
         style: {
-          text: '3.8/h',
           fill: '#fff',
           font: 'bolder 14px sans-serif',
         },
@@ -294,6 +162,6 @@ function ExpirationGraph() {
     ],
   };
   return (
-    <ReactECharts option={option} style={{ height: '200px', width: '50%' }} />
+    <ReactECharts option={option} style={{ height: '400px', width: '100%' }} />
   );
 }
