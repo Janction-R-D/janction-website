@@ -222,7 +222,7 @@ export default function Mount() {
                   name="maximum_lease_unit"
                   className={styles['select']}
                 />
-                <p>(12)</p>
+                <p>(At least 12)</p>
               </div>
             </div>
           </div>

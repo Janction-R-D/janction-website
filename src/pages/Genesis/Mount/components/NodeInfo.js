@@ -81,7 +81,7 @@ export function NodeInfo({ styles }) {
             <span className={styles['icon-blue']}>
               <i className="iconfont icon-add"></i>
             </span>
-            Add tag(${tags.length}/6)
+            Add tag ({tags.length}/6)
           </div>
           <ul className={styles['card-security-keys']}>
             {showInput && (
@@ -91,7 +91,7 @@ export function NodeInfo({ styles }) {
                     <i className="iconfont icon-add"></i>
                   </span>
                 }
-                placeholder={`Add tag(${tags.length}/6)`}
+                placeholder={`Enter a short keyword`}
                 className={styles['card-security-input']}
                 value={tagInput}
                 onChange={(e) => setTagInput(e.target.value)}
