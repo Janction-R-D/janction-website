@@ -1,47 +1,25 @@
 import React, { useState } from 'react';
 import { history } from 'umi';
-import JanctionRange from '@/components/JanctionRange';
+import { NodeInfo } from './components/NodeInfo';
 import styles from './index.less';
 import { Button, Card, Input, Select, Checkbox, TimePicker } from 'antd';
 import MountEchart from './components/Graps';
 import { fetchConfigInfo, postConfigInfo } from '@/services/genesis';
+import Loading from './components/Loading';
 export default function Mount() {
   const [searchId, setSearchId] = useState('');
-  const [walletAddress, setWalletAddress] = useState('');
+  const [loading, setLoading] = useState(false);
   const [minDuration, setMinDuration] = useState({ number: 1, time: 'Month' });
   const [maxDuration, setMaxDuration] = useState({ number: 1, time: 'Year' });
   const [userInfo, setUserInfo] = useState(null);
-  const [showInfo, setShowInfo] = useState(false);
-  const [tagInput, setTagInput] = useState(null);
+  const [error, setError] = useState(false);
   const [minLease, setMinLease] = useState(1);
   const [maxLease, setMaxLease] = useState(1);
-  const [tags, setTags] = useState([
-    'Machine Learning',
-    'Suitable for AI training',
-    'Deep Learning Optimization',
-  ]);
-  const options_payment = [
-    { name: 'BTC', value: 'BTC' },
-    { name: 'ETH', value: 'ETH' },
-    { name: 'USDT', value: 'USDT' },
-    { name: 'USDC', value: 'USDC' },
-  ];
-  const [selectedPayment, setSelectedPayment] = useState(
-    options_payment[0].value,
-  );
 
   const handleChange = (value) => {
     setSelectedPayment(value);
   };
-  const AddTag = (name) => {
-    if (!name || tags.length === 6) return;
-    const newTags = [...tags, name];
-    setTags(newTags);
-  };
-  const removeTag = (name) => {
-    const newTags = tags.filter((tag) => tag !== name);
-    setTags(newTags);
-  };
+
   const onMaxDurationValueChange = (value) => {
     setMaxDuration((prevState) => ({ number: value, ...prevState }));
   };
@@ -79,13 +57,32 @@ export default function Mount() {
   ];
   const handleSearch = (e) => {
     e.preventDefault();
+
+    if (searchId === '') return;
+    setLoading(true);
     fetchConfigInfo(searchId)
       .then((res) => {
         console.log(res);
+        if (res.error) {
+          throw new Error('Node not found');
+        }
         setUserInfo(res || {});
-        setShowInfo(true);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setError(true);
+        setTimeout(() => {
+          setError(false);
+          console.log('object');
+        }, 3000);
+      })
+      .finally(() => {
+        setTimeout(() => {
+          setError(false);
+          setLoading(false);
+          console.log('object');
+        }, 3000);
+      });
   };
 
   const handleSubmit = (e) => {
@@ -119,11 +116,16 @@ export default function Mount() {
         </section>
         <main className={styles['main-card']}>
           <section className={styles['input-box']}>
-            <div className={styles['device-box']}>
+            <div
+              className={`${styles['device-box']} ${
+                error ? styles['search-input-error'] : ''
+              }`}
+            >
               <Input
+                type="text"
                 placeholder="Please enter the device identification number"
                 onChange={(e) => setSearchId(e.target.value)}
-                onPressEnter={(e) => handleSearch(e)}
+                onPressEnter={(e) => handleSearch(searchId)}
                 className={styles['search-input-node']}
               />
               <Button
@@ -138,95 +140,11 @@ export default function Mount() {
           </section>
           <main className={styles['card-content']}>
             <h3>Configurable Parameters</h3>
-            <ul>
-              <ol>
-                <li>
-                  <p>identification number:</p> <span> 879q43yv8hbvn</span>
-                </li>
-                <li>
-                  <p>node-names:</p> <span>4090xxx</span>
-                </li>
-                <li>
-                  <p>Cores:</p>
-                  <span>8</span>
-                </li>
-                <li>
-                  <p>memory :</p>
-                  <span>IT</span>
-                </li>
-              </ol>
-              <ol>
-                <li>
-                  <p>status:</p>
-                  <span>idle</span>
-                </li>
-                <li>
-                  <p>disk:</p>
-                  <span>1500</span>
-                </li>
-                <li>
-                  <p>Region: </p>
-                  <span>Manchester,UK</span>
-                </li>
-                <li>
-                  <p>vCPU: </p> <span>ESSD Entry 40GiB</span>
-                </li>
-              </ol>
-              <ol>
-                <li>
-                  <p>quantity:</p> <span>4</span>
-                </li>
-                <li>
-                  <p>internal storage:</p> <span>4 GiB </span>
-                </li>
-                <li>
-                  <p>Available area:</p>
-                  <span> 25</span>
-                </li>
-                <li>
-                  <p>Processor: </p>
-                  <span>intel</span>
-                </li>
-              </ol>
-            </ul>
-            <section className={styles['card-security']}>
-              <span>Custom description</span>
-              <div className={styles['card-security-items']}>
-                <Input
-                  prefix={
-                    <span
-                      className="icon-blue"
-                      onClick={() => AddTag(tagInput)}
-                    >
-                      <i className="iconfont icon-add"></i>
-                    </span>
-                  }
-                  placeholder={`Add tag(${tags.length}/6)`}
-                  className={styles['card-security-input']}
-                  value={tagInput}
-                  onChange={(e) => setTagInput(e.target.value)}
-                  onPressEnter={() => {
-                    AddTag(tagInput);
-                    setTagInput('');
-                  }}
-                />
-                <ul className={styles['card-security-keys']}>
-                  {tags.map((item, index) => (
-                    <div className={styles['card-security-key']} key={index}>
-                      <div>
-                        <p>{item}</p>
-                      </div>
-                      <span
-                        className={styles['icon-red']}
-                        onClick={() => removeTag(item)}
-                      >
-                        <i className="iconfont icon-delete "></i>
-                      </span>
-                    </div>
-                  ))}
-                </ul>
-              </div>
-            </section>
+            {userInfo?.node_id ? (
+              <NodeInfo styles={styles} />
+            ) : (
+              <Loading loading={loading} />
+            )}
           </main>
         </main>
       </Card>
