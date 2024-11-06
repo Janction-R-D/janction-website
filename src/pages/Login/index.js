@@ -3,8 +3,14 @@ import storage from '@/utils/storage';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { SiweMessage } from 'siwe';
 import { history, useModel } from 'umi';
-import { useAccount, useAccountEffect, useSignMessage } from 'wagmi';
+import {
+  useAccount,
+  useAccountEffect,
+  useDisconnect,
+  useSignMessage,
+} from 'wagmi';
 import styles from './index.less';
+import { useEffect } from 'react';
 
 const expires = 60 * 60 * 10 * 1000;
 const Login = (props) => {
@@ -12,6 +18,18 @@ const Login = (props) => {
   const { openConnectModal } = useConnectModal();
   const { signMessageAsync } = useSignMessage();
   const { initialState, setInitialState } = useModel('@@initialState');
+
+  const { disconnect } = useDisconnect();
+
+  useEffect(() => {
+    const refresh = storage.get('refresh');
+    if (refresh) {
+      setTimeout(() => {
+        openConnectModal && openConnectModal();
+        storage.remove('refresh');
+      }, 1000);
+    }
+  }, []);
 
   useAccountEffect({
     onConnect({ address, chainId }) {
@@ -80,10 +98,13 @@ const Login = (props) => {
   });
 
   const onConnect = async () => {
+    console.log('『address』', address);
     if (address) {
+      disconnect();
       // Triggered when the user clears local data
+      storage.set({ name: 'refresh', value: true });
       location.reload();
-      openConnectModal();
+      // openConnectModal();
     } else {
       openConnectModal();
     }
