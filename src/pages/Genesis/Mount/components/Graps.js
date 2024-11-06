@@ -6,19 +6,12 @@ export default function MountEchart({ styles }) {
   return (
     <div
       style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        width: '100%',
-        height: '300px',
-        maxWidth: '650px',
-        backgroundColor: '#1E1E1E',
         padding: '10px',
         marginBottom: '12px',
         borderRadius: '10px',
       }}
     >
-      <ExpirationGraph />
+      <ExpirationGraph styles={styles} />
     </div>
   );
 }
@@ -162,6 +155,11 @@ function ExpirationGraph({ styles }) {
     ],
   };
   return (
-    <ReactECharts option={option} style={{ height: '400px', width: '100%' }} />
+    <section className={styles['grap-box']}>
+      <ReactECharts option={option} />
+      <div className={styles['grap-inputs']}>
+        <BandRadioGroup styles={styles} />
+      </div>
+    </section>
   );
 }
