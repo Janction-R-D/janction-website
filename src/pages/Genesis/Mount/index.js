@@ -13,8 +13,8 @@ export default function Mount() {
   const [userInfo, setUserInfo] = useState(null);
   const [showInfo, setShowInfo] = useState(false);
   const [tagInput, setTagInput] = useState(null);
-  const [maxPeriod, setMaxPeriod] = useState(1);
-  const [minPeriod, setMinPeriod] = useState(1);
+  const [minLease, setMinLease] = useState(1);
+  const [maxLease, setMaxLease] = useState(1);
   const [tags, setTags] = useState([
     'Machine Learning',
     'Suitable for AI training',
@@ -48,11 +48,15 @@ export default function Mount() {
   const onMinDurationValueChange = (value) => {
     setMinDuration((prevState) => ({ number: value, ...prevState }));
   };
-  const onMinPeriodValueChange = (value) => {
-    setMinPeriod(value);
+  const onMaxLeaseChange = (e) => {
+    const value = e.target.value;
+    if (value > 12) return;
+    setMaxLease(value);
   };
-  const onMaxPeriodValueChange = (value) => {
-    setMaxPeriod(value);
+  const onMinLeaseChange = (e) => {
+    const value = e.target.value;
+    if (value > 11) return;
+    setMinLease(value);
   };
 
   const options = [
@@ -259,10 +263,10 @@ export default function Mount() {
             <div className={styles['duration-group']}>
               <div className={styles['input-duration']}>
                 <Input
-                  value={minDuration.number}
-                  defaultValue={minDuration.number}
+                  value={minLease}
+                  defaultValue={minLease}
                   name="minimum_lease_duration"
-                  onChange={onMinDurationValueChange}
+                  onChange={onMinLeaseChange}
                   className={styles['lease-duration-input']}
                   type="number"
                 />
@@ -284,10 +288,10 @@ export default function Mount() {
             <div className={styles['duration-group']}>
               <div className={styles['input-duration']}>
                 <Input
-                  value={maxDuration.number}
-                  defaultValue={maxDuration.number}
+                  value={maxLease}
+                  defaultValue={maxLease}
                   name="maximum_lease_duration"
-                  onChange={onMaxDurationValueChange}
+                  onChange={onMaxLeaseChange}
                   className={styles['lease-duration-input']}
                   type="number"
                 />
