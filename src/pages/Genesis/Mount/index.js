@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { history } from 'umi';
 import JanctionRange from '@/components/JanctionRange';
 import styles from './index.less';
-import { Button, Card, Input, Select, Checkbox, Radio } from 'antd';
+import { Button, Card, Input, Select, Checkbox, TimePicker } from 'antd';
 import MountEchart from './components/Graps';
 import { fetchConfigInfo, postConfigInfo } from '@/services/genesis';
 export default function Mount() {
@@ -258,68 +258,57 @@ export default function Mount() {
             <p>Minimum lease duration</p>
             <div className={styles['duration-group']}>
               <div className={styles['input-duration']}>
-                <JanctionRange
+                <Input
                   value={minDuration.number}
                   defaultValue={minDuration.number}
                   name="minimum_lease_duration"
                   onChange={onMinDurationValueChange}
+                  className={styles['lease-duration-input']}
+                  type="number"
                 />
               </div>
-              <Select
-                bordered={false}
-                options={options}
-                style={{
-                  width: '190px',
-                }}
-                className={styles['select']}
-                name="minimum_lease_unit"
-                defaultValue={minDuration.time}
-              />
+              <div className={styles['select-box']}>
+                <Select
+                  bordered={false}
+                  options={options}
+                  className={styles['select']}
+                  name="minimum_lease_unit"
+                  defaultValue={minDuration.time}
+                />
+                <p>(1-11)</p>
+              </div>
             </div>
           </div>
           <div className={styles['duration-item']}>
             <p>Maximum lease duration</p>
             <div className={styles['duration-group']}>
               <div className={styles['input-duration']}>
-                <JanctionRange
+                <Input
                   value={maxDuration.number}
                   defaultValue={maxDuration.number}
                   name="maximum_lease_duration"
                   onChange={onMaxDurationValueChange}
+                  className={styles['lease-duration-input']}
+                  type="number"
                 />
               </div>
-              <label>
+              <div className={styles['select-box']}>
                 <Select
                   bordered={false}
                   options={options}
-                  style={{
-                    width: '190px',
-                  }}
-                  value={maxDuration.time}
                   defaultValue={maxDuration.time}
                   name="maximum_lease_unit"
                   className={styles['select']}
                 />
-              </label>
+                <p>(12)</p>
+              </div>
             </div>
           </div>
           <div className={styles['duration-item']}>
             <p>Available period</p>
             <div className={styles['duration-group']}>
               <div className={styles['input-duration']}>
-                <JanctionRange
-                  value={minPeriod}
-                  onChange={onMinPeriodValueChange}
-                  name="available_period_down"
-                />
-              </div>
-              <div className={styles['input-duration']}>
-                <JanctionRange
-                  value={maxPeriod}
-                  onChange={onMaxPeriodValueChange}
-                  unit="Oclock"
-                  name="available_period_up"
-                />
+                <TimePicker.RangePicker className={styles['input-time']} />
               </div>
             </div>
           </div>

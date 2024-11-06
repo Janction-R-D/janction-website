@@ -341,10 +341,30 @@
   align-items: center;
   cursor: pointer;
 }
+.lease-duration-input {
+  padding: 12px 20px;
+  background-color: #2f2f31;
+  border-radius: 14px 0px 0px 14px;
+
+  border: none;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
 .card-input > input[type='number']::-webkit-inner-spin-button,
 input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+.input-time {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 18px;
+  background-color: #2f2f31;
+  border-radius: 14px;
+  border: none;
+  outline: none;
 }
 .device-box {
   display: flex;
@@ -591,15 +611,30 @@ input[type='number']::-webkit-outer-spin-button {
   justify-content: space-between;
   flex: 1;
 }
+.select-box {
+  display: flex;
+  gap: 6px;
+  flex-wrap: nowrap;
+  align-items: center;
+  position: relative;
+}
+.select-box > p {
+  position: absolute;
+  top: 1/2;
+  right: -120px;
+  width: 12ch;
+  color: #a7a7a8;
+}
 .select {
-  padding: 6px 12px;
+  padding: 7px 8px;
   background-color: #2f2f31;
-  border-radius: 14px;
+  border-radius: 0px 14px 14px 0px;
   border: 0px;
+
   outline: none;
-
+  width: 130px;
   text-overflow: ellipsis;
-
+  border-left: 1px solid #3a3a3c;
   cursor: pointer;
   color: #73d5f4;
 }
@@ -650,6 +685,7 @@ input[type='number']::-webkit-outer-spin-button {
 }
 .duration-group {
   display: flex;
+  width: 270px;
   align-items: center;
 }
 .create-btn {
