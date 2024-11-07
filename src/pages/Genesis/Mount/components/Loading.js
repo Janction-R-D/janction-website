@@ -1,7 +1,6 @@
 import React from 'react';
 import styles from './loader.less';
 export default function Loading({ loading }) {
-  console.log(loading);
   return (
     <>
       {loading ? (

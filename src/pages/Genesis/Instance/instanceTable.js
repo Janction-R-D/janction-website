@@ -124,14 +124,19 @@ function InstanceTable({ data }) {
       key: 'action',
       width: 100,
       render: (error, record) => {
-        console.log(record);
+        console.log(record.status);
         return (
           <Space
             size="middle"
             style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}
           >
             <a
-              className={styles['operation-action']}
+              className={`${styles['operation-action']} , ${
+                record.status.toLowerCase() === 'stop' ||
+                record.status.toLowerCase() === 'expired'
+                  ? styles['recent-status']
+                  : ''
+              }`}
               onClick={() =>
                 handleOperation(
                   'stop',
@@ -143,7 +148,12 @@ function InstanceTable({ data }) {
               <p>Stop</p>
             </a>
             <a
-              className={styles['operation-action']}
+              className={`${'operation-action'}  ${
+                record.status.toLowerCase() === 'running' ||
+                record.status.toLowerCase() === 'expired'
+                  ? 'recent-status'
+                  : ''
+              }`}
               onClick={() =>
                 handleOperation(
                   'start',

@@ -12,11 +12,18 @@ export default function Mount() {
   const [loading, setLoading] = useState(false);
   const [minDuration, setMinDuration] = useState({ value: 1, label: 'Month' });
   const [maxDuration, setMaxDuration] = useState({ value: 4, label: 'Year' });
+  const [minPeriod, setMinPeriod] = useState(null);
+  const [maxPeriod, setMaxPeriod] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
   const [error, setError] = useState(false);
   const [errorRange, setErrorRange] = useState(false);
   const [minLease, setMinLease] = useState(1);
   const [maxLease, setMaxLease] = useState(1);
+  const [tags, setTags] = useState([
+    'Machine Learning',
+    'Suitable for AI training',
+    'Deep Learning Optimization',
+  ]);
   const options = [
     {
       value: 1,
@@ -79,6 +86,7 @@ export default function Mount() {
       .catch((err) => {
         console.log(err);
         setError(true);
+        setUserInfo({});
         setTimeout(() => {
           setError(false);
           console.log('object');
@@ -95,24 +103,44 @@ export default function Mount() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData);
 
     const payload = {
       node_id: 'd9ede8ea-379b-4d8d-9d4d-c7f21b6400df',
       tags: tags,
       minimum_lease_unit: minDuration.label,
       maximum_lease_unit: maxDuration.label,
-      billing_method_token: selectedPayment,
-      ...data,
+      minimum_lease_duration: minLease,
+      maximum_lease_duration: maxLease,
+      available_period_up: maxPeriod,
+      available_period_down: minPeriod,
     };
     console.log(payload);
-
+    return;
     postConfigInfo(payload)
       .then((res) => {
         history.push('/genesis/instance');
       })
       .catch((err) => console.log(err));
+  };
+  function formatTime(date) {
+    // Crear un objeto Date si se pasa una cadena de texto
+    const d = new Date(date);
+
+    // Obtener las horas, minutos y segundos
+    const hours = d.getHours().toString().padStart(2, '0');
+    const minutes = d.getMinutes().toString().padStart(2, '0');
+    const seconds = d.getSeconds().toString().padStart(2, '0');
+
+    // Formatear como HH:MM:SS
+    return `${hours}:${minutes}:${seconds}`;
+  }
+  const calendarChange = (value) => {
+    const [a, b] = value;
+    const newMinPeriod = formatTime(a._d);
+    const newMaxPeriod = formatTime(b._d);
+
+    setMaxPeriod(newMaxPeriod);
+    setMinPeriod(newMinPeriod);
   };
   return (
     <form className={styles['main']} onSubmit={(e) => handleSubmit(e)}>
@@ -133,7 +161,7 @@ export default function Mount() {
                 type="text"
                 placeholder="Please enter the device identification number"
                 onChange={(e) => setSearchId(e.target.value)}
-                onPressEnter={(e) => handleSearch(searchId)}
+                onPressEnter={(e) => handleSearch(e, searchId)}
                 className={styles['search-input-node']}
               />
               <Button
@@ -149,7 +177,7 @@ export default function Mount() {
           <main className={styles['card-content']}>
             <h3>Configurable Parameters</h3>
             {userInfo?.node_id ? (
-              <NodeInfo styles={styles} />
+              <NodeInfo styles={styles} tags={tags} setTags={setTags} />
             ) : (
               <Loading loading={loading} />
             )}
@@ -213,7 +241,11 @@ export default function Mount() {
           <div className={styles['duration-item']}>
             <p>Maximum lease duration</p>
             <div className={styles['duration-box']}>
-              <div className={styles['duration-group']}>
+              <div
+                className={`${styles['duration-group']} ${
+                  errorRange ? styles['search-input-error'] : ''
+                }`}
+              >
                 <div className={styles['input-duration']}>
                   <Input
                     value={maxLease}
@@ -248,7 +280,10 @@ export default function Mount() {
             <p>Available period</p>
             <div className={styles['duration-group']}>
               <div className={styles['input-duration']}>
-                <TimePicker.RangePicker className={styles['input-time']} />
+                <TimePicker.RangePicker
+                  className={styles['input-time']}
+                  onChange={calendarChange}
+                />
               </div>
             </div>
           </div>
@@ -259,7 +294,12 @@ export default function Mount() {
           I have read and agreed to the{' '}
           <span className={styles['blue']}>relevant service terms</span>.
         </Checkbox>
-        <button className={styles['btn-orange']}>Confirm</button>
+        <Button
+          className={styles['create-btn']}
+          onClick={(e) => handleSubmit(e)}
+        >
+          Confirm
+        </Button>
       </section>
     </form>
   );

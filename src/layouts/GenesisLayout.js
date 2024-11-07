@@ -20,7 +20,7 @@ const navList = [
     key: 1,
     icon: 'deploy-node',
   },
-  { name: 'My Nodes', path: '/genesis/instance', key: 2, icon: 'my-nodes' },
+  { name: 'My instances', path: '/genesis/instance', key: 2, icon: 'my-nodes' },
   { name: 'Orders', path: '/genesis/orders', key: 3, icon: 'my-nodes' },
   {
     name: 'Billings',

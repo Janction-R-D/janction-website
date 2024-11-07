@@ -1,18 +1,26 @@
 import React, { useState } from 'react';
 import { Input } from 'antd';
-export function NodeInfo({ styles }) {
+export function NodeInfo({ styles, tags, setTags }) {
   const [tagInput, setTagInput] = useState(null);
   const [showInput, setShowInput] = useState(null);
-  const [tags, setTags] = useState([
-    'Machine Learning',
-    'Suitable for AI training',
-    'Deep Learning Optimization',
-  ]);
+  const [error, setError] = useState(false);
+
   const AddTag = (name) => {
     if (!name || tags.length === 6) return;
+    const verifyTag = tags.filter((tag) => tag.trim() === name.trim());
+    console.log(verifyTag);
+
+    if (verifyTag.length > 0) {
+      setError(true);
+      setTimeout(() => {
+        setError(false);
+      }, 2000);
+      return;
+    }
     const newTags = [...tags, name];
     setTags(newTags);
     setShowInput(false);
+    setTagInput('');
   };
   const removeTag = (name) => {
     const newTags = tags.filter((tag) => tag !== name);
@@ -85,21 +93,33 @@ export function NodeInfo({ styles }) {
           </div>
           <ul className={styles['card-security-keys']}>
             {showInput && (
-              <Input
-                prefix={
-                  <span className="icon-blue" onClick={() => AddTag(tagInput)}>
-                    <i className="iconfont icon-add"></i>
-                  </span>
-                }
-                placeholder={`Enter a short keyword`}
-                className={styles['card-security-input']}
-                value={tagInput}
-                onChange={(e) => setTagInput(e.target.value)}
-                onPressEnter={() => {
-                  AddTag(tagInput);
-                  setTagInput('');
-                }}
-              />
+              <div className={styles['input-duration']}>
+                <Input
+                  prefix={
+                    <span
+                      className="icon-blue"
+                      onClick={() => AddTag(tagInput)}
+                    >
+                      <i className="iconfont icon-add"></i>
+                    </span>
+                  }
+                  placeholder={`Enter a short keyword`}
+                  className={`${styles['card-security-input']} ${
+                    error ? styles['search-input-error'] : ''
+                  }`}
+                  value={tagInput}
+                  onChange={(e) => setTagInput(e.target.value)}
+                  onPressEnter={() => {
+                    AddTag(tagInput);
+                    setTagInput('');
+                  }}
+                />
+                {error && (
+                  <p className={styles['red']}>
+                    Please fill in a time greater than the minimum period.
+                  </p>
+                )}
+              </div>
             )}
             {tags.map((item, index) => (
               <div className={styles['card-security-key']} key={index}>

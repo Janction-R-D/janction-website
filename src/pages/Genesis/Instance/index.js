@@ -101,7 +101,7 @@ function Instance() {
               )}
             </Space>
           </Col>
-          <Col span={13} style={{ display: 'flex', gap: '16px' }}>
+          <Col span={15} style={{ display: 'flex', gap: '16px' }}>
             <Input
               suffix={
                 <i
