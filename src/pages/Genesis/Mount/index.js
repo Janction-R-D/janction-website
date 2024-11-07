@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { history } from 'umi';
 import { NodeInfo } from './components/NodeInfo';
 import styles from './index.less';
@@ -6,26 +6,52 @@ import { Button, Card, Input, Select, Checkbox, TimePicker } from 'antd';
 import MountEchart from './components/Graps';
 import { fetchConfigInfo, postConfigInfo } from '@/services/genesis';
 import Loading from './components/Loading';
+
 export default function Mount() {
   const [searchId, setSearchId] = useState('');
   const [loading, setLoading] = useState(false);
-  const [minDuration, setMinDuration] = useState({ number: 1, time: 'Month' });
-  const [maxDuration, setMaxDuration] = useState({ number: 1, time: 'Year' });
+  const [minDuration, setMinDuration] = useState({ value: 1, label: 'Month' });
+  const [maxDuration, setMaxDuration] = useState({ value: 4, label: 'Year' });
   const [userInfo, setUserInfo] = useState(null);
   const [error, setError] = useState(false);
+  const [errorRange, setErrorRange] = useState(false);
   const [minLease, setMinLease] = useState(1);
   const [maxLease, setMaxLease] = useState(1);
-
-  const handleChange = (value) => {
-    setSelectedPayment(value);
-  };
-
+  const options = [
+    {
+      value: 1,
+      label: 'Day',
+    },
+    {
+      value: 2,
+      label: 'Week',
+    },
+    {
+      value: 3,
+      label: 'Month',
+    },
+    {
+      value: 4,
+      label: 'Year',
+    },
+  ];
   const onMaxDurationValueChange = (value) => {
-    setMaxDuration((prevState) => ({ number: value, ...prevState }));
+    const [newValue] = options.filter((item) => item.value == value);
+    setMaxDuration(newValue);
   };
   const onMinDurationValueChange = (value) => {
-    setMinDuration((prevState) => ({ number: value, ...prevState }));
+    const [newValue] = options.filter((item) => item.value == value);
+    setMinDuration(newValue);
   };
+  useEffect(() => {
+    if (minLease > maxLease || minDuration.value > maxDuration.value) {
+      setErrorRange(true);
+    } else if (minDuration.value == maxDuration.value && minLease >= maxLease) {
+      setErrorRange(true);
+    } else {
+      setErrorRange(false);
+    }
+  }, [maxDuration, minDuration, maxLease, minLease]);
   const onMaxLeaseChange = (e) => {
     const value = e.target.value;
     if (value > 12) return;
@@ -37,24 +63,6 @@ export default function Mount() {
     setMinLease(value);
   };
 
-  const options = [
-    {
-      value: '1',
-      label: 'Day',
-    },
-    {
-      value: '2',
-      label: 'Week',
-    },
-    {
-      value: '3',
-      label: 'Month',
-    },
-    {
-      value: '4',
-      label: 'Year',
-    },
-  ];
   const handleSearch = (e) => {
     e.preventDefault();
 
@@ -93,8 +101,8 @@ export default function Mount() {
     const payload = {
       node_id: 'd9ede8ea-379b-4d8d-9d4d-c7f21b6400df',
       tags: tags,
-      minimum_lease_unit: minDuration.time,
-      maximum_lease_unit: maxDuration.time,
+      minimum_lease_unit: minDuration.label,
+      maximum_lease_unit: maxDuration.label,
       billing_method_token: selectedPayment,
       ...data,
     };
@@ -195,7 +203,8 @@ export default function Mount() {
                   options={options}
                   className={styles['select']}
                   name="minimum_lease_unit"
-                  defaultValue={minDuration.time}
+                  defaultValue={minDuration.label}
+                  onChange={(value) => onMinDurationValueChange(value)}
                 />
                 <p>(1-11)</p>
               </div>
@@ -203,27 +212,36 @@ export default function Mount() {
           </div>
           <div className={styles['duration-item']}>
             <p>Maximum lease duration</p>
-            <div className={styles['duration-group']}>
-              <div className={styles['input-duration']}>
-                <Input
-                  value={maxLease}
-                  defaultValue={maxLease}
-                  name="maximum_lease_duration"
-                  onChange={onMaxLeaseChange}
-                  className={styles['lease-duration-input']}
-                  type="number"
-                />
+            <div className={styles['duration-box']}>
+              <div className={styles['duration-group']}>
+                <div className={styles['input-duration']}>
+                  <Input
+                    value={maxLease}
+                    defaultValue={maxLease}
+                    name="maximum_lease_duration"
+                    onChange={onMaxLeaseChange}
+                    className={styles['lease-duration-input']}
+                    type="number"
+                  />
+                </div>
+                <div className={styles['select-box']}>
+                  <Select
+                    bordered={false}
+                    options={options}
+                    defaultValue={maxDuration.label}
+                    name="maximum_lease_unit"
+                    className={styles['select']}
+                    onChange={(value) => onMaxDurationValueChange(value)}
+                  />
+
+                  <p>(At least 12)</p>
+                </div>
               </div>
-              <div className={styles['select-box']}>
-                <Select
-                  bordered={false}
-                  options={options}
-                  defaultValue={maxDuration.time}
-                  name="maximum_lease_unit"
-                  className={styles['select']}
-                />
-                <p>(At least 12)</p>
-              </div>
+              {errorRange && (
+                <p className={styles['red']}>
+                  Please fill in a time greater than the minimum period.
+                </p>
+              )}
             </div>
           </div>
           <div className={styles['duration-item']}>
