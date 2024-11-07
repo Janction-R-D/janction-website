@@ -1,8 +1,8 @@
 import CustomConnectButton from '@/components/CustomConnectButton';
 import SocialsLinks from '@/components/SocialsLinks';
 import { QuestionCircleOutlined, SettingOutlined } from '@ant-design/icons';
-import { useEffect, useState } from 'react';
-import { history } from 'umi';
+import { useEffect, useMemo, useState } from 'react';
+import { history, useModel } from 'umi';
 import ProfileHeader from '../components/ProfileHeader';
 import styles from './genesis.less';
 
@@ -16,21 +16,38 @@ const navList = [
   },
   {
     name: 'Deploy Node',
-    path: '/genesis/nodes',
+    path: '/genesis/deployNode',
     key: 1,
     icon: 'deploy-node',
   },
-  { name: 'My instances', path: '/genesis/instance', key: 2, icon: 'my-nodes' },
-  { name: 'Orders', path: '/genesis/orders', key: 3, icon: 'my-nodes' },
+  {
+    name: 'My Instance',
+    path: '/genesis/instance',
+    key: 2,
+    icon: 'my-nodes',
+    role: (isLessee) => isLessee,
+  },
+  {
+    name: 'My Nodes',
+    path: '/genesis/nodes',
+    key: 3,
+    icon: 'my-nodes',
+    role: (isLessee) => !isLessee,
+  },
+  { name: 'Orders', path: '/genesis/orders', key: 4, icon: 'my-nodes' },
   {
     name: 'Billings',
     path: '/genesis/billDetails',
-    key: 4,
+    key: 5,
     icon: 'billings',
   },
 ];
 const GenesisLayout = (props) => {
   const { children } = props;
+
+  const { initialState } = useModel('@@initialState');
+
+  const { isLessee } = initialState || {};
 
   const [active, setActive] = useState();
   const [fold, setFold] = useState(false);
@@ -49,11 +66,17 @@ const GenesisLayout = (props) => {
     history.push(nav.path);
   };
 
+  const menu = useMemo(() => {
+    return navList.filter((item) => (item.role ? item.role(isLessee) : true));
+  }, [isLessee]);
+
+  console.log('『menu』', menu);
+
   // const onIdentityChange = () => {
-  //   storage.set({ name: 'isLessees', value: !isLessees });
+  //   storage.set({ name: 'isLessee', value: !isLessee });
   //   setInitialState({
   //     ...initialState,
-  //     isLessees: !isLessees,
+  //     isLessee: !isLessee,
   //   });
   //   location.reload();
   // };
@@ -74,7 +97,7 @@ const GenesisLayout = (props) => {
                 className={styles['menu-list']}
                 style={{ display: menuShow ? 'flex' : 'none' }}
               >
-                {navList.map((item) => (
+                {menu.map((item) => (
                   <div key={item.key} onClick={() => onNavChange(item)}>
                     <i className={`iconfont icon-${item.icon}`} />
                     <span>{item.name}</span>
@@ -99,7 +122,7 @@ const GenesisLayout = (props) => {
               </div>
             </header>
             <nav>
-              {navList.map((item) => (
+              {menu.map((item) => (
                 <div
                   key={item.key}
                   className={

@@ -1,16 +1,14 @@
 import { useModel } from 'umi';
-import Lessees from './Lessees';
-import Lessors from './Lessors';
+import Lessee from './Lessee';
+import Lessor from './Lessor';
 
 const Dashboard = (props) => {
   const { initialState } = useModel('@@initialState');
 
-  const { isLessees = true } = initialState || {};
+  const { isLessee } = initialState || {};
 
-  console.log('『initialState』', initialState);
-
-  if (isLessees) return <Lessees />;
-  return <Lessors />;
+  if (isLessee) return <Lessee />;
+  return <Lessor />;
 };
 
 Dashboard.wrappers = ['@/wrappers/auth'];

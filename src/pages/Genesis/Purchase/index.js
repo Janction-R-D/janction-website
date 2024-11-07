@@ -8,8 +8,10 @@ import FoterPrice from './components/FoterPrice';
 import { DEFAULT_PURCHASE_TYPE, PURCHASES } from './extra';
 import Customized from './components/Customized';
 import Quick from './components/Quick';
+import { history } from 'umi';
 
-function Purchase() {
+function Purchase(props) {
+  const { isQuick, node } = history.location.state || {};
   const [activePurType, setActivePurType] = useState(DEFAULT_PURCHASE_TYPE);
   const [totalAmount, setTotalAmount] = useState(0);
   const [selectedInstance, setInstance] = useState({
@@ -27,6 +29,12 @@ function Purchase() {
     price: 10,
     vCPU: 'SA5.MEDIUM2 Xxxx',
   });
+
+  useEffect(() => {
+    if (isQuick) {
+      setActivePurType(PURCHASES[1].value);
+    }
+  }, [isQuick]);
 
   useEffect(() => {
     const getTotalPrice = () => {

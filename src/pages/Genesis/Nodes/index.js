@@ -1,118 +1,99 @@
-import { SYSTEM_LIST } from '@/constant';
-import { message } from 'antd';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import styles from './index.less';
-import Step3 from './components/RunNode';
-import StepChart from './components/StepChart';
-import Step1 from './components/System';
+import Resources from './components/Resources';
+import { Card, Radio, Pagination } from 'antd';
+import NodeCard from './components/Nodes';
+import { Redirect, useModel } from 'umi';
 
-const DEFAULT = {
-  system: SYSTEM_LIST[0].value,
-};
-const stepsList = [
-  {
-    value: 1,
-    name: 'Step 1',
-    info: 'Select operating system',
-    nextstep: 2,
-  },
-  // {
-  //   value: 2,
-  //   name: 'Step 2',
-  //   info: 'Check GPU',
-  //   nextstep: 3,
-  //   prestep: 1,
-  // },
-  {
-    value: 2,
-    name: 'Step 2',
-    info: 'Run Node',
-    prestep: 1,
-  },
-];
-const Nodes = (props) => {
-  const [curStep, setCurStep] = useState(stepsList[0]);
-  const [selectedValues, setSelectedValues] = useState(DEFAULT);
+export default function AccessControl() {
+  const [filter, setFilter] = useState('All Filter');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(16);
+  const { initialState } = useModel('@@initialState');
+  const { isLessee } = initialState || {};
 
-  const onBack = () => {
-    const step = stepsList.find((item) => item.value == curStep['prestep']);
-    if (!step) return;
-    setCurStep(step);
+  const nodes = Array.from({ length: 48 }, (_, i) => i + 1);
+  const indexOfLastInstance = currentPage * itemsPerPage;
+  const indexOfFirstInstance = indexOfLastInstance - itemsPerPage;
+  const currentInstances = nodes?.slice(
+    indexOfFirstInstance,
+    indexOfLastInstance,
+  );
+
+  const handleRefresh = () => {
+    window.location.reload();
   };
 
-  const onNext = () => {
-    const step = stepsList.find((item) => item.value == curStep['nextstep']);
-    if (!step) return;
-    if (!selectedValues?.system) {
-      message.warning('Please choose your operating system!');
-      return;
-    }
-    if (selectedValues.system !== 'android' && !selectedValues?.architecture) {
-      message.warning('Please choose Architecture!');
-      return;
-    }
-    setCurStep(step);
-  };
-
-  const renderStepBtn = () => {
-    return (
-      <div className={styles['pre-next-btn']}>
-        {curStep.prestep && (
-          <button onClick={onBack}>
-            <i className="iconfont icon-pre"></i>
-            <span>Pre</span>
-          </button>
-        )}
-        {curStep.nextstep && (
-          <button onClick={onNext}>
-            <span>Next</span>
-            <i className="iconfont icon-next"></i>
-          </button>
-        )}
-      </div>
-    );
-  };
+  if (isLessee) return <Redirect to="/genesis/instance"></Redirect>;
 
   return (
-    <>
-      <div className={styles['steps']}>
-        <div className={styles['step-echart']}>
-          <StepChart data={curStep.value} max={stepsList.length} />
-        </div>
-        <div className={styles['step-info']}>
-          <h1>{curStep.name}</h1>
-          <p>{curStep.info}</p>
-        </div>
-        {renderStepBtn()}
+    <div>
+      <div className={styles['title']}>
+        <h1>My Nodes</h1>
       </div>
-      <div className={styles['android-steps']}>
-        <div className={styles['info']}>
-          <p className="ell f1">{curStep.info}</p>
-          <div>
-            <span>{curStep.value}</span> of 2
+      <Resources />
+      <Card className={styles['card']}>
+        <div className={styles['card-header']}>
+          <h2>
+            Node status monitoring <i className="iconfont icon-info"></i>
+          </h2>
+          <span className={styles['refresh']} onClick={handleRefresh}>
+            <i className="iconfont icon-refresh"></i>
+            Refresh
+          </span>
+        </div>
+        <div className={styles['filters']}>
+          <div className={styles['band-radio-wrapper']}>
+            <Radio.Group
+              defaultValue="All-nodes"
+              buttonStyle="solid"
+              style={{
+                borderRadius: '24px',
+              }}
+              className={styles['band-radio']}
+            >
+              <Radio.Button
+                value="All-nodes"
+                name="filter"
+                onClick={() => setFilter('All-nodes')}
+              >
+                All nodes
+              </Radio.Button>
+              <Radio.Button
+                value="Fault"
+                name="filter"
+                onClick={() => setFilter('Fault')}
+              >
+                Fault
+              </Radio.Button>
+              <Radio.Button
+                value="Normal"
+                name="filter"
+                onClick={() => setFilter('Normal')}
+              >
+                Normal
+              </Radio.Button>
+            </Radio.Group>
           </div>
+          <span className={styles['filter-button']}>{filter}</span>
         </div>
-        <div className={styles['progress-bar']}>
-          <div
-            className={styles['value-bar']}
-            style={{ '--width': `${(curStep.value / 2) * 100}%` }}
-          ></div>
-        </div>
-      </div>
-      <div className={styles['step-content']}>
-        {curStep.value == 1 && (
-          <Step1
-            selectedValues={selectedValues}
-            setSelectedValues={setSelectedValues}
+        <ul className={styles['nodes']}>
+          {currentInstances.map((item, index) => (
+            <li key={index}>
+              <NodeCard />
+            </li>
+          ))}
+        </ul>
+        <div className={styles['pagination-wrapper']}>
+          <Pagination
+            current={currentPage}
+            pageSize={itemsPerPage}
+            total={nodes?.length}
+            showLessItems
+            onChange={(page) => setCurrentPage(page)}
           />
-        )}
-        {/* {curStep.value == 2 && <Step2 />} */}
-        {curStep.value == 2 && <Step3 selectedValues={selectedValues} />}
-      </div>
-      <div className={styles['android-pre-next-btn']}>{renderStepBtn()}</div>
-    </>
+        </div>
+      </Card>
+    </div>
   );
-};
-
-Nodes.wrappers = ['@/wrappers/auth'];
-export default Nodes;
+}

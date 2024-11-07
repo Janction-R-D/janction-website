@@ -42,13 +42,13 @@ function ProfileModal({ styles, classname, setShowModal }) {
       }) => {
         const { initialState, setInitialState } = useModel('@@initialState');
 
-        const { isLessees } = initialState || {};
+        const { isLessee } = initialState || {};
         const { disconnect } = useDisconnect();
         const onIdentityChange = () => {
-          storage.set({ name: 'isLessees', value: !isLessees });
+          storage.set({ name: 'isLessee', value: !isLessee });
           setInitialState({
             ...initialState,
-            isLessees: !isLessees,
+            isLessee: !isLessee,
           });
           setShowModal(false);
           // location.reload();
@@ -79,7 +79,7 @@ function ProfileModal({ styles, classname, setShowModal }) {
                   <i className="iconfont icon-copy"></i>
                 </span>
                 <div className={styles['type-account']}>
-                  {isLessees ? (
+                  {isLessee ? (
                     <div onClick={onIdentityChange}>
                       <p>Switch to Switch Lessor Role</p>
                       <i className="iconfont icon-next"></i>

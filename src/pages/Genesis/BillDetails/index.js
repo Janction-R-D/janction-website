@@ -10,7 +10,7 @@ import numeral from 'numeral';
 
 function BillDetails() {
   const { initialState } = useModel('@@initialState');
-  const { isLessees = true } = initialState || {};
+  const { isLessee = true } = initialState || {};
 
   const [open, setOpen] = useState(false);
   const [selectedBill, setSelectedBill] = useState({});
@@ -19,12 +19,12 @@ function BillDetails() {
 
   useEffect(() => {
     getList();
-  }, [isLessees]);
+  }, [isLessee]);
 
   const getList = async () => {
     try {
       const res = await fetchBillingList({
-        role: isLessees ? 'tenant' : 'lessor',
+        role: isLessee ? 'tenant' : 'lessor',
       });
       setList(res || []);
       setFilteredData(res || []);

@@ -5,34 +5,41 @@ import { MONTH } from '@/constant';
 import useScale from '../../../../hooks/useScale';
 import { balanceData } from '../data';
 import useLesses from '../Hooks/useLesses';
+import { isEmpty } from '@/utils/lang';
+import dayjs from 'dayjs';
 
 const Line = (props) => {
-  const { data = balanceData } = props;
   const { lessesData } = useLesses();
-  const balance = lessesData?.portfolio_balance;
   const { scale } = useScale();
-  // Procesa las fechas de las GPUs extrayendo solo la parte de la fecha antes de la 'T'
-  const gpuArrayX = Object.keys(balance?.gpu || {}).map(
-    (item) => item?.split('T')[0],
-  );
-  const gpuArrayY = Object.values(balance?.gpu || {});
 
-  // Procesa las fechas de las CPUs creando un array de objetos con valor y etiqueta
-  const cpuArrayX = Object.keys(balance?.cpu || {}).map((item, index) => ({
-    value: index + 1,
-    label: item?.split('T')[0],
-  }));
-  const cpuArrayY = Object.values(balance?.cpu || {});
+  const echartsData = useMemo(() => {
+    if (isEmpty(lessesData))
+      return {
+        xData: [],
+        yData: [],
+      };
+    let keys = Object.keys(lessesData.portfolio_balance || {}) || [];
+    let values = Object.values(lessesData.portfolio_balance || {}) || [];
+    const yData = values.map((item) => {
+      const datas = Object.values(item);
+      return datas;
+    });
+    const xData = (Object.keys(values[0] || {}) || []).map((item) =>
+      dayjs(item).format('YYYY-MM-DD'),
+    );
+    return {
+      keys,
+      xData,
+      yData,
+    };
+  }, [lessesData]);
 
-  // Combina los arrays de datos de CPU y GPU
-  const data2 = [cpuArrayY, gpuArrayY];
-  const month = [cpuArrayX, gpuArrayX];
-  const left = useMemo(() => {
-    if (scale >= 0.7) return '3%';
-    if (scale >= 0.5) return '4%';
-    if (scale >= 0.3) return '8%';
-    return '12%';
-  }, [scale]);
+  // const left = useMemo(() => {
+  //   if (scale >= 0.7) return '4%';
+  //   if (scale >= 0.5) return '4%';
+  //   if (scale >= 0.3) return '8%';
+  //   return '12%';
+  // }, [scale]);
 
   const colors = ['#73D5F4', '#FF9F5A'];
   const areaColors = [
@@ -67,8 +74,8 @@ const Line = (props) => {
   ];
 
   const series = useMemo(() => {
-    return (data || []).map((item, index) => ({
-      name: 'Earnings',
+    return (echartsData?.yData || []).map((item, index) => ({
+      name: echartsData?.keys?.[index],
       type: 'line',
       smooth: true,
       data: item,
@@ -82,58 +89,80 @@ const Line = (props) => {
         opacity: 0.24,
       },
     }));
-  }, [data]);
+  }, [echartsData]);
 
   let option = {
+    title: {
+      text: 'Portfolio balance',
+      top: 15,
+      left: 0,
+      textStyle: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 500,
+      },
+    },
     backgroundColor: '#1b1b1d',
     legend: {
-      data: ['CPU', 'GPU'],
+      show: true,
+      top: 15,
+      right: 15,
+      lineStyle: {
+        width: 0,
+      },
+      textStyle: {
+        color: '#fff',
+        fontSize: 14,
+      },
     },
     color: colors,
     tooltip: {
       trigger: 'axis',
       axisPointer: {
-        type: 'cross',
+        type: 'line',
       },
       textStyle: {
         fontFamily: 'Poppins',
         color: '#fff',
-        fontSize: 12 * scale,
+        fontSize: 12,
       },
       backgroundColor: '#2d2d2d',
       borderColor: 'transparent',
     },
     grid: {
-      top: '10%',
-      left,
-      right: '3%',
-      bottom: '9%',
-      containLabel: true,
+      // show: true,
+      // top: '20%',
+      left: 50,
+      right: 50,
+      // right: '3%',
+      bottom: 50,
+      // containLabel: true,
     },
     xAxis: {
       type: 'category',
       boundaryGap: false,
-      data: MONTH.map((item) => item.label),
+      data: echartsData?.xData || [],
       axisLabel: {
         fontFamily: 'Poppins',
         color: '#767677',
-        fontSize: 14 * scale > 9 ? 14 * scale : 9,
+        fontSize: 14,
         fontWeight: 400,
       },
       axisLine: false,
     },
     yAxis: {
       type: 'value',
+      offset: -20,
       axisLabel: {
         fontFamily: 'Poppins',
         color: '#767677',
-        fontSize: 14 * scale > 9 ? 14 * scale : 9,
+        fontSize: 14,
         padding: [0, 30, 0, 0],
       },
 
-      axisPointer: {
-        snap: true,
-      },
+      // axisPointer: {
+      //   snap: true,
+      // },
       splitLine: {
         lineStyle: {
           color: '#454545',

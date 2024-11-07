@@ -2,7 +2,7 @@ import { fetchNodeList } from '@/services/genesis/instance';
 import { isEmpty } from '@/utils/lang';
 import { Button, Card, Col, Input, Pagination, Row, Space } from 'antd';
 import { useEffect, useState } from 'react';
-import { history, useModel } from 'umi';
+import { history, Redirect, useModel } from 'umi';
 import JactionEmpty from '../../../components/JactionEmpty';
 import styles from './index.less';
 import HeaderCard from './InstanceComponents/HeaderCard';
@@ -12,7 +12,7 @@ import InstanceTable from './instanceTable';
 const initQuery = { current: 1, size: 10 };
 function Instance() {
   const { initialState } = useModel('@@initialState');
-  const { isLessees } = initialState || {};
+  const { isLessee } = initialState || {};
   const [view, setView] = useState('table');
   const [showOverView, setShowOverView] = useState(true);
   const [query, setQuery] = useState(initQuery);
@@ -58,10 +58,12 @@ function Instance() {
     setFilteredData(filterData);
   };
 
+  if (!isLessee) return <Redirect to="/genesis/nodes"></Redirect>;
+
   return (
     <>
       <div className={styles['title']}>
-        <h1>My Nodes</h1>
+        <h1>My Instance</h1>
         <div>
           <i
             className={`iconfont ${
@@ -81,22 +83,22 @@ function Instance() {
         <Row justify="space-between" align="middle">
           <Col>
             <Space>
-              {!isLessees && (
-                <Button
-                  className={styles['create-btn']}
-                  type="primary"
-                  onClick={() => history.push('/genesis/purchase')}
-                >
-                  Create
-                </Button>
-              )}
-              {isLessees && (
+              {!isLessee && (
                 <Button
                   className={styles['create-btn']}
                   type="primary"
                   onClick={() => history.push('/genesis/mount')}
                 >
                   Mount
+                </Button>
+              )}
+              {isLessee && (
+                <Button
+                  className={styles['create-btn']}
+                  type="primary"
+                  onClick={() => history.push('/genesis/purchase')}
+                >
+                  Create
                 </Button>
               )}
             </Space>
@@ -144,7 +146,10 @@ function Instance() {
               </>
             )}
             {isEmpty(filteredData) && (
-              <JactionEmpty description="目前无实例，请添加实例" />
+              <JactionEmpty
+                showEmptyIcon={false}
+                description="No instance is currently available. Please create an instance."
+              />
             )}
           </section>
         )}

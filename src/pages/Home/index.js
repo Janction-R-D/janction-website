@@ -60,7 +60,7 @@ const Home = (props) => {
           <div
             className={styles['get-started']}
             onClick={() => {
-              history.push('/getStarted');
+              history.push('/genesis');
             }}
           >
             <span>Get Started</span>

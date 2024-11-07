@@ -2,7 +2,7 @@ import JanctionTable from '@/components/JanctionTable';
 import { Space } from 'antd';
 import { useState } from 'react';
 import { fetchNodeOperation } from '@/services/genesis/instance';
-import { convertMBtoGB } from '../Dashboard/Lessors';
+import { convertMBtoGB } from '../Dashboard/Lessor';
 import styles from './index.less';
 import OperationModal from './InstanceComponents/OperationModal';
 
@@ -195,7 +195,8 @@ function InstanceTable({ data }) {
         className={styles['table']}
         columns={columns}
         dataSource={mappedOrders}
-        emptyDescription="目前无实例，请添加实例"
+        showEmptyIcon={false}
+        emptyDescription="No instance is currently available. Please create an instance."
         pagination={{
           pageSize: 5,
           position: ['bottomCenter'],
