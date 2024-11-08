@@ -58,7 +58,10 @@ function Pledge() {
       title: (
         <div className="df ai_c gap10">
           <span>Will undercarriage</span>
-          <JantionTip title="Instances with less than 7 days until expiration will be displayed here" />
+          <JantionTip
+            placement="topRight"
+            title="Instances with less than 7 days until expiration will be displayed here"
+          />
         </div>
       ),
       dataIndex: 'GPUrate',
@@ -111,7 +114,10 @@ function Pledge() {
       <Card className={styles['card-table']}>
         <div className={styles['card-header']}>
           <span>Manage Stake</span>
-          <i className="iconfont icon-info"></i>
+          <JantionTip
+            placement="topLeft"
+            title='The pledge status is divided into three states: "paid, not paid, and refunded", and the pledge information after refund can be viewed in the "Bill"'
+          />
         </div>
         <SearchInput />
         <JanctionTable
