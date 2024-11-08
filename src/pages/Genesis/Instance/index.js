@@ -83,7 +83,7 @@ function Instance() {
         <Row justify="space-between" align="middle">
           <Col>
             <Space>
-              {!isLessees && (
+              {!isLessee && (
                 <Button
                   className={styles['create-btn']}
                   type="primary"
@@ -92,7 +92,7 @@ function Instance() {
                   Create
                 </Button>
               )}
-              {isLessees && (
+              {isLessee && (
                 <Button
                   className={styles['create-btn']}
                   type="primary"
