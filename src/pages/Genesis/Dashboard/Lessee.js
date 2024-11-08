@@ -8,13 +8,13 @@ import numeral from 'numeral';
 import Line from './components/Line';
 import Invite from './components/Invite';
 import useLesses from './Hooks/useLesses';
+import { history } from 'umi';
 
 const Lessees = (props) => {
   const [news, setNews] = useState(newsData);
-  const [watchList, setWatchList] = useState([]);
-  const [recommendList, setRecommendList] = useState([]);
   const { lessesData } = useLesses();
   const { portfolio_balance: balance, details, watchlist } = lessesData || {};
+
   const detailsData = details?.map((item) => ({
     Name: item?.Name,
     Balance: item?.Balance,
@@ -32,7 +32,14 @@ const Lessees = (props) => {
     Brand: item?.Brand,
     Description: item?.Description,
   }));
-  console.log(detailsData);
+
+  const onBuy = (rowData) => {
+    history.push('/genesis/purchase', {
+      isQuick: true,
+      node: rowData,
+    });
+  };
+
   const detailColumns = [
     {
       title: 'Name',
@@ -145,8 +152,8 @@ const Lessees = (props) => {
       title: 'Watch',
       dataIndex: 'Watch',
       key: 'Watch',
-      render: (text) => (
-        <div className={styles['action']}>
+      render: (text, rowData) => (
+        <div className={styles['action']} onClick={() => onBuy(rowData)}>
           <span>Buy</span>
           <i className="iconfont icon-next_page"></i>
         </div>
@@ -165,7 +172,7 @@ const Lessees = (props) => {
           )}
         >
           <div className={styles['title']}>
-            <span>Title</span>
+            <span>Running time</span>
           </div>
           <div className={styles['content']}>
             <Line balance={balance} />

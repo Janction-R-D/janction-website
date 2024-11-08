@@ -51,10 +51,10 @@ export const request = {
 };
 
 export async function getInitialState() {
-  const isLessees = storage.get('isLessees');
+  const isLessee = storage.get('isLessee');
   const userAccount = storage.get('userAccount');
   return {
-    isLessees: empty(isLessees) ? true : false,
+    isLessee: empty(isLessee) ? true : isLessee,
     userAccount,
   };
 }

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from './instanceCard.less';
 import InstanceEchart from './InstanceEchart';
 import { fetchNodeOperation } from '../../../../services/genesis/instance';
-import { convertMBtoGB } from '../../Dashboard/Lessors';
+import { convertMBtoGB } from '../../Dashboard/Lessor';
 export default function InstanceCard({ instance }) {
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
