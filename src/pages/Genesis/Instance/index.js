@@ -12,7 +12,7 @@ import InstanceTable from './instanceTable';
 const initQuery = { current: 1, size: 10 };
 function Instance() {
   const { initialState } = useModel('@@initialState');
-  const { isLessees } = initialState || {};
+  const { isLessee } = initialState || {};
   const [view, setView] = useState('table');
   const [showOverView, setShowOverView] = useState(true);
   const [query, setQuery] = useState(initQuery);
