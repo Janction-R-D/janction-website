@@ -58,7 +58,7 @@ function ProfileModal({ styles, classname, setShowModal }) {
             isLessees: !isLessees,
           });
           setShowModal(false);
-          // location.reload();
+          location.reload();
         };
         const handleLogOut = () => {
           disconnect();
