@@ -108,7 +108,10 @@ function ProfileModal({ styles, classname, setShowModal }) {
               </li>
               {!isLessee && (
                 <li>
-                  <i className="iconfont icon-pledge"></i> <a>Pledge</a>
+                  <i className="iconfont icon-pledge"></i>
+                  <a onClick={() => handleNavigate('/genesis/pledge')}>
+                    Pledge
+                  </a>
                 </li>
               )}
               <li>
