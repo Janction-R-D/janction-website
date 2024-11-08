@@ -2,11 +2,18 @@ import React, { useState } from 'react';
 import styles from './instanceCard.less';
 import InstanceEchart from './InstanceEchart';
 import { fetchNodeOperation } from '../../../../services/genesis/instance';
+// import { convertMBtoGB } from '../../Dashboard/Lessors';
+import TerminalModal from './TerminalModal';
 import { convertMBtoGB } from '../../Dashboard/Lessor';
-export default function InstanceCard({ instance }) {
+export default function InstanceCard({ instance, getAllNodes }) {
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
-  console.log(instance);
+  const [visible, setVisible] = useState(false);
+
+  const handleConnect = () => {
+    // 创建一个 xterm 实例
+    setVisible(true);
+  };
   const handleOperation = (operation, resource, id) => {
     const payload = JSON.stringify({
       resource_id: resource,
@@ -18,6 +25,7 @@ export default function InstanceCard({ instance }) {
       .then((res) => {
         console.log(res);
         setSuccess(true);
+        getAllNodes();
       })
       .catch((err) => {
         setError(true);
@@ -49,7 +57,7 @@ export default function InstanceCard({ instance }) {
     name: instance?.name,
     Cores: instance?.node.attr.cpu,
     memory: instance?.node.attr.memory,
-    status: instance?.activity.status,
+    status: instance?.status_str,
     expired: formatDate(instance?.expired_at),
     created: formatDate(instance?.created_at),
     Location: instance?.node.attr.location,
@@ -78,11 +86,12 @@ export default function InstanceCard({ instance }) {
           <section className={styles['instance-operation']}>
             <span>Operation</span>
             <div>
-              <a>Remote connection</a>
+              <a onClick={handleConnect}>Remote connection</a>
               <a
                 onClick={() => handleOperation('stop', instanceData.resource)}
-                className={`${
-                  instanceData.status === 'Stop'
+                className={`${styles['operation-action']}  ${
+                  instanceData.status === 'stopped' ||
+                  instanceData.status === 'expired'
                     ? styles['selected-status']
                     : ''
                 }`}
@@ -91,8 +100,9 @@ export default function InstanceCard({ instance }) {
                 Stop
               </a>
               <a
-                className={`${
-                  instanceData.status === 'Running'
+                className={`${styles['operation-action']}  ${
+                  instanceData.status === 'running' ||
+                  instanceData.status === 'expired'
                     ? styles['selected-status']
                     : ''
                 }`}
@@ -129,18 +139,25 @@ export default function InstanceCard({ instance }) {
         {' '}
         <InstanceEchart />
       </section>
+      {visible && (
+        <TerminalModal
+          visible={visible}
+          onCancel={() => setVisible(false)}
+          resource_id={instance.activity?.resource_id}
+        />
+      )}
     </article>
   );
 }
 
 function Status({ status }) {
   const statusConfig = {
-    Running: {
+    running: {
       className: 'status status-running',
       icon: 'icon-check',
       text: 'Running',
     },
-    Stopped: {
+    stopped: {
       className: 'status status-stopped',
       icon: 'icon-play_pause',
       text: 'Stopped',
@@ -162,7 +179,7 @@ function Status({ status }) {
   return (
     <>
       {currentStatus ? (
-        <div className={styles[`status-running`]}>
+        <div className={styles[`status-${currentStatus.text.toLowerCase()}`]}>
           <i className={`iconfont ${currentStatus.icon}`}></i>{' '}
           {currentStatus.text}
         </div>

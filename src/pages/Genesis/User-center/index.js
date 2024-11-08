@@ -56,15 +56,14 @@ export default function UserAccount() {
   };
 
   const handleDelete = (key) => {
-    console.log(key);
     const data = {
-      name: key,
+      id: key,
     };
     deleteKeysUserCenter(data)
       .then((res) => {
         getUserKeysData();
-        const filtered = keys.filter((item) => item.name !== data.name);
-        setKeys(filtered);
+        // const filtered = keys.filter((item) => item.name !== data.name);
+        // setKeys(filtered);
         console.log('Succeded :  Key Deleted successfully');
       })
       .catch((err) => console.log(err));
@@ -77,11 +76,8 @@ export default function UserAccount() {
       .then((res) => {
         getUserKeysData();
         setKey(undefined);
-        // const newKeys = [
-        //   ...keys,
-        //   { name, private_key: `qwssa - sdddas - e3dsad - we4dasd` },
-        // ];
-        // setKeys(newKeys);
+        const newKeys = [...keys, { name }];
+        setKeys(newKeys);
         console.log('Succeded :  Key created successfully');
       })
       .catch((err) => console.log(err));
@@ -214,7 +210,7 @@ export default function UserAccount() {
                     </div>
                     <span
                       className={styles['icon-red']}
-                      onClick={() => handleDelete(item.name)}
+                      onClick={() => handleDelete(item.id)}
                     >
                       <i className="iconfont icon-delete "></i>
                     </span>

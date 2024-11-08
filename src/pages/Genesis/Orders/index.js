@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import OrderCard from './components/OrderCard';
 import styles from './components/orders.less';
-import { fetchResouceList } from '../../../services/genesis/instance';
+import { fetchMarketOrders } from '../../../services/genesis/instance';
 
 function Orders() {
   const [orders, setOrders] = useState([]);
   useEffect(() => {
-    fetchResouceList()
+    fetchMarketOrders()
       .then((data) => setOrders(data))
       .catch((error) => console.log(error));
   }, []);

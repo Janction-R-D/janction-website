@@ -1,17 +1,9 @@
 import { Radio } from 'antd';
-import { useEffect, useState } from 'react';
-export const BandRadioGroup = ({ styles, userInfo }) => {
-  const [defaultTime, setDefaultTime] = useState('day');
-  useEffect(() => {
-    if (userInfo?.node_id) {
-      setDefaultTime(userInfo?.billing_mode);
-      console.log(userInfo?.billing_mode);
-    }
-  }, [userInfo]);
+export const BandRadioGroup = ({ styles }) => {
   return (
     <div className={styles['band-radio-wrapper']}>
       <Radio.Group
-        defaultValue={defaultTime}
+        defaultValue="Month"
         buttonStyle="solid"
         style={{
           borderRadius: '24px',
@@ -19,17 +11,17 @@ export const BandRadioGroup = ({ styles, userInfo }) => {
         className={styles['band-radio']}
         name="billing_mode"
       >
-        <Radio.Button value="day" name="billing_mode">
-          day
+        <Radio.Button value="Day" name="billing_mode">
+          Day
         </Radio.Button>
-        <Radio.Button value="week" name="billing_mode">
-          week
+        <Radio.Button value="Week" name="billing_mode">
+          Week
         </Radio.Button>
-        <Radio.Button value="month" name="billing_mode">
-          month
+        <Radio.Button value="Month" name="billing_mode">
+          Month
         </Radio.Button>
-        <Radio.Button value="year" name="billing_mode">
-          year
+        <Radio.Button value="Year" name="billing_mode">
+          Year
         </Radio.Button>
       </Radio.Group>
     </div>

@@ -2,7 +2,7 @@ import React from 'react';
 import ReactECharts from 'echarts-for-react';
 import { BandRadioGroup } from './BandRadioGroup';
 
-export default function MountEchart({ styles, userInfo }) {
+export default function MountEchart({ styles }) {
   return (
     <div
       style={{
@@ -11,12 +11,12 @@ export default function MountEchart({ styles, userInfo }) {
         borderRadius: '10px',
       }}
     >
-      <ExpirationGraph styles={styles} userInfo={userInfo} />
+      <ExpirationGraph styles={styles} />
     </div>
   );
 }
 
-function ExpirationGraph({ styles, userInfo }) {
+function ExpirationGraph({ styles }) {
   const option = {
     title: {
       text: 'Price',
@@ -158,7 +158,7 @@ function ExpirationGraph({ styles, userInfo }) {
     <section className={styles['grap-box']}>
       <ReactECharts option={option} />
       <div className={styles['grap-inputs']}>
-        <BandRadioGroup styles={styles} userInfo={userInfo} />
+        <BandRadioGroup styles={styles} />
       </div>
     </section>
   );

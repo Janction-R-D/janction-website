@@ -83,6 +83,17 @@ export const fetchResouceList = async () => {
   }
 };
 
+export const fetchMarketOrders = async () => {
+  try {
+    const response = await request(`${baseUrl}market/orders`, {
+      loginAuth: true,
+    });
+    return response;
+  } catch (error) {
+    console.log('『error』', error);
+    return null;
+  }
+};
 /**
  * @property {string} Query resource_id
  */
@@ -158,6 +169,7 @@ export const deleteKeysUserCenter = async (data) => {
     const response = await request(`${baseUrl}user/security?id=${id}`, {
       method: 'DELETE',
       loginAuth: true,
+      body: JSON.stringify(data),
     });
     return response;
   } catch (error) {
@@ -169,7 +181,7 @@ export const deleteKeysUserCenter = async (data) => {
 // Function to post data to user center
 export const postKeyUserData = async (data) => {
   try {
-    const response = await request(`${baseUrl}/user/data`, {
+    const response = await request(`${baseUrl}/user/security`, {
       method: 'POST',
       loginAuth: true,
       body: JSON.stringify(data),

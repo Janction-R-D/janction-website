@@ -8,15 +8,22 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 export default function ProfileHeader() {
   const [showModal, setShowModal] = useState(false);
   const classname = showModal ? 'card-modal' : 'none';
-  const handleClick = () => {
+  const handleClick = (event) => {
+    if (showModal && !event.target.closest('.card-modal')) {
+      setShowModal(false);
+    }
+  };
+
+  const toggleModal = () => {
     setShowModal(!showModal);
   };
+
   return (
-    <header className={styles['header']}>
+    <header className={styles['header']} onClick={handleClick}>
       <span>
         <i className="iconfont icon-bell "></i>
       </span>
-      <div className={styles['img-container']} onClick={handleClick}>
+      <div className={styles['img-container']} onClick={toggleModal}>
         <img className={styles['profile-img']} src="/profile.png" />
       </div>
       <ProfileModal
@@ -42,13 +49,13 @@ function ProfileModal({ styles, classname, setShowModal }) {
       }) => {
         const { initialState, setInitialState } = useModel('@@initialState');
 
-        const { isLessee } = initialState || {};
+        const { isLessees } = initialState || {};
         const { disconnect } = useDisconnect();
         const onIdentityChange = () => {
-          storage.set({ name: 'isLessee', value: !isLessee });
+          storage.set({ name: 'isLessees', value: !isLessees });
           setInitialState({
             ...initialState,
-            isLessee: !isLessee,
+            isLessees: !isLessees,
           });
           setShowModal(false);
           // location.reload();
@@ -79,7 +86,7 @@ function ProfileModal({ styles, classname, setShowModal }) {
                   <i className="iconfont icon-copy"></i>
                 </span>
                 <div className={styles['type-account']}>
-                  {isLessee ? (
+                  {isLessees ? (
                     <div onClick={onIdentityChange}>
                       <p>Switch to Switch Lessor Role</p>
                       <i className="iconfont icon-next"></i>
@@ -106,11 +113,9 @@ function ProfileModal({ styles, classname, setShowModal }) {
                   Access control
                 </a>
               </li>
-              {!isLessee && (
-                <li>
-                  <i className="iconfont icon-pledge"></i> <a>Pledge</a>
-                </li>
-              )}
+              <li>
+                <i className="iconfont icon-pledge"></i> <a>Pledge</a>
+              </li>
               <li>
                 <i className="iconfont icon-income"></i>
                 <a onClick={() => handleNavigate('/genesis/income')}>

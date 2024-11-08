@@ -87,8 +87,13 @@
 
 .instance-operation div a {
   color: #73d5f4;
+  transition: all 200ms ease;
 }
 
 .selected-status {
   color: #545455 !important;
+}
+.instance-operation div a:hover:not(.selected-status) {
+  opacity: 0.7;
+  text-decoration: underline;
 }

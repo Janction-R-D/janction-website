@@ -2,7 +2,7 @@ import { fetchNodeList } from '@/services/genesis/instance';
 import { isEmpty } from '@/utils/lang';
 import { Button, Card, Col, Input, Pagination, Row, Space } from 'antd';
 import { useEffect, useState } from 'react';
-import { history, Redirect, useModel } from 'umi';
+import { history, useModel } from 'umi';
 import JactionEmpty from '../../../components/JactionEmpty';
 import styles from './index.less';
 import HeaderCard from './InstanceComponents/HeaderCard';
@@ -12,15 +12,14 @@ import InstanceTable from './instanceTable';
 const initQuery = { current: 1, size: 10 };
 function Instance() {
   const { initialState } = useModel('@@initialState');
-  const { isLessee } = initialState || {};
+  const { isLessees } = initialState || {};
   const [view, setView] = useState('table');
   const [showOverView, setShowOverView] = useState(true);
   const [query, setQuery] = useState(initQuery);
-  const [summary, setSummary] = useState();
+  const [summary, setSummary] = useState(null);
   const [resource, setResource] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
-
-  useEffect(() => {
+  const getAllNodes = () => {
     fetchNodeList()
       .then((data) => {
         setSummary(data?.summary || null);
@@ -28,6 +27,9 @@ function Instance() {
         setFilteredData(data?.resource || []);
       })
       .catch((err) => console.log(err));
+  };
+  useEffect(() => {
+    getAllNodes();
   }, []);
 
   const handleModal = () => {
@@ -58,12 +60,10 @@ function Instance() {
     setFilteredData(filterData);
   };
 
-  if (!isLessee) return <Redirect to="/genesis/nodes"></Redirect>;
-
   return (
     <>
       <div className={styles['title']}>
-        <h1>My Instance</h1>
+        <h1>My Nodes</h1>
         <div>
           <i
             className={`iconfont ${
@@ -83,22 +83,22 @@ function Instance() {
         <Row justify="space-between" align="middle">
           <Col>
             <Space>
-              {!isLessee && (
-                <Button
-                  className={styles['create-btn']}
-                  type="primary"
-                  onClick={() => history.push('/genesis/mount')}
-                >
-                  Mount
-                </Button>
-              )}
-              {isLessee && (
+              {!isLessees && (
                 <Button
                   className={styles['create-btn']}
                   type="primary"
                   onClick={() => history.push('/genesis/purchase')}
                 >
                   Create
+                </Button>
+              )}
+              {isLessees && (
+                <Button
+                  className={styles['create-btn']}
+                  type="primary"
+                  onClick={() => history.push('/genesis/mount')}
+                >
+                  Mount
                 </Button>
               )}
             </Space>
@@ -132,7 +132,11 @@ function Instance() {
             {!isEmpty(filteredData) && (
               <>
                 {filteredData?.map((instance, index) => (
-                  <InstanceCard key={index} instance={instance} />
+                  <InstanceCard
+                    key={index}
+                    instance={instance}
+                    getAllNodes={getAllNodes}
+                  />
                 ))}
                 <div className={styles['pagination-wrapper']}>
                   <Pagination
@@ -146,14 +150,13 @@ function Instance() {
               </>
             )}
             {isEmpty(filteredData) && (
-              <JactionEmpty
-                showEmptyIcon={false}
-                description="No instance is currently available. Please create an instance."
-              />
+              <JactionEmpty description="There are no instances currently, please add an instance." />
             )}
           </section>
         )}
-        {view === 'table' && <InstanceTable data={filteredData} />}
+        {view === 'table' && (
+          <InstanceTable data={filteredData} getAllNodes={getAllNodes} />
+        )}
       </Card>
     </>
   );

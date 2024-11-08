@@ -2,11 +2,12 @@ import JanctionTable from '@/components/JanctionTable';
 import { Space } from 'antd';
 import { useState } from 'react';
 import { fetchNodeOperation } from '@/services/genesis/instance';
-import { convertMBtoGB } from '../Dashboard/Lessor';
+// import { convertMBtoGB } from '../Dashboard/Lessors';
 import styles from './index.less';
 import OperationModal from './InstanceComponents/OperationModal';
+import { convertMBtoGB } from '../Dashboard/Lessor';
 
-function InstanceTable({ data }) {
+function InstanceTable({ data, getAllNodes }) {
   const [showOverView, setShowOverView] = useState(true);
 
   const [error, setError] = useState(false);
@@ -22,6 +23,7 @@ function InstanceTable({ data }) {
     fetchNodeOperation(payload)
       .then((res) => {
         console.log(res);
+        getAllNodes();
         setSuccess(true);
       })
       .catch((err) => {
@@ -34,7 +36,7 @@ function InstanceTable({ data }) {
           setSuccess(false);
         }, 5000);
 
-        window.location.reload();
+        // window.location.reload();
       });
   };
   const columns = [
@@ -131,10 +133,10 @@ function InstanceTable({ data }) {
             style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}
           >
             <a
-              className={`${styles['operation-action']} , ${
-                record.status.toLowerCase() === 'stop' ||
-                record.status.toLowerCase() === 'expired'
-                  ? styles['recent-status']
+              className={`${'operation-action'}  ${
+                record.status?.toLowerCase() === 'stopped' ||
+                record.status?.toLowerCase() === 'expired'
+                  ? 'recent-status'
                   : ''
               }`}
               onClick={() =>
@@ -149,8 +151,8 @@ function InstanceTable({ data }) {
             </a>
             <a
               className={`${'operation-action'}  ${
-                record.status.toLowerCase() === 'running' ||
-                record.status.toLowerCase() === 'expired'
+                record.status?.toLowerCase() === 'running' ||
+                record.status?.toLowerCase() === 'expired'
                   ? 'recent-status'
                   : ''
               }`}
@@ -176,7 +178,7 @@ function InstanceTable({ data }) {
     name: order?.name,
     Cores: order?.node.attr.cpu,
     memory: order?.node.attr.memory,
-    status: order?.activity.status,
+    status: order?.status_str,
     Location: order?.node.attr.location,
     GPUrate: '0.254%',
     MemoryUsage: convertMBtoGB(order?.activity.memory_usage.toFixed(2)),
@@ -195,8 +197,7 @@ function InstanceTable({ data }) {
         className={styles['table']}
         columns={columns}
         dataSource={mappedOrders}
-        showEmptyIcon={false}
-        emptyDescription="No instance is currently available. Please create an instance."
+        emptyDescription="目前无实例，请添加实例"
         pagination={{
           pageSize: 5,
           position: ['bottomCenter'],
