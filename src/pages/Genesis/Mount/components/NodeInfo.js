@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Input } from 'antd';
-export function NodeInfo({ styles, tags, setTags }) {
+export function NodeInfo({ styles, tags, setTags, userInfo }) {
   const [tagInput, setTagInput] = useState(null);
   const [showInput, setShowInput] = useState(null);
   const [error, setError] = useState(false);
-
+  console.log(userInfo, 'djiksd');
   const AddTag = (name) => {
     if (!name || tags.length === 6) return;
     const verifyTag = tags.filter((tag) => tag.trim() === name.trim());
@@ -31,7 +31,7 @@ export function NodeInfo({ styles, tags, setTags }) {
       <ul>
         <ol>
           <li>
-            <p>identification number:</p> <span> 879q43yv8hbvn</span>
+            <p>identification number:</p> <span> {userInfo?.node_id}</span>
           </li>
           <li>
             <p>node-names:</p> <span>4090xxx</span>
@@ -42,7 +42,7 @@ export function NodeInfo({ styles, tags, setTags }) {
           </li>
           <li>
             <p>memory :</p>
-            <span>IT</span>
+            <span>{userInfo?.attr?.memory}</span>
           </li>
         </ol>
         <ol>
@@ -103,6 +103,7 @@ export function NodeInfo({ styles, tags, setTags }) {
                       <i className="iconfont icon-add"></i>
                     </span>
                   }
+                  onFocus={showInput}
                   placeholder={`Enter a short keyword`}
                   className={`${styles['card-security-input']} ${
                     error ? styles['search-input-error'] : ''

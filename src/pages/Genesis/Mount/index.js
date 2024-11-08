@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { history } from 'umi';
 import { NodeInfo } from './components/NodeInfo';
 import styles from './index.less';
-import { Button, Card, Input, Select, Checkbox, TimePicker } from 'antd';
+import { Button, Card, Input, Select, Checkbox, Form, TimePicker } from 'antd';
 import MountEchart from './components/Graps';
 import { fetchConfigInfo, postConfigInfo } from '@/services/genesis';
 import Loading from './components/Loading';
@@ -14,7 +14,7 @@ export default function Mount() {
   const [maxDuration, setMaxDuration] = useState({ value: 4, label: 'Year' });
   const [minPeriod, setMinPeriod] = useState(null);
   const [maxPeriod, setMaxPeriod] = useState(null);
-  const [userInfo, setUserInfo] = useState(null);
+  const [userInfo, setUserInfo] = useState({});
   const [error, setError] = useState(false);
   const [errorRange, setErrorRange] = useState(false);
   const [minLease, setMinLease] = useState(1);
@@ -74,6 +74,7 @@ export default function Mount() {
     e.preventDefault();
 
     if (searchId === '') return;
+    setUserInfo({});
     setLoading(true);
     fetchConfigInfo(searchId)
       .then((res) => {
@@ -81,7 +82,8 @@ export default function Mount() {
         if (res.error) {
           throw new Error('Node not found');
         }
-        setUserInfo(res || {});
+        setUserInfo(res);
+        setTags(res.tags);
       })
       .catch((err) => {
         console.log(err);
@@ -93,11 +95,7 @@ export default function Mount() {
         }, 3000);
       })
       .finally(() => {
-        setTimeout(() => {
-          setError(false);
-          setLoading(false);
-          console.log('object');
-        }, 3000);
+        setLoading(false);
       });
   };
 
@@ -143,7 +141,7 @@ export default function Mount() {
     setMinPeriod(newMinPeriod);
   };
   return (
-    <form className={styles['main']} onSubmit={(e) => handleSubmit(e)}>
+    <section className={styles['main']}>
       <h1 className={styles['title']}>Device Rental Configuration</h1>
 
       <Card className={styles['card']}>
@@ -161,7 +159,7 @@ export default function Mount() {
                 type="text"
                 placeholder="Please enter the device identification number"
                 onChange={(e) => setSearchId(e.target.value)}
-                onPressEnter={(e) => handleSearch(e, searchId)}
+                onPressEnter={(e) => handleSearch(e)}
                 className={styles['search-input-node']}
               />
               <Button
@@ -177,7 +175,12 @@ export default function Mount() {
           <main className={styles['card-content']}>
             <h3>Configurable Parameters</h3>
             {userInfo?.node_id ? (
-              <NodeInfo styles={styles} tags={tags} setTags={setTags} />
+              <NodeInfo
+                styles={styles}
+                tags={tags}
+                userInfo={userInfo}
+                setTags={setTags}
+              />
             ) : (
               <Loading loading={loading} />
             )}
@@ -189,7 +192,7 @@ export default function Mount() {
         <Card className={styles['card']}>
           <section className={styles['card-header-graph']}>
             <h3>Prices</h3>
-            <MountEchart styles={styles} />
+            <MountEchart styles={styles} userInfo={userInfo} />
           </section>
           <section className={styles['card-prices']}>
             <div className={styles['duration-item']}>
@@ -201,6 +204,7 @@ export default function Mount() {
                 placeholder="0"
                 name="price"
                 className={styles['price-input']}
+                value={userInfo?.price}
               />
             </div>
           </section>
@@ -301,6 +305,6 @@ export default function Mount() {
           Confirm
         </Button>
       </section>
-    </form>
+    </section>
   );
 }

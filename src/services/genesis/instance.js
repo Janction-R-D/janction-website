@@ -187,7 +187,6 @@ export const postKeyUserData = async (data) => {
 //fetch ConfigInfo
 export const fetchConfigInfo = async (data) => {
   const id = data;
-  console.log(id);
 
   try {
     const response = await request(`${baseUrl}node/config?node_id=${id}`, {
