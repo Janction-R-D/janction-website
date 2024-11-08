@@ -63,7 +63,7 @@ const Lessees = (props) => {
       ),
     },
     {
-      title: 'Balance',
+      title: 'Purchase price',
       dataIndex: 'Balance',
       key: 'Balance',
       render: (text, record) => (
@@ -76,7 +76,7 @@ const Lessees = (props) => {
       ),
     },
     {
-      title: 'Price',
+      title: 'Rental price',
       dataIndex: 'Price',
       render: (text, record) => (
         <div className={styles['info']}>
@@ -95,7 +95,7 @@ const Lessees = (props) => {
       ),
     },
     {
-      title: 'Allocation',
+      title: 'Market shares',
       dataIndex: 'Allocation',
       render: (text) => <p>{numeral(text || 0).format('0,0')}%</p>,
     },
@@ -118,7 +118,7 @@ const Lessees = (props) => {
       ),
     },
     {
-      title: 'Balance',
+      title: 'Rental price',
       dataIndex: 'Balance',
       render: (text) => (
         <p className={styles['white']}>{numeral(text || 0).format('$0,0')}</p>
@@ -142,14 +142,14 @@ const Lessees = (props) => {
       },
     },
     {
-      title: 'Market cap',
+      title: 'market shares',
       dataIndex: 'MarketCap',
       render: (text) => (
         <p className={styles['white']}>{numeral(text || 0).format('$0,0')}</p>
       ),
     },
     {
-      title: 'Watch',
+      title: 'operation',
       dataIndex: 'Watch',
       key: 'Watch',
       render: (text, rowData) => (
@@ -234,7 +234,7 @@ const Lessees = (props) => {
           )}
         >
           <div className={styles['title']}>
-            <span>Watchlist</span>
+            <span>Recommendation list</span>
             <div className={styles['extra']}>
               <span>See All</span>
               <i className="iconfont icon-next_page"></i>
