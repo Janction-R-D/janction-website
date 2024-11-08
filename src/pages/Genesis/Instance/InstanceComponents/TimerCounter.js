@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button } from 'antd';
-const TimeCounter = ({ styles, setTotalAmount, totalAmount }) => {
+const TimeCounter = ({ styles, setTotalAmount }) => {
   const timeOptions = [
     '1 month',
     '2 months',
