@@ -106,9 +106,11 @@ function ProfileModal({ styles, classname, setShowModal }) {
                   Access control
                 </a>
               </li>
-              <li>
-                <i className="iconfont icon-pledge"></i> <a>Pledge</a>
-              </li>
+              {!isLessee && (
+                <li>
+                  <i className="iconfont icon-pledge"></i> <a>Pledge</a>
+                </li>
+              )}
               <li>
                 <i className="iconfont icon-income"></i>
                 <a onClick={() => handleNavigate('/genesis/income')}>
