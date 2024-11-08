@@ -92,16 +92,6 @@ const Line = (props) => {
   }, [echartsData]);
 
   let option = {
-    title: {
-      text: 'Portfolio balance',
-      top: 15,
-      left: 0,
-      textStyle: {
-        color: '#fff',
-        fontSize: 16,
-        fontWeight: 500,
-      },
-    },
     backgroundColor: '#1b1b1d',
     legend: {
       show: true,
