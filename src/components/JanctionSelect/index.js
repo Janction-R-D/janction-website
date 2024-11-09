@@ -1,18 +1,17 @@
 import { Select } from 'antd';
 import styles from './index.less';
 
-const JactionSelect = (props) => {
+const JanctionSelect = (props) => {
+  const { className, ...extraProps } = props;
   return (
     <div className={styles['select-container']}>
       <Select
-        className={styles['jaction-select']}
+        className={[styles['jaction-select'], className].join(' ')}
         popupClassName={styles['jaction-popup']}
-        showArrow={false}
-        {...props}
+        {...extraProps}
       />
-      <i className="iconfont icon-down_triangle"></i>
     </div>
   );
 };
 
-export default JactionSelect;
+export default JanctionSelect;

@@ -1,3 +1,6 @@
+import { empty } from '@/utils/lang';
+import numeral from 'numeral';
+
 export const PURCHASES = [
   { name: 'Customized purchase', value: 0 },
   { name: 'Quick purchase', value: 1 },
@@ -216,64 +219,101 @@ export const REGION = [
   },
 ];
 
-export const PRIMARY_BAND = [1, 3, 5, 10, 100, 200];
+export const PRIMARY_BAND = [
+  { label: 1, value: 1 },
+  { label: 3, value: 3 },
+  { label: 5, value: 5 },
+  { label: 10, value: 10 },
+  { label: 100, value: 100 },
+  { label: 200, value: 200 },
+];
 
 export const COMPUTE_MODE = [
   {
-    label: 'X86计算',
+    label: 'X86 computing',
     value: 'x86',
   },
   {
-    label: 'ARM计算',
+    label: 'ARM computing',
     value: 'arm',
   },
   {
     label: 'GPU',
     value: 'gpu',
   },
+  {
+    label: 'NPU',
+    value: 'npu',
+  },
 ];
 
+export const IP_FILTERS = [
+  {
+    label: 'Recently used',
+    value: '1',
+  },
+  {
+    label: 'Public image',
+    value: '2',
+  },
+  {
+    label: 'Virtual',
+    value: '3',
+  },
+  {
+    label: 'Shared image',
+    value: '4',
+  },
+  {
+    label: 'Community image',
+    value: '5',
+  },
+];
 export const DEFAULT_COMPUTE_MODE = COMPUTE_MODE[0];
 
 export const BAND_COLUMNS = [
   {
-    title: '规格族',
+    title: 'Specification family',
     dataIndex: 'platform',
   },
   {
-    title: '实例规格',
+    title: 'specification',
     dataIndex: 'progress',
   },
   {
-    title: 'CPU',
+    title: 'vCPU',
     dataIndex: 'cpu_usage',
   },
   {
-    title: 'MEM',
+    title: 'internal storage',
     dataIndex: 'energy',
   },
   {
-    title: '可用区',
+    title: 'Available area',
     dataIndex: 'disk_usage',
   },
   {
-    title: '架构-分类',
+    title: 'Architecture',
     dataIndex: 'uptime',
   },
   {
-    title: '处理器',
+    title: 'processor',
     dataIndex: 'TH',
     key: 'TH',
   },
   {
-    title: '本地存储',
+    title: 'local-storage',
     dataIndex: 'WQ',
     key: 'WQ',
   },
   {
-    title: '实例价格',
+    title: 'price',
     dataIndex: 'Ports',
     key: 'Ports',
+    fixed: 'right',
+    render: (text) => {
+      return empty(text) ? '--' : `${numeral(text).format('¥0.00')}/mon`;
+    },
   },
 ];
 
@@ -281,24 +321,12 @@ export const VERSIONS = [];
 
 export const PORT_PROTOCOL = [
   {
-    label: 'SSH(TCP:22)',
-    value: 'ssh-22',
+    label: 'root',
+    value: 'root',
   },
   {
-    label: 'HTTP(TCP:82)',
-    value: 'http-82',
-  },
-  {
-    label: 'HTTPS(TCP:443)',
-    value: 'https-443',
-  },
-  {
-    label: 'RDP(TCP:3389)',
-    value: 'rdp-3389',
-  },
-  {
-    label: 'ICMP(IPV4)',
-    value: 'icmp-ipv4',
+    label: 'user',
+    value: 'user',
   },
 ];
 

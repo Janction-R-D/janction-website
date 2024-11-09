@@ -1,0 +1,30 @@
+.janction-input {
+  width: 100%;
+  min-width: 128.002px;
+  display: flex;
+  align-items: center;
+  height: 44px;
+  background: #2f2f31;
+  border-radius: 16px;
+  border: 2px solid;
+  border-color: transparent;
+  cursor: pointer;
+  padding: 0 20px;
+
+  :global {
+    .ant-input {
+      border-color: transparent;
+      box-shadow: none;
+    }
+
+    .ant-input-affix-wrapper {
+      border-color: transparent;
+      box-shadow: none;
+
+      &:hover {
+        border-color: transparent;
+        box-shadow: none;
+      }
+    }
+  }
+}

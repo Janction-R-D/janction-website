@@ -93,6 +93,11 @@
       }
     }
 
+    .ant-table-footer {
+      background: #1c1c1d;
+      border-top: 1px solid #2f2f2f;
+    }
+
     .ant-pagination {
       .ant-pagination-item-active {
         border-color: transparent;
@@ -100,6 +105,35 @@
 
         a {
           color: #000;
+        }
+      }
+    }
+  }
+}
+
+.table-container-with-footer {
+  :global {
+    .ant-table {
+      .ant-table-container table {
+        .ant-table-tbody {
+          border-radius: 0;
+
+          tr {
+            &:last-child {
+              border-radius: 0;
+              overflow: hidden;
+
+              td {
+                &:first-child {
+                  border-radius: 0;
+                }
+
+                &:last-child {
+                  border-radius: 0;
+                }
+              }
+            }
+          }
         }
       }
     }

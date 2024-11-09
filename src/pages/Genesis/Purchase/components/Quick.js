@@ -1,30 +1,31 @@
+import JanctionRadio from '@/components/JanctionRadio';
+import JanctionRange from '@/components/JanctionRange';
+import JanctionTable from '@/components/JanctionTable';
+import SearchInput from '@/components/SeachInput';
+import { SYSTEM_LIST } from '@/constant';
+import { PlusOutlined } from '@ant-design/icons';
+import { Button, Checkbox, Input, Select, Steps, Table } from 'antd';
 import { useState } from 'react';
-import styles from './index.less';
-import {
-  Steps,
-  Divider,
-  Radio,
-  Table,
-  Select,
-  Button,
-  Input,
-  Checkbox,
-} from 'antd';
-import RegionSelect from './RegionSelect';
 import {
   BAND_COLUMNS,
   COMPUTE_MODE,
   DEFAULT_COMPUTE_MODE,
+  IP_FILTERS,
   PORT_PROTOCOL,
-  REGION,
   SUMMARY,
   VERSIONS,
 } from '../extra';
-import { SYSTEM_LIST } from '../../../../constant';
-import Settlement from './Settlement';
-import JanctionRange from '@/components/JanctionRange';
-import { PlusOutlined } from '@ant-design/icons';
 import BandWidth from './BandWidth';
+import styles from './index.less';
+import RegionSelect from './RegionSelect';
+import Settlement from './Settlement';
+import Footer from './Footer';
+import JanctionDivider from '@/components/JanctionDivider';
+import PurchaseCard from './Card';
+import PurchaseSubCard from './Card/SubCard';
+import JanctionSelect from '@/components/JanctionSelect';
+import LabelVal from './Card/LabelVal';
+import JanctionInput from '@/components/JanctionInput';
 
 const { Step } = Steps;
 
@@ -39,66 +40,67 @@ const Step1 = () => {
 
   return (
     <>
-      <section className={styles['config-item']}>
-        <h1 className={styles['title']}>Basic configuration</h1>
-        <Divider />
-        <RegionSelect />
-      </section>
-      <section className={styles['config-item']}>
-        <h1 className={styles['title']}>Bandwidth</h1>
-        <Divider />
+      <PurchaseCard title="Basic configuration">
+        <PurchaseSubCard title="Region">
+          <RegionSelect />
+        </PurchaseSubCard>
+      </PurchaseCard>
+
+      <PurchaseCard title="Basic configuration">
         <div className={styles['band-config']}>
-          <Radio.Group
-            defaultValue={computeMode}
-            className={styles['janction-radio']}
-            onChange={(e) => onComputeModeChange(e.target.value)}
-          >
-            {COMPUTE_MODE.map((item) => (
-              <Radio.Button value={item.value} key={item.value}>
-                {item.label}
-              </Radio.Button>
-            ))}
-          </Radio.Group>
-          <Table
+          <div className={styles['filter']}>
+            <JanctionRadio
+              defaultValue={computeMode}
+              options={COMPUTE_MODE}
+              onChange={onComputeModeChange}
+            />
+            <SearchInput />
+          </div>
+          <JanctionTable
             bordered={false}
-            className={styles['janction-table']}
             columns={BAND_COLUMNS}
             dataSource={list}
             pagination={false}
-          ></Table>
-          <div className={styles['ip']}>
-            <div className={styles['filter']}></div>
-            <div className={styles['list']}>
-              {SYSTEM_LIST.map((item) => (
-                <div
-                  className={[
-                    styles['item'],
-                    activeIp.value == item.value && styles['active-item'],
-                  ].join(' ')}
-                  onClick={() => setActiveIp(item)}
-                >
-                  <div className={styles['icon']}>
-                    <i className={`iconfont icon-${item.icon}`}></i>
+          />
+          <PurchaseSubCard title="Public IP">
+            <div className={styles['ip']}>
+              <div className={styles['filter']}>
+                <JanctionRadio
+                  defaultValue={computeMode}
+                  options={IP_FILTERS}
+                  onChange={onComputeModeChange}
+                />
+                <SearchInput />
+              </div>
+              <div className={styles['list']}>
+                {SYSTEM_LIST.map((item) => (
+                  <div
+                    className={[
+                      styles['item'],
+                      activeIp.value == item.value && styles['active-item'],
+                    ].join(' ')}
+                    onClick={() => setActiveIp(item)}
+                  >
+                    <div className={styles['icon']}>
+                      <i className={`iconfont icon-${item.icon}`}></i>
+                    </div>
+                    <span>{item.label}</span>
                   </div>
-                  <span>{item.label}</span>
+                ))}
+                <div className={[styles['item'], styles['more']].join(' ')}>
+                  <i className="iconfont icon-down"></i>
+                  <span>More</span>
                 </div>
-              ))}
-              <div className={[styles['item'], styles['more']].join(' ')}>
-                <i className="iconfont icon-down"></i>
-                <span>More</span>
               </div>
             </div>
-          </div>
-          <div
-            className={[
-              styles['jaction-select'],
-              styles['version-select'],
-            ].join(' ')}
-          >
-            <Select placeholder="Select version" options={VERSIONS}></Select>
-          </div>
+          </PurchaseSubCard>
+          <JanctionSelect
+            options={VERSIONS}
+            placeholder="Select version"
+            className="w300"
+          />
         </div>
-      </section>
+      </PurchaseCard>
     </>
   );
 };
@@ -106,94 +108,72 @@ const Step1 = () => {
 const Step2 = () => {
   const [list, setList] = useState([{}]);
 
+  const onChange = () => {};
+
   const columns = [
     {
-      title: '用途',
+      title: 'use',
       dataIndex: 'platform',
     },
     {
-      title: '类型',
+      title: 'type',
       dataIndex: 'progress',
       render: () => {
-        return (
-          <div className={[styles['jaction-select']].join(' ')}>
-            <Select placeholder="请选择类型" options={VERSIONS}></Select>
-          </div>
-        );
+        return <JanctionSelect placeholder="please select type" />;
       },
     },
     {
-      title: '容量',
+      title: 'capacity',
       dataIndex: 'cpu_usage',
       render: () => {
-        return <JanctionRange />;
+        return <JanctionRange onChange={onChange} />;
       },
     },
     {
-      title: '数量',
+      title: 'quantity',
       dataIndex: 'energy',
       render: () => {
-        return <JanctionRange />;
+        return <JanctionRange onChange={onChange} />;
       },
     },
     {
-      title: '架构-分类',
+      title: 'architecture - classification',
       dataIndex: 'disk_usage',
     },
     {
-      title: '操作',
+      title: 'operate',
       dataIndex: 'uptime',
     },
   ];
 
   return (
     <>
-      <section className={styles['config-item']}>
-        <h1 className={styles['title']}>Storage</h1>
-        <Divider />
-        <div className={styles['band-config']}>
-          <Table
-            bordered={false}
-            className={styles['janction-table']}
-            columns={columns}
-            dataSource={list}
-            pagination={false}
-            footer={() => (
-              <div className={styles['janction-table-footer']}>
-                <a href="#">
-                  <PlusOutlined />
-                  <span>Add data disk</span>
-                </a>
-                <span>You can also add 18 data disks</span>
-              </div>
-            )}
-          ></Table>
-        </div>
-      </section>
+      <PurchaseCard title="Storage">
+        <JanctionTable
+          bordered={false}
+          columns={columns}
+          dataSource={list}
+          pagination={false}
+          footer={() => (
+            <div className={styles['janction-table-footer']}>
+              <a href="#">
+                <PlusOutlined />
+                <span>Add data disk</span>
+              </a>
+              <span>You can also add 18 data disks</span>
+            </div>
+          )}
+        />
+      </PurchaseCard>
       <BandWidth />
-      <section className={styles['config-item']}>
-        <h1 className={styles['title']}>Bandwidth</h1>
-        <Divider />
-        <div className={styles['band-config']}>
-          <div className={styles['item']}>
-            <div className={styles['name']}>Name</div>
-            <div className={styles['value']}>
-              <div className={styles['jaction-input']}>
-                <Input placeholder="Please enter name" />
-              </div>
-            </div>
-          </div>
-          <div className={styles['item']}>
-            <div className={styles['name']}>Enable IPv4 port/protocol</div>
-            <div className={styles['value']}>
-              <Checkbox.Group
-                options={PORT_PROTOCOL}
-                defaultValue={['Apple']}
-              />
-            </div>
-          </div>
-        </div>
-      </section>
+      <PurchaseCard title="Security group">
+        <LabelVal name="Name">
+          <JanctionInput placeholder="Please enter name" />
+        </LabelVal>
+        <LabelVal name="Enable IPv4 port/protocol">
+          <Checkbox.Group options={PORT_PROTOCOL} defaultValue={['Apple']} />
+        </LabelVal>
+      </PurchaseCard>
     </>
   );
 };
@@ -201,56 +181,14 @@ const Step2 = () => {
 const Step3 = () => {
   return (
     <>
-      <section className={styles['config-item']}>
-        <h1 className={styles['title']}>Management settings</h1>
-        <Divider />
-        <div className={styles['band-config']}>
-          <div className={styles['vertical-item']}>
-            <div className={styles['name']}>Confirm password</div>
-            <div className={styles['value']}>
-              <Checkbox.Group
-                options={PORT_PROTOCOL}
-                defaultValue={['Apple']}
-              />
-              <p className={styles['desc']}>
-                Root has the highest permission of the operating system. Using
-                root as the login name may cause security risks. It is
-                recommended that you use user as the login name.
-              </p>
-            </div>
-          </div>
-          <div className={styles['item']}>
-            <div className={styles['name']}>Login password</div>
-            <div className={styles['value']}>
-              <div className={styles['jaction-input']}>
-                <Input.Password placeholder="Please enter password" />
-              </div>
-            </div>
-          </div>
-          <div className={styles['item']}>
-            <div className={styles['name']}>Confirm Password</div>
-            <div className={styles['value']}>
-              <div className={styles['jaction-input']}>
-                <Input.Password placeholder="Please enter password" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section className={styles['config-item']}>
-        <h1 className={styles['title']}>Configuration summary</h1>
-        <Divider />
-        <div className={styles['band-config']}>
-          {SUMMARY.map((item) => (
-            <div className={styles['item']} key={item.name}>
-              <div className={styles['name']}>{item.name}</div>
-              <div className={styles['value']}>
-                <span>{item.value}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+      <PurchaseCard title="Configuration summary">
+        {SUMMARY.map((item) => (
+          <LabelVal name={item.name} key={item.name}>
+            {item.value}
+          </LabelVal>
+        ))}
+      </PurchaseCard>
+      <Settlement />
     </>
   );
 };
@@ -264,6 +202,8 @@ const Quick = (props) => {
   const onPre = () => {
     setStep(step - 1);
   };
+
+  const onConfirm = () => {};
 
   return (
     <div
@@ -281,21 +221,13 @@ const Quick = (props) => {
       {step == 0 && <Step1 />}
       {step == 1 && <Step2 />}
       {step == 2 && <Step3 />}
-      {step < 2 && (
-        <div className={styles['footer']}>
-          {step > 0 && (
-            <div className={styles['pre']}>
-              <Button onClick={onPre}>Previous</Button>
-            </div>
-          )}
-          {step < 2 && (
-            <div className={styles['next']}>
-              <Button onClick={onNext}>Next</Button>
-            </div>
-          )}
-        </div>
-      )}
-      {step == 2 && <Settlement onPre={onPre} />}
+      <Footer
+        isFirst={step == 0}
+        isLast={step == 2}
+        onPre={onPre}
+        onNext={onNext}
+        onConfirm={onConfirm}
+      />
     </div>
   );
 };
