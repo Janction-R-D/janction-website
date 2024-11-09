@@ -57,6 +57,7 @@ function ProfileModal({ styles, isModalOpen, handleOk, handleCancel }) {
             ...initialState,
             isLessee: !isLessee,
           });
+          handleCancel();
         };
         const handleLogOut = () => {
           disconnect();
@@ -69,6 +70,7 @@ function ProfileModal({ styles, isModalOpen, handleOk, handleCancel }) {
         };
         const handleNavigate = (path) => {
           history.push(path);
+          handleCancel();
         };
         return (
           <Modal
