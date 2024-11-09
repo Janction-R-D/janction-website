@@ -1,4 +1,4 @@
-import { Checkbox, Divider, Radio } from 'antd';
+import { Checkbox, Radio } from 'antd';
 import { useEffect, useState } from 'react';
 import {
   APPLICATION,
@@ -12,6 +12,9 @@ import { SYSTEM_LIST } from '@/constant';
 import JanctionRange from '@/components/JanctionRange';
 import Settlement from './Settlement';
 import RegionSelect from './RegionSelect';
+import Footer from './Footer';
+import JanctionDivider from '@/components/JanctionDivider';
+import JanctionRadio from '@/components/JanctionRadio';
 
 const Customized = (props) => {
   const [activeConf, setActiveConf] = useState(DEFAULT_CONFIGURATION);
@@ -47,7 +50,7 @@ const Customized = (props) => {
     >
       <section className={styles['config-item']}>
         <h1 className={styles['title']}>Basic configuration</h1>
-        <Divider />
+        <JanctionDivider />
         <div className={styles['basic-config']}>
           <section className={styles['instance']}>
             <h2 className={styles['sub-title']}>Instance specification</h2>
@@ -140,7 +143,7 @@ const Customized = (props) => {
       </section>
       <section className={styles['config-item']}>
         <h1 className={styles['title']}>Bandwidth</h1>
-        <Divider />
+        <JanctionDivider />
         <div className={styles['band-config']}>
           <div className={styles['item']}>
             <div className={styles['name']}>Public IP</div>
@@ -155,20 +158,11 @@ const Customized = (props) => {
           <div className={styles['item']}>
             <div className={styles['name']}>Bandwidth value</div>
             <div className={styles['value']}>
-              <div className={styles['band-radio-wrapper']}>
-                <Radio.Group
-                  defaultValue={bandWidth}
-                  className={styles['band-radio']}
-                  onChange={(e) => onBandWidthValueChange(e.target.value)}
-                >
-                  {PRIMARY_BAND.map((item) => (
-                    <Radio.Button value={item} key={item}>
-                      {item}
-                    </Radio.Button>
-                  ))}
-                </Radio.Group>
-                <span>Mbps</span>
-              </div>
+              <JanctionRadio
+                options={PRIMARY_BAND}
+                unit="Mbps"
+                onChange={() => {}}
+              />
               <div>
                 <JanctionRange
                   value={bandWidth}
@@ -181,6 +175,7 @@ const Customized = (props) => {
         </div>
       </section>
       <Settlement />
+      <Footer isLast />
     </div>
   );
 };

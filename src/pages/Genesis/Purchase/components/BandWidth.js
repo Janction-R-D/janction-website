@@ -3,6 +3,9 @@ import { Checkbox, Divider, Radio } from 'antd';
 import { useState } from 'react';
 import { PRIMARY_BAND } from '../extra';
 import styles from './index.less';
+import PurchaseCard from './Card';
+import LabelVal from './Card/LabelVal';
+import JanctionRadio from '@/components/JanctionRadio';
 
 const BandWidth = (props) => {
   const [ipv4, setIpv4] = useState(false);
@@ -16,48 +19,34 @@ const BandWidth = (props) => {
   };
 
   return (
-    <section className={styles['band-width-wrapper']}>
-      <h1 className={styles['title']}>Bandwidth</h1>
-      <Divider />
-      <div className={styles['band-config']}>
-        <div className={styles['item']}>
-          <div className={styles['name']}>Public IP</div>
-          <div className={styles['vlaue']}>
-            <Checkbox checked={ipv4} onChange={onIpv4Checked}>
-              <span>
-                Assign a public <a>IPv4</a> address
-              </span>
-            </Checkbox>
-          </div>
+    <PurchaseCard title="Bandwidth">
+      <LabelVal name="Public IP">
+        <div className={styles['ip-vlaue']}>
+          <Checkbox checked={ipv4} onChange={onIpv4Checked}>
+            <span>
+              Assign a public <a>IPv4</a> address
+            </span>
+          </Checkbox>
         </div>
-        <div className={styles['item']}>
-          <div className={styles['name']}>Bandwidth value</div>
-          <div className={styles['value']}>
-            <div className={styles['band-radio-wrapper']}>
-              <Radio.Group
-                defaultValue={bandWidth}
-                className={styles['band-radio']}
-                onChange={(e) => onBandWidthValueChange(e.target.value)}
-              >
-                {PRIMARY_BAND.map((item) => (
-                  <Radio.Button value={item} key={item}>
-                    {item}
-                  </Radio.Button>
-                ))}
-              </Radio.Group>
-              <span>Mbps</span>
-            </div>
-            <div>
-              <JanctionRange
-                value={bandWidth}
-                onChange={onBandWidthValueChange}
-                unit="Mbps"
-              />
-            </div>
+      </LabelVal>
+      <LabelVal name="Bandwidth value">
+        <div className={styles['bandwidth-value']}>
+          <div className={styles['band-radio-wrapper']}>
+            <JanctionRadio
+              type="value"
+              options={PRIMARY_BAND}
+              onChange={onBandWidthValueChange}
+            />
+            <span className={styles['unit']}>Mbps</span>
           </div>
+          <JanctionRange
+            value={bandWidth}
+            onChange={onBandWidthValueChange}
+            unit="Mbps"
+          />
         </div>
-      </div>
-    </section>
+      </LabelVal>
+    </PurchaseCard>
   );
 };
 
