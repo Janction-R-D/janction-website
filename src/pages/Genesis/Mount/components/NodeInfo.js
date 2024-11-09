@@ -7,9 +7,8 @@ export function NodeInfo({ styles, tags, setTags }) {
 
   const AddTag = (name) => {
     if (!name || tags.length === 6) return;
-    const verifyTag = tags.filter((tag) => tag.trim() === name.trim());
-    console.log(verifyTag);
 
+    const verifyTag = tags.filter((tag) => tag.trim() === name.trim());
     if (verifyTag.length > 0) {
       setError(true);
       setTimeout(() => {
@@ -17,14 +16,22 @@ export function NodeInfo({ styles, tags, setTags }) {
       }, 2000);
       return;
     }
-    const newTags = [...tags, name];
+    const newTags = [name, ...tags];
     setTags(newTags);
-    setShowInput(false);
+    // setShowInput(false);
     setTagInput('');
+    if (newTags.length >= 6) {
+      setShowInput(false);
+    }
   };
   const removeTag = (name) => {
     const newTags = tags.filter((tag) => tag !== name);
     setTags(newTags);
+  };
+
+  const handleShow = () => {
+    if (tags.length >= 6) return;
+    setShowInput(!showInput);
   };
   return (
     <>
@@ -82,10 +89,7 @@ export function NodeInfo({ styles, tags, setTags }) {
       <section className={styles['card-security']}>
         <span>Custom description</span>
         <div className={styles['card-security-items']}>
-          <div
-            className={styles['add-tag']}
-            onClick={() => setShowInput(!showInput)}
-          >
+          <div className={styles['add-tag']} onClick={handleShow}>
             <span className={styles['icon-blue']}>
               <i className="iconfont icon-add"></i>
             </span>
@@ -111,13 +115,10 @@ export function NodeInfo({ styles, tags, setTags }) {
                   onChange={(e) => setTagInput(e.target.value)}
                   onPressEnter={() => {
                     AddTag(tagInput);
-                    setTagInput('');
                   }}
                 />
                 {error && (
-                  <p className={styles['red']}>
-                    Please fill in a time greater than the minimum period.
-                  </p>
+                  <p className={styles['red']}>Please do not add duplicates.</p>
                 )}
               </div>
             )}

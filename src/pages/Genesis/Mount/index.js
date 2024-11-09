@@ -22,11 +22,7 @@ export default function Mount() {
   const [errorRange, setErrorRange] = useState(false);
   const [minLease, setMinLease] = useState(1);
   const [maxLease, setMaxLease] = useState(1);
-  const [tags, setTags] = useState([
-    'Machine Learning',
-    'Suitable for AI training',
-    'Deep Learning Optimization',
-  ]);
+  const [tags, setTags] = useState([]);
   const options = [
     {
       value: 1,
@@ -75,9 +71,10 @@ export default function Mount() {
 
   const handleSearch = (e) => {
     e.preventDefault();
-
+    console.log(searchId);
     if (searchId === '') return;
     setLoading(true);
+    setError(false);
     fetchConfigInfo(searchId)
       .then((res) => {
         console.log(res);
@@ -85,22 +82,31 @@ export default function Mount() {
           throw new Error('Node not found');
         }
         setUserInfo(res || {});
+        setTags(res.tags || []);
+        setPrice(res.price || 0);
+        setMaxLease(res.maximum_lease_duration || 1);
+        setMinLease(res.minimum_lease_duration || 1);
+
+        const [mxlease] = options.filter(
+          (item) => item.label.toLowerCase() == res?.maximum_lease_unit,
+        );
+        const [mnlease] = options.filter(
+          (item) => item.label.toLowerCase() == res?.minimum_lease_unit,
+        );
+        console.log(mxlease, mnlease);
+        setMaxDuration(mxlease || {});
+        setMinDuration(mnlease || {});
       })
       .catch((err) => {
         console.log(err);
         setError(true);
         setUserInfo({});
-        setTimeout(() => {
-          setError(false);
-          console.log('object');
-        }, 3000);
       })
       .finally(() => {
+        setLoading(false);
         setTimeout(() => {
           setError(false);
-          setLoading(false);
-          console.log('object');
-        }, 3000);
+        }, 2500);
       });
   };
 
@@ -152,28 +158,36 @@ export default function Mount() {
           <h3> Device information Upload</h3>
         </section>
         <main className={styles['main-card']}>
-          <section className={styles['input-box']}>
-            <div
-              className={`${styles['device-box']} ${
-                error ? styles['search-input-error'] : ''
-              }`}
-            >
-              <Input
-                type="text"
-                placeholder="Please enter the device identification number"
-                onChange={(e) => setSearchId(e.target.value)}
-                onPressEnter={(e) => handleSearch(e, searchId)}
-                className={styles['search-input-node']}
-              />
-              <Button
-                className={styles['create-btn']}
-                type="primary"
-                onClick={(e) => handleSearch(e)}
+          <section className={styles['input-box-container']}>
+            <div className={styles['input-box']}>
+              <div
+                className={`${styles['device-box']} ${
+                  error ? styles['search-input-error'] : ''
+                }`}
               >
-                Auto-Recognition
-              </Button>
+                <Input
+                  type="text"
+                  placeholder="Please enter the device identification number"
+                  onChange={(e) => setSearchId(e.target.value)}
+                  onPressEnter={(e) => handleSearch(e, searchId)}
+                  className={styles['search-input-node']}
+                />
+                <Button
+                  className={styles['create-btn']}
+                  type="primary"
+                  onClick={(e) => handleSearch(e)}
+                  disabled={searchId.length < 10}
+                >
+                  Auto-Recognition
+                </Button>
+              </div>
+              <JanctionTip title="Instances with less than 7 days until expiration will be displayed here" />
             </div>
-            <JanctionTip title="Instances with less than 7 days until expiration will be displayed here" />
+            {error && (
+              <p className={styles['red']}>
+                Please check if your number is correct.
+              </p>
+            )}
           </section>
           <main className={styles['card-content']}>
             <h3>Configurable Parameters</h3>
@@ -235,6 +249,7 @@ export default function Mount() {
                   className={styles['select']}
                   name="minimum_lease_unit"
                   defaultValue={minDuration.label}
+                  value={minDuration.label}
                   onChange={(value) => onMinDurationValueChange(value)}
                 />
                 <p>(1-11)</p>
@@ -264,6 +279,7 @@ export default function Mount() {
                     bordered={false}
                     options={options}
                     defaultValue={maxDuration.label}
+                    value={maxDuration.label}
                     name="maximum_lease_unit"
                     className={styles['select']}
                     onChange={(value) => onMaxDurationValueChange(value)}

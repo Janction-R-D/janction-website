@@ -6,11 +6,12 @@ export default function Loading({ loading }) {
       {loading ? (
         <div className={styles['loader-box']}>
           <div className={styles['loader']}></div>
-          <p>Loading ...</p>
+          <p>Loading, please wait.</p>
         </div>
       ) : (
         <p style={{ marginTop: '24px', marginBottom: '8px' }}>
-          No information, please enter the device identification number
+          No information available at the moment, please enter the device
+          identification number.
         </p>
       )}
     </>

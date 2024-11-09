@@ -1,0 +1,138 @@
+.card-modal {
+  padding: 18px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  border-radius: 15px;
+
+  :global {
+    .ant-modal-content {
+      border-radius: 15px !important;
+      background-color: #1d1d1d;
+      .ant-modal-body {
+        border-radius: 15px;
+        padding: 18px;
+      }
+    }
+    .ant-modal-footer {
+      display: none !important;
+    }
+  }
+}
+.create-btn {
+  height: 45px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 32px;
+  background: linear-gradient(275.81deg, #72deff 18.68%, #ffebe7 100%);
+  font-family: Poppins;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 18px;
+  text-align: center;
+  color: #000;
+  border-radius: 20px;
+  text-wrap: nowrap;
+}
+.pre {
+  :global {
+    .ant-btn {
+      border: none;
+      background: #252527;
+      border-radius: 51px;
+      padding: 4px 32px;
+      height: 45px;
+      span {
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 20px;
+        color: rgba(255, 255, 255, 0.6);
+      }
+    }
+  }
+}
+.buttons {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+.header-card {
+  display: flex;
+  gap: 12px;
+  padding: 10px;
+  margin-bottom: 28px;
+  border-radius: 10px;
+  background: #333335;
+  color: #858586;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 8px;
+  text-align: left;
+  padding: 14px 0px;
+  padding-top: 2px;
+}
+
+.card-header > i {
+  font-size: 22px;
+  margin-bottom: 4px;
+}
+
+.card-header > h3 {
+  position: relative;
+  padding-left: 12px;
+  margin-bottom: 6px;
+  font-size: 0.8rem;
+}
+
+.card-header > h3::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 3px;
+  border-radius: 5px;
+  background-color: #73d5f4;
+}
+
+.blue {
+  color: #47c2e8;
+}
+.stake-info {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  margin-top: 12px;
+  div {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    .info-label {
+      width: 100px;
+      color: #777778;
+    }
+    .stake-check {
+      font-size: 0.8rem !important;
+      display: flex;
+      width: 100%;
+    }
+  }
+}
+.stake-info-price {
+  font-size: 1.2rem;
+  color: red;
+}
+.stake-info-price--blue {
+  font-size: 1.2rem;
+  color: #73d5f4;
+}

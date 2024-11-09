@@ -7,6 +7,7 @@ import { Redirect, useModel } from 'umi';
 import styles from './index.less';
 import HeaderCard from './InstanceComponents/HeaderCard';
 import JanctionTip from '@/components/JanctionTip';
+import Operation from './InstanceComponents/Operation';
 
 function Pledge() {
   const { initialState } = useModel('@@initialState');
@@ -86,19 +87,7 @@ function Pledge() {
       title: 'Operation',
       key: 'action',
       render: (text, record) => {
-        return (
-          <Space
-            size="middle"
-            style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}
-          >
-            <a onClick={() => {}}>
-              <p>Stake</p>
-            </a>
-            <a onClick={() => {}}>
-              <p>Refund</p>
-            </a>
-          </Space>
-        );
+        return <Operation record={record} />;
       },
     },
   ];
