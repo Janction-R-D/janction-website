@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { Redirect, useModel } from 'umi';
 import styles from './index.less';
 import HeaderCard from './InstanceComponents/HeaderCard';
-import JantionTip from '@/components/JanctionTip';
+import JanctionTip from '@/components/JanctionTip';
 
 function Pledge() {
   const { initialState } = useModel('@@initialState');
@@ -58,7 +58,7 @@ function Pledge() {
       title: (
         <div className="df ai_c gap10">
           <span>Will undercarriage</span>
-          <JantionTip
+          <JanctionTip
             placement="topRight"
             title="Instances with less than 7 days until expiration will be displayed here"
           />
@@ -114,7 +114,7 @@ function Pledge() {
       <Card className={styles['card-table']}>
         <div className={styles['card-header']}>
           <span>Manage Stake</span>
-          <JantionTip
+          <JanctionTip
             placement="topLeft"
             title='The pledge status is divided into three states: "paid, not paid, and refunded", and the pledge information after refund can be viewed in the "Bill"'
           />

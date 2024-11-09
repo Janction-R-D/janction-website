@@ -8,6 +8,7 @@ import {
   fetchUserKeys,
   postKeyUserData,
 } from '../../../services/genesis/instance';
+import JanctionTip from '@/components/JanctionTip';
 
 export default function UserAccount() {
   const [data, setData] = useState({});
@@ -223,7 +224,7 @@ export default function UserAccount() {
       <Card className={styles['card']}>
         <section className={styles['card-header']}>
           <h3>Pledge your assets</h3>
-          <i className="iconfont icon-info"></i>
+          <JanctionTip title="Bet your empty currency to earn rewards and help maintain network security." />
         </section>
         <section className={styles['card-assets-items']}>
           <div>

@@ -7,6 +7,7 @@ import MountEchart from './components/Graps';
 import { fetchConfigInfo, postConfigInfo } from '@/services/genesis';
 import Loading from './components/Loading';
 import TooltipBox from '../components/Tooltip';
+import JanctionTip from '@/components/JanctionTip';
 
 export default function Mount() {
   const [searchId, setSearchId] = useState('');
@@ -172,13 +173,7 @@ export default function Mount() {
                 Auto-Recognition
               </Button>
             </div>
-            <TooltipBox
-              TooltipText={
-                'Instances with less than 7 days until expiration will be displayed here'
-              }
-            >
-              <i className="iconfont icon-info"></i>
-            </TooltipBox>
+            <JanctionTip title="Instances with less than 7 days until expiration will be displayed here" />
           </section>
           <main className={styles['card-content']}>
             <h3>Configurable Parameters</h3>

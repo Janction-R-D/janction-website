@@ -1,7 +1,7 @@
 import { Tooltip } from 'antd';
 import styles from './index.less';
 
-const JantionTip = (props) => {
+const JanctionTip = (props) => {
   const { title, placement } = props;
   return (
     <Tooltip
@@ -14,4 +14,4 @@ const JantionTip = (props) => {
   );
 };
 
-export default JantionTip;
+export default JanctionTip;
