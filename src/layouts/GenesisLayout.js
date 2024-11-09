@@ -121,9 +121,12 @@ const GenesisLayout = (props) => {
                 <div className={styles['logo']}>
                   <img src={require('@/assets/images/icons/logo.png')} />
                 </div>
-                <div className={styles['islesse']}>
-                  {isLessee ? <p>SELLER</p> : <p>Buyer</p>}
-                </div>
+
+                {!fold && (
+                  <div className={styles['islesse']}>
+                    {isLessee ? <p>SELLER</p> : <p>Buyer</p>}
+                  </div>
+                )}
               </section>
             </header>
             <nav>
