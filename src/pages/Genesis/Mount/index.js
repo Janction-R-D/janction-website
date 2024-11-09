@@ -26,18 +26,22 @@ export default function Mount() {
   const options = [
     {
       value: 1,
-      label: 'Day',
+      label: 'Hour',
     },
     {
       value: 2,
-      label: 'Week',
+      label: 'Day',
     },
     {
       value: 3,
-      label: 'Month',
+      label: 'Week',
     },
     {
       value: 4,
+      label: 'Month',
+    },
+    {
+      value: 5,
       label: 'Year',
     },
   ];

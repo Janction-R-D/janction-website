@@ -113,13 +113,18 @@ const GenesisLayout = (props) => {
           </header>
           <aside className={fold && styles['fold']}>
             <header>
-              <img
-                className={styles['logo-name']}
-                src={require('@/assets/images/icons/logo_name.png')}
-              />
-              <div className={styles['logo']}>
-                <img src={require('@/assets/images/icons/logo.png')} />
-              </div>
+              <section>
+                <img
+                  className={styles['logo-name']}
+                  src={require('@/assets/images/icons/logo_name.png')}
+                />
+                <div className={styles['logo']}>
+                  <img src={require('@/assets/images/icons/logo.png')} />
+                </div>
+                <div className={styles['islesse']}>
+                  {isLessee ? <p>SELLER</p> : <p>Buyer</p>}
+                </div>
+              </section>
             </header>
             <nav>
               {menu.map((item) => (

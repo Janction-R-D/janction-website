@@ -37,10 +37,16 @@ export default function AccessControl() {
           <h2>
             Node status monitoring <i className="iconfont icon-info"></i>
           </h2>
-          <span className={styles['refresh']} onClick={handleRefresh}>
-            <i className="iconfont icon-refresh"></i>
-            Refresh
-          </span>
+          <div className={styles['refresh-box']}>
+            <span className={styles['refresh']} onClick={handleRefresh}>
+              <i className="iconfont icon-refresh"></i>
+              Refresh
+            </span>
+            <span className={styles['blue']}>
+              <i className="iconfont icon-my-nodes"></i>
+              My Nodes
+            </span>
+          </div>
         </div>
         <div className={styles['filters']}>
           <div className={styles['band-radio-wrapper']}>
