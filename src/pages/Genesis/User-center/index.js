@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Button, Card, Input, Select } from 'antd';
 import styles from './index.less';
 import BindEmail from './components/BindEmail';
-import { fetchUserInfo } from '@/services/genesis';
 import {
   deleteKeysUserCenter,
   fetchUserCenter,
@@ -85,7 +84,7 @@ export default function UserAccount() {
 
   return (
     <main>
-      <h1 className={styles['title']}>Income management</h1>
+      <h1 className={styles['title']}>Personal information</h1>
       <section className={styles['banner']}>
         <div className={styles['banner-img']}>
           <img src="/account.png" className={styles['img']} />
@@ -108,14 +107,14 @@ export default function UserAccount() {
             <span onClick={onEditEmail}>Edit</span>
           </div>
         </div>
-        <Button className={styles['create-btn']} type="primary">
+        {/* <Button className={styles['create-btn']} type="primary">
           <span>
             <i className="iconfont icon-secured"></i>
           </span>{' '}
           Real name authentication
-        </Button>
+        </Button> */}
       </article>
-      <Card className={styles['card']}>
+      {/* <Card className={styles['card']}>
         <section className={styles['card-header']}>
           <h3>Real name authentication</h3>
         </section>
@@ -170,7 +169,7 @@ export default function UserAccount() {
             </ol>
           </ul>
         </main>
-      </Card>
+      </Card> */}
       <Card className={styles['card']}>
         <section className={styles['card-header']}>
           <h3>Security settings</h3>
