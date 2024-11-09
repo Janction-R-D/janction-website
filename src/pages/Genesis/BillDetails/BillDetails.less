@@ -21,72 +21,14 @@
 }
 
 .billings-table {
-  :global {
-    .ant-table {
-      background: transparent;
-      border-radius: 0;
-    }
-
-    .ant-table-container table {
-      .ant-table-thead {
-        tr {
-          th {
-            height: 36px;
-            text-align: left !important;
-            padding: 0 16px !important;
-
-            &:first-child {
-              border-top-left-radius: 50px;
-              border-bottom-left-radius: 50px;
-            }
-
-            &:nth-child(6) {
-              border-top-right-radius: 50px;
-              border-bottom-right-radius: 50px;
-            }
-
-            &:last-child {
-              background: transparent;
-            }
-
-            .operation {
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              height: 38px;
-              margin: 0 10px;
-              background: #ffffff0f;
-              border-radius: 50px;
-            }
-          }
-        }
-      }
-
-      .ant-table-tbody {
-        tr {
-          td {
-            &:first-child {
-              color: #fff;
-            }
-
-            &:last-child {
-              a {
-                color: #73d5f4;
-                white-space: nowrap;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+  margin-top: 32px;
 }
 
 :global {
   .ant-drawer {
     .ant-drawer-content-wrapper {
-      height: 752px;
-      top: 108px;
+      height: 80vh;
+      top: 10vh;
       right: 40px;
       border-radius: 32px;
       overflow: hidden;

@@ -7,6 +7,7 @@ import styles from './index.less';
 import { fetchIncomeInfo } from '@/services/genesis';
 import { empty } from '@/utils/lang';
 import dayjs from 'dayjs';
+import JanctionTable from '@/components/JanctionTable';
 
 export default function Income() {
   const [list, setList] = useState([]);
@@ -147,13 +148,13 @@ export default function Income() {
                 className={styles['search-input']}
               />
             </div>
-            <Table
+            <JanctionTable
               bordered={false}
               className={styles['table']}
               columns={columns}
               dataSource={list}
               pagination={false}
-            ></Table>
+            />
           </Card>
         </Col>
         <Col span={24}>

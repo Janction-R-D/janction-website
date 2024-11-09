@@ -8,6 +8,7 @@ import VerticalBar from './components/VerticalBar';
 import { ARITHMETIC_SITUATION, pieColors } from './data';
 import numeral from 'numeral';
 import styles from './index.less';
+import JanctionTable from '@/components/JanctionTable';
 
 export function convertMBtoGB(mb) {
   const gb = mb / 1024; // 1 GB = 1024 MB
@@ -342,13 +343,13 @@ const Lessors = (props) => {
               className={styles['search-input']}
             />
           </div>
-          <Table
+          <JanctionTable
             bordered={false}
             className={styles['table']}
             columns={watchColumns}
             dataSource={monitorList}
             pagination={false}
-          ></Table>
+          />
         </div>
       </div>
     </div>

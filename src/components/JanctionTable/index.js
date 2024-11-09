@@ -2,7 +2,7 @@ import { ConfigProvider, Table } from 'antd';
 import JactionEmpty from '../JactionEmpty';
 import styles from './index.less';
 
-const JactionTable = (props) => {
+const JanctionTable = (props) => {
   const { emptyDescription } = props;
   return (
     <div className={styles['table-container']}>
@@ -19,4 +19,4 @@ const JactionTable = (props) => {
   );
 };
 
-export default JactionTable;
+export default JanctionTable;

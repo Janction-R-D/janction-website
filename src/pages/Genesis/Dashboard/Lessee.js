@@ -9,6 +9,7 @@ import Line from './components/Line';
 import Invite from './components/Invite';
 import useLesses from './Hooks/useLesses';
 import { history } from 'umi';
+import JanctionTable from '@/components/JanctionTable';
 
 const Lessees = (props) => {
   const [news, setNews] = useState(newsData);
@@ -219,7 +220,7 @@ const Lessees = (props) => {
             </div>
           </div>
           <div className={styles['content']}>
-            <Table
+            <JanctionTable
               bordered={false}
               className={styles['table']}
               columns={detailColumns}
@@ -241,13 +242,13 @@ const Lessees = (props) => {
             </div>
           </div>
           <div className={styles['content']}>
-            <Table
+            <JanctionTable
               bordered={false}
               className={styles['table-2']}
               columns={watchColumns}
               dataSource={watchlistData}
               pagination={false}
-            ></Table>
+            />
           </div>
         </div>
       </div>

@@ -82,7 +82,6 @@ function BillDetails() {
     {
       title: <div className="operation">Operation</div>,
       dataIndex: 'operation',
-      align: 'center',
       render: (_, record) => (
         <Space size="middle">
           <a onClick={() => showDrawer(record)}>Billing details</a>
