@@ -52,7 +52,7 @@ function ProfileModal({ styles, isModalOpen, handleOk, handleCancel }) {
         const { isLessee } = initialState || {};
         const { disconnect } = useDisconnect();
         const onIdentityChange = () => {
-          storage.set({ name: ' isLessee', value: !isLessee });
+          storage.set({ name: 'isLessee', value: !isLessee });
           setInitialState({
             ...initialState,
             isLessee: !isLessee,
@@ -116,12 +116,12 @@ function ProfileModal({ styles, isModalOpen, handleOk, handleCancel }) {
                   Personal information
                 </a>
               </li>
-              <li>
+              {/* <li>
                 <i className="iconfont icon-search_doc"></i>{' '}
                 <a onClick={() => handleNavigate('/genesis/access-control')}>
                   Access control
                 </a>
-              </li>
+              </li> */}
               {!isLessee && (
                 <li>
                   <i className="iconfont icon-pledge"></i>

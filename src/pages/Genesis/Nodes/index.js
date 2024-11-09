@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import styles from './index.less';
 import Resources from './components/Resources';
-import { Card, Radio, Pagination } from 'antd';
+import { Card, Radio, Pagination, Button } from 'antd';
 import NodeCard from './components/Nodes';
-import { Redirect, useModel } from 'umi';
+import { history, Redirect, useModel } from 'umi';
 
 export default function AccessControl() {
   const [filter, setFilter] = useState('All Filter');
@@ -75,7 +75,13 @@ export default function AccessControl() {
               </Radio.Button>
             </Radio.Group>
           </div>
-          <span className={styles['filter-button']}>{filter}</span>
+          <Button
+            className={styles['list-btn']}
+            type="primary"
+            onClick={() => history.push('/genesis/mount')}
+          >
+            List
+          </Button>
         </div>
         <ul className={styles['nodes']}>
           {currentInstances.map((item, index) => (

@@ -83,24 +83,13 @@ function Instance() {
         <Row justify="space-between" align="middle">
           <Col>
             <Space>
-              {!isLessee && (
-                <Button
-                  className={styles['create-btn']}
-                  type="primary"
-                  onClick={() => history.push('/genesis/purchase')}
-                >
-                  Create
-                </Button>
-              )}
-              {isLessee && (
-                <Button
-                  className={styles['create-btn']}
-                  type="primary"
-                  onClick={() => history.push('/genesis/mount')}
-                >
-                  Mount
-                </Button>
-              )}
+              <Button
+                className={styles['create-btn']}
+                type="primary"
+                onClick={() => history.push('/genesis/purchase')}
+              >
+                Create
+              </Button>
             </Space>
           </Col>
           <Col span={15} style={{ display: 'flex', gap: '16px' }}>

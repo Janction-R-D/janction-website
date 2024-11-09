@@ -45,14 +45,12 @@ function InstanceTable({ data, getAllNodes }) {
       dataIndex: 'name',
       key: 'name',
       ellipsis: true,
-      width: 75,
     },
     {
       title: <div className="name">Cores</div>,
       dataIndex: 'Cores',
       key: 'Cores',
       ellipsis: true,
-      width: 55,
       render: (text) => <p>{text} Cores</p>,
     },
     {
@@ -60,13 +58,11 @@ function InstanceTable({ data, getAllNodes }) {
       dataIndex: 'memory',
       key: 'memory',
       ellipsis: true,
-      width: 60,
     },
     {
       title: 'Status',
       key: 'status',
       dataIndex: 'status',
-      width: 70,
       render: (text) => (
         <>
           {text.toLowerCase() === 'running' ? (
@@ -96,26 +92,22 @@ function InstanceTable({ data, getAllNodes }) {
       dataIndex: 'Location',
       key: 'Location',
       ellipsis: true,
-      width: 50,
     },
     {
       title: 'GPU Rate',
       dataIndex: 'GPUrate',
       key: 'GPUrate',
-      width: 50,
     },
 
     {
       title: 'Memory Usage Rates',
       dataIndex: 'MemoryUsage',
       key: 'MemoryUsage',
-      width: 50,
     },
     {
       title: 'Release time / Downtime',
       key: 'downtime',
       dataIndex: 'downtime',
-      width: 100,
       render: (_, record) => (
         <div style={{ whiteSpace: 'pre' }}>{record.downtime}</div>
       ),
@@ -124,7 +116,8 @@ function InstanceTable({ data, getAllNodes }) {
     {
       title: <div className="operation">Operation</div>,
       key: 'action',
-      width: 100,
+      width: 'auto',
+      fixed: 'right',
       render: (error, record) => {
         console.log(record.status);
         return (
@@ -202,6 +195,7 @@ function InstanceTable({ data, getAllNodes }) {
           pageSize: 5,
           position: ['bottomCenter'],
         }}
+        scroll={{ x: 'auto' }}
       />
     </>
   );
