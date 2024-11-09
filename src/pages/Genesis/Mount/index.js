@@ -6,6 +6,7 @@ import { Button, Card, Input, Select, Checkbox, TimePicker } from 'antd';
 import MountEchart from './components/Graps';
 import { fetchConfigInfo, postConfigInfo } from '@/services/genesis';
 import Loading from './components/Loading';
+import TooltipBox from '../components/Tooltip';
 
 export default function Mount() {
   const [searchId, setSearchId] = useState('');
@@ -125,15 +126,12 @@ export default function Mount() {
       .catch((err) => console.log(err));
   };
   function formatTime(date) {
-    // Crear un objeto Date si se pasa una cadena de texto
     const d = new Date(date);
 
-    // Obtener las horas, minutos y segundos
     const hours = d.getHours().toString().padStart(2, '0');
     const minutes = d.getMinutes().toString().padStart(2, '0');
     const seconds = d.getSeconds().toString().padStart(2, '0');
 
-    // Formatear como HH:MM:SS
     return `${hours}:${minutes}:${seconds}`;
   }
   const calendarChange = (value) => {
@@ -174,7 +172,13 @@ export default function Mount() {
                 Auto-Recognition
               </Button>
             </div>
-            <i className="iconfont icon-info"></i>
+            <TooltipBox
+              TooltipText={
+                'Instances with less than 7 days until expiration will be displayed here'
+              }
+            >
+              <i className="iconfont icon-info"></i>
+            </TooltipBox>
           </section>
           <main className={styles['card-content']}>
             <h3>Configurable Parameters</h3>

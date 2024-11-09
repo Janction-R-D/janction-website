@@ -1,41 +1,41 @@
 import React, { useState } from 'react';
-import { Button } from 'antd';
+import { Button, Modal } from 'antd';
 import styles from './profileHeader.less';
 import { useDisconnect } from 'wagmi';
 import storage from '@/utils/storage';
 import { history, useModel } from 'umi';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 export default function ProfileHeader() {
-  const [showModal, setShowModal] = useState(false);
-  const classname = showModal ? 'card-modal' : 'none';
-  const handleClick = (event) => {
-    if (showModal && !event.target.closest('.card-modal')) {
-      setShowModal(false);
-    }
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
   };
-
-  const toggleModal = () => {
-    setShowModal(!showModal);
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
   };
 
   return (
-    <header className={styles['header']} onClick={handleClick}>
+    <header className={styles['header']}>
       <span>
         <i className="iconfont icon-bell "></i>
       </span>
-      <div className={styles['img-container']} onClick={toggleModal}>
+      <div className={styles['img-container']} onClick={showModal}>
         <img className={styles['profile-img']} src="/profile.png" />
       </div>
       <ProfileModal
         styles={styles}
-        classname={classname}
-        setShowModal={setShowModal}
+        isModalOpen={isModalOpen}
+        handleOk={handleOk}
+        handleCancel={handleCancel}
       />
     </header>
   );
 }
 
-function ProfileModal({ styles, classname, setShowModal }) {
+function ProfileModal({ styles, isModalOpen, handleOk, handleCancel }) {
   return (
     <ConnectButton.Custom>
       {({
@@ -57,8 +57,6 @@ function ProfileModal({ styles, classname, setShowModal }) {
             ...initialState,
             isLessee: !isLessee,
           });
-          setShowModal(false);
-          location.reload();
         };
         const handleLogOut = () => {
           disconnect();
@@ -70,11 +68,20 @@ function ProfileModal({ styles, classname, setShowModal }) {
           history.push('/');
         };
         const handleNavigate = (path) => {
-          setShowModal(false);
           history.push(path);
         };
         return (
-          <div className={styles[classname]}>
+          <Modal
+            className={styles['card-modal']}
+            open={isModalOpen}
+            onOk={handleOk}
+            onCancel={handleCancel}
+            footer={false}
+            header={false}
+            height={300}
+            width={400}
+            closable={false}
+          >
             <section className={styles['header-card']}>
               <div className={styles['modal-profile-img']}>
                 <img className={styles['profile-img']} src="/profile.png" />
@@ -131,7 +138,7 @@ function ProfileModal({ styles, classname, setShowModal }) {
             <Button className={styles['log-out']} onClick={handleLogOut}>
               Logout
             </Button>
-          </div>
+          </Modal>
         );
       }}
     </ConnectButton.Custom>

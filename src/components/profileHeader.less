@@ -37,16 +37,41 @@
 }
 .card-modal {
   width: 330px;
-  //   height: 300px;
+
   padding: 18px;
   position: absolute;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  background-color: #1c1c1f;
-  top: 70px;
+  background-color: transparent;
+  top: 40px;
+  right: 8px;
   z-index: 10;
-  border-radius: 15px 0px 15px 15px;
+  // border-radius: 15px 0px 15px 15px;
+  border-radius: 15px;
+
+  .log-out {
+    padding: 6px;
+    margin-top: 12px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #252527;
+    width: 100%;
+  }
+  :global {
+    .ant-modal-content {
+      border-radius: 15px !important;
+      .ant-modal-body {
+        border-radius: 15px;
+        padding: 14px;
+      }
+    }
+    .ant-modal-footer {
+      display: none !important;
+    }
+  }
 }
 .header-card {
   display: flex;

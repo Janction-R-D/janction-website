@@ -2,7 +2,7 @@ import { fetchNodeList } from '@/services/genesis/instance';
 import { isEmpty } from '@/utils/lang';
 import { Button, Card, Col, Input, Pagination, Row, Space } from 'antd';
 import { useEffect, useState } from 'react';
-import { history, useModel } from 'umi';
+import { history, useModel, Redirect } from 'umi';
 import JactionEmpty from '../../../components/JactionEmpty';
 import styles from './index.less';
 import HeaderCard from './InstanceComponents/HeaderCard';
@@ -59,11 +59,11 @@ function Instance() {
     const filterData = resource?.slice(startINdex, endIndex);
     setFilteredData(filterData);
   };
-
+  if (!isLessee) return <Redirect to="/genesis/nodes"></Redirect>;
   return (
     <>
       <div className={styles['title']}>
-        <h1>My Nodes</h1>
+        <h1>My Instances</h1>
         <div>
           <i
             className={`iconfont ${
