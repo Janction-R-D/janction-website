@@ -1,0 +1,60 @@
+.janction-radio {
+  :global {
+    .ant-radio-button-wrapper {
+      border: none;
+      min-width: 80px;
+      height: 44px;
+      padding: 0 32px;
+      text-align: center;
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 44px;
+      color: rgba(255, 255, 255, 0.6);
+      background-color: #1b1b1c;
+
+      &:first-child {
+        border-radius: 16px 0 0 16px;
+      }
+
+      &:last-child {
+        border-radius: 0 16px 16px 0;
+      }
+
+      &::before {
+        background-color: #ffffff1a;
+        top: 0;
+        padding: 0;
+      }
+
+      &:hover {
+        color: rgba(255, 255, 255, 0.9);
+      }
+    }
+
+    .ant-radio-button-wrapper-checked {
+      background: rgba(255, 255, 255, 0.05);
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 600;
+      border: none;
+      box-shadow: none;
+    }
+  }
+}
+
+.janction-value-radio {
+  :global {
+    .ant-radio-button-wrapper {
+      background-color: #2f2f31;
+
+      &::before {
+        display: none;
+      }
+    }
+
+    .ant-radio-button-wrapper-checked {
+      background: #484849;
+    }
+  }
+}

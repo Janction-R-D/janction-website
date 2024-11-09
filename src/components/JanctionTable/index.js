@@ -3,16 +3,22 @@ import JactionEmpty from '../JactionEmpty';
 import styles from './index.less';
 
 const JanctionTable = (props) => {
-  const { emptyDescription } = props;
+  const { emptyDescription, footer, ...extraProps } = props;
   return (
-    <div className={styles['table-container']}>
+    <div
+      className={[
+        styles['table-container'],
+        footer && styles['table-container-with-footer'],
+      ].join(' ')}
+    >
       <ConfigProvider
         renderEmpty={() => <JactionEmpty description={emptyDescription} />}
       >
         <Table
           className={styles['jaction-table']}
           popupClassName={styles['jaction-popup']}
-          {...props}
+          footer={footer}
+          {...extraProps}
         />
       </ConfigProvider>
     </div>
