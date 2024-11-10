@@ -9,14 +9,28 @@ import { useEffect, useMemo } from 'react';
 import { history } from 'umi';
 
 export const fullWidthRoute = ['/home', '/explore', '/getStarted', '/solution'];
-export const marginTopRoute = ['/home', '/explore', '/getStarted'];
-export const paddingRoute = ['/home', '/explore', '/getStarted'];
+export const authRoute = [
+  '/genesis/dashboard',
+  '/genesis/deployNode',
+  '/genesis/instance',
+  '/genesis/orders',
+  '/genesis/purchase',
+  '/genesis/mount',
+  '/genesis/billDetails',
+  '/genesis/user-center',
+  '/genesis/pledge',
+  '/genesis/income',
+];
 
 export default function Layout(props) {
   const { children } = props;
 
   const fullWidth = useMemo(() => {
     return fullWidthRoute.includes(props.location.pathname);
+  }, [props.location.pathname]);
+
+  const isAuthRoute = useMemo(() => {
+    return authRoute.includes(props.location.pathname);
   }, [props.location.pathname]);
 
   useEffect(() => {
@@ -30,15 +44,30 @@ export default function Layout(props) {
     return <LoginLayout>{children}</LoginLayout>;
   }
 
-  if (props.location.pathname.includes('/genesis')) {
+  if (isAuthRoute) {
     return <GenesisLayout>{children}</GenesisLayout>;
   }
 
+  // auth route 404
+  if (props.location.pathname.includes('/genesis')) {
+    return <GenesisLayout noPadding>{children}</GenesisLayout>;
+  }
+
+  if (fullWidth) {
+    return (
+      <div id={styles['main-layout']}>
+        <Header />
+        <main className={fullWidth && styles['main-wp100']}>{children}</main>
+        <Footer />
+      </div>
+    );
+  }
+
+  // 404
   return (
-    <div id={styles['main-layout']}>
+    <div id={styles['empty-layout']}>
       <Header />
-      <main className={fullWidth && styles['main-wp100']}>{children}</main>
-      <Footer />
+      <main>{children}</main>
     </div>
   );
 }

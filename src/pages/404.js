@@ -5,22 +5,21 @@ const EmptyPage = (props) => {
   const { history } = props;
   return (
     <div className="empty-page-wrapper">
-      <div className={styles['banner-error']}>
-        <img src="/404.webp" className={styles['banner-img']} />
+      <div className={styles['content']}>
+        <img src="/404.webp" width="100%" />
+        <div className={styles['error-box']}>
+          <p className={styles['error-text']}>
+            We can't find the page you're looking for :(
+          </p>
+        </div>
+        <a
+          onClick={() => {
+            history.push('/');
+          }}
+          className={styles['go-home']}
+          style={renderBackgroudImg(home)}
+        ></a>
       </div>
-      <div className={styles['error-box']}>
-        <p className={styles['error-text']}>
-          We can't find the page you're looking for :(
-        </p>
-      </div>
-
-      <a
-        onClick={() => {
-          history.push('/');
-        }}
-        className={styles['go-home']}
-        style={renderBackgroudImg(home)}
-      ></a>
     </div>
   );
 };

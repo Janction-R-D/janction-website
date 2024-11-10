@@ -43,7 +43,7 @@ const navList = [
   },
 ];
 const GenesisLayout = (props) => {
-  const { children } = props;
+  const { children, noPadding } = props;
 
   const { initialState } = useModel('@@initialState');
 
@@ -175,7 +175,7 @@ const GenesisLayout = (props) => {
               ></i>
             </div>
           </aside>
-          <main>
+          <main className={noPadding && styles['main-no-padding']}>
             <header>
               <ProfileHeader />
             </header>

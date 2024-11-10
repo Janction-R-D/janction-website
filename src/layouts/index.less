@@ -88,6 +88,15 @@
   }
 }
 
+#empty-layout {
+  width: 100vw;
+
+  main {
+    width: 100vw;
+    height: 100vh;
+  }
+}
+
 @media (max-width: 1024px) {
   #main-layout {
     main {
@@ -96,6 +105,12 @@
 
     .main-wp100 {
       width: 100%;
+    }
+  }
+
+  #empty-layout {
+    main {
+      padding-top: 20vw;
     }
   }
 }

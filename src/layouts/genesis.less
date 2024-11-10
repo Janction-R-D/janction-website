@@ -303,6 +303,7 @@
       position: absolute;
       top: 0;
       left: 0;
+      z-index: 15;
 
       .links {
         display: flex;
@@ -399,6 +400,9 @@
         }
       }
     }
+  }
+  > main.main-no-padding {
+    padding: 0;
   }
 
   .android-header {
@@ -896,6 +900,10 @@
           }
         }
       }
+    }
+
+    > main.main-no-padding {
+      padding: 0;
     }
 
     > footer {
