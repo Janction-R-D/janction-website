@@ -23,29 +23,51 @@
 
     header {
       width: 192px;
-      padding: 32px 0 20px;
+      padding: 32px 0 57px;
       display: flex;
       align-items: center;
       justify-content: center;
-      border-bottom: 1px solid;
-      border-color: linear-gradient(
-        90deg,
-        rgba(224, 225, 226, 0) 0%,
-        #e0e1e2 49.52%,
-        rgba(224, 225, 226, 0.15625) 99.04%
-      );
-      .islesse {
-        background-image: linear-gradient(45deg, #131315, #241b17, #241b17);
-        padding: 3px 12px;
-        margin-block: 12px;
-        margin-inline: auto;
-        border: 1px solid #cccccc70;
-        color: #a5a3a2;
-        box-shadow: 0px 1px 1px 0px #cccccca1;
+      position: relative;
+      // border-bottom: 1px solid;
+      // border-color: linear-gradient(to right, #E0E1E200, #e0e1e2, #E0E1E200);
 
-        width: min-content;
-        border-radius: 12px;
+      &::after {
+        content: '';
+        height: 1px;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        background: linear-gradient(to right, #e0e1e200, #e0e1e2, #e0e1e200);
       }
+
+      .role {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 57px;
+        height: 20px;
+        margin: 10px auto 0;
+        border-radius: 27px;
+        background: linear-gradient(
+            229.56deg,
+            rgba(1, 1, 1, 0.1) 20.47%,
+            rgba(231, 107, 24, 0.1) 40.13%,
+            rgba(0, 0, 0, 0.1) 75.34%
+          ),
+          rgba(0, 0, 0, 0.2);
+      }
+
+      .buyer-role {
+        background: linear-gradient(
+            229.56deg,
+            rgba(1, 1, 1, 0.164) 30.79%,
+            rgba(101, 155, 255, 0.2) 47.25%,
+            rgba(0, 0, 0, 0.2) 75.34%
+          ),
+          rgba(0, 0, 0, 0.2);
+      }
+
       .logo-name {
         width: 120px;
         height: 23.33px;
@@ -195,6 +217,7 @@
         color: #d8d8d8;
       }
     }
+
     .fold-wrapper-2 {
       position: absolute;
       top: 27px;

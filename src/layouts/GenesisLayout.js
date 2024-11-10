@@ -70,8 +70,6 @@ const GenesisLayout = (props) => {
     return navList.filter((item) => (item.role ? item.role(isLessee) : true));
   }, [isLessee]);
 
-  console.log('『menu』', menu);
-
   // const onIdentityChange = () => {
   //   storage.set({ name: 'isLessee', value: !isLessee });
   //   setInitialState({
@@ -123,8 +121,13 @@ const GenesisLayout = (props) => {
                 </div>
 
                 {!fold && (
-                  <div className={styles['islesse']}>
-                    {isLessee ? <p>SELLER</p> : <p>Buyer</p>}
+                  <div
+                    className={[
+                      styles['role'],
+                      isLessee && styles['buyer-role'],
+                    ].join(' ')}
+                  >
+                    {isLessee ? <span>Buyer</span> : <span>SELLER</span>}
                   </div>
                 )}
               </section>
