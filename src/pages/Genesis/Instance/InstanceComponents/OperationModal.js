@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Card } from 'antd';
 import styles from './operation.less';
 import TerminalModal from './TerminalModal';
+import JanctionPopover from '@/components/JanctionPopover';
 
 export default function OperationModal({ record }) {
   const [showModal, setShowModal] = useState(true);
@@ -20,13 +21,17 @@ export default function OperationModal({ record }) {
 
   return (
     <div className="ellipsis operation-modal">
-      <a onClick={handleClick}>More Functions</a>
-      <Card className={classname} style={{ padding: '0px' }}>
-        <div className={styles['panel']}>
-          <span onClick={handleConnect}>Remote connection</span>
-          <span>Renewal</span>
-        </div>
-      </Card>
+      <JanctionPopover
+        content={
+          <ul className={styles['more-function']} style={{ padding: '0px' }}>
+            <li onClick={handleConnect}>Remote connection</li>
+            <li>Renewal</li>
+          </ul>
+        }
+      >
+        <a>More Functions</a>
+      </JanctionPopover>
+
       {visible && (
         <TerminalModal
           visible={visible}
