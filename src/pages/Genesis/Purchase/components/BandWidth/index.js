@@ -1,25 +1,24 @@
-import JanctionRange from '@/components/JanctionRange';
-import { Checkbox, Divider, Radio } from 'antd';
-import { useState } from 'react';
-import { PRIMARY_BAND } from '../extra';
-import styles from './index.less';
-import PurchaseCard from './Card';
-import LabelVal from './Card/LabelVal';
 import JanctionRadio from '@/components/JanctionRadio';
+import JanctionRange from '@/components/JanctionRange';
+import { Checkbox } from 'antd';
+import { PRIMARY_BAND } from '../../extra';
+import LabelVal from '../Card/LabelVal';
+import styles from './index.less';
+import { useState } from 'react';
 
 const BandWidth = (props) => {
+  const [bandWidth, setBandWidth] = useState();
   const [ipv4, setIpv4] = useState(false);
-  const [bandWidth, setBindWidth] = useState(1);
 
   const onIpv4Checked = (e) => {
     setIpv4(e.target.checked);
   };
   const onBandWidthValueChange = (value) => {
-    setBindWidth(value);
+    setBandWidth(value);
   };
 
   return (
-    <PurchaseCard title="Bandwidth">
+    <div className={styles['band-width-wrapper']}>
       <LabelVal name="Public IP">
         <div className={styles['ip-vlaue']}>
           <Checkbox checked={ipv4} onChange={onIpv4Checked}>
@@ -46,7 +45,7 @@ const BandWidth = (props) => {
           />
         </div>
       </LabelVal>
-    </PurchaseCard>
+    </div>
   );
 };
 

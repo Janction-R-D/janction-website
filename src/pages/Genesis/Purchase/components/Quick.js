@@ -1,10 +1,13 @@
+import JanctionInput from '@/components/JanctionInput';
 import JanctionRadio from '@/components/JanctionRadio';
 import JanctionRange from '@/components/JanctionRange';
+import JanctionSelect from '@/components/JanctionSelect';
+import JanctionSteps from '@/components/JanctionSteps';
 import JanctionTable from '@/components/JanctionTable';
 import SearchInput from '@/components/SeachInput';
 import { SYSTEM_LIST } from '@/constant';
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Input, Select, Steps, Table } from 'antd';
+import { Checkbox } from 'antd';
 import { useState } from 'react';
 import {
   BAND_COLUMNS,
@@ -16,18 +19,13 @@ import {
   VERSIONS,
 } from '../extra';
 import BandWidth from './BandWidth';
+import PurchaseCard from './Card';
+import LabelVal from './Card/LabelVal';
+import PurchaseSubCard from './Card/SubCard';
+import Footer from './Footer';
 import styles from './index.less';
 import RegionSelect from './RegionSelect';
 import Settlement from './Settlement';
-import Footer from './Footer';
-import JanctionDivider from '@/components/JanctionDivider';
-import PurchaseCard from './Card';
-import PurchaseSubCard from './Card/SubCard';
-import JanctionSelect from '@/components/JanctionSelect';
-import LabelVal from './Card/LabelVal';
-import JanctionInput from '@/components/JanctionInput';
-
-const { Step } = Steps;
 
 const Step1 = () => {
   const [computeMode, setComputeMode] = useState(DEFAULT_COMPUTE_MODE.value);
@@ -47,7 +45,7 @@ const Step1 = () => {
       </PurchaseCard>
 
       <PurchaseCard title="Basic configuration">
-        <div className={styles['band-config']}>
+        <PurchaseSubCard>
           <div className={styles['filter']}>
             <JanctionRadio
               defaultValue={computeMode}
@@ -62,44 +60,42 @@ const Step1 = () => {
             dataSource={list}
             pagination={false}
           />
-          <PurchaseSubCard title="Public IP">
-            <div className={styles['ip']}>
-              <div className={styles['filter']}>
-                <JanctionRadio
-                  defaultValue={computeMode}
-                  options={IP_FILTERS}
-                  onChange={onComputeModeChange}
-                />
-                <SearchInput />
-              </div>
-              <div className={styles['list']}>
-                {SYSTEM_LIST.map((item) => (
-                  <div
-                    className={[
-                      styles['item'],
-                      activeIp.value == item.value && styles['active-item'],
-                    ].join(' ')}
-                    onClick={() => setActiveIp(item)}
-                  >
-                    <div className={styles['icon']}>
-                      <i className={`iconfont icon-${item.icon}`}></i>
-                    </div>
-                    <span>{item.label}</span>
-                  </div>
-                ))}
-                <div className={[styles['item'], styles['more']].join(' ')}>
-                  <i className="iconfont icon-down"></i>
-                  <span>More</span>
+        </PurchaseSubCard>
+        <PurchaseSubCard title="Public IP">
+          <div className={styles['filter']}>
+            <JanctionRadio
+              defaultValue={computeMode}
+              options={IP_FILTERS}
+              onChange={onComputeModeChange}
+            />
+            <SearchInput />
+          </div>
+          <div className={styles['list']}>
+            {SYSTEM_LIST.map((item) => (
+              <div
+                className={[
+                  styles['item'],
+                  activeIp.value == item.value && styles['active-item'],
+                ].join(' ')}
+                onClick={() => setActiveIp(item)}
+              >
+                <div className={styles['icon']}>
+                  <i className={`iconfont icon-${item.icon}`}></i>
                 </div>
+                <span>{item.label}</span>
               </div>
+            ))}
+            <div className={[styles['item'], styles['more']].join(' ')}>
+              <i className="iconfont icon-down"></i>
+              <span>More</span>
             </div>
-          </PurchaseSubCard>
-          <JanctionSelect
-            options={VERSIONS}
-            placeholder="Select version"
-            className="w300"
-          />
-        </div>
+          </div>
+        </PurchaseSubCard>
+        <JanctionSelect
+          options={VERSIONS}
+          placeholder="Select version"
+          className="w300"
+        />
       </PurchaseCard>
     </>
   );
@@ -165,7 +161,9 @@ const Step2 = () => {
           )}
         />
       </PurchaseCard>
-      <BandWidth />
+      <PurchaseCard title="Bandwidth">
+        <BandWidth />
+      </PurchaseCard>
       <PurchaseCard title="Security group">
         <LabelVal name="Name">
           <JanctionInput placeholder="Please enter name" />
@@ -184,7 +182,7 @@ const Step3 = () => {
       <PurchaseCard title="Configuration summary">
         {SUMMARY.map((item) => (
           <LabelVal name={item.name} key={item.name}>
-            {item.value}
+            <span className={styles['summary-value']}>{item.value}</span>
           </LabelVal>
         ))}
       </PurchaseCard>
@@ -192,6 +190,12 @@ const Step3 = () => {
     </>
   );
 };
+
+const STEPS = [
+  { title: 'Select the basic configuration', value: 0 },
+  { title: 'Instance & Image', value: 1 },
+  { title: 'Final confirmation', value: 2 },
+];
 
 const Quick = (props) => {
   const [step, setStep] = useState(0);
@@ -209,15 +213,9 @@ const Quick = (props) => {
     <div
       className={[styles['config-wrapper'], styles['quick-wrapper']].join(' ')}
     >
-      <section className={styles['config-item']}>
-        <div className={styles['janction-step']}>
-          <Steps current={step}>
-            <Step title="Select the basic configuration" />
-            <Step title="Instance & Image" />
-            <Step title="Final confirmation" />
-          </Steps>
-        </div>
-      </section>
+      <PurchaseCard>
+        <JanctionSteps step={step} steps={STEPS} />
+      </PurchaseCard>
       {step == 0 && <Step1 />}
       {step == 1 && <Step2 />}
       {step == 2 && <Step3 />}

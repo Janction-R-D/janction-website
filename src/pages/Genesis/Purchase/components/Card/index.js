@@ -5,8 +5,12 @@ const PurchaseCard = (props) => {
   const { title, children } = props;
   return (
     <div className={styles['purchase-card']}>
-      <h1 className={styles['card-title']}>{title}</h1>
-      <JanctionDivider />
+      {title && (
+        <>
+          <h1 className={styles['card-title']}>{title}</h1>
+          <JanctionDivider />
+        </>
+      )}
       <div className={styles['card-content']}>{children}</div>
     </div>
   );
