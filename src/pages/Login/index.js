@@ -11,6 +11,7 @@ import {
 } from 'wagmi';
 import styles from './index.less';
 import { useEffect } from 'react';
+import { fetchUserNonce, fetchUserVerify } from '@/services/login';
 
 const expires = 60 * 60 * 10 * 1000;
 const Login = (props) => {
@@ -40,7 +41,7 @@ const Login = (props) => {
 
       const signAndLogin = async () => {
         try {
-          const nonce = await fetchNonce();
+          const nonce = await fetchUserNonce();
 
           console.log('nonce getted:', nonce);
 
@@ -63,25 +64,25 @@ const Login = (props) => {
             {
               onSuccess: async (data) => {
                 const param = {
-                  message,
+                  message: message,
                   signature: data,
-                  is_node: false,
                 };
 
-                console.log({ param });
+                await fetchUserVerify(param);
 
-                const token = await performLogin(param);
-                console.log({ token });
-                setInitialState({
-                  ...initialState,
-                  userAccount,
-                });
+                const msg = btoa(message);
+                const sig = btoa(data);
+
                 storage.set({
                   name: 'userAccount',
                   value: userAccount,
                   expires,
                 });
-                storage.set({ name: 'token', value: token, expires });
+                storage.set({
+                  name: 'AUTH_HEADERS',
+                  value: { 'x-siwe-sig': sig, 'x-siwe-msg': msg },
+                  expires,
+                });
 
                 const from = history.location.query?.from || '/';
                 window.location.replace(from);

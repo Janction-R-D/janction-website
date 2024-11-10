@@ -10,16 +10,13 @@ import '@xterm/xterm/css/xterm.css';
  * Request interceptor
  */
 const authHeaderInterceptor = (url, options) => {
-  const ACCESS_TOKEN = storage.get('token');
+  const AUTH_HEADERS = storage.get('AUTH_HEADERS');
   let authHeader = {};
   if (options?.loginAuth) {
-    if (!ACCESS_TOKEN) {
+    if (!AUTH_HEADERS) {
       logout();
     } else {
-      authHeader = {
-        Authorization: `Bearer ${ACCESS_TOKEN}`,
-        'x-user-id': `6d5b03ae-6205-417d-8749-5ac1f40fac07`,
-      };
+      authHeader = AUTH_HEADERS;
     }
   }
   options.headers = {
