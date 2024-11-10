@@ -33,7 +33,7 @@ const TerminalModal = (props) => {
     xterm.current.loadAddon(fitAddon.current);
     xterm.current.open(terminalRef.current);
     fitAddon.current.fit();
-    xterm.current.write(`Connecting to pod ${resource_id}...`);
+    xterm.current.write(`Connecting to pod resource_id：${resource_id}...`);
 
     // Terminal events
     xterm.current.onData((data) => {
@@ -92,9 +92,12 @@ const TerminalModal = (props) => {
     };
 
     conn.onerror = (error) => {
-      console.log('[error] Connection error');
-      xterm.current.write('Error: ' + error.message);
-      xterm.current.destroy();
+      try {
+        xterm.current.write('Error: ' + error.message);
+        xterm.current.destroy();
+      } catch (err) {
+        console.log('『err』', err);
+      }
     };
   };
 
