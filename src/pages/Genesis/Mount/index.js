@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { history } from 'umi';
+import { history, Redirect, useModel } from 'umi';
 import { NodeInfo } from './components/NodeInfo';
 import styles from './index.less';
 import { Button, Card, Input, Select, Checkbox, TimePicker } from 'antd';
@@ -10,6 +10,9 @@ import TooltipBox from '../components/Tooltip';
 import JanctionTip from '@/components/JanctionTip';
 
 export default function Mount() {
+  const { initialState } = useModel('@@initialState');
+  const { isLessee } = initialState || {};
+
   const [searchId, setSearchId] = useState('');
   const [loading, setLoading] = useState(false);
   const [minDuration, setMinDuration] = useState({ value: 1, label: 'Month' });
@@ -153,6 +156,9 @@ export default function Mount() {
     setMaxPeriod(newMaxPeriod);
     setMinPeriod(newMinPeriod);
   };
+
+  if (isLessee) return <Redirect to="/genesis/dashboard"></Redirect>;
+
   return (
     <form className={styles['main']} onSubmit={(e) => handleSubmit(e)}>
       <h1 className={styles['title']}>Device Rental Configuration</h1>
