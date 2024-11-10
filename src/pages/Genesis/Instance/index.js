@@ -100,7 +100,7 @@ function Instance() {
                   style={{ fontSize: '1vw' }}
                 />
               }
-              placeholder="You can fuzzy search for cloud servers by ID, name, and IP. Multiple keywords are separated by commas ()"
+              placeholder="You can fuzzy search for cloud servers by ID, name, and IP. Multiple keywords are separated by commas"
               onChange={(e) => handleSearch(e.target.value)}
               onPressEnter={(e) => handleSearch(e.target.value)}
               className={styles['search-input']}

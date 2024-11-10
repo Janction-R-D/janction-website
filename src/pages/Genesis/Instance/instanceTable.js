@@ -6,13 +6,14 @@ import { fetchNodeOperation } from '@/services/genesis/instance';
 import styles from './index.less';
 import OperationModal from './InstanceComponents/OperationModal';
 import { convertMBtoGB } from '../Dashboard/Lessor';
+import { history } from 'umi';
 
 function InstanceTable({ data, getAllNodes }) {
   const [showOverView, setShowOverView] = useState(true);
 
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
-  console.log(data, 'hola');
+
   const handleOperation = (operation, resource, id) => {
     const payload = JSON.stringify({
       resource_id: resource,
@@ -190,7 +191,15 @@ function InstanceTable({ data, getAllNodes }) {
         className={styles['table']}
         columns={columns}
         dataSource={mappedOrders}
-        emptyDescription="目前无实例，请添加实例"
+        emptyDescription={
+          <p>
+            No instance is currently available. Please{' '}
+            <a onClick={() => history.push('/genesis/purchase')}>
+              create an instance
+            </a>
+            .
+          </p>
+        }
         pagination={{
           pageSize: 5,
           position: ['bottomCenter'],
