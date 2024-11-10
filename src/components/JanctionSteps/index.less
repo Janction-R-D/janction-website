@@ -1,0 +1,50 @@
+.janction-steps {
+  width: 100%;
+
+  :global {
+    .ant-steps {
+      .ant-steps-item-finish .ant-steps-item-icon {
+        background: #00bbd4;
+        border: 1px solid #00bbd4;
+        border-color: #00bbd4;
+
+        .ant-steps-icon {
+          font-size: 14px;
+          color: #fff;
+        }
+      }
+
+      .ant-steps-item-process
+        > .ant-steps-item-container
+        > .ant-steps-item-icon {
+        background: #00bbd4;
+        border: 1px solid #00bbd4;
+        border-color: #00bbd4;
+
+        .ant-steps-icon {
+          font-family: 'Poppins';
+          font-style: normal;
+          font-weight: 500;
+          font-size: 16px;
+          line-height: 24px;
+          color: #ffffff;
+        }
+      }
+
+      .ant-steps-item-wait .ant-steps-item-icon {
+        background: #2f2f31;
+        border-radius: 16px;
+        border-color: transparent;
+
+        .ant-steps-icon {
+          font-family: 'Poppins';
+          font-style: normal;
+          font-weight: 500;
+          font-size: 16px;
+          line-height: 24px;
+          color: rgba(255, 255, 255, 0.4);
+        }
+      }
+    }
+  }
+}
