@@ -1,0 +1,115 @@
+.card-modal {
+  width: 330px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  background-color: transparent;
+  border-radius: 15px;
+
+  .log-out {
+    padding: 6px;
+    margin-top: 12px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #252527;
+    width: 100%;
+  }
+  .card-title {
+    padding: 2px;
+    text-align: center;
+    font-size: 1.1rem;
+  }
+  .card-modal-img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    margin-bottom: 12px;
+    margin-inline: auto;
+    border-radius: 10px;
+  }
+  :global {
+    .ant-modal-content {
+      border-radius: 15px !important;
+      .ant-modal-body {
+        border-radius: 15px;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        gap: 12px;
+        padding: 14px;
+      }
+    }
+    .ant-modal-footer {
+      display: none !important;
+    }
+  }
+  .buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 12px;
+
+    .create-btn {
+      height: 45px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 4px 32px;
+      background: linear-gradient(275.81deg, #72deff 18.68%, #ffebe7 100%);
+      font-family: Poppins;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 18px;
+      text-align: center;
+      color: #000;
+      border-radius: 20px;
+      text-wrap: nowrap;
+    }
+    .pre {
+      :global {
+        .ant-btn {
+          border: none;
+          background: #252527;
+          border-radius: 51px;
+          padding: 4px 32px;
+          height: 45px;
+          span {
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 20px;
+            color: rgba(255, 255, 255, 0.6);
+          }
+        }
+      }
+    }
+  }
+  .card-input {
+    display: none;
+  }
+  .label {
+    width: 130px;
+    margin-inline: auto;
+  }
+  .input-btn {
+    padding: 5px;
+    border: 1px solid #ccc;
+    width: 130px;
+    text-align: center;
+    cursor: pointer;
+    margin-inline: auto;
+    border-radius: 5px;
+    transition: all 200ms ease;
+    &:hover {
+      border-color: #72deff;
+      color: #72deff;
+    }
+  }
+}

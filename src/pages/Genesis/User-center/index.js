@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Input, Select } from 'antd';
+import { Button, Tooltip, Card, Input, Select } from 'antd';
 import styles from './index.less';
 import BindEmail from './components/BindEmail';
 import {
@@ -9,6 +9,7 @@ import {
   postKeyUserData,
 } from '../../../services/genesis/instance';
 import JanctionTip from '@/components/JanctionTip';
+import PorifilePicture from './components/PorifilePicture';
 
 export default function UserAccount() {
   const [data, setData] = useState({});
@@ -16,6 +17,17 @@ export default function UserAccount() {
   const [visible, setVisible] = useState(false);
   const [key, setKey] = useState(null);
   const [keys, setKeys] = useState([]);
+  const [imgUrl, setImgUrl] = useState('/profile.png');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
   const getUserCenterData = () => {
     return fetchUserCenter()
       .then((res) => {
@@ -90,12 +102,22 @@ export default function UserAccount() {
         <div className={styles['banner-img']}>
           <img src="/account.png" className={styles['img']} />
         </div>
-        <div className={styles['user-profile']}>
-          <img src="/profile.png" className={styles['user-profile-img']} />
+        <div className={styles['user-profile']} onClick={showModal}>
+          <Tooltip title="You can click if you want to change your profile picture">
+            <img src={imgUrl} className={styles['user-profile-img']} />
+          </Tooltip>
           <span className={styles['check-float']}>
             <i className="iconfont icon-certified"></i>
           </span>
         </div>
+
+        <PorifilePicture
+          handleCancel={handleCancel}
+          isModalOpen={isModalOpen}
+          handleOk={handleOk}
+          setImgUrl={setImgUrl}
+          imgUrl={imgUrl}
+        />
       </section>
       <article className={styles['user-info']}>
         <h2>Naila</h2>
