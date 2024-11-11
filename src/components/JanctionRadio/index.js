@@ -1,16 +1,27 @@
 import { Radio } from 'antd';
 import styles from './index.less';
+import { useEffect, useState } from 'react';
 
 const JanctionRadio = (props) => {
-  const { type, defaultValue, onChange, options = [] } = props;
+  const { value, type, onChange, options = [] } = props;
+
+  const [active, setActive] = useState();
+
+  useEffect(() => {
+    setActive(value);
+  }, [value]);
+
   return (
     <Radio.Group
-      defaultValue={defaultValue}
+      value={active}
       className={[
         styles['janction-radio'],
         type && styles[`janction-${type}-radio`],
       ]}
-      onChange={(e) => onChange(e.target.value)}
+      onChange={(e) => {
+        setActive(e.target.value);
+        onChange(e.target.value);
+      }}
     >
       {options.map((item) => (
         <Radio.Button value={item.value} key={item.value}>

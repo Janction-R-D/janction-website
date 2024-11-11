@@ -1,4 +1,4 @@
-import { Button, Checkbox } from 'antd';
+import { Button, Checkbox, message } from 'antd';
 import { useState } from 'react';
 import styles from './index.less';
 
@@ -9,6 +9,15 @@ const Footer = (props) => {
   const onAgreeChange = (e) => {
     setAgree(e.target.checked);
   };
+
+  const onConfirmBefore = () => {
+    const tip = 'please read and agreed to the relevant service terms!';
+    if (!agree) {
+      message.warning(tip);
+      throw new Error(tip);
+    }
+  };
+
   return (
     <div className={styles['footer-price']}>
       <div className={styles['confirm-info']}>
@@ -43,7 +52,10 @@ const Footer = (props) => {
           </div>
         )}
         {isLast && (
-          <div className={styles['confirm']} onClick={onConfirm}>
+          <div
+            className={styles['confirm']}
+            onClick={() => onConfirm(onConfirmBefore)}
+          >
             <Button>Confirm the order</Button>
           </div>
         )}

@@ -1,9 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { APPLICATION } from '../../extra';
 import styles from './index.less';
 
 const Application = (props) => {
-  const [active_ap, setActiveAp] = useState(APPLICATION[0]);
+  const { value, onChange } = props;
+  const [active_ap, setActiveAp] = useState();
+
+  useEffect(() => {
+    setActiveAp(value);
+  }, [value]);
 
   return (
     <div className={styles['application-wrapper']}>
@@ -11,9 +16,12 @@ const Application = (props) => {
         <div
           className={[
             styles['item'],
-            active_ap.value == item.value && styles['active-item'],
+            active_ap == item.value && styles['active-item'],
           ].join(' ')}
-          onClick={() => setActiveAp(item)}
+          onClick={() => {
+            setActiveAp(item);
+            onChange(item.value);
+          }}
         >
           <span>{item.name}</span>
         </div>

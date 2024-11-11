@@ -1,19 +1,19 @@
-import { SYSTEM_LIST } from '@/constant';
 import { useEffect, useState } from 'react';
-import {
-  APPLICATION,
-  CONFIGURATIONS,
-  DEFAULT_CONFIGURATION,
-  REGION,
-} from '../../extra';
+import { CONFIGURATIONS, DEFAULT_CONFIGURATION } from '../../extra';
 import styles from './index.less';
 
 const Specification = (props) => {
+  const { value, onChange } = props;
   const [activeConf, setActiveConf] = useState(DEFAULT_CONFIGURATION);
-  const [active_c_o, setActiveCO] = useState(DEFAULT_CONFIGURATION.options[0]);
+  const [active_c_o, setActiveCO] = useState();
 
   useEffect(() => {
-    setActiveCO(activeConf.options[0]);
+    setActiveCO(value);
+  }, [value]);
+
+  useEffect(() => {
+    setActiveCO(activeConf.options[0].key);
+    onChange(activeConf.options[0].key);
   }, [activeConf]);
 
   const onConfigurationChange = (configuration) => {
@@ -21,6 +21,7 @@ const Specification = (props) => {
   };
   const onOptionChange = (option) => {
     setActiveCO(option);
+    onChange(option.key);
   };
 
   return (
@@ -45,10 +46,9 @@ const Specification = (props) => {
           <div
             className={[
               styles['configuration-option'],
-              active_c_o.key == item.key &&
-                styles['configuration-active-option'],
+              active_c_o == item.key && styles['configuration-active-option'],
             ].join(' ')}
-            onClick={() => onOptionChange(item)}
+            onClick={() => onOptionChange(item.key)}
             key={item.key}
           >
             <div className={styles['head']}>

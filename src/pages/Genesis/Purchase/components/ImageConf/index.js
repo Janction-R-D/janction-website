@@ -1,18 +1,28 @@
 import { SYSTEM_LIST } from '@/constant';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './index.less';
 
 const ImageConf = (props) => {
-  const [active_i, setActiveI] = useState(SYSTEM_LIST[0]);
+  const { value, onChange } = props;
+
+  const [active_i, setActiveI] = useState(SYSTEM_LIST[0].value);
+
+  useEffect(() => {
+    setActiveI(value);
+  }, [value]);
+
   return (
     <div className={styles['image-conf-wrapper']}>
       {SYSTEM_LIST.map((item) => (
         <div
           className={[
             styles['item'],
-            active_i.value == item.value && styles['active-item'],
+            active_i == item.value && styles['active-item'],
           ].join(' ')}
-          onClick={() => setActiveI(item)}
+          onClick={() => {
+            setActiveI(item.value);
+            onChange(item.value);
+          }}
         >
           <div className={styles['icon']}>
             <i className={`iconfont icon-${item.icon}`}></i>

@@ -1,4 +1,4 @@
-import { Button, Checkbox, Divider, Input } from 'antd';
+import { Button, Checkbox, Divider, Form, Input } from 'antd';
 import JanctionRange from '@/components/JanctionRange';
 import { useState } from 'react';
 import styles from './index.less';
@@ -26,9 +26,14 @@ const Settlement = (props) => {
 
   return (
     <PurchaseCard title="Basic configuration">
-      <LabelVal name="Confirm password" align="flex-start">
+      <LabelVal name="Login role" align="flex-start">
         <div className={styles['vertical-value']}>
-          <Checkbox.Group options={PORT_PROTOCOL} defaultValue={['Apple']} />
+          <Form.Item
+            name="region"
+            rules={[{ required: true, message: 'please select login role' }]}
+          >
+            <Checkbox.Group options={PORT_PROTOCOL} defaultValue={['Apple']} />
+          </Form.Item>
           <p className={styles['desc']}>
             Root has the highest permission of the operating system. Using root
             as the login name may cause security risks. It is recommended that
@@ -37,31 +42,74 @@ const Settlement = (props) => {
         </div>
       </LabelVal>
       <LabelVal name="Login password">
-        <JanctionInput type="password" placeholder="Please enter password" />
+        <Form.Item
+          name="password"
+          rules={[{ required: true, message: 'please enter password' }]}
+          hasFeedback
+        >
+          <JanctionInput type="password" placeholder="Please enter password" />
+        </Form.Item>
       </LabelVal>
       <LabelVal name="Confirm password">
-        <JanctionInput type="password" placeholder="Please enter password" />
+        <Form.Item
+          name="confirm"
+          dependencies={['password']}
+          hasFeedback
+          rules={[
+            { required: true, message: 'please confirm your password!' },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                if (!value || getFieldValue('password') === value) {
+                  return Promise.resolve();
+                }
+                return Promise.reject(
+                  new Error('The two passwords that you entered do not match!'),
+                );
+              },
+            }),
+          ]}
+        >
+          <JanctionInput type="password" placeholder="Please enter password" />
+        </Form.Item>
       </LabelVal>
       <JanctionDivider />
       <LabelVal name="Purchase instance quantity">
-        <JanctionRange value={instQuanlity} onChange={onInstQuaChange} />
+        <Form.Item
+          name="purchase_instance_quantity"
+          rules={[
+            {
+              required: true,
+              message: 'please enter purchase instance quantity',
+            },
+          ]}
+        >
+          <JanctionRange />
+        </Form.Item>
       </LabelVal>
       <LabelVal name="Purchase duration">
         <div className="df ai_c gap10">
-          <JanctionRange
-            value={duration}
-            onChange={onDurationChange}
-            unit="Month"
-          />
+          <Form.Item
+            name="purchase_duration"
+            rules={[
+              {
+                required: true,
+                message: 'please enter purchase duration',
+              },
+            ]}
+          >
+            <JanctionRange
+              value={duration}
+              onChange={onDurationChange}
+              unit="Month"
+            />
+          </Form.Item>
           <JanctionTip title="" />
         </div>
       </LabelVal>
       <LabelVal name="Automatic renewal">
-        <div className={styles['vlaue']}>
-          <Checkbox checked={isAuto} onChange={onCheckedChange}>
-            Enable automatic renewal
-          </Checkbox>
-        </div>
+        <Form.Item name="automatic_renewal">
+          <Checkbox>Enable automatic renewal</Checkbox>
+        </Form.Item>
       </LabelVal>
     </PurchaseCard>
   );

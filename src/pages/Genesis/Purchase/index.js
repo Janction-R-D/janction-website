@@ -50,7 +50,7 @@ function Purchase(props) {
   if (!isLessee) return <Redirect to="/genesis/dashboard"></Redirect>;
 
   return (
-    <main className={styles['main-container']}>
+    <main className={styles['purchase-container']}>
       <section>
         <h1 className={styles['text__title']}>Configure instance</h1>
 
