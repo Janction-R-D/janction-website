@@ -82,7 +82,13 @@ export default function PorifilePicture({
         <Button className={styles['create-btn']} onClick={handleClick}>
           Confirm
         </Button>
-        <Button className={styles['pre']} onClick={handleCancel}>
+        <Button
+          className={styles['pre']}
+          onClick={() => {
+            setinputUrl(imgUrl);
+            handleCancel();
+          }}
+        >
           Cancel
         </Button>
       </div>
