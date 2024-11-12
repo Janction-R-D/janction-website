@@ -66,3 +66,41 @@ export const isJSON = (str) => {
     }
   }
 };
+
+export function generateTempId() {
+  return `temp_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`;
+}
+
+export function updateArray(
+  array,
+  action,
+  { data, index = array.length, identifierKey = 'id', identifierValue } = {},
+) {
+  let newArray = [...array];
+
+  switch (action) {
+    case 'add':
+      newArray.splice(index, 0, data);
+      break;
+
+    case 'delete':
+      newArray = newArray.filter(
+        (item) => item[identifierKey] !== identifierValue,
+      );
+      break;
+
+    case 'update':
+      newArray = newArray.map((item) => {
+        if (item[identifierKey] === identifierValue) {
+          return { ...item, ...data };
+        }
+        return item;
+      });
+      break;
+
+    default:
+      console.warn('Unsupported action type');
+  }
+
+  return newArray;
+}

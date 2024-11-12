@@ -24,7 +24,7 @@ const Customized = (props) => {
   };
 
   return (
-    <Form form={form}>
+    <Form form={form} name="customized">
       <div
         className={[
           styles['config-wrapper'],

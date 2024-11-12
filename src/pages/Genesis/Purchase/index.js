@@ -6,42 +6,17 @@ import { DEFAULT_PURCHASE_TYPE, PURCHASES } from './extra';
 import styles from './index.less';
 
 function Purchase(props) {
-  const { isQuick, node } = history.location.state || {};
+  const { isQuick } = history.location.state || {};
   const { initialState } = useModel('@@initialState');
   const { isLessee } = initialState || {};
 
   const [activePurType, setActivePurType] = useState(DEFAULT_PURCHASE_TYPE);
-  const [totalAmount, setTotalAmount] = useState(0);
-  const [selectedInstance, setInstance] = useState({
-    name: 'Architecture',
-    price: 20,
-    value: 'x86 computing',
-  });
-  const [instancesFamily, setFamily] = useState({
-    name: 'instance',
-    price: 80,
-    value: 'Standard',
-  });
-  const [selectedModel, setModel] = useState({
-    key: '1',
-    price: 10,
-    vCPU: 'SA5.MEDIUM2 Xxxx',
-  });
 
   useEffect(() => {
     if (isQuick) {
       setActivePurType(PURCHASES[1].value);
     }
   }, [isQuick]);
-
-  useEffect(() => {
-    const getTotalPrice = () => {
-      let total =
-        selectedInstance.price * instancesFamily.price * selectedModel.price;
-      return total.toFixed(2);
-    };
-    setTotalAmount(getTotalPrice());
-  }, [selectedInstance, instancesFamily, selectedModel]);
 
   const onPurTypeChange = (type) => {
     setActivePurType(type);

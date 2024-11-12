@@ -1,0 +1,63 @@
+.filter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.list {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+
+  .item {
+    flex: 1;
+    max-width: 238px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    height: 92px;
+    background: #2f2f31;
+    border-radius: 16px;
+    border: 2px solid;
+    border-color: transparent;
+    cursor: pointer;
+
+    .icon {
+      width: 40px;
+      height: 40px;
+      background: #000000;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      i {
+        font-size: 15px;
+      }
+    }
+
+    span {
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 20px;
+      color: rgba(255, 255, 255, 0.9);
+    }
+  }
+
+  .active-item {
+    border-color: #73d5f4;
+  }
+
+  .more {
+    gap: 3px;
+
+    i {
+      color: #8e8e91;
+      font-size: 20px;
+    }
+  }
+}
