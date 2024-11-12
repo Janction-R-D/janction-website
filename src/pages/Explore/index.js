@@ -132,10 +132,12 @@ const Explore = (props) => {
             {nav.map((item) => (
               <li
                 key={item.value}
-                className={navActive == item.value && styles['active']}
+                className={`${
+                  navActive === item.value ? styles['active'] : ''
+                }`}
                 onClick={() => onNavChange(item.value)}
               >
-                <label for={item.value}>{item.label}</label>
+                <label htmlFor={item.value}>{item.label}</label>
               </li>
             ))}
           </ul>

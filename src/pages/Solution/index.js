@@ -28,8 +28,8 @@ const Solution = (props) => {
           <p>{solutionSection.description}</p>
         </hgroup>
         <div className={styles['description']}>
-          {solutionSection.list.map((item) => (
-            <div className={styles['description-wrapper']} key={item.name}>
+          {solutionSection.list.map((item, index) => (
+            <div className={styles['description-wrapper']} key={index}>
               <div className={styles['icon']}>
                 <i className={item.icon} />
               </div>
@@ -42,8 +42,8 @@ const Solution = (props) => {
         </div>
       </section>
       <section className={styles['characteristic']}>
-        {characteristic.map((item) => (
-          <div className={styles['characteristic-wrapper']}>
+        {characteristic.map((item, index) => (
+          <div key={index} className={styles['characteristic-wrapper']}>
             <div className={styles['icon']}>
               <img src={item.icon} alt="" />
             </div>

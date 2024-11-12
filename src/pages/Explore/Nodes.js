@@ -167,7 +167,7 @@ const Nodes = (props) => {
             <div
               key={item.value}
               onClick={() => onFilterChange(item.value)}
-              className={deviceType == item.value && styles['active']}
+              className={`${deviceType === item.value ? styles['active'] : ''}`}
             >
               {item.label}
             </div>

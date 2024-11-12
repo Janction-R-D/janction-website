@@ -131,7 +131,9 @@ const Home = (props) => {
             {bannderNav.map((item, index) => (
               <li
                 key={item.name}
-                className={activeBanner == index && styles['active']}
+                className={`${styles['nav-item']} ${
+                  activeBanner === index ? styles['active'] : ''
+                }`}
                 onClick={() => {
                   setActiveBanner(index);
                   bannerRef.current.goTo(index);
@@ -144,7 +146,7 @@ const Home = (props) => {
         </nav>
         <div className={styles['toggle-wrapper']}>
           <a
-            className={activeBanner > 0 && styles['active']}
+            className={`${activeBanner > 0 ? styles['active'] : ''}`}
             onClick={() => {
               bannerRef.current.prev();
             }}
@@ -217,9 +219,11 @@ const Home = (props) => {
         <h1>Why Janction？</h1>
         <div className={styles['reason-list']}>
           <ul>
-            {reasons.map((item, index) => (
+            {reasons.map((item) => (
               <li
-                className={item.key == reasonActive && styles['active']}
+                className={`${
+                  item.key === reasonActive ? styles['active'] : ''
+                }`}
                 key={item.key}
               >
                 <img src={item.img} alt="" />
@@ -261,8 +265,8 @@ const Home = (props) => {
         <div className={styles['team-list']}>
           {isPC && (
             <ul>
-              {teamList.map((item) => (
-                <li className={styles['item.name']}>
+              {teamList.map((item, index) => (
+                <li key={index} className={styles['item.name']}>
                   <img src={item.avatar} alt="" />
                   <div className={styles['user']}>
                     <div className={styles['user-info']}>
@@ -272,8 +276,8 @@ const Home = (props) => {
                       )}
                     </div>
                     <ul>
-                      {item.introductions.map((introduction) => (
-                        <li>{introduction}</li>
+                      {item.introductions.map((introduction, index) => (
+                        <li key={index}>{introduction}</li>
                       ))}
                     </ul>
                   </div>
@@ -318,8 +322,8 @@ const Home = (props) => {
                   key={item.userName}
                 >
                   <ul className={styles['introductions']}>
-                    {item.introductions.map((introduction) => (
-                      <li>{introduction}</li>
+                    {item.introductions.map((introduction, index) => (
+                      <li key={index}>{introduction}</li>
                     ))}
                   </ul>
                 </Panel>

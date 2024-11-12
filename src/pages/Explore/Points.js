@@ -118,8 +118,9 @@ const Points = (props) => {
       <div className={[styles['wrapper'], styles['ranking-wrapper']].join(' ')}>
         <h1>Leaderboard</h1>
         <div className={styles['content']}>
-          {rankList.map((item) => (
+          {rankList.map((item, index) => (
             <div
+              key={index}
               className={styles['ranking-info']}
               style={renderBackgroudImg(ranking_bg)}
             >

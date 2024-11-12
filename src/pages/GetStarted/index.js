@@ -66,8 +66,8 @@ const GetStarted = (props) => {
           <h1>Let’s Compute</h1>
         </hgroup>
         <div className={styles['compute-wrapper']}>
-          {computes.map((item) => (
-            <section>
+          {computes.map((item, index) => (
+            <section key={index}>
               <div className={styles['icon']}>
                 <img src={item.icon} alt="" />
               </div>

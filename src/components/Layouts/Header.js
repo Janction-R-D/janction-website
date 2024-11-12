@@ -19,11 +19,17 @@ const Header = (props) => {
   const [fixed, setFixed] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = scrollY.onChange((latest) => {
+    // const unsubscribe = scrollY.onChange((latest) => {
+    //   setFixed(latest > 32);
+    // });
+    const unsubscribe = scrollY.on('change', (latest) => {
       setFixed(latest > 32);
     });
-
-    return () => unsubscribe();
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
   }, [scrollY]);
 
   useEffect(() => {
@@ -122,7 +128,8 @@ const Header = (props) => {
               {item.children ? (
                 <Dropdown
                   overlayClassName={styles['children-dropdown']}
-                  overlay={() => renderChildren(item.children)}
+                  // overlay={() => renderChildren(item.children)}
+                  menu={() => renderChildren(item.children)}
                 >
                   <a>{item.name}</a>
                 </Dropdown>
@@ -140,7 +147,11 @@ const Header = (props) => {
         className={styles['dashboard']}
         style={renderBackgroudImg(dashboard)}
       ></a>
-      <Dropdown placement="bottomRight" overlay={renderMenu}>
+      <Dropdown
+        placement="bottomRight"
+        // overlay={renderMenu}
+        menu={renderMenu}
+      >
         <div className={styles['android-menu']}>
           <i className="iconfont icon-line-menu" />
         </div>
