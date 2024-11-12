@@ -265,7 +265,7 @@ function Create() {
           <span className={styles['text-grey']}>instance</span>
           <ul className={styles['filters-list']}>
             {optionsRadio.map((item, index) => (
-              <div>
+              <div key={index}>
                 <input
                   type="radio"
                   value={item.value}
@@ -290,7 +290,7 @@ function Create() {
           <span className={styles['text-grey']}>Instance Family</span>
           <ul className={styles['filters-list']}>
             {instanceFamily.map((item, index) => (
-              <div>
+              <div key={index}>
                 <input
                   type="radio"
                   value={item.value}

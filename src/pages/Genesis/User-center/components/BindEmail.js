@@ -31,7 +31,7 @@ const BindEmail = (props) => {
 
   return (
     <Modal
-      visible={visible}
+      open={visible}
       title="Bind email"
       onCancel={() => {
         form.resetFields();

@@ -22,7 +22,12 @@ export default function Income() {
       const { statistical_info, transaction_records, ...extra } =
         await fetchIncomeInfo();
       setStatisticData(statistical_info);
-      setList(transaction_records);
+      const newList = transaction_records.map((item, index) => ({
+        ...item,
+        key: index,
+      }));
+
+      setList(newList || []);
       setRevenue(extra);
     } catch (error) {
       console.log('『error』', error);

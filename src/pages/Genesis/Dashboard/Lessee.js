@@ -16,7 +16,8 @@ const Lessees = (props) => {
   const { lessesData } = useLesses();
   const { portfolio_balance: balance, details, watchlist } = lessesData || {};
 
-  const detailsData = details?.map((item) => ({
+  const detailsData = details?.map((item, index) => ({
+    key: index,
     Name: item?.Name,
     Balance: item?.Balance,
     Price: item?.Price,
@@ -25,7 +26,8 @@ const Lessees = (props) => {
     Description: item?.Description,
     PriceChanges: item?.PriceChanges,
   }));
-  const watchlistData = watchlist?.map((item) => ({
+  const watchlistData = watchlist?.map((item, index) => ({
+    key: index,
     Name: item?.Name,
     Balance: item?.Balance,
     MarketCap: item?.MarketCap,
@@ -33,7 +35,7 @@ const Lessees = (props) => {
     Brand: item?.Brand,
     Description: item?.Description,
   }));
-
+  console.log(watchlistData, detailsData);
   const onBuy = (rowData) => {
     history.push('/genesis/purchase', {
       isQuick: true,
@@ -190,8 +192,8 @@ const Lessees = (props) => {
             </div>
           </div>
           <div className={styles['content']}>
-            {news.map((item) => (
-              <div className={styles['news-item']}>
+            {news.map((item, index) => (
+              <div className={styles['news-item']} key={index}>
                 <div className={styles['pic']}>
                   <img src={textImg} alt="" />
                 </div>

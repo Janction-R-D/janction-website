@@ -71,13 +71,14 @@ const Step1 = () => {
             <SearchInput />
           </div>
           <div className={styles['list']}>
-            {SYSTEM_LIST.map((item) => (
+            {SYSTEM_LIST.map((item, index) => (
               <div
                 className={[
                   styles['item'],
                   activeIp.value == item.value && styles['active-item'],
                 ].join(' ')}
                 onClick={() => setActiveIp(item)}
+                key={index}
               >
                 <div className={styles['icon']}>
                   <i className={`iconfont icon-${item.icon}`}></i>
@@ -180,8 +181,8 @@ const Step3 = () => {
   return (
     <>
       <PurchaseCard title="Configuration summary">
-        {SUMMARY.map((item) => (
-          <LabelVal name={item.name} key={item.name}>
+        {SUMMARY.map((item, index) => (
+          <LabelVal name={item.name} key={index}>
             <span className={styles['summary-value']}>{item.value}</span>
           </LabelVal>
         ))}

@@ -27,7 +27,12 @@ function BillDetails() {
         role: isLessee ? 'tenant' : 'lessor',
       });
       setList(res || []);
+      const newData = res.map((item) => ({
+        ...item,
+        key: item.id,
+      }));
       setFilteredData(res || []);
+      setFilteredData(newData || []);
     } catch (error) {
       console.log('『error』', error);
     }

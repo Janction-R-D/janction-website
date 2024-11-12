@@ -109,7 +109,7 @@ const GenesisLayout = (props) => {
             />
             <CustomConnectButton afterClick={() => setMenuShow(false)} />
           </header>
-          <aside className={fold && styles['fold']}>
+          <aside className={`${fold ? styles['fold'] : ''}`}>
             <header>
               <section>
                 <img
@@ -122,10 +122,9 @@ const GenesisLayout = (props) => {
 
                 {!fold && (
                   <div
-                    className={[
-                      styles['role'],
-                      isLessee && styles['buyer-role'],
-                    ].join(' ')}
+                    className={`${styles['role']} ${
+                      isLessee ? styles['buyer-role'] : ''
+                    }`}
                   >
                     {isLessee ? <span>Buyer</span> : <span>SELLER</span>}
                   </div>
@@ -136,11 +135,11 @@ const GenesisLayout = (props) => {
               {menu.map((item) => (
                 <div
                   key={item.key}
-                  className={
-                    (active == item.path ||
-                      (active && active == item.redirect)) &&
-                    styles['active']
-                  }
+                  className={`${styles['menu-item']} ${
+                    active === item.path || (active && active === item.redirect)
+                      ? styles['active']
+                      : ''
+                  }`}
                   onClick={() => onNavChange(item)}
                 >
                   <div className={styles['icon']}>

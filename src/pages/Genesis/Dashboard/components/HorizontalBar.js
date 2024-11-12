@@ -6,8 +6,8 @@ const Bar = (props) => {
 
   return (
     <div className={styles['sale-wrapper']}>
-      {data.map((item) => (
-        <div className={styles['sale-item']}>
+      {data.map((item, index) => (
+        <div className={styles['sale-item']} key={index}>
           <div className={styles['icon']}>
             <i
               className={`iconfont icon-${item.icon}`}
