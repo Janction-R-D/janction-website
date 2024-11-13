@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Space } from 'antd';
 import ModalDelist from './ModalDelist';
+import { history } from 'umi';
 export default function OperationDelis({ record, error }) {
   const [isModalOpenStake, setIsModalOpenStake] = useState(false);
 
@@ -14,6 +15,11 @@ export default function OperationDelis({ record, error }) {
     console.log('dcdcdcdcdc');
     setIsModalOpenStake(false);
   };
+  const handleNavigate = () => {
+    history.push('/genesis/mount', {
+      node: record,
+    });
+  };
   return (
     <Space
       size="middle"
@@ -23,9 +29,7 @@ export default function OperationDelis({ record, error }) {
         className={`${'operation-action'}  ${
           record.status?.toLowerCase() === 'listed' ? 'recent-status' : ''
         }`}
-        onClick={() => {
-          //   handleOperation('stop', record?.activity?.resource_id, record?.id)
-        }}
+        onClick={handleNavigate}
       >
         <p>List</p>
       </a>

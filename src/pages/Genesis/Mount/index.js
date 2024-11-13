@@ -12,8 +12,9 @@ import JanctionTip from '@/components/JanctionTip';
 export default function Mount() {
   const { initialState } = useModel('@@initialState');
   const { isLessee } = initialState || {};
-
-  const [searchId, setSearchId] = useState('');
+  const { node } = history.location.state || {};
+  console.log(node);
+  const [searchId, setSearchId] = useState(node.deviceId || '');
   const [loading, setLoading] = useState(false);
   const [minDuration, setMinDuration] = useState({ value: 1, label: 'Month' });
   const [maxDuration, setMaxDuration] = useState({ value: 4, label: 'Year' });
@@ -56,6 +57,44 @@ export default function Mount() {
     const [newValue] = options.filter((item) => item.value == value);
     setMinDuration(newValue);
   };
+  useEffect(() => {
+    if (searchId === '') return;
+    setLoading(true);
+    setError(false);
+    fetchConfigInfo(searchId)
+      .then((res) => {
+        console.log(res);
+        if (res.error) {
+          throw new Error('Node not found');
+        }
+        setUserInfo(res || {});
+        setTags(res.tags || []);
+        setPrice(res.price || 0);
+        setMaxLease(res.maximum_lease_duration || 1);
+        setMinLease(res.minimum_lease_duration || 1);
+
+        const [mxlease] = options.filter(
+          (item) => item.label.toLowerCase() == res?.maximum_lease_unit,
+        );
+        const [mnlease] = options.filter(
+          (item) => item.label.toLowerCase() == res?.minimum_lease_unit,
+        );
+        console.log(mxlease, mnlease);
+        setMaxDuration(mxlease || {});
+        setMinDuration(mnlease || {});
+      })
+      .catch((err) => {
+        console.log(err);
+        setError(true);
+        setUserInfo({});
+      })
+      .finally(() => {
+        setLoading(false);
+        setTimeout(() => {
+          setError(false);
+        }, 2500);
+      });
+  }, []);
   useEffect(() => {
     if (minLease > maxLease || minDuration.value > maxDuration.value) {
       setErrorRange(true);
@@ -157,7 +196,7 @@ export default function Mount() {
     setMinPeriod(newMinPeriod);
   };
 
-  if (isLessee) return <Redirect to="/genesis/dashboard"></Redirect>;
+  if (isLessee || !node) return <Redirect to="/genesis/dashboard"></Redirect>;
 
   return (
     <form className={styles['main']} onSubmit={(e) => handleSubmit(e)}>
@@ -180,13 +219,15 @@ export default function Mount() {
                   placeholder="Please enter the device identification number"
                   onChange={(e) => setSearchId(e.target.value)}
                   onPressEnter={(e) => handleSearch(e, searchId)}
+                  defaultValue={searchId}
                   className={styles['search-input-node']}
+                  readOnly={node.deviceId}
                 />
                 <Button
                   className={styles['create-btn']}
                   type="primary"
                   onClick={(e) => handleSearch(e)}
-                  disabled={searchId.length < 10}
+                  disabled={node.deviceId || searchId.length < 10}
                 >
                   Auto-Recognition
                 </Button>
