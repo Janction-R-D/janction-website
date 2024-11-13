@@ -7,20 +7,19 @@ export default function Resources({ summary }) {
     {
       name: (
         <div className={styles['cloud-resources']}>
-          <p>Cloud server</p>
-          <span className={styles['blue']}>Manage</span>
+          <p>Running nodes</p>
         </div>
       ),
-      value: 46,
+      value: 24546,
       color: 'white',
     },
     {
-      name: 'Active session',
+      name: 'listed nodes',
       value: 19283,
       color: 'white',
     },
     {
-      name: 'Abnormal log',
+      name: 'active instances',
       value: 2193,
       color: 'white',
     },
@@ -29,7 +28,7 @@ export default function Resources({ summary }) {
   return (
     <Card className={styles['card']}>
       <div className={styles['card-header']}>
-        <h2>My Resources</h2>
+        <h2>My nodes</h2>
       </div>
       <div>
         <ul>
