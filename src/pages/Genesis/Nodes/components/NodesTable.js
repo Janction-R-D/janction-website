@@ -6,6 +6,7 @@ import styles from './table.less';
 
 import { history } from 'umi';
 import JanctionTip from '@/components/JanctionTip';
+import OperationDelis from './Operation';
 
 function NodesTable({ data }) {
   const [showOverView, setShowOverView] = useState(true);
@@ -99,41 +100,7 @@ function NodesTable({ data }) {
       width: 'auto',
       fixed: 'right',
       render: (error, record) => {
-        return (
-          <Space
-            size="middle"
-            style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}
-          >
-            <a
-              className={`${'operation-action'}  ${
-                record.status?.toLowerCase() === 'listed' ? 'recent-status' : ''
-              }`}
-              onClick={() =>
-                handleOperation(
-                  'stop',
-                  record?.activity?.resource_id,
-                  record?.id,
-                )
-              }
-            >
-              <p>List</p>
-            </a>
-            <a
-              className={`${'operation-action'}  ${
-                record.status?.toLowerCase() !== 'listed' ? 'recent-status' : ''
-              }`}
-              onClick={() =>
-                handleOperation(
-                  'start',
-                  record?.activity?.resource_id,
-                  record?.id,
-                )
-              }
-            >
-              <p>Delist</p>
-            </a>
-          </Space>
-        );
+        return <OperationDelis error={error} record={record} />;
       },
     },
   ];

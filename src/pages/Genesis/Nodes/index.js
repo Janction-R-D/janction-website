@@ -24,7 +24,10 @@ export default function AccessControl() {
       );
     });
   };
-  const filteredData = filtereData(data);
+  const filteredData = filtereData(data).map((item, index) => ({
+    ...item,
+    key: index,
+  }));
   const indexOfLastInstance = currentPage * itemsPerPage;
   const indexOfFirstInstance = indexOfLastInstance - itemsPerPage;
   const currentInstances = filteredData?.slice(
