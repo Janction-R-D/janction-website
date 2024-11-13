@@ -52,7 +52,7 @@ function NodesTable({ data }) {
             <div className="status  status-active">
               <p>active</p>
               <JanctionTip
-                placement="left"
+                placement="topLeft"
                 title="您的节点已被他人购买，将持续产生收益。"
               />
             </div>
