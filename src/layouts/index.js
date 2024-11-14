@@ -21,6 +21,7 @@ export const authRoute = [
   '/genesis/user-center',
   '/genesis/pledge',
   '/genesis/income',
+  '/genesis/purchase/settlement',
 ];
 
 export default function Layout(props) {

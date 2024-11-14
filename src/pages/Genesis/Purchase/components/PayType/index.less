@@ -1,0 +1,36 @@
+.pay-type {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  .pay-type-item {
+    min-width: 220px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 40px;
+    background: #2f2f31;
+    border-radius: 16px;
+    border: 1px solid transparent;
+    cursor: pointer;
+
+    &.active {
+      border: 1px solid #73d5f4;
+    }
+
+    > span {
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 20px;
+      color: #73d5f4;
+    }
+
+    .desc {
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.25);
+    }
+  }
+}

@@ -28,10 +28,11 @@ const Storage = (props) => {
   };
 
   const onEdit = (field, value, id) => {
-    const _list = updateArray(list, 'edit', {
+    const _list = updateArray(list, 'update', {
       data: { [field]: value },
       identifierValue: id,
     });
+    console.log('『_list』', _list);
     onChange(_list);
   };
 

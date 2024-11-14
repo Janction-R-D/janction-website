@@ -5,7 +5,7 @@ import { Checkbox, Form } from 'antd';
 import { useState } from 'react';
 import { PORT_PROTOCOL, SUMMARY, VERSIONS } from '../extra';
 import BandWidth from './BandWidth';
-import BasicConf from './BasicConf';
+import ProductList from './ProductList';
 import PurchaseCard from './Card';
 import LabelVal from './Card/LabelVal';
 import PurchaseSubCard from './Card/SubCard';
@@ -13,8 +13,9 @@ import Footer from './Footer';
 import styles from './index.less';
 import PublicIp from './PublicIp';
 import RegionSelect from './RegionSelect';
-import Settlement from './Settlement';
+import BasicConf from './BasicConf';
 import Storage from './Storage';
+import { history } from 'umi';
 
 const Step1 = (props) => {
   return (
@@ -30,14 +31,14 @@ const Step1 = (props) => {
         </PurchaseSubCard>
       </PurchaseCard>
 
-      <PurchaseCard title="Basic configuration">
+      <PurchaseCard title="Bandwidth">
         <Form.Item
           name="basic_configuration"
           rules={[
             { required: true, message: 'please select basic configuration' },
           ]}
         >
-          <BasicConf />
+          <ProductList />
         </Form.Item>
         <Form.Item
           name="public_ip"
@@ -111,7 +112,7 @@ const Step3 = () => {
           </LabelVal>
         ))}
       </PurchaseCard>
-      <Settlement />
+      <BasicConf />
     </>
   );
 };
@@ -143,6 +144,7 @@ const Quick = (props) => {
     try {
       const values = await form.validateFields();
       console.log('『values』', values);
+      history.push('/genesis/purchase/settlement');
     } catch (err) {
       console.log('『err』', err);
     }

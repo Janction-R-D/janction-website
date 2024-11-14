@@ -6,7 +6,7 @@ export const PURCHASES = [
   { name: 'Quick purchase', value: 1 },
 ];
 
-export const DEFAULT_PURCHASE_TYPE = PURCHASES[1].value;
+export const DEFAULT_PURCHASE_TYPE = PURCHASES[0].value;
 
 export const CONFIGURATIONS = [
   {
@@ -356,4 +356,31 @@ export const SUMMARY = [
   { name: 'Bandwidth value', value: '3 Mbps' },
   { name: 'Region', value: 'Bangalore, India' },
   { name: 'Region', value: 'Bangalore, India' },
+];
+
+export const SETTLEMENT_COLUMNS = [
+  {
+    title: 'product name',
+    dataIndex: 'platform',
+  },
+  {
+    title: 'configuration',
+    dataIndex: 'progress',
+  },
+  {
+    title: 'unit price',
+    dataIndex: 'progress',
+  },
+  {
+    title: 'quantity',
+    dataIndex: 'progress',
+  },
+  {
+    title: 'duration',
+    dataIndex: 'progress',
+  },
+  {
+    title: 'total price',
+    dataIndex: 'progress',
+  },
 ];

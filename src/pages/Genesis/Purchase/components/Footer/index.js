@@ -3,14 +3,15 @@ import { useState } from 'react';
 import styles from './index.less';
 
 const Footer = (props) => {
-  const { isFirst, isLast, onConfirm, onPre, onNext } = props;
+  const { isFirst, isLast, isSettlement, onConfirm, onPre, onNext, onPay } =
+    props;
 
   const [agree, setAgree] = useState(false);
   const onAgreeChange = (e) => {
     setAgree(e.target.checked);
   };
 
-  const onConfirmBefore = () => {
+  const onPayBefore = () => {
     const tip = 'please read and agreed to the relevant service terms!';
     if (!agree) {
       message.warning(tip);
@@ -21,7 +22,7 @@ const Footer = (props) => {
   return (
     <div className={styles['footer-price']}>
       <div className={styles['confirm-info']}>
-        {isLast && (
+        {isSettlement && (
           <>
             <div>
               <Checkbox checked={agree} onChange={onAgreeChange}>
@@ -43,20 +44,22 @@ const Footer = (props) => {
       <div className={styles['btn']}>
         {!isFirst && (
           <div className={styles['pre']}>
-            <Button onClick={onPre}>Previous</Button>
+            <Button onClick={() => onPre()}>Previous</Button>
           </div>
         )}
-        {!isLast && (
+        {!(isSettlement || isLast) && (
           <div className={styles['next']}>
-            <Button onClick={onNext}>Next</Button>
+            <Button onClick={() => onNext()}>Next</Button>
           </div>
         )}
         {isLast && (
-          <div
-            className={styles['confirm']}
-            onClick={() => onConfirm(onConfirmBefore)}
-          >
+          <div className={styles['confirm']} onClick={() => onConfirm()}>
             <Button>Confirm the order</Button>
+          </div>
+        )}
+        {isSettlement && (
+          <div className={styles['pay']} onClick={() => onPay(onPayBefore)}>
+            <Button>Check to pay</Button>
           </div>
         )}
       </div>

@@ -6,9 +6,10 @@ import Footer from './Footer';
 import ImageConf from './ImageConf';
 import styles from './index.less';
 import RegionSelect from './RegionSelect';
-import Settlement from './Settlement';
+import Settlement from './BasicConf';
 import Specification from './Specification';
 import { Form } from 'antd';
+import { history } from 'umi';
 
 const Customized = (props) => {
   const [form] = Form.useForm();
@@ -16,8 +17,8 @@ const Customized = (props) => {
   const onSubmit = async (callback) => {
     try {
       const values = await form.validateFields();
-      callback && callback();
       console.log('『values』', values);
+      history.push('/genesis/purchase/settlement');
     } catch (err) {
       console.log('『err』', err);
     }
