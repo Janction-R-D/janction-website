@@ -62,16 +62,15 @@ const Login = (props) => {
               message,
             },
             {
-              onSuccess: async (data) => {
+              onSuccess: async (sig) => {
                 const param = {
                   message: message,
-                  signature: data,
+                  signature: sig,
                 };
 
                 await fetchUserVerify(param);
 
                 const msg = btoa(message);
-                const sig = btoa(data);
 
                 storage.set({
                   name: 'userAccount',
