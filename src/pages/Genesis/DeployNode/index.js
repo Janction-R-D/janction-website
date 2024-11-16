@@ -5,6 +5,7 @@ import styles from './index.less';
 import Step3 from './components/RunNode';
 import StepChart from './components/StepChart';
 import Step1 from './components/System';
+import { Redirect, useModel } from 'umi';
 
 const DEFAULT = {
   system: SYSTEM_LIST[0].value,
@@ -31,9 +32,10 @@ const stepsList = [
   },
 ];
 const Nodes = (props) => {
+  const { initialState } = useModel('@@initialState');
   const [curStep, setCurStep] = useState(stepsList[0]);
   const [selectedValues, setSelectedValues] = useState(DEFAULT);
-
+  const { isLessee } = initialState || {};
   const onBack = () => {
     const step = stepsList.find((item) => item.value == curStep['prestep']);
     if (!step) return;
@@ -72,7 +74,7 @@ const Nodes = (props) => {
       </div>
     );
   };
-
+  if (isLessee) return <Redirect to="/genesis/dashboard"></Redirect>;
   return (
     <>
       <div className={styles['steps']}>

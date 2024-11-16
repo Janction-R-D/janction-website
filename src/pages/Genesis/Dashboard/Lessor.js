@@ -9,6 +9,7 @@ import { ARITHMETIC_SITUATION, pieColors } from './data';
 import numeral from 'numeral';
 import styles from './index.less';
 import JanctionTable from '@/components/JanctionTable';
+import MonthGoal from './components/MonthGoal';
 
 export function convertMBtoGB(mb) {
   const gb = mb / 1024; // 1 GB = 1024 MB
@@ -22,7 +23,18 @@ export function convertMBtoGB(mb) {
 const Lessors = (props) => {
   const [lessorsData, setLessorsData] = useState();
   const [monitorList, setMonitorList] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [monthGoal, setMonthGoal] = useState();
 
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
   const percent = useMemo(() => {
     const { monthly_goal = 0, total = 0 } = lessorsData?.Profit || {};
     if (monthly_goal) return (total / monthly_goal) * 100;
@@ -289,6 +301,13 @@ const Lessors = (props) => {
                     )}
                     {' m'}
                   </span>
+                  <p onClick={showModal}>Set</p>
+                  <MonthGoal
+                    handleCancel={handleCancel}
+                    handleOk={handleOk}
+                    isModalOpen={isModalOpen}
+                    setMonthGoal={setMonthGoal}
+                  />
                 </div>
               </div>
               <div className={styles['progress-bar']}>
@@ -326,10 +345,10 @@ const Lessors = (props) => {
               onChange={onSortChange}
             >
               <Radio.Button value="cpu_usage">CPU</Radio.Button>
-              <Radio.Button value="memory_usage">内存</Radio.Button>
-              <Radio.Button value="energy">能耗</Radio.Button>
-              <Radio.Button value="disk_usage">磁盘</Radio.Button>
-              <Radio.Button value="network">网络</Radio.Button>
+              <Radio.Button value="memory_usage">Memory</Radio.Button>
+              <Radio.Button value="energy">Energy</Radio.Button>
+              <Radio.Button value="disk_usage">Disk</Radio.Button>
+              <Radio.Button value="network">Network</Radio.Button>
             </Radio.Group>
             <Input
               suffix={

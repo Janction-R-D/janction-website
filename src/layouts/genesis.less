@@ -200,7 +200,7 @@
 
     .fold-wrapper {
       position: absolute;
-      top: 70px;
+      top: 100px;
       right: 0;
       transform: translateX(100%);
       width: 36px;
@@ -220,7 +220,7 @@
 
     .fold-wrapper-2 {
       position: absolute;
-      top: 27px;
+      top: 60px;
       right: 0;
       transform: translateX(100%);
       width: 36px;
@@ -230,7 +230,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
+      cursor: pointer !important;
+      z-index: 40;
 
       i {
         font-size: 20px;
@@ -304,6 +305,7 @@
       top: 0;
       left: 0;
       z-index: 15;
+      margin-bottom: 12px;
 
       .links {
         display: flex;

@@ -19,6 +19,7 @@ const navList = [
     path: '/genesis/deployNode',
     key: 1,
     icon: 'deploy-node',
+    role: (isLessee) => !isLessee,
   },
   {
     name: 'My Instance',
@@ -91,6 +92,7 @@ const GenesisLayout = (props) => {
                   setMenuShow(!menuShow);
                 }}
               ></i>
+
               <nav
                 className={styles['menu-list']}
                 style={{ display: menuShow ? 'flex' : 'none' }}
@@ -163,10 +165,11 @@ const GenesisLayout = (props) => {
                 <span>Settings</span>
               </div>
             </div>
-            <div className={styles['fold-wrapper-2']}>
-              <a href="/">
-                <i className="iconfont icon-home1"></i>
-              </a>
+            <div
+              className={styles['fold-wrapper-2']}
+              onClick={() => history.push('/')}
+            >
+              <i className="iconfont icon-home1"></i>
             </div>
             <div className={styles['fold-wrapper']} onClick={foldHandle}>
               <i

@@ -48,7 +48,7 @@ function ProfileModal({ styles, isModalOpen, handleOk, handleCancel }) {
         mounted,
       }) => {
         const { initialState, setInitialState } = useModel('@@initialState');
-
+        const [textCopied, setTextCopied] = useState(false);
         const { isLessee } = initialState || {};
         const { disconnect } = useDisconnect();
         const onIdentityChange = () => {
@@ -72,6 +72,22 @@ function ProfileModal({ styles, isModalOpen, handleOk, handleCancel }) {
           history.push(path);
           handleCancel();
         };
+        const handleCopy = () => {
+          console.log(account.address);
+          navigator.clipboard
+            .writeText(account.address)
+            .then(() => {
+              setTextCopied(true);
+            })
+            .catch((err) => {
+              console.error('Error al copiar al portapapeles: ', err);
+            })
+            .finally(() => {
+              setTimeout(() => {
+                setTextCopied(false);
+              }, 3500);
+            });
+        };
         return (
           <Modal
             className={styles['card-modal']}
@@ -88,11 +104,15 @@ function ProfileModal({ styles, isModalOpen, handleOk, handleCancel }) {
               <div className={styles['modal-profile-img']}>
                 <img className={styles['profile-img']} src="/profile.png" />
               </div>
-              <section className={styles['profile-info']}>
+              <section className={styles['profile-info']} onClick={handleCopy}>
                 <h3>{chain?.name}</h3>
-                <span>
+                <span className={styles['chain-copy']}>
                   <p> {account?.displayName}</p>
-                  <i className="iconfont icon-copy"></i>
+                  {textCopied ? (
+                    <span className={styles['copied']}>Copied</span>
+                  ) : (
+                    <i className="iconfont icon-copy"></i>
+                  )}
                 </span>
                 <div className={styles['type-account']}>
                   {isLessee ? (
