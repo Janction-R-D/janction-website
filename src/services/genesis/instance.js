@@ -1,6 +1,6 @@
 import { request } from 'umi';
 
-const baseUrl = '/v0/';
+const baseUrl = '/v0';
 
 /**
  * Webshell demo，websockt
@@ -300,5 +300,19 @@ export const fetchBillingList = async (params) => {
   } catch (error) {
     console.log('『error』', error);
     return null;
+  }
+};
+
+export const fetchNodesRegister = async (data) => {
+  try {
+    const response = await request(`${baseUrl}/node/register`, {
+      method: 'POST',
+      data,
+      loginAuth: true,
+    });
+    return response;
+  } catch (error) {
+    console.log('『error』', error);
+    throw new Error(`failed, ${error.message}`);
   }
 };

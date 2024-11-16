@@ -7,9 +7,14 @@ import JactionEmpty from '@/components/JactionEmpty';
 
 function Orders() {
   const [orders, setOrders] = useState([]);
+
   useEffect(() => {
     fetchMarketOrders()
-      .then((data) => setOrders(data))
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setOrders(data);
+        }
+      })
       .catch((error) => console.log(error));
   }, []);
 

@@ -7,9 +7,10 @@ import NodeCard from './components/Nodes';
 import { history, Redirect, useModel } from 'umi';
 import NodesTable from './components/NodesTable';
 import Filters from './components/Filters';
+import RunNodes from './components/RunNodes';
 
 const initQuery = { current: 1, size: 10 };
-export default function AccessControl() {
+export default function Nodes() {
   const [filters, setFilter] = useState({ status: 'all', word: '' });
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(4);
@@ -38,11 +39,12 @@ export default function AccessControl() {
   if (isLessee) return <Redirect to="/genesis/instance"></Redirect>;
 
   return (
-    <div>
+    <div className={styles['nodes-wrapper']}>
       <div className={styles['title']}>
         <h1>My Nodes</h1>
       </div>
       <Resources />
+      <RunNodes />
       <Card className={styles['card']}>
         <div className={styles['card-header']}>
           <h2>
