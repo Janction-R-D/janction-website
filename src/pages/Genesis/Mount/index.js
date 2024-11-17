@@ -137,22 +137,27 @@ export default function Mount() {
     setAgreeClause(e.target.checked);
   };
 
-  const onContract = async () => {
+  const onContract = async (price) => {
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
+
+      // 初始化合约
       const payment = new ethers.Contract(
         paymentAddress,
         paymentABI,
         provider,
-        signer,
-      );
+      ).connect(signer);
 
-      await payment.createPayeeListing(
+      const listingTx = await payment.createPayeeListing(
         currencyAddress,
-        ethers.utils.parseEther(10),
+        ethers.utils.parseEther(`${price}`),
       );
-    } catch (error) {}
+      await listingTx.wait();
+      console.log('success===============');
+    } catch (error) {
+      console.log('『error』', error);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -176,15 +181,15 @@ export default function Mount() {
       price: Number(price),
       minimum_lease_unit: minDuration.label,
       maximum_lease_unit: maxDuration.label,
-      minimum_lease_duration: minLease,
-      maximum_lease_duration: maxLease,
+      minimum_lease_duration: Number(minLease),
+      maximum_lease_duration: Number(maxLease),
       available_period_up: maxPeriod,
       available_period_down: minPeriod,
     };
     console.log(payload);
     try {
       await fetchNodesConfigUpdate(payload);
-      await onContract();
+      await onContract(price);
       message.success('list success!');
       history.push('/genesis/instance');
     } catch (err) {

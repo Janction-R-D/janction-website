@@ -1,15 +1,14 @@
-import { Table } from 'antd';
-import { useState } from 'react';
+import JanctionTable from '@/components/JanctionTable';
+import numeral from 'numeral';
+import { useEffect, useState } from 'react';
+import { history } from 'umi';
+import Invite from './components/Invite';
+import Line from './components/Line';
 import { newsData } from './data';
+import useLesses from './Hooks/useLesses';
 import textImg from './image.png';
 import styles from './index.less';
-import data from './Instance.json';
-import numeral from 'numeral';
-import Line from './components/Line';
-import Invite from './components/Invite';
-import useLesses from './Hooks/useLesses';
-import { history } from 'umi';
-import JanctionTable from '@/components/JanctionTable';
+import News from './components/News';
 
 const Lessees = (props) => {
   const [news, setNews] = useState(newsData);
@@ -42,6 +41,8 @@ const Lessees = (props) => {
       node: rowData,
     });
   };
+
+  useEffect(() => {}, []);
 
   const detailColumns = [
     {
@@ -181,34 +182,7 @@ const Lessees = (props) => {
             <Line balance={balance} />
           </div>
         </div>
-        <div
-          className={[styles['content-item'], styles['news-wrapper']].join(' ')}
-        >
-          <div className={styles['title']}>
-            <span>News</span>
-            <div className={styles['extra']}>
-              <span>See All</span>
-              <i className="iconfont icon-next_page"></i>
-            </div>
-          </div>
-          <div className={styles['content']}>
-            {news.map((item, index) => (
-              <div className={styles['news-item']} key={index}>
-                <div className={styles['pic']}>
-                  <img src={textImg} alt="" />
-                </div>
-                <div className={styles['info']}>
-                  <p className={styles['title']}>{item.title}</p>
-                  <p className={styles['desc']}>{item.desc}</p>
-                  <div className={styles['more']}>
-                    <span>Learn More</span>
-                    <i className="iconfont  icon-next_page"></i>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        <News />
         <div
           className={[styles['content-item'], styles['recommend-wrapper']].join(
             ' ',

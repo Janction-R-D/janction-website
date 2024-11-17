@@ -6,7 +6,7 @@ import {
   paymentABI,
   paymentAddress,
 } from '@/constant';
-import { fetchNodesList } from '@/services/genesis';
+import { fetchNodesConfigInfo, fetchNodesList } from '@/services/genesis';
 import { calculateDuration } from '@/utils/datetime';
 import { message } from 'antd';
 import dayjs from 'dayjs';
@@ -38,37 +38,63 @@ const Create = (props) => {
   };
 
   const onNodeSelect = async (node) => {
+    console.log('『node』', node);
+
     try {
-      if (!address) return;
+      if (!address) {
+        message.error('Address is required!');
+        return;
+      }
+      const res = await fetchNodesConfigInfo({ node_id: node.id });
+      const price = res?.price;
+
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
+
+      // 初始化合约
       const payment = new ethers.Contract(
         paymentAddress,
         paymentABI,
         provider,
-        signer,
-      );
+      ).connect(signer);
       const currency = new ethers.Contract(
         currencyAddress,
         currencyABI,
         provider,
-        signer,
-      );
-      // 授予权限
+      ).connect(signer);
+
+      // 获取需要支付的总金额
       const totalAmount = await payment.getTotalAmount(
         node.user_id,
         Duration.Day,
       );
-      await totalAmount.wait();
-      currency.approve(paymentAddress, totalAmount);
+      console.log('Total Amount to approve:', totalAmount.toString());
+
+      // 检查授权额度
+      const currentAllowance = await currency.allowance(
+        address,
+        paymentAddress,
+      );
+      console.log('currentAllowance:', currentAllowance.toString());
+      if (currentAllowance.lt(totalAmount)) {
+        console.log('Insufficient allowance, approving...');
+        const approveTx = await currency.approve(paymentAddress, totalAmount);
+        message.info('Approving...');
+        await approveTx.wait();
+        message.success('Approval successful!');
+      } else {
+        console.log('Sufficient allowance, skipping approve step.');
+      }
+
       // 调起支付
       const tx = await payment.createPayerPlan(node.user_id, Duration.Day);
       message.info('Transaction in transit...');
       await tx.wait(); // 等待交易完成
-      message.success('trade successfully!');
+      message.success('Trade successfully!');
+      getList();
     } catch (error) {
       console.error('操作合约失败：', error);
-      message.success('Operation contract failed, please try again!');
+      message.error('Operation contract failed, please try again!');
     }
   };
 
