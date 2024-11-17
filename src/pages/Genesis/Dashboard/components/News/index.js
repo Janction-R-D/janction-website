@@ -14,7 +14,6 @@ const News = (props) => {
     try {
       // await fetchNewsUpdate();
       const res = await fetchNewsList();
-      console.log('『res』', res);
       setList(res || []);
     } catch (error) {
       console.log('『error』', error);

@@ -43,7 +43,7 @@ function InstanceTable({ data, getAllNodes }) {
   const columns = [
     {
       title: <div className="name">Instance ID / Name</div>,
-      dataIndex: 'name',
+      dataIndex: 'key',
       key: 'name',
       ellipsis: true,
     },
