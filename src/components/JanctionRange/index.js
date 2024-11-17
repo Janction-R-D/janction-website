@@ -1,3 +1,4 @@
+import { empty } from '@/utils/lang';
 import styles from './index.less';
 import { InputNumber } from 'antd';
 
@@ -9,10 +10,12 @@ const JanctionRange = (props) => {
   };
 
   const onAdd = () => {
+    if (empty(value)) return;
     onChange(value + 1);
   };
 
   const onSub = () => {
+    if (empty(value)) return;
     if (value == min) {
       return;
     }

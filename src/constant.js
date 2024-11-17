@@ -91,10 +91,10 @@ export const ANDROID_APK_PATH =
   'https://janction-test-1324956105.cos.ap-tokyo.myqcloud.com/janction.apk?q-sign-algorithm=sha1&q-ak=AKID--CAKWwFjso0Ddr-cBx98Vcd-Dvd5uswajldZLPXjPTjRNezGgZE6Pi87AA1EZ-2&q-sign-time=1719758323;1719761923&q-key-time=1719758323;1719761923&q-header-list=host&q-url-param-list=&q-signature=1e081b7f6eff8410a1d4a44829a58093c7600b42&x-cos-security-token=acBbXNgU3t64LR8t1WzD4i4FBM94s1hafb7f71301f6769bfebfe1453fffc7a1fvJPm9TUe_khwMPRyyithBH6Q69I_-D21dN5W-X8-MuTL3eElmLMrNccf6fb1__i7wGaMTH4CSdEx-DS91fce_8XTNywaxkwhzXuWkdlnxtkO3YGJqZ-22-ha6GptPQscPLvXp582SGuxu-0EfOHFloyb5-qf-lZZiZAIzjiMRGuC60AX3FwKCvPJbbkIe4pt';
 
 export const Duration = {
-  Day: 0,
-  Week: 1,
-  Month: 2,
-  Quarter: 3,
+  day: 0,
+  week: 1,
+  month: 2,
+  // Quarter: 3,
 };
 
 export const paymentABI = [
@@ -177,6 +177,7 @@ export const paymentABI = [
         type: 'uint8',
         internalType: 'enum Payment.PaymentStatus',
       },
+      { name: 'payer', type: 'address', internalType: 'address' },
       { name: 'currency', type: 'address', internalType: 'address' },
       { name: 'totalAmount', type: 'uint256', internalType: 'uint256' },
       { name: 'dailyAmount', type: 'uint256', internalType: 'uint256' },
@@ -219,6 +220,31 @@ export const paymentABI = [
   },
   {
     type: 'event',
+    name: 'DailyPaymentReleased',
+    inputs: [
+      {
+        name: 'payee',
+        type: 'address',
+        indexed: true,
+        internalType: 'address',
+      },
+      {
+        name: 'payer',
+        type: 'address',
+        indexed: true,
+        internalType: 'address',
+      },
+      {
+        name: 'paidDays',
+        type: 'uint256',
+        indexed: false,
+        internalType: 'uint256',
+      },
+    ],
+    anonymous: false,
+  },
+  {
+    type: 'event',
     name: 'OwnershipTransferred',
     inputs: [
       {
@@ -232,6 +258,68 @@ export const paymentABI = [
         type: 'address',
         indexed: true,
         internalType: 'address',
+      },
+    ],
+    anonymous: false,
+  },
+  {
+    type: 'event',
+    name: 'PayeeListingCreated',
+    inputs: [
+      {
+        name: 'payee',
+        type: 'address',
+        indexed: true,
+        internalType: 'address',
+      },
+      {
+        name: 'currency',
+        type: 'address',
+        indexed: true,
+        internalType: 'address',
+      },
+      {
+        name: 'baseAmount',
+        type: 'uint256',
+        indexed: false,
+        internalType: 'uint256',
+      },
+    ],
+    anonymous: false,
+  },
+  {
+    type: 'event',
+    name: 'PayerPlanCreated',
+    inputs: [
+      {
+        name: 'payee',
+        type: 'address',
+        indexed: true,
+        internalType: 'address',
+      },
+      {
+        name: 'payer',
+        type: 'address',
+        indexed: true,
+        internalType: 'address',
+      },
+      {
+        name: 'totalDays',
+        type: 'uint256',
+        indexed: false,
+        internalType: 'uint256',
+      },
+      {
+        name: 'totalAmount',
+        type: 'uint256',
+        indexed: false,
+        internalType: 'uint256',
+      },
+      {
+        name: 'dailyAmount',
+        type: 'uint256',
+        indexed: false,
+        internalType: 'uint256',
       },
     ],
     anonymous: false,
@@ -371,5 +459,5 @@ export const currencyABI = [
   },
 ];
 
-export const paymentAddress = '0x4e895e9a811fDFAe1Bf0EAD2dde56f9257Ed0E9B'; // 合约地址
+export const paymentAddress = '0x4bcb4864a11c648830c917435d33422ba0201a3c'; // 合约地址
 export const currencyAddress = '0x248f49674A9cc39E68615BD6669F5a395cbfa4D3'; // 币种合约地址

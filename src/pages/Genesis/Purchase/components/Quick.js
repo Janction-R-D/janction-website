@@ -9,7 +9,7 @@ import ProductList from './ProductList';
 import PurchaseCard from './Card';
 import LabelVal from './Card/LabelVal';
 import PurchaseSubCard from './Card/SubCard';
-import Footer from './Footer';
+import Footer from './Footer/index1';
 import styles from './index.less';
 import PublicIp from './PublicIp';
 import RegionSelect from './RegionSelect';

@@ -74,6 +74,7 @@ export function calculateDuration(
 
   // 当前时间和开始时间
   const startTime = dayjs(timePoint);
+  console.log('『startTime』', startTime.format('YYYY-MM-DD'));
   const now = dayjs();
 
   if (!startTime.isValid()) {
@@ -120,7 +121,7 @@ export function calculateDuration(
   }
 
   // 如果没有任何部分，则返回默认提示
-  return parts.length > 0 ? parts.join(' ') : '无时长信息';
+  return parts.length > 0 ? parts.join(' ') : 'no running time information';
 }
 
 // 示例用法

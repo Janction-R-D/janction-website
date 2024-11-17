@@ -35,9 +35,10 @@ const Lessees = (props) => {
   }));
   console.log(watchlistData, detailsData);
   const onBuy = (rowData) => {
+    if (!rowData.MarketCap) return;
     history.push('/genesis/purchase', {
       isQuick: true,
-      node: rowData,
+      nodeId: 'd9ede8ea-379b-4d8d-9d4d-c7f21b6400df',
     });
   };
 
@@ -155,8 +156,15 @@ const Lessees = (props) => {
       title: 'operation',
       dataIndex: 'Watch',
       key: 'Watch',
-      render: (text, rowData) => (
-        <div className={styles['action']} onClick={() => onBuy(rowData)}>
+      render: (text, rowData, index) => (
+        <div
+          className={[
+            styles['action'],
+            index !== 0 && styles['disabled'],
+            ,
+          ].join(' ')}
+          onClick={() => onBuy(rowData)}
+        >
           <span>Buy</span>
           <i className="iconfont icon-next_page"></i>
         </div>
@@ -189,10 +197,10 @@ const Lessees = (props) => {
         >
           <div className={styles['title']}>
             <span>Details</span>
-            <div className={styles['extra']}>
+            {/* <div className={styles['extra']}>
               <span>See All</span>
               <i className="iconfont icon-next_page"></i>
-            </div>
+            </div> */}
           </div>
           <div className={styles['content']}>
             <JanctionTable
@@ -211,10 +219,10 @@ const Lessees = (props) => {
         >
           <div className={styles['title']}>
             <span>Recommendation list</span>
-            <div className={styles['extra']}>
+            {/* <div className={styles['extra']}>
               <span>See All</span>
               <i className="iconfont icon-next_page"></i>
-            </div>
+            </div> */}
           </div>
           <div className={styles['content']}>
             <JanctionTable

@@ -5,7 +5,7 @@ import PayType from '../components/PayType';
 import { Checkbox, Form } from 'antd';
 import JanctionTable from '@/components/JanctionTable';
 import { SETTLEMENT_COLUMNS } from '../extra';
-import Footer from '../components/Footer';
+import Footer from '../components/Footer/index1';
 import { history } from 'umi';
 
 const deadline = Date.now() + 20 * 60 * 1000;

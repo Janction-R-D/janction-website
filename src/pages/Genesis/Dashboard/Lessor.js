@@ -301,7 +301,7 @@ const Lessors = (props) => {
                     )}
                     {' m'}
                   </span>
-                  <p onClick={showModal}>Set</p>
+                  {/* <p onClick={showModal}>Set</p> */}
                   <MonthGoal
                     handleCancel={handleCancel}
                     handleOk={handleOk}

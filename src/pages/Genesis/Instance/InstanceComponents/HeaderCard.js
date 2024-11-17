@@ -41,7 +41,7 @@ export default function HeaderCard({ summary }) {
         {data.map((item, index) => (
           <li key={index}>
             <span>{item.name}</span>
-            <p className={styles[`${item.color}`]}>{item.value}</p>
+            <p className={styles[`${item.color}`]}>{item.value || 0}</p>
           </li>
         ))}
       </ul>

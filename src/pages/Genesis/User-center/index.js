@@ -45,7 +45,9 @@ export default function UserAccount() {
     return fetchUserKeys()
       .then((res) => {
         console.log(res);
-        setKeys(res || []);
+        if (Array.isArray(res)) {
+          setKeys(res || []);
+        }
       })
       .catch((err) => setError(true));
   };

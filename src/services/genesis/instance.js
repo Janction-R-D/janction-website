@@ -41,7 +41,7 @@ export const fetchNodeList = async () => {
 export const fetchNodeOperation = async (params) => {
   console.log(params);
   try {
-    const response = await request(`${baseUrl}resource/operate`, {
+    const response = await request(`${baseUrl}/resource/operate`, {
       method: 'POST',
       body: params,
       loginAuth: true,
@@ -85,7 +85,7 @@ export const fetchResouceList = async () => {
 
 export const fetchMarketOrders = async () => {
   try {
-    const response = await request(`${baseUrl}market/orders`, {
+    const response = await request(`${baseUrl}/market/orders`, {
       loginAuth: true,
     });
     return response;
@@ -143,7 +143,7 @@ export const fetchResouceShell = async (params) => {
 //user center data
 export const fetchUserCenter = async () => {
   try {
-    const response = await request(`${baseUrl}user/center`, {
+    const response = await request(`${baseUrl}/user/center`, {
       loginAuth: true,
     });
     return response;
@@ -154,7 +154,7 @@ export const fetchUserCenter = async () => {
 };
 export const fetchUserKeys = async () => {
   try {
-    const response = await request(`${baseUrl}user/securities`, {
+    const response = await request(`${baseUrl}/user/securities`, {
       loginAuth: true,
     });
     return response;
@@ -166,7 +166,7 @@ export const fetchUserKeys = async () => {
 export const deleteKeysUserCenter = async (data) => {
   const { id } = data;
   try {
-    const response = await request(`${baseUrl}user/security?id=${id}`, {
+    const response = await request(`${baseUrl}/user/security?id=${id}`, {
       method: 'DELETE',
       loginAuth: true,
       body: JSON.stringify(data),
@@ -259,7 +259,7 @@ export const fetchMarketRent = async (params) => {
   try {
     const response = await request(`${baseUrl}/market/rent`, {
       method: 'POST',
-      body: params,
+      data: params,
       loginAuth: true,
     });
     return response;
