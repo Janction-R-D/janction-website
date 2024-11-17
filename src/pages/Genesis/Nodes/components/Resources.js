@@ -2,24 +2,23 @@ import React from 'react';
 import { Card } from 'antd';
 import styles from './resources.less';
 
-export default function Resources({ summary }) {
+export default function Resources({ statisticData }) {
   const data = [
     {
-      name: (
-        <div className={styles['cloud-resources']}>
-          <p>Running nodes</p>
-        </div>
-      ),
+      name: 'Running nodes',
+      field: 'running',
       value: 24546,
       color: 'white',
     },
     {
       name: 'listed nodes',
+      field: 'listed',
       value: 19283,
       color: 'white',
     },
     {
       name: 'active instances',
+      field: 'active',
       value: 2193,
       color: 'white',
     },
@@ -35,7 +34,9 @@ export default function Resources({ summary }) {
           {data.map((item, index) => (
             <li key={index}>
               <span>{item.name}</span>
-              <p className={styles[`${item.color}`]}>{item.value}</p>
+              <p className={styles[`${item.color}`]}>
+                {statisticData?.[item.field]}
+              </p>
             </li>
           ))}
         </ul>
