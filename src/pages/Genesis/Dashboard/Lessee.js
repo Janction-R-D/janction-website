@@ -6,7 +6,6 @@ import Invite from './components/Invite';
 import Line from './components/Line';
 import { newsData } from './data';
 import useLesses from './Hooks/useLesses';
-import textImg from './image.png';
 import styles from './index.less';
 import News from './components/News';
 
