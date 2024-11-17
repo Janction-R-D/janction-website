@@ -3,7 +3,8 @@ import { useState } from 'react';
 import styles from './index.less';
 
 const Footer = (props) => {
-  const { loading, isSettlement, onConfirm } = props;
+  const { isFirst, isLast, isSettlement, onConfirm, onPre, onNext, onPay } =
+    props;
 
   const [agree, setAgree] = useState(false);
   const onAgreeChange = (e) => {
@@ -41,7 +42,7 @@ const Footer = (props) => {
         )}
       </div>
       <div className={styles['btn']}>
-        {/* {!isFirst && (
+        {!isFirst && (
           <div className={styles['pre']}>
             <Button onClick={() => onPre()}>Previous</Button>
           </div>
@@ -50,15 +51,17 @@ const Footer = (props) => {
           <div className={styles['next']}>
             <Button onClick={() => onNext()}>Next</Button>
           </div>
-        )} */}
-        <div className={styles['confirm']} onClick={() => onConfirm()}>
-          <Button loading={loading}>Confirm the order</Button>
-        </div>
-        {/* {isSettlement && (
+        )}
+        {isLast && (
+          <div className={styles['confirm']} onClick={() => onConfirm()}>
+            <Button>Confirm the order</Button>
+          </div>
+        )}
+        {isSettlement && (
           <div className={styles['pay']} onClick={() => onPay(onPayBefore)}>
             <Button>Check to pay</Button>
           </div>
-        )} */}
+        )}
       </div>
     </div>
   );

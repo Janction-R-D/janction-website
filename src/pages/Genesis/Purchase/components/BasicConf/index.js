@@ -1,4 +1,4 @@
-import { Button, Checkbox, Divider, Form, Input } from 'antd';
+import { Button, Checkbox, Divider, Form, Input, Select } from 'antd';
 import JanctionRange from '@/components/JanctionRange';
 import { useState } from 'react';
 import styles from './index.less';
@@ -8,6 +8,8 @@ import PurchaseCard from '../Card';
 import LabelVal from '../Card/LabelVal';
 import JanctionDivider from '@/components/JanctionDivider';
 import JanctionInput from '@/components/JanctionInput';
+import { Duration } from '@/constant';
+import JanctionSelect from '@/components/JanctionSelect';
 
 const BasicConf = (props) => {
   const [instQuanlity, setInstQuanlity] = useState(1);
@@ -26,7 +28,7 @@ const BasicConf = (props) => {
 
   return (
     <PurchaseCard title="Basic configuration">
-      <LabelVal name="Login role" align="flex-start">
+      {/* <LabelVal name="Login role" align="flex-start">
         <div className={styles['vertical-value']}>
           <Form.Item
             name="region"
@@ -72,7 +74,7 @@ const BasicConf = (props) => {
           <JanctionInput type="password" placeholder="Please enter password" />
         </Form.Item>
       </LabelVal>
-      <JanctionDivider />
+      <JanctionDivider /> */}
       <LabelVal name="Purchase instance quantity">
         <Form.Item
           name="purchase_instance_quantity"
@@ -97,20 +99,34 @@ const BasicConf = (props) => {
               },
             ]}
           >
-            <JanctionRange
-              value={duration}
-              onChange={onDurationChange}
-              unit="Month"
-            />
+            <JanctionRange value={duration} onChange={onDurationChange} />
           </Form.Item>
-          <JanctionTip title="" />
         </div>
       </LabelVal>
-      <LabelVal name="Automatic renewal">
+      <LabelVal name="Purchase duration unit">
+        <Form.Item
+          name="purchase_duration_unit"
+          rules={[
+            {
+              required: true,
+              message: 'please select purchase duration unit',
+            },
+          ]}
+        >
+          <JanctionSelect
+            placeholder="please select purchase duration unit"
+            options={Object.keys(Duration).map((item) => ({
+              label: item,
+              value: item,
+            }))}
+          />
+        </Form.Item>
+      </LabelVal>
+      {/* <LabelVal name="Automatic renewal">
         <Form.Item name="automatic_renewal">
           <Checkbox>Enable automatic renewal</Checkbox>
         </Form.Item>
-      </LabelVal>
+      </LabelVal> */}
     </PurchaseCard>
   );
 };

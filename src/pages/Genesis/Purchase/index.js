@@ -4,6 +4,7 @@ import Customized from './components/Customized';
 import Quick from './components/Quick';
 import { DEFAULT_PURCHASE_TYPE, PURCHASES } from './extra';
 import styles from './index.less';
+import Create from './components/Create';
 
 function Purchase(props) {
   const { isQuick } = history.location.state || {};
@@ -29,7 +30,7 @@ function Purchase(props) {
       <section>
         <h1 className={styles['text__title']}>Configure instance</h1>
 
-        <div className={styles['purchase-type-nav']}>
+        {/* <div className={styles['purchase-type-nav']}>
           {PURCHASES.map((item) => (
             <div
               key={item.value}
@@ -45,7 +46,8 @@ function Purchase(props) {
         </div>
 
         {activePurType == PURCHASES[0].value && <Customized />}
-        {activePurType == PURCHASES[1].value && <Quick />}
+        {activePurType == PURCHASES[1].value && <Quick />} */}
+        <Create />
       </section>
     </main>
   );

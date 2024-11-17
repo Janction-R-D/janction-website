@@ -1,11 +1,12 @@
 import { fetchNodesList } from '@/services/genesis';
 import { Card, Pagination } from 'antd';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Redirect, useModel } from 'umi';
 import Filters from './components/Filters';
 import NodesTable from './components/NodesTable';
 import Resources from './components/Resources';
 import styles from './index.less';
+import { getNodeStatusMatch } from './components/extra';
 
 const initQuery = { status: 'all', word: '' };
 export default function Nodes() {
@@ -29,6 +30,20 @@ export default function Nodes() {
       console.log('『error』', error);
     }
   };
+
+  const statisticData = useMemo(() => {
+    let running = 0;
+    let listed = 0;
+    let active = 0;
+    list.map((item) => {
+      const { isRunning, isListed, isActive } = getNodeStatusMatch(item);
+      if (isRunning) running += 1;
+      if (isListed) listed += 1;
+      if (isActive) active += 1;
+      return item;
+    });
+    return { running, listed, active };
+  }, [list]);
 
   useEffect(() => {
     if (!list.length) {
@@ -70,7 +85,7 @@ export default function Nodes() {
       <div className={styles['title']}>
         <h1>My Nodes</h1>
       </div>
-      <Resources />
+      <Resources statisticData={statisticData} />
       <Card className={styles['card']}>
         <div className={styles['card-header']}>
           <h2>Node status monitoring</h2>

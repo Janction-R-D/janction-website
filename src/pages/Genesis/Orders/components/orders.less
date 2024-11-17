@@ -1,6 +1,7 @@
 .orders-component {
   margin-top: 40px;
 }
+
 .orders {
   margin-top: 40px;
   margin-inline: 12px;
@@ -19,99 +20,49 @@
   background-image: linear-gradient(15deg, #242426 35%, #2e3134 85%);
   color: #444444;
 }
+
 .card-title {
   font-size: 1.2rem;
   margin: 0;
 }
+
 .card-product-img-container {
-  width: 70px;
-  height: 70px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  i {
+    font-size: 20px;
+  }
 }
+
 .card-product-img {
   max-width: 100%;
 }
+
 .card-product {
   display: flex;
   align-items: center;
   gap: 12px;
 }
+
 .card-product-title {
   font-weight: 600;
   color: #fff;
   padding-bottom: 3px;
 }
+
 .text-grey {
   color: #7b7b7c;
 }
+
 .card-product-description {
   display: flex;
   flex-direction: column;
 }
+
 .card-product-price-text {
   color: #fff;
 }
 
 .table {
   margin-top: 12px;
-  background-color: transparent !important;
-  :global {
-    .ant-table {
-      all: unset;
-      display: block;
-    }
-    .ant-table table {
-      border-collapse: collapse;
-      background-color: transparent !important;
-    }
-    .ant-table table::before {
-      height: 0;
-    }
-    .ant-table-thead {
-      background: transparent !important;
-      tr {
-        th {
-          text-overflow: ellipsis !important;
-          text-wrap: nowrap !important;
-          text-align: left !important;
-          padding-left: 16px !important;
-          background: transparent !important;
-        }
-        th:first-child {
-          padding-left: 100px !important;
-        }
-      }
-    }
-    .ant-table-tbody {
-      tr {
-        background: transparent !important;
-        background-blend-mode: normal;
-        border-bottom: 1px solid #cccccc5a !important;
-        td {
-          text-align: start;
-          text-wrap: nowrap;
-          height: 45px !important;
-          color: #fff;
-        }
-        .icon-nvidia-color {
-          color: #7ac000;
-          font-size: 1.3rem;
-        }
-      }
-      tr:hover {
-        background: transparent !important;
-      }
-
-      tr:first-child {
-        border-top: 1px solid #cccccc5a !important;
-      }
-      tr:last-child {
-        border-bottom: none;
-      }
-    }
-  }
 }
 
 .card-product-footer {
@@ -121,6 +72,7 @@
   justify-content: space-between;
   padding-left: 16px;
 }
+
 .text-blue {
   color: rgb(129, 129, 247);
   padding: 16px;

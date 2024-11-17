@@ -1,15 +1,16 @@
 import JanctionTable from '@/components/JanctionTable';
 import { fetchNodesList } from '@/services/genesis';
 import { calculateDuration } from '@/utils/datetime';
-import { getNodeStatusMatch } from '@/utils/lang';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
-import PurchaseSubCard from '../Card/SubCard';
+import { getNodeStatusMatch } from '../Nodes/components/extra';
+import styles from './index.less';
+import PayModal from './InstanceComponents/PayModal';
 
-const ProductList = (props) => {
-  const { value, onChange } = props;
+const Create = (props) => {
   const [list, setList] = useState([]);
-  const [selectKey, setSelectKey] = useState();
+  const [activeNode, setActiveNode] = useState();
+  const [payVisible, setPayVisible] = useState(false);
 
   useEffect(() => {
     getList();
@@ -28,9 +29,10 @@ const ProductList = (props) => {
     }
   };
 
-  useEffect(() => {
-    setSelectKey(value);
-  }, [value]);
+  const onNodeSelect = async (node) => {
+    setActiveNode(node);
+    setPayVisible(true);
+  };
 
   const columns = [
     {
@@ -76,26 +78,39 @@ const ProductList = (props) => {
         return dayjs(text).format('YYYY-MM-DD HH:mm:ss');
       },
     },
+    {
+      title: 'Operation',
+      key: 'action',
+      width: 'auto',
+      fixed: 'right',
+      render: (error, record) => {
+        return <a onClick={() => onNodeSelect(record)}>select</a>;
+      },
+    },
   ];
 
   return (
-    <PurchaseSubCard>
+    <div className={styles['create-wrapper']}>
+      <h1 className={styles['text__title']}>Node List</h1>
       <JanctionTable
-        bordered={false}
+        className={styles['table']}
         columns={columns}
         dataSource={list}
         pagination={false}
-        rowKey="id"
-        rowSelection={{
-          selectedRowKeys: [selectKey],
-          onChange: (selectedRowKeys, selectedRows) => {
-            setSelectKey(selectedRowKeys[0]);
-            onChange(selectedRowKeys[0], selectedRows[0]);
-          },
-        }}
+        emptyDescription={<p>No nodes are currently running.</p>}
       />
-    </PurchaseSubCard>
+      {payVisible && (
+        <PayModal
+          visible={payVisible}
+          node={activeNode}
+          onCancel={() => {
+            setPayVisible(false);
+          }}
+          onSuccess={getList}
+        />
+      )}
+    </div>
   );
 };
 
-export default ProductList;
+export default Create;

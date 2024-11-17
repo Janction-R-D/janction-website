@@ -1,15 +1,87 @@
-html,body {scroll-behavior: smooth;}
-canvas {display: block;}
-body {text-rendering: optimizeLegibility;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;line-height:1.4;color:#fff;font-size: 14px;}
-input,textarea,select{font-size:12px;font-size:100%;font-family:arial;font-family:inherit;}
-body,h1,h2,h3,h4,h5,h6,p,ul,ol,form{margin:0;}
-h4,h5,h6{font-size:1em;}
-ul,ol{padding-left:0; list-style-type:none;}
+html, body:not(.janction-markdown) {
+  scroll-behavior: smooth;
+}
 
-/* image with no-border */
-a img{border:0;}
-a{color: #fff;}
-img{border:0;}
-&::-webkit-scrollbar {
+canvas:not(.janction-markdown canvas) {
+  display: block;
+}
+
+body:not(.janction-markdown) {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.4;
+  color: #fff;
+  font-size: 14px;
+}
+
+input:not(.janction-markdown input), 
+textarea:not(.janction-markdown textarea), 
+select:not(.janction-markdown select) {
+  font-size: 12px;
+  font-size: 100%;
+  font-family: arial;
+  font-family: inherit;
+}
+
+body:not(.janction-markdown),
+h1:not(.janction-markdown h1),
+h2:not(.janction-markdown h2),
+h3:not(.janction-markdown h3),
+h4:not(.janction-markdown h4),
+h5:not(.janction-markdown h5),
+h6:not(.janction-markdown h6),
+p:not(.janction-markdown p),
+ul:not(.janction-markdown ul),
+ol:not(.janction-markdown ol),
+form:not(.janction-markdown form) {
+  margin: 0;
+}
+
+h4:not(.janction-markdown h4),
+h5:not(.janction-markdown h5),
+h6:not(.janction-markdown h6) {
+  font-size: 1em;
+}
+
+ul:not(.janction-markdown ul), 
+ol:not(.janction-markdown ol) {
+  padding-left: 0;
+  list-style-type: none;
+}
+
+a:not(.janction-markdown a) img {
+  border: 0;
+}
+
+a:not(.janction-markdown a) {
+  color: #fff;
+}
+
+img:not(.janction-markdown img) {
+  border: 0;
+}
+
+::-webkit-scrollbar:not(.janction-markdown ::-webkit-scrollbar) {
   width: 0;
+}
+
+
+.janction-markdown{line-height: 1.5rem;}
+.janction-markdown *{line-height: inherit;margin: revert;padding: revert;}
+.janction-markdown ul{list-style-type: circle;}
+.janction-markdown h1, 
+.janction-markdown h2, 
+.janction-markdown h3, 
+.janction-markdown h4, 
+.janction-markdown h5, 
+.janction-markdown h6 {
+  font-size: inherit;
+  margin-bottom: 0.5em;
+}
+
+.janction-markdown ul, 
+.janction-markdown ol {
+  padding-left: 40px;
+  list-style-type: disc;
 }

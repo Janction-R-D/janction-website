@@ -29,7 +29,7 @@ function Remind({
     >
       <header>
         <p>Reminder</p>
-        <i className="iconfont icon-close"></i>
+        <i className="iconfont icon-close" onClick={handleCancel}></i>
       </header>
       <p>
         The existing access token will be invalid after a new access token is

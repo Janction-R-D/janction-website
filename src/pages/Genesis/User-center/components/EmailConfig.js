@@ -18,7 +18,7 @@ function Edit({ handleCancel, isModalOpen, handleOk }) {
     >
       <header>
         <p>Email Address</p>
-        <i className="iconfont icon-close"></i>
+        <i className="iconfont icon-close" onClick={handleCancel}></i>
       </header>
 
       <div className={styles['card-emails']}>

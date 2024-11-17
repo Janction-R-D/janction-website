@@ -13,3 +13,16 @@ export const fetchLessor = async () => {
     return null;
   }
 };
+
+export const fetchNewsUpdate = () => {
+  return request(`${baseUrl}/news/update`, {
+    method: 'POST',
+    loginAuth: true,
+  });
+};
+
+export const fetchNewsList = () => {
+  return request(`${baseUrl}/news/list`, {
+    loginAuth: true,
+  });
+};

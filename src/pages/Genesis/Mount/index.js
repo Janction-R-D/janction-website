@@ -1,25 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { history, Redirect, useModel } from 'umi';
-import { NodeInfo } from './components/NodeInfo';
-import styles from './index.less';
+import JanctionTip from '@/components/JanctionTip';
+import { currencyAddress, paymentABI, paymentAddress } from '@/constant';
+import {
+  fetchNodesConfigInfo,
+  fetchNodesConfigUpdate,
+  fetchNodesInfo,
+} from '@/services/genesis';
 import {
   Button,
   Card,
-  Input,
-  Select,
   Checkbox,
-  TimePicker,
+  Input,
   message,
+  Select,
+  TimePicker,
 } from 'antd';
-import MountEchart from './components/Graps';
-import {
-  fetchNodesConfigInfo,
-  fetchNodesInfo,
-  fetchNodesConfigUpdate,
-} from '@/services/genesis';
+import { ethers } from 'ethers';
+import { useEffect, useState } from 'react';
+import { history, Redirect, useModel } from 'umi';
 import Loading from './components/Loading';
-import TooltipBox from '../components/Tooltip';
-import JanctionTip from '@/components/JanctionTip';
+import { NodeInfo } from './components/NodeInfo';
+import styles from './index.less';
+
 const options = [
   {
     value: 1,
@@ -136,6 +137,29 @@ export default function Mount() {
     setAgreeClause(e.target.checked);
   };
 
+  const onContract = async (price) => {
+    try {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+
+      // 初始化合约
+      const payment = new ethers.Contract(
+        paymentAddress,
+        paymentABI,
+        provider,
+      ).connect(signer);
+
+      const listingTx = await payment.createPayeeListing(
+        currencyAddress,
+        ethers.utils.parseEther(`${price}`),
+      );
+      await listingTx.wait();
+      console.log('success===============');
+    } catch (error) {
+      console.log('『error』', error);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!price) {
@@ -157,14 +181,15 @@ export default function Mount() {
       price: Number(price),
       minimum_lease_unit: minDuration.label,
       maximum_lease_unit: maxDuration.label,
-      minimum_lease_duration: minLease,
-      maximum_lease_duration: maxLease,
+      minimum_lease_duration: Number(minLease),
+      maximum_lease_duration: Number(maxLease),
       available_period_up: maxPeriod,
       available_period_down: minPeriod,
     };
     console.log(payload);
     try {
       await fetchNodesConfigUpdate(payload);
+      await onContract(price);
       message.success('list success!');
       history.push('/genesis/instance');
     } catch (err) {
@@ -259,7 +284,7 @@ export default function Mount() {
               <p>Billing price</p>
 
               <Input
-                suffix={<p>Point/Day</p>}
+                suffix={<p>JCT/Day</p>}
                 type="number"
                 placeholder="Enter a price"
                 value={price}
