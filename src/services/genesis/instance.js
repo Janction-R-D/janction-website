@@ -160,7 +160,7 @@ export const fetchUserKeys = async () => {
     return response;
   } catch (error) {
     console.log('『error』', error);
-    return null;
+    throw new Error(`failed, ${error.message}`);
   }
 };
 export const deleteKeysUserCenter = async (data) => {
