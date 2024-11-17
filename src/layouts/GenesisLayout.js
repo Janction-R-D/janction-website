@@ -163,12 +163,12 @@ const GenesisLayout = (props) => {
                 </div>
                 <span>Help</span>
               </div>
-              <div className={styles['item']}>
+              {/* <div className={styles['item']}>
                 <div className={styles['icon']}>
                   <SettingOutlined />
                 </div>
                 <span>Settings</span>
-              </div>
+              </div> */}
             </div>
             <div
               className={styles['fold-wrapper-2']}

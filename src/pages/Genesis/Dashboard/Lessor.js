@@ -196,10 +196,10 @@ const Lessors = (props) => {
         >
           <div className={styles['title']}>
             <span>Sales by Rep</span>
-            <div className={styles['extra']}>
+            {/* <div className={styles['extra']}>
               <span>See All</span>
               <i className="iconfont icon-next_page"></i>
-            </div>
+            </div> */}
           </div>
           <div className={styles['content']}>
             <HorizontalBar data={sales_by_rep || []} />
@@ -227,10 +227,10 @@ const Lessors = (props) => {
         >
           <div className={styles['title']}>
             <span>Arithmetic situation</span>
-            <div className={styles['extra']}>
+            {/* <div className={styles['extra']}>
               <span>See All</span>
               <i className="iconfont icon-next_page"></i>
-            </div>
+            </div> */}
           </div>
           <div className={styles['content']}>
             <div className={styles['chart-wrapper']}>
