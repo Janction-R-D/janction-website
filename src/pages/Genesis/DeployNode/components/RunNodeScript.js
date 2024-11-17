@@ -5,29 +5,45 @@ import styles from './index.less';
 import { Card } from 'antd';
 import { useEffect, useState } from 'react';
 import { fetchNodesRegister } from '@/services/genesis';
+import { RedoOutlined } from '@ant-design/icons';
 
-const RunNodes = (props) => {
+const RunNodeScript = (props) => {
   const [nodesData, setNodesData] = useState();
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     getNodes();
   }, []);
   const getNodes = async () => {
     try {
+      setLoading(true);
       const res = await fetchNodesRegister();
       setNodesData(res);
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.log('『error』', error);
     }
   };
 
   return (
-    <Card className={styles['run-nodes-wrapper']}>
+    <Card
+      title="Register node"
+      className={styles['run-nodes-wrapper']}
+      extra={
+        <RedoOutlined
+          rotate={90}
+          spin={loading}
+          loading={loading}
+          className="poi"
+          onClick={getNodes}
+        />
+      }
+    >
       <Markdown
         children={`
-### register node
 \`\`\`sh
-curl -sfL http://18.181.196.49:80/v0/node/install.sh | NODE_ID=${
-          nodesData?.nodeId || 'xxxx'
+curl -sfL ${location.href}/v0/node/install.sh | NODE_ID=${
+          nodesData?.node_id || 'xxxx'
         } TOKEN=${nodesData?.token || 'xxxx'} sh -
 \`\`\`
 `}
@@ -55,4 +71,4 @@ curl -sfL http://18.181.196.49:80/v0/node/install.sh | NODE_ID=${
   );
 };
 
-export default RunNodes;
+export default RunNodeScript;

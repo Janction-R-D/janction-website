@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { copy } from '@/utils/lang';
 import styles from './index.less';
+import RunNodeScript from './RunNodeScript';
 
 const RunNode = (props) => {
   const { selectedValues } = props;
@@ -96,33 +97,7 @@ const RunNode = (props) => {
               ></a>
             </div>
           </section>
-          <section className={styles['run-command']}>
-            <h2>Start the node</h2>
-            <div>
-              <h3>
-                <span>Script</span>
-                <i
-                  className="iconfont icon-copy"
-                  onClick={() => copy(nodeData?.script)}
-                ></i>
-              </h3>
-              <div className={styles['code-area']}>
-                {nodeData?.script}
-                <i
-                  className="iconfont icon-copy"
-                  onClick={() => copy(nodeData?.script)}
-                ></i>
-              </div>
-            </div>
-            <ul>
-              <li>
-                You can set your account private key by "-e PRIVATE_KEY=0xab..."
-              </li>
-              <li>
-                You can change the container name by "--name your-node-name"
-              </li>
-            </ul>
-          </section>
+          <RunNodeScript />
         </>
       );
     }
@@ -186,33 +161,7 @@ const RunNode = (props) => {
               ></a>
             </div>
           </section>
-          <section className={styles['run-command']}>
-            <h1 className="mb20">Start the node</h1>
-            <div>
-              <h3>
-                <span>Script</span>
-                <i
-                  className="iconfont icon-copy"
-                  onClick={() => copy(nodeData?.script)}
-                ></i>
-              </h3>
-              <div className={styles['code-area']}>
-                {nodeData?.script}
-                <i
-                  className="iconfont icon-copy"
-                  onClick={() => copy(nodeData?.script)}
-                ></i>
-              </div>
-            </div>
-            <ul>
-              <li>
-                You can set your account private key by "-e PRIVATE_KEY=0xab..."
-              </li>
-              <li>
-                You can change the container name by "--name your-node-name"
-              </li>
-            </ul>
-          </section>
+          <RunNodeScript />
         </>
       );
     }
@@ -274,33 +223,7 @@ const RunNode = (props) => {
             ></a>
           </div>
         </section> */}
-        <section className={styles['run-command']}>
-          <h1>Start the node</h1>
-          <div>
-            <h3>
-              <span>Script</span>
-              <i
-                className="iconfont icon-copy"
-                onClick={() => copy(nodeData?.script)}
-              ></i>
-            </h3>
-            <div className={styles['code-area']}>
-              {nodeData?.script}
-              <i
-                className="iconfont icon-copy"
-                onClick={() => copy(nodeData?.script)}
-              ></i>
-            </div>
-          </div>
-          <ul>
-            <li>
-              You can set your account private key by "-e PRIVATE_KEY=0xab..."
-            </li>
-            <li>
-              You can change the container name by "--name your-node-name"
-            </li>
-          </ul>
-        </section>
+        <RunNodeScript />
       </>
     );
   };

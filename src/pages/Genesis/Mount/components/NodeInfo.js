@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Input } from 'antd';
-export function NodeInfo({ styles, tags, setTags }) {
+import dayjs from 'dayjs';
+export function NodeInfo({ nodeInfo, styles, tags, setTags }) {
   const [tagInput, setTagInput] = useState(null);
   const [showInput, setShowInput] = useState(null);
   const [error, setError] = useState(false);
@@ -33,57 +34,44 @@ export function NodeInfo({ styles, tags, setTags }) {
     if (tags.length >= 6) return;
     setShowInput(!showInput);
   };
+
+  const renderLabelInfo = (label, value) => {
+    return (
+      <li>
+        <p>{label}:</p>
+        <span>{value || '~'}</span>
+      </li>
+    );
+  };
+
   return (
     <>
       <ul>
         <ol>
-          <li>
-            <p>identification number:</p> <span> 879q43yv8hbvn</span>
-          </li>
-          <li>
-            <p>node-names:</p> <span>4090xxx</span>
-          </li>
-          <li>
-            <p>Cores:</p>
-            <span>8</span>
-          </li>
-          <li>
-            <p>memory :</p>
-            <span>IT</span>
-          </li>
+          {renderLabelInfo('identification number', nodeInfo?.id)}
+          {renderLabelInfo('node-names', nodeInfo?.name)}
+          {renderLabelInfo('Cores', nodeInfo?.cores)}
+          {renderLabelInfo('memory', nodeInfo?.attr?.memory)}
         </ol>
         <ol>
-          <li>
-            <p>status:</p>
-            <span>idle</span>
-          </li>
-          <li>
-            <p>disk:</p>
-            <span>1500</span>
-          </li>
-          <li>
-            <p>Region: </p>
-            <span>Manchester,UK</span>
-          </li>
-          <li>
-            <p>vCPU: </p> <span>ESSD Entry 40GiB</span>
-          </li>
+          {renderLabelInfo('status', nodeInfo?.status_str)}
+          {renderLabelInfo('arch', nodeInfo?.attr?.architechture_str)}
+          {renderLabelInfo('cpu', nodeInfo?.attr?.cpu)}
+          {renderLabelInfo('location', nodeInfo?.attr?.location)}
         </ol>
         <ol>
-          <li>
-            <p>quantity:</p> <span>4</span>
-          </li>
-          <li>
-            <p>internal storage:</p> <span>4 GiB </span>
-          </li>
-          <li>
-            <p>Available area:</p>
-            <span> 25</span>
-          </li>
-          <li>
-            <p>Processor: </p>
-            <span>intel</span>
-          </li>
+          {renderLabelInfo('networkDown', nodeInfo?.attr?.network_down)}
+          {renderLabelInfo('networkUp', nodeInfo?.attr?.network_up)}
+          {renderLabelInfo(
+            'operatingSystem',
+            nodeInfo?.attr?.operating_system_str,
+          )}
+          {renderLabelInfo(
+            'lastConfig',
+            nodeInfo?.last_start_at
+              ? dayjs(nodeInfo?.last_start_at).format('YYYY-MM-DD')
+              : '--',
+          )}
         </ol>
       </ul>
       <section className={styles['card-security']}>

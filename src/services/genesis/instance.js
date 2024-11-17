@@ -197,12 +197,11 @@ export const postKeyUserData = async (data) => {
 };
 
 //fetch ConfigInfo
-export const fetchConfigInfo = async (data) => {
-  const id = data;
-
+export const fetchNodesConfigInfo = async (params) => {
   try {
-    const response = await request(`${baseUrl}node/config?node_id=${id}`, {
+    const response = await request(`${baseUrl}/node/config`, {
       loginAuth: true,
+      params,
     });
     return response;
   } catch (error) {
@@ -211,9 +210,9 @@ export const fetchConfigInfo = async (data) => {
   }
 };
 // fetchPost ConfigInfo
-export const postConfigInfo = async (data) => {
+export const fetchNodesConfigUpdate = async (data) => {
   try {
-    const response = await request(`${baseUrl}node/config`, {
+    const response = await request(`${baseUrl}/node/config`, {
       loginAuth: true,
       method: 'POST',
       headers: {
@@ -224,7 +223,20 @@ export const postConfigInfo = async (data) => {
     return response;
   } catch (error) {
     console.log('『error』', error);
-    return null;
+    throw new Error(`failed, ${error.message}`);
+  }
+};
+export const fetchNodesConfigDelete = async (params) => {
+  try {
+    const response = await request(`${baseUrl}/node/config`, {
+      method: 'DELETE',
+      data: params,
+      loginAuth: true,
+    });
+    return response;
+  } catch (error) {
+    console.log('『error』', error);
+    throw new Error(`failed, ${error.message}`);
   }
 };
 // List rent records
@@ -308,6 +320,32 @@ export const fetchNodesRegister = async (data) => {
     const response = await request(`${baseUrl}/node/register`, {
       method: 'POST',
       data,
+      loginAuth: true,
+    });
+    return response;
+  } catch (error) {
+    console.log('『error』', error);
+    throw new Error(`failed, ${error.message}`);
+  }
+};
+
+export const fetchNodesInfo = async (params) => {
+  try {
+    const response = await request(`${baseUrl}/node/info`, {
+      params,
+      loginAuth: true,
+    });
+    return response;
+  } catch (error) {
+    console.log('『error』', error);
+    throw new Error(`failed, ${error.message}`);
+  }
+};
+
+export const fetchNodesList = async (params) => {
+  try {
+    const response = await request(`${baseUrl}/node/list`, {
+      params,
       loginAuth: true,
     });
     return response;

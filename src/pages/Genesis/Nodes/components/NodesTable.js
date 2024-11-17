@@ -1,106 +1,120 @@
 import JanctionTable from '@/components/JanctionTable';
-import { Space } from 'antd';
-import { useState } from 'react';
-import { fetchNodeOperation } from '@/services/genesis/instance';
-import styles from './table.less';
-
-import { history } from 'umi';
 import JanctionTip from '@/components/JanctionTip';
+import { history } from 'umi';
 import OperationDelis from './Operation';
+import styles from './table.less';
+import dayjs from 'dayjs';
+import { empty } from '@/utils/lang';
+import { calculateDuration } from '@/utils/datetime';
+import { getNodeStatusMatch } from './extra';
 
-function NodesTable({ data }) {
-  const [showOverView, setShowOverView] = useState(true);
-
+function NodesTable({ data, getList }) {
   const columns = [
     {
-      title: <div className="name">Device ID</div>,
-      dataIndex: 'deviceId',
+      title: 'Device ID',
+      dataIndex: 'id',
       key: 'deviceId',
+      width: 'auto',
       ellipsis: true,
     },
-    {
-      title: <div className="name">API</div>,
-      dataIndex: 'api',
-      key: 'api',
-      ellipsis: true,
-    },
-
     {
       title: 'Status',
       key: 'status',
-      dataIndex: 'status',
-      width: 100,
-      render: (text) => (
-        <>
-          {text.toLowerCase() === 'running' ? (
-            <div className="status status-running ">
-              <p>running</p>
-              <JanctionTip
-                placement="topLeft"
-                title='您的节点还未完成挂单，为了避免不必要的浪费，请尽快完成。"'
-              />
-            </div>
-          ) : text.toLowerCase() === 'listed' ? (
+      dataIndex: 'status_str',
+      width: 'auto',
+      render: (text, record) => {
+        const { isRunning, isActive, isListed } = getNodeStatusMatch(record);
+        if (isListed) {
+          return (
             <div className="status ">
               <p>listed</p>
               <JanctionTip
                 placement="topLeft"
-                title="您的节点已完成挂单，等待客户购买中。"
+                title="Your node has completed the pending order and is waiting for customers to purchase."
               />
             </div>
-          ) : text.toLowerCase() === 'active' ? (
+          );
+        }
+        if (isActive) {
+          return (
             <div className="status  status-active">
               <p>active</p>
               <JanctionTip
                 placement="topLeft"
-                title="您的节点已被他人购买，将持续产生收益。"
+                title="Your node has been purchased by others and will continue to generate income."
               />
             </div>
-          ) : (
-            <div>other</div>
-          )}
-        </>
-      ),
+          );
+        }
+        if (isRunning)
+          return (
+            <div className="status status-running ">
+              <span>running</span>
+              <JanctionTip
+                placement="topLeft"
+                title='Your node has not yet completed the pending order. To avoid unnecessary waste, please complete it as soon as possible."'
+              />
+            </div>
+          );
+        return <div>offline</div>;
+      },
     },
     {
       title: 'CHIP/GPUS',
       dataIndex: 'chipGpu',
       key: 'chipGpu',
       ellipsis: true,
+      width: 'auto',
+      render: (text, record) => {
+        if (!record.gpu_chip && !record.cpu_chip) return '--';
+        return `${record.gpu_chip || ''} ${record.cpu_chip || ''}`;
+      },
     },
     {
       title: (
         <div>
-          <p>'节点运行的时间 </p>
+          <p>Node running time</p>
           <p>UP FOR </p>
         </div>
       ),
-      dataIndex: 'upFor',
-      key: 'upFor',
+      dataIndex: 'last_start_at',
+      width: 'auto',
+      render: (text) => {
+        if (!text) return '--';
+        return calculateDuration(text, { showSeconds: false });
+      },
     },
 
     {
-      title: '挂单时间',
-      dataIndex: 'time',
+      title: 'list time',
+      dataIndex: 'last_config_at',
+      width: 'auto',
       key: 'time',
+      render: (text) => {
+        if (!text) return '--';
+        return dayjs(text).format('YYYY-MM-DD HH:mm:ss');
+      },
     },
     {
       title: 'rewarded',
       key: 'rewarded',
       dataIndex: 'rewarded',
-      width: 80,
-      render: (_, record) => (
-        <div style={{ whiteSpace: 'pre' }}>{record.rewarded}</div>
-      ),
+      width: 'auto',
+      render: (text) => {
+        if (empty(text)) return '--';
+        return `${text} JCT`;
+      },
     },
 
     {
-      title: <div className="operation">Operation</div>,
+      title: 'Operation',
       key: 'action',
       width: 'auto',
       fixed: 'right',
       render: (error, record) => {
-        return <OperationDelis error={error} record={record} />;
+        return (
+          <OperationDelis error={error} record={record} getList={getList} />
+        );
       },
     },
   ];
@@ -114,10 +128,11 @@ function NodesTable({ data }) {
         pagination={false}
         emptyDescription={
           <p>
-            No instance is currently available. Please{' '}
-            <a onClick={() => history.push('/genesis/purchase')}>
-              create an instance
-            </a>
+            No nodes are currently running. Click{' '}
+            <a onClick={() => history.push('/genesis/deployNode')}>
+              deploy node
+            </a>{' '}
+            to connect to your node and place an order.
           </p>
         }
       />

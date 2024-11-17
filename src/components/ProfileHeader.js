@@ -117,7 +117,7 @@ function ProfileModal({ styles, isModalOpen, handleOk, handleCancel }) {
                 <div className={styles['type-account']}>
                   {isLessee ? (
                     <div onClick={onIdentityChange}>
-                      <p>Switch to Switch Lessor Role</p>
+                      <p>Switch to Lessor Role</p>
                       <i className="iconfont icon-next"></i>
                     </div>
                   ) : (

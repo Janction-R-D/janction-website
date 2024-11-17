@@ -2,22 +2,54 @@ import React, { useEffect, useState } from 'react';
 import { history, Redirect, useModel } from 'umi';
 import { NodeInfo } from './components/NodeInfo';
 import styles from './index.less';
-import { Button, Card, Input, Select, Checkbox, TimePicker } from 'antd';
+import {
+  Button,
+  Card,
+  Input,
+  Select,
+  Checkbox,
+  TimePicker,
+  message,
+} from 'antd';
 import MountEchart from './components/Graps';
-import { fetchConfigInfo, postConfigInfo } from '@/services/genesis';
+import {
+  fetchNodesConfigInfo,
+  fetchNodesInfo,
+  fetchNodesConfigUpdate,
+} from '@/services/genesis';
 import Loading from './components/Loading';
 import TooltipBox from '../components/Tooltip';
 import JanctionTip from '@/components/JanctionTip';
-
+const options = [
+  {
+    value: 1,
+    label: 'Hour',
+  },
+  {
+    value: 2,
+    label: 'Day',
+  },
+  {
+    value: 3,
+    label: 'Week',
+  },
+  {
+    value: 4,
+    label: 'Month',
+  },
+  {
+    value: 5,
+    label: 'Year',
+  },
+];
 export default function Mount() {
   const { initialState } = useModel('@@initialState');
   const { isLessee } = initialState || {};
   const { node } = history.location.state || {};
-  console.log(node);
-  const [searchId, setSearchId] = useState(node.deviceId || '');
+  const [searchId, setSearchId] = useState(node.id || '');
   const [loading, setLoading] = useState(false);
-  const [minDuration, setMinDuration] = useState({ value: 1, label: 'Month' });
-  const [maxDuration, setMaxDuration] = useState({ value: 4, label: 'Year' });
+  const [minDuration, setMinDuration] = useState(options[0]);
+  const [maxDuration, setMaxDuration] = useState(options[4]);
   const [minPeriod, setMinPeriod] = useState(null);
   const [maxPeriod, setMaxPeriod] = useState(null);
   const [price, setPrice] = useState(null);
@@ -27,74 +59,58 @@ export default function Mount() {
   const [minLease, setMinLease] = useState(1);
   const [maxLease, setMaxLease] = useState(1);
   const [tags, setTags] = useState([]);
-  const options = [
-    {
-      value: 1,
-      label: 'Hour',
-    },
-    {
-      value: 2,
-      label: 'Day',
-    },
-    {
-      value: 3,
-      label: 'Week',
-    },
-    {
-      value: 4,
-      label: 'Month',
-    },
-    {
-      value: 5,
-      label: 'Year',
-    },
-  ];
-  const onMaxDurationValueChange = (value) => {
-    const [newValue] = options.filter((item) => item.value == value);
-    setMaxDuration(newValue);
+  const [nodeInfo, setNodeInfo] = useState();
+  const [agreeClause, setAgreeClause] = useState(false);
+
+  const onMaxDurationValueChange = (value, option) => {
+    setMaxDuration(option);
   };
-  const onMinDurationValueChange = (value) => {
-    const [newValue] = options.filter((item) => item.value == value);
-    setMinDuration(newValue);
+  const onMinDurationValueChange = (value, option) => {
+    setMinDuration(option);
   };
   useEffect(() => {
     if (searchId === '') return;
-    setLoading(true);
-    setError(false);
-    fetchConfigInfo(searchId)
-      .then((res) => {
-        console.log(res);
-        if (res.error) {
-          throw new Error('Node not found');
-        }
-        setUserInfo(res || {});
-        setTags(res.tags || []);
-        setPrice(res.price || 0);
-        setMaxLease(res.maximum_lease_duration || 1);
-        setMinLease(res.minimum_lease_duration || 1);
+    getConfigInfo();
+    getNodeInfo();
+  }, [searchId]);
+  const getConfigInfo = async () => {
+    try {
+      if (!searchId) return;
+      setError(false);
+      setLoading(true);
+      const res = await fetchNodesConfigInfo({ node_id: searchId });
+      setUserInfo(res || {});
+      setTags(res.tags || []);
+      setPrice(res.price || 0);
+      setMaxLease(res.maximum_lease_duration || 1);
+      setMinLease(res.minimum_lease_duration || 1);
 
-        const [mxlease] = options.filter(
-          (item) => item.label.toLowerCase() == res?.maximum_lease_unit,
-        );
-        const [mnlease] = options.filter(
-          (item) => item.label.toLowerCase() == res?.minimum_lease_unit,
-        );
-        console.log(mxlease, mnlease);
-        setMaxDuration(mxlease || {});
-        setMinDuration(mnlease || {});
-      })
-      .catch((err) => {
-        console.log(err);
-        setError(true);
-        setUserInfo({});
-      })
-      .finally(() => {
-        setLoading(false);
-        setTimeout(() => {
-          setError(false);
-        }, 2500);
-      });
-  }, []);
+      const [mxlease] = options.filter(
+        (item) => item.label.toLowerCase() == res?.maximum_lease_unit,
+      );
+      const [mnlease] = options.filter(
+        (item) => item.label.toLowerCase() == res?.minimum_lease_unit,
+      );
+      console.log(mxlease, mnlease);
+      setMaxDuration(mxlease || {});
+      setMinDuration(mnlease || {});
+      setError(false);
+      setLoading(false);
+    } catch (error) {
+      console.log('『error』', error);
+      setError(true);
+      setUserInfo({});
+    }
+  };
+  const getNodeInfo = async () => {
+    try {
+      const res = await fetchNodesInfo({ node_id: searchId });
+      setNodeInfo(res);
+    } catch (error) {
+      console.log('『error』', error);
+    }
+  };
+
   useEffect(() => {
     if (minLease > maxLease || minDuration.value > maxDuration.value) {
       setErrorRange(true);
@@ -104,6 +120,7 @@ export default function Mount() {
       setErrorRange(false);
     }
   }, [maxDuration, minDuration, maxLease, minLease]);
+
   const onMaxLeaseChange = (e) => {
     const value = e.target.value;
     if (value > 12) return;
@@ -115,52 +132,27 @@ export default function Mount() {
     setMinLease(value);
   };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    console.log(searchId);
-    if (searchId === '') return;
-    setLoading(true);
-    setError(false);
-    fetchConfigInfo(searchId)
-      .then((res) => {
-        console.log(res);
-        if (res.error) {
-          throw new Error('Node not found');
-        }
-        setUserInfo(res || {});
-        setTags(res.tags || []);
-        setPrice(res.price || 0);
-        setMaxLease(res.maximum_lease_duration || 1);
-        setMinLease(res.minimum_lease_duration || 1);
-
-        const [mxlease] = options.filter(
-          (item) => item.label.toLowerCase() == res?.maximum_lease_unit,
-        );
-        const [mnlease] = options.filter(
-          (item) => item.label.toLowerCase() == res?.minimum_lease_unit,
-        );
-        console.log(mxlease, mnlease);
-        setMaxDuration(mxlease || {});
-        setMinDuration(mnlease || {});
-      })
-      .catch((err) => {
-        console.log(err);
-        setError(true);
-        setUserInfo({});
-      })
-      .finally(() => {
-        setLoading(false);
-        setTimeout(() => {
-          setError(false);
-        }, 2500);
-      });
+  const onAgreeClauseChange = (e) => {
+    setAgreeClause(e.target.checked);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!price || !userInfo.node_id) return;
+    if (!price) {
+      message.warning('Please enter price!');
+      return;
+    }
+    if (errorRange) {
+      message.warning('Please fill in a time greater than the minimum period.');
+      return;
+    }
+    if (!agreeClause) {
+      message.warning('Please read the terms first and agree!');
+      return;
+    }
+    if (!userInfo.node_id) return;
     const payload = {
-      node_id: 'd9ede8ea-379b-4d8d-9d4d-c7f21b6400df',
+      node_id: node.id,
       tags: tags,
       price: Number(price),
       minimum_lease_unit: minDuration.label,
@@ -171,12 +163,13 @@ export default function Mount() {
       available_period_down: minPeriod,
     };
     console.log(payload);
-    return;
-    postConfigInfo(payload)
-      .then((res) => {
-        history.push('/genesis/instance');
-      })
-      .catch((err) => console.log(err));
+    try {
+      await fetchNodesConfigUpdate(payload);
+      message.success('list success!');
+      history.push('/genesis/instance');
+    } catch (err) {
+      console.log(err);
+    }
   };
   function formatTime(date) {
     const d = new Date(date);
@@ -218,16 +211,15 @@ export default function Mount() {
                   type="text"
                   placeholder="Please enter the device identification number"
                   onChange={(e) => setSearchId(e.target.value)}
-                  onPressEnter={(e) => handleSearch(e, searchId)}
                   defaultValue={searchId}
                   className={styles['search-input-node']}
-                  readOnly={node.deviceId}
+                  readOnly={node?.id}
                 />
                 <Button
                   className={styles['create-btn']}
                   type="primary"
-                  onClick={(e) => handleSearch(e)}
-                  disabled={node.deviceId || searchId.length < 10}
+                  onClick={getConfigInfo}
+                  disabled={node?.id}
                 >
                   Auto-Recognition
                 </Button>
@@ -243,7 +235,12 @@ export default function Mount() {
           <main className={styles['card-content']}>
             <h3>Configurable Parameters</h3>
             {userInfo?.node_id ? (
-              <NodeInfo styles={styles} tags={tags} setTags={setTags} />
+              <NodeInfo
+                styles={styles}
+                nodeInfo={nodeInfo}
+                tags={tags}
+                setTags={setTags}
+              />
             ) : (
               <Loading loading={loading} />
             )}
@@ -255,7 +252,7 @@ export default function Mount() {
         <Card className={styles['card']}>
           <section className={styles['card-header-graph']}>
             <h3>Prices</h3>
-            <MountEchart styles={styles} />
+            {/* <MountEchart styles={styles} /> */}
           </section>
           <section className={styles['card-prices']}>
             <div className={styles['duration-item']}>
@@ -299,9 +296,8 @@ export default function Mount() {
                   options={options}
                   className={styles['select']}
                   name="minimum_lease_unit"
-                  defaultValue={minDuration.label}
-                  value={minDuration.label}
-                  onChange={(value) => onMinDurationValueChange(value)}
+                  value={minDuration.value}
+                  onChange={onMinDurationValueChange}
                 />
                 <p>(1-11)</p>
               </div>
@@ -329,11 +325,10 @@ export default function Mount() {
                   <Select
                     bordered={false}
                     options={options}
-                    defaultValue={maxDuration.label}
-                    value={maxDuration.label}
+                    value={maxDuration.value}
                     name="maximum_lease_unit"
                     className={styles['select']}
-                    onChange={(value) => onMaxDurationValueChange(value)}
+                    onChange={onMaxDurationValueChange}
                   />
 
                   <p>(At least 12)</p>
@@ -360,7 +355,7 @@ export default function Mount() {
         </div>
       </Card>
       <section className={styles['check-side']}>
-        <Checkbox>
+        <Checkbox checked={agreeClause} onChange={onAgreeClauseChange}>
           I have read and agreed to the{' '}
           <span className={styles['blue']}>relevant service terms</span>.
         </Checkbox>

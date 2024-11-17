@@ -1,4 +1,9 @@
 import { empty } from './lang';
+import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration';
+
+// 注册 duration 插件
+dayjs.extend(duration);
 
 export const formatDateYMD = (dateString) => {
   const date = new Date(dateString);
@@ -34,3 +39,113 @@ export const formatToHours = (seconds) => {
   if (empty(seconds) || isNaN(seconds)) return '';
   return Math.floor(seconds / 3600); // Round up if not an exact minute
 };
+
+/**
+ * 计算指定时间点到当前时间的时长
+ * @param {string} timePoint - 时间点 (格式应与 dayjs 支持的格式一致)
+ * @param {object} options - 配置项，控制显示哪些单位
+ * @param {boolean} options.showYears - 是否显示年
+ * @param {boolean} options.showMonths - 是否显示月
+ * @param {boolean} options.showDays - 是否显示天
+ * @param {boolean} options.showHours - 是否显示小时
+ * @param {boolean} options.showMinutes - 是否显示分钟
+ * @param {boolean} options.showSeconds - 是否显示秒
+ * @returns {string} 格式化的时长字符串
+ */
+export function calculateDuration(
+  timePoint,
+  options = {
+    showYears: true,
+    showMonths: true,
+    showDays: true,
+    showHours: true,
+    showMinutes: true,
+    showSeconds: true,
+  },
+) {
+  const {
+    showYears,
+    showMonths,
+    showDays,
+    showHours,
+    showMinutes,
+    showSeconds,
+  } = options;
+
+  // 当前时间和开始时间
+  const startTime = dayjs(timePoint);
+  const now = dayjs();
+
+  if (!startTime.isValid()) {
+    throw new Error('无效的时间点');
+  }
+
+  // 计算年、月、日的差值
+  const years = now.diff(startTime, 'year');
+  const months = now.diff(startTime.add(years, 'year'), 'month');
+  const days = now.diff(
+    startTime.add(years, 'year').add(months, 'month'),
+    'day',
+  );
+
+  // 计算时间部分（时分秒）
+  const startOfDay = startTime
+    .add(years, 'year')
+    .add(months, 'month')
+    .add(days, 'day');
+  const timeDiff = dayjs.duration(now.diff(startOfDay));
+  const hours = timeDiff.hours();
+  const minutes = timeDiff.minutes();
+  const seconds = timeDiff.seconds();
+
+  // 根据配置生成时长字符串
+  const parts = [];
+  if (showYears && years > 0) {
+    parts.push(`${years} Years`);
+  }
+  if (showMonths && months > 0) {
+    parts.push(`${months} Months`);
+  }
+  if (showDays && days > 0) {
+    parts.push(`${days} Days  `);
+  }
+  if (showHours && hours > 0) {
+    parts.push(`${hours} Hours`);
+  }
+  if (showMinutes && minutes > 0) {
+    parts.push(`${minutes} Mins`);
+  }
+  if (showSeconds && seconds > 0) {
+    parts.push(`${seconds} Seconds`);
+  }
+
+  // 如果没有任何部分，则返回默认提示
+  return parts.length > 0 ? parts.join(' ') : '无时长信息';
+}
+
+// 示例用法
+const timePoint = '2022-11-15T10:00:00'; // ISO 格式时间点
+
+console.log(
+  calculateDuration(timePoint, {
+    showYears: true,
+    showMonths: true,
+    showDays: true,
+    showHours: true,
+    showMinutes: true,
+    showSeconds: true,
+  }),
+);
+// 输出示例: "2年 0月 2天 12小时 34分钟 12秒"
+
+console.log(
+  calculateDuration(timePoint, {
+    showYears: true,
+    showMonths: false,
+    showDays: true,
+    showHours: false,
+    showMinutes: true,
+    showSeconds: false,
+  }),
+);
+// 输出示例: "2年 2天 34分钟"

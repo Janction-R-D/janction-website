@@ -1,14 +1,28 @@
 import React, { useState } from 'react';
-import { Modal, Checkbox, Button } from 'antd';
+import { Modal, Checkbox, Button, message } from 'antd';
 import styles from './modal.less';
 import { check } from 'prettier';
+import { fetchNodesConfigDelete } from '@/services/genesis';
+import dayjs from 'dayjs';
 export default function ModalDelist({
   handleCancel,
   handleOk,
+  handleSuccess,
   isModalOpen,
   record,
 }) {
   const [checked, setChecked] = useState(false);
+
+  const onDelete = async () => {
+    try {
+      await fetchNodesConfigDelete({ node_id: record.id });
+      message.success('delist success!');
+      handleCancel();
+      handleSuccess();
+    } catch (err) {
+      console.log('『err』', err);
+    }
+  };
 
   return (
     <Modal
@@ -34,11 +48,15 @@ export default function ModalDelist({
       <section className={styles['stake-info']}>
         <div>
           <span className={styles['info-label']}>Device ID :</span>
-          <p>2020-09-31</p>
+          <p>{record.id}</p>
         </div>
         <div>
           <span className={styles['info-label']}>Listed time:</span>
-          <p>2020-09-31 09:23</p>
+          <p>
+            {record.last_start_at
+              ? dayjs(record.last_start_at).format('YYYY-MM-DD HH:mm:ss')
+              : '--'}
+          </p>
         </div>
         <div>
           <span className={styles['info-label']}>Node run time:</span>
@@ -56,12 +74,16 @@ export default function ModalDelist({
           </Checkbox>
         </div>
         <section className={styles['buttons']}>
-          <Button disabled={!checked} className={styles['create-btn']}>
-            Stake
-          </Button>
           <div className={styles['pre']}>
             <Button onClick={handleCancel}>Cancel</Button>
           </div>
+          <Button
+            disabled={!checked}
+            className={styles['create-btn']}
+            onClick={onDelete}
+          >
+            Delist
+          </Button>
         </section>
       </section>
     </Modal>
