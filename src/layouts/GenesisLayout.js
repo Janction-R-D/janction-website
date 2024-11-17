@@ -152,7 +152,12 @@ const GenesisLayout = (props) => {
               ))}
             </nav>
             <div className={styles['footer']}>
-              <div className={styles['item']}>
+              <div
+                className={styles['item']}
+                onClick={() => {
+                  history.push('/genesis/help');
+                }}
+              >
                 <div className={styles['icon']}>
                   <QuestionCircleOutlined />
                 </div>
