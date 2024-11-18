@@ -62,6 +62,7 @@ export default function Mount() {
   const [tags, setTags] = useState([]);
   const [nodeInfo, setNodeInfo] = useState();
   const [agreeClause, setAgreeClause] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
 
   const onMaxDurationValueChange = (value, option) => {
     setMaxDuration(option);
@@ -81,10 +82,10 @@ export default function Mount() {
       setLoading(true);
       const res = await fetchNodesConfigInfo({ node_id: searchId });
       setUserInfo(res || {});
-      setTags(res.tags || []);
-      setPrice(res.price || 0);
-      setMaxLease(res.maximum_lease_duration || 1);
-      setMinLease(res.minimum_lease_duration || 1);
+      setTags(res?.tags || []);
+      setPrice(res?.price || 0);
+      setMaxLease(res?.maximum_lease_duration || 1);
+      setMinLease(res?.minimum_lease_duration || 1);
 
       const [mxlease] = options.filter(
         (item) => item.label.toLowerCase() == res?.maximum_lease_unit,
@@ -153,15 +154,20 @@ export default function Mount() {
         currencyAddress,
         ethers.utils.parseEther(`${price}`),
       );
+      message.info({
+        content: 'The operation is in progress, please wait...',
+        key: 'listingTx',
+      });
       await listingTx.wait();
-      console.log('success===============');
+      message.destroy('listingTx');
+      message.success('The operation was successful!');
     } catch (error) {
-      console.log('『error』', error);
+      throw new Error(error);
     }
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     if (!price) {
       message.warning('Please enter price!');
       return;
@@ -174,9 +180,10 @@ export default function Mount() {
       message.warning('Please read the terms first and agree!');
       return;
     }
-    if (!userInfo.node_id) return;
+    if (!node?.id && !userInfo?.id) return;
+
     const payload = {
-      node_id: node.id,
+      node_id: node.id || userInfo.node_id,
       tags: tags,
       price: Number(price),
       minimum_lease_unit: minDuration.label,
@@ -186,14 +193,17 @@ export default function Mount() {
       available_period_up: maxPeriod,
       available_period_down: minPeriod,
     };
-    console.log(payload);
+    setConfirmLoading(true);
     try {
       await fetchNodesConfigUpdate(payload);
       await onContract(price);
+      setConfirmLoading(false);
       message.success('list success!');
       history.push('/genesis/instance');
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      setConfirmLoading(false);
+      console.error('操作合约失败：', error);
+      message.error('Operation contract failed, please try again!');
     }
   };
   function formatTime(date) {
@@ -217,7 +227,7 @@ export default function Mount() {
   if (isLessee || !node) return <Redirect to="/genesis/dashboard"></Redirect>;
 
   return (
-    <form className={styles['main']} onSubmit={(e) => handleSubmit(e)}>
+    <form className={styles['main']}>
       <h1 className={styles['title']}>Device Rental Configuration</h1>
 
       <Card className={styles['card']}>
@@ -251,11 +261,11 @@ export default function Mount() {
               </div>
               <JanctionTip title="Instances with less than 7 days until expiration will be displayed here" />
             </div>
-            {error && (
+            {/* {error && (
               <p className={styles['red']}>
                 Please check if your number is correct.
               </p>
-            )}
+            )} */}
           </section>
           <main className={styles['card-content']}>
             <h3>Configurable Parameters</h3>
@@ -385,6 +395,7 @@ export default function Mount() {
           <span className={styles['blue']}>relevant service terms</span>.
         </Checkbox>
         <Button
+          loading={confirmLoading}
           className={styles['create-btn']}
           onClick={(e) => handleSubmit(e)}
         >

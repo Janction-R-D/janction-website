@@ -74,7 +74,6 @@ export function calculateDuration(
 
   // 当前时间和开始时间
   const startTime = dayjs(timePoint);
-  console.log('『startTime』', startTime.format('YYYY-MM-DD'));
   const now = dayjs();
 
   if (!startTime.isValid()) {
