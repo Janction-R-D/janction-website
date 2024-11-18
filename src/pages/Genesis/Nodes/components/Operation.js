@@ -12,7 +12,7 @@ export default function OperationDelis({ record, error, getList }) {
     setIsModalOpenStake(true);
   };
   const handleNavigate = () => {
-    // if (!isRunning) return;
+    if (!isRunning) return;
     history.push('/genesis/mount', {
       node: record,
     });
