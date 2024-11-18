@@ -4,6 +4,7 @@ import styles from './modal.less';
 import { check } from 'prettier';
 import { fetchNodesConfigDelete } from '@/services/genesis';
 import dayjs from 'dayjs';
+import { calculateDuration } from '@/utils/datetime';
 export default function ModalDelist({
   handleCancel,
   handleOk,
@@ -15,7 +16,7 @@ export default function ModalDelist({
 
   const onDelete = async () => {
     try {
-      await fetchNodesConfigDelete({ node_id: record.id });
+      await fetchNodesConfigDelete({ node_id: record?.id });
       message.success('delist success!');
       handleCancel();
       handleSuccess();
@@ -48,19 +49,21 @@ export default function ModalDelist({
       <section className={styles['stake-info']}>
         <div>
           <span className={styles['info-label']}>Device ID :</span>
-          <p>{record.id}</p>
+          <p>{record?.id}</p>
         </div>
         <div>
           <span className={styles['info-label']}>Listed time:</span>
           <p>
-            {record.last_start_at
-              ? dayjs(record.last_start_at).format('YYYY-MM-DD HH:mm:ss')
+            {record?.last_start_at
+              ? dayjs(record?.last_start_at).format('YYYY-MM-DD HH:mm:ss')
               : '--'}
           </p>
         </div>
         <div>
           <span className={styles['info-label']}>Node run time:</span>
-          <p>4 Days 23Hrs 19Mins</p>
+          <p>
+            {calculateDuration(record?.last_start_at, { showSeconds: false })}
+          </p>
         </div>
 
         <div>

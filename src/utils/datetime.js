@@ -78,7 +78,7 @@ export function calculateDuration(
   const now = dayjs();
 
   if (!startTime.isValid()) {
-    throw new Error('无效的时间点');
+    return '--';
   }
 
   // 计算年、月、日的差值
@@ -123,30 +123,3 @@ export function calculateDuration(
   // 如果没有任何部分，则返回默认提示
   return parts.length > 0 ? parts.join(' ') : 'no running time information';
 }
-
-// 示例用法
-const timePoint = '2022-11-15T10:00:00'; // ISO 格式时间点
-
-console.log(
-  calculateDuration(timePoint, {
-    showYears: true,
-    showMonths: true,
-    showDays: true,
-    showHours: true,
-    showMinutes: true,
-    showSeconds: true,
-  }),
-);
-// 输出示例: "2年 0月 2天 12小时 34分钟 12秒"
-
-console.log(
-  calculateDuration(timePoint, {
-    showYears: true,
-    showMonths: false,
-    showDays: true,
-    showHours: false,
-    showMinutes: true,
-    showSeconds: false,
-  }),
-);
-// 输出示例: "2年 2天 34分钟"
