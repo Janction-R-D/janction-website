@@ -160,7 +160,7 @@ const Lessees = (props) => {
         <div
           className={[
             styles['action'],
-            index !== 0 && styles['disabled'],
+            !rowData.MarketCap && styles['disabled'],
             ,
           ].join(' ')}
           onClick={() => onBuy(rowData)}

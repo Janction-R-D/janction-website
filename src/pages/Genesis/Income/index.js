@@ -124,7 +124,7 @@ export default function Income() {
           {renderIncomeCard({
             title: 'Node income',
             value: revenue?.node_income,
-            unit: 'JTT',
+            unit: 'JCT',
             diffValue: compared_yesterday?.node_i,
             date: '2020-09-31 20:59:59',
           })}
@@ -133,7 +133,7 @@ export default function Income() {
           {renderIncomeCard({
             title: 'Rental server revenue',
             value: revenue?.rental_server_revenue,
-            unit: 'JTT',
+            unit: 'JCT',
             diffValue: compared_yesterday?.rentalServer_i,
             date: '2020-09-31 20:59:59',
           })}
@@ -171,7 +171,7 @@ export default function Income() {
                   <span className={styles['value']}>
                     {numeral(statisticData?.total_revenue || 0).format('$0.00')}
                   </span>
-                  <span className={styles['unit']}>JTT</span>
+                  <span className={styles['unit']}>JCT</span>
                 </div>
               </div>
               <div className={styles['total-item']}>
@@ -182,7 +182,7 @@ export default function Income() {
                   <span className={styles['value']}>
                     {numeral(statisticData?.gross_pledge || 0).format('$0.00')}
                   </span>
-                  <span className={styles['unit']}>JTT</span>
+                  <span className={styles['unit']}>JCT</span>
                 </div>
               </div>
               <div className={styles['total-item']}>
@@ -193,7 +193,7 @@ export default function Income() {
                   <span className={styles['value']}>
                     {numeral(statisticData?.gross_let || 0).format('$0.00')}
                   </span>
-                  <span className={styles['unit']}>JTT</span>
+                  <span className={styles['unit']}>JCT</span>
                 </div>
               </div>
             </div>

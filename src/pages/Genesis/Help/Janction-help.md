@@ -463,7 +463,7 @@ Users can filter transaction records by the following criteria:
 
 Users can click on a transaction record to view detailed information. The details page of each transaction includes:
 
-\- **Amount and type of currency received** : Shows the currency involved in the transaction (such as USDC, USDT, JTT, etc.) and the amount.
+\- **Amount and type of currency received** : Shows the currency involved in the transaction (such as USDC, USDT, JCT, etc.) and the amount.
 
 \- **Transaction type** : for example: earnings, refunds, withdrawals, etc.
 
