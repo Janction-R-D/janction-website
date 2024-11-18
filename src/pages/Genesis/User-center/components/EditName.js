@@ -20,7 +20,7 @@ function Edit({ handleCancel, isModalOpen, handleOk, setName, name }) {
     >
       <header>
         <p>Edit Username</p>
-        <i className="iconfont icon-close"></i>
+        <i className="iconfont icon-close" onClick={handleCancel}></i>
       </header>
       <Input
         className={styles['input-name']}
