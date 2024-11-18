@@ -43,12 +43,13 @@ function Instance() {
     setQuery({ ...query, current: 1 });
     setFilteredData(filtered);
   };
-  const handleSetView = () => {
+  const handleSetView = (view) => {
     if (view === 'table') {
       setView('graph');
       return;
+    } else {
+      setView('table');
     }
-    setView('table');
   };
 
   const onPageChange = (page) => {
@@ -106,11 +107,17 @@ function Instance() {
               className={styles['search-input']}
             />
             <div className={styles['buttons']}>
-              <Button className={styles['button']} onClick={handleSetView}>
+              <Button
+                className={styles['button']}
+                onClick={() => handleSetView('graph')}
+              >
                 <i className="iconfont icon-multipleselectlist"></i>
               </Button>
               <span>|</span>
-              <Button className={styles['button']} onClick={handleSetView}>
+              <Button
+                className={styles['button']}
+                onClick={() => handleSetView('table')}
+              >
                 <i className="iconfont icon-listblock"></i>
               </Button>
             </div>
