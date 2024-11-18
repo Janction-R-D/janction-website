@@ -42,7 +42,7 @@ const RunNodeScript = (props) => {
       <Markdown
         children={`
 \`\`\`sh
-curl -sfL ${location.href}/v0/node/install.sh | NODE_ID=${
+curl -sfL http://18.181.196.49:8080/v0/node/install.sh | NODE_ID=${
           nodesData?.node_id || 'xxxx'
         } TOKEN=${nodesData?.token || 'xxxx'} sh -
 \`\`\`
