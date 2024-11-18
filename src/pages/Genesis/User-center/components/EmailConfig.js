@@ -4,6 +4,14 @@ import styles from './modal.less';
 import ReminderModal from './ReminderEmail';
 
 function Edit({ handleCancel, isModalOpen, handleOk }) {
+  const [error, setError] = useState(false);
+  const handleConfirm = () => {
+    setError(true);
+    setTimeout(() => {
+      setError(false);
+      //   handleOk();
+    }, 2500);
+  };
   return (
     <Modal
       className={styles['card-modal-email']}
@@ -28,18 +36,23 @@ function Edit({ handleCancel, isModalOpen, handleOk }) {
           suffix={<p className={styles['text-blue']}>Send a code</p>}
           bordered={false}
         />
-        <Input
-          placeholder="Email code"
-          className={styles['email-box']}
-          bordered={false}
-        />
+        <div>
+          <Input
+            placeholder="Email code"
+            className={`${styles['email-box']} ${
+              error ? styles['email-box-error'] : ''
+            }`}
+            bordered={false}
+          />
+          {error && <p>Check failure</p>}
+        </div>
       </div>
 
       <footer className={styles['buttons']}>
         <Button className={styles['cancel-btn']} onClick={handleCancel}>
           Cancel
         </Button>
-        <Button className={styles['create-btn']} onClick={handleOk}>
+        <Button className={styles['create-btn']} onClick={handleConfirm}>
           Verify
         </Button>
       </footer>
@@ -57,9 +70,9 @@ export default function EmailConfig({
     setIsEmailConfigOpen(false);
   };
   const handleOk = async () => {
-    await setIsEmailConfigOpen(false);
-    await setIsRemindOpen(false);
-    setIsEmailModalOpen(false);
+    // await setIsEmailConfigOpen(false);
+    // await setIsRemindOpen(false);
+    // setIsEmailModalOpen(false);
   };
   return (
     <Edit

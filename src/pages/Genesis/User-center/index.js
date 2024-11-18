@@ -136,7 +136,7 @@ export default function UserAccount() {
       <article className={styles['user-info']}>
         <div className={styles['edit-name']}>
           <h2>Naila </h2>
-          <span onClick={onEditName}>Edit</span>
+          {/* <span onClick={onEditName}>Edit</span> */}
           <EditName
             isNameModalOpen={isNameModalOpen}
             setIsNameModalOpen={setIsNameModalOpen}
@@ -153,7 +153,7 @@ export default function UserAccount() {
             <span onClick={onEditEmail}>Edit</span>
           </div>
         </div>
-        <Button
+        {/* <Button
           className={styles['create-btn']}
           type="primary"
           onClick={handleVerify}
@@ -162,14 +162,14 @@ export default function UserAccount() {
             <i className="iconfont icon-secured"></i>
           </span>{' '}
           Real name authentication
-        </Button>
+        </Button> */}
         <EmailVerify
           isEmailModalOpen={isEmailModalOpen}
           setIsEmailModalOpen={setIsEmailModalOpen}
         />
       </article>
       {/* <AuthName data={data} /> */}
-      <Card className={styles['card']}>
+      {/* <Card className={styles['card']}>
         <section className={styles['card-header']}>
           <h3>Access Token</h3>
         </section>
@@ -219,7 +219,7 @@ export default function UserAccount() {
             </p>
           )}
         </section>
-      </Card>
+      </Card> */}
       <Card className={styles['card']}>
         <section className={styles['card-header']}>
           <h3>Pledge your assets</h3>
