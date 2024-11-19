@@ -96,27 +96,29 @@ const Create = (props) => {
       console.log('currentAllowance:', currentAllowance.toString());
       if (currentAllowance.lt(totalAmount)) {
         console.log('Insufficient allowance, approving...');
-        const approveTx = await currency.approve(paymentAddress, totalAmount);
         message.info({
           content: 'Approving...',
           key: 'approveTx',
+          duration: 0,
         });
+        const approveTx = await currency.approve(paymentAddress, totalAmount);
         await approveTx.wait();
         message.success('Approval successful!');
       } else {
         console.log('Sufficient allowance, skipping approve step.');
       }
 
+      message.destroy('approveTx');
+      message.info({
+        content: 'Transaction in transit...',
+        key: 'tx',
+        duration: 0,
+      });
       // 调起支付
       const tx = await payment.createPayerPlan(
         node.user_id,
         Duration[values.purchase_duration_unit],
       );
-      message.destroy('approveTx');
-      message.info({
-        content: 'Transaction in transit...',
-        key: 'tx',
-      });
       await tx.wait(); // 等待交易完成
       message.destroy('tx');
       message.success('Trade successfully!');

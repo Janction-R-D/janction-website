@@ -175,7 +175,7 @@ function InstanceTable({ data, getAllNodes }) {
     status: order?.status_str,
     Location: order?.node.attr.location,
     GPUrate: '0.254%',
-    MemoryUsage: convertMBtoGB(order?.activity.memory_usage.toFixed(2)),
+    MemoryUsage: convertMBtoGB(order?.activity?.memory_usage?.toFixed(2)),
     downtime: '2024-09-15 10:00:00\r\n2024-09-16 18:00:00',
     activity: order.activity,
   }));

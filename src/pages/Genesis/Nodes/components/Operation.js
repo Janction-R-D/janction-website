@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { Space } from 'antd';
+import { message, Space } from 'antd';
 import ModalDelist from './ModalDelist';
 import { history } from 'umi';
 import { getNodeStatusMatch } from './extra';
+import { fetchNodesDelete, fetchNodesRefresh } from '@/services/genesis';
+import { DeleteOutlined, RedoOutlined } from '@ant-design/icons';
 export default function OperationDelis({ record, error, getList }) {
   const [isModalOpenStake, setIsModalOpenStake] = useState(false);
   const { isRunning, isListed } = getNodeStatusMatch(record);
+  const [loading, setLoading] = useState(false);
 
   const showModalStake = () => {
     if (!isListed) return;
@@ -23,6 +26,29 @@ export default function OperationDelis({ record, error, getList }) {
   };
   const handleCancelStake = () => {
     setIsModalOpenStake(false);
+  };
+
+  const onRefresh = async () => {
+    try {
+      setLoading(true);
+      await fetchNodesRefresh({ node_id: record.id });
+      message.success('refresh success!');
+      getList();
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.log('『error』', error);
+    }
+  };
+
+  const onDelete = async () => {
+    try {
+      await fetchNodesDelete({ node_id: record.id });
+      message.success('delete success!');
+      getList();
+    } catch (error) {
+      console.log('『error』', error);
+    }
   };
 
   return (
@@ -46,6 +72,17 @@ export default function OperationDelis({ record, error, getList }) {
           handleCancel={handleCancelStake}
         />
       </a>
+      {/* <a onClick={() => onRefresh()}>
+        <RedoOutlined
+          rotate={90}
+          spin={loading}
+          loading={loading}
+          className="poi"
+        />
+      </a>
+      <a onClick={() => onDelete()}>
+        <DeleteOutlined className="poi" />
+      </a> */}
     </Space>
   );
 }

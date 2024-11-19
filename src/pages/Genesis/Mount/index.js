@@ -157,6 +157,7 @@ export default function Mount() {
       message.info({
         content: 'The operation is in progress, please wait...',
         key: 'listingTx',
+        duration: 0,
       });
       await listingTx.wait();
       message.destroy('listingTx');

@@ -354,3 +354,31 @@ export const fetchNodesList = async (params) => {
     throw new Error(`failed, ${error.message}`);
   }
 };
+
+export const fetchNodesRefresh = async (data) => {
+  try {
+    const response = await request(`${baseUrl}/node/refresh`, {
+      method: 'POST',
+      data,
+      loginAuth: true,
+    });
+    return response;
+  } catch (error) {
+    console.log('『error』', error);
+    throw new Error(`failed, ${error.message}`);
+  }
+};
+
+export const fetchNodesDelete = async (data) => {
+  try {
+    const response = await request(`${baseUrl}/node/detach`, {
+      method: 'DELETE',
+      data,
+      loginAuth: true,
+    });
+    return response;
+  } catch (error) {
+    console.log('『error』', error);
+    throw new Error(`failed, ${error.message}`);
+  }
+};
