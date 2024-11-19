@@ -64,12 +64,12 @@ export function calculateDuration(
   },
 ) {
   const {
-    showYears,
-    showMonths,
-    showDays,
-    showHours,
-    showMinutes,
-    showSeconds,
+    showYears = true,
+    showMonths = true,
+    showDays = true,
+    showHours = true,
+    showMinutes = true,
+    showSeconds = true,
   } = options;
 
   // 当前时间和开始时间
