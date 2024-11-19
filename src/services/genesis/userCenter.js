@@ -19,3 +19,9 @@ export const fetchBindEmail = (data) => {
     loginAuth: true,
   });
 };
+
+export const fetchGetBindEmail = () => {
+  return request(`${baseUrl}/user/bind_email`, {
+    loginAuth: true,
+  });
+};

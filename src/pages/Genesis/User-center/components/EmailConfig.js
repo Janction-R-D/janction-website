@@ -1,16 +1,32 @@
 import { useState } from 'react';
 import { Button, Input, Modal } from 'antd';
 import styles from './modal.less';
-import ReminderModal from './ReminderEmail';
 
+import { fetchBindEmail } from '@/services/genesis';
 function Edit({ handleCancel, isModalOpen, handleOk }) {
   const [error, setError] = useState(false);
+  const [email, setEmail] = useState('');
   const handleConfirm = () => {
-    setError(true);
-    setTimeout(() => {
-      setError(false);
-      //   handleOk();
-    }, 2500);
+    if (email === '') {
+      handleOk();
+      return;
+    }
+    const data = {
+      email,
+    };
+
+    fetchBindEmail(data)
+      .then((res) => {
+        console.log(res);
+        handleOk();
+      })
+      .catch((err) => {
+        console.log(err);
+        setError(true);
+        setTimeout(() => {
+          setError(false);
+        }, 2500);
+      });
   };
   return (
     <Modal
@@ -30,13 +46,20 @@ function Edit({ handleCancel, isModalOpen, handleOk }) {
       </header>
 
       <div className={styles['card-emails']}>
-        <Input
-          placeholder="Email address"
-          className={styles['email-box']}
-          suffix={<p className={styles['text-blue']}>Send a code</p>}
-          bordered={false}
-        />
         <div>
+          <Input
+            placeholder="Email address"
+            className={`${styles['email-box']} ${
+              error ? styles['email-box-error'] : ''
+            }`}
+            type="email"
+            // suffix={<p className={styles['text-blue']}>Send a code</p>}
+            bordered={false}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          {error && <p>Enter a valid email</p>}
+        </div>
+        {/* <div>
           <Input
             placeholder="Email code"
             className={`${styles['email-box']} ${
@@ -45,7 +68,7 @@ function Edit({ handleCancel, isModalOpen, handleOk }) {
             bordered={false}
           />
           {error && <p>Check failure</p>}
-        </div>
+        </div> */}
       </div>
 
       <footer className={styles['buttons']}>
@@ -63,16 +86,13 @@ function Edit({ handleCancel, isModalOpen, handleOk }) {
 export default function EmailConfig({
   isEmailConfigOpen,
   setIsEmailConfigOpen,
-  setIsRemindOpen,
-  setIsEmailModalOpen,
+  closeAll,
 }) {
   const handleCancel = () => {
     setIsEmailConfigOpen(false);
   };
   const handleOk = async () => {
-    // await setIsEmailConfigOpen(false);
-    // await setIsRemindOpen(false);
-    // setIsEmailModalOpen(false);
+    setIsEmailConfigOpen(false);
   };
   return (
     <Edit

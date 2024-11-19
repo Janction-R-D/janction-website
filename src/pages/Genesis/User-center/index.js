@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Button, Tooltip, Card, Input, Select } from 'antd';
 import styles from './index.less';
 import BindEmail from './components/BindEmail';
+
 import {
+  fetchBindEmail,
   deleteKeysUserCenter,
   fetchUserCenter,
   fetchUserKeys,
   postKeyUserData,
-} from '../../../services/genesis/instance';
+} from '@/services/genesis';
 import JanctionTip from '@/components/JanctionTip';
 import PorifilePicture from './components/PorifilePicture';
 import RefreshToken from './components/RefreshToken';
@@ -19,7 +21,6 @@ import EmailVerify from './components/EmailVerify';
 export default function UserAccount() {
   const [data, setData] = useState({});
   const [error, setError] = useState(false);
-  const [visible, setVisible] = useState(false);
   const [key, setKey] = useState({});
 
   const [imgUrl, setImgUrl] = useState('/profile.png');
@@ -68,7 +69,7 @@ export default function UserAccount() {
   useEffect(() => {
     getUserCenterData();
     // getUserKeysData();
-  }, []);
+  }, [isModalOpen, isEmailModalOpen, isNameModalOpen]);
 
   // const getUserInfo = async () => {
   //   try {
@@ -136,7 +137,7 @@ export default function UserAccount() {
       <article className={styles['user-info']}>
         <div className={styles['edit-name']}>
           <h2>Naila </h2>
-          {/* <span onClick={onEditName}>Edit</span> */}
+          <span onClick={onEditName}>Edit</span>
           <EditName
             isNameModalOpen={isNameModalOpen}
             setIsNameModalOpen={setIsNameModalOpen}
@@ -147,25 +148,22 @@ export default function UserAccount() {
         <div>
           <p>ID: {data?.id}</p>
           <p>Registration date: {data?.registered_at?.split('T')[0]}</p>
-          <p>ID: 26378192</p>
+
           <div className={styles['edit-info']}>
             <p>E-mail: {data?.email} </p>
-            <span onClick={onEditEmail}>Edit</span>
+            <span onClick={handleVerify}>Edit</span>
           </div>
         </div>
-        {/* <Button
-          className={styles['create-btn']}
-          type="primary"
-          onClick={handleVerify}
-        >
+        <Button className={styles['create-btn']} type="primary">
           <span>
             <i className="iconfont icon-secured"></i>
           </span>{' '}
           Real name authentication
-        </Button> */}
+        </Button>
         <EmailVerify
           isEmailModalOpen={isEmailModalOpen}
           setIsEmailModalOpen={setIsEmailModalOpen}
+          data={data}
         />
       </article>
       {/* <AuthName data={data} /> */}
@@ -249,11 +247,6 @@ export default function UserAccount() {
           </div>
         </section>
       </Card>
-      <BindEmail
-        visible={visible}
-        onCancel={() => setVisible(false)}
-        userInfo={data}
-      />
     </main>
   );
 }
