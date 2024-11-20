@@ -3,8 +3,14 @@ import { Button, Input, Modal } from 'antd';
 import styles from './modal.less';
 
 function Edit({ handleCancel, isModalOpen, handleOk, setName, name }) {
+  const [input, setInput] = useState(name);
   const handleChange = (e) => {
-    setName(e.target.value);
+    setInput(e.target.value);
+  };
+  const handleClick = () => {
+    if (input === '') return;
+    setName(input);
+    handleOk();
   };
   return (
     <Modal
@@ -25,7 +31,7 @@ function Edit({ handleCancel, isModalOpen, handleOk, setName, name }) {
       <Input
         className={styles['input-name']}
         placeholder="Enter New Name"
-        defaultValue={name}
+        defaultValue={input}
         onChange={handleChange}
         maxLength={20}
         suffix={`${name?.length}/20`}
@@ -35,7 +41,9 @@ function Edit({ handleCancel, isModalOpen, handleOk, setName, name }) {
         <Button className={styles['cancel-btn']} onClick={handleCancel}>
           Cancel
         </Button>
-        <Button className={styles['create-btn']}>Confirm</Button>
+        <Button className={styles['create-btn']} onClick={handleClick}>
+          Confirm
+        </Button>
       </footer>
     </Modal>
   );

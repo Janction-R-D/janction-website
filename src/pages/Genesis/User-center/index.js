@@ -9,6 +9,7 @@ import {
   fetchUserCenter,
   fetchUserKeys,
   postKeyUserData,
+  sendImageToServer,
 } from '@/services/genesis';
 import JanctionTip from '@/components/JanctionTip';
 import PorifilePicture from './components/PorifilePicture';
@@ -48,8 +49,14 @@ export default function UserAccount() {
   const getUserCenterData = () => {
     return fetchUserCenter()
       .then((res) => {
-        setData(res || {});
         console.log(res);
+        setData(res || {});
+        if (res.data.icon !== '') {
+          setImgUrl(res.data.icon);
+        }
+        if (res.data.name !== '') {
+          setName(res.data.name);
+        }
       })
       .catch((err) => setError(true))
       .finally(() => {
@@ -68,6 +75,7 @@ export default function UserAccount() {
   // };
   useEffect(() => {
     getUserCenterData();
+    console.log(data);
     // getUserKeysData();
   }, [isModalOpen, isEmailModalOpen, isNameModalOpen]);
 
@@ -106,9 +114,50 @@ export default function UserAccount() {
   const handleVerify = () => {
     setIsEmailModalOpen(true);
   };
+  function convertToFormData(info) {
+    const formData = new FormData();
+
+    Object.entries(info).forEach(([key, value]) => {
+      if (
+        key === 'icon' &&
+        typeof value === 'string' &&
+        value.startsWith('data:image')
+      ) {
+        const base64 = value.split(',')[1];
+        const blob = new Blob([atob(base64)], { type: 'image/png' });
+        formData.append(key, blob, 'icon.png');
+      } else if (typeof value === 'object' && !Array.isArray(value)) {
+        formData.append(key, JSON.stringify(value));
+      } else {
+        formData.append(key, value);
+      }
+    });
+    console.log(formData);
+    return formData;
+  }
+
+  const handleSave = () => {
+    const info = {
+      icon: imgUrl,
+      name: name,
+      asstes: {
+        ...data.assets,
+      },
+    };
+    const formData = convertToFormData(info);
+    console.log(formData.get('icon'));
+    sendImageToServer(JSON.stringify(info))
+      .then((res) => {
+        console.log(res);
+        getUserCenterData();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
-    <main>
+    <form encType="multipart/form-data">
       <h1 className={styles['title']}>Personal information</h1>
       <section className={styles['banner']}>
         <div className={styles['banner-img']}>
@@ -136,7 +185,7 @@ export default function UserAccount() {
       </section>
       <article className={styles['user-info']}>
         <div className={styles['edit-name']}>
-          <h2>Naila </h2>
+          <h2>{name} </h2>
           <span onClick={onEditName}>Edit</span>
           <EditName
             isNameModalOpen={isNameModalOpen}
@@ -247,6 +296,14 @@ export default function UserAccount() {
           </div>
         </section>
       </Card>
-    </main>
+      <Button
+        className={styles['create-btn']}
+        style={{ paddingInline: '28px' }}
+        onClick={handleSave}
+        type="submit"
+      >
+        Save
+      </Button>
+    </form>
   );
 }

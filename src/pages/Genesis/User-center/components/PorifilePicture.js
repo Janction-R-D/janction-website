@@ -14,6 +14,7 @@ export default function PorifilePicture({
 
   const handleChange = (e) => {
     const newFile = e.target.files[0];
+    // console.log(newFile);
     if (newFile) {
       const reader = new FileReader();
       reader.onload = function (e) {
