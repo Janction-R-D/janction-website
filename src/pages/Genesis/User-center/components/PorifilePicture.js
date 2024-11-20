@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Modal } from 'antd';
 import styles from './modal.less';
 
@@ -9,7 +9,7 @@ export default function PorifilePicture({
   setImgUrl,
   imgUrl,
 }) {
-  const [inputUrl, setinputUrl] = useState(imgUrl);
+  const [inputUrl, setinputUrl] = useState('');
   const [imageBlob, setImageBlob] = useState(null);
 
   const handleChange = (e) => {
@@ -24,6 +24,9 @@ export default function PorifilePicture({
       setImageBlob(newFile);
     }
   };
+  useEffect(() => {
+    setinputUrl(imgUrl);
+  }, [imgUrl]);
 
   // const sendImageToServer = async (blob) => {
   //   const formData = new FormData();
@@ -54,7 +57,7 @@ export default function PorifilePicture({
     // }
     handleCancel();
   };
-
+  console.log(imgUrl);
   return (
     <Modal
       className={styles['card-modal']}

@@ -29,7 +29,7 @@ export default function UserAccount() {
   const [isTokenModalOpen, setIsTokenModalOpen] = useState(false);
   const [isNameModalOpen, setIsNameModalOpen] = useState(false);
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
-  const [name, setName] = useState('Naila');
+  const [name, setName] = useState('');
   const showTokenModal = () => {
     setIsTokenModalOpen(true);
   };
@@ -51,11 +51,11 @@ export default function UserAccount() {
       .then((res) => {
         console.log(res);
         setData(res || {});
-        if (res.data.icon !== '') {
-          setImgUrl(res.data.icon);
+        if (res.icon !== '') {
+          setImgUrl(res.icon || './profile.png');
         }
-        if (res.data.name !== '') {
-          setName(res.data.name);
+        if (res.name !== '') {
+          setName(res.name || 'Unknow');
         }
       })
       .catch((err) => setError(true))
@@ -77,7 +77,7 @@ export default function UserAccount() {
     getUserCenterData();
     console.log(data);
     // getUserKeysData();
-  }, [isModalOpen, isEmailModalOpen, isNameModalOpen]);
+  }, [isEmailModalOpen, isNameModalOpen]);
 
   // const getUserInfo = async () => {
   //   try {
@@ -185,7 +185,7 @@ export default function UserAccount() {
       </section>
       <article className={styles['user-info']}>
         <div className={styles['edit-name']}>
-          <h2>{name} </h2>
+          <h2>{name}</h2>
           <span onClick={onEditName}>Edit</span>
           <EditName
             isNameModalOpen={isNameModalOpen}
@@ -199,8 +199,10 @@ export default function UserAccount() {
           <p>Registration date: {data?.registered_at?.split('T')[0]}</p>
 
           <div className={styles['edit-info']}>
-            <p>E-mail: {data?.email} </p>
-            <span onClick={handleVerify}>Edit</span>
+            <p>E-mail: {data?.email || '-'} </p>
+            <span onClick={handleVerify}>
+              {data?.email !== '' ? 'Edit' : 'Bind'}
+            </span>
           </div>
         </div>
         <Button className={styles['create-btn']} type="primary">

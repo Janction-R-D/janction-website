@@ -13,6 +13,7 @@ function Remind({
   const [isEmailConfigOpen, setIsEmailConfigOpen] = useState(false);
   const showEmailConf = () => {
     setIsEmailConfigOpen(true);
+    handleOk();
   };
   return (
     <Modal
