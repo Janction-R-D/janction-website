@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Input, Modal } from 'antd';
 import styles from './modal.less';
 
@@ -12,6 +12,10 @@ function Edit({ handleCancel, isModalOpen, handleOk, setName, name }) {
     setName(input);
     handleOk();
   };
+  useEffect(() => {
+    console.log(name);
+    setInput(name);
+  }, []);
   return (
     <Modal
       className={styles['card-modal-username']}
@@ -31,7 +35,7 @@ function Edit({ handleCancel, isModalOpen, handleOk, setName, name }) {
       <Input
         className={styles['input-name']}
         placeholder="Enter New Name"
-        defaultValue={input}
+        defaultValue={name}
         onChange={handleChange}
         maxLength={20}
         suffix={`${name?.length}/20`}

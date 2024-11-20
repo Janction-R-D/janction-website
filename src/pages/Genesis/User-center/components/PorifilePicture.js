@@ -57,7 +57,7 @@ export default function PorifilePicture({
     // }
     handleCancel();
   };
-  console.log(imgUrl);
+
   return (
     <Modal
       className={styles['card-modal']}

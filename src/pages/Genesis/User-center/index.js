@@ -49,7 +49,6 @@ export default function UserAccount() {
   const getUserCenterData = () => {
     return fetchUserCenter()
       .then((res) => {
-        console.log(res);
         setData(res || {});
         if (res.icon !== '') {
           setImgUrl(res.icon || './profile.png');
@@ -75,7 +74,7 @@ export default function UserAccount() {
   // };
   useEffect(() => {
     getUserCenterData();
-    console.log(data);
+
     // getUserKeysData();
   }, [isEmailModalOpen, isNameModalOpen]);
 
