@@ -1,17 +1,31 @@
 import ReactEcharts from 'echarts-for-react';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { ALARAM_STATE, STATE_CONS } from '../data';
+import { isEmpty } from '@/utils/lang';
 
 const VerticalBar = (props) => {
   const { data } = props;
 
-  const xAxisData = Object.keys(data || {}).map((item) => STATE_CONS[item]);
-  const seriesData = Object.keys(data || {}).map((key) => ({
-    value: data[key],
-    itemStyle: {
-      color: key == ALARAM_STATE ? '#EE385C' : '#00bbd4',
-    },
-  }));
+  const aixsData = useMemo(() => {
+    if (isEmpty(data)) {
+      return {
+        xData: Object.values(STATE_CONS),
+        yData: Object.values(STATE_CONS).map((item) => ({
+          value: 0,
+        })),
+      };
+    }
+    return {
+      xData: Object.keys(data || {}).map((item) => STATE_CONS[item]),
+      yData: Object.keys(data || {}).map((key) => ({
+        value: data[key],
+        itemStyle: {
+          color: key == ALARAM_STATE ? '#EE385C' : '#00bbd4',
+        },
+      })),
+    };
+  }, [data]);
+
   let option = {
     grid: {
       left: '0%', // Ajusta el margen izquierdo del gráfico
@@ -38,7 +52,7 @@ const VerticalBar = (props) => {
         color: 'rgba(255, 255, 255, 0.64)',
         margin: 20,
       },
-      data: xAxisData,
+      data: aixsData.xData,
     },
     yAxis: {
       type: 'value',
@@ -54,7 +68,7 @@ const VerticalBar = (props) => {
     },
     series: [
       {
-        data: seriesData,
+        data: aixsData.yData,
         type: 'bar',
         showBackground: true,
         backgroundStyle: {

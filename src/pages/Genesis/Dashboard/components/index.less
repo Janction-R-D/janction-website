@@ -196,6 +196,7 @@
     }
   }
 }
+
 .create-btn {
   height: 35px;
   display: flex;
@@ -213,6 +214,7 @@
   border-radius: 20px;
   text-wrap: nowrap;
 }
+
 .card-modal {
   width: 330px;
 
@@ -235,19 +237,23 @@
     background-color: #252527;
     width: 100%;
   }
+
   :global {
     .ant-modal-content {
       border-radius: 15px !important;
+
       .ant-modal-body {
         border-radius: 15px;
         padding: 14px;
       }
     }
+
     .ant-modal-footer {
       display: none !important;
     }
   }
 }
+
 .search-input {
   border: none;
   flex-grow: 1;
@@ -269,6 +275,7 @@
     }
   }
 }
+
 .sale-wrapper {
   display: flex;
   flex-direction: column;
@@ -316,6 +323,20 @@
         height: 12px;
         border-radius: 39.85px;
         background-color: rgba(0, 187, 212, 1);
+      }
+    }
+  }
+
+  :global {
+    .ant-skeleton {
+      .ant-skeleton-content {
+        .ant-skeleton-title {
+          width: 100% !important;
+        }
+
+        .ant-skeleton-paragraph {
+          margin-top: 0;
+        }
       }
     }
   }

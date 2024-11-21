@@ -104,7 +104,7 @@ const RunNode = (props) => {
     if (selectedValues?.system == 'linux') {
       return (
         <>
-          <section className={styles['link']}>
+          {/* <section className={styles['link']}>
             <h1 className="mb20">Prerequisites: Install docker</h1>
             <p>1. You can install docker by executing the following command</p>
             <div>
@@ -160,8 +160,8 @@ const RunNode = (props) => {
                 onClick={() => copy(`sudo usermod -a -G docker <username>`)}
               ></a>
             </div>
-          </section>
-          <RunNodeScript />
+          </section> */}
+          <RunNodeScript isLinux />
         </>
       );
     }
