@@ -7,6 +7,7 @@ import 'hover.css';
 import styles from './index.less';
 import { useEffect, useMemo } from 'react';
 import { history } from 'umi';
+import { GenesisProvider } from './Context/GenesisContext';
 
 export const fullWidthRoute = ['/home', '/explore', '/getStarted', '/solution'];
 export const authRoute = [
@@ -49,7 +50,11 @@ export default function Layout(props) {
   }
 
   if (isAuthRoute) {
-    return <GenesisLayout>{children}</GenesisLayout>;
+    return (
+      <GenesisProvider>
+        <GenesisLayout>{children}</GenesisLayout>{' '}
+      </GenesisProvider>
+    );
   }
 
   // auth route 404

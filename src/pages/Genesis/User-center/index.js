@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, Tooltip, Card, Input, Select } from 'antd';
 import styles from './index.less';
 import BindEmail from './components/BindEmail';
@@ -18,18 +18,20 @@ import TokenModal from './components/RefreshToken';
 import AuthName from './components/AuthName';
 import EditName from './components/EditName';
 import EmailVerify from './components/EmailVerify';
+import GenesisContext from '@/layouts/Context/GenesisContext';
 
 export default function UserAccount() {
   const [data, setData] = useState({});
   const [error, setError] = useState(false);
   const [key, setKey] = useState({});
 
-  const [imgUrl, setImgUrl] = useState('/profile.png');
+  // const [imgUrl, setImgUrl] = useState('/profile.png');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isTokenModalOpen, setIsTokenModalOpen] = useState(false);
   const [isNameModalOpen, setIsNameModalOpen] = useState(false);
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
   const [name, setName] = useState('');
+  const { imgUrl, setImgUrl } = useContext(GenesisContext);
   const showTokenModal = () => {
     setIsTokenModalOpen(true);
   };
