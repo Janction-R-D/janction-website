@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, Modal } from 'antd';
 import styles from './profileHeader.less';
 import { useDisconnect } from 'wagmi';
@@ -6,9 +6,22 @@ import storage from '@/utils/storage';
 import { history, useModel } from 'umi';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import GenesisContext from '@/layouts/Context/GenesisContext';
+import { fetchUserCenter } from '@/services/genesis';
 export default function ProfileHeader() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { imgUrl } = useContext(GenesisContext);
+  const { imgUrl, setImgUrl } = useContext(GenesisContext);
+  useEffect(() => {
+    const getUserCenterData = () => {
+      return fetchUserCenter()
+        .then((res) => {
+          if (res.icon !== '') {
+            setImgUrl(res.icon || './profile.png');
+          }
+        })
+        .catch((err) => console.log(err));
+    };
+    getUserCenterData();
+  }, []);
   const showModal = () => {
     setIsModalOpen(true);
   };

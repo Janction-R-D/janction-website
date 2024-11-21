@@ -33,7 +33,7 @@ const Lessees = (props) => {
     Brand: item?.Brand,
     Description: item?.Description,
   }));
-  console.log(watchlistData, detailsData);
+
   const onBuy = (rowData) => {
     if (!rowData.MarketCap) return;
     history.push('/genesis/purchase', {
