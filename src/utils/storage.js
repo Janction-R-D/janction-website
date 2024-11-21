@@ -1,5 +1,4 @@
-const isObject = (value) =>
-  Object.prototype.toString.call(value) === '[object Object]';
+import is from './is';
 
 const objectReplacer = (key, value) => {
   if (typeof value == 'bigint') {
@@ -39,7 +38,7 @@ const storage = {
     } catch (error) {
       return item;
     }
-    if (isObject(item) && item.startTime) {
+    if (is.isObject(item) && item.startTime) {
       const date = new Date().getTime();
       if (date - item.startTime > item.expires) {
         localStorage.removeItem(name);
