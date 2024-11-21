@@ -103,17 +103,6 @@ const Lessors = (props) => {
     setMonitorList([..._monitorList]);
   };
   const watchColumns = [
-    // {
-    //   title: 'PID',
-    //   dataIndex: 'PID',
-    //   key: 'PID',
-    // },
-
-    // {
-    //   title: 'Command',
-    //   dataIndex: 'Command',
-    //   key: 'Command',
-    // },
     {
       title: 'Platform',
       dataIndex: 'platform',
@@ -123,7 +112,7 @@ const Lessors = (props) => {
       dataIndex: 'progress',
     },
     {
-      title: '%CPU',
+      title: 'CPU',
       dataIndex: 'cpu_usage',
     },
     {
@@ -144,17 +133,14 @@ const Lessors = (props) => {
     {
       title: '#TH',
       dataIndex: 'TH',
-      key: 'TH',
     },
     {
       title: '#WQ',
       dataIndex: 'WQ',
-      key: 'WQ',
     },
     {
       title: '#Ports',
       dataIndex: 'Ports',
-      key: 'Ports',
     },
     {
       title: 'MEM',
@@ -163,17 +149,14 @@ const Lessors = (props) => {
     {
       title: 'PURG',
       dataIndex: 'PURG',
-      key: 'PURG',
     },
     {
       title: 'Cmprs',
       dataIndex: 'Cmprs',
-      key: 'Cmprs',
     },
     {
       title: 'PPID',
       dataIndex: 'PPID',
-      key: 'PPID',
     },
     {
       title: 'State',
@@ -182,7 +165,6 @@ const Lessors = (props) => {
     {
       title: 'Boosts',
       dataIndex: 'Boosts',
-      key: 'Boosts',
     },
   ];
 
@@ -348,7 +330,7 @@ const Lessors = (props) => {
             >
               <Radio.Button value="cpu_usage">CPU</Radio.Button>
               <Radio.Button value="memory_usage">Memory</Radio.Button>
-              <Radio.Button value="energy">Energy</Radio.Button>
+              {/* <Radio.Button value="energy">Energy</Radio.Button> */}
               <Radio.Button value="disk_usage">Disk</Radio.Button>
               <Radio.Button value="network">Network</Radio.Button>
             </Radio.Group>
