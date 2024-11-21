@@ -59,7 +59,11 @@ export default function Layout(props) {
 
   // auth route 404
   if (props.location.pathname.includes('/genesis')) {
-    return <GenesisLayout noPadding>{children}</GenesisLayout>;
+    return (
+      <GenesisProvider>
+        <GenesisLayout noPadding>{children}</GenesisLayout>
+      </GenesisProvider>
+    );
   }
 
   if (fullWidth) {
