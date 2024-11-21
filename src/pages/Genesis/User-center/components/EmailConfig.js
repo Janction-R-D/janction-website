@@ -86,7 +86,6 @@ function Edit({ handleCancel, isModalOpen, handleOk }) {
 export default function EmailConfig({
   isEmailConfigOpen,
   setIsEmailConfigOpen,
-  closeAll,
 }) {
   const handleCancel = () => {
     setIsEmailConfigOpen(false);

@@ -19,6 +19,7 @@ import AuthName from './components/AuthName';
 import EditName from './components/EditName';
 import EmailVerify from './components/EmailVerify';
 import GenesisContext from '@/layouts/Context/GenesisContext';
+import EmailConfig from './components/EmailConfig';
 
 export default function UserAccount() {
   const [data, setData] = useState({});
@@ -28,6 +29,7 @@ export default function UserAccount() {
   // const [imgUrl, setImgUrl] = useState('/profile.png');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isTokenModalOpen, setIsTokenModalOpen] = useState(false);
+  const [isEmailConfigOpen, setIsEmailConfigOpen] = useState(false);
   const [isNameModalOpen, setIsNameModalOpen] = useState(false);
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
   const [name, setName] = useState('');
@@ -78,7 +80,7 @@ export default function UserAccount() {
     getUserCenterData();
 
     // getUserKeysData();
-  }, [isEmailModalOpen, isNameModalOpen]);
+  }, [isEmailModalOpen, isNameModalOpen, isEmailConfigOpen]);
 
   // const getUserInfo = async () => {
   //   try {
@@ -113,7 +115,7 @@ export default function UserAccount() {
     setKey({});
   };
   const handleVerify = () => {
-    setIsEmailModalOpen(true);
+    setIsEmailConfigOpen(true);
   };
   function convertToFormData(info) {
     const formData = new FormData();
@@ -194,6 +196,10 @@ export default function UserAccount() {
             name={name}
             setName={setName}
           />
+          <EmailConfig
+            isEmailConfigOpen={isEmailConfigOpen}
+            setIsEmailConfigOpen={setIsEmailConfigOpen}
+          />
         </div>
         <div>
           <p>ID: {data?.id}</p>
@@ -202,7 +208,7 @@ export default function UserAccount() {
           <div className={styles['edit-info']}>
             <p>E-mail: {data?.email || '-'} </p>
             <span onClick={handleVerify}>
-              {data?.email !== '' ? 'Edit' : 'Bind'}
+              {data?.email !== '' ? 'Bind' : 'Bind'}
             </span>
           </div>
         </div>
