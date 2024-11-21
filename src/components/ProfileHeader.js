@@ -1,12 +1,27 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, Modal } from 'antd';
 import styles from './profileHeader.less';
 import { useDisconnect } from 'wagmi';
 import storage from '@/utils/storage';
 import { history, useModel } from 'umi';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import GenesisContext from '@/layouts/Context/GenesisContext';
+import { fetchUserCenter } from '@/services/genesis';
 export default function ProfileHeader() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { imgUrl, setImgUrl } = useContext(GenesisContext);
+  useEffect(() => {
+    const getUserCenterData = () => {
+      return fetchUserCenter()
+        .then((res) => {
+          if (res.icon !== '') {
+            setImgUrl(res.icon || './profile.png');
+          }
+        })
+        .catch((err) => console.log(err));
+    };
+    getUserCenterData();
+  }, []);
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -23,19 +38,20 @@ export default function ProfileHeader() {
         <i className="iconfont icon-bell "></i>
       </span>
       <div className={styles['img-container']} onClick={showModal}>
-        <img className={styles['profile-img']} src="/profile.png" />
+        <img className={styles['profile-img']} src={imgUrl} />
       </div>
       <ProfileModal
         styles={styles}
         isModalOpen={isModalOpen}
         handleOk={handleOk}
         handleCancel={handleCancel}
+        imgUrl={imgUrl}
       />
     </header>
   );
 }
 
-function ProfileModal({ styles, isModalOpen, handleOk, handleCancel }) {
+function ProfileModal({ styles, imgUrl, isModalOpen, handleOk, handleCancel }) {
   return (
     <ConnectButton.Custom>
       {({
@@ -102,7 +118,7 @@ function ProfileModal({ styles, isModalOpen, handleOk, handleCancel }) {
           >
             <section className={styles['header-card']}>
               <div className={styles['modal-profile-img']}>
-                <img className={styles['profile-img']} src="/profile.png" />
+                <img className={styles['profile-img']} src={imgUrl} />
               </div>
               <section className={styles['profile-info']} onClick={handleCopy}>
                 <h3>{chain?.name}</h3>

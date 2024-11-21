@@ -434,7 +434,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-
+  transition: all ease 250ms;
   color: #fff !important;
   div {
     display: flex;
@@ -447,6 +447,19 @@
   i {
     font-size: 1.1rem;
     cursor: pointer;
+  }
+  &:hover {
+    outline: #72deff 1px solid;
+  }
+  &:focus {
+    background-color: #2f2f31;
+
+    width: 100%;
+    flex-direction: row;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all ease 250ms;
   }
 }
 .email-verify {

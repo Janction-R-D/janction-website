@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, Tooltip, Card, Input, Select } from 'antd';
 import styles from './index.less';
 import BindEmail from './components/BindEmail';
+
 import {
+  fetchBindEmail,
   deleteKeysUserCenter,
   fetchUserCenter,
   fetchUserKeys,
   postKeyUserData,
-} from '../../../services/genesis/instance';
+  sendImageToServer,
+} from '@/services/genesis';
 import JanctionTip from '@/components/JanctionTip';
 import PorifilePicture from './components/PorifilePicture';
 import RefreshToken from './components/RefreshToken';
@@ -15,19 +18,20 @@ import TokenModal from './components/RefreshToken';
 import AuthName from './components/AuthName';
 import EditName from './components/EditName';
 import EmailVerify from './components/EmailVerify';
+import GenesisContext from '@/layouts/Context/GenesisContext';
 
 export default function UserAccount() {
   const [data, setData] = useState({});
   const [error, setError] = useState(false);
-  const [visible, setVisible] = useState(false);
   const [key, setKey] = useState({});
 
-  const [imgUrl, setImgUrl] = useState('/profile.png');
+  // const [imgUrl, setImgUrl] = useState('/profile.png');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isTokenModalOpen, setIsTokenModalOpen] = useState(false);
   const [isNameModalOpen, setIsNameModalOpen] = useState(false);
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
-  const [name, setName] = useState('Naila');
+  const [name, setName] = useState('');
+  const { imgUrl, setImgUrl } = useContext(GenesisContext);
   const showTokenModal = () => {
     setIsTokenModalOpen(true);
   };
@@ -48,7 +52,12 @@ export default function UserAccount() {
     return fetchUserCenter()
       .then((res) => {
         setData(res || {});
-        console.log(res);
+        if (res.icon !== '') {
+          setImgUrl(res.icon || './profile.png');
+        }
+        if (res.name !== '') {
+          setName(res.name || 'Unknow');
+        }
       })
       .catch((err) => setError(true))
       .finally(() => {
@@ -67,8 +76,9 @@ export default function UserAccount() {
   // };
   useEffect(() => {
     getUserCenterData();
+
     // getUserKeysData();
-  }, []);
+  }, [isEmailModalOpen, isNameModalOpen]);
 
   // const getUserInfo = async () => {
   //   try {
@@ -105,9 +115,50 @@ export default function UserAccount() {
   const handleVerify = () => {
     setIsEmailModalOpen(true);
   };
+  function convertToFormData(info) {
+    const formData = new FormData();
+
+    Object.entries(info).forEach(([key, value]) => {
+      if (
+        key === 'icon' &&
+        typeof value === 'string' &&
+        value.startsWith('data:image')
+      ) {
+        const base64 = value.split(',')[1];
+        const blob = new Blob([atob(base64)], { type: 'image/png' });
+        formData.append(key, blob, 'icon.png');
+      } else if (typeof value === 'object' && !Array.isArray(value)) {
+        formData.append(key, JSON.stringify(value));
+      } else {
+        formData.append(key, value);
+      }
+    });
+    console.log(formData);
+    return formData;
+  }
+
+  const handleSave = () => {
+    const info = {
+      icon: imgUrl,
+      name: name,
+      asstes: {
+        ...data.assets,
+      },
+    };
+    const formData = convertToFormData(info);
+    console.log(formData.get('icon'));
+    sendImageToServer(JSON.stringify(info))
+      .then((res) => {
+        console.log(res);
+        getUserCenterData();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
-    <main>
+    <form encType="multipart/form-data">
       <h1 className={styles['title']}>Personal information</h1>
       <section className={styles['banner']}>
         <div className={styles['banner-img']}>
@@ -135,8 +186,8 @@ export default function UserAccount() {
       </section>
       <article className={styles['user-info']}>
         <div className={styles['edit-name']}>
-          <h2>Naila </h2>
-          {/* <span onClick={onEditName}>Edit</span> */}
+          <h2>{name}</h2>
+          <span onClick={onEditName}>Edit</span>
           <EditName
             isNameModalOpen={isNameModalOpen}
             setIsNameModalOpen={setIsNameModalOpen}
@@ -147,25 +198,24 @@ export default function UserAccount() {
         <div>
           <p>ID: {data?.id}</p>
           <p>Registration date: {data?.registered_at?.split('T')[0]}</p>
-          <p>ID: 26378192</p>
+
           <div className={styles['edit-info']}>
-            <p>E-mail: {data?.email} </p>
-            <span onClick={onEditEmail}>Edit</span>
+            <p>E-mail: {data?.email || '-'} </p>
+            <span onClick={handleVerify}>
+              {data?.email !== '' ? 'Edit' : 'Bind'}
+            </span>
           </div>
         </div>
-        {/* <Button
-          className={styles['create-btn']}
-          type="primary"
-          onClick={handleVerify}
-        >
+        <Button className={styles['create-btn']} type="primary">
           <span>
             <i className="iconfont icon-secured"></i>
           </span>{' '}
           Real name authentication
-        </Button> */}
+        </Button>
         <EmailVerify
           isEmailModalOpen={isEmailModalOpen}
           setIsEmailModalOpen={setIsEmailModalOpen}
+          data={data}
         />
       </article>
       {/* <AuthName data={data} /> */}
@@ -249,11 +299,14 @@ export default function UserAccount() {
           </div>
         </section>
       </Card>
-      <BindEmail
-        visible={visible}
-        onCancel={() => setVisible(false)}
-        userInfo={data}
-      />
-    </main>
+      <Button
+        className={styles['create-btn']}
+        style={{ paddingInline: '28px' }}
+        onClick={handleSave}
+        type="submit"
+      >
+        Save
+      </Button>
+    </form>
   );
 }

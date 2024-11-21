@@ -177,7 +177,20 @@ export const deleteKeysUserCenter = async (data) => {
     return null;
   }
 };
+export const sendImageToServer = async (formData) => {
+  try {
+    const response = await request(`${baseUrl}/user/update`, {
+      loginAuth: true,
+      method: 'POST',
+      body: formData,
+    });
 
+    return response;
+  } catch (error) {
+    console.log('『error』', error);
+    return null;
+  }
+};
 // Function to post data to user center
 export const postKeyUserData = async (data) => {
   try {

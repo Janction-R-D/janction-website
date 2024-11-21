@@ -13,6 +13,7 @@ function Remind({
   const [isEmailConfigOpen, setIsEmailConfigOpen] = useState(false);
   const showEmailConf = () => {
     setIsEmailConfigOpen(true);
+    handleOk();
   };
   return (
     <Modal
@@ -47,6 +48,7 @@ function Remind({
           setIsEmailConfigOpen={setIsEmailConfigOpen}
           setIsRemindOpen={setIsRemindOpen}
           setIsEmailModalOpen={setIsEmailModalOpen}
+          closeAll={handleOk}
         />
       </footer>
     </Modal>
@@ -61,9 +63,9 @@ export default function ReminderModal({
   const handleCancel = () => {
     setIsRemindOpen(false);
   };
-  const handleOk = () => {
-    setIsRemindOpen(false);
-    setIsEmailModalOpen(false);
+  const handleOk = async () => {
+    await setIsRemindOpen(false);
+    await setIsEmailModalOpen(false);
   };
   return (
     <Remind
@@ -72,6 +74,7 @@ export default function ReminderModal({
       handleOk={handleOk}
       setIsEmailModalOpen={setIsEmailModalOpen}
       setIsRemindOpen={setIsRemindOpen}
+      closeAll={handleOk}
     />
   );
 }

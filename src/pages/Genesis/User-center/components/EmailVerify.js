@@ -3,7 +3,13 @@ import { Button, Input, Modal } from 'antd';
 import styles from './modal.less';
 import ReminderModal from './ReminderEmail';
 
-function Edit({ handleCancel, isModalOpen, setIsEmailModalOpen, handleOk }) {
+function Edit({
+  handleCancel,
+  isModalOpen,
+  setIsEmailModalOpen,
+  handleOk,
+  data,
+}) {
   const [isRemindOpen, setIsRemindOpen] = useState(false);
   const showModal = () => {
     setIsRemindOpen(true);
@@ -28,7 +34,7 @@ function Edit({ handleCancel, isModalOpen, setIsEmailModalOpen, handleOk }) {
       <div className={styles['email-box']}>
         <div>
           <i className="iconfont icon-check"></i>
-          <p>Naila23523@gmail.com</p>
+          <p>{data?.email}</p>
         </div>
         <i className="iconfont icon-link-unlink" onClick={showModal}></i>
         <ReminderModal
@@ -45,13 +51,21 @@ function Edit({ handleCancel, isModalOpen, setIsEmailModalOpen, handleOk }) {
         <Button className={styles['cancel-btn']} onClick={handleCancel}>
           Cancel
         </Button>
-        <Button className={styles['create-btn']}>Verify</Button>
+        {data?.email && (
+          <Button className={styles['create-btn']} onClick={handleOk}>
+            Verify
+          </Button>
+        )}
       </footer>
     </Modal>
   );
 }
 
-export default function EmailVerify({ isEmailModalOpen, setIsEmailModalOpen }) {
+export default function EmailVerify({
+  isEmailModalOpen,
+  setIsEmailModalOpen,
+  data,
+}) {
   const handleCancel = () => {
     setIsEmailModalOpen(false);
   };
@@ -64,6 +78,7 @@ export default function EmailVerify({ isEmailModalOpen, setIsEmailModalOpen }) {
       isModalOpen={isEmailModalOpen}
       handleOk={handleOk}
       setIsEmailModalOpen={setIsEmailModalOpen}
+      data={data}
     />
   );
 }

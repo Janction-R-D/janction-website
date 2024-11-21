@@ -1,11 +1,21 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Input, Modal } from 'antd';
 import styles from './modal.less';
 
 function Edit({ handleCancel, isModalOpen, handleOk, setName, name }) {
+  const [input, setInput] = useState(name);
   const handleChange = (e) => {
-    setName(e.target.value);
+    setInput(e.target.value);
   };
+  const handleClick = () => {
+    if (input === '') return;
+    setName(input);
+    handleOk();
+  };
+  useEffect(() => {
+    console.log(name);
+    setInput(name);
+  }, []);
   return (
     <Modal
       className={styles['card-modal-username']}
@@ -35,7 +45,9 @@ function Edit({ handleCancel, isModalOpen, handleOk, setName, name }) {
         <Button className={styles['cancel-btn']} onClick={handleCancel}>
           Cancel
         </Button>
-        <Button className={styles['create-btn']}>Confirm</Button>
+        <Button className={styles['create-btn']} onClick={handleClick}>
+          Confirm
+        </Button>
       </footer>
     </Modal>
   );

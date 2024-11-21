@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Modal } from 'antd';
 import styles from './modal.less';
 
@@ -9,11 +9,12 @@ export default function PorifilePicture({
   setImgUrl,
   imgUrl,
 }) {
-  const [inputUrl, setinputUrl] = useState(imgUrl);
+  const [inputUrl, setinputUrl] = useState('');
   const [imageBlob, setImageBlob] = useState(null);
 
   const handleChange = (e) => {
     const newFile = e.target.files[0];
+    // console.log(newFile);
     if (newFile) {
       const reader = new FileReader();
       reader.onload = function (e) {
@@ -23,6 +24,9 @@ export default function PorifilePicture({
       setImageBlob(newFile);
     }
   };
+  useEffect(() => {
+    setinputUrl(imgUrl);
+  }, [imgUrl]);
 
   // const sendImageToServer = async (blob) => {
   //   const formData = new FormData();
