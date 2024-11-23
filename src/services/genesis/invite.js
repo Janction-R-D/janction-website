@@ -1,6 +1,6 @@
 import { request } from 'umi';
 
-const baseUrl = '/v0';
+const baseUrl = 'https://janction.fdkevin.cloud:8443/v0';
 
 /**
  *Generate invite link

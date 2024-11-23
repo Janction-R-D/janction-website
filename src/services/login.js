@@ -1,6 +1,6 @@
 import { request } from 'umi';
 
-const baseUrl = '/v0/user/login';
+const baseUrl = 'https://janction.fdkevin.cloud:8443/v0/user/login';
 
 /**
  * Fetch nonce from the server.

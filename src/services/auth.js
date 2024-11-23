@@ -1,6 +1,6 @@
 import { request } from 'umi';
 
-const baseUrl = '/api/v1/auth';
+const baseUrl = 'https://www.janction.io/api/v1/auth';
 
 /**
  * Fetch nonce from the server.
