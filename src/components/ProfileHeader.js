@@ -9,7 +9,7 @@ import GenesisContext from '@/layouts/Context/GenesisContext';
 import { fetchUserCenter } from '@/services/genesis';
 export default function ProfileHeader() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { imgUrl, setImgUrl } = useContext(GenesisContext) || undefined;
+  const { imgUrl, setImgUrl } = useContext(GenesisContext);
   useEffect(() => {
     const getUserCenterData = () => {
       return fetchUserCenter()

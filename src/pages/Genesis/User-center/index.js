@@ -20,13 +20,13 @@ import EditName from './components/EditName';
 import EmailVerify from './components/EmailVerify';
 import GenesisContext from '@/layouts/Context/GenesisContext';
 import EmailConfig from './components/EmailConfig';
+import UserAssets from './components/UserAssets';
 
 export default function UserAccount() {
   const [data, setData] = useState({});
   const [error, setError] = useState(false);
   const [key, setKey] = useState({});
-
-  // const [imgUrl, setImgUrl] = useState('/profile.png');
+  const [duration, setDuration] = useState({ value: 1, label: '1 Month' });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isTokenModalOpen, setIsTokenModalOpen] = useState(false);
   const [isEmailConfigOpen, setIsEmailConfigOpen] = useState(false);
@@ -54,6 +54,7 @@ export default function UserAccount() {
     return fetchUserCenter()
       .then((res) => {
         setData(res || {});
+        console.log(res);
         if (res.icon !== '') {
           setImgUrl(res.icon || './profile.png');
         }
@@ -80,7 +81,7 @@ export default function UserAccount() {
     getUserCenterData();
 
     // getUserKeysData();
-  }, [isEmailModalOpen, isNameModalOpen, isEmailConfigOpen]);
+  }, [isEmailModalOpen, isEmailConfigOpen]);
 
   // const getUserInfo = async () => {
   //   try {
@@ -139,16 +140,26 @@ export default function UserAccount() {
     return formData;
   }
 
-  const handleSave = () => {
+  const handleSave = (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const form = Object.fromEntries(formData);
     const info = {
       icon: imgUrl,
       name: name,
       asstes: {
-        ...data.assets,
+        amount: 2,
+        duration_months: 2,
+        anticipated_income: 2,
       },
+      // asstes: {
+      //   ...form,
+      //   duration_months: duration.value,
+      // },
     };
-    const formData = convertToFormData(info);
-    console.log(formData.get('icon'));
+    console.log(info);
+    // const formData = convertToFormData(info);
+
     sendImageToServer(JSON.stringify(info))
       .then((res) => {
         console.log(res);
@@ -160,7 +171,7 @@ export default function UserAccount() {
   };
 
   return (
-    <form encType="multipart/form-data">
+    <form encType="multipart/form-data" onSubmit={handleSave}>
       <h1 className={styles['title']}>Personal information</h1>
       <section className={styles['banner']}>
         <div className={styles['banner-img']}>
@@ -276,40 +287,11 @@ export default function UserAccount() {
           )}
         </section>
       </Card> */}
-      <Card className={styles['card']}>
-        <section className={styles['card-header']}>
-          <h3>Pledge your assets</h3>
-          <JanctionTip title="Bet your empty currency to earn rewards and help maintain network security." />
-        </section>
-        <section className={styles['card-assets-items']}>
-          <div>
-            <p>Quantity pledged (ETH)</p>
-            <section className={styles['card-assets-input']}>
-              <p> {data?.assets?.amount}</p>
-              <span>ETH</span>
-            </section>
-          </div>
-          <div>
-            <p>Quantity pledged (ETH)</p>
-            <section className={styles['card-assets-input']}>
-              {data.assets?.duration_months}{' '}
-              {data.assets?.duration_months > 1 ? 'Months' : 'Month'}
-            </section>
-          </div>
-          <div>
-            <p>Anticipated income</p>
-            <section className={styles['card-assets-input']}>
-              <p>{data?.assets?.anticipated_income}</p>
-              <span>ETH</span>
-            </section>
-          </div>
-        </section>
-      </Card>
+      <UserAssets data={data} duration={duration} setDuration={setDuration} />
       <Button
         className={styles['create-btn']}
         style={{ paddingInline: '28px' }}
-        onClick={handleSave}
-        type="submit"
+        htmlType="submit"
       >
         Save
       </Button>
