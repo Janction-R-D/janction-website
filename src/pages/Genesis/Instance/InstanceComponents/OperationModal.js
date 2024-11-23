@@ -36,7 +36,7 @@ export default function OperationModal({ record }) {
         <TerminalModal
           visible={visible}
           onCancel={() => setVisible(false)}
-          resource_id={record.activity?.resource_id}
+          resource_id={record?.id}
         />
       )}
     </div>

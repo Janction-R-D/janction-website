@@ -168,8 +168,8 @@ function InstanceTable({ data, getAllNodes }) {
     },
   ];
   const mappedOrders = data?.map((order) => ({
+    ...order,
     key: order?.id,
-    name: order?.name,
     Cores: order?.node.attr.cpu,
     memory: order?.node.attr.memory,
     status: order?.status_str,
@@ -177,7 +177,6 @@ function InstanceTable({ data, getAllNodes }) {
     GPUrate: '0.254%',
     MemoryUsage: convertMBtoGB(order?.activity?.memory_usage?.toFixed(2)),
     downtime: '2024-09-15 10:00:00\r\n2024-09-16 18:00:00',
-    activity: order.activity,
   }));
   const handleModal = () => {
     setShowOverView(!showOverView);
