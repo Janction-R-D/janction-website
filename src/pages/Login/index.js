@@ -83,7 +83,8 @@ const Login = (props) => {
                   expires,
                 });
 
-                const from = history.location.query?.from || '/';
+                const from =
+                  history.location.query?.from || '/genesis/dashboard';
                 window.location.replace(from);
               },
             },
