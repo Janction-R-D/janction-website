@@ -65,23 +65,3 @@ img:not(.janction-markdown img) {
 ::-webkit-scrollbar:not(.janction-markdown ::-webkit-scrollbar) {
   width: 0;
 }
-
-
-.janction-markdown{line-height: 1.5rem;}
-.janction-markdown *{line-height: inherit;margin: revert;padding: revert;}
-.janction-markdown ul{list-style-type: circle;}
-.janction-markdown h1, 
-.janction-markdown h2, 
-.janction-markdown h3, 
-.janction-markdown h4, 
-.janction-markdown h5, 
-.janction-markdown h6 {
-  font-size: inherit;
-  margin-bottom: 0.5em;
-}
-
-.janction-markdown ul, 
-.janction-markdown ol {
-  padding-left: 40px;
-  list-style-type: disc;
-}

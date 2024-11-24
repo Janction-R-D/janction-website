@@ -130,42 +130,42 @@ const Lessors = (props) => {
         return numeral(text || 0).format('0.0s');
       },
     },
-    {
-      title: '#TH',
-      dataIndex: 'TH',
-    },
-    {
-      title: '#WQ',
-      dataIndex: 'WQ',
-    },
-    {
-      title: '#Ports',
-      dataIndex: 'Ports',
-    },
+    // {
+    //   title: '#TH',
+    //   dataIndex: 'TH',
+    // },
+    // {
+    //   title: '#WQ',
+    //   dataIndex: 'WQ',
+    // },
+    // {
+    //   title: '#Ports',
+    //   dataIndex: 'Ports',
+    // },
     {
       title: 'MEM',
       dataIndex: 'memory_usage',
     },
-    {
-      title: 'PURG',
-      dataIndex: 'PURG',
-    },
-    {
-      title: 'Cmprs',
-      dataIndex: 'Cmprs',
-    },
-    {
-      title: 'PPID',
-      dataIndex: 'PPID',
-    },
+    // {
+    //   title: 'PURG',
+    //   dataIndex: 'PURG',
+    // },
+    // {
+    //   title: 'Cmprs',
+    //   dataIndex: 'Cmprs',
+    // },
+    // {
+    //   title: 'PPID',
+    //   dataIndex: 'PPID',
+    // },
     {
       title: 'State',
       dataIndex: 'status',
     },
-    {
-      title: 'Boosts',
-      dataIndex: 'Boosts',
-    },
+    // {
+    //   title: 'Boosts',
+    //   dataIndex: 'Boosts',
+    // },
   ];
 
   return (

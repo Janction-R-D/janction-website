@@ -1,6 +1,9 @@
 import Markdown from 'react-markdown';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { atomDark as dark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+import 'katex/dist/katex.min.css'; // 引入 KaTeX 的样式
 
 const JanctionMarkdown = (props) => {
   const { children } = props;
@@ -26,6 +29,8 @@ const JanctionMarkdown = (props) => {
           );
         },
       }}
+      remarkPlugins={[remarkMath]}
+      rehypePlugins={[rehypeKatex]}
     >
       {children}
     </Markdown>
