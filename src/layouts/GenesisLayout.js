@@ -35,12 +35,19 @@ const navList = [
     icon: 'my-nodes',
     role: (isLessee) => !isLessee,
   },
-  { name: 'Orders', path: '/genesis/orders', key: 4, icon: 'my-nodes' },
+  {
+    name: 'Orders',
+    path: '/genesis/orders',
+    key: 4,
+    icon: 'my-nodes',
+    role: (isLessee) => isLessee,
+  },
   {
     name: 'Billings',
     path: '/genesis/billDetails',
     key: 5,
     icon: 'billings',
+    role: (isLessee) => !isLessee,
   },
 ];
 const GenesisLayout = (props) => {
@@ -128,7 +135,7 @@ const GenesisLayout = (props) => {
                       isLessee ? styles['buyer-role'] : ''
                     }`}
                   >
-                    {isLessee ? <span>Buyer</span> : <span>SELLER</span>}
+                    {isLessee ? <span>Tenant</span> : <span>Landlord</span>}
                   </div>
                 )}
               </section>

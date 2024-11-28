@@ -89,9 +89,8 @@ function ProfileModal({ styles, imgUrl, isModalOpen, handleOk, handleCancel }) {
           handleCancel();
         };
         const handleCopy = () => {
-          console.log(account.address);
           navigator.clipboard
-            .writeText(account.address)
+            .writeText(account?.address)
             .then(() => {
               setTextCopied(true);
             })
@@ -133,7 +132,7 @@ function ProfileModal({ styles, imgUrl, isModalOpen, handleOk, handleCancel }) {
                 <div className={styles['type-account']}>
                   {isLessee ? (
                     <div onClick={onIdentityChange}>
-                      <p>Switch to Lessor Role</p>
+                      <p>Switch to Landlord Role</p>
                       <i className="iconfont icon-next"></i>
                     </div>
                   ) : (

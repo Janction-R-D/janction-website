@@ -169,7 +169,7 @@ export default function Income() {
                 <div className={styles['name']}>Total</div>
                 <div className={styles['value-wrapper']}>
                   <span className={styles['value']}>
-                    {numeral(statisticData?.total_revenue || 0).format('$0.00')}
+                    {numeral(statisticData?.total_revenue || 0).format('0.00')}
                   </span>
                   <span className={styles['unit']}>JCT</span>
                 </div>
@@ -180,7 +180,7 @@ export default function Income() {
                 </div>
                 <div className={styles['value-wrapper']}>
                   <span className={styles['value']}>
-                    {numeral(statisticData?.gross_pledge || 0).format('$0.00')}
+                    {numeral(statisticData?.gross_pledge || 0).format('0.00')}
                   </span>
                   <span className={styles['unit']}>JCT</span>
                 </div>
@@ -191,7 +191,7 @@ export default function Income() {
                 </div>
                 <div className={styles['value-wrapper']}>
                   <span className={styles['value']}>
-                    {numeral(statisticData?.gross_let || 0).format('$0.00')}
+                    {numeral(statisticData?.gross_let || 0).format('0.00')}
                   </span>
                   <span className={styles['unit']}>JCT</span>
                 </div>
