@@ -295,7 +295,7 @@ export default function Mount() {
               <p>Billing price</p>
 
               <Input
-                suffix={<p>JCT/Day</p>}
+                suffix={<p>veJCT/Day</p>}
                 type="number"
                 placeholder="Enter a price"
                 value={price}

@@ -110,7 +110,7 @@ function BillDetails() {
   };
 
   const renderTotal = () => {
-    const unit = 'JCT';
+    const unit = 'veJCT';
     return (
       <div className={styles['total-wrapper']}>
         <span>Total cost </span>

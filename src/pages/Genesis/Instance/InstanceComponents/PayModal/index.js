@@ -137,7 +137,7 @@ const PayModal = (props) => {
         </Form.Item>
         <Form.Item label="node price" name="node_price">
           <span>
-            {empty(configInfo?.price) ? '--' : `${configInfo?.price} JCT/day`}
+            {empty(configInfo?.price) ? '--' : `${configInfo?.price} veJCT/day`}
           </span>
         </Form.Item>
         <Form.Item

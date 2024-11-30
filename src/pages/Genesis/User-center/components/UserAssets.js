@@ -23,7 +23,7 @@ export default function UserAssets({ data, duration, setDuration }) {
   return (
     <Card className={styles['card']}>
       <section className={styles['card-header']}>
-        <h3>Pledge your assets</h3>
+        <h3>Staking your assets</h3>
         <JanctionTip title="Bet your empty currency to earn rewards and help maintain network security." />
       </section>
       <section className={styles['card-assets-items']}>

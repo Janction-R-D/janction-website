@@ -101,7 +101,7 @@ function NodesTable({ data, getList }) {
       width: 'auto',
       render: (text) => {
         if (empty(text)) return '--';
-        return `${text} JCT`;
+        return `${text} veJCT`;
       },
     },
 

@@ -161,7 +161,7 @@ function ProfileModal({ styles, imgUrl, isModalOpen, handleOk, handleCancel }) {
                 <li>
                   <i className="iconfont icon-pledge"></i>
                   <a onClick={() => handleNavigate('/genesis/pledge')}>
-                    Pledge
+                    Staking
                   </a>
                 </li>
               )}

@@ -24,14 +24,14 @@ const News = (props) => {
     <div className={[styles['content-item'], styles['news-wrapper']].join(' ')}>
       <div className={styles['title']}>
         <span>News</span>
-        <a
+        {/* <a
           className={styles['extra']}
           href="https://www.bbc.com/news"
           target="__black"
         >
           <span>See All</span>
           <i className="iconfont icon-next_page"></i>
-        </a>
+        </a> */}
       </div>
       <div className={styles['content']}>
         {list.map((item, index) => {

@@ -5,7 +5,7 @@ import styles from './index.less';
 const PAY_TYPE = [
   {
     value: 'jct',
-    label: 'JCT',
+    label: 'veJCT',
     desc: 'From JANCTION',
   },
   {

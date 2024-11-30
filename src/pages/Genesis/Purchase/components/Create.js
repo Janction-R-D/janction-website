@@ -156,7 +156,7 @@ const Create = (props) => {
         <PurchaseCard title="Configuration summary">
           <LabelVal name="Node id">{node?.id || '~'}</LabelVal>
           <LabelVal name="Node price">
-            {empty(configInfo?.price) ? '~' : `${configInfo?.price} JCT/day`}
+            {empty(configInfo?.price) ? '~' : `${configInfo?.price} veJCT/day`}
           </LabelVal>
           <LabelVal name="Tags">
             {empty(configInfo?.tags) ? '~' : `${configInfo.tags.join(',')}`}

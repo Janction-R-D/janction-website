@@ -29,7 +29,7 @@ export default function ModalRefound({ handleCancel, handleOk, isModalOpen }) {
           <span className={styles['info-label']}>
             仅退还 : <i className="iconfont icon-info"></i>
           </span>
-          <b className={styles['stake-info-price--blue']}>60 JCT</b>
+          <b className={styles['stake-info-price--blue']}>60 veJCT</b>
         </div>
         <div>
           <Checkbox>

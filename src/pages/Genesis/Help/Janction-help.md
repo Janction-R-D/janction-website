@@ -26,9 +26,9 @@ Welcome to the Janction platform! This help document aims to guide you on how to
 
 **Staking** : Staking activates the seller's account by paying a certain amount of money and allows the user to start renting out their server resources.
 
-- **Pledge process** :
-- After the user selects the "Pledge" option, enter the amount to be pledged.
-- After confirming the pledged amount, click the "Confirm Pledge" button to confirm, and the system will deduct the corresponding amount from the user's wallet.
+- **Staking process** :
+- After the user selects the "Staking" option, enter the amount to be pledged.
+- After confirming the pledged amount, click the "Confirm Staking" button to confirm, and the system will deduct the corresponding amount from the user's wallet.
 - After the completion of the pledge, the seller function will be officially activated, and users can start renting out their server resources.
 
 **Real-name authentication** : If the user chooses real-name authentication, the system will guide the user to upload identity proof and other necessary information for identity verification.
@@ -93,7 +93,7 @@ In order to simplify the purchase process, the system also provides a quick purc
 
 ##### **3.1.3 payment methods**
 
-- Payment methods include USDC, USDT, and JCT (Janction Token).
+- Payment methods include USDC, USDT, and veJCT (Janction Token).
 
 Users can choose different payment methods for payment.
 
@@ -142,7 +142,7 @@ Where R is the total payment amount, D_r is the lease duration, and C is the dai
 
 ##### **3.2.2 payment process**
 
-1. Payment methods: Supports three payment methods: USDC, USDT, and JCT. The payment funds will be deposited into the smart contract wallet and automatically allocated to the payee according to the contract during the lease period.
+1. Payment methods: Supports three payment methods: USDC, USDT, and veJCT. The payment funds will be deposited into the smart contract wallet and automatically allocated to the payee according to the contract during the lease period.
 
 ##### **Transparency and security of 3.2.3 contracts**
 
@@ -192,7 +192,7 @@ Users can view and manage the balance, expenditure records, transaction history 
 
 #### **5.2 Display balance**
 
-- On the fund management page, users can view the balance of the current account, supporting multiple payment currencies, such as **USDC** , **JCT** (Janction Token), etc.
+- On the fund management page, users can view the balance of the current account, supporting multiple payment currencies, such as **USDC** , **veJCT** (Janction Token), etc.
 - **Balance shows** :
 
 The account balance will be updated in real time, accurately displaying the user's current available funds.
@@ -235,7 +235,7 @@ Each transaction can be clicked to view detailed information, including transact
 
 \- The transaction details page will display the following information:
 
-\- **Amount and type of currency received** : for example, the currency involved (USDC, JCT) and amount.
+\- **Amount and type of currency received** : for example, the currency involved (USDC, veJCT) and amount.
 
 \- **Transaction type** : e.g. expenditure, refund, withdrawal, etc.
 
@@ -245,28 +245,28 @@ Each transaction can be clicked to view detailed information, including transact
 
 \- **Transaction ID** : Each transaction has a unique transaction ID, which users can use to query.
 
-### **6. JCT integral recharge interface**
+### **6. veJCT integral recharge interface**
 
-Users can easily recharge their accounts with JCT points through the **JCT points recharge interface** , which can be used to pay various fees, lease resources, or complete other payment operations within the platform.
+Users can easily recharge their accounts with veJCT points through the **veJCT points recharge interface** , which can be used to pay various fees, lease resources, or complete other payment operations within the platform.
 
 #### **Recharge process**
 
-1. Click the **"Recharge JCT"** button.
-2. Choose the recharge method, such as **"exchange JCT through USDC"** .
+1. Click the **"Recharge veJCT"** button.
+2. Choose the recharge method, such as **"exchange veJCT through USDC"** .
 3. Enter the recharge amount and the system calculates the required amount of USDC.
 4. Confirm recharge information, click the **"Confirm recharge"** button.
 5. After completing the recharge, the balance is updated in real time and the recharge record is automatically generated.
 
 #### **6.1 Recharge interface entrance**
 
-- Users click the **"Recharge JCT"** button in the wallet interface to enter the JCT points recharge interface.
+- Users click the **"Recharge veJCT"** button in the wallet interface to enter the veJCT points recharge interface.
 - This interface will display the current account balance, available points, and relevant information for recharging.
 
 #### **6.2 Recharge method**
 
 - **Recharge method** :
 
-\- Users can choose to purchase JCT points through **USDC** or other stablecoins and exchange them according to the platform exchange rate.
+\- Users can choose to purchase veJCT points through **USDC** or other stablecoins and exchange them according to the platform exchange rate.
 
 - **Supported recharge currencies** :
 
@@ -274,7 +274,7 @@ The platform supports multiple currencies for recharge, such as **USDC** , **USD
 
 #### **6.3 Recharge amount input**
 
-- Users can choose the recharge amount, and the system will provide a text box for users to enter the number of JCT points to recharge.
+- Users can choose the recharge amount, and the system will provide a text box for users to enter the number of veJCT points to recharge.
 
 #### **6.4 Recharge Address and Payment Confirmation**
 
@@ -282,7 +282,7 @@ The platform supports multiple currencies for recharge, such as **USDC** , **USD
 - After the user confirms the amount, click the **"Confirm Recharge"** button, and the system will prompt the user to check the recharge information.
 - **Payment Confirmation** :
 
-For purchasing JCT through stablecoins, users need to confirm the payment amount and confirm the transaction through a smart contract.
+For purchasing veJCT through stablecoins, users need to confirm the payment amount and confirm the transaction through a smart contract.
 
 #### **6.5 Recharge Record**
 
@@ -299,11 +299,11 @@ For purchasing JCT through stablecoins, users need to confirm the payment amount
 
 - **Recharge status** :
 
-After the recharge is completed, the system will confirm the recharge transaction through blockchain and recharge JCT points to the user's account.
+After the recharge is completed, the system will confirm the recharge transaction through blockchain and recharge veJCT points to the user's account.
 
 - **Recharge Confirmation** :
 
-After the recharge is completed, the user will receive a confirmation message, and the JCT points will be immediately added to the wallet balance.
+After the recharge is completed, the user will receive a confirmation message, and the veJCT points will be immediately added to the wallet balance.
 
 #### **6.7 Recharge Timeliness Reminder**
 
@@ -328,7 +328,7 @@ The seller can rent their own server to other users. The following is the operat
 #### 7.3 Set rental price and duration
 
 - The seller can refer to the market price to set the rental price of the server.
-- The seller needs to choose the payment currency for receiving payment (such as USDC, USDT, JCT, etc.).
+- The seller needs to choose the payment currency for receiving payment (such as USDC, USDT, veJCT, etc.).
 - After setting up, the system will display the unit price after deducting 5% service fee, and inform the seller that the platform will charge a 5% service fee.
 
 #### 7.4 Tips and long-term preferential policies
@@ -371,7 +371,7 @@ Unit price is calculated proportionally: 1:6:25:70 (day: week: month: quarter)
 
   \- USDT
 
-  \- JCT（Janction Token）
+  \- veJCT（Janction Token）
 
 ### 9. Seller node management background (My Nodes)
 
@@ -463,7 +463,7 @@ Users can filter transaction records by the following criteria:
 
 Users can click on a transaction record to view detailed information. The details page of each transaction includes:
 
-\- **Amount and type of currency received** : Shows the currency involved in the transaction (such as USDC, USDT, JCT, etc.) and the amount.
+\- **Amount and type of currency received** : Shows the currency involved in the transaction (such as USDC, USDT, veJCT, etc.) and the amount.
 
 \- **Transaction type** : for example: earnings, refunds, withdrawals, etc.
 
@@ -551,9 +551,9 @@ Display the monthly revenue target set by the seller for themselves. The seller 
 
 The seller can view the details of all currently running tasks in the Task Manager.
 
-### 12. Seller Pledge Interface
+### 12. Seller Staking Interface
 
-#### 12.1 Total Wallet Balance and Active Pledge Amount
+#### 12.1 Total Wallet Balance and Active Staking Amount
 
 On the seller's pledge interface, the following information is first displayed:
 
@@ -561,7 +561,7 @@ On the seller's pledge interface, the following information is first displayed:
 - **Active Staking Amount** : The amount currently staked, the device's staking amount. Shows the amount currently staked and active in the network.
 - **Cool Down Amount** : The pledged amount in Cool Down, showing the cooling period of the current pledged amount. The seller needs to wait for the end of Cool Down before using these funds for pledge or withdrawal again.
 
-#### 12.2 Pledge Process
+#### 12.2 Staking Process
 
 The seller can proceed with the pledge operation according to the following steps:
 
