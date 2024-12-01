@@ -1,0 +1,93 @@
+.card-modal {
+  display: flex;
+  position: absolute;
+  background: #000;
+  bottom: -70px;
+  right: 12px;
+  border-radius: 12px;
+  z-index: 10;
+  width: 200px;
+  padding: 0 !important;
+
+  div {
+    padding: 8px 0px;
+    width: 100%;
+  }
+}
+
+.card-modal-show {
+  display: none;
+}
+
+.panel {
+  width: 100%;
+
+  padding: 6px 0px;
+  gap: 6px;
+  display: flex;
+  flex-direction: column;
+}
+
+.panel > span {
+  cursor: pointer;
+  width: 100%;
+  padding: 3px 12px;
+}
+
+.panel > span:hover {
+  background-color: #bbbaba94;
+}
+
+.ellipsis {
+  text-overflow: ellipsis;
+
+  text-wrap: nowrap;
+}
+
+// .operation-modal {
+//   position: relative;
+// }
+.operation-action {
+  cursor: pointer;
+  transition: all 200ms ease;
+}
+
+.operation-action:hover {
+  opacity: 0.7;
+  text-decoration: underline;
+}
+
+.recent-status {
+  color: #828283;
+  cursor: not-allowed;
+}
+
+.more-function {
+  display: flex;
+  flex-direction: column;
+
+  li {
+    display: flex;
+    align-items: center;
+    padding: 7px 16px;
+    height: 36px;
+    cursor: pointer;
+
+    span {
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 22px;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    &:hover {
+      background: #1b1b1c;
+
+      span {
+        color: rgba(255, 255, 255, 0.9);
+      }
+    }
+  }
+}
