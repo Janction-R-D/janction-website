@@ -461,3 +461,8 @@ export const currencyABI = [
 
 export const paymentAddress = '0x4bcb4864a11c648830c917435d33422ba0201a3c'; // 合约地址
 export const currencyAddress = '0x248f49674A9cc39E68615BD6669F5a395cbfa4D3'; // 币种合约地址
+
+export const CPU_GPU_OPTIONS = [
+  { label: 'CPU', value: 'cpu' },
+  { label: 'GFPU', value: 'gpu' },
+];

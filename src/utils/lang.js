@@ -116,3 +116,7 @@ export const getNodeStatusMatch = ({ status_str, operating_status_str }) => {
   let isOffLine = status_str !== 'online';
   return { isActive, isListed, isRunning, isOffLine };
 };
+
+export function capitalizeFirstLetter(string) {
+  return string.replace(/^\w/, (c) => c.toUpperCase());
+}
