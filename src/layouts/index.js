@@ -8,6 +8,7 @@ import styles from './index.less';
 import { useEffect, useMemo } from 'react';
 import { history } from 'umi';
 import { GenesisProvider } from './Context/GenesisContext';
+import WalletManagement from '@/pages/Genesis/Wallet-Management';
 
 export const fullWidthRoute = ['/home', '/explore', '/getStarted', '/solution'];
 export const authRoute = [
@@ -25,6 +26,7 @@ export const authRoute = [
   '/genesis/pledge',
   '/genesis/income',
   '/genesis/purchase/settlement',
+  '/genesis/wallet-management',
 ];
 
 export default function Layout(props) {
@@ -47,6 +49,14 @@ export default function Layout(props) {
 
   if (props.location.pathname.includes('/login')) {
     return <LoginLayout>{children}</LoginLayout>;
+  }
+  // wallet managment route
+  if (isAuthRoute && props.location.pathname.includes('/wallet-management')) {
+    return (
+      <GenesisProvider>
+        <WalletManagement />
+      </GenesisProvider>
+    );
   }
 
   if (isAuthRoute) {
