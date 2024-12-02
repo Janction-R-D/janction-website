@@ -2,7 +2,7 @@ import { SYSTEM_LIST } from '@/constant';
 import { useEffect, useState } from 'react';
 import styles from './index.less';
 
-const ImageConf = (props) => {
+const OperatingSystem = (props) => {
   const { value, onChange } = props;
 
   const [active_i, setActiveI] = useState(SYSTEM_LIST[0].value);
@@ -34,4 +34,4 @@ const ImageConf = (props) => {
   );
 };
 
-export default ImageConf;
+export default OperatingSystem;
