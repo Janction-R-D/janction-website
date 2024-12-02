@@ -68,14 +68,17 @@ const Location = (props) => {
                 checked={item.checked}
                 onChange={(val) => onAllCheckChange(val, item)}
               ></Checkbox>
-              <span>{`${item.label} ${item.enLabel}`}</span>
+              <span>{item.enLabel}</span>
             </div>
           ),
           key: item.value,
           children: (
             <PurchaseCheckBox
               value={item.checkedIds}
-              options={item.children}
+              options={item.children?.map((item) => ({
+                ...item,
+                label: item.enLabel,
+              }))}
               onChange={(val) => onCheckChange(val, item)}
             />
           ),

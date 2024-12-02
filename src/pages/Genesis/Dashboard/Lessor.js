@@ -252,6 +252,14 @@ const Lessors = (props) => {
                 </div>
               </div>
               <div className={styles['total-item']}>
+                <div className={styles['name']} title="Node rewards">
+                  Node rewards
+                </div>
+                <div className={styles['value']}>
+                  {numeral(lessorsData?.Profit?.rewards || 0).format('$0.00')}
+                </div>
+              </div>
+              <div className={styles['total-item']}>
                 <div className={styles['name']} title="Rental income">
                   Rental income
                 </div>

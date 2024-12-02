@@ -16,7 +16,7 @@ export default function TokenAccess() {
         <h3>Access Token</h3>
       </section>
       <section className={styles['card-security']}>
-        <article>
+        {/* <article>
           <p>
             Access Token You can use the Access Token feature to manage the
             credentials you curate. This includes amending/replacing/removing
@@ -27,7 +27,7 @@ export default function TokenAccess() {
             Learn More detail about access token and how to update credentials
             with GraphQL API.
           </span>
-        </article>
+        </article> */}
         <section className={styles['token-container']}>
           <Button className={styles['btn-transparent']} onClick={onGenerate}>
             Generate

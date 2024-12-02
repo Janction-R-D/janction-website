@@ -22,6 +22,13 @@ const navList = [
     role: (isLessee) => !isLessee,
   },
   {
+    name: 'Purchase',
+    path: '/genesis/purchase',
+    key: 6,
+    icon: 'purchase',
+    role: (isLessee) => isLessee,
+  },
+  {
     name: 'My Instance',
     path: '/genesis/instance',
     key: 2,
