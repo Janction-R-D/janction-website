@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styles from './index.less';
 import ProfileHeader from '@/components/ProfileHeader';
 import MyWallet from './MyWallet';
+import Resources from './Resources';
 export default function WalletManagement() {
   const [wallet, setIsWallet] = useState(true);
 
@@ -35,6 +36,7 @@ export default function WalletManagement() {
           </nav>
         </aside>
         {wallet && <MyWallet />}
+        {!wallet && <Resources />}
       </div>
     </main>
   );
