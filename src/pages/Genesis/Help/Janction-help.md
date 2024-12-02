@@ -1,3 +1,5 @@
+### **Janction Help**
+
 Welcome to the Janction platform! This help document aims to guide you on how to use the various functions of the platform to ensure that you can smoothly complete the buyer and seller operations.
 
 ### **1. Register and login**

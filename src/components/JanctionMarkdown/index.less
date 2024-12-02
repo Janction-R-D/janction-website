@@ -1,0 +1,60 @@
+.janction-help-markdown {
+  display: flex;
+  gap: 10px;
+  border-top: 1px solid #323232;
+  min-height: auto !important;
+  height: calc(~'100% - 108px');
+  position: relative;
+
+  .markdown-aside {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 25%;
+    padding: 20px;
+    border-right: 1px solid #323232;
+    height: calc(~'100vh - 108px');
+    overflow: auto;
+
+    h3 {
+      display: none;
+    }
+
+    > ul {
+      > li {
+        a {
+          font-family: 'Poppins';
+          font-style: normal;
+          font-weight: 400;
+          font-size: 16px;
+          line-height: 22px;
+          color: rgba(255, 255, 255, 0.9);
+        }
+
+        > a {
+          font-weight: 600;
+        }
+
+        > ul {
+          padding-left: 10px;
+
+          > li {
+            a {
+              font-size: 14px;
+              font-weight: 400;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .markdonw-main {
+    position: absolute;
+    left: 25%;
+    top: 0;
+    padding: 0 20px;
+    height: calc(~'100vh - 108px');
+    overflow: auto;
+  }
+}
