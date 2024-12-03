@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Input, Select } from 'antd';
+import { Card, Input, Select, Button } from 'antd';
 import styles from '../index.less';
 import JanctionTip from '@/components/JanctionTip';
 export default function UserAssets({ data, duration, setDuration }) {
@@ -78,6 +78,13 @@ export default function UserAssets({ data, duration, setDuration }) {
           </section> */}
         </div>
       </section>
+      <Button
+        className={styles['create-btn']}
+        style={{ paddingInline: '28px', marginTop: '12px' }}
+        htmlType="submit"
+      >
+        Save
+      </Button>
     </Card>
   );
 }

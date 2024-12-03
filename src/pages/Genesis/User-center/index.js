@@ -22,6 +22,7 @@ import GenesisContext from '@/layouts/Context/GenesisContext';
 import EmailConfig from './components/EmailConfig';
 import UserAssets from './components/UserAssets';
 import TokenAccess from './components/TokenAccess';
+import SocialLink from './components/SocialLink';
 
 export default function UserAccount() {
   const [data, setData] = useState({});
@@ -288,15 +289,9 @@ export default function UserAccount() {
           )}
         </section>
       </Card> */}
+      <SocialLink />
       <UserAssets data={data} duration={duration} setDuration={setDuration} />
       <TokenAccess />
-      <Button
-        className={styles['create-btn']}
-        style={{ paddingInline: '28px' }}
-        htmlType="submit"
-      >
-        Save
-      </Button>
     </form>
   );
 }

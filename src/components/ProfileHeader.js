@@ -171,6 +171,12 @@ function ProfileModal({ styles, imgUrl, isModalOpen, handleOk, handleCancel }) {
                   Income management
                 </a>
               </li>
+              <li>
+                <i className="iconfont icon-income"></i>
+                <a onClick={() => handleNavigate('/genesis/wallet-management')}>
+                  Wallet Management
+                </a>
+              </li>
             </ul>
             <Button className={styles['log-out']} onClick={handleLogOut}>
               Logout
