@@ -1,4 +1,5 @@
 import {
+  ADDRESS,
   currencyABI,
   currencyAddress,
   Duration,
@@ -71,7 +72,7 @@ const Create = (props) => {
 
       // 初始化合约
       const payment = new ethers.Contract(
-        paymentAddress,
+        ADDRESS.Payment,
         paymentABI,
         provider,
       ).connect(signer);

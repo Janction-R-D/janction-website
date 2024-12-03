@@ -19,9 +19,10 @@ const Customized = (props) => {
 
   const onConfirm = async (callback) => {
     try {
-      const values = await form.validateFields();
-      console.log('『values』', values);
-      // history.push('/genesis/purchase/settlement');
+      // const values = await form.validateFields();
+      const values = await form.getFieldsValue();
+      // console.log('『values』', values);
+      history.push('/genesis/purchase/settlement', { formValues: values });
     } catch (err) {
       console.log('『err』', err);
     }
@@ -117,7 +118,7 @@ const Customized = (props) => {
         </PurchaseCard>
         <PurchaseCard>
           <Form.Item
-            name="PurDuration"
+            name="purDuration"
             rules={[
               {
                 required: true,

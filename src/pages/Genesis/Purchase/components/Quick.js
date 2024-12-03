@@ -12,9 +12,10 @@ const Quick = (props) => {
 
   const onConfirm = async (callback) => {
     try {
-      const values = await form.validateFields();
+      // const values = await form.validateFields();
+      const values = await form.getFieldsValue();
       console.log('『values』', values);
-      // history.push('/genesis/purchase/settlement');
+      history.push('/genesis/purchase/settlement', { formValues: values });
     } catch (err) {
       console.log('『err』', err);
     }

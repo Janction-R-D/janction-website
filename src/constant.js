@@ -107,33 +107,114 @@ export const paymentABI = [
   },
   {
     type: 'function',
-    name: 'createPayeeListing',
-    inputs: [
-      { name: 'currency', type: 'address', internalType: 'address' },
-      { name: 'baseAmount', type: 'uint256', internalType: 'uint256' },
+    name: 'currencyPriceOracle',
+    inputs: [{ name: '', type: 'address', internalType: 'address' }],
+    outputs: [
+      {
+        name: '',
+        type: 'address',
+        internalType: 'contract IPriceOracle',
+      },
     ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'delist',
+    inputs: [{ name: 'nodeId', type: 'bytes32', internalType: 'bytes32' }],
     outputs: [],
     stateMutability: 'nonpayable',
   },
   {
     type: 'function',
-    name: 'createPayerPlan',
+    name: 'getListing',
     inputs: [
-      { name: 'payee', type: 'address', internalType: 'address' },
+      { name: 'owner', type: 'address', internalType: 'address' },
+      { name: 'nodeId', type: 'bytes32', internalType: 'bytes32' },
+    ],
+    outputs: [
       {
-        name: 'duration',
-        type: 'uint8',
-        internalType: 'enum Payment.Duration',
+        name: '',
+        type: 'tuple',
+        internalType: 'struct Payment.Listing',
+        components: [
+          {
+            name: 'status',
+            type: 'uint8',
+            internalType: 'enum Payment.ListingStatus',
+          },
+          { name: 'owner', type: 'address', internalType: 'address' },
+          {
+            name: 'baseAmount',
+            type: 'uint256',
+            internalType: 'uint256',
+          },
+        ],
       },
     ],
-    outputs: [],
-    stateMutability: 'nonpayable',
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'getRental',
+    inputs: [
+      { name: 'owner', type: 'address', internalType: 'address' },
+      { name: 'nodeId', type: 'bytes32', internalType: 'bytes32' },
+    ],
+    outputs: [
+      {
+        name: '',
+        type: 'tuple',
+        internalType: 'struct Payment.Rental',
+        components: [
+          {
+            name: 'status',
+            type: 'uint8',
+            internalType: 'enum Payment.RentalStatus',
+          },
+          { name: 'tenant', type: 'address', internalType: 'address' },
+          {
+            name: 'currency',
+            type: 'address',
+            internalType: 'address',
+          },
+          {
+            name: 'totalAmount',
+            type: 'uint256',
+            internalType: 'uint256',
+          },
+          {
+            name: 'dailyAmount',
+            type: 'uint256',
+            internalType: 'uint256',
+          },
+          {
+            name: 'startTime',
+            type: 'uint256',
+            internalType: 'uint256',
+          },
+          {
+            name: 'paidDays',
+            type: 'uint256',
+            internalType: 'uint256',
+          },
+          {
+            name: 'totalDays',
+            type: 'uint256',
+            internalType: 'uint256',
+          },
+        ],
+      },
+    ],
+    stateMutability: 'view',
   },
   {
     type: 'function',
     name: 'getTotalAmount',
     inputs: [
-      { name: 'payee', type: 'address', internalType: 'address' },
+      { name: 'owner', type: 'address', internalType: 'address' },
+      { name: 'nodeId', type: 'bytes32', internalType: 'bytes32' },
+      { name: 'currency', type: 'address', internalType: 'address' },
       {
         name: 'duration',
         type: 'uint8',
@@ -152,6 +233,34 @@ export const paymentABI = [
   },
   {
     type: 'function',
+    name: 'list',
+    inputs: [
+      { name: 'nodeId', type: 'bytes32', internalType: 'bytes32' },
+      { name: 'baseAmount', type: 'uint256', internalType: 'uint256' },
+    ],
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    name: 'listings',
+    inputs: [
+      { name: '', type: 'address', internalType: 'address' },
+      { name: '', type: 'bytes32', internalType: 'bytes32' },
+    ],
+    outputs: [
+      {
+        name: 'status',
+        type: 'uint8',
+        internalType: 'enum Payment.ListingStatus',
+      },
+      { name: 'owner', type: 'address', internalType: 'address' },
+      { name: 'baseAmount', type: 'uint256', internalType: 'uint256' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
     name: 'owner',
     inputs: [],
     outputs: [{ name: '', type: 'address', internalType: 'address' }],
@@ -159,25 +268,51 @@ export const paymentABI = [
   },
   {
     type: 'function',
-    name: 'payeeListings',
-    inputs: [{ name: '', type: 'address', internalType: 'address' }],
-    outputs: [
-      { name: 'currency', type: 'address', internalType: 'address' },
-      { name: 'baseAmount', type: 'uint256', internalType: 'uint256' },
+    name: 'releaseDailyPayment',
+    inputs: [
+      { name: 'owner', type: 'address', internalType: 'address' },
+      { name: 'nodeId', type: 'bytes32', internalType: 'bytes32' },
     ],
-    stateMutability: 'view',
+    outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
     type: 'function',
-    name: 'payerPlans',
-    inputs: [{ name: '', type: 'address', internalType: 'address' }],
+    name: 'renounceOwnership',
+    inputs: [],
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    name: 'rent',
+    inputs: [
+      { name: 'owner', type: 'address', internalType: 'address' },
+      { name: 'nodeId', type: 'bytes32', internalType: 'bytes32' },
+      { name: 'currency', type: 'address', internalType: 'address' },
+      {
+        name: 'duration',
+        type: 'uint8',
+        internalType: 'enum Payment.Duration',
+      },
+    ],
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    name: 'rentals',
+    inputs: [
+      { name: '', type: 'address', internalType: 'address' },
+      { name: '', type: 'bytes32', internalType: 'bytes32' },
+    ],
     outputs: [
       {
         name: 'status',
         type: 'uint8',
-        internalType: 'enum Payment.PaymentStatus',
+        internalType: 'enum Payment.RentalStatus',
       },
-      { name: 'payer', type: 'address', internalType: 'address' },
+      { name: 'tenant', type: 'address', internalType: 'address' },
       { name: 'currency', type: 'address', internalType: 'address' },
       { name: 'totalAmount', type: 'uint256', internalType: 'uint256' },
       { name: 'dailyAmount', type: 'uint256', internalType: 'uint256' },
@@ -189,15 +324,11 @@ export const paymentABI = [
   },
   {
     type: 'function',
-    name: 'releaseDailyPayment',
-    inputs: [{ name: 'payee', type: 'address', internalType: 'address' }],
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    name: 'renounceOwnership',
-    inputs: [],
+    name: 'setPriceOracle',
+    inputs: [
+      { name: 'currency', type: 'address', internalType: 'address' },
+      { name: 'oracle', type: 'address', internalType: 'address' },
+    ],
     outputs: [],
     stateMutability: 'nonpayable',
   },
@@ -223,19 +354,50 @@ export const paymentABI = [
     name: 'DailyPaymentReleased',
     inputs: [
       {
-        name: 'payee',
+        name: 'owner',
         type: 'address',
         indexed: true,
         internalType: 'address',
       },
       {
-        name: 'payer',
+        name: 'nodeId',
+        type: 'bytes32',
+        indexed: true,
+        internalType: 'bytes32',
+      },
+      {
+        name: 'tenant',
         type: 'address',
         indexed: true,
         internalType: 'address',
       },
       {
         name: 'paidDays',
+        type: 'uint256',
+        indexed: false,
+        internalType: 'uint256',
+      },
+    ],
+    anonymous: false,
+  },
+  {
+    type: 'event',
+    name: 'List',
+    inputs: [
+      {
+        name: 'owner',
+        type: 'address',
+        indexed: true,
+        internalType: 'address',
+      },
+      {
+        name: 'nodeId',
+        type: 'bytes32',
+        indexed: true,
+        internalType: 'bytes32',
+      },
+      {
+        name: 'baseAmount',
         type: 'uint256',
         indexed: false,
         internalType: 'uint256',
@@ -264,41 +426,22 @@ export const paymentABI = [
   },
   {
     type: 'event',
-    name: 'PayeeListingCreated',
+    name: 'Rent',
     inputs: [
       {
-        name: 'payee',
+        name: 'owner',
         type: 'address',
         indexed: true,
         internalType: 'address',
       },
       {
-        name: 'currency',
-        type: 'address',
+        name: 'nodeId',
+        type: 'bytes32',
         indexed: true,
-        internalType: 'address',
+        internalType: 'bytes32',
       },
       {
-        name: 'baseAmount',
-        type: 'uint256',
-        indexed: false,
-        internalType: 'uint256',
-      },
-    ],
-    anonymous: false,
-  },
-  {
-    type: 'event',
-    name: 'PayerPlanCreated',
-    inputs: [
-      {
-        name: 'payee',
-        type: 'address',
-        indexed: true,
-        internalType: 'address',
-      },
-      {
-        name: 'payer',
+        name: 'tenant',
         type: 'address',
         indexed: true,
         internalType: 'address',
@@ -466,3 +609,13 @@ export const CPU_GPU_OPTIONS = [
   { label: 'CPU', value: 'cpu' },
   { label: 'GFPU', value: 'gpu' },
 ];
+
+export const ADDRESS = {
+  Payment: '0xa69471765148a6F23C0d858B4ae3fBB61603219A',
+  USDT: '0xCA181238E466Fd450AbCCFc8eaADECA3646e7b99',
+  USDC: '0x1123904310D41b95e30747E9687Bb167eB370547',
+  JCT: '0xa780e5799805eCF2c8aaebf551180F8109139B38',
+  USDTPrice: '0x31c876b373a9Dd35B164ba626c702E8BCdE58082',
+  USDCPrice: '0x9d7CB65110A02432423cE0775b09dfB66859baaF',
+  JCTPrice: '0xD9BeFA1c7da2891CAb652AB9f163340545177fbD',
+};

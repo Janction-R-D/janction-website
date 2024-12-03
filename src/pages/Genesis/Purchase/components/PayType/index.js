@@ -1,16 +1,21 @@
 import { useEffect, useState } from 'react';
 import LabelVal from '../Card/LabelVal';
 import styles from './index.less';
+import { ADDRESS } from '@/constant';
 
 const PAY_TYPE = [
   {
-    value: 'jct',
+    value: ADDRESS.JCT,
     label: 'veJCT',
     desc: 'From JANCTION',
   },
   {
-    value: 'usdt',
+    value: ADDRESS.USDT,
     label: 'USDT',
+  },
+  {
+    value: ADDRESS.USDC,
+    label: 'USDC',
   },
 ];
 
