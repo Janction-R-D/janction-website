@@ -31,6 +31,7 @@ const PurDuration = (props) => {
               label: capitalizeFirstLetter(item),
               value: item,
             }))}
+            defaultValue="Month"
             style={{ width: '105px' }}
             onChange={onSelectChange}
           ></Select>

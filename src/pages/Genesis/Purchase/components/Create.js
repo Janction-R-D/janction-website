@@ -34,13 +34,13 @@ const Create = (props) => {
     getNodeConfigInfo({ node_id: nodeId });
   }, [nodeId]);
 
-  const onNodeChange = (node_id, _node) => {
+  const onNodeChange = (_node) => {
     setNode(_node);
-    if (!node_id) {
+    if (!_node?.id) {
       setConfigInfo();
       return;
     }
-    getNodeConfigInfo({ node_id });
+    getNodeConfigInfo({ node_id: _node.id });
   };
 
   const getNodeConfigInfo = async (params) => {

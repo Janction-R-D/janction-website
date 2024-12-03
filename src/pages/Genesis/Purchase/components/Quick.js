@@ -30,32 +30,24 @@ const Quick = (props) => {
       >
         <PurchaseCard title="Available Instance">
           <Form.Item
-            name="basic_configuration"
-            rules={[
-              { required: true, message: 'please select basic configuration' },
-            ]}
+            name="node"
+            rules={[{ required: true, message: 'please select instance' }]}
           >
             <ProductList />
           </Form.Item>
         </PurchaseCard>
         <PurchaseCard title="Connectivity Tier">
           <Form.Item
-            name="basic_configuration"
+            name="connectivityTier"
             rules={[
-              { required: true, message: 'please select basic configuration' },
+              {
+                required: true,
+                message: 'please select connectivity tier',
+              },
             ]}
+            initialValue={1}
           >
-            <Form.Item
-              name="connectivityTier"
-              rules={[
-                {
-                  required: true,
-                  message: 'please select connectivity tier',
-                },
-              ]}
-            >
-              <ConnectivityTier defaultValue={1} />
-            </Form.Item>
+            <ConnectivityTier defaultValue={1} />
           </Form.Item>
         </PurchaseCard>
         <PurchaseCard>
@@ -67,10 +59,11 @@ const Quick = (props) => {
                 message: 'please select duration',
               },
             ]}
+            initialValue={{ value: undefined, unit: 'Month' }}
           >
             <PurDuration />
           </Form.Item>
-          <Footer isSettlement onConfirm={onConfirm} />
+          <Footer isConfirm onConfirm={onConfirm} />
         </PurchaseCard>
       </div>
     </Form>

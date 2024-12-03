@@ -619,3 +619,19 @@ export const ADDRESS = {
   USDCPrice: '0x9d7CB65110A02432423cE0775b09dfB66859baaF',
   JCTPrice: '0xD9BeFA1c7da2891CAb652AB9f163340545177fbD',
 };
+
+export const PAY_CURRENCY = [
+  {
+    value: ADDRESS.JCT,
+    label: 'veJCT',
+    desc: 'From JANCTION',
+  },
+  {
+    value: ADDRESS.USDT,
+    label: 'USDT',
+  },
+  {
+    value: ADDRESS.USDC,
+    label: 'USDC',
+  },
+];

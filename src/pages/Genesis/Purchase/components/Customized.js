@@ -128,7 +128,7 @@ const Customized = (props) => {
           >
             <PurDuration />
           </Form.Item>
-          <Footer isSettlement onConfirm={onConfirm} />
+          <Footer isConfirm onConfirm={onConfirm} />
         </PurchaseCard>
       </div>
     </Form>

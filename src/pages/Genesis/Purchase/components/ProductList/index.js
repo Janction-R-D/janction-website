@@ -29,7 +29,7 @@ const ProductList = (props) => {
   };
 
   useEffect(() => {
-    setSelectKey(value);
+    setSelectKey(value?.id);
   }, [value]);
 
   const columns = [
@@ -90,7 +90,7 @@ const ProductList = (props) => {
           selectedRowKeys: [selectKey],
           onChange: (selectedRowKeys, selectedRows) => {
             setSelectKey(selectedRowKeys[0]);
-            onChange(selectedRowKeys[0], selectedRows[0]);
+            onChange(selectedRows[0]);
           },
         }}
       />

@@ -1,23 +1,7 @@
+import { PAY_CURRENCY } from '@/constant';
 import { useEffect, useState } from 'react';
 import LabelVal from '../Card/LabelVal';
 import styles from './index.less';
-import { ADDRESS } from '@/constant';
-
-const PAY_TYPE = [
-  {
-    value: ADDRESS.JCT,
-    label: 'veJCT',
-    desc: 'From JANCTION',
-  },
-  {
-    value: ADDRESS.USDT,
-    label: 'USDT',
-  },
-  {
-    value: ADDRESS.USDC,
-    label: 'USDC',
-  },
-];
 
 const PayType = (props) => {
   const { value, onChange } = props;
@@ -30,7 +14,7 @@ const PayType = (props) => {
   return (
     <LabelVal name="Payment type">
       <div className={styles['pay-type']}>
-        {PAY_TYPE.map((item) => (
+        {PAY_CURRENCY.map((item) => (
           <div
             className={[
               styles['pay-type-item'],

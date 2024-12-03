@@ -1,5 +1,10 @@
 import JanctionTip from '@/components/JanctionTip';
-import { currencyAddress, paymentABI, paymentAddress } from '@/constant';
+import {
+  ADDRESS,
+  currencyAddress,
+  paymentABI,
+  paymentAddress,
+} from '@/constant';
 import {
   fetchNodesConfigInfo,
   fetchNodesConfigUpdate,
@@ -20,6 +25,7 @@ import { history, Redirect, useModel } from 'umi';
 import Loading from './components/Loading';
 import { NodeInfo } from './components/NodeInfo';
 import styles from './index.less';
+import contract from '@/utils/contract';
 
 const options = [
   {
@@ -140,28 +146,7 @@ export default function Mount() {
 
   const onContract = async (price) => {
     try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-
-      // 初始化合约
-      const payment = new ethers.Contract(
-        paymentAddress,
-        paymentABI,
-        provider,
-      ).connect(signer);
-
-      const listingTx = await payment.createPayeeListing(
-        currencyAddress,
-        ethers.utils.parseEther(`${price}`),
-      );
-      message.info({
-        content: 'The operation is in progress, please wait...',
-        key: 'listingTx',
-        duration: 0,
-      });
-      await listingTx.wait();
-      message.destroy('listingTx');
-      message.success('The operation was successful!');
+      await contract.list(node.id, price);
     } catch (error) {
       throw new Error(error);
     }
@@ -203,7 +188,6 @@ export default function Mount() {
       history.push('/genesis/instance');
     } catch (error) {
       setConfirmLoading(false);
-      console.error('操作合约失败：', error);
       message.error('Operation contract failed, please try again!');
     }
   };

@@ -1,16 +1,8 @@
 import JanctionCountDown from '@/components/JanctionCountDown';
 import JanctionTable from '@/components/JanctionTable';
-import {
-  ADDRESS,
-  currencyABI,
-  currencyAddress,
-  Duration,
-  paymentABI,
-  paymentAddress,
-} from '@/constant';
 import { fetchMarketRent } from '@/services/genesis';
+import contract from '@/utils/contract';
 import { Form, message } from 'antd';
-import { ethers } from 'ethers';
 import { useEffect, useState } from 'react';
 import { history } from 'umi';
 import { useAccount } from 'wagmi';
@@ -19,16 +11,17 @@ import Footer from '../components/Footer/index1';
 import PayType from '../components/PayType';
 import { SETTLEMENT_COLUMNS } from '../extra';
 import styles from './index.less';
+import { ADDRESS, PAY_CURRENCY } from '@/constant';
 
 const Settlement = (props) => {
   const [deadline, setDeadline] = useState();
 
   const { formValues } = history.location.state || {};
-  const { address } = useAccount();
 
   console.log('『formValues』', formValues);
 
   const [loading, setLoading] = useState(false);
+  const [currency, setCurrency] = useState(ADDRESS.JCT);
 
   useEffect(() => {
     setDeadline(Date.now() + 20 * 60 * 1000);
@@ -51,63 +44,14 @@ const Settlement = (props) => {
   const onPay = async () => {
     try {
       console.log('『values』', formValues);
+      console.log('『currency』', currency);
       setLoading(true);
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-
-      // 初始化合约
-      const payment = new ethers.Contract(
-        ADDRESS.Payment,
-        paymentABI,
-        provider,
-      ).connect(signer);
-      const currency = new ethers.Contract(
-        currencyAddress,
-        currencyABI,
-        provider,
-      ).connect(signer);
-
-      // 获取需要支付的总金额
-      const totalAmount = await payment.getTotalAmount(
+      await contract.rent(
         node.user_id,
-        Duration[values.purchase_duration_unit],
+        node.id,
+        currency,
+        formValues.purchase_duration_unit,
       );
-      console.log('Total Amount to approve:', totalAmount.toString());
-
-      // 检查授权额度
-      const currentAllowance = await currency.allowance(
-        address,
-        paymentAddress,
-      );
-      console.log('currentAllowance:', currentAllowance.toString());
-      if (currentAllowance.lt(totalAmount)) {
-        console.log('Insufficient allowance, approving...');
-        message.info({
-          content: 'Approving...',
-          key: 'approveTx',
-          duration: 0,
-        });
-        const approveTx = await currency.approve(paymentAddress, totalAmount);
-        await approveTx.wait();
-        message.success('Approval successful!');
-      } else {
-        console.log('Sufficient allowance, skipping approve step.');
-      }
-
-      message.destroy('approveTx');
-      message.info({
-        content: 'Transaction in transit...',
-        key: 'tx',
-        duration: 0,
-      });
-      // 调起支付
-      const tx = await payment.createPayerPlan(
-        node.user_id,
-        Duration[values.purchase_duration_unit],
-      );
-      await tx.wait(); // 等待交易完成
-      message.destroy('tx');
-      message.success('Trade successfully!');
       await onRent({
         tx_id: tx.hash,
         node_id: node.id,
@@ -137,13 +81,12 @@ const Settlement = (props) => {
         format="mm:ss"
       />
       <PurchaseCard title="Price detail">
-        <Form.Item
-          name="pay_type"
-          rules={[{ required: true, message: 'please select pay type' }]}
-        >
-          <PayType />
-        </Form.Item>
-        <JanctionTable columns={SETTLEMENT_COLUMNS} />
+        <PayType value={currency} onChange={(e) => setCurrency(e)} />
+        <JanctionTable
+          columns={SETTLEMENT_COLUMNS}
+          dataSource={[formValues?.node || {}]}
+          pagination={false}
+        />
       </PurchaseCard>
       <Footer isSettlement onPre={() => history.goBack()} onPay={onPay} />
     </div>
