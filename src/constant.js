@@ -91,9 +91,9 @@ export const ANDROID_APK_PATH =
   'https://janction-test-1324956105.cos.ap-tokyo.myqcloud.com/janction.apk?q-sign-algorithm=sha1&q-ak=AKID--CAKWwFjso0Ddr-cBx98Vcd-Dvd5uswajldZLPXjPTjRNezGgZE6Pi87AA1EZ-2&q-sign-time=1719758323;1719761923&q-key-time=1719758323;1719761923&q-header-list=host&q-url-param-list=&q-signature=1e081b7f6eff8410a1d4a44829a58093c7600b42&x-cos-security-token=acBbXNgU3t64LR8t1WzD4i4FBM94s1hafb7f71301f6769bfebfe1453fffc7a1fvJPm9TUe_khwMPRyyithBH6Q69I_-D21dN5W-X8-MuTL3eElmLMrNccf6fb1__i7wGaMTH4CSdEx-DS91fce_8XTNywaxkwhzXuWkdlnxtkO3YGJqZ-22-ha6GptPQscPLvXp582SGuxu-0EfOHFloyb5-qf-lZZiZAIzjiMRGuC60AX3FwKCvPJbbkIe4pt';
 
 export const Duration = {
-  day: 0,
-  week: 1,
-  month: 2,
+  Day: 0,
+  Week: 1,
+  Month: 2,
   // Quarter: 3,
 };
 
@@ -104,19 +104,6 @@ export const paymentABI = [
       { name: 'initialOwner', type: 'address', internalType: 'address' },
     ],
     stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    name: 'currencyPriceOracle',
-    inputs: [{ name: '', type: 'address', internalType: 'address' }],
-    outputs: [
-      {
-        name: '',
-        type: 'address',
-        internalType: 'contract IPriceOracle',
-      },
-    ],
-    stateMutability: 'view',
   },
   {
     type: 'function',
@@ -210,22 +197,6 @@ export const paymentABI = [
   },
   {
     type: 'function',
-    name: 'getTotalAmount',
-    inputs: [
-      { name: 'owner', type: 'address', internalType: 'address' },
-      { name: 'nodeId', type: 'bytes32', internalType: 'bytes32' },
-      { name: 'currency', type: 'address', internalType: 'address' },
-      {
-        name: 'duration',
-        type: 'uint8',
-        internalType: 'enum Payment.Duration',
-      },
-    ],
-    outputs: [{ name: '', type: 'uint256', internalType: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
     name: 'isCurrencyWhitelisted',
     inputs: [{ name: '', type: 'address', internalType: 'address' }],
     outputs: [{ name: '', type: 'bool', internalType: 'bool' }],
@@ -290,11 +261,8 @@ export const paymentABI = [
       { name: 'owner', type: 'address', internalType: 'address' },
       { name: 'nodeId', type: 'bytes32', internalType: 'bytes32' },
       { name: 'currency', type: 'address', internalType: 'address' },
-      {
-        name: 'duration',
-        type: 'uint8',
-        internalType: 'enum Payment.Duration',
-      },
+      { name: 'totalAmount', type: 'uint256', internalType: 'uint256' },
+      { name: 'totalDays', type: 'uint256', internalType: 'uint256' },
     ],
     outputs: [],
     stateMutability: 'nonpayable',
@@ -321,16 +289,6 @@ export const paymentABI = [
       { name: 'totalDays', type: 'uint256', internalType: 'uint256' },
     ],
     stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    name: 'setPriceOracle',
-    inputs: [
-      { name: 'currency', type: 'address', internalType: 'address' },
-      { name: 'oracle', type: 'address', internalType: 'address' },
-    ],
-    outputs: [],
-    stateMutability: 'nonpayable',
   },
   {
     type: 'function',
@@ -602,7 +560,7 @@ export const currencyABI = [
   },
 ];
 
-export const paymentAddress = '0x4bcb4864a11c648830c917435d33422ba0201a3c'; // 合约地址
+export const paymentAddress = '0xD370b3aF7018e96165863d1F686eBfd30d6b4185'; // 合约地址
 export const currencyAddress = '0x248f49674A9cc39E68615BD6669F5a395cbfa4D3'; // 币种合约地址
 
 export const CPU_GPU_OPTIONS = [

@@ -395,3 +395,16 @@ export const fetchNodesDelete = async (data) => {
     throw new Error(`failed, ${error.message}`);
   }
 };
+
+export const fetchNodeProcessers = async (params) => {
+  try {
+    const response = await request(`${baseUrl}/node/processers`, {
+      params,
+      loginAuth: true,
+    });
+    return response;
+  } catch (error) {
+    console.log('『error』', error);
+    throw new Error(`failed, ${error.message}`);
+  }
+};

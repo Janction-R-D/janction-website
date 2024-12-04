@@ -12,10 +12,13 @@ import Location from './Location';
 import OperatingSystem from './OperatingSystem';
 import Processor from './Processor';
 import ProductList from './ProductList';
-import RegionSelect from './RegionSelect';
+import InternetSelect from './InternetSelect';
+import { useState } from 'react';
 
 const Customized = (props) => {
   const [form] = Form.useForm();
+
+  const [formValues, setFormValues] = useState();
 
   const onConfirm = async (callback) => {
     try {
@@ -28,8 +31,13 @@ const Customized = (props) => {
     }
   };
 
+  const onValuesChange = async () => {
+    const values = form.getFieldsValue();
+    setFormValues(values);
+  };
+
   return (
-    <Form form={form} name="customized">
+    <Form form={form} name="customized" onValuesChange={onValuesChange}>
       <div
         className={[
           styles['config-wrapper'],
@@ -39,7 +47,7 @@ const Customized = (props) => {
         <PurchaseCard title="Basic configuration">
           <PurchaseSubCard title="Operating System">
             <Form.Item
-              name="image"
+              name="operating_system_str"
               rules={[{ required: true, message: 'please select image' }]}
             >
               <OperatingSystem />
@@ -47,7 +55,7 @@ const Customized = (props) => {
           </PurchaseSubCard>
           <PurchaseSubCard title="Architecture">
             <Form.Item
-              name="architecture"
+              name="architechture_str"
               rules={[
                 {
                   required: true,
@@ -60,15 +68,15 @@ const Customized = (props) => {
           </PurchaseSubCard>
           <PurchaseSubCard title="Internet">
             <Form.Item
-              name="internet"
+              name="internet_type"
               rules={[{ required: true, message: 'please select internet' }]}
             >
-              <RegionSelect />
+              <InternetSelect />
             </Form.Item>
           </PurchaseSubCard>
           <PurchaseSubCard title="Connectivity Tier">
             <Form.Item
-              name="connectivityTier"
+              name="network_down"
               rules={[
                 {
                   required: true,
@@ -114,7 +122,7 @@ const Customized = (props) => {
           </PurchaseSubCard>
         </PurchaseCard>
         <PurchaseCard title="Available Instance">
-          <ProductList />
+          <ProductList formValues={formValues} />
         </PurchaseCard>
         <PurchaseCard>
           <Form.Item

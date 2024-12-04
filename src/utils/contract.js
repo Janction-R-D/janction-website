@@ -2,6 +2,20 @@ import { ADDRESS, currencyABI, Duration, paymentABI } from '@/constant';
 import { message } from 'antd';
 import { ethers } from 'ethers';
 
+export function durationMultiplier(duration) {
+  if (duration == Duration.Day) {
+    return 1;
+  } else if (duration == Duration.Week) {
+    return 6;
+  } else if (duration == Duration.Month) {
+    return 25;
+  } else if (duration == Duration.Quarter) {
+    return 70;
+  } else {
+    throw Error('invalid duration');
+  }
+}
+
 const contract = {
   list: async (nodeId, price) => {
     try {
@@ -17,7 +31,7 @@ const contract = {
 
       const listTx = await payment.list(
         ethers.utils.parseBytes32String(nodeId),
-        ethers.utils.formatBytes32String(`${price}`),
+        ethers.utils.parseUnits(price, 6),
       );
       message.info({
         content: 'The operation is in progress, please wait...',
@@ -79,12 +93,7 @@ const contract = {
       ).connect(signer);
 
       // 获取需要支付的总金额
-      const totalAmount = await payment.getTotalAmount(
-        ownerAddress,
-        nodeId,
-        currencyAddress,
-        Duration[duration],
-      );
+      const totalAmount = durationMultiplier(duration) * price;
       console.log('Total Amount to approve:', totalAmount.toString());
 
       // 检查授权额度
