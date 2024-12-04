@@ -1,27 +1,47 @@
 import JanctionCountDown from '@/components/JanctionCountDown';
 import JanctionTable from '@/components/JanctionTable';
-import { fetchMarketRent } from '@/services/genesis';
-import contract from '@/utils/contract';
+import { fetchMarketRent, fetchNodesConfigInfo } from '@/services/genesis';
+import contract, { durationMultiplier } from '@/utils/contract';
 import { Form, message } from 'antd';
 import { useEffect, useState } from 'react';
 import { history } from 'umi';
 import { useAccount } from 'wagmi';
 import PurchaseCard from '../components/Card';
-import Footer from '../components/Footer/index1';
+import Footer from '../components/Footer';
 import PayType from '../components/PayType';
 import { SETTLEMENT_COLUMNS } from '../extra';
 import styles from './index.less';
-import { ADDRESS, PAY_CURRENCY } from '@/constant';
+import { ADDRESS, DURATION_OPTIONS, PAY_CURRENCY } from '@/constant';
+import { isEmpty } from '@/utils/lang';
 
 const Settlement = (props) => {
   const [deadline, setDeadline] = useState();
 
   const { formValues } = history.location.state || {};
 
-  console.log('『formValues』', formValues);
+  const { address } = useAccount();
 
   const [loading, setLoading] = useState(false);
-  const [currency, setCurrency] = useState(ADDRESS.JCT);
+  const [currency, setCurrency] = useState(ADDRESS.USDT);
+  const [list, setList] = useState([]);
+
+  useEffect(() => {
+    if (!formValues?.node?.id) return;
+    getNodeConfigInfo({ node_id: formValues.node.id });
+  }, [formValues]);
+
+  const getNodeConfigInfo = async (params) => {
+    try {
+      const res = await fetchNodesConfigInfo(params);
+      if (isEmpty(res)) {
+        setList([]);
+        return;
+      }
+      setList([res]);
+    } catch (error) {
+      console.log('『error』', error);
+    }
+  };
 
   useEffect(() => {
     setDeadline(Date.now() + 20 * 60 * 1000);
@@ -43,19 +63,22 @@ const Settlement = (props) => {
 
   const onPay = async () => {
     try {
-      console.log('『values』', formValues);
-      console.log('『currency』', currency);
+      const { node, duration } = formValues || {};
       setLoading(true);
-      await contract.rent(
-        node.user_id,
-        node.id,
-        currency,
-        formValues.purchase_duration_unit,
-      );
+      const tx = await contract.rent({
+        paymentAddress: address,
+        ownerAddress: node.user_id,
+        currencyAddress: currency,
+        durationNum: duration?.value,
+        duration: duration?.unit,
+        price: configInfo?.price,
+      });
+      const goal = DURATION_OPTIONS.find((item) => item.value == duration.unit);
       await onRent({
         tx_id: tx.hash,
         node_id: node.id,
-        ...values,
+        purchase_duration: duration.value,
+        purchase_duration_unit: goal?.label.toLowerCase(),
       });
       setLoading(false);
       history.push('/genesis/instance');
@@ -65,6 +88,55 @@ const Settlement = (props) => {
       message.error('Operation contract failed, please try again!');
     }
   };
+
+  const columns = [
+    {
+      title: 'Device ID',
+      dataIndex: 'id',
+      key: 'deviceId',
+      width: 'auto',
+      ellipsis: true,
+    },
+    {
+      title: 'Price',
+      dataIndex: 'price',
+      ellipsis: true,
+      width: 'auto',
+      render: (text) => {
+        if (!text) return '--';
+        return `${text} USDT / Day`;
+      },
+    },
+    {
+      title: 'Quantity',
+      dataIndex: 'quantity',
+      render: () => '*1',
+    },
+    {
+      title: 'Duration',
+      dataIndex: 'duration',
+      width: 'auto',
+      render: (text) => {
+        const { value, unit } = formValues?.duration || {};
+        if (!value && !unit) return '--';
+        const goal = DURATION_OPTIONS.find((item) => item.value == unit);
+        return `${value || 0}${goal?.label}`;
+      },
+    },
+    {
+      title: 'Total Price',
+      dataIndex: 'duration',
+      width: 'auto',
+      render: (text) => {
+        const { value, unit } = formValues?.duration || {};
+        if (!value && !unit) return '--';
+        const { price } = list[0] || {};
+        const _currency = PAY_CURRENCY.find((item) => item.value == currency);
+        const _total = (price || 0) * value * durationMultiplier(unit, true);
+        return (Number(_total) / Number(_currency?.rate || 1)).toFixed(2);
+      },
+    },
+  ];
 
   return (
     <div className={styles['settlement-wrapper']}>
@@ -82,13 +154,16 @@ const Settlement = (props) => {
       />
       <PurchaseCard title="Price detail">
         <PayType value={currency} onChange={(e) => setCurrency(e)} />
-        <JanctionTable
-          columns={SETTLEMENT_COLUMNS}
-          dataSource={[formValues?.node || {}]}
-          pagination={false}
-        />
+        <JanctionTable columns={columns} dataSource={list} pagination={false} />
       </PurchaseCard>
-      <Footer isSettlement onPre={() => history.goBack()} onPay={onPay} />
+      <Footer
+        isSettlement
+        onPre={() => history.goBack()}
+        currencyAddress={currency}
+        formValues={formValues}
+        node={list[0]}
+        onPay={onPay}
+      />
     </div>
   );
 };

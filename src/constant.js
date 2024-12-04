@@ -96,6 +96,11 @@ export const Duration = {
   Month: 2,
   // Quarter: 3,
 };
+export const DURATION_OPTIONS = [
+  { label: 'Day', value: Duration.Day },
+  { label: 'Week', value: Duration.Week },
+  { label: 'Month', value: Duration.Month },
+];
 
 export const paymentABI = [
   {
@@ -107,59 +112,33 @@ export const paymentABI = [
   },
   {
     type: 'function',
-    name: 'delist',
-    inputs: [{ name: 'nodeId', type: 'bytes32', internalType: 'bytes32' }],
+    name: 'createPaymentPlan',
+    inputs: [
+      { name: 'payer', type: 'address', internalType: 'address' },
+      { name: 'recipient', type: 'address', internalType: 'address' },
+      { name: 'currency', type: 'address', internalType: 'address' },
+      { name: 'totalAmount', type: 'uint256', internalType: 'uint256' },
+      { name: 'totalDays', type: 'uint256', internalType: 'uint256' },
+    ],
     outputs: [],
     stateMutability: 'nonpayable',
   },
   {
     type: 'function',
-    name: 'getListing',
-    inputs: [
-      { name: 'owner', type: 'address', internalType: 'address' },
-      { name: 'nodeId', type: 'bytes32', internalType: 'bytes32' },
-    ],
+    name: 'getPaymentPlan',
+    inputs: [{ name: 'paymentId', type: 'bytes32', internalType: 'bytes32' }],
     outputs: [
       {
         name: '',
         type: 'tuple',
-        internalType: 'struct Payment.Listing',
+        internalType: 'struct Payment.PaymentPlan',
         components: [
+          { name: 'payer', type: 'address', internalType: 'address' },
           {
-            name: 'status',
-            type: 'uint8',
-            internalType: 'enum Payment.ListingStatus',
+            name: 'recipient',
+            type: 'address',
+            internalType: 'address',
           },
-          { name: 'owner', type: 'address', internalType: 'address' },
-          {
-            name: 'baseAmount',
-            type: 'uint256',
-            internalType: 'uint256',
-          },
-        ],
-      },
-    ],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    name: 'getRental',
-    inputs: [
-      { name: 'owner', type: 'address', internalType: 'address' },
-      { name: 'nodeId', type: 'bytes32', internalType: 'bytes32' },
-    ],
-    outputs: [
-      {
-        name: '',
-        type: 'tuple',
-        internalType: 'struct Payment.Rental',
-        components: [
-          {
-            name: 'status',
-            type: 'uint8',
-            internalType: 'enum Payment.RentalStatus',
-          },
-          { name: 'tenant', type: 'address', internalType: 'address' },
           {
             name: 'currency',
             type: 'address',
@@ -204,34 +183,6 @@ export const paymentABI = [
   },
   {
     type: 'function',
-    name: 'list',
-    inputs: [
-      { name: 'nodeId', type: 'bytes32', internalType: 'bytes32' },
-      { name: 'baseAmount', type: 'uint256', internalType: 'uint256' },
-    ],
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    name: 'listings',
-    inputs: [
-      { name: '', type: 'address', internalType: 'address' },
-      { name: '', type: 'bytes32', internalType: 'bytes32' },
-    ],
-    outputs: [
-      {
-        name: 'status',
-        type: 'uint8',
-        internalType: 'enum Payment.ListingStatus',
-      },
-      { name: 'owner', type: 'address', internalType: 'address' },
-      { name: 'baseAmount', type: 'uint256', internalType: 'uint256' },
-    ],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
     name: 'owner',
     inputs: [],
     outputs: [{ name: '', type: 'address', internalType: 'address' }],
@@ -240,10 +191,7 @@ export const paymentABI = [
   {
     type: 'function',
     name: 'releaseDailyPayment',
-    inputs: [
-      { name: 'owner', type: 'address', internalType: 'address' },
-      { name: 'nodeId', type: 'bytes32', internalType: 'bytes32' },
-    ],
+    inputs: [{ name: 'paymentId', type: 'bytes32', internalType: 'bytes32' }],
     outputs: [],
     stateMutability: 'nonpayable',
   },
@@ -253,42 +201,6 @@ export const paymentABI = [
     inputs: [],
     outputs: [],
     stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    name: 'rent',
-    inputs: [
-      { name: 'owner', type: 'address', internalType: 'address' },
-      { name: 'nodeId', type: 'bytes32', internalType: 'bytes32' },
-      { name: 'currency', type: 'address', internalType: 'address' },
-      { name: 'totalAmount', type: 'uint256', internalType: 'uint256' },
-      { name: 'totalDays', type: 'uint256', internalType: 'uint256' },
-    ],
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    name: 'rentals',
-    inputs: [
-      { name: '', type: 'address', internalType: 'address' },
-      { name: '', type: 'bytes32', internalType: 'bytes32' },
-    ],
-    outputs: [
-      {
-        name: 'status',
-        type: 'uint8',
-        internalType: 'enum Payment.RentalStatus',
-      },
-      { name: 'tenant', type: 'address', internalType: 'address' },
-      { name: 'currency', type: 'address', internalType: 'address' },
-      { name: 'totalAmount', type: 'uint256', internalType: 'uint256' },
-      { name: 'dailyAmount', type: 'uint256', internalType: 'uint256' },
-      { name: 'startTime', type: 'uint256', internalType: 'uint256' },
-      { name: 'paidDays', type: 'uint256', internalType: 'uint256' },
-      { name: 'totalDays', type: 'uint256', internalType: 'uint256' },
-    ],
-    stateMutability: 'view',
   },
   {
     type: 'function',
@@ -312,50 +224,25 @@ export const paymentABI = [
     name: 'DailyPaymentReleased',
     inputs: [
       {
-        name: 'owner',
-        type: 'address',
-        indexed: true,
-        internalType: 'address',
-      },
-      {
-        name: 'nodeId',
+        name: 'paymentId',
         type: 'bytes32',
         indexed: true,
         internalType: 'bytes32',
       },
       {
-        name: 'tenant',
+        name: 'payer',
+        type: 'address',
+        indexed: true,
+        internalType: 'address',
+      },
+      {
+        name: 'recipient',
         type: 'address',
         indexed: true,
         internalType: 'address',
       },
       {
         name: 'paidDays',
-        type: 'uint256',
-        indexed: false,
-        internalType: 'uint256',
-      },
-    ],
-    anonymous: false,
-  },
-  {
-    type: 'event',
-    name: 'List',
-    inputs: [
-      {
-        name: 'owner',
-        type: 'address',
-        indexed: true,
-        internalType: 'address',
-      },
-      {
-        name: 'nodeId',
-        type: 'bytes32',
-        indexed: true,
-        internalType: 'bytes32',
-      },
-      {
-        name: 'baseAmount',
         type: 'uint256',
         indexed: false,
         internalType: 'uint256',
@@ -384,24 +271,30 @@ export const paymentABI = [
   },
   {
     type: 'event',
-    name: 'Rent',
+    name: 'PaymentPlanCreated',
     inputs: [
       {
-        name: 'owner',
-        type: 'address',
-        indexed: true,
-        internalType: 'address',
-      },
-      {
-        name: 'nodeId',
+        name: 'paymentId',
         type: 'bytes32',
         indexed: true,
         internalType: 'bytes32',
       },
       {
-        name: 'tenant',
+        name: 'payer',
         type: 'address',
         indexed: true,
+        internalType: 'address',
+      },
+      {
+        name: 'recipient',
+        type: 'address',
+        indexed: true,
+        internalType: 'address',
+      },
+      {
+        name: 'currency',
+        type: 'address',
+        indexed: false,
         internalType: 'address',
       },
       {
@@ -560,16 +453,16 @@ export const currencyABI = [
   },
 ];
 
-export const paymentAddress = '0xD370b3aF7018e96165863d1F686eBfd30d6b4185'; // 合约地址
+export const paymentAddress = '0xCCC448d11A64E9778599C136503c668dd9729C43'; // 合约地址
 export const currencyAddress = '0x248f49674A9cc39E68615BD6669F5a395cbfa4D3'; // 币种合约地址
 
 export const CPU_GPU_OPTIONS = [
   { label: 'CPU', value: 'cpu' },
-  { label: 'GFPU', value: 'gpu' },
+  { label: 'GPU', value: 'gpu' },
 ];
 
 export const ADDRESS = {
-  Payment: '0xa69471765148a6F23C0d858B4ae3fBB61603219A',
+  Payment: '0xCCC448d11A64E9778599C136503c668dd9729C43',
   USDT: '0xCA181238E466Fd450AbCCFc8eaADECA3646e7b99',
   USDC: '0x1123904310D41b95e30747E9687Bb167eB370547',
   JCT: '0xa780e5799805eCF2c8aaebf551180F8109139B38',
@@ -583,13 +476,16 @@ export const PAY_CURRENCY = [
     value: ADDRESS.JCT,
     label: 'veJCT',
     desc: 'From JANCTION',
+    rate: 0.02,
   },
   {
     value: ADDRESS.USDT,
     label: 'USDT',
+    rate: 1,
   },
   {
     value: ADDRESS.USDC,
     label: 'USDC',
+    rate: 1,
   },
 ];

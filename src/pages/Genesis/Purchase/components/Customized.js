@@ -22,10 +22,8 @@ const Customized = (props) => {
 
   const onConfirm = async (callback) => {
     try {
-      // const values = await form.validateFields();
-      const values = await form.getFieldsValue();
-      // console.log('『values』', values);
-      history.push('/genesis/purchase/settlement', { formValues: values });
+      await form.validateFields();
+      history.push('/genesis/purchase/settlement', { formValues });
     } catch (err) {
       console.log('『err』', err);
     }
@@ -46,44 +44,22 @@ const Customized = (props) => {
       >
         <PurchaseCard title="Basic configuration">
           <PurchaseSubCard title="Operating System">
-            <Form.Item
-              name="operating_system_str"
-              rules={[{ required: true, message: 'please select image' }]}
-            >
+            <Form.Item name="operating_system_str">
               <OperatingSystem />
             </Form.Item>
           </PurchaseSubCard>
           <PurchaseSubCard title="Architecture">
-            <Form.Item
-              name="architechture_str"
-              rules={[
-                {
-                  required: true,
-                  message: 'please select architecture',
-                },
-              ]}
-            >
+            <Form.Item name="architechture_str">
               <Architecture />
             </Form.Item>
           </PurchaseSubCard>
           <PurchaseSubCard title="Internet">
-            <Form.Item
-              name="internet_type"
-              rules={[{ required: true, message: 'please select internet' }]}
-            >
+            <Form.Item name="internet_type">
               <InternetSelect />
             </Form.Item>
           </PurchaseSubCard>
           <PurchaseSubCard title="Connectivity Tier">
-            <Form.Item
-              name="network_down"
-              rules={[
-                {
-                  required: true,
-                  message: 'please select connectivity tier',
-                },
-              ]}
-            >
+            <Form.Item name="network_down">
               <ConnectivityTier defaultValue={1} />
             </Form.Item>
           </PurchaseSubCard>
@@ -95,34 +71,23 @@ const Customized = (props) => {
               </div>
             }
           >
-            <Form.Item
-              name="location"
-              rules={[
-                {
-                  required: true,
-                  message: 'please select location',
-                },
-              ]}
-            >
+            <Form.Item name="location">
               <Location />
             </Form.Item>
           </PurchaseSubCard>
           <PurchaseSubCard title="Processor">
-            <Form.Item
-              name="processor"
-              rules={[
-                {
-                  required: true,
-                  message: 'please select processor',
-                },
-              ]}
-            >
+            <Form.Item name="processor">
               <Processor />
             </Form.Item>
           </PurchaseSubCard>
         </PurchaseCard>
         <PurchaseCard title="Available Instance">
-          <ProductList formValues={formValues} />
+          <Form.Item
+            name="node"
+            rules={[{ required: true, message: 'please select instance' }]}
+          >
+            <ProductList formValues={formValues} />
+          </Form.Item>
         </PurchaseCard>
         <PurchaseCard>
           <Form.Item

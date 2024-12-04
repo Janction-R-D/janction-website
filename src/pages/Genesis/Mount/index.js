@@ -1,11 +1,5 @@
 import JanctionTip from '@/components/JanctionTip';
 import {
-  ADDRESS,
-  currencyAddress,
-  paymentABI,
-  paymentAddress,
-} from '@/constant';
-import {
   fetchNodesConfigInfo,
   fetchNodesConfigUpdate,
   fetchNodesInfo,
@@ -19,13 +13,11 @@ import {
   Select,
   TimePicker,
 } from 'antd';
-import { ethers } from 'ethers';
 import { useEffect, useState } from 'react';
 import { history, Redirect, useModel } from 'umi';
 import Loading from './components/Loading';
 import { NodeInfo } from './components/NodeInfo';
 import styles from './index.less';
-import contract from '@/utils/contract';
 
 const options = [
   {
@@ -144,14 +136,6 @@ export default function Mount() {
     setAgreeClause(e.target.checked);
   };
 
-  const onContract = async (price) => {
-    try {
-      await contract.list(node.id, price);
-    } catch (error) {
-      throw new Error(error);
-    }
-  };
-
   const handleSubmit = async (e) => {
     // e.preventDefault();
     if (!price) {
@@ -182,7 +166,6 @@ export default function Mount() {
     setConfirmLoading(true);
     try {
       await fetchNodesConfigUpdate(payload);
-      await onContract(price);
       setConfirmLoading(false);
       message.success('list success!');
       history.push('/genesis/instance');
@@ -279,7 +262,7 @@ export default function Mount() {
               <p>Billing price</p>
 
               <Input
-                suffix={<p>veJCT/Day</p>}
+                suffix={<p>USDT/Day</p>}
                 type="number"
                 placeholder="Enter a price"
                 value={price}

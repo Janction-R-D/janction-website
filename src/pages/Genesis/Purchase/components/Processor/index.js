@@ -12,7 +12,7 @@ const Processor = (props) => {
   const { value, onChange } = props;
   const [data, setData] = useState();
   const [cpu_gpu, setCpuGpu] = useState(CPU_GPU_OPTIONS[0].value);
-  const [type, setType] = useState(PROCESSOR[0].value);
+  const [brand, setBrand] = useState(PROCESSOR[0].value);
   const [selectKey, setSelectKey] = useState();
   const [keyword, setKeyword] = useState();
 
@@ -29,26 +29,27 @@ const Processor = (props) => {
   };
 
   useEffect(() => {
-    setSelectKey(value?.id);
+    setSelectKey(value);
   }, [value]);
 
   const list = useMemo(() => {
     if (isEmpty(data)) return [];
     let _list = data[cpu_gpu];
-    if (keyword) {
-      _list = _list.filter((item) =>
-        item.toLowerCase().includes(keyword.toLowerCase()),
-      );
-    }
+    _list = _list.filter((item) => {
+      let _keyword =
+        !keyword || item.name.toLowerCase().includes(keyword.toLowerCase());
+      let _brand = !brand || item.brand == brand;
+      return _keyword && _brand;
+    });
     return _list;
-  }, [data, type, cpu_gpu, keyword]);
+  }, [data, brand, cpu_gpu, keyword]);
 
   return (
     <div className={styles['processor-container']}>
       <div className={styles['radio']}>
         <JanctionRadio
-          value={type}
-          onChange={(val) => setType(val)}
+          value={brand}
+          onChange={(val) => setBrand(val)}
           options={PROCESSOR}
         />
         <JanctionRadio
@@ -67,15 +68,16 @@ const Processor = (props) => {
             title: 'name',
             dataIndex: 'name',
             render: (text, record) => {
-              return record;
+              return text;
             },
           },
         ]}
-        rowKey={(record) => record}
+        rowKey="name"
         rowSelection={{
-          selectedRowKeys: [selectKey],
-          onChange: (selectedRowKeys, selectedRows) => {
-            onChange(selectedRows[0]);
+          selectedRowKeys: selectKey,
+          onChange: (selectedRowKeys) => {
+            setSelectKey(selectedRowKeys);
+            onChange(selectedRowKeys);
           },
         }}
       />
