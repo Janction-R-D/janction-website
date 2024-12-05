@@ -26,7 +26,6 @@ const Lessors = (props) => {
   const [lessorsData, setLessorsData] = useState();
   const [monitorList, setMonitorList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [monthGoal, setMonthGoal] = useState();
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -38,17 +37,19 @@ const Lessors = (props) => {
     setIsModalOpen(false);
   };
   const percent = useMemo(() => {
-    const { monthly_goal = 0, total = 0 } = lessorsData?.Profit || {};
+    const { monthly_goal = 0, total = 0 } = lessorsData?.profit || {};
     if (monthly_goal) return (total / monthly_goal) * 100;
     return 0;
   }, [lessorsData]);
 
   useEffect(() => {
     getLessors();
+    console.log(lessorsData);
   }, []);
   const getLessors = async () => {
     const res = await fetchLessor();
     setLessorsData(res);
+    console.log(res);
     setMonitorList(res?.activites || []);
   };
 
@@ -248,7 +249,7 @@ const Lessors = (props) => {
               <div className={styles['total-item']}>
                 <div className={styles['name']}>Total</div>
                 <div className={styles['value']}>
-                  {numeral(lessorsData?.Profit?.total || 0).format('$0.00')}
+                  {numeral(lessorsData?.profit?.total || 0).format('$0.00')}
                 </div>
               </div>
               <div className={styles['total-item']}>
@@ -256,7 +257,7 @@ const Lessors = (props) => {
                   Node rewards
                 </div>
                 <div className={styles['value']}>
-                  {numeral(lessorsData?.Profit?.rewards || 0).format('$0.00')}
+                  {numeral(lessorsData?.profit?.rewards || 0).format('$0.00')}
                 </div>
               </div>
               <div className={styles['total-item']}>
@@ -264,7 +265,7 @@ const Lessors = (props) => {
                   Rental income
                 </div>
                 <div className={styles['value']}>
-                  {numeral(lessorsData?.Profit?.rental_income || 0).format(
+                  {numeral(lessorsData?.profit?.rental_income || 0).format(
                     '$0.00',
                   )}
                 </div>
@@ -274,7 +275,7 @@ const Lessors = (props) => {
                   Staking proceeds
                 </div>
                 <div className={styles['value']}>
-                  {numeral(lessorsData?.Profit?.pledge_proceeds || 0).format(
+                  {numeral(lessorsData?.profit?.pledge_proceeds || 0).format(
                     '$0.00',
                   )}
                 </div>
@@ -288,17 +289,17 @@ const Lessors = (props) => {
                 <div className={styles['goal']}>
                   <span>
                     Goal{' '}
-                    {numeral(lessorsData?.Profit?.monthly_goal || 0).format(
+                    {numeral(lessorsData?.profit?.monthly_goal || 0).format(
                       '$0.00',
                     )}
                     {' m'}
                   </span>
-                  {/* <p onClick={showModal}>Set</p> */}
+                  <p onClick={showModal}>Set</p>
                   <MonthGoal
                     handleCancel={handleCancel}
                     handleOk={handleOk}
                     isModalOpen={isModalOpen}
-                    setMonthGoal={setMonthGoal}
+                    getLessors={getLessors}
                   />
                 </div>
               </div>
@@ -314,7 +315,7 @@ const Lessors = (props) => {
                         : { right: '-8px', transform: `translate(100%, -50%)` }
                     }
                   >
-                    {numeral(lessorsData?.Profit?.total || 0).format('$0.00')}m
+                    {numeral(lessorsData?.profit?.total || 0).format('$0.00')}m
                   </span>
                 </div>
               </div>
