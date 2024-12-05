@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import styles from './index.less';
 import { Select } from 'antd';
-import { REGION } from '../../extra';
+import { INTERNET } from '../../extra';
 import JanctionSelect from '@/components/JanctionSelect';
 
-const RegionSelect = (props) => {
+const InternetSelect = (props) => {
   const { value, onChange } = props;
   const [active, setActive] = useState();
 
@@ -14,7 +14,7 @@ const RegionSelect = (props) => {
 
   return (
     <div className={styles['region-select']}>
-      {REGION.map((item) => (
+      {INTERNET.map((item) => (
         <div
           className={[
             styles['item'],
@@ -25,12 +25,11 @@ const RegionSelect = (props) => {
             onChange(item.value);
           }}
         >
-          <span>{item.name}</span>
+          <span>{item.label}</span>
         </div>
       ))}
-      <JanctionSelect placeholder="Other regions" options={REGION} />
     </div>
   );
 };
 
-export default RegionSelect;
+export default InternetSelect;

@@ -2,29 +2,34 @@ import { Checkbox, Tabs } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
 import PurchaseCheckBox from '../PurchaseCheckBox';
 import { CONTINEXT } from './constant';
+import useLocation from '@/hooks/useLocation';
 import styles from './index.less';
+import { isEmpty } from '@/utils/lang';
 
 const Location = (props) => {
   const { value, onChange } = props;
 
+  const { continents } = useLocation();
+
   const [list, setList] = useState([]);
 
   useEffect(() => {
-    const _list = CONTINEXT.map((item) => {
-      const ids = (item.children || [])?.map((child) => child.value);
-      return { ...item, ids };
+    if (isEmpty(continents)) return;
+    const _list = Object.keys(continents).map((continent) => {
+      const codes = (continents[continent] || [])?.map((child) => child.code);
+      return { continent, children: continents[continent], codes };
     });
     setList(_list);
-  }, []);
+  }, [continents]);
 
   const onAllCheckChange = (val, tabItem) => {
     let newArray = [...list];
     newArray = newArray.map((item) => {
-      if (item.value == tabItem.value) {
+      if (item.continent == tabItem.continent) {
         let checked = item.checked;
         return {
           ...item,
-          checkedIds: checked ? [] : item.ids,
+          checkedIds: checked ? [] : item.codes,
           checked: checked ? false : true,
           someChecked: checked ? false : true,
           indeterminate: false,
@@ -38,9 +43,9 @@ const Location = (props) => {
   const onCheckChange = (val, tabItem) => {
     let newArray = [...list];
     newArray = newArray.map((item) => {
-      if (item.value == tabItem.value) {
-        const someChecked = item.ids.some((_item) => val.includes(_item));
-        const checked = item.ids.every((_item) => val.includes(_item));
+      if (item.continent == tabItem.continent) {
+        const someChecked = item.codes.some((_item) => val.includes(_item));
+        const checked = item.codes.every((_item) => val.includes(_item));
         return {
           ...item,
           checkedIds: val,
@@ -68,16 +73,17 @@ const Location = (props) => {
                 checked={item.checked}
                 onChange={(val) => onAllCheckChange(val, item)}
               ></Checkbox>
-              <span>{item.enLabel}</span>
+              <span>{item.continent}</span>
             </div>
           ),
-          key: item.value,
+          key: item.continent,
           children: (
             <PurchaseCheckBox
               value={item.checkedIds}
               options={item.children?.map((item) => ({
                 ...item,
-                label: item.enLabel,
+                value: item.code,
+                label: item.name,
               }))}
               onChange={(val) => onCheckChange(val, item)}
             />

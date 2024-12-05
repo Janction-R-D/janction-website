@@ -1,4 +1,4 @@
-import { Duration } from '@/constant';
+import { Duration, DURATION_OPTIONS } from '@/constant';
 import { capitalizeFirstLetter } from '@/utils/lang';
 import { InputNumber, Select } from 'antd';
 import LabelVal from '../Card/LabelVal';
@@ -27,11 +27,8 @@ const PurDuration = (props) => {
           />
           <Select
             bordered={false}
-            options={Object.keys(Duration).map((item) => ({
-              label: capitalizeFirstLetter(item),
-              value: item,
-            }))}
-            defaultValue="Month"
+            options={DURATION_OPTIONS}
+            defaultValue={Duration.Month}
             style={{ width: '105px' }}
             onChange={onSelectChange}
           ></Select>

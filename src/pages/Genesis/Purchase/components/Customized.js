@@ -12,24 +12,30 @@ import Location from './Location';
 import OperatingSystem from './OperatingSystem';
 import Processor from './Processor';
 import ProductList from './ProductList';
-import RegionSelect from './RegionSelect';
+import InternetSelect from './InternetSelect';
+import { useState } from 'react';
 
 const Customized = (props) => {
   const [form] = Form.useForm();
 
+  const [formValues, setFormValues] = useState();
+
   const onConfirm = async (callback) => {
     try {
-      // const values = await form.validateFields();
-      const values = await form.getFieldsValue();
-      // console.log('『values』', values);
-      history.push('/genesis/purchase/settlement', { formValues: values });
+      await form.validateFields();
+      history.push('/genesis/purchase/settlement', { formValues });
     } catch (err) {
       console.log('『err』', err);
     }
   };
 
+  const onValuesChange = async () => {
+    const values = form.getFieldsValue();
+    setFormValues(values);
+  };
+
   return (
-    <Form form={form} name="customized">
+    <Form form={form} name="customized" onValuesChange={onValuesChange}>
       <div
         className={[
           styles['config-wrapper'],
@@ -38,44 +44,22 @@ const Customized = (props) => {
       >
         <PurchaseCard title="Basic configuration">
           <PurchaseSubCard title="Operating System">
-            <Form.Item
-              name="image"
-              rules={[{ required: true, message: 'please select image' }]}
-            >
+            <Form.Item name="operating_system_str">
               <OperatingSystem />
             </Form.Item>
           </PurchaseSubCard>
           <PurchaseSubCard title="Architecture">
-            <Form.Item
-              name="architecture"
-              rules={[
-                {
-                  required: true,
-                  message: 'please select architecture',
-                },
-              ]}
-            >
+            <Form.Item name="architechture_str">
               <Architecture />
             </Form.Item>
           </PurchaseSubCard>
           <PurchaseSubCard title="Internet">
-            <Form.Item
-              name="internet"
-              rules={[{ required: true, message: 'please select internet' }]}
-            >
-              <RegionSelect />
+            <Form.Item name="internet_type">
+              <InternetSelect />
             </Form.Item>
           </PurchaseSubCard>
           <PurchaseSubCard title="Connectivity Tier">
-            <Form.Item
-              name="connectivityTier"
-              rules={[
-                {
-                  required: true,
-                  message: 'please select connectivity tier',
-                },
-              ]}
-            >
+            <Form.Item name="network_down">
               <ConnectivityTier defaultValue={1} />
             </Form.Item>
           </PurchaseSubCard>
@@ -87,34 +71,23 @@ const Customized = (props) => {
               </div>
             }
           >
-            <Form.Item
-              name="location"
-              rules={[
-                {
-                  required: true,
-                  message: 'please select location',
-                },
-              ]}
-            >
+            <Form.Item name="location">
               <Location />
             </Form.Item>
           </PurchaseSubCard>
           <PurchaseSubCard title="Processor">
-            <Form.Item
-              name="processor"
-              rules={[
-                {
-                  required: true,
-                  message: 'please select processor',
-                },
-              ]}
-            >
+            <Form.Item name="processor">
               <Processor />
             </Form.Item>
           </PurchaseSubCard>
         </PurchaseCard>
         <PurchaseCard title="Available Instance">
-          <ProductList />
+          <Form.Item
+            name="node"
+            rules={[{ required: true, message: 'please select instance' }]}
+          >
+            <ProductList formValues={formValues} />
+          </Form.Item>
         </PurchaseCard>
         <PurchaseCard>
           <Form.Item

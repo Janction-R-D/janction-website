@@ -6,48 +6,45 @@ import Footer from './Footer';
 import styles from './index.less';
 import ProductList from './ProductList';
 import PurDuration from './PurDuration';
+import { useState } from 'react';
 
 const Quick = (props) => {
   const [form] = Form.useForm();
 
-  const onConfirm = async (callback) => {
+  const [formValues, setFormValues] = useState();
+
+  const onValuesChange = async () => {
+    const values = form.getFieldsValue();
+    setFormValues(values);
+  };
+
+  const onConfirm = async () => {
     try {
-      // const values = await form.validateFields();
-      const values = await form.getFieldsValue();
-      console.log('『values』', values);
-      history.push('/genesis/purchase/settlement', { formValues: values });
+      await form.validateFields();
+      history.push('/genesis/purchase/settlement', { formValues });
     } catch (err) {
       console.log('『err』', err);
     }
   };
 
   return (
-    <Form form={form} name="quick">
+    <Form form={form} name="quick" onValuesChange={onValuesChange}>
       <div
         className={[styles['config-wrapper'], styles['quick-wrapper']].join(
           ' ',
         )}
       >
+        <PurchaseCard title="Connectivity Tier">
+          <Form.Item name="network_down">
+            <ConnectivityTier defaultValue={1} />
+          </Form.Item>
+        </PurchaseCard>
         <PurchaseCard title="Available Instance">
           <Form.Item
             name="node"
             rules={[{ required: true, message: 'please select instance' }]}
           >
-            <ProductList />
-          </Form.Item>
-        </PurchaseCard>
-        <PurchaseCard title="Connectivity Tier">
-          <Form.Item
-            name="connectivityTier"
-            rules={[
-              {
-                required: true,
-                message: 'please select connectivity tier',
-              },
-            ]}
-            initialValue={1}
-          >
-            <ConnectivityTier defaultValue={1} />
+            <ProductList formValues={formValues} />
           </Form.Item>
         </PurchaseCard>
         <PurchaseCard>

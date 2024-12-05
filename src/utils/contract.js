@@ -1,6 +1,21 @@
 import { ADDRESS, currencyABI, Duration, paymentABI } from '@/constant';
+import { fetchMarketRent } from '@/services/genesis';
 import { message } from 'antd';
 import { ethers } from 'ethers';
+
+export function durationMultiplier(duration, discount) {
+  if (duration == Duration.Day) {
+    return 1;
+  } else if (duration == Duration.Week) {
+    return discount ? 6 : 7;
+  } else if (duration == Duration.Month) {
+    return discount ? 25 : 30;
+  } else if (duration == Duration.Quarter) {
+    return discount ? 70 : 90;
+  } else {
+    throw Error('invalid duration');
+  }
+}
 
 const contract = {
   list: async (nodeId, price) => {
@@ -17,7 +32,7 @@ const contract = {
 
       const listTx = await payment.list(
         ethers.utils.parseBytes32String(nodeId),
-        ethers.utils.formatBytes32String(`${price}`),
+        ethers.utils.parseUnits(price, 6),
       );
       message.info({
         content: 'The operation is in progress, please wait...',
@@ -60,7 +75,14 @@ const contract = {
       throw new Error(error);
     }
   },
-  rent: async (ownerAddress, nodeId, currencyAddress, duration) => {
+  rent: async ({
+    paymentAddress,
+    ownerAddress,
+    currencyAddress,
+    durationNum,
+    duration,
+    price,
+  }) => {
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
@@ -79,12 +101,9 @@ const contract = {
       ).connect(signer);
 
       // 获取需要支付的总金额
-      const totalAmount = await payment.getTotalAmount(
-        ownerAddress,
-        nodeId,
-        currencyAddress,
-        Duration[duration],
-      );
+      const discountTotalDays =
+        durationNum * durationMultiplier(duration, true);
+      const totalAmount = discountTotalDays * price;
       console.log('Total Amount to approve:', totalAmount.toString());
 
       // 检查授权额度
@@ -113,21 +132,20 @@ const contract = {
         key: 'tx',
         duration: 0,
       });
+
       // 调起支付
-      const tx = await payment.rent(
+      const totalDays = durationNum * durationMultiplier(duration);
+      const tx = await payment.createPaymentPlan(
+        paymentAddress,
         ownerAddress,
-        nodeId,
         currencyAddress,
-        Duration[duration],
+        ethers.utils.parseUnits(totalAmount, 6),
+        totalDays,
       );
       await tx.wait(); // 等待交易完成
       message.destroy('tx');
       message.success('Trade successfully!');
-      await onRent({
-        tx_id: tx.hash,
-        node_id: node.id,
-        ...values,
-      });
+      return tx;
     } catch (error) {
       console.log('『error』', error);
       throw new Error(error);
