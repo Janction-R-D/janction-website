@@ -122,31 +122,31 @@ function TwitterElement({ icon }) {
   const [token, setToken] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
 
-  useEffect(() => {
-    const urlParams = new URLSearchParams(
-      window.location.hash.replace('#', '?'),
-    );
-    const accessToken = urlParams.get('access_token');
+  //   useEffect(() => {
+  //     const urlParams = new URLSearchParams(
+  //       window.location.hash.replace('#', '?'),
+  //     );
+  //     const accessToken = urlParams.get('access_token');
 
-    if (accessToken) {
-      setToken(accessToken);
-      localStorage.setItem('twitterToken', accessToken);
-      setIsConnected(true);
+  //     if (accessToken) {
+  //       setToken(accessToken);
+  //       localStorage.setItem('twitterToken', accessToken);
+  //       setIsConnected(true);
 
-      getTwitterUserData(accessToken).then((data) => {
-        setUserInfo(data);
-      });
-    } else {
-      const storedToken = localStorage.getItem('twitterToken');
-      if (storedToken) {
-        setToken(storedToken);
-        setIsConnected(true);
-        getTwitterUserData(storedToken).then((data) => {
-          setUserInfo(data);
-        });
-      }
-    }
-  }, []);
+  //       getTwitterUserData(accessToken).then((data) => {
+  //         setUserInfo(data);
+  //       });
+  //     } else {
+  //       const storedToken = localStorage.getItem('twitterToken');
+  //       if (storedToken) {
+  //         setToken(storedToken);
+  //         setIsConnected(true);
+  //         getTwitterUserData(storedToken).then((data) => {
+  //           setUserInfo(data);
+  //         });
+  //       }
+  //     }
+  //   }, []);
 
   const handleClick = () => {
     if (isConnected) {
@@ -160,7 +160,7 @@ function TwitterElement({ icon }) {
   };
 
   const redirectToTwitterAuth = () => {
-    const clientId = 'NDhuSVlLaXlSWXhvdVhOU2hSLVo6MTpjaQ';
+    const clientId = 'N24zSm5GUTgybUZHb2lwUThUS1c6MTpjaQ';
     const redirectUri = encodeURIComponent(
       'http://localhost:8000/genesis/user-center',
     );

@@ -1,15 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Input, Button } from 'antd';
 import styles from './index.less';
+import { MonthlyGoal } from '@/services/genesis';
 export default function MonthGoal({
   handleCancel,
+  getLessors,
   handleOk,
   isModalOpen,
-  setMonthGoal,
 }) {
-  const [input, setInput] = useState();
+  const [input, setInput] = useState(null);
   const handleClick = (e) => {
-    setMonthGoal(input);
+    const data = { monthly_goal: Number(input) };
+    console.log(data);
+    MonthlyGoal(data)
+      .then((res) => {
+        getLessors();
+        setInput(null);
+        handleOk();
+      })
+      .catch((e) => console.log(e));
   };
 
   return (
@@ -30,6 +39,7 @@ export default function MonthGoal({
         type="number"
         className={styles['search-input']}
         onChange={(e) => setInput(e.target.value)}
+        onPressEnter={handleClick}
       />
 
       <Button className={styles['create-btn']} onClick={handleClick}>
