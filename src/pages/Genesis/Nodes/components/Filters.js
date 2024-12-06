@@ -35,7 +35,7 @@ export default function Filters({ styles, setFilter, filters }) {
             running
           </Radio.Button>
           <Radio.Button
-            value="list"
+            value="listed"
             name="filter"
             onClick={() => handleFilters('listed')}
           >

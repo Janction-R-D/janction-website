@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "16619493",
+      "name": "wallet",
+      "font_class": "wallet1",
+      "unicode": "e6e0",
+      "unicode_decimal": 59104
+    },
+    {
       "icon_id": "42661481",
       "name": "intel",
       "font_class": "intel",
