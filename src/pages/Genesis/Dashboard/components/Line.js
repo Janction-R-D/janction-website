@@ -1,16 +1,12 @@
-import React, { useMemo } from 'react';
-import ReactEcharts from 'echarts-for-react';
-import * as echarts from 'echarts';
-import { MONTH } from '@/constant';
-import useScale from '../../../../hooks/useScale';
-import { balanceData } from '../data';
-import useLesses from '../Hooks/useLesses';
 import { isEmpty } from '@/utils/lang';
 import dayjs from 'dayjs';
+import * as echarts from 'echarts';
+import ReactEcharts from 'echarts-for-react';
+import { useMemo } from 'react';
+import useLesses from '../Hooks/useLesses';
 
 const Line = (props) => {
   const { lessesData } = useLesses();
-  const { scale } = useScale();
 
   const echartsData = useMemo(() => {
     if (isEmpty(lessesData))

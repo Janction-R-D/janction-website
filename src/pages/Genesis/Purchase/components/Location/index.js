@@ -1,7 +1,6 @@
-import { Checkbox, Tabs } from 'antd';
+import { Checkbox, Empty, Tabs } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
 import PurchaseCheckBox from '../PurchaseCheckBox';
-import { CONTINEXT } from './constant';
 import useLocation from '@/hooks/useLocation';
 import styles from './index.less';
 import { isEmpty } from '@/utils/lang';
@@ -62,7 +61,9 @@ const Location = (props) => {
   };
 
   const tabs = useMemo(() => {
-    return (
+    return isEmpty(list) ? (
+      <Empty />
+    ) : (
       <Tabs
         onChange={onChange}
         items={list.map((item) => ({

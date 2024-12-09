@@ -46,7 +46,7 @@ const navList = [
     name: 'Orders',
     path: '/genesis/orders',
     key: 4,
-    icon: 'my-nodes',
+    icon: 'workbench',
     role: (isLessee) => isLessee,
   },
   {

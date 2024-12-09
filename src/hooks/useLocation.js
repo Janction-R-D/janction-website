@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 const useLocation = () => {
   const [data, setData] = useState([]);
   const [continents, setContinents] = useState({});
-  const [selectedContinent, setSelectedContinent] = useState(null);
 
   useEffect(() => {
     fetchData();
