@@ -7,9 +7,14 @@ import { history, useModel } from 'umi';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import GenesisContext from '@/layouts/Context/GenesisContext';
 import { fetchUserCenter } from '@/services/genesis';
+import NotifyModal from './NotifyModal';
 export default function ProfileHeader() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { imgUrl, setImgUrl } = useContext(GenesisContext);
+  const [isNotifyModalOpen, setIsNotifyModalOpen] = useState(false);
+  const handleNotifyOk = () => {
+    setIsNotifyModalOpen(true);
+  };
   useEffect(() => {
     const getUserCenterData = () => {
       return fetchUserCenter()
@@ -34,12 +39,17 @@ export default function ProfileHeader() {
 
   return (
     <header className={styles['header']}>
-      <span>
+      <span onClick={handleNotifyOk}>
         <i className="iconfont icon-bell "></i>
       </span>
       <div className={styles['img-container']} onClick={showModal}>
         <img className={styles['profile-img']} src={imgUrl} />
       </div>
+      <NotifyModal
+        isModalOpen={isNotifyModalOpen}
+        setIsModalOpen={setIsNotifyModalOpen}
+        handleOk={handleNotifyOk}
+      />
       <ProfileModal
         styles={styles}
         isModalOpen={isModalOpen}

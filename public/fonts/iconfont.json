@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "2142832",
+      "name": "list",
+      "font_class": "list",
+      "unicode": "e6a5",
+      "unicode_decimal": 59045
+    },
+    {
+      "icon_id": "23863678",
+      "name": "账号登录",
+      "font_class": "desktop",
+      "unicode": "e618",
+      "unicode_decimal": 58904
+    },
+    {
+      "icon_id": "41424319",
+      "name": "ticket",
+      "font_class": "ticket",
+      "unicode": "ee0e",
+      "unicode_decimal": 60942
+    },
+    {
       "icon_id": "16619493",
       "name": "wallet",
       "font_class": "wallet1",

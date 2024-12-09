@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4602216 */
-  src: url('iconfont.woff2?t=1733493762040') format('woff2'),
-       url('iconfont.woff?t=1733493762040') format('woff'),
-       url('iconfont.ttf?t=1733493762040') format('truetype');
+  src: url('iconfont.woff2?t=1733768924976') format('woff2'),
+       url('iconfont.woff?t=1733768924976') format('woff'),
+       url('iconfont.ttf?t=1733768924976') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,18 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-list:before {
+  content: "\e6a5";
+}
+
+.icon-desktop:before {
+  content: "\e618";
+}
+
+.icon-ticket:before {
+  content: "\ee0e";
 }
 
 .icon-wallet1:before {
