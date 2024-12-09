@@ -118,7 +118,7 @@ export default function UserAccount() {
     setKey({});
   };
   const handleVerify = () => {
-    setIsEmailConfigOpen(true);
+    setIsEmailModalOpen(true);
   };
   function convertToFormData(info) {
     const formData = new FormData();
@@ -209,10 +209,10 @@ export default function UserAccount() {
             name={name}
             setName={setName}
           />
-          <EmailConfig
+          {/* <EmailConfig
             isEmailConfigOpen={isEmailConfigOpen}
             setIsEmailConfigOpen={setIsEmailConfigOpen}
-          />
+          /> */}
         </div>
         <div>
           <p>ID: {data?.id}</p>
@@ -223,6 +223,11 @@ export default function UserAccount() {
             <span onClick={handleVerify}>
               {data?.email !== '' ? 'Bind' : 'Bind'}
             </span>
+            <EmailVerify
+              isEmailModalOpen={isEmailModalOpen}
+              setIsEmailModalOpen={setIsEmailModalOpen}
+              data={data}
+            />
           </div>
         </div>
         <Button className={styles['create-btn']} type="primary">
@@ -231,11 +236,11 @@ export default function UserAccount() {
           </span>{' '}
           Real name authentication
         </Button>
-        <EmailVerify
+        {/* <EmailVerify
           isEmailModalOpen={isEmailModalOpen}
           setIsEmailModalOpen={setIsEmailModalOpen}
           data={data}
-        />
+        /> */}
       </article>
       {/* <AuthName data={data} /> */}
       {/* <Card className={styles['card']}>
