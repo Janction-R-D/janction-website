@@ -25,7 +25,8 @@ const notifications = [
   },
   {
     type: 'transaction',
-    message: 'Payment for node upgrade successful',
+    message:
+      'You have an instance that is about to expire，You have an instance that is about to expire',
     timestamp: '2024-12-02T16:25:43',
   },
 
@@ -76,9 +77,11 @@ export default function NotifyModal({ setIsModalOpen, isModalOpen, handleOk }) {
     >
       <header className={styles['card-header']}>
         <h3 className={styles['card-title']}>New news ({news.length})</h3>
-        <Button className={styles['create-btn']}>
-          See All <i className="iconfont icon-next_page"></i>
-        </Button>
+        {news.length > 0 && (
+          <Button className={styles['create-btn']}>
+            See All <i className="iconfont icon-next_page"></i>
+          </Button>
+        )}
       </header>
       <main className={styles['card-news']}>
         {news.length <= 0 ? (

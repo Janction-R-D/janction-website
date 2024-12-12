@@ -31,7 +31,12 @@ const NotificationItem = ({ type, message, timestamp }) => (
       </h1>
       <div className={styles['time']}>{timestamp}</div>
     </header>
-    <Tooltip title={message} overlayClassName={styles['janction-tooltip']}>
+    <Tooltip
+      title={message}
+      overlayClassName={styles['janction-tooltip']}
+      placement="bottomRight"
+      color="black"
+    >
       <p className={styles['message']}>{message}</p>
     </Tooltip>
   </div>
