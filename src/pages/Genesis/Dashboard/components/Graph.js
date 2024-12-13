@@ -73,7 +73,7 @@ export function Graph() {
     >
       <ReactECharts
         option={option}
-        style={{ height: '250px', width: '100%' }}
+        style={{ height: '240px', width: '100%' }}
       />
     </div>
   );
