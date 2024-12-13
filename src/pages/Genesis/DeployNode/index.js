@@ -8,6 +8,7 @@ import Step1 from './components/System';
 import { Redirect, useModel } from 'umi';
 import { renderBackgroudImg } from '@/utils/lang';
 import banner1 from '@/assets/images/genesis/banner1.png';
+import BuyNode from './components/BuyNode';
 
 const DEFAULT = {
   system: SYSTEM_LIST[0].value,
@@ -123,7 +124,7 @@ const Nodes = (props) => {
           profits！ Currently holding Janction Landlord NFT to participate in
           the computing power provider network！
         </p>
-        <div className={styles['btn']}>Buy Now!</div>
+        <BuyNode item={curStep} />
       </div>
     </>
   );
