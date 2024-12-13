@@ -1,25 +1,35 @@
-import {
-  Button,
-  Col,
-  Form,
-  Input,
-  InputNumber,
-  message,
-  Row,
-  Skeleton,
-  Statistic,
-} from 'antd';
-import styles from './index.less';
+import JanctionCard from '@/components/JanctionCard';
 import JanctionTable from '@/components/JanctionTable';
-import data from './data.json';
+import { Col, Form, message, Row, Space } from 'antd';
 import { useState } from 'react';
-import EditModal from './EditModal';
-import { DotChartOutlined } from '@ant-design/icons';
+import GenerateCode from './components/GenerateCode';
+import LabelValue from './components/LabelValue';
+import ParameterSetting from './components/ParameterSetting';
+import PasswordToggle from './components/PasswordToggle';
+import StatisticCard from './components/StatisticCard';
+import data from './data.json';
+import styles from './index.less';
+import PayDetail from './components/PayDetail';
+import SplitRatioSetting from './components/SplitRatioSetting';
+import InvitedUser from './components/InvitedUser';
+import CodeManage from './components/CodeManage';
 
 const Root = (props) => {
   const [editVisible, setEditVisible] = useState(false);
   const [record, setRecord] = useState();
   const [form] = Form.useForm();
+
+  const [statisticData, setStatisticData] = useState({
+    ntf_number: 1200,
+    miner_number: 850,
+    total_points_earned: 15000000,
+    miner_sales_revenue: 12000,
+    transaction_fee_revenue: 15000000.12,
+  });
+  const [payDetailVisible, setPayDetailVisible] = useState(false);
+  const [splitVisible, setSplitVisible] = useState(false);
+  const [codeManageVisible, setCodeManageVisible] = useState(false);
+  const [invitedUserVisible, setInvitedUserVisible] = useState(false);
 
   const onOk = () => {
     const values = form.getFieldsValue();
@@ -48,83 +58,191 @@ const Root = (props) => {
         <a
           onClick={() => {
             setRecord(rowData);
-            setEditVisible(true);
+            setPayDetailVisible(true);
           }}
         >
-          Edit
+          Detail
         </a>
+      ),
+    },
+  ];
+  const columns2 = [
+    {
+      title: 'Primary inviter',
+      dataIndex: 'name',
+    },
+    {
+      title: 'Number of guests',
+      dataIndex: 'guestsNumber',
+    },
+    {
+      title: 'Address',
+      dataIndex: 'address',
+    },
+    {
+      title: 'Action',
+      dataIndex: '',
+      key: 'x',
+      render: (text, rowData) => (
+        <Space>
+          <a
+            onClick={() => {
+              setRecord(rowData);
+              setSplitVisible(true);
+            }}
+          >
+            split settings
+          </a>
+          <a
+            onClick={() => {
+              setRecord(rowData);
+              setInvitedUserVisible(true);
+            }}
+          >
+            invited user
+          </a>
+          <a
+            onClick={() => {
+              setRecord(rowData);
+              setCodeManageVisible(true);
+            }}
+          >
+            Invitation code management
+          </a>
+        </Space>
       ),
     },
   ];
 
   return (
     <div className={styles['root-container']}>
-      <div className="mb20">
-        <h1>Overview</h1>
-      </div>
-      <Row justify="middle" gutter={16}>
-        <Col span={8}>
-          <Statistic title="Number of NFTS sold" value={112893} />
+      <Row gutter={[20, 20]}>
+        <Col span={24}>
+          <JanctionCard title="NFT mining machine dashboard">
+            <Row justify="middle" gutter={16}>
+              <Col className="f1">
+                <StatisticCard
+                  title="Number of NFTS(Miners)."
+                  value={statisticData?.ntf_number}
+                  desc="Compared to last week"
+                />
+              </Col>
+              <Col className="f1">
+                <StatisticCard
+                  title="Number of Miner Holders."
+                  value={statisticData?.miner_number}
+                  desc="Compared to last week"
+                />
+              </Col>
+              <Col className="f1">
+                <StatisticCard
+                  title="Total Points Earned by Holders"
+                  value={statisticData?.total_points_earned}
+                  desc="Compared to last week"
+                />
+              </Col>
+              <Col className="f1">
+                <StatisticCard
+                  title="Miner Sales Revenue"
+                  value={statisticData?.miner_sales_revenue}
+                  unit="USDT"
+                  precision={2}
+                  desc="Compared to last week"
+                />
+              </Col>
+              <Col className="f1">
+                <StatisticCard
+                  title="Transaction Fee Revenue"
+                  value={statisticData?.transaction_fee_revenue}
+                  unit="USDT"
+                  precision={2}
+                  desc="Compared to last week"
+                />
+              </Col>
+            </Row>
+          </JanctionCard>
         </Col>
-        <Col span={8}>
-          <Statistic title="Number of holders" value={20012} />
-        </Col>
-        <Col span={8}>
-          <Statistic
-            title="Holders receive a total of points"
-            value={45040650}
-          />
-        </Col>
-        <Col span={8}>
-          <Statistic title="NFT sale proceeds" value={56939412} precision={2} />
-        </Col>
-        <Col span={8}>
-          <Statistic title="Fee income" value={7869554} precision={2} />
-        </Col>
-      </Row>
-      <div className="mt20">
-        <div className="mb20">
-          <h1>Primary inviter</h1>
-        </div>
-        <JanctionTable dataSource={data} columns={columns} pagination={false} />
-      </div>
-      <div className="mt20">
-        <div className="mb20">
-          <h1>Integral growth rate</h1>
-        </div>
-        <Skeleton.Node active>
-          <DotChartOutlined style={{ fontSize: 40, color: '#bfbfbf' }} />
-        </Skeleton.Node>
-      </div>
-      <div className="mt20">
-        <div className="mb20">
-          <h1>Configuration</h1>
-        </div>
-        <Form form={form} layout="vertical" initialValues={record}>
-          <Row>
-            <Col span={24}>
-              <Form.Item label="Server transaction fee" name="serverFee">
-                <InputNumber style={{ width: '100%' }} min={0} />
-              </Form.Item>
+        <Col span={24}>
+          <Row gutter={20}>
+            <Col span={16}>
+              <JanctionCard title="Payment history" divider>
+                <JanctionTable
+                  dataSource={data}
+                  columns={columns}
+                  pagination={false}
+                />
+              </JanctionCard>
             </Col>
-            <Col span={24}>
-              <Form.Item label="NTF fee" name="ntfFee">
-                <InputNumber style={{ width: '100%' }} min={0} addonAfter="%" />
-              </Form.Item>
-            </Col>
-            <Col span={24}>
-              <Button onClick={onOk}>Save</Button>
+            <Col span={8}>
+              <Row gutter={[20, 20]} className="fd_c">
+                <Col span={24} className="f1">
+                  <ParameterSetting />
+                </Col>
+                <Col span={24} className="f1">
+                  <JanctionCard title="Password management" divider>
+                    <LabelValue title="Password：">
+                      <PasswordToggle />
+                    </LabelValue>
+                  </JanctionCard>
+                </Col>
+                <Col span={24} className="f1">
+                  <JanctionCard
+                    title="Generate level 1 inviter invitation code"
+                    divider
+                  >
+                    <GenerateCode />
+                  </JanctionCard>
+                </Col>
+              </Row>
             </Col>
           </Row>
-        </Form>
-      </div>
-
-      {editVisible && (
-        <EditModal
-          visible={editVisible}
+        </Col>
+        <Col span={24}>
+          <JanctionCard title="Level 1  inviter management" divider>
+            <JanctionTable
+              dataSource={data}
+              columns={columns2}
+              pagination={false}
+            />
+          </JanctionCard>
+        </Col>
+      </Row>
+      {payDetailVisible && (
+        <PayDetail
+          visible={payDetailVisible}
           record={record}
           onCancel={() => {
-            setEditVisible(false);
+            setPayDetailVisible(false);
+            setRecord();
+          }}
+        />
+      )}
+      {splitVisible && (
+        <SplitRatioSetting
+          visible={splitVisible}
+          record={record}
+          onCancel={() => {
+            setSplitVisible(false);
+            setRecord();
+          }}
+        />
+      )}
+      {codeManageVisible && (
+        <CodeManage
+          visible={codeManageVisible}
+          record={record}
+          onCancel={() => {
+            setCodeManageVisible(false);
+            setRecord();
+          }}
+        />
+      )}
+      {invitedUserVisible && (
+        <InvitedUser
+          visible={invitedUserVisible}
+          record={record}
+          onCancel={() => {
+            setInvitedUserVisible(false);
             setRecord();
           }}
         />
