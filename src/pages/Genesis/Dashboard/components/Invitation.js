@@ -14,8 +14,10 @@ const Invitation = (props) => {
   };
   return (
     <>
-      <div className={styles['invite-box']} onClick={handleOk}>
-        <Button className={styles['create-btn']}>Invite</Button>
+      <div className={styles['invite-box']}>
+        <Button className={styles['create-btn']} onClick={handleOk}>
+          Invite
+        </Button>
       </div>
       <div className={styles['invite-wrapper']}>
         {visible && (
