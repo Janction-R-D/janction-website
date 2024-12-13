@@ -5,7 +5,7 @@ import { Button, Input, Modal } from 'antd';
 import styles from './node.less';
 export default function BuyNode({ item }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [isPay, setIsPay] = useState(true);
+  const [isPay, setIsPay] = useState(false);
 
   const handleOk = () => {
     setIsOpen(true);
