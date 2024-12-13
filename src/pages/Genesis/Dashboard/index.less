@@ -302,6 +302,7 @@
         .card-total {
           display: flex;
           justify-content: space-between;
+          height: 130px;
           align-items: center;
         }
         .name {
@@ -895,7 +896,7 @@
 .white {
   color: white;
 }
-
+// aqui
 @media (max-width: 1024px) {
   .dashboard-wrapper {
     > h1 {
@@ -906,7 +907,22 @@
     .dashboard-content {
       gap: 20px;
       margin-top: 40px;
-
+      .dashboard-cards {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 20px;
+        align-items: stretch;
+      }
+      .dashboard-content-left {
+        width: calc(~'100% - 10px');
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        .content-item {
+          width: 100%;
+        }
+      }
       .content-item {
         padding: 16px;
         gap: 32px;
@@ -1066,8 +1082,10 @@
       }
 
       .profit-wrapper {
-        width: calc(~'43% - 10px');
+        // width: calc(~'43% - 10px');
         height: 319px;
+        height: auto;
+        width: 100%;
 
         .content {
           .total-wrapper {
@@ -1170,7 +1188,8 @@
 
       .profit-wrapper {
         width: 100%;
-        height: 319px;
+        // height: 319px;
+        height: auto;
       }
     }
   }

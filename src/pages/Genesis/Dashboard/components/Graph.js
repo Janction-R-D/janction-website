@@ -31,6 +31,9 @@ export function Graph() {
       axisLine: {
         show: false,
       },
+      axisTick: {
+        show: false,
+      },
     },
     yAxis: {
       type: 'value',
@@ -65,16 +68,13 @@ export function Graph() {
   return (
     <div
       style={{
-        height: '170px',
+        height: '200px',
         width: '60%',
         display: 'flex',
         alignItems: 'center',
       }}
     >
-      <ReactECharts
-        option={option}
-        style={{ height: '240px', width: '100%' }}
-      />
+      <ReactECharts option={option} style={{ height: '100%', width: '100%' }} />
     </div>
   );
 }
