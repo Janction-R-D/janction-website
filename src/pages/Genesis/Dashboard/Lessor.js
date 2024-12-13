@@ -1,5 +1,5 @@
 import { fetchLessor } from '@/services/genesis/dashboard';
-import { Card, Input, Radio, Table } from 'antd';
+import { Button, Card, Input, Radio, Table } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
 import HorizontalBar from './components/HorizontalBar';
 import Invite from './components/Invite';
@@ -12,6 +12,7 @@ import JanctionTable from '@/components/JanctionTable';
 import MonthGoal from './components/MonthGoal';
 import { empty } from '@/utils/lang';
 import Profit from './components/Profit';
+import Invitation from './components/Invitation';
 
 export function convertMBtoGB(mb) {
   if (empty(mb)) return '~';
@@ -163,6 +164,8 @@ const Lessors = (props) => {
   return (
     <div className={styles['dashboard-wrapper']}>
       <h1>Dashboard</h1>
+      <Invitation />
+
       <Invite />
       <div className={styles['dashboard-content']}>
         <div className={styles['dashboard-cards']}>
