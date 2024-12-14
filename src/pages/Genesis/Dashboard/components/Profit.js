@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styles from '../index.less';
 import numeral from 'numeral';
-import MonthGoal from './MonthGoal';
 import { Card } from 'antd';
 import drop from '@/assets/images/icons/drop.png';
 import rise from '@/assets/images/icons/rise.png';

@@ -23,7 +23,7 @@ export default function MyWallet() {
             title: 'Transaction record',
             value: '5831.20',
             unit: 'JCT',
-            diffValue: -15,
+            diffValue: -0.15,
             date: ' 2020-09-31 20:59:59',
           })}
         </Col>
@@ -32,7 +32,7 @@ export default function MyWallet() {
             title: 'Rental server revenue',
             value: '5831.20',
             unit: 'USDT',
-            diffValue: 15,
+            diffValue: 0.15,
             date: '2020-09-31 20:59:59',
           })}
         </Col>
@@ -73,7 +73,7 @@ const StatisticInfo = ({ title, value, unit }) => {
     <Card title={title} className={styles['card-statistic']}>
       <section>
         <div className={styles['statistic-value']}>
-          <p className={styles['text-grey']}>当前可用余额</p>
+          <p className={styles['text-grey']}>Current available balance</p>
           <section>
             <span className={styles['value']}>
               {value ? numeral(value).format('0.00') : '~'}
@@ -93,7 +93,7 @@ const StatisticInfo = ({ title, value, unit }) => {
             </span>
           </section>
           <section>
-            <p className={styles['text-grey']}>总支出</p>
+            <p className={styles['text-grey']}>Total expenditure</p>
             <span className={styles['red-style']}>
               <p className={styles['value']}>5831.20</p>
               <span className={styles['unit']}>JCT</span>
@@ -101,7 +101,7 @@ const StatisticInfo = ({ title, value, unit }) => {
           </section>
           <section>
             <p className={styles['text-grey']}>
-              冻结中的金额 <i className="iconfont icon-info"></i>
+              Frozen Amount <i className="iconfont icon-info"></i>
             </p>
 
             <span className={styles['red-style']}>
