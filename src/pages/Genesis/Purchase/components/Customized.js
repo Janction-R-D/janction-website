@@ -1,31 +1,41 @@
-import Application from './Application';
-import BandWidth from './BandWidth';
-import PurchaseCard from './Card';
-import PurchaseSubCard from './Card/SubCard';
-import Footer from './Footer';
-import ImageConf from './ImageConf';
-import styles from './index.less';
-import RegionSelect from './RegionSelect';
-import Settlement from './BasicConf';
-import Specification from './Specification';
+import JanctionTip from '@/components/JanctionTip';
 import { Form } from 'antd';
 import { history } from 'umi';
+import Architecture from './Architecture';
+import PurchaseCard from './Card';
+import PurchaseSubCard from './Card/SubCard';
+import ConnectivityTier from './ConnectivityTier';
+import PurDuration from './PurDuration';
+import Footer from './Footer';
+import styles from './index.less';
+import Location from './Location';
+import OperatingSystem from './OperatingSystem';
+import Processor from './Processor';
+import ProductList from './ProductList';
+import InternetSelect from './InternetSelect';
+import { useState } from 'react';
 
 const Customized = (props) => {
   const [form] = Form.useForm();
 
-  const onSubmit = async (callback) => {
+  const [formValues, setFormValues] = useState();
+
+  const onConfirm = async (callback) => {
     try {
-      const values = await form.validateFields();
-      console.log('『values』', values);
-      history.push('/genesis/purchase/settlement');
+      await form.validateFields();
+      history.push('/genesis/purchase/settlement', { formValues });
     } catch (err) {
       console.log('『err』', err);
     }
   };
 
+  const onValuesChange = async () => {
+    const values = form.getFieldsValue();
+    setFormValues(values);
+  };
+
   return (
-    <Form form={form} name="customized">
+    <Form form={form} name="customized" onValuesChange={onValuesChange}>
       <div
         className={[
           styles['config-wrapper'],
@@ -33,55 +43,66 @@ const Customized = (props) => {
         ].join(' ')}
       >
         <PurchaseCard title="Basic configuration">
-          <PurchaseSubCard title="Instance specification">
-            <Form.Item
-              name="instance_specification"
-              rules={[
-                {
-                  required: true,
-                  message: 'please select instance specification',
-                },
-              ]}
-            >
-              <Specification />
+          <PurchaseSubCard title="Operating System">
+            <Form.Item name="operating_system_str">
+              <OperatingSystem />
             </Form.Item>
           </PurchaseSubCard>
-          <PurchaseSubCard title="Image">
-            <Form.Item
-              name="image"
-              rules={[{ required: true, message: 'please select image' }]}
-            >
-              <ImageConf />
+          <PurchaseSubCard title="Architecture">
+            <Form.Item name="architechture_str">
+              <Architecture />
             </Form.Item>
           </PurchaseSubCard>
-
-          <PurchaseSubCard title="Pre-installed application">
-            <Form.Item
-              name="pre_installed_application"
-              rules={[
-                {
-                  required: true,
-                  message: 'please select pre-installed application',
-                },
-              ]}
-            >
-              <Application />
+          <PurchaseSubCard title="Internet">
+            <Form.Item name="internet_type">
+              <InternetSelect />
             </Form.Item>
           </PurchaseSubCard>
-          <PurchaseSubCard title="Region">
-            <Form.Item
-              name="region"
-              rules={[{ required: true, message: 'please select region' }]}
-            >
-              <RegionSelect />
+          <PurchaseSubCard title="Connectivity Tier">
+            <Form.Item name="network_down">
+              <ConnectivityTier defaultValue={1} />
+            </Form.Item>
+          </PurchaseSubCard>
+          <PurchaseSubCard
+            title={
+              <div className="df ai_c">
+                <span>Location</span>
+                <JanctionTip />
+              </div>
+            }
+          >
+            <Form.Item name="location">
+              <Location />
+            </Form.Item>
+          </PurchaseSubCard>
+          <PurchaseSubCard title="Processor">
+            <Form.Item name="processor">
+              <Processor />
             </Form.Item>
           </PurchaseSubCard>
         </PurchaseCard>
-        <PurchaseCard title="Bandwidth">
-          <BandWidth />
+        <PurchaseCard title="Available Instance">
+          <Form.Item
+            name="node"
+            rules={[{ required: true, message: 'please select instance' }]}
+          >
+            <ProductList formValues={formValues} />
+          </Form.Item>
         </PurchaseCard>
-        <Settlement />
-        <Footer isLast onConfirm={onSubmit} />
+        <PurchaseCard>
+          <Form.Item
+            name="purDuration"
+            rules={[
+              {
+                required: true,
+                message: 'please select PurDuration',
+              },
+            ]}
+          >
+            <PurDuration />
+          </Form.Item>
+          <Footer isConfirm onConfirm={onConfirm} />
+        </PurchaseCard>
       </div>
     </Form>
   );

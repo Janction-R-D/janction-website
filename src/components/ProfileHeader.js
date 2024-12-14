@@ -7,9 +7,14 @@ import { history, useModel } from 'umi';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import GenesisContext from '@/layouts/Context/GenesisContext';
 import { fetchUserCenter } from '@/services/genesis';
+import NotifyModal from './NotifyModal';
 export default function ProfileHeader() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { imgUrl, setImgUrl } = useContext(GenesisContext);
+  const [isNotifyModalOpen, setIsNotifyModalOpen] = useState(false);
+  const handleNotifyOk = () => {
+    setIsNotifyModalOpen(true);
+  };
   useEffect(() => {
     const getUserCenterData = () => {
       return fetchUserCenter()
@@ -34,12 +39,17 @@ export default function ProfileHeader() {
 
   return (
     <header className={styles['header']}>
-      <span>
+      <span onClick={handleNotifyOk}>
         <i className="iconfont icon-bell "></i>
       </span>
       <div className={styles['img-container']} onClick={showModal}>
         <img className={styles['profile-img']} src={imgUrl} />
       </div>
+      <NotifyModal
+        isModalOpen={isNotifyModalOpen}
+        setIsModalOpen={setIsNotifyModalOpen}
+        handleOk={handleNotifyOk}
+      />
       <ProfileModal
         styles={styles}
         isModalOpen={isModalOpen}
@@ -89,9 +99,8 @@ function ProfileModal({ styles, imgUrl, isModalOpen, handleOk, handleCancel }) {
           handleCancel();
         };
         const handleCopy = () => {
-          console.log(account.address);
           navigator.clipboard
-            .writeText(account.address)
+            .writeText(account?.address)
             .then(() => {
               setTextCopied(true);
             })
@@ -133,7 +142,7 @@ function ProfileModal({ styles, imgUrl, isModalOpen, handleOk, handleCancel }) {
                 <div className={styles['type-account']}>
                   {isLessee ? (
                     <div onClick={onIdentityChange}>
-                      <p>Switch to Lessor Role</p>
+                      <p>Switch to Landlord Role</p>
                       <i className="iconfont icon-next"></i>
                     </div>
                   ) : (
@@ -162,7 +171,7 @@ function ProfileModal({ styles, imgUrl, isModalOpen, handleOk, handleCancel }) {
                 <li>
                   <i className="iconfont icon-pledge"></i>
                   <a onClick={() => handleNavigate('/genesis/pledge')}>
-                    Pledge
+                    Staking
                   </a>
                 </li>
               )}
@@ -172,6 +181,16 @@ function ProfileModal({ styles, imgUrl, isModalOpen, handleOk, handleCancel }) {
                   Income management
                 </a>
               </li>
+              {!isLessee && (
+                <li>
+                  <i className="iconfont icon-wallet1"></i>
+                  <a
+                    onClick={() => handleNavigate('/genesis/wallet-management')}
+                  >
+                    Wallet Management
+                  </a>
+                </li>
+              )}
             </ul>
             <Button className={styles['log-out']} onClick={handleLogOut}>
               Logout

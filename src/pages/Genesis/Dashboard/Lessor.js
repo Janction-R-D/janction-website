@@ -1,5 +1,5 @@
 import { fetchLessor } from '@/services/genesis/dashboard';
-import { Card, Input, Radio, Table } from 'antd';
+import { Button, Card, Input, Radio, Table } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
 import HorizontalBar from './components/HorizontalBar';
 import Invite from './components/Invite';
@@ -11,6 +11,8 @@ import styles from './index.less';
 import JanctionTable from '@/components/JanctionTable';
 import MonthGoal from './components/MonthGoal';
 import { empty } from '@/utils/lang';
+import Profit from './components/Profit';
+import Invitation from './components/Invitation';
 
 export function convertMBtoGB(mb) {
   if (empty(mb)) return '~';
@@ -25,30 +27,21 @@ export function convertMBtoGB(mb) {
 const Lessors = (props) => {
   const [lessorsData, setLessorsData] = useState();
   const [monitorList, setMonitorList] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [monthGoal, setMonthGoal] = useState();
 
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
   const percent = useMemo(() => {
-    const { monthly_goal = 0, total = 0 } = lessorsData?.Profit || {};
+    const { monthly_goal = 0, total = 0 } = lessorsData?.profit || {};
     if (monthly_goal) return (total / monthly_goal) * 100;
     return 0;
   }, [lessorsData]);
 
   useEffect(() => {
     getLessors();
+    console.log(lessorsData);
   }, []);
   const getLessors = async () => {
     const res = await fetchLessor();
     setLessorsData(res);
+    console.log(res);
     setMonitorList(res?.activites || []);
   };
 
@@ -171,25 +164,68 @@ const Lessors = (props) => {
   return (
     <div className={styles['dashboard-wrapper']}>
       <h1>Dashboard</h1>
+      <Invitation />
+
       <Invite />
       <div className={styles['dashboard-content']}>
-        <div
-          className={[styles['content-item'], styles['sales-wrapper']].join(
-            ' ',
-          )}
-        >
-          <div className={styles['title']}>
-            <span>Sales by Rep</span>
-            {/* <div className={styles['extra']}>
+        <div className={styles['dashboard-cards']}>
+          <div className={styles['dashboard-content-left']}>
+            <div
+              className={[styles['content-item'], styles['sales-wrapper']].join(
+                ' ',
+              )}
+            >
+              <div className={styles['title']}>
+                <span>Sales by Rep</span>
+                {/* <div className={styles['extra']}>
               <span>See All</span>
               <i className="iconfont icon-next_page"></i>
             </div> */}
+              </div>
+              <div className={styles['content']}>
+                <HorizontalBar data={sales_by_rep || []} />
+              </div>
+            </div>
+            <div
+              className={[
+                styles['content-item'],
+                styles['sales-pipeline-wrapper'],
+              ].join(' ')}
+            >
+              <div className={styles['title']}>
+                <span>Arithmetic situation</span>
+                {/* <div className={styles['extra']}>
+              <span>See All</span>
+              <i className="iconfont icon-next_page"></i>
+            </div> */}
+              </div>
+              <div className={styles['content']}>
+                <div className={styles['chart-wrapper']}>
+                  <Pie data={arithmetic_situation} />
+                </div>
+                <div className={styles['info']}>
+                  {arithmetic_situation.map((item, index) => (
+                    <div className={styles['info-item']} key={item.name}>
+                      <div
+                        className={styles['name']}
+                        style={{ '--color': pieColors[index] }}
+                      >
+                        {item.name}
+                      </div>
+                      <div className={styles['value']}>{item.format}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
-          <div className={styles['content']}>
-            <HorizontalBar data={sales_by_rep || []} />
-          </div>
+          <Profit
+            lessorsData={lessorsData}
+            getLessors={getLessors}
+            percent={percent}
+          />
         </div>
-        <div
+        {/* <div
           className={[styles['content-item'], styles['state-wrapper']].join(
             ' ',
           )}
@@ -202,117 +238,8 @@ const Lessors = (props) => {
               <VerticalBar data={lessorsData?.states || {}} />
             </div>
           </div>
-        </div>
-        <div
-          className={[
-            styles['content-item'],
-            styles['sales-pipeline-wrapper'],
-          ].join(' ')}
-        >
-          <div className={styles['title']}>
-            <span>Arithmetic situation</span>
-            {/* <div className={styles['extra']}>
-              <span>See All</span>
-              <i className="iconfont icon-next_page"></i>
-            </div> */}
-          </div>
-          <div className={styles['content']}>
-            <div className={styles['chart-wrapper']}>
-              <Pie data={arithmetic_situation} />
-            </div>
-            <div className={styles['info']}>
-              {arithmetic_situation.map((item, index) => (
-                <div className={styles['info-item']} key={item.name}>
-                  <div
-                    className={styles['name']}
-                    style={{ '--color': pieColors[index] }}
-                  >
-                    {item.name}
-                  </div>
-                  <div className={styles['value']}>{item.format}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-        <div
-          className={[styles['content-item'], styles['profit-wrapper']].join(
-            ' ',
-          )}
-        >
-          <div className={styles['title']}>
-            <span>Profit</span>
-          </div>
-          <div className={styles['content']}>
-            <div className={styles['total-wrapper']}>
-              <div className={styles['total-item']}>
-                <div className={styles['name']}>Total</div>
-                <div className={styles['value']}>
-                  {numeral(lessorsData?.Profit?.total || 0).format('$0.00')}
-                </div>
-              </div>
-              <div className={styles['total-item']}>
-                <div className={styles['name']} title="Rental income">
-                  Rental income
-                </div>
-                <div className={styles['value']}>
-                  {numeral(lessorsData?.Profit?.rental_income || 0).format(
-                    '$0.00',
-                  )}
-                </div>
-              </div>
-              <div className={styles['total-item']}>
-                <div className={styles['name']} title="Pledge proceeds">
-                  Pledge proceeds
-                </div>
-                <div className={styles['value']}>
-                  {numeral(lessorsData?.Profit?.pledge_proceeds || 0).format(
-                    '$0.00',
-                  )}
-                </div>
-              </div>
-            </div>
-            <div className={styles['progress-wrapper']}>
-              <div className={styles['title']}>
-                <div className={styles['name']} title="Monthly Goal">
-                  Monthly Goal
-                </div>
-                <div className={styles['goal']}>
-                  <span>
-                    Goal{' '}
-                    {numeral(lessorsData?.Profit?.monthly_goal || 0).format(
-                      '$0.00',
-                    )}
-                    {' m'}
-                  </span>
-                  {/* <p onClick={showModal}>Set</p> */}
-                  <MonthGoal
-                    handleCancel={handleCancel}
-                    handleOk={handleOk}
-                    isModalOpen={isModalOpen}
-                    setMonthGoal={setMonthGoal}
-                  />
-                </div>
-              </div>
-              <div className={styles['progress-bar']}>
-                <div
-                  className={styles['value-bar']}
-                  style={{ width: `${percent}%` }}
-                >
-                  <span
-                    style={
-                      percent > 90
-                        ? { right: '8px', transform: `translate(0, -50%)` }
-                        : { right: '-8px', transform: `translate(100%, -50%)` }
-                    }
-                  >
-                    {numeral(lessorsData?.Profit?.total || 0).format('$0.00')}m
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        </div> */}
+
         <div
           className={[styles['content-item'], styles['monitor-wrapper']].join(
             ' ',

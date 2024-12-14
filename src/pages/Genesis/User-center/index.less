@@ -290,8 +290,8 @@
 .token-container {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  flex-direction: row;
+  flex-direction: column;
+  padding-top: 20px;
   gap: 18px;
 }
 .token-box {
@@ -393,6 +393,88 @@
 }
 .ant-input-affix-wrapper {
   color: unset;
+}
+.delete-section {
+  color: #ff8c27;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+.deploy-section {
+  color: #47c2e8;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+.social-tags {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(390px, 1fr));
+  align-items: center;
+  gap: 12px;
+  margin-top: 22px;
+  .social-tag {
+    background-color: #2f2f31;
+    padding: 18px 10px;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 12px;
+    .buttons {
+      display: flex;
+      align-items: center;
+
+      .create-btn {
+        height: 35px;
+        padding: 4px 18px;
+      }
+      .cancel-btn {
+        height: 35px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 4px 18px;
+        background: transparent;
+        font-family: Poppins;
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 24px;
+        text-align: center;
+        color: #fff;
+        border-radius: 20px;
+        text-wrap: nowrap;
+      }
+    }
+    .social-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      .isConnected {
+        background-color: #242426;
+        padding: 6px 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 12px;
+        gap: 8px;
+        i {
+          color: rgb(8, 200, 136);
+        }
+      }
+      .social-icon {
+        border: #e7e7e7 1px solid;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        height: 40px;
+        font-size: 10px;
+      }
+    }
+  }
 }
 @media screen and (max-width: 580px) {
   .card-content > ul {

@@ -1,4 +1,5 @@
 import {
+  ADDRESS,
   currencyABI,
   currencyAddress,
   Duration,
@@ -33,13 +34,13 @@ const Create = (props) => {
     getNodeConfigInfo({ node_id: nodeId });
   }, [nodeId]);
 
-  const onNodeChange = (node_id, _node) => {
+  const onNodeChange = (_node) => {
     setNode(_node);
-    if (!node_id) {
+    if (!_node?.id) {
       setConfigInfo();
       return;
     }
-    getNodeConfigInfo({ node_id });
+    getNodeConfigInfo({ node_id: _node.id });
   };
 
   const getNodeConfigInfo = async (params) => {
@@ -71,7 +72,7 @@ const Create = (props) => {
 
       // 初始化合约
       const payment = new ethers.Contract(
-        paymentAddress,
+        ADDRESS.Payment,
         paymentABI,
         provider,
       ).connect(signer);
@@ -156,7 +157,7 @@ const Create = (props) => {
         <PurchaseCard title="Configuration summary">
           <LabelVal name="Node id">{node?.id || '~'}</LabelVal>
           <LabelVal name="Node price">
-            {empty(configInfo?.price) ? '~' : `${configInfo?.price} JCT/day`}
+            {empty(configInfo?.price) ? '~' : `${configInfo?.price} veJCT/day`}
           </LabelVal>
           <LabelVal name="Tags">
             {empty(configInfo?.tags) ? '~' : `${configInfo.tags.join(',')}`}

@@ -58,7 +58,7 @@ export const STATE_CONS = {
 export const ALARAM_STATE = 2;
 
 export const ARITHMETIC_SITUATION = {
-  online_memory_footprint: 'Online memory footprint',
-  offline_memory_footprint: 'Offline memory footprint',
+  online_memory_footprint: 'Online memory',
+  offline_memory_footprint: 'Offline memory',
   free_memory: 'Free memory',
 };

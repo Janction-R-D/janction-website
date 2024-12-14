@@ -227,7 +227,7 @@
 //       </Card>
 //       <Card className={styles['card']}>
 //         <section className={styles['card-header']}>
-//           <h3>Pledge your assets</h3>
+//           <h3>Staking your assets</h3>
 //           <i className="iconfont icon-info"></i>
 //         </section>
 //         <section className={styles['card-assets-items']}>

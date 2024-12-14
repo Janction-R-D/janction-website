@@ -9,7 +9,7 @@ import HeaderCard from './InstanceComponents/HeaderCard';
 import JanctionTip from '@/components/JanctionTip';
 import Operation from './InstanceComponents/Operation';
 
-function Pledge() {
+function Staking() {
   const { initialState } = useModel('@@initialState');
   const { isLessee } = initialState || {};
   const [summary, setSummary] = useState();
@@ -126,5 +126,5 @@ function Pledge() {
   );
 }
 
-Pledge.wrappers = ['@/wrappers/auth'];
-export default Pledge;
+Staking.wrappers = ['@/wrappers/auth'];
+export default Staking;

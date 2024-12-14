@@ -209,6 +209,24 @@ export const postKeyUserData = async (data) => {
   }
 };
 
+// Function to set monthly goal
+export const MonthlyGoal = async (data) => {
+  try {
+    const response = await request(`${baseUrl}/user/config`, {
+      method: 'PUT',
+      loginAuth: true,
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    return response;
+  } catch (error) {
+    console.log('『error』', error);
+    return null;
+  }
+};
+
 //fetch ConfigInfo
 export const fetchNodesConfigInfo = async (params) => {
   try {
@@ -387,6 +405,19 @@ export const fetchNodesDelete = async (data) => {
     const response = await request(`${baseUrl}/node/detach`, {
       method: 'DELETE',
       data,
+      loginAuth: true,
+    });
+    return response;
+  } catch (error) {
+    console.log('『error』', error);
+    throw new Error(`failed, ${error.message}`);
+  }
+};
+
+export const fetchNodeProcessers = async (params) => {
+  try {
+    const response = await request(`${baseUrl}/node/processers`, {
+      params,
       loginAuth: true,
     });
     return response;

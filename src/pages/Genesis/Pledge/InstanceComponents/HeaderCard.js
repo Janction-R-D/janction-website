@@ -34,7 +34,7 @@ export default function HeaderCard({ summary }) {
             <span>{item.name}</span>
             <p className={styles[`${item.color}`]}>
               {item.value}
-              <span>JCT</span>
+              <span>veJCT</span>
             </p>
           </li>
         ))}

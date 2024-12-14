@@ -384,3 +384,8 @@ export const SETTLEMENT_COLUMNS = [
     dataIndex: 'progress',
   },
 ];
+
+export const INTERNET = [
+  { label: 'NAT', value: 'nat' },
+  { label: 'Public IP', value: 'public_ip' },
+];

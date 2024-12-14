@@ -14,8 +14,7 @@ function NodesTable({ data, getList }) {
       title: 'Device ID',
       dataIndex: 'id',
       key: 'deviceId',
-      width: 'auto',
-      ellipsis: true,
+      width: 320,
     },
     {
       title: 'Status',
@@ -102,7 +101,7 @@ function NodesTable({ data, getList }) {
       width: 'auto',
       render: (text) => {
         if (empty(text)) return '--';
-        return `${text} JCT`;
+        return `${text} veJCT`;
       },
     },
 
@@ -126,6 +125,7 @@ function NodesTable({ data, getList }) {
         columns={columns}
         dataSource={data}
         pagination={false}
+        scroll={{ x: 'auto' }}
         emptyDescription={
           <p>
             No nodes are currently running. Click{' '}

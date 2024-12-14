@@ -6,6 +6,9 @@ import Step3 from './components/RunNode';
 import StepChart from './components/StepChart';
 import Step1 from './components/System';
 import { Redirect, useModel } from 'umi';
+import { renderBackgroudImg } from '@/utils/lang';
+import banner1 from '@/assets/images/genesis/banner1.png';
+import BuyNode from './components/BuyNode';
 
 const DEFAULT = {
   system: SYSTEM_LIST[0].value,
@@ -111,7 +114,18 @@ const Nodes = (props) => {
         {/* {curStep.value == 2 && <Step2 />} */}
         {curStep.value == 2 && <Step3 selectedValues={selectedValues} />}
       </div>
-      <div className={styles['android-pre-next-btn']}>{renderStepBtn()}</div>
+      <div className={styles['android-pre-next-btn']}>
+        {renderStepBtn(banner1)}
+      </div>
+      <div className={styles['banner']} style={renderBackgroudImg(banner1)}>
+        <h1>Deploy node</h1>
+        <p>
+          Directly purchase deployed Janction mining machine nodes to share more
+          profits！ Currently holding Janction Landlord NFT to participate in
+          the computing power provider network！
+        </p>
+        <BuyNode item={curStep} />
+      </div>
     </>
   );
 };

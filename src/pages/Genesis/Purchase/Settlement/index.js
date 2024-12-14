@@ -1,25 +1,142 @@
 import JanctionCountDown from '@/components/JanctionCountDown';
-import styles from './index.less';
-import PurchaseCard from '../components/Card';
-import PayType from '../components/PayType';
-import { Checkbox, Form } from 'antd';
 import JanctionTable from '@/components/JanctionTable';
-import { SETTLEMENT_COLUMNS } from '../extra';
-import Footer from '../components/Footer/index1';
+import { fetchMarketRent, fetchNodesConfigInfo } from '@/services/genesis';
+import contract, { durationMultiplier } from '@/utils/contract';
+import { Form, message } from 'antd';
+import { useEffect, useState } from 'react';
 import { history } from 'umi';
-
-const deadline = Date.now() + 20 * 60 * 1000;
+import { useAccount } from 'wagmi';
+import PurchaseCard from '../components/Card';
+import Footer from '../components/Footer';
+import PayType from '../components/PayType';
+import { SETTLEMENT_COLUMNS } from '../extra';
+import styles from './index.less';
+import { ADDRESS, DURATION_OPTIONS, PAY_CURRENCY } from '@/constant';
+import { isEmpty } from '@/utils/lang';
 
 const Settlement = (props) => {
+  const [deadline, setDeadline] = useState();
+
+  const { formValues } = history.location.state || {};
+
+  const { address } = useAccount();
+
+  const [loading, setLoading] = useState(false);
+  const [currency, setCurrency] = useState(ADDRESS.USDT);
+  const [list, setList] = useState([]);
+
+  useEffect(() => {
+    if (!formValues?.node?.id) return;
+    getNodeConfigInfo({ node_id: formValues.node.id });
+  }, [formValues]);
+
+  const getNodeConfigInfo = async (params) => {
+    try {
+      const res = await fetchNodesConfigInfo(params);
+      if (isEmpty(res)) {
+        setList([]);
+        return;
+      }
+      setList([res]);
+    } catch (error) {
+      console.log('『error』', error);
+    }
+  };
+
+  useEffect(() => {
+    setDeadline(Date.now() + 20 * 60 * 1000);
+  }, []);
+
   const onFinish = () => {
     console.log('『onFinish』', onFinish);
   };
 
-  const onPay = (callback) => {
+  const onRent = async (values) => {
     try {
-      callback && callback();
-    } catch (err) {}
+      await fetchMarketRent(values);
+      message.success('Successful hire!');
+    } catch (err) {
+      console.log('『err』', err);
+      throw new Error(err);
+    }
   };
+
+  const onPay = async () => {
+    try {
+      const { node, duration } = formValues || {};
+      setLoading(true);
+      const tx = await contract.rent({
+        paymentAddress: address,
+        ownerAddress: node.user_id,
+        currencyAddress: currency,
+        durationNum: duration?.value,
+        duration: duration?.unit,
+        price: configInfo?.price,
+      });
+      const goal = DURATION_OPTIONS.find((item) => item.value == duration.unit);
+      await onRent({
+        tx_id: tx.hash,
+        node_id: node.id,
+        purchase_duration: duration.value,
+        purchase_duration_unit: goal?.label.toLowerCase(),
+      });
+      setLoading(false);
+      history.push('/genesis/instance');
+    } catch (error) {
+      setLoading(false);
+      console.error('操作合约失败：', error);
+      message.error('Operation contract failed, please try again!');
+    }
+  };
+
+  const columns = [
+    {
+      title: 'Device ID',
+      dataIndex: 'id',
+      key: 'deviceId',
+      width: 'auto',
+      ellipsis: true,
+    },
+    {
+      title: 'Price',
+      dataIndex: 'price',
+      ellipsis: true,
+      width: 'auto',
+      render: (text) => {
+        if (!text) return '--';
+        return `${text} USDT / Day`;
+      },
+    },
+    {
+      title: 'Quantity',
+      dataIndex: 'quantity',
+      render: () => '*1',
+    },
+    {
+      title: 'Duration',
+      dataIndex: 'duration',
+      width: 'auto',
+      render: (text) => {
+        const { value, unit } = formValues?.duration || {};
+        if (!value && !unit) return '--';
+        const goal = DURATION_OPTIONS.find((item) => item.value == unit);
+        return `${value || 0}${goal?.label}`;
+      },
+    },
+    {
+      title: 'Total Price',
+      dataIndex: 'duration',
+      width: 'auto',
+      render: (text) => {
+        const { value, unit } = formValues?.duration || {};
+        if (!value && !unit) return '--';
+        const { price } = list[0] || {};
+        const _currency = PAY_CURRENCY.find((item) => item.value == currency);
+        const _total = (price || 0) * value * durationMultiplier(unit, true);
+        return (Number(_total) / Number(_currency?.rate || 1)).toFixed(2);
+      },
+    },
+  ];
 
   return (
     <div className={styles['settlement-wrapper']}>
@@ -36,15 +153,17 @@ const Settlement = (props) => {
         format="mm:ss"
       />
       <PurchaseCard title="Price detail">
-        <Form.Item
-          name="pay_type"
-          rules={[{ required: true, message: 'please select pay type' }]}
-        >
-          <PayType />
-        </Form.Item>
-        <JanctionTable columns={SETTLEMENT_COLUMNS} />
+        <PayType value={currency} onChange={(e) => setCurrency(e)} />
+        <JanctionTable columns={columns} dataSource={list} pagination={false} />
       </PurchaseCard>
-      <Footer isSettlement onPre={() => history.goBack()} onPay={onPay} />
+      <Footer
+        isSettlement
+        onPre={() => history.goBack()}
+        currencyAddress={currency}
+        formValues={formValues}
+        node={list[0]}
+        onPay={onPay}
+      />
     </div>
   );
 };

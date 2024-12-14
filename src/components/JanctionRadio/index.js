@@ -20,7 +20,7 @@ const JanctionRadio = (props) => {
       ]}
       onChange={(e) => {
         setActive(e.target.value);
-        onChange(e.target.value);
+        onChange && onChange(e.target.value);
       }}
     >
       {options.map((item) => (

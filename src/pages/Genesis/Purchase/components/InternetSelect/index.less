@@ -1,0 +1,32 @@
+.region-select {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  .item {
+    flex: 1;
+    max-width: 302px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 44px;
+    background: #2f2f31;
+    border-radius: 16px;
+    border: 2px solid;
+    border-color: transparent;
+    cursor: pointer;
+
+    span {
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 20px;
+      color: rgba(255, 255, 255, 0.9);
+    }
+  }
+
+  .active-item {
+    border-color: #73d5f4;
+  }
+}

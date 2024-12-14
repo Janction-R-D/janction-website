@@ -110,29 +110,29 @@ function BillDetails() {
   };
 
   const renderTotal = () => {
-    const unit = '¥';
+    const unit = 'veJCT';
     return (
       <div className={styles['total-wrapper']}>
         <span>Total cost </span>
         <span
           className={[styles['value'], styles['total-value']].join(' ')}
-        >{`${unit} ${numeral(total?.sum).format('0.00')}`}</span>
+        >{`${numeral(total?.sum).format('0.00')} ${unit}`}</span>
         <span>{` = Cash payment `}</span>
-        <span className={styles['value']}>{`${unit} ${numeral(
-          total?.cash,
-        ).format('0.00')}`}</span>
+        <span className={styles['value']}>{`${numeral(total?.cash).format(
+          '0.00',
+        )} ${unit}`}</span>
         <span>{` + share bonus `}</span>
-        <span className={styles['value']}>{`${unit} ${numeral(
-          total?.share,
-        ).format('0.00')}`}</span>
+        <span className={styles['value']}>{`${numeral(total?.share).format(
+          '0.00',
+        )} ${unit}`}</span>
         <span>{` + gift money `}</span>
-        <span className={styles['value']}>{`${unit} ${numeral(
-          total?.gift,
-        ).format('0.00')}`}</span>
+        <span className={styles['value']}>{`${numeral(total?.gift).format(
+          '0.00',
+        )} ${unit}`}</span>
         <span>{` + Coupon `}</span>
-        <span className={styles['value']}>{`${unit} ${numeral(
-          total?.coupon,
-        ).format('0.00')}`}</span>
+        <span className={styles['value']}>{`${numeral(total?.coupon).format(
+          '0.00',
+        )} ${unit}`}</span>
       </div>
     );
   };

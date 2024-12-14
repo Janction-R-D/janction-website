@@ -48,8 +48,12 @@
     "react-syntax-highlighter": "^15.6.1",
     "rehype-katex": "^7.0.1",
     "remark-math": "^6.0.0",
+    "remark-parse": "^11.0.0",
+    "remark-stringify": "^11.0.0",
+    "remark-toc": "^9.0.0",
     "siwe": "^2.3.2",
     "umi": "^3.5.41",
+    "unified": "^11.0.5",
     "viem": "2.9.31",
     "wagmi": "^2.9.2"
   },

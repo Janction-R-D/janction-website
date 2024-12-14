@@ -97,7 +97,7 @@ export default function OrderCard({ order }) {
         network_down: attr.network_down || '~',
         network_up: attr.network_up || '~',
         expired: expired_at ? dayjs(expired_at).format('YYYY-MM-DD') : '~',
-        price: price ? `${price} JCT` : '~',
+        price: price ? `${price} veJCT` : '~',
       },
     ];
   }, [order]);
@@ -121,7 +121,7 @@ export default function OrderCard({ order }) {
       <section className={styles['card-product-footer']}>
         <span className={styles['card-product-price-text']}>Total</span>
         <span className={styles['text-blue']}>
-          {order?.resource?.price ? `${order.resource.price} JCT` : '~'}
+          {order?.resource?.price ? `${order.resource.price} veJCT` : '~'}
         </span>
       </section>
     </Card>

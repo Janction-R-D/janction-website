@@ -1,5 +1,4 @@
 import JanctionTip from '@/components/JanctionTip';
-import { currencyAddress, paymentABI, paymentAddress } from '@/constant';
 import {
   fetchNodesConfigInfo,
   fetchNodesConfigUpdate,
@@ -14,7 +13,6 @@ import {
   Select,
   TimePicker,
 } from 'antd';
-import { ethers } from 'ethers';
 import { useEffect, useState } from 'react';
 import { history, Redirect, useModel } from 'umi';
 import Loading from './components/Loading';
@@ -138,35 +136,6 @@ export default function Mount() {
     setAgreeClause(e.target.checked);
   };
 
-  const onContract = async (price) => {
-    try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-
-      // 初始化合约
-      const payment = new ethers.Contract(
-        paymentAddress,
-        paymentABI,
-        provider,
-      ).connect(signer);
-
-      const listingTx = await payment.createPayeeListing(
-        currencyAddress,
-        ethers.utils.parseEther(`${price}`),
-      );
-      message.info({
-        content: 'The operation is in progress, please wait...',
-        key: 'listingTx',
-        duration: 0,
-      });
-      await listingTx.wait();
-      message.destroy('listingTx');
-      message.success('The operation was successful!');
-    } catch (error) {
-      throw new Error(error);
-    }
-  };
-
   const handleSubmit = async (e) => {
     // e.preventDefault();
     if (!price) {
@@ -197,13 +166,11 @@ export default function Mount() {
     setConfirmLoading(true);
     try {
       await fetchNodesConfigUpdate(payload);
-      await onContract(price);
       setConfirmLoading(false);
       message.success('list success!');
       history.push('/genesis/instance');
     } catch (error) {
       setConfirmLoading(false);
-      console.error('操作合约失败：', error);
       message.error('Operation contract failed, please try again!');
     }
   };
@@ -295,7 +262,7 @@ export default function Mount() {
               <p>Billing price</p>
 
               <Input
-                suffix={<p>JCT/Day</p>}
+                suffix={<p>USDT/Day</p>}
                 type="number"
                 placeholder="Enter a price"
                 value={price}

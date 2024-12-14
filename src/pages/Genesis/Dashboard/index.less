@@ -7,14 +7,47 @@
     line-height: 60px;
     color: #ffffff;
   }
+  .invite-btn {
+    display: flex;
+    justify-content: center;
+
+    .create-btn {
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      gap: 12px;
+      padding-inline: 18px;
+      background: linear-gradient(275.81deg, #72deff 18.68%, #ffebe7 100%);
+      font-family: Poppins;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 24px;
+      text-align: center;
+      color: #000;
+      border-radius: 20px;
+      text-wrap: nowrap;
+    }
+  }
 
   .dashboard-content {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 20px;
-    margin-top: 40px;
-
+    margin-top: 20px;
+    .dashboard-cards {
+      display: flex;
+      width: 100%;
+      gap: 20px;
+      align-items: stretch;
+    }
+    .dashboard-content-left {
+      width: calc(~'57% - 10px');
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
     .content-item {
       flex-shrink: 0;
       padding: 16px;
@@ -168,12 +201,13 @@
     }
 
     .collect-wrapper {
-      width: calc(~'54% - 10px');
+      width: calc(~'47% - 10px');
       height: 458px;
     }
 
     .sales-wrapper {
-      width: calc(~'57% - 10px');
+      // width: calc(~'57% - 10px');
+      flex: 1;
       height: 332px;
     }
 
@@ -208,7 +242,8 @@
     }
 
     .sales-pipeline-wrapper {
-      width: calc(~'57% - 10px');
+      // width: calc(~'57% - 10px');
+      width: 100%;
       height: 319px;
 
       .content {
@@ -273,14 +308,77 @@
     }
 
     .profit-wrapper {
-      width: calc(~'43% - 10px');
-      height: 319px;
+      width: calc(~'53% - 10px');
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      // height: 319px;
+      .card {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        background-color: #1a1a1a;
+        border-radius: 16px;
+        width: 100%;
+        border: #6062638f solid 1px;
+        .card-total {
+          display: flex;
+          justify-content: space-between;
+          height: 130px;
+          align-items: center;
+          .compare {
+            text-wrap: nowrap;
+          }
+        }
+        .name {
+          color: #606263;
+          margin-left: 6px;
+        }
+        .value {
+          font-size: 1.8rem;
+          margin-bottom: 12px;
+        }
+        .total-value {
+          font-size: 2.4rem;
+          margin-bottom: 12px;
+          color: #00bbd4;
+        }
+        img {
+          width: 15px;
+          height: 15px;
+          margin-right: 6px;
+        }
+        .text-red {
+          color: #ff9f5a;
+        }
+        :global {
+          .ant-card-head {
+            border: none;
+            padding: 0 12px;
+            min-height: 4px;
+            .ant-card-head-title {
+              font-family: 'Poppins';
+              padding-bottom: 0px;
+              font-style: normal;
+              font-weight: 600;
+              font-size: 14px;
+              line-height: 24px;
+              color: #77797a;
+            }
+          }
 
+          .ant-card-body {
+            padding: 0px 12px 12px;
+            width: 100%;
+          }
+        }
+      }
       .content {
         .total-wrapper {
           width: 100%;
           display: flex;
-          align-items: center;
+          flex-direction: column;
+          align-items: start;
           gap: 8px;
 
           .total-item {
@@ -823,7 +921,7 @@
 .white {
   color: white;
 }
-
+// aqui
 @media (max-width: 1024px) {
   .dashboard-wrapper {
     > h1 {
@@ -834,7 +932,22 @@
     .dashboard-content {
       gap: 20px;
       margin-top: 40px;
-
+      .dashboard-cards {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 20px;
+        align-items: stretch;
+      }
+      .dashboard-content-left {
+        width: calc(~'100% - 10px');
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        .content-item {
+          width: 100%;
+        }
+      }
       .content-item {
         padding: 16px;
         gap: 32px;
@@ -892,6 +1005,7 @@
               .desc {
                 font-size: 12px;
                 line-height: 20px;
+                text-wrap: nowrap;
               }
 
               .more {
@@ -994,8 +1108,10 @@
       }
 
       .profit-wrapper {
-        width: calc(~'43% - 10px');
+        // width: calc(~'43% - 10px');
         height: 319px;
+        height: auto;
+        width: 100%;
 
         .content {
           .total-wrapper {
@@ -1098,7 +1214,8 @@
 
       .profit-wrapper {
         width: 100%;
-        height: 319px;
+        // height: 319px;
+        height: auto;
       }
     }
   }

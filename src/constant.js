@@ -91,11 +91,16 @@ export const ANDROID_APK_PATH =
   'https://janction-test-1324956105.cos.ap-tokyo.myqcloud.com/janction.apk?q-sign-algorithm=sha1&q-ak=AKID--CAKWwFjso0Ddr-cBx98Vcd-Dvd5uswajldZLPXjPTjRNezGgZE6Pi87AA1EZ-2&q-sign-time=1719758323;1719761923&q-key-time=1719758323;1719761923&q-header-list=host&q-url-param-list=&q-signature=1e081b7f6eff8410a1d4a44829a58093c7600b42&x-cos-security-token=acBbXNgU3t64LR8t1WzD4i4FBM94s1hafb7f71301f6769bfebfe1453fffc7a1fvJPm9TUe_khwMPRyyithBH6Q69I_-D21dN5W-X8-MuTL3eElmLMrNccf6fb1__i7wGaMTH4CSdEx-DS91fce_8XTNywaxkwhzXuWkdlnxtkO3YGJqZ-22-ha6GptPQscPLvXp582SGuxu-0EfOHFloyb5-qf-lZZiZAIzjiMRGuC60AX3FwKCvPJbbkIe4pt';
 
 export const Duration = {
-  day: 0,
-  week: 1,
-  month: 2,
+  Day: 0,
+  Week: 1,
+  Month: 2,
   // Quarter: 3,
 };
+export const DURATION_OPTIONS = [
+  { label: 'Day', value: Duration.Day },
+  { label: 'Week', value: Duration.Week },
+  { label: 'Month', value: Duration.Month },
+];
 
 export const paymentABI = [
   {
@@ -107,40 +112,66 @@ export const paymentABI = [
   },
   {
     type: 'function',
-    name: 'createPayeeListing',
+    name: 'createPaymentPlan',
     inputs: [
+      { name: 'payer', type: 'address', internalType: 'address' },
+      { name: 'recipient', type: 'address', internalType: 'address' },
       { name: 'currency', type: 'address', internalType: 'address' },
-      { name: 'baseAmount', type: 'uint256', internalType: 'uint256' },
+      { name: 'totalAmount', type: 'uint256', internalType: 'uint256' },
+      { name: 'totalDays', type: 'uint256', internalType: 'uint256' },
     ],
     outputs: [],
     stateMutability: 'nonpayable',
   },
   {
     type: 'function',
-    name: 'createPayerPlan',
-    inputs: [
-      { name: 'payee', type: 'address', internalType: 'address' },
+    name: 'getPaymentPlan',
+    inputs: [{ name: 'paymentId', type: 'bytes32', internalType: 'bytes32' }],
+    outputs: [
       {
-        name: 'duration',
-        type: 'uint8',
-        internalType: 'enum Payment.Duration',
+        name: '',
+        type: 'tuple',
+        internalType: 'struct Payment.PaymentPlan',
+        components: [
+          { name: 'payer', type: 'address', internalType: 'address' },
+          {
+            name: 'recipient',
+            type: 'address',
+            internalType: 'address',
+          },
+          {
+            name: 'currency',
+            type: 'address',
+            internalType: 'address',
+          },
+          {
+            name: 'totalAmount',
+            type: 'uint256',
+            internalType: 'uint256',
+          },
+          {
+            name: 'dailyAmount',
+            type: 'uint256',
+            internalType: 'uint256',
+          },
+          {
+            name: 'startTime',
+            type: 'uint256',
+            internalType: 'uint256',
+          },
+          {
+            name: 'paidDays',
+            type: 'uint256',
+            internalType: 'uint256',
+          },
+          {
+            name: 'totalDays',
+            type: 'uint256',
+            internalType: 'uint256',
+          },
+        ],
       },
     ],
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    name: 'getTotalAmount',
-    inputs: [
-      { name: 'payee', type: 'address', internalType: 'address' },
-      {
-        name: 'duration',
-        type: 'uint8',
-        internalType: 'enum Payment.Duration',
-      },
-    ],
-    outputs: [{ name: '', type: 'uint256', internalType: 'uint256' }],
     stateMutability: 'view',
   },
   {
@@ -159,38 +190,8 @@ export const paymentABI = [
   },
   {
     type: 'function',
-    name: 'payeeListings',
-    inputs: [{ name: '', type: 'address', internalType: 'address' }],
-    outputs: [
-      { name: 'currency', type: 'address', internalType: 'address' },
-      { name: 'baseAmount', type: 'uint256', internalType: 'uint256' },
-    ],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    name: 'payerPlans',
-    inputs: [{ name: '', type: 'address', internalType: 'address' }],
-    outputs: [
-      {
-        name: 'status',
-        type: 'uint8',
-        internalType: 'enum Payment.PaymentStatus',
-      },
-      { name: 'payer', type: 'address', internalType: 'address' },
-      { name: 'currency', type: 'address', internalType: 'address' },
-      { name: 'totalAmount', type: 'uint256', internalType: 'uint256' },
-      { name: 'dailyAmount', type: 'uint256', internalType: 'uint256' },
-      { name: 'startTime', type: 'uint256', internalType: 'uint256' },
-      { name: 'paidDays', type: 'uint256', internalType: 'uint256' },
-      { name: 'totalDays', type: 'uint256', internalType: 'uint256' },
-    ],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
     name: 'releaseDailyPayment',
-    inputs: [{ name: 'payee', type: 'address', internalType: 'address' }],
+    inputs: [{ name: 'paymentId', type: 'bytes32', internalType: 'bytes32' }],
     outputs: [],
     stateMutability: 'nonpayable',
   },
@@ -223,13 +224,19 @@ export const paymentABI = [
     name: 'DailyPaymentReleased',
     inputs: [
       {
-        name: 'payee',
+        name: 'paymentId',
+        type: 'bytes32',
+        indexed: true,
+        internalType: 'bytes32',
+      },
+      {
+        name: 'payer',
         type: 'address',
         indexed: true,
         internalType: 'address',
       },
       {
-        name: 'payer',
+        name: 'recipient',
         type: 'address',
         indexed: true,
         internalType: 'address',
@@ -264,10 +271,22 @@ export const paymentABI = [
   },
   {
     type: 'event',
-    name: 'PayeeListingCreated',
+    name: 'PaymentPlanCreated',
     inputs: [
       {
-        name: 'payee',
+        name: 'paymentId',
+        type: 'bytes32',
+        indexed: true,
+        internalType: 'bytes32',
+      },
+      {
+        name: 'payer',
+        type: 'address',
+        indexed: true,
+        internalType: 'address',
+      },
+      {
+        name: 'recipient',
         type: 'address',
         indexed: true,
         internalType: 'address',
@@ -275,32 +294,7 @@ export const paymentABI = [
       {
         name: 'currency',
         type: 'address',
-        indexed: true,
-        internalType: 'address',
-      },
-      {
-        name: 'baseAmount',
-        type: 'uint256',
         indexed: false,
-        internalType: 'uint256',
-      },
-    ],
-    anonymous: false,
-  },
-  {
-    type: 'event',
-    name: 'PayerPlanCreated',
-    inputs: [
-      {
-        name: 'payee',
-        type: 'address',
-        indexed: true,
-        internalType: 'address',
-      },
-      {
-        name: 'payer',
-        type: 'address',
-        indexed: true,
         internalType: 'address',
       },
       {
@@ -459,5 +453,39 @@ export const currencyABI = [
   },
 ];
 
-export const paymentAddress = '0x4bcb4864a11c648830c917435d33422ba0201a3c'; // 合约地址
+export const paymentAddress = '0xCCC448d11A64E9778599C136503c668dd9729C43'; // 合约地址
 export const currencyAddress = '0x248f49674A9cc39E68615BD6669F5a395cbfa4D3'; // 币种合约地址
+
+export const CPU_GPU_OPTIONS = [
+  { label: 'CPU', value: 'cpu' },
+  { label: 'GPU', value: 'gpu' },
+];
+
+export const ADDRESS = {
+  Payment: '0xCCC448d11A64E9778599C136503c668dd9729C43',
+  USDT: '0xCA181238E466Fd450AbCCFc8eaADECA3646e7b99',
+  USDC: '0x1123904310D41b95e30747E9687Bb167eB370547',
+  JCT: '0xa780e5799805eCF2c8aaebf551180F8109139B38',
+  USDTPrice: '0x31c876b373a9Dd35B164ba626c702E8BCdE58082',
+  USDCPrice: '0x9d7CB65110A02432423cE0775b09dfB66859baaF',
+  JCTPrice: '0xD9BeFA1c7da2891CAb652AB9f163340545177fbD',
+};
+
+export const PAY_CURRENCY = [
+  {
+    value: ADDRESS.JCT,
+    label: 'veJCT',
+    desc: 'From JANCTION',
+    rate: 0.02,
+  },
+  {
+    value: ADDRESS.USDT,
+    label: 'USDT',
+    rate: 1,
+  },
+  {
+    value: ADDRESS.USDC,
+    label: 'USDC',
+    rate: 1,
+  },
+];

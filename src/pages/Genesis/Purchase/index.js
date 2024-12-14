@@ -30,7 +30,7 @@ function Purchase(props) {
       <section>
         <h1 className={styles['text__title']}>Configure instance</h1>
 
-        {/* <div className={styles['purchase-type-nav']}>
+        <div className={styles['purchase-type-nav']}>
           {PURCHASES.map((item) => (
             <div
               key={item.value}
@@ -46,8 +46,8 @@ function Purchase(props) {
         </div>
 
         {activePurType == PURCHASES[0].value && <Customized />}
-        {activePurType == PURCHASES[1].value && <Quick />} */}
-        <Create />
+        {activePurType == PURCHASES[1].value && <Quick />}
+        {/* <Create /> */}
       </section>
     </main>
   );

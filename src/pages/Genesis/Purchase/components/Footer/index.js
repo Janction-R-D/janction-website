@@ -1,11 +1,38 @@
 import { Button, Checkbox, message } from 'antd';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import styles from './index.less';
+import { isEmpty } from '@/utils/lang';
+import { PAY_CURRENCY } from '@/constant';
 
 const Footer = (props) => {
-  const { loading, isSettlement, onConfirm } = props;
+  const {
+    loading,
+    isConfirm,
+    isSettlement,
+    onPre,
+    onConfirm,
+    onPay,
+    node,
+    formValues,
+    currencyAddress,
+  } = props;
 
   const [agree, setAgree] = useState(false);
+
+  const total = useMemo(() => {
+    if (!formValues) return;
+    const { duration } = formValues;
+    if (isEmpty(node) || !duration?.value || !duration?.unit) return 0;
+    const _total =
+      node?.price * duration?.value * durationMultiplier(duration?.unit, true);
+    return (Number(_total) / Number(currency?.rate || 1)).toFixed(2);
+  }, [node, formValues, currency]);
+
+  const currency = useMemo(() => {
+    const goal = PAY_CURRENCY.find((item) => item.value == currencyAddress);
+    return goal;
+  }, currencyAddress);
+
   const onAgreeChange = (e) => {
     setAgree(e.target.checked);
   };
@@ -31,7 +58,9 @@ const Footer = (props) => {
               </Checkbox>
             </div>
             <div className={styles['price-info']}>
-              <span className={styles['value']}>$34.669</span>
+              <span className={styles['value']}>
+                {total || 0} {currency?.label}
+              </span>
               <div className={styles['detail']}>
                 <span>Bill Details</span>
                 <i className="iconfont icon-next_page"></i>
@@ -41,24 +70,31 @@ const Footer = (props) => {
         )}
       </div>
       <div className={styles['btn']}>
-        {/* {!isFirst && (
+        {isConfirm && (
+          <div className={styles['confirm']} onClick={() => onConfirm()}>
+            <Button loading={loading}>Confirm the order</Button>
+          </div>
+        )}
+        {isSettlement && (
           <div className={styles['pre']}>
             <Button onClick={() => onPre()}>Previous</Button>
           </div>
         )}
-        {!(isSettlement || isLast) && (
-          <div className={styles['next']}>
-            <Button onClick={() => onNext()}>Next</Button>
-          </div>
-        )} */}
-        <div className={styles['confirm']} onClick={() => onConfirm()}>
-          <Button loading={loading}>Confirm the order</Button>
-        </div>
-        {/* {isSettlement && (
-          <div className={styles['pay']} onClick={() => onPay(onPayBefore)}>
+        {isSettlement && (
+          <div
+            className={styles['pay']}
+            onClick={() => {
+              try {
+                onPayBefore();
+                onPay();
+              } catch (err) {
+                console.log('『err』', err);
+              }
+            }}
+          >
             <Button>Check to pay</Button>
           </div>
-        )} */}
+        )}
       </div>
     </div>
   );

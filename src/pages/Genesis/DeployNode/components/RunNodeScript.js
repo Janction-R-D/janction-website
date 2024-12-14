@@ -30,9 +30,9 @@ const RunNodeScript = (props) => {
     if (isLinux) {
       return `
 \`\`\`sh
-curl -sfL http://18.181.196.49:8080/v0/node/install.sh?cn=true | NODE_ID=${
+curl 'https://18.183.24.253:8080/v0/node/install.sh?v2=true' | LOCATION=cn NODE_ID=${
         nodesData?.node_id || 'xxxx'
-      } JOIN_TOKEN=${nodesData?.token || 'xxxx'} sh -
+      } bash -s install
 \`\`\`
 `;
     }
