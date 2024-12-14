@@ -1,13 +1,14 @@
 import { Button, message } from 'antd';
 import styles from './index.less';
 import { useMemo, useState } from 'react';
-import { history, Redirect, useAccess } from 'umi';
+import { history, Redirect, useAccess, useModel } from 'umi';
 import storage from '@/utils/storage';
 
 const Login = (props) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [valid, setValid] = useState(false);
+  const { initialState, setInitialState } = useModel('@@initialState');
 
   const { isRootLogin } = useAccess();
 
@@ -41,6 +42,7 @@ const Login = (props) => {
         value: true,
         expires,
       });
+      setInitialState({ rootAccount: true });
       history.push('/root');
     } else {
       message.error('Validation failed. Please check your inputs.');
