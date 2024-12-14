@@ -21,17 +21,17 @@ function ResourceTable({ data }) {
       ellipsis: true,
     },
     {
-      title: <div className="quantity">数量</div>,
+      title: <div className="quantity">Quantity</div>,
       dataIndex: 'quantity',
       key: 'quantity',
     },
     {
-      title: <div className="curency">币种</div>,
+      title: <div className="curency">Currency</div>,
       dataIndex: 'curency',
       key: 'curency',
     },
     {
-      title: '状态',
+      title: 'Status',
       key: 'status',
       dataIndex: 'status',
       render: (text) => (

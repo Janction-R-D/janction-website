@@ -38,7 +38,7 @@ export default function WelcomeCard() {
           <p>*Invitation code is not required</p>
         </div>
         <Button className={styles['buy-btn']} disabled={email.length <= 0}>
-          Jion Janction network
+          Join Janction network
         </Button>
         <p className={styles['footer-text']}>
           Surrender your rights, <span>Enter immediately</span>
