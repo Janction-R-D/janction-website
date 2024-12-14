@@ -1,25 +1,24 @@
 import { Button, message } from 'antd';
 import styles from './index.less';
 import { useMemo, useState } from 'react';
-import { history } from 'umi';
+import { history, Redirect, useAccess } from 'umi';
+import storage from '@/utils/storage';
 
 const Login = (props) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [valid, setValid] = useState(false);
 
+  const { isRootLogin } = useAccess();
+
   const validateInputs = (callback) => {
     const newErrors = {};
     if (!username.trim()) {
       newErrors.username = 'Username is required';
-    } else if (username.length < 3) {
-      newErrors.username = 'Username must be at least 3 characters long';
     }
 
     if (!password.trim()) {
       newErrors.password = 'Password is required';
-    } else if (password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters long';
     }
     callback && callback(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -36,11 +35,19 @@ const Login = (props) => {
     setValid(true);
     if (validateInputs()) {
       message.success('Validation passed. Proceeding with login...');
+      const expires = 60 * 60 * 10 * 1000;
+      storage.set({
+        name: 'rootAccount',
+        value: true,
+        expires,
+      });
       history.push('/root');
     } else {
       message.error('Validation failed. Please check your inputs.');
     }
   };
+
+  if (isRootLogin) return <Redirect to="/root"></Redirect>;
 
   return (
     <div className={styles['login-box']}>

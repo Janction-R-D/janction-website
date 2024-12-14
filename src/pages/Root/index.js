@@ -1,7 +1,7 @@
 import JanctionCard from '@/components/JanctionCard';
 import JanctionTable from '@/components/JanctionTable';
 import { Col, Form, message, Row, Space } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import GenerateCode from './components/GenerateCode';
 import LabelValue from './components/LabelValue';
 import ParameterSetting from './components/ParameterSetting';
@@ -13,6 +13,16 @@ import PayDetail from './components/PayDetail';
 import SplitRatioSetting from './components/SplitRatioSetting';
 import InvitedUser from './components/InvitedUser';
 import CodeManage from './components/CodeManage';
+import {
+  renderTableActionBar,
+  renderTableColumns,
+} from '@/components/JanctionTable/column';
+import { history } from 'umi';
+import {
+  fetchInviterList,
+  fetchNFTStatistic,
+  fetchPaymentHistory,
+} from '@/services/root';
 
 const Root = (props) => {
   const [editVisible, setEditVisible] = useState(false);
@@ -24,98 +34,118 @@ const Root = (props) => {
     miner_number: 850,
     total_points_earned: 15000000,
     miner_sales_revenue: 12000,
-    transaction_fee_revenue: 15000000.12,
+    transaction_fee_revenue: 150000.12,
   });
   const [payDetailVisible, setPayDetailVisible] = useState(false);
   const [splitVisible, setSplitVisible] = useState(false);
   const [codeManageVisible, setCodeManageVisible] = useState(false);
   const [invitedUserVisible, setInvitedUserVisible] = useState(false);
+  const [paymentHistory, setPaymentHistory] = useState([]);
+  const [paymentHistoryLoading, setPaymentHistoryLoading] = useState(false);
+  const [inviterList, setInviterList] = useState([]);
+  const [inviterLoading, setInviterLoading] = useState(false);
 
-  const onOk = () => {
-    const values = form.getFieldsValue();
-    alert(JSON.stringify(values));
-    message.success('edit success!');
+  useEffect(() => {
+    getNFTStatistic();
+    getPaymentHistory();
+    getInviterList();
+  }, []);
+  const getNFTStatistic = async () => {
+    try {
+      const res = await fetchNFTStatistic();
+      setStatisticData(res || {});
+    } catch (err) {
+      console.log('『err』', err);
+    }
+  };
+  const getPaymentHistory = async () => {
+    try {
+      setPaymentHistoryLoading(true);
+      const res = await fetchPaymentHistory();
+      setPaymentHistory(res || []);
+      setPaymentHistoryLoading(false);
+    } catch (err) {
+      setPaymentHistoryLoading(false);
+      console.log('『err』', err);
+    }
+  };
+  const getInviterList = async () => {
+    try {
+      setInviterLoading(true);
+      const res = await fetchInviterList();
+      setInviterList(res || []);
+      setInviterLoading(false);
+    } catch (err) {
+      setInviterLoading(false);
+      console.log('『err』', err);
+    }
   };
 
   const columns = [
-    {
-      title: 'Primary inviter',
-      dataIndex: 'name',
-    },
-    {
-      title: 'Number of guests',
-      dataIndex: 'guestsNumber',
-    },
-    {
-      title: 'Address',
-      dataIndex: 'address',
-    },
-    {
-      title: 'Action',
-      dataIndex: '',
-      key: 'x',
-      render: (text, rowData) => (
-        <a
-          onClick={() => {
-            setRecord(rowData);
-            setPayDetailVisible(true);
-          }}
-        >
-          Detail
-        </a>
-      ),
-    },
+    renderTableColumns('Miner ID', 'name', { copy: true }),
+    renderTableColumns('Transaction', 'name'),
+    renderTableColumns('Payment Time', 'name'),
+    renderTableColumns('User Address', 'name'),
+    renderTableColumns('Transaction Amount', 'name'),
+    renderTableColumns('Receiving Address', 'name', { copy: true }),
+    renderTableActionBar([
+      {
+        name: 'Detail',
+        onClick: (rowData) => {
+          setRecord(rowData);
+          setPayDetailVisible(true);
+        },
+      },
+    ]),
   ];
   const columns2 = [
-    {
-      title: 'Primary inviter',
-      dataIndex: 'name',
-    },
-    {
-      title: 'Number of guests',
-      dataIndex: 'guestsNumber',
-    },
-    {
-      title: 'Address',
-      dataIndex: 'address',
-    },
-    {
-      title: 'Action',
-      dataIndex: '',
-      key: 'x',
-      render: (text, rowData) => (
-        <Space>
-          <a
-            onClick={() => {
-              setRecord(rowData);
-              setSplitVisible(true);
-            }}
-          >
-            split settings
-          </a>
-          <a
-            onClick={() => {
-              setRecord(rowData);
-              setInvitedUserVisible(true);
-            }}
-          >
-            invited user
-          </a>
-          <a
-            onClick={() => {
-              setRecord(rowData);
-              setCodeManageVisible(true);
-            }}
-          >
-            Invitation code management
-          </a>
-        </Space>
-      ),
-    },
+    renderTableColumns('Inviter Address', 'name', { copy: true }),
+    renderTableColumns('Inviter Name', 'name', { copy: true }),
+    renderTableColumns('Number of Invites', 'name'),
+    renderTableColumns('Total NFTs Purchased by Invited', 'name'),
+    renderTableColumns('Total points Earned by lnvited', 'guestsNumber'),
+    renderTableActionBar([
+      {
+        name: 'split settings',
+        onClick: (rowData) => {
+          setRecord(rowData);
+          setSplitVisible(true);
+        },
+      },
+      {
+        name: 'invited user',
+        onClick: (rowData) => {
+          setRecord(rowData);
+          setInvitedUserVisible(true);
+        },
+      },
+      {
+        name: 'Invitation code management',
+        onClick: (rowData) => {
+          setRecord(rowData);
+          setCodeManageVisible(true);
+        },
+      },
+    ]),
   ];
 
   return (
     <div className={styles['root-container']}>
+      <div className={styles['root-header']}>
+        <a
+          className={styles['logo']}
+          onClick={() => {
+            history.push('/');
+          }}
+        >
+          <img
+            src={require('@/assets/images/icons/logo_name.png')}
+            alt="logo"
+          />
+        </a>
+        <h1 className={styles['header-title']}>バックエンド管理システム</h1>
+        <span></span>
+      </div>
       <Row gutter={[20, 20]}>
         <Col span={24}>
           <JanctionCard title="NFT mining machine dashboard">
@@ -167,9 +197,13 @@ const Root = (props) => {
             <Col span={16}>
               <JanctionCard title="Payment history" divider>
                 <JanctionTable
+                  size="small"
+                  search
+                  bordered
+                  loading={paymentHistoryLoading}
                   dataSource={data}
                   columns={columns}
-                  pagination={false}
+                  pagination={{ position: ['bottomCenter'] }}
                 />
               </JanctionCard>
             </Col>
@@ -200,9 +234,12 @@ const Root = (props) => {
         <Col span={24}>
           <JanctionCard title="Level 1  inviter management" divider>
             <JanctionTable
+              loading={inviterLoading}
+              size="small"
+              bordered
               dataSource={data}
               columns={columns2}
-              pagination={false}
+              pagination={{ position: ['bottomCenter'] }}
             />
           </JanctionCard>
         </Col>
@@ -225,6 +262,7 @@ const Root = (props) => {
             setSplitVisible(false);
             setRecord();
           }}
+          onSuccess={getInviterList}
         />
       )}
       {codeManageVisible && (
@@ -251,4 +289,5 @@ const Root = (props) => {
   );
 };
 
+Root.wrappers = ['@/wrappers/rootAuth'];
 export default Root;

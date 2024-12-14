@@ -1,17 +1,31 @@
 import JanctionCard from '@/components/JanctionCard';
 import styles from './index.less';
 import LabelValue from './LabelValue';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CONFIGURATION } from './extra';
 import ModifyModal from './ModifyModal';
+import { fetchNFTSetting } from '@/services/root';
 
 const ParameterSetting = (props) => {
   const [record, setRecord] = useState();
   const [visible, setVisible] = useState(false);
+  const [settingData, setSettingData] = useState();
+
+  useEffect(() => {
+    getSettingData();
+  }, []);
+  const getSettingData = async () => {
+    try {
+      const res = await fetchNFTSetting();
+      setSettingData(res);
+    } catch (error) {
+      console.log('『error』', error);
+    }
+  };
 
   const onEdit = (config) => {
     console.log('『config』', config);
-    setRecord({ ...config, value: props?.[config.key] });
+    setRecord({ ...config, value: settingData?.[config.key] });
     setVisible(true);
   };
 
@@ -25,7 +39,7 @@ const ParameterSetting = (props) => {
               {...item}
               key={item.key}
               title={`${item.title}:`}
-              value={props?.[item.key]}
+              value={settingData?.[item.key]}
               onEdit={() => onEdit(item)}
             />
           ))}
@@ -37,6 +51,7 @@ const ParameterSetting = (props) => {
             setVisible(false);
             setRecord();
           }}
+          onSuccess={getSettingData}
           record={record}
         />
       )}

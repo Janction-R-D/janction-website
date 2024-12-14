@@ -250,6 +250,7 @@ div.dib{*display:inline; *zoom:1;}/* other block level tag(eg. p, li, h1~h6), us
 /* cursor */
 .poi{cursor:pointer;}
 .def{cursor:default;}
+.not_allowed {color: #828283;cursor: not-allowed;}
 /* overflow */
 .ovh{overflow:hidden;}
 .ova{overflow:auto;}
@@ -306,5 +307,6 @@ div.dib{*display:inline; *zoom:1;}/* other block level tag(eg. p, li, h1~h6), us
 .ai_c{align-items: center;}
 .fd_c{flex-direction: column;}
 .f1{flex:1}
+.gap5{gap: 5px;}
 .gap10{gap: 10px;}
 .fw_w{flex-wrap: wrap;}

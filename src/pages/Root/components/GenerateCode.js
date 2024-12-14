@@ -24,6 +24,7 @@ const GenerateCode = (props) => {
   }, [name, address]);
 
   const onCopy = () => {
+    if (!showCodeGenerate) return;
     copy(code);
   };
 
@@ -49,12 +50,14 @@ const GenerateCode = (props) => {
           showCodeGenerate && styles['show-extra'],
         ].join(' ')}
       >
-        {showCodeGenerate && (
+        {showCodeGenerate ? (
           <Tooltip title="Click Copy" color="#000000">
             <span className={styles['copy']} onClick={onCopy}>
               Generate invitation code
             </span>
           </Tooltip>
+        ) : (
+          <span className={styles['copy']}>Generate invitation code</span>
         )}
         {showCodeGenerate && (
           <RedoOutlined

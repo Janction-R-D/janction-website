@@ -1,20 +1,27 @@
 import { FormInput, FormInputNumber } from '@/components/JanctionInput';
 import JanctionModal from '@/components/JanctionModal';
-import { Col, Form, InputNumber, Row } from 'antd';
+import { Col, Form, InputNumber, message, Row } from 'antd';
 import { useState } from 'react';
 import LabelValue from './LabelValue';
 import styles from './index.less';
+import { fetchSplitSetting } from '@/services/root';
 
 const SplitRatioSetting = (props) => {
-  const { visible, onCancel, record } = props;
+  const { visible, onCancel, record, onSuccess } = props;
 
   const [form] = Form.useForm();
 
-  const Com = record?.type == 'number' ? FormInputNumber : FormInput;
-
   const onOk = async () => {
-    const value = await form.validateFields();
-    console.log('『value』', value);
+    try {
+      const values = await form.validateFields();
+      console.log('『value』', values);
+      const res = fetchSplitSetting(values);
+      onCancel();
+      message.success('setting success!');
+      onSuccess();
+    } catch (err) {
+      console.log('『err』', err);
+    }
   };
 
   return (

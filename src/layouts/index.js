@@ -62,7 +62,7 @@ export default function Layout(props) {
   if (isAuthRoute) {
     return (
       <GenesisProvider>
-        <GenesisLayout>{children}</GenesisLayout>{' '}
+        <GenesisLayout>{children}</GenesisLayout>
       </GenesisProvider>
     );
   }
@@ -84,6 +84,10 @@ export default function Layout(props) {
         <Footer />
       </div>
     );
+  }
+
+  if (props.location.pathname == '/root') {
+    return <div id={styles['main-layout']}>{children}</div>;
   }
 
   // 404

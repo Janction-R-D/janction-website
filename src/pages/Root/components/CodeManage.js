@@ -1,34 +1,59 @@
-import { FormInput, FormInputNumber } from '@/components/JanctionInput';
 import JanctionModal from '@/components/JanctionModal';
-import { useState } from 'react';
-import LabelValue from './LabelValue';
 import JanctionTable from '@/components/JanctionTable';
+import {
+  renderTableActionBar,
+  renderTableColumns,
+} from '@/components/JanctionTable/column';
+import { fetchInviterCodeList, fetchInviterEnable } from '@/services/root';
+import { message, Switch } from 'antd';
+import { useEffect, useState } from 'react';
+import LabelValue from './LabelValue';
 
 const CodeManage = (props) => {
   const { visible, onCancel, record } = props;
 
-  const [value, setValue] = useState(record?.value);
-  const [data, setData] = useState([]);
+  const [list, setList] = useState([]);
+  const [loading, setLoading] = useState([]);
 
-  const Com = record?.type == 'number' ? FormInputNumber : FormInput;
+  useEffect(() => {
+    getList();
+  }, []);
+  const getList = async () => {
+    try {
+      setLoading(true);
+      const res = await fetchInviterCodeList();
+      setList(res || []);
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+      console.log('『err』', err);
+    }
+  };
 
-  const onOk = () => {
-    console.log('『value』', value);
+  const onEnableSwitch = async (checked) => {
+    try {
+      const res = await fetchInviterEnable();
+      message.success('updated!');
+    } catch (error) {}
   };
 
   const columns = [
-    {
-      title: 'Primary inviter',
-      dataIndex: 'name',
-    },
-    {
-      title: 'Number of guests',
-      dataIndex: 'guestsNumber',
-    },
-    {
-      title: 'Address',
-      dataIndex: 'address',
-    },
+    renderTableColumns('Referrer Address', ''),
+    renderTableColumns('Generated Time', ''),
+    renderTableColumns('Invite Code', ''),
+    renderTableColumns('Invite Link', ''),
+    renderTableActionBar([
+      {
+        render: (rowData) => {
+          return (
+            <>
+              <Switch checked={!rowData.disabled} onChange={onEnableSwitch} />
+              <span>{rowData.disabled ? 'Disable' : 'Enable'}</span>
+            </>
+          );
+        },
+      },
+    ]),
   ];
 
   return (
@@ -47,7 +72,12 @@ const CodeManage = (props) => {
           value="dsb-bbsdsb-bbsdsb-bbsdsb-bbsdsb"
         />
       </div>
-      <JanctionTable dataSource={data} columns={columns} pagination={false} />
+      <JanctionTable
+        loading={loading}
+        dataSource={list}
+        columns={columns}
+        pagination={false}
+      />
     </JanctionModal>
   );
 };

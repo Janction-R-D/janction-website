@@ -1,17 +1,26 @@
 import { FormInput, FormInputNumber } from '@/components/JanctionInput';
 import JanctionModal from '@/components/JanctionModal';
 import { useState } from 'react';
+import { message } from 'antd';
 import LabelValue from './LabelValue';
+import { fetchNFTSetting, fetchNFTSettingUpdate } from '@/services/root';
 
 const ModifyModal = (props) => {
-  const { visible, onCancel, record } = props;
+  const { visible, onCancel, record, onSuccess } = props;
 
   const [value, setValue] = useState(record?.value);
 
   const Com = record?.type == 'number' ? FormInputNumber : FormInput;
 
-  const onOk = () => {
+  const onOk = async () => {
     console.log('『value』', value);
+    try {
+      const res = await fetchNFTSettingUpdate();
+      message.success('update success!');
+      onSuccess();
+    } catch (err) {
+      console.log('『err』', err);
+    }
   };
 
   return (
