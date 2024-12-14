@@ -19,7 +19,7 @@ const PasswordToggle = ({ initialPassword = '12345678' }) => {
   const getPassword = async () => {
     try {
       const res = await fetchRootUserPsd();
-      setPassword(res);
+      // setPassword(res);
     } catch (error) {
       console.log('『error』', error);
     }
@@ -36,8 +36,10 @@ const PasswordToggle = ({ initialPassword = '12345678' }) => {
   return (
     <Space size={8}>
       {/* 密码显示区域 */}
-      <span className={styles['password-input']}>
-        {isHidden ? '*'.repeat(password.length) : password}
+      <span className={`ell ${styles['password-input']}`}>
+        {isHidden
+          ? '*'.repeat(password.length > 6 ? 6 : password.length || 1)
+          : password}
       </span>
 
       {/* 显示/隐藏按钮 */}
