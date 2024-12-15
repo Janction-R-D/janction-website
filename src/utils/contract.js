@@ -77,7 +77,7 @@ const contract = {
     }
   },
   rent: async ({
-    paymentAddress,
+    payerAddress,
     ownerAddress,
     currencyAddress,
     durationNum,
@@ -109,8 +109,8 @@ const contract = {
 
       // 检查授权额度
       const currentAllowance = await currency.allowance(
-        ownerAddress,
-        paymentAddress,
+        payerAddress,
+        ADDRESS.Payment,
       );
       console.log('currentAllowance:', currentAllowance.toString());
       if (currentAllowance.lt(totalAmount)) {
@@ -120,7 +120,7 @@ const contract = {
           key: 'approveTx',
           duration: 0,
         });
-        const approveTx = await currency.approve(paymentAddress, totalAmount);
+        const approveTx = await currency.approve(payerAddress, totalAmount);
         await approveTx.wait();
         message.success('Approval successful!');
       } else {
@@ -137,7 +137,7 @@ const contract = {
       // 调起支付
       const totalDays = durationNum * durationMultiplier(duration);
       const tx = await payment.createPaymentPlan(
-        paymentAddress,
+        payerAddress,
         ownerAddress,
         currencyAddress,
         ethers.utils.parseUnits(totalAmount, 6),
@@ -153,7 +153,8 @@ const contract = {
     }
   },
   distribute: async (
-    currencyAddress,
+    payerAddress,
+    totalAmount,
     beneficiaries, // address[]
     rewards, // uint256[]
   ) => {
@@ -163,10 +164,38 @@ const contract = {
 
       // 初始化合约
       const distribution = new ethers.Contract(
-        ADDRESS.Payment,
+        ADDRESS.Distribution,
         Distribution.abi,
         provider,
       ).connect(signer);
+
+      const currency = new ethers.Contract(
+        ADDRESS.USDT,
+        currencyABI,
+        provider,
+      ).connect(signer);
+
+      // 检查授权额度
+      const currentAllowance = await currency.allowance(
+        payerAddress,
+        ADDRESS.Distribution,
+      );
+      if (currentAllowance.lt(totalAmount)) {
+        message.info({
+          content: 'Approving...',
+          key: 'approveTx',
+          duration: 0,
+        });
+        const approveTx = await currency.approve(
+          ADDRESS.Distribution,
+          totalAmount,
+        );
+        await approveTx.wait();
+        message.destroy('approveTx');
+        message.success('Approval successful!');
+      } else {
+        console.log('Sufficient allowance, skipping approve step.');
+      }
 
       message.info({
         content: 'Transaction in transit...',
@@ -175,8 +204,16 @@ const contract = {
       });
 
       // 调起支付
+      const query = {
+        a: ADDRESS.USDT,
+        b: totalAmount,
+        c: beneficiaries || [],
+        d: (rewards || []).map((item) => ethers.utils.parseUnits(item, 6)),
+      };
+      console.log('『query』', query);
       const tx = await distribution.distribute(
-        currencyAddress,
+        ADDRESS.USDT,
+        totalAmount,
         beneficiaries || [],
         (rewards || []).map((item) => ethers.utils.parseUnits(item, 6)),
       );
@@ -185,6 +222,7 @@ const contract = {
       message.success('Trade successfully!');
       return tx;
     } catch (error) {
+      message.destroy('approveTx');
       message.destroy('tx');
       console.log('『error』', error);
       throw new Error(error);

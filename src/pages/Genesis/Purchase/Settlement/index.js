@@ -66,7 +66,7 @@ const Settlement = (props) => {
       const { node, duration } = formValues || {};
       setLoading(true);
       const tx = await contract.rent({
-        paymentAddress: address,
+        payerAddress: address,
         ownerAddress: node.user_id,
         currencyAddress: currency,
         durationNum: duration?.value,
