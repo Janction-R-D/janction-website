@@ -2,6 +2,8 @@ import storage from '@/utils/storage';
 import { message } from 'antd';
 import { history } from 'umi';
 import is from './is';
+import dayjs from 'dayjs';
+import { DATE_FORMAT_TYPE } from './datetime';
 
 export const isEmpty = (value) => {
   if (empty(value)) return true;
@@ -22,6 +24,11 @@ export const logout = () => {
   history.push('/login');
 };
 
+export const rootLogout = () => {
+  storage.remove('ROOT_AUTH');
+  history.push('/root/login');
+};
+
 export const showValue = (value, fixed) => {
   if (empty(value)) return '~';
   if (empty(fixed)) {
@@ -33,6 +40,11 @@ export const showValue = (value, fixed) => {
   const numStr = Number(value).toFixed(fixed);
   if (Number(numStr) == 0) return 0;
   return numStr;
+};
+
+export const showDate = (value, format = DATE_FORMAT_TYPE.YMD) => {
+  if (empty(value)) return '~';
+  return dayjs(value).format(format);
 };
 
 // copy text

@@ -4,7 +4,7 @@ export default function (initialState) {
   if (!initialState) {
     return {
       isLogin: storage.get('userAccount'),
-      isRootLogin: storage.get('rootAccount'),
+      isRootLogin: storage.get('ROOT_AUTH'),
     };
   }
   return {

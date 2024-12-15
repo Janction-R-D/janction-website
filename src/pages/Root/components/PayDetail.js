@@ -8,7 +8,7 @@ const PayDetail = (props) => {
   return (
     <JanctionModal
       open={visible}
-      title={`Payment Detail：${record?.id}`}
+      title={`Payment Detail:${record?.miner_id || '~'}`}
       centered
       width={706}
       onCancel={onCancel}
@@ -16,26 +16,27 @@ const PayDetail = (props) => {
       footerCenter
     >
       <div className={styles['pay-detail']}>
-        <LabelValue title="Payment time：" value="2024-12-10 14:24" />
+        <LabelValue title="Payment time:" value={record?.payment_time} />
+        <LabelValue title="User's address:" value={record?.user_address} />
         <LabelValue
-          title="The amount of the transaction："
-          value="0x1234567890ABCDEF1234567890ABCDEF12345678"
-        />
-        <LabelValue
-          title="The amount of the transaction："
-          value="0.5"
+          title="The amount of the transaction:"
+          value={record?.transaction_amount}
           unit="USDT"
         />
         <LabelValue
-          title="Receiving address："
-          value="0x1234567890ABCDEF1234567890ABCDEF12345678"
+          title="Receiving address:"
+          value={record?.receiving_address}
         />
-        <LabelValue title="Transaction status：" value="Done" />
-        <LabelValue title="Commission charge :" value="0.5" unit="USDT" />
-        <LabelValue title="Miner ID：" value="324543454" />
+        <LabelValue title="Transaction status:" value={record?.transaction} />
         <LabelValue
-          title="Transaction hash："
-          value="0x1234567890ABCDEF1234567890ABCDEF12345678"
+          title="Commission charge :"
+          value={record?.commission_charge}
+          unit="USDT"
+        />
+        <LabelValue title="Miner ID:" value={record?.miner_id} />
+        <LabelValue
+          title="Transaction hash:"
+          value={record?.transaction_hash}
         />
       </div>
     </JanctionModal>

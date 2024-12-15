@@ -1,13 +1,14 @@
-import { FormInput, FormInputNumber } from '@/components/JanctionInput';
+import { FormInputNumber } from '@/components/JanctionInput';
 import JanctionModal from '@/components/JanctionModal';
-import { Col, Form, InputNumber, message, Row } from 'antd';
-import { useState } from 'react';
+import { fetchNFTSettingUpdate } from '@/services/root';
+import { Col, Form, message, Row } from 'antd';
 import LabelValue from './LabelValue';
 import styles from './index.less';
-import { fetchSplitSetting } from '@/services/root';
 
 const SplitRatioSetting = (props) => {
   const { visible, onCancel, record, onSuccess } = props;
+
+  console.log('『record』', record);
 
   const [form] = Form.useForm();
 
@@ -15,9 +16,9 @@ const SplitRatioSetting = (props) => {
     try {
       const values = await form.validateFields();
       console.log('『value』', values);
-      const res = fetchSplitSetting(values);
-      onCancel();
+      fetchNFTSettingUpdate({ split_rate: values });
       message.success('setting success!');
+      onCancel();
       onSuccess();
     } catch (err) {
       console.log('『err』', err);
@@ -83,7 +84,7 @@ const SplitRatioSetting = (props) => {
           <Col span={24}>
             <LabelValue title="Level 6 ratio">
               <Form.Item name="level6">
-                <FormInputNumber />
+                <FormInputNumber max={50} />
               </Form.Item>
               <span>%</span>
             </LabelValue>

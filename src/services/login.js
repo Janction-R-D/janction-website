@@ -30,3 +30,20 @@ export const fetchUserVerify = async (data) => {
     throw new Error(`Failed to fetch verify, ${error}`);
   }
 };
+
+/**
+ * Fetch verify from the server.
+ */
+export const fetchRootUserLogin = async (data) => {
+  const { username, password } = data || {};
+  const str = btoa(`${username}:${password}`);
+  try {
+    const response = await request('/v0/affv2/root/dashboard', {
+      headers: { Authorization: `Basic ${str}` },
+    });
+    console.log('『response』', response);
+    return response;
+  } catch (error) {
+    throw new Error(`Failed to fetch verify, ${error}`);
+  }
+};

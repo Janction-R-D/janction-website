@@ -1,32 +1,52 @@
 import JanctionCard from '@/components/JanctionCard';
+import { fetchNFTSettingUpdate } from '@/services/root';
+import { EditOutlined } from '@ant-design/icons';
+import { Divider, message, Space } from 'antd';
+import { useState } from 'react';
+import { CONFIGURATION } from './extra';
 import styles from './index.less';
 import LabelValue from './LabelValue';
-import { useEffect, useState } from 'react';
-import { CONFIGURATION } from './extra';
 import ModifyModal from './ModifyModal';
-import { fetchNFTSetting } from '@/services/root';
+import SplitRatioSetting from './SplitRatioSetting';
 
 const ParameterSetting = (props) => {
+  const { configData, onUpdate } = props;
   const [record, setRecord] = useState();
   const [visible, setVisible] = useState(false);
-  const [settingData, setSettingData] = useState();
+  const [splitVisible, setSplitVisible] = useState(false);
 
-  useEffect(() => {
-    getSettingData();
-  }, []);
-  const getSettingData = async () => {
+  const onEdit = (config) => {
+    setRecord({ ...config, value: configData?.[config.key] });
+    setVisible(true);
+  };
+
+  const onOk = async (value) => {
     try {
-      const res = await fetchNFTSetting();
-      setSettingData(res);
-    } catch (error) {
-      console.log('『error』', error);
+      await fetchNFTSettingUpdate(value);
+      message.success('update success!');
+      onUpdate();
+    } catch (err) {
+      message.error('update failed!');
+      console.log('『err』', err);
     }
   };
 
-  const onEdit = (config) => {
-    console.log('『config』', config);
-    setRecord({ ...config, value: settingData?.[config.key] });
-    setVisible(true);
+  const renderSplitSetting = () => {
+    return (
+      <div className={styles['split-setting']}>
+        <Space split={<Divider type="vertical" />} wrap className="mr15">
+          {Object.keys(configData?.split_rate || {}).map((item) => (
+            <span key={item}>{`${item}:${configData.split_rate[item]}%`}</span>
+          ))}
+        </Space>
+        <EditOutlined
+          className={styles['edit-icon']}
+          onClick={() => {
+            setSplitVisible(true);
+          }}
+        />
+      </div>
+    );
   };
 
   return (
@@ -39,10 +59,13 @@ const ParameterSetting = (props) => {
               {...item}
               key={item.key}
               title={`${item.title}:`}
-              value={settingData?.[item.key]}
+              value={configData?.[item.key]}
               onEdit={() => onEdit(item)}
             />
           ))}
+        <LabelValue title="Split settings:" align="flex-start">
+          {renderSplitSetting()}
+        </LabelValue>
       </div>
       {visible && (
         <ModifyModal
@@ -51,8 +74,19 @@ const ParameterSetting = (props) => {
             setVisible(false);
             setRecord();
           }}
-          onSuccess={getSettingData}
+          onOk={onOk}
           record={record}
+        />
+      )}
+      {splitVisible && (
+        <SplitRatioSetting
+          visible={splitVisible}
+          record={configData?.split_rate}
+          onCancel={() => {
+            setSplitVisible(false);
+            setRecord();
+          }}
+          onSuccess={onUpdate}
         />
       )}
     </JanctionCard>

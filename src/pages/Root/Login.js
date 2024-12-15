@@ -3,6 +3,7 @@ import styles from './index.less';
 import { useMemo, useState } from 'react';
 import { history, Redirect, useAccess, useModel } from 'umi';
 import storage from '@/utils/storage';
+import { fetchRootUserLogin } from '@/services/login';
 
 const Login = (props) => {
   const [username, setUsername] = useState('');
@@ -32,20 +33,29 @@ const Login = (props) => {
     return errors;
   }, [valid, username, password]);
 
-  const onLogin = () => {
+  const onLogin = async () => {
     setValid(true);
-    if (validateInputs()) {
-      message.success('Validation passed. Proceeding with login...');
+    if (!validateInputs()) {
+      message.error('Validation failed. Please check your inputs.');
+      return;
+    }
+    try {
+      await fetchRootUserLogin({ username, password });
       const expires = 60 * 60 * 10 * 1000;
+      const str = btoa(`${username}:${password}`);
       storage.set({
-        name: 'rootAccount',
-        value: true,
+        name: 'ROOT_AUTH',
+        value: `Basic ${str}`,
         expires,
       });
-      setInitialState({ rootAccount: true });
+      setInitialState({
+        ...initialState,
+        rootAccount: true,
+      });
       history.push('/root');
-    } else {
-      message.error('Validation failed. Please check your inputs.');
+    } catch (err) {
+      console.log('『err』', err);
+      message.warning('Check whether the user name or password is correct!');
     }
   };
 

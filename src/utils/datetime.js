@@ -5,6 +5,17 @@ import duration from 'dayjs/plugin/duration';
 // 注册 duration 插件
 dayjs.extend(duration);
 
+// 日期格式类型
+export const DATE_FORMAT_TYPE = {
+  YM: 'YYYY-MM',
+  YMD: 'YYYY-MM-DD',
+  YMDH: 'YYYY-MM-DD HH',
+  YMDHM: 'YYYY-MM-DD HH:mm',
+  YMDHMS: 'YYYY-MM-DD HH:mm:ss',
+  YMD_START: 'YYYY-MM-DD 00:00:00',
+  YMD_END: 'YYYY-MM-DD 23:59:59',
+};
+
 export const formatDateYMD = (dateString) => {
   const date = new Date(dateString);
   const year = date.getFullYear();

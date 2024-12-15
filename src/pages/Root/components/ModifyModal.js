@@ -3,23 +3,25 @@ import JanctionModal from '@/components/JanctionModal';
 import { useState } from 'react';
 import { message } from 'antd';
 import LabelValue from './LabelValue';
-import { fetchNFTSetting, fetchNFTSettingUpdate } from '@/services/root';
+import { empty } from '@/utils/lang';
 
 const ModifyModal = (props) => {
-  const { visible, onCancel, record, onSuccess } = props;
+  const { visible, onCancel, record, onOk } = props;
 
   const [value, setValue] = useState(record?.value);
 
   const Com = record?.type == 'number' ? FormInputNumber : FormInput;
 
-  const onOk = async () => {
-    console.log('『value』', value);
+  const okHandle = async () => {
+    if (empty(value)) {
+      message.warning('Please complete the input!');
+      return;
+    }
     try {
-      const res = await fetchNFTSettingUpdate();
-      message.success('update success!');
-      onSuccess();
+      onOk && onOk({ [record?.key]: value });
+      onCancel();
     } catch (err) {
-      console.log('『err』', err);
+      console.log('『err222』', err);
     }
   };
 
@@ -29,7 +31,7 @@ const ModifyModal = (props) => {
       title="Modify the configuration"
       centered
       width={706}
-      onOk={onOk}
+      onOk={okHandle}
       onCancel={onCancel}
     >
       <LabelValue title={`${record?.title}:`}>

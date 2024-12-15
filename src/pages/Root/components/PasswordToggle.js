@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Button, Input, Space } from 'antd';
 import {
   EditOutlined,
@@ -6,24 +6,36 @@ import {
   EyeOutlined,
 } from '@ant-design/icons';
 import styles from './index.less';
-import { fetchRootUserPsd } from '@/services/root';
+import { fetchRootUserPsdUpdate } from '@/services/root';
+import ModifyModal from './ModifyModal';
+import storage from '@/utils/storage';
+import { useModel } from 'umi';
 
 const PasswordToggle = ({ initialPassword = '12345678' }) => {
   const [isHidden, setIsHidden] = useState(true); // 控制密码显示/隐藏状态
   const [password, setPassword] = useState(initialPassword); // 初始化密码
   const [visible, setVisible] = useState(false);
 
+  const { initialState, setInitialState } = useModel('@@initialState');
+
   useEffect(() => {
     getPassword();
   }, []);
   const getPassword = async () => {
     try {
-      const res = await fetchRootUserPsd();
-      // setPassword(res);
+      const rootAuth = storage.get('ROOT_AUTH');
+      const base64String = rootAuth.replace('Basic ', '');
+      const decodedString = atob(base64String);
+      const [username, _password] = decodedString.split(':');
+      setPassword(_password);
     } catch (error) {
       console.log('『error』', error);
     }
   };
+
+  const record = useMemo(() => {
+    return { title: 'Password', value: password };
+  }, [password]);
 
   const toggleVisibility = () => {
     setIsHidden(!isHidden);
@@ -33,13 +45,30 @@ const PasswordToggle = ({ initialPassword = '12345678' }) => {
     setVisible(true);
   };
 
+  const onPasswordUpdate = async (new_password) => {
+    try {
+      fetchRootUserPsdUpdate({
+        old_password: password,
+        new_password,
+      });
+      setInitialState({
+        ...initialState,
+        rootAccount: false,
+      });
+      setTimeout(() => {
+        storage.remove('ROOT_AUTH');
+      }, 1000);
+    } catch (err) {
+      console.log('『err111』', err);
+      // throw Error(err);
+    }
+  };
+
   return (
     <Space size={8}>
       {/* 密码显示区域 */}
       <span className={`ell ${styles['password-input']}`}>
-        {isHidden
-          ? '*'.repeat(password.length > 6 ? 6 : password.length || 1)
-          : password}
+        {isHidden ? '*'.repeat(16) : password}
       </span>
 
       {/* 显示/隐藏按钮 */}
@@ -55,8 +84,9 @@ const PasswordToggle = ({ initialPassword = '12345678' }) => {
           onCancel={() => {
             setVisible(false);
           }}
-          onSuccess={getPassword}
           record={record}
+          onOk={onPasswordUpdate}
+          onSuccess={getPassword}
         />
       )}
     </Space>

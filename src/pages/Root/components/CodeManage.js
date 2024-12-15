@@ -66,9 +66,9 @@ const CodeManage = (props) => {
       footerCenter
     >
       <div className="df fd_c" style={{ gap: '16px', marginBottom: '32px' }}>
-        <LabelValue title="Inviter Address：" value="0x1231234563456xxx" />
+        <LabelValue title="Inviter Address:" value="0x1231234563456xxx" />
         <LabelValue
-          title="Inviter Name："
+          title="Inviter Name:"
           value="dsb-bbsdsb-bbsdsb-bbsdsb-bbsdsb"
         />
       </div>

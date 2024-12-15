@@ -4,14 +4,23 @@ import { EditOutlined } from '@ant-design/icons';
 import { empty, copy as copyValue } from '@/utils/lang';
 
 const LabelValue = (props) => {
-  const { title, value, unit, format, copy, children, onEdit } = props;
+  const {
+    title,
+    value,
+    unit,
+    format,
+    copy,
+    children,
+    onEdit,
+    align = 'center',
+  } = props;
 
   const onCopy = () => {
     copyValue(value);
   };
 
   return (
-    <div className={styles['value-item']}>
+    <div className={styles['value-item']} style={{ alignItems: align }}>
       <span className={styles['title']}>{title}</span>
       {children || (
         <div className={styles['value']}>

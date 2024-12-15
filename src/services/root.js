@@ -1,57 +1,126 @@
 import { request } from 'umi';
 
-const baseUrl = '/api/v1/node';
+const baseUrl = '/v0/affv2/root';
 
-export const fetchNFTStatistic = (params) => {
-  return request(`${baseUrl}/count`, {
-    params,
-  });
-};
-
-export const fetchNFTSetting = (params) => {
-  return request(`${baseUrl}/count`, {
-    params,
-  });
-};
-
-export const fetchNFTSettingUpdate = (params) => {
-  return request(`${baseUrl}/count`, {
-    params,
-  });
+export const fetchNFTData = (params) => {
+  try {
+    return request(`${baseUrl}/dashboard`, {
+      params,
+      basicLoginAuth: true,
+    });
+  } catch (err) {
+    console.log('『err』', err);
+    return null;
+  }
 };
 
 export const fetchPaymentHistory = (params) => {
-  return request(`${baseUrl}/count`, {
-    params,
-  });
+  try {
+    return request(`${baseUrl}/payment_histry`, {
+      params,
+      basicLoginAuth: true,
+    });
+  } catch (err) {
+    console.log('『err』', err);
+    return null;
+  }
 };
 
 export const fetchInviterList = (params) => {
-  return request(`${baseUrl}/count`, {
-    params,
-  });
+  try {
+    return request(`${baseUrl}/l1inviters`, {
+      params,
+      basicLoginAuth: true,
+    });
+  } catch (err) {
+    console.log('『err』', err);
+    return null;
+  }
+};
+
+export const fetchNFTSetting = (params) => {
+  try {
+    return request(`${baseUrl}/config`, {
+      params,
+      basicLoginAuth: true,
+    });
+  } catch (err) {
+    console.log('『err』', err);
+    return null;
+  }
+};
+
+export const fetchNFTSettingUpdate = (params) => {
+  try {
+    return request(`${baseUrl}/config`, {
+      method: 'POST',
+      data: params,
+      basicLoginAuth: true,
+    });
+  } catch (err) {
+    console.log('『err』', err);
+    return null;
+  }
+};
+
+export const fetchInviterCode = (params) => {
+  try {
+    return request(`${baseUrl}/invitation`, {
+      method: 'POST',
+      data: params,
+      basicLoginAuth: true,
+    });
+  } catch (err) {
+    console.log('『err』', err);
+    return null;
+  }
 };
 
 export const fetchInviterCodeList = (params) => {
-  return request(`${baseUrl}/count`, {
-    params,
-  });
+  try {
+    return request(`${baseUrl}/count`, {
+      params,
+      basicLoginAuth: true,
+    });
+  } catch (err) {
+    console.log('『err』', err);
+    return null;
+  }
 };
 
-export const fetchRootUserPsd = (params) => {
-  return request(`${baseUrl}/count`, {
-    params,
-  });
+export const fetchRootUserPsdUpdate = (params) => {
+  try {
+    return request(`${baseUrl}/password`, {
+      method: 'POST',
+      data: params,
+      basicLoginAuth: true,
+    });
+  } catch (err) {
+    console.log('『err』', err);
+    return null;
+  }
 };
 
 export const fetchSplitSetting = (params) => {
-  return request(`${baseUrl}/count`, {
-    params,
-  });
+  try {
+    return request(`${baseUrl}/count`, {
+      params,
+      basicLoginAuth: true,
+    });
+  } catch (err) {
+    console.log('『err』', err);
+    return null;
+  }
 };
 
 export const fetchInviterEnable = (params) => {
-  return request(`${baseUrl}/count`, {
-    params,
-  });
+  try {
+    return request(`${baseUrl}/count`, {
+      params,
+      basicLoginAuth: true,
+    });
+  } catch (err) {
+    console.log('『err』', err);
+    return null;
+  }
 };

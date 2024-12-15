@@ -5,9 +5,9 @@ export const CONFIGURATION = {
     unit: '%',
     type: 'number',
   },
-  transaction_commission_ratio: {
-    title: 'Transaction commission ratio',
-    key: 'transaction_commission_ratio',
+  server_rental_transaction_fee: {
+    title: 'Server Rental Transaction Fee',
+    key: 'server_rental_transaction_fee',
     unit: '%',
     type: 'number',
   },
@@ -24,9 +24,9 @@ export const CONFIGURATION = {
     type: 'number',
     format: true,
   },
-  payee_adress: {
-    title: 'Payee address',
-    key: 'payee_adress',
+  payment_address: {
+    title: 'Payment address',
+    key: 'payment_address',
     unit: '',
     copy: true,
   },

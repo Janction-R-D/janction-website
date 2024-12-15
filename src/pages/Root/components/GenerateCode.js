@@ -5,26 +5,33 @@ import styles from './index.less';
 import { RedoOutlined } from '@ant-design/icons';
 import { message, Tooltip } from 'antd';
 import { copy } from '@/utils/lang';
+import { fetchInviterCode } from '@/services/root';
 
 const GenerateCode = (props) => {
   const [name, setName] = useState();
   const [address, setAddress] = useState();
-  const [loading, setLoading] = useState(false);
-  const [code, setCode] = useState();
 
   const getCode = async () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
+    try {
+      const res = await fetchInviterCode({ nickname: name, inviter: address });
+      return res?.code;
+    } catch (err) {
+      console.log('『err』', err);
+      return null;
+    }
   };
 
   const showCodeGenerate = useMemo(() => {
     return name && address;
   }, [name, address]);
 
-  const onCopy = () => {
+  const onCopy = async () => {
     if (!showCodeGenerate) return;
+    const code = await getCode();
+    if (!code) {
+      message.warning('Invitation code failed to obtain, please try again!');
+      return;
+    }
     copy(code);
   };
 
@@ -58,15 +65,6 @@ const GenerateCode = (props) => {
           </Tooltip>
         ) : (
           <span className={styles['copy']}>Generate invitation code</span>
-        )}
-        {showCodeGenerate && (
-          <RedoOutlined
-            rotate={90}
-            spin={loading}
-            loading={loading}
-            className={styles['refresh']}
-            onClick={getCode}
-          />
         )}
       </div>
     </div>

@@ -1,6 +1,6 @@
 import { Button, Popconfirm, Space } from 'antd';
 import styles from './index.less';
-import { showValue, copy as copyValue, empty } from '@/utils/lang';
+import { showValue, copy as copyValue, empty, showDate } from '@/utils/lang';
 
 const renderConfirm = (record, btn, index) => {
   const {
@@ -110,14 +110,14 @@ export function renderTableActionBar(list = [], extra = {}) {
 }
 
 export function renderTableColumns(title, dataIndex, extra = {}) {
-  const { copy } = extra;
+  const { copy, type, format } = extra;
   const render = (text, record, index) => {
     if (typeof extra.render === 'function') {
       return extra.render(text, record, index);
     }
     return (
       <div className="dif ai_c gap5">
-        <span>{showValue(text)}</span>
+        <span>{type == 'date' ? showDate(text, format) : showValue(text)}</span>
         {!empty(text) && copy && (
           <i
             className="iconfont icon-copy poi"
