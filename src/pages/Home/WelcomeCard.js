@@ -3,10 +3,14 @@ import welcome from '@/assets/images/home/welcome.png';
 import { Button, Input, Modal } from 'antd';
 import styles from './index.less';
 import { fetchInviteAccept } from '@/services/genesis';
-import { history } from 'umi';
+import { history, useLocation } from 'umi';
 export default function WelcomeCard() {
+  const location = useLocation();
+
+  const codeLink = location.search.split('=')[1];
+
   const [isOpen, setIsOpen] = useState(false);
-  const [code, setCode] = useState('f14cddac-7528-4688-87a7-582ed716e809');
+  const [code, setCode] = useState(codeLink);
   const handleOk = () => {
     setIsOpen(true);
   };
