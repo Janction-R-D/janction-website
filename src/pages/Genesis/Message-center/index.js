@@ -10,10 +10,10 @@ import JanctionTable from '@/components/JanctionTable';
 export default function MessageCenter() {
   const { RangePicker } = DatePicker;
   const [allMessages, setAllMessages] = useState(data.messages);
-  const [time, setTime] = useState(['2024-12-17', '2024-12-30']);
+  const [time, setTime] = useState(['2023-12-01', '2024-12-30']);
   const [filter, setFilter] = useState({
     type: 'all',
-    date: time,
+    date: ['2023-12-01', '2024-12-30'],
   });
   function formatDate(originalDateStr) {
     const date = new Date(originalDateStr);
