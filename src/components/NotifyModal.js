@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './notify.less';
 import { Button, Modal } from 'antd';
 import News from './News';
+import { history } from 'umi';
 const notifications = [
   {
     type: 'transaction',
@@ -78,7 +79,10 @@ export default function NotifyModal({ setIsModalOpen, isModalOpen, handleOk }) {
       <header className={styles['card-header']}>
         <h3 className={styles['card-title']}>New news ({news.length})</h3>
         {news.length > 0 && (
-          <Button className={styles['create-btn']}>
+          <Button
+            className={styles['create-btn']}
+            onClick={() => history.push('/genesis/message-center')}
+          >
             See All <i className="iconfont icon-next_page"></i>
           </Button>
         )}

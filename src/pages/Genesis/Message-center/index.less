@@ -1,0 +1,209 @@
+.main-container {
+  background: #141416;
+  min-height: 100vh;
+  padding-inline: 32px;
+  padding-bottom: 40px;
+}
+.personal-container {
+  background: #141416;
+  display: flex;
+  gap: 30px;
+  height: auto;
+  min-height: 100%;
+  overflow: auto;
+  @media screen and (max-width: 1024px) {
+    background: linear-gradient(
+      226deg,
+      #192d52 5.03%,
+      #201436 39.86%,
+      #010003 74.68%
+    );
+  }
+}
+.main-header {
+  padding: 10px;
+}
+.filters {
+  display: flex;
+  flex-wrap: nowrap;
+}
+.activity-filter-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  :global {
+    .ant-radio-group {
+      .ant-radio-button-wrapper {
+        border-color: transparent;
+        background: #1b1b1c;
+        padding: 18px 28px !important;
+        display: flex;
+        align-items: center;
+        > span:not(.ant-radio-button) {
+          font-family: 'Poppins';
+          font-style: normal;
+          font-weight: 400;
+          font-size: 12px;
+          line-height: 20px;
+          color: rgba(255, 255, 255, 0.6);
+        }
+
+        .ant-radio-button-checked {
+          display: none;
+        }
+      }
+
+      .ant-radio-button-wrapper::before {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      .ant-radio-button-wrapper-checked {
+        > span:not(.ant-radio-button) {
+          color: rgba(255, 255, 255, 0.9);
+        }
+      }
+
+      .ant-radio-button-wrapper:first-child {
+        border-radius: 41px 0 0 41px;
+      }
+
+      .ant-radio-button-wrapper:last-child {
+        border-radius: 0 41px 41px 0;
+      }
+
+      .ant-radio-button-wrapper-checked:not(
+          .ant-radio-button-wrapper-disabled
+        ) {
+        background: #2f2f31;
+      }
+    }
+
+    .ant-input-affix-wrapper {
+      border-radius: 61px;
+      outline: none;
+      padding-right: 16px;
+      background-color: #2e2e30;
+      max-width: 300px;
+      height: 32px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 61px;
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 20px;
+      /* identical to box height, or 167% */
+      text-align: center;
+      color: rgba(255, 255, 255, 0.4);
+      border: none;
+    }
+  }
+}
+.activity-filter {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: space-between;
+  margin: 16px 0 32px;
+  > label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    .activity-range {
+      border-radius: 8px;
+      background: #363636;
+      border: none;
+    }
+  }
+}
+.card-messages {
+  border-radius: 24px;
+  background-color: #242426;
+  margin-top: 22px;
+  margin-bottom: 40px;
+}
+.table {
+  :global {
+    .ant-table-container table {
+      .ant-table-thead {
+        th {
+          background: #1c1c1d !important;
+          border-bottom: 1px solid #2e2e30 !important;
+        }
+
+        .table-header {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          > div {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            > button {
+              border-radius: 4px;
+              border-color: #2f2f31;
+            }
+          }
+        }
+      }
+      .ant-table-tbody {
+        tr {
+          td {
+            border-bottom: 1px solid #2e2e30 !important;
+          }
+
+          .tipo {
+            width: 200px;
+            display: flex;
+
+            gap: 4px;
+            font-size: 0.8rem;
+            color: #fff;
+            font-weight: 500;
+          }
+          .descripcion {
+            width: 700px;
+            text-wrap: wrap;
+            position: relative;
+          }
+          .actions {
+            min-width: 200px;
+            display: flex;
+            justify-content: end;
+            p {
+              display: flex;
+              align-items: center;
+              transition: all 200ms ease;
+            }
+            .buttons {
+              transition: all 200ms ease;
+              display: none;
+              gap: 12px;
+              align-items: center;
+
+              > button {
+                padding: 4px 3px;
+              }
+            }
+          }
+
+          .ellipsis {
+            text-overflow: ellipsis;
+            text-wrap: nowrap;
+          }
+        }
+        tr:hover {
+          .actions {
+            p {
+              display: none;
+            }
+            .buttons {
+              display: flex;
+            }
+          }
+        }
+      }
+    }
+  }
+}

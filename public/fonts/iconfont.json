@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "866325",
+      "name": "时钟_clock74",
+      "font_class": "shizhongclock74",
+      "unicode": "e972",
+      "unicode_decimal": 59762
+    },
+    {
       "icon_id": "2142832",
       "name": "list",
       "font_class": "list",

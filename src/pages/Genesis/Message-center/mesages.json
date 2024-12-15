@@ -1,0 +1,100 @@
+{
+  "messages": [
+    {
+      "key": "1",
+      "tipo": "transaction",
+      "descripcion": "TextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTexto",
+      "fecha": "2024-12-13",
+      "estado": "Leído",
+      "acciones": ["Delete", "Mark as Read"]
+    },
+    {
+      "key": "2",
+      "tipo": "transaction",
+      "descripcion": "TextoTextoTextoTextoTextoextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTexto",
+      "fecha": "2024-12-13",
+      "estado": "No Leído",
+      "acciones": ["Delete", "Mark as Read"]
+    },
+    {
+      "key": "3",
+      "tipo": "transaction",
+      "descripcion": "TextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTexto",
+      "fecha": "2024-12-13",
+      "estado": "Leído",
+      "acciones": ["Delete", "Mark as Read"]
+    },
+    {
+      "key": "4",
+      "tipo": "transaction",
+      "descripcion": "TextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTexto",
+      "fecha": "2024-12-13",
+      "estado": "No Leído",
+      "acciones": ["Delete", "Mark as Read"]
+    },
+    {
+      "key": "5",
+      "tipo": "transaction",
+      "descripcion": "TextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTexto",
+      "fecha": "2024-12-13",
+      "estado": "Leído",
+      "acciones": ["Delete", "Mark as Read"]
+    },
+    {
+      "key": "6",
+      "tipo": "transaction",
+      "descripcion": "TextoTextoTextoTextoTextextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextooTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTexto",
+      "fecha": "2024-12-13",
+      "estado": "No Leído",
+      "acciones": ["Delete", "Mark as Read"]
+    },
+    {
+      "key": "7",
+      "tipo": "Service",
+      "descripcion": "TextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTexto",
+      "fecha": "2024-12-15",
+      "estado": "Leído",
+      "acciones": ["Delete", "Mark as Read"]
+    },
+    {
+      "key": "8",
+      "tipo": "Activity",
+      "descripcion": "TextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTexto",
+      "fecha": "2024-12-13",
+      "estado": "No Leído",
+      "acciones": ["Delete", "Mark as Read"]
+    },
+    {
+      "key": "9",
+      "tipo": "Product",
+      "descripcion": "TextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTexto",
+      "fecha": "2024-12-13",
+      "estado": "Leído",
+      "acciones": ["Delete", "Mark as Read"]
+    },
+    {
+      "key": "10",
+      "tipo": "transaction",
+      "descripcion": "TextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTexto",
+      "fecha": "2024-12-13",
+      "estado": "No Leído",
+      "acciones": ["Delete", "Mark as Read"]
+    },
+    {
+      "key": "11",
+      "tipo": "Service",
+      "descripcion": "TextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTexto",
+      "fecha": "2024-12-23",
+      "estado": "Leído",
+      "acciones": ["Delete", "Mark as Read"]
+    },
+    {
+      "key": "12",
+      "tipo": "Activity",
+      "descripcion": "TextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTextoTexto",
+      "fecha": "2024-12-13",
+      "estado": "No Leído",
+      "acciones": ["Delete", "Mark as Read"]
+    }
+  ]
+}

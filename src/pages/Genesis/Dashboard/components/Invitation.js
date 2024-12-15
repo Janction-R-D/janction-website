@@ -1,4 +1,5 @@
 import gift from '@/assets/images/genesis/img-invite.png';
+import gift2 from '@/assets/images/genesis/gift-invitation.png';
 import { Button, Modal } from 'antd';
 import { useState } from 'react';
 import styles from './index.less';
@@ -15,9 +16,12 @@ const Invitation = (props) => {
   return (
     <>
       <div className={styles['invite-box']}>
-        <Button className={styles['create-btn']} onClick={handleOk}>
+        <Button className={styles['buy-btn']} onClick={handleOk}>
           Invite
         </Button>
+        <picture>
+          <img src={gift2} />
+        </picture>
       </div>
       <div className={styles['invite-wrapper']}>
         <Modal

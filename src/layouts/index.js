@@ -9,6 +9,7 @@ import { useEffect, useMemo } from 'react';
 import { history } from 'umi';
 import { GenesisProvider } from './Context/GenesisContext';
 import WalletManagement from '@/pages/Genesis/Wallet-Management';
+import MessageCenter from '@/pages/Genesis/Message-center';
 
 export const fullWidthRoute = ['/home', '/explore', '/getStarted', '/solution'];
 export const authRoute = [
@@ -27,6 +28,7 @@ export const authRoute = [
   '/genesis/income',
   '/genesis/purchase/settlement',
   '/genesis/wallet-management',
+  '/genesis/message-center',
 ];
 
 export default function Layout(props) {
@@ -55,6 +57,14 @@ export default function Layout(props) {
     return (
       <GenesisProvider>
         <WalletManagement />
+      </GenesisProvider>
+    );
+  }
+  // message center route
+  if (isAuthRoute && props.location.pathname.includes('/message-center')) {
+    return (
+      <GenesisProvider>
+        <MessageCenter />
       </GenesisProvider>
     );
   }
