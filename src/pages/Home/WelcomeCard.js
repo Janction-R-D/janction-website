@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import welcome from '@/assets/images/home/welcome.png';
 import { Button, Input, Modal } from 'antd';
 import styles from './index.less';
+import { fetchInviteAccept } from '@/services/genesis';
+import { history } from 'umi';
 export default function WelcomeCard() {
   const [isOpen, setIsOpen] = useState(false);
-  const [email, setEmail] = useState('');
+  const [code, setCode] = useState('f14cddac-7528-4688-87a7-582ed716e809');
   const handleOk = () => {
     setIsOpen(true);
   };
@@ -14,6 +16,12 @@ export default function WelcomeCard() {
   useEffect(() => {
     handleOk();
   }, []);
+  const handleSubmit = () => {
+    // localStorage.setItem('invitation-code', code);
+    history.push(`/deployNodes?inviterCode=${code}`, {
+      inviterCode: code,
+    });
+  };
   return (
     <Modal
       open={isOpen}
@@ -30,14 +38,18 @@ export default function WelcomeCard() {
         <h2>Welcome to Janction!</h2>
         <div className={styles['input-box']}>
           <Input
-            type="email"
-            onChange={(e) => setEmail(e.target.value)}
+            defaultValue={code}
+            onChange={(e) => setCode(e.target.value)}
             placeholder="Enter the invitation code（optional）"
             className={styles['input']}
           />
           <p>*Invitation code is not required</p>
         </div>
-        <Button className={styles['buy-btn']} disabled={email.length <= 0}>
+        <Button
+          className={styles['buy-btn']}
+          disabled={code.length <= 0}
+          onClick={handleSubmit}
+        >
           Join Janction network
         </Button>
         <p className={styles['footer-text']}>

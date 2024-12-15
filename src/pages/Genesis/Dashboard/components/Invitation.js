@@ -47,8 +47,11 @@ const Invitation = (props) => {
             </p>
             <div className={styles['invite-box']}>
               <div className={styles['invite-box-info']}>
-                <p>邀请链接：https://janction.ioStartInterviewAIjanction.io</p>
-                <p>邀请码：212-235-642-244</p>
+                <p>
+                  Invitation Link:
+                  https://janction.ioStartInterviewAIjanction.io
+                </p>
+                <p>Invitation Link: 212-235-642-244</p>
               </div>
               <span className={styles['invite-box-button']}>
                 <i className="iconfont icon-copy"></i>

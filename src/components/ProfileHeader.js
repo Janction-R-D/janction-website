@@ -12,10 +12,13 @@ export default function ProfileHeader() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { imgUrl, setImgUrl } = useContext(GenesisContext);
   const [isNotifyModalOpen, setIsNotifyModalOpen] = useState(false);
+  const { initialState } = useModel('@@initialState');
+  const { inviterCode } = history.location.state || {};
   const handleNotifyOk = () => {
     setIsNotifyModalOpen(true);
   };
   useEffect(() => {
+    if (inviterCode && !initialState?.userAccount) return;
     const getUserCenterData = () => {
       return fetchUserCenter()
         .then((res) => {

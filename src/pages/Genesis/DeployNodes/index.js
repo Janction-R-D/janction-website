@@ -1,6 +1,6 @@
 import { SYSTEM_LIST } from '@/constant';
 import { message } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './index.less';
 import Step3 from './components/RunNode';
 import StepChart from './components/StepChart';
@@ -9,6 +9,7 @@ import { history, Redirect, useModel } from 'umi';
 import { renderBackgroudImg } from '@/utils/lang';
 import banner1 from '@/assets/images/genesis/banner1.png';
 import BuyNode from './components/BuyNode';
+import { fetchInviteAccept } from '@/services/genesis';
 
 const DEFAULT = {
   system: SYSTEM_LIST[0].value,
@@ -35,16 +36,51 @@ const stepsList = [
   },
 ];
 const Nodes = (props) => {
-  const { initialState } = useModel('@@initialState');
+  const { inviterCode } = history.location.state || {};
   const [curStep, setCurStep] = useState(stepsList[0]);
   const [selectedValues, setSelectedValues] = useState(DEFAULT);
-  const { isLessee } = initialState || {};
+  const { initialState } = useModel('@@initialState');
+  const verifyUser = () => {
+    if (inviterCode) {
+      if (initialState?.userAccount?.address) {
+        const data = {
+          receive_address: initialState.userAccount.address,
+          code: inviterCode,
+        };
+        return fetchInviteAccept(data)
+          .then((res) => console.log(res))
+          .catch((err) => console.log(err));
+      }
+      history.push(`/login?inviterCode=${inviterCode}`, {
+        inviterCode: inviterCode,
+      });
+    }
+  };
+  // useEffect(() => {
+  //   if (inviterCode) {
+  //     if (initialState?.userAccount?.address) {
+  //       const data = {
+  //         receive_address: initialState.userAccount.address,
+  //         code: inviterCode,
+  //       };
+  //       return fetchInviteAccept(data)
+  //         .then((res) => console.log(res))
+  //         .catch((err) => console.log(err));
+  //     }
+  //     history.push(`/login?inviterCode=${inviterCode}`, {
+  //       inviterCode: inviterCode,
+  //     });
+  //   }
+  // }, []);
+
   const onBack = () => {
     const step = stepsList.find((item) => item.value == curStep['prestep']);
     if (!step) return;
     setCurStep(step);
   };
+
   const onNext = () => {
+    verifyUser();
     const step = stepsList.find((item) => item.value == curStep['nextstep']);
     if (!step) return;
     if (!selectedValues?.system) {
@@ -77,7 +113,6 @@ const Nodes = (props) => {
     );
   };
 
-  if (isLessee) return <Redirect to="/genesis/dashboard"></Redirect>;
   return (
     <>
       <div className={styles['steps']}>
@@ -124,11 +159,10 @@ const Nodes = (props) => {
           profits！ Currently holding Janction Landlord NFT to participate in
           the computing power provider network！
         </p>
-        <BuyNode item={curStep} />
+        <BuyNode item={curStep} verifyUser={verifyUser} />
       </div>
     </>
   );
 };
 
-Nodes.wrappers = ['@/wrappers/auth'];
 export default Nodes;

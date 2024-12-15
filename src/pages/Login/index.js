@@ -21,7 +21,9 @@ const Login = (props) => {
   const { initialState, setInitialState } = useModel('@@initialState');
 
   const { disconnect } = useDisconnect();
+  const { inviterCode } = history.location.state || {};
 
+  console.log(inviterCode);
   useEffect(() => {
     const refresh = storage.get('refresh');
     if (refresh) {
@@ -85,6 +87,14 @@ const Login = (props) => {
 
                 const from =
                   history.location.query?.from || '/genesis/dashboard';
+                if (inviterCode) {
+                  return window.location.replace(
+                    history.location.query?.from || '/genesis/deployNodes',
+                    {
+                      inviterCode: inviterCode,
+                    },
+                  );
+                }
                 window.location.replace(from);
               },
             },

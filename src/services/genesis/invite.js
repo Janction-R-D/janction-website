@@ -24,3 +24,15 @@ export const fetchInviteSend = (data) => {
     loginAuth: true,
   });
 };
+
+/**
+ *accept invite link
+ * @property {string} Query email
+ */
+export const fetchInviteAccept = (data) => {
+  return request(`${baseUrl}/affv2/invitation/accept`, {
+    method: 'POST',
+    body: JSON.stringify(data),
+    loginAuth: true,
+  });
+};
