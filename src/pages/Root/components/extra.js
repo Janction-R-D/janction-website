@@ -18,7 +18,7 @@ export const CONFIGURATION = {
     type: 'number',
   },
   miner_price: {
-    title: 'Miner Price',
+    title: 'Miner Machine Price',
     key: 'miner_price',
     unit: 'USDT',
     type: 'number',
