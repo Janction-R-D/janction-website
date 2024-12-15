@@ -4,7 +4,6 @@ import Customized from './components/Customized';
 import Quick from './components/Quick';
 import { DEFAULT_PURCHASE_TYPE, PURCHASES } from './extra';
 import styles from './index.less';
-import Create from './components/Create';
 
 function Purchase(props) {
   const { isQuick } = history.location.state || {};
@@ -47,7 +46,6 @@ function Purchase(props) {
 
         {activePurType == PURCHASES[0].value && <Customized />}
         {activePurType == PURCHASES[1].value && <Quick />}
-        {/* <Create /> */}
       </section>
     </main>
   );

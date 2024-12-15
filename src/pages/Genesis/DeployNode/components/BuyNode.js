@@ -1,11 +1,48 @@
-import React, { useEffect, useState } from 'react';
 import buy from '@/assets/images/genesis/buy.png';
 import purchase from '@/assets/images/genesis/purchase.png';
-import { Button, Input, Modal } from 'antd';
+import { ADDRESS } from '@/constant';
+import { fetchBeneficiary } from '@/services/genesis/distribution';
+import contract from '@/utils/contract';
+import { Button, Modal } from 'antd';
+import numeral from 'numeral';
+import { useEffect, useState } from 'react';
 import styles from './node.less';
+
 export default function BuyNode({ item }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isPay, setIsPay] = useState(false);
+  const [price, setPrice] = useState(1000);
+  const [addressList, setAddressList] = useState([]);
+  const [benefitList, setBenefitList] = useState([]);
+
+  useEffect(() => {
+    getPrice();
+  }, []);
+  const getPrice = async () => {
+    try {
+      const res = await fetchBeneficiary();
+      const beneficiaryAddress = (res?.split || []).map(
+        (item) => item.receive_address,
+      );
+      const beneficiaryBenefit = (res?.split || []).map(
+        (item) => (item.percentage / 100) * res?.node_price,
+      );
+      setPrice(res?.node_price);
+      setAddressList(beneficiaryAddress);
+      setBenefitList(beneficiaryBenefit);
+      await contract.distribute(
+        ADDRESS.USDT,
+        beneficiaryAddress,
+        beneficiaryBenefit,
+      );
+      setIsOpen(false);
+      setTimeout(() => {
+        setIsPay(true);
+      }, 500);
+    } catch (err) {
+      console.log('『err』', err);
+    }
+  };
 
   const handleOk = () => {
     setIsOpen(true);
@@ -19,13 +56,16 @@ export default function BuyNode({ item }) {
   const handleCancelPay = () => {
     setIsPay(false);
   };
-  const handlePay = () => {
-    setIsOpen(false);
-
-    setTimeout(() => {
-      setIsPay(true);
-      console.log(isPay);
-    }, 500);
+  const handlePay = async () => {
+    try {
+      await contract.distribute(ADDRESS.USDT, addressList, benefitList);
+      setIsOpen(false);
+      setTimeout(() => {
+        setIsPay(true);
+      }, 500);
+    } catch (err) {
+      console.log('『err』', err);
+    }
   };
 
   return (
@@ -58,7 +98,7 @@ export default function BuyNode({ item }) {
           </p>
           <div className={styles['input-box']}>
             <i className="iconfont icon-my-nodes"></i>
-            <p>1,000 USDT</p>
+            <p>{`${numeral(price).format('0,0')} USDT`}</p>
           </div>
           <div>
             <Button className={styles['buy-btn']} onClick={handlePay}>
