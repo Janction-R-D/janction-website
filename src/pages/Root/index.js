@@ -128,6 +128,7 @@ const Root = (props) => {
   const columns2 = [
     renderTableColumns('Inviter Address', 'inviter_address', { copy: true }),
     renderTableColumns('Inviter Name', 'inviter_name', { copy: true }),
+    renderTableColumns('Inviter Code', 'code', { copy: true }),
     renderTableColumns('Number of Invites', 'invites_number'),
     renderTableColumns('Total NFTs Purchased by Invited', 'invited_purchased'),
     renderTableColumns('Total points Earned by lnvited', 'invited_earned'),
@@ -258,7 +259,9 @@ const Root = (props) => {
                     title="Generate level 1 inviter invitation code"
                     divider
                   >
-                    <GenerateCode />
+                    <GenerateCode
+                      onUpdate={() => getInviterList({ offset: 0 })}
+                    />
                   </JanctionCard>
                 </Col>
               </Row>
@@ -278,7 +281,6 @@ const Root = (props) => {
                 current: inviterPage?.page || 1,
                 total: inviterPage?.total || 0,
                 onChange: (page, pageSize) => {
-                  console.log('『page, pageSize』', page, pageSize);
                   getInviterList({ offset: page * 10 });
                 },
               }}

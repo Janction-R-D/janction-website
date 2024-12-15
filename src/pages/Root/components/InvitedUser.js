@@ -1,11 +1,8 @@
-import { FormInput, FormInputNumber } from '@/components/JanctionInput';
 import JanctionModal from '@/components/JanctionModal';
-import { useEffect, useState } from 'react';
-import { Switch } from 'antd';
-import LabelValue from './LabelValue';
 import JanctionTable from '@/components/JanctionTable';
-import { renderTableActionBar } from '@/components/JanctionTable/column';
 import { fetchInviterList } from '@/services/root';
+import { useEffect, useState } from 'react';
+import LabelValue from './LabelValue';
 
 const InvitedUser = (props) => {
   const { visible, onCancel, record } = props;
@@ -31,16 +28,12 @@ const InvitedUser = (props) => {
       dataIndex: 'inviter_address',
     },
     {
-      title: 'Purchase Time',
-      dataIndex: 'name',
-    },
-    {
       title: 'Quantity Purchased',
-      dataIndex: 'guestsNumber',
+      dataIndex: 'purchased_quantity',
     },
     {
       title: 'Cumulative Rewards',
-      dataIndex: 'address',
+      dataIndex: 'rewards_cumulative',
     },
   ];
 

@@ -8,12 +8,15 @@ import { copy } from '@/utils/lang';
 import { fetchInviterCode } from '@/services/root';
 
 const GenerateCode = (props) => {
+  const { onUpdate } = props;
+
   const [name, setName] = useState();
   const [address, setAddress] = useState();
 
   const getCode = async () => {
     try {
       const res = await fetchInviterCode({ nickname: name, inviter: address });
+      onUpdate();
       return res?.code;
     } catch (err) {
       console.log('『err』', err);
