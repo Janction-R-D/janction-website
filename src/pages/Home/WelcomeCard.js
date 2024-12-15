@@ -51,7 +51,7 @@ export default function WelcomeCard() {
         </div>
         <Button
           className={styles['buy-btn']}
-          disabled={code.length <= 0}
+          disabled={code?.length <= 0}
           onClick={handleSubmit}
         >
           Join Janction network
