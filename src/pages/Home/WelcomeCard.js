@@ -8,9 +8,9 @@ export default function WelcomeCard() {
   const location = useLocation();
 
   const codeLink = location.search.split('=')[1];
-
+  const isCodeLink = codeLink?.length > 1;
   const [isOpen, setIsOpen] = useState(false);
-  const [code, setCode] = useState(codeLink);
+  const [code, setCode] = useState(isCodeLink ? codeLink : '');
   const handleOk = () => {
     setIsOpen(true);
   };
@@ -51,7 +51,7 @@ export default function WelcomeCard() {
         </div>
         <Button
           className={styles['buy-btn']}
-          disabled={code?.length <= 0}
+          disabled={code.length <= 0}
           onClick={handleSubmit}
         >
           Join Janction network
