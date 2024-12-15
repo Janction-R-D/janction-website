@@ -8,6 +8,7 @@ import { newsData } from './data';
 import useLesses from './Hooks/useLesses';
 import styles from './index.less';
 import News from './components/News';
+import Invitation from './components/Invitation';
 
 const Lessees = (props) => {
   const [news, setNews] = useState(newsData);
