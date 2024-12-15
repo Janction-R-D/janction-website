@@ -166,7 +166,7 @@ const Lessors = (props) => {
       <h1>Dashboard</h1>
       <Invitation />
 
-      <Invite />
+      {/* <Invite /> */}
       <div className={styles['dashboard-content']}>
         <div className={styles['dashboard-cards']}>
           <div className={styles['dashboard-content-left']}>

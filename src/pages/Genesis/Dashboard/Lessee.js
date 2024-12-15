@@ -175,7 +175,8 @@ const Lessees = (props) => {
   return (
     <div className={styles['dashboard-wrapper']}>
       <h1>Dashboard</h1>
-      <Invite />
+      {/* <Invite /> */}
+      <Invitation />
       <div className={styles['dashboard-content']}>
         <div
           className={[styles['content-item'], styles['balance-wrapper']].join(
