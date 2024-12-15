@@ -1,18 +1,46 @@
 import gift from '@/assets/images/genesis/img-invite.png';
 import gift2 from '@/assets/images/genesis/gift-invitation.png';
 import { Button, Modal } from 'antd';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import styles from './index.less';
 import reg from '@/utils/reg';
+import { fetchMineInviteCode } from '@/services/genesis/distribution';
+import { copy } from '@/utils/lang';
 
 const Invitation = (props) => {
   const [visible, setVisible] = useState(false);
+  const [code, setCode] = useState();
+
+  useEffect(() => {
+    if (!visible) return;
+    getMineCode();
+  }, [visible]);
+  const getMineCode = async () => {
+    try {
+      const res = await fetchMineInviteCode();
+      console.log('『res』', res);
+      setCode(res?.code);
+    } catch (err) {
+      console.log('『err』', err);
+    }
+  };
+
+  const link = useMemo(() => {
+    const origin = location.origin;
+    return `${origin}?inviteCode=${code}`;
+  }, [code]);
+
   const handleOk = () => {
     setVisible(true);
   };
   const handleCancel = () => {
     setVisible(false);
   };
+
+  const onCopy = () => {
+    copy(link);
+  };
+
   return (
     <>
       <div className={styles['invite-box']}>
@@ -47,10 +75,10 @@ const Invitation = (props) => {
             </p>
             <div className={styles['invite-box']}>
               <div className={styles['invite-box-info']}>
-                <p>邀请链接：https://janction.ioStartInterviewAIjanction.io</p>
-                <p>邀请码：212-235-642-244</p>
+                <p>Invite Link：{link}</p>
+                <p>Invite Code：{code}</p>
               </div>
-              <span className={styles['invite-box-button']}>
+              <span className={styles['invite-box-button']} onClick={onCopy}>
                 <i className="iconfont icon-copy"></i>
               </span>
             </div>
