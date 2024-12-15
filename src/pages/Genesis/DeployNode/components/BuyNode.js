@@ -7,6 +7,8 @@ import { Button, Modal } from 'antd';
 import numeral from 'numeral';
 import { useEffect, useState } from 'react';
 import styles from './node.less';
+import { useAccount } from 'wagmi';
+import { history } from 'umi';
 
 export default function BuyNode({ item }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,6 +16,8 @@ export default function BuyNode({ item }) {
   const [price, setPrice] = useState(1000);
   const [addressList, setAddressList] = useState([]);
   const [benefitList, setBenefitList] = useState([]);
+
+  const { address } = useAccount();
 
   useEffect(() => {
     if (!isOpen) return;
@@ -50,7 +54,7 @@ export default function BuyNode({ item }) {
   };
   const handlePay = async () => {
     try {
-      await contract.distribute(ADDRESS.USDT, addressList, benefitList);
+      await contract.distribute(address, price, addressList, benefitList);
       setIsOpen(false);
       setTimeout(() => {
         setIsPay(true);
@@ -108,8 +112,8 @@ export default function BuyNode({ item }) {
 }
 
 function PayCaard({ isPay, setIsPay, handleCancelPay, handleOkPay }) {
-  const handlePay = () => {
-    setIsPay(true);
+  const checkRewards = () => {
+    history.push('/genesis/dashboard');
   };
 
   return (
@@ -152,7 +156,7 @@ function PayCaard({ isPay, setIsPay, handleCancelPay, handleOkPay }) {
         <p>Congratulations on joining the Janction Contributor Network!</p>
 
         <div>
-          <Button className={styles['buy-btn']} onClick={handlePay}>
+          <Button className={styles['buy-btn']} onClick={checkRewards}>
             Check rewards
           </Button>
         </div>

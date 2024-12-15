@@ -14,3 +14,15 @@ export const fetchBeneficiary = async () => {
     return null;
   }
 };
+
+export const fetchMineInviteCode = (params) => {
+  try {
+    return request(`${baseUrl}/me`, {
+      params,
+      loginAuth: true,
+    });
+  } catch (err) {
+    console.log('『err』', err);
+    return null;
+  }
+};
