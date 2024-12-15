@@ -16,8 +16,9 @@ export default function BuyNode({ item }) {
   const [benefitList, setBenefitList] = useState([]);
 
   useEffect(() => {
+    if (!isOpen) return;
     getPrice();
-  }, []);
+  }, [isOpen]);
   const getPrice = async () => {
     try {
       const res = await fetchBeneficiary();
@@ -30,15 +31,6 @@ export default function BuyNode({ item }) {
       setPrice(res?.node_price);
       setAddressList(beneficiaryAddress);
       setBenefitList(beneficiaryBenefit);
-      await contract.distribute(
-        ADDRESS.USDT,
-        beneficiaryAddress,
-        beneficiaryBenefit,
-      );
-      setIsOpen(false);
-      setTimeout(() => {
-        setIsPay(true);
-      }, 500);
     } catch (err) {
       console.log('『err』', err);
     }

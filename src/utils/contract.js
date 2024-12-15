@@ -1,7 +1,7 @@
 import { ADDRESS, currencyABI, Duration } from '@/constant';
-import { fetchMarketRent } from '@/services/genesis';
 import { message } from 'antd';
 import { ethers } from 'ethers';
+import Distribution from './Distribution.json';
 import Payment from './Payment.json';
 
 export function durationMultiplier(duration, discount) {
@@ -153,9 +153,7 @@ const contract = {
     }
   },
   distribute: async (
-    paymentAddress,
     currencyAddress,
-    totalAmount,
     beneficiaries, // address[]
     rewards, // uint256[]
   ) => {
@@ -164,39 +162,12 @@ const contract = {
       const signer = provider.getSigner();
 
       // 初始化合约
-      const payment = new ethers.Contract(
+      const distribution = new ethers.Contract(
         ADDRESS.Payment,
-        Payment.abi,
+        Distribution.abi,
         provider,
       ).connect(signer);
 
-      const currency = new ethers.Contract(
-        currencyAddress,
-        currencyABI,
-        provider,
-      ).connect(signer);
-
-      // 检查授权额度
-      const currentAllowance = await currency.allowance(
-        ownerAddress,
-        paymentAddress,
-      );
-      console.log('currentAllowance:', currentAllowance.toString());
-      if (currentAllowance.lt(totalAmount)) {
-        console.log('Insufficient allowance, approving...');
-        message.info({
-          content: 'Approving...',
-          key: 'approveTx',
-          duration: 0,
-        });
-        const approveTx = await currency.approve(paymentAddress, totalAmount);
-        await approveTx.wait();
-        message.success('Approval successful!');
-      } else {
-        console.log('Sufficient allowance, skipping approve step.');
-      }
-
-      message.destroy('approveTx');
       message.info({
         content: 'Transaction in transit...',
         key: 'tx',
@@ -204,17 +175,17 @@ const contract = {
       });
 
       // 调起支付
-      const tx = await payment.createPaymentPlan(
-        paymentAddress,
-        ownerAddress,
+      const tx = await distribution.distribute(
         currencyAddress,
-        ethers.utils.parseUnits(totalAmount, 6),
+        beneficiaries || [],
+        (rewards || []).map((item) => ethers.utils.parseUnits(item, 6)),
       );
       await tx.wait(); // 等待交易完成
       message.destroy('tx');
       message.success('Trade successfully!');
       return tx;
     } catch (error) {
+      message.destroy('tx');
       console.log('『error』', error);
       throw new Error(error);
     }
