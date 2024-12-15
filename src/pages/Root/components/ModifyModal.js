@@ -21,7 +21,7 @@ const ModifyModal = (props) => {
       onOk && onOk({ [record?.key]: value });
       onCancel();
     } catch (err) {
-      console.log('『err222』', err);
+      console.log('『err』', err);
     }
   };
 
@@ -37,7 +37,7 @@ const ModifyModal = (props) => {
       <LabelValue title={`${record?.title}:`}>
         <Com
           defaultValue={record.value}
-          onChange={(e) => setValue(e.target ? e.target.value : e)}
+          onChange={(e) => setValue(e?.target ? e?.target?.value : e)}
         />
         <span>{record?.unit}</span>
       </LabelValue>
