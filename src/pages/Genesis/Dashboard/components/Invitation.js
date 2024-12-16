@@ -27,7 +27,7 @@ const Invitation = (props) => {
 
   const link = useMemo(() => {
     const origin = location.origin;
-    return `${origin}/home?inviteCode=${code}`;
+    return `${origin}/deployNodes?inviteCode=${code}`;
   }, [code]);
 
   const handleOk = () => {

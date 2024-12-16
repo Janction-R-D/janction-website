@@ -47,8 +47,27 @@ export const showDate = (value, format = DATE_FORMAT_TYPE.YMD) => {
   return dayjs(value).format(format);
 };
 
+function copyTextFallback(text) {
+  const textarea = document.createElement('textarea');
+  textarea.value = text;
+  document.body.appendChild(textarea);
+  textarea.select();
+
+  try {
+    document.execCommand('copy');
+    message.success('Copied!');
+  } catch (err) {
+    console.error('Copied failed', err);
+  }
+  document.body.removeChild(textarea);
+}
+
 // copy text
 export const copy = (text) => {
+  if (!navigator.clipboard.writeText) {
+    copyTextFallback(text);
+    return;
+  }
   navigator.clipboard
     .writeText(text)
     .then(() => {
