@@ -110,18 +110,19 @@ export function renderTableActionBar(list = [], extra = {}) {
 }
 
 export function renderTableColumns(title, dataIndex, extra = {}) {
-  const { copy, type, format } = extra;
+  const { copy, copyTextRender, type, format } = extra;
   const render = (text, record, index) => {
     if (typeof extra.render === 'function') {
       return extra.render(text, record, index);
     }
+    const copyText = copyTextRender ? copyTextRender(text, record) : text;
     return (
       <div className="dif ai_c gap5">
         <span>{type == 'date' ? showDate(text, format) : showValue(text)}</span>
         {!empty(text) && copy && (
           <i
             className="iconfont icon-copy poi"
-            onClick={() => copyValue(text)}
+            onClick={() => copyValue(copyText)}
           ></i>
         )}
       </div>

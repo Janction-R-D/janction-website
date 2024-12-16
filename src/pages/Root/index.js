@@ -128,7 +128,13 @@ const Root = (props) => {
   const columns2 = [
     renderTableColumns('Inviter Address', 'inviter_address', { copy: true }),
     renderTableColumns('Inviter Name', 'inviter_name', { copy: true }),
-    renderTableColumns('Inviter Code', 'code', { copy: true }),
+    renderTableColumns('Inviter Code', 'code', {
+      copy: true,
+      copyTextRender: (code) => {
+        const origin = location.origin;
+        return `${origin}/home?inviterCode=${code}`;
+      },
+    }),
     renderTableColumns('Number of Invites', 'invites_number'),
     renderTableColumns('Total NFTs Purchased by Invited', 'invited_purchased'),
     renderTableColumns('Total points Earned by lnvited', 'invited_earned'),
