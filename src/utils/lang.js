@@ -64,7 +64,7 @@ function copyTextFallback(text) {
 
 // copy text
 export const copy = (text) => {
-  if (!navigator.clipboard.writeText) {
+  if (!navigator?.clipboard?.writeText) {
     copyTextFallback(text);
     return;
   }
