@@ -5,7 +5,7 @@ import styles from './index.less';
 import Step3 from './components/RunNode';
 import StepChart from './components/StepChart';
 import Step1 from './components/System';
-import { history, Redirect, useModel } from 'umi';
+import { history, useLocation, useModel } from 'umi';
 import { renderBackgroudImg } from '@/utils/lang';
 import banner1 from '@/assets/images/genesis/banner1.png';
 import BuyNode from './components/BuyNode';
@@ -36,10 +36,13 @@ const stepsList = [
   },
 ];
 const Nodes = (props) => {
-  const { inviterCode } = history.location.state || {};
+  // const { inviterCode } = history.location.state || {};
   const [curStep, setCurStep] = useState(stepsList[0]);
   const [selectedValues, setSelectedValues] = useState(DEFAULT);
   const { initialState } = useModel('@@initialState');
+  const location = useLocation();
+  const { inviterCode } = location.query || {};
+
   const verifyUser = () => {
     if (inviterCode) {
       if (initialState?.userAccount?.address) {
@@ -47,6 +50,8 @@ const Nodes = (props) => {
           receive_address: initialState.userAccount.address,
           code: inviterCode,
         };
+        console.log(data);
+
         return fetchInviteAccept(data)
           .then((res) => console.log(res))
           .catch((err) => console.log(err));
@@ -159,7 +164,11 @@ const Nodes = (props) => {
           profits！ Currently holding Janction Landlord NFT to participate in
           the computing power provider network！
         </p>
-        <BuyNode item={curStep} verifyUser={verifyUser} />
+        <BuyNode
+          item={curStep}
+          initialState={initialState}
+          inviterCode={inviterCode}
+        />
       </div>
     </>
   );

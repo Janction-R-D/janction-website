@@ -7,14 +7,37 @@ import { Button, Modal } from 'antd';
 import numeral from 'numeral';
 import { useEffect, useState } from 'react';
 import styles from './node.less';
+import { history } from 'umi';
+import { fetchInviteAccept } from '@/services/genesis';
 
-export default function BuyNode({ item, verifyUser }) {
+export default function BuyNode({ item, initialState, inviterCode }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isPay, setIsPay] = useState(false);
   const [price, setPrice] = useState(1000);
   const [addressList, setAddressList] = useState([]);
   const [benefitList, setBenefitList] = useState([]);
+  const verifyUser = () => {
+    if (inviterCode) {
+      if (initialState?.userAccount?.address) {
+        const data = {
+          receive_address: initialState.userAccount.address,
+          // code: '4430a4fb-bc3e-4100-a0ea-3527e8e51606',
+          code: inviterCode,
+        };
+        console.log(data);
 
+        return fetchInviteAccept(data)
+          .then((res) => {
+            console.log(res);
+            setIsOpen(true);
+          })
+          .catch((err) => console.log(err));
+      }
+      history.push(`/login?inviterCode=${inviterCode}`, {
+        inviterCode: inviterCode,
+      });
+    }
+  };
   useEffect(() => {
     if (!isOpen) return;
     getPrice();
@@ -38,7 +61,6 @@ export default function BuyNode({ item, verifyUser }) {
 
   const handleOk = () => {
     verifyUser();
-    setIsOpen(true);
   };
   const handleOkPay = () => {
     setIsPay(true);

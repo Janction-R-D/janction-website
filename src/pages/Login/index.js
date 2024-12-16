@@ -89,10 +89,7 @@ const Login = (props) => {
                   history.location.query?.from || '/genesis/dashboard';
                 if (inviterCode) {
                   return window.location.replace(
-                    history.location.query?.from || '/genesis/deployNodes',
-                    {
-                      inviterCode: inviterCode,
-                    },
+                    `/genesis/deployNodes?inviterCode=${inviterCode}`,
                   );
                 }
                 window.location.replace(from);
