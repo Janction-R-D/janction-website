@@ -221,7 +221,7 @@ const Root = (props) => {
               >
                 <JanctionTable
                   size="small"
-                  search
+                  // search
                   bordered
                   loading={paymentHistoryLoading}
                   dataSource={paymentHistory}
