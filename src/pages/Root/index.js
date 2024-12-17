@@ -1,29 +1,28 @@
 import JanctionCard from '@/components/JanctionCard';
 import JanctionTable from '@/components/JanctionTable';
-import { Col, Form, message, Row, Space } from 'antd';
-import { useEffect, useState } from 'react';
-import GenerateCode from './components/GenerateCode';
-import LabelValue from './components/LabelValue';
-import ParameterSetting from './components/ParameterSetting';
-import PasswordToggle from './components/PasswordToggle';
-import StatisticCard from './components/StatisticCard';
-import data from './data.json';
-import styles from './index.less';
-import PayDetail from './components/PayDetail';
-import SplitRatioSetting from './components/SplitRatioSetting';
-import InvitedUser from './components/InvitedUser';
-import CodeManage from './components/CodeManage';
 import {
   renderTableActionBar,
   renderTableColumns,
 } from '@/components/JanctionTable/column';
-import { history } from 'umi';
 import {
   fetchInviterList,
   fetchNFTData,
   fetchPaymentHistory,
 } from '@/services/root';
 import { DATE_FORMAT_TYPE } from '@/utils/datetime';
+import { Col, Form, Row } from 'antd';
+import { useEffect, useState } from 'react';
+import { history } from 'umi';
+import CodeManage from './components/CodeManage';
+import GenerateCode from './components/GenerateCode';
+import InvitedUser from './components/InvitedUser';
+import LabelValue from './components/LabelValue';
+import ParameterSetting from './components/ParameterSetting';
+import PasswordToggle from './components/PasswordToggle';
+import PayDetail from './components/PayDetail';
+import SplitRatioSetting from './components/SplitRatioSetting';
+import StatisticCard from './components/StatisticCard';
+import styles from './index.less';
 
 const Root = (props) => {
   const [editVisible, setEditVisible] = useState(false);
