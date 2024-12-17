@@ -12,6 +12,7 @@ import { fetchInviteAccept } from '@/services/genesis';
 
 export default function BuyNode({ item, initialState, inviterCode }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isComming, setIsComming] = useState(false);
   const [isPay, setIsPay] = useState(false);
   const [price, setPrice] = useState(1000);
   const [addressList, setAddressList] = useState([]);
@@ -85,6 +86,17 @@ export default function BuyNode({ item, initialState, inviterCode }) {
   const handleCancelPay = () => {
     setIsPay(false);
   };
+  const handleCancelComming = () => {
+    setIsComming(false);
+  };
+  const handleOkComming = () => {
+    setTimeout(() => {
+      setIsComming(true);
+    }, 500);
+
+    setIsOpen(false);
+  };
+
   const handlePay = async () => {
     try {
       await contract.distribute(ADDRESS.USDT, addressList, benefitList);
@@ -102,11 +114,11 @@ export default function BuyNode({ item, initialState, inviterCode }) {
       <div className={styles['btn']} onClick={handleOk}>
         Buy Now!
       </div>
-      <PayCaard
-        isPay={isPay}
-        setIsPay={setIsPay}
-        handleCancelPay={handleCancelPay}
-        handleOkPay={handleOkPay}
+      <CommingSoon
+        isComming={isComming}
+        setIsComming={setIsComming}
+        handleCancelComming={handleCancelComming}
+        handleOkComming={handleOkComming}
       />
       <Modal
         open={isOpen}
@@ -149,7 +161,7 @@ export default function BuyNode({ item, initialState, inviterCode }) {
           </div>
 
           <div>
-            <Button className={styles['buy-btn']} onClick={handlePay}>
+            <Button className={styles['buy-btn']} onClick={handleOkComming}>
               Click to pay
             </Button>
 
@@ -157,13 +169,36 @@ export default function BuyNode({ item, initialState, inviterCode }) {
               Surrender your rights, <span>Enter immediately</span>
             </p>
           </div>
-          {/* <h2 style={{ textAlign: 'center' }}>Comming sooon...</h2> */}
         </section>
       </Modal>
     </>
   );
 }
 
+function CommingSoon({
+  isComming,
+  setIsComming,
+  handleCancelComming,
+  handleOkComming,
+}) {
+  return (
+    <Modal
+      open={isComming}
+      onOk={handleOkComming}
+      onCancel={handleCancelComming}
+      className={styles['modal']}
+      width={900}
+      footer={false}
+    >
+      <div className={styles['modal-img']}>
+        <img src={buy} />
+      </div>
+      <section className={styles['modal-info']}>
+        <h2 style={{ textAlign: 'center' }}>Comming soon...</h2>
+      </section>
+    </Modal>
+  );
+}
 function PayCaard({ isPay, setIsPay, handleCancelPay, handleOkPay }) {
   const handlePay = () => {
     setIsPay(true);
