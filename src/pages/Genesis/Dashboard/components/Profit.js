@@ -31,13 +31,13 @@ export default function Profit({ lessorsData, getLessors, percent }) {
           <ProfitTotal
             title={'Total'}
             income={numeral(lessorsData?.profit?.total || 0).format('$0.00')}
-            diffValue={-0.15}
+            diffValue={0}
           />
 
           <ProfitCard
             title={' Node rewards'}
             income={numeral(lessorsData?.profit?.rewards || 0).format('$0.00')}
-            diffValue={+0.15}
+            diffValue={0}
           />
 
           <ProfitCard
@@ -45,7 +45,7 @@ export default function Profit({ lessorsData, getLessors, percent }) {
             income={numeral(lessorsData?.profit?.rental_income || 0).format(
               '$0.00',
             )}
-            diffValue={+0.15}
+            diffValue={0}
           />
 
           <ProfitCard
@@ -53,7 +53,7 @@ export default function Profit({ lessorsData, getLessors, percent }) {
             income={numeral(lessorsData?.profit?.pledge_proceeds || 0).format(
               '$0.00',
             )}
-            diffValue={+0.15}
+            diffValue={0}
           />
         </div>
       </div>
