@@ -7,17 +7,56 @@ import rise from '@/assets/images/icons/rise.png';
 import { Graph } from './Graph';
 
 export default function Profit({ lessorsData, getLessors, percent }) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const profitInfo = lessorsData?.profit || {};
+  function calculateGrowth(current, previous) {
+    if (previous === 0) {
+      return current === 0 ? 0 : 100; // Assume 0% growth if both are 0, or 100% if current is > 0
+    }
+    return ((current - previous) / previous) * 100;
+  }
+  function calculateTotal(data) {
+    return Object.values(data).reduce((total, value) => total + value, 0);
+  }
 
-  const showModal = () => {
-    setIsModalOpen(true);
+  const totalNow = calculateTotal(profitInfo?.now || 0);
+  const totalYesterday = calculateTotal(profitInfo?.yesterday || 0);
+  const profit = {
+    total: {
+      now: totalNow,
+      yesterday: totalYesterday,
+      growth: calculateGrowth(totalNow, totalYesterday),
+    },
+    invite_reward: {
+      now: profitInfo.now?.invite_reward,
+      growth: calculateGrowth(
+        profitInfo.now?.invite_reward,
+        profitInfo.yesterday?.invite_reward,
+      ),
+    },
+    node_reward: {
+      now: profitInfo.now?.node_reward,
+      growth: calculateGrowth(
+        profitInfo.now?.node_reward,
+        profitInfo.yesterday?.node_reward,
+      ),
+    },
+    rental_income: {
+      now: profitInfo.now?.rental_income,
+      growth: calculateGrowth(
+        profitInfo.now?.rental_income,
+        profitInfo.yesterday?.rental_income,
+      ),
+    },
+    staking_proceeds: {
+      now: profitInfo.now?.staking_proceeds,
+      growth: calculateGrowth(
+        profitInfo.now?.staking_proceeds,
+        profitInfo.yesterday?.staking_proceeds,
+      ),
+    },
   };
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
+  console.log(profit);
+
   return (
     <div
       className={[styles['content-item'], styles['profit-wrapper']].join(' ')}
@@ -30,30 +69,39 @@ export default function Profit({ lessorsData, getLessors, percent }) {
         <div className={styles['total-wrapper']}>
           <ProfitTotal
             title={'Total'}
-            income={numeral(lessorsData?.profit?.total || 0).format('$0.00')}
-            diffValue={0}
+            income={numeral(profit?.invite_reward.now || 0).format('$0.00')}
+            diffValue={numeral(profit?.invite_reward.growth || 0).format(
+              '0.0%',
+            )}
           />
 
           <ProfitCard
             title={' Node rewards'}
-            income={numeral(lessorsData?.profit?.rewards || 0).format('$0.00')}
-            diffValue={0}
+            income={numeral(profit?.node_reward.now || 0).format('$0.00')}
+            diffValue={numeral(profit?.node_reward.growth || 0).format('0.0%')}
           />
 
           <ProfitCard
             title={' Rental income'}
-            income={numeral(lessorsData?.profit?.rental_income || 0).format(
-              '$0.00',
+            income={numeral(profit?.rental_income.now || 0).format('$0.00')}
+            diffValue={numeral(profit?.rental_income.growth || 0).format(
+              '0.0%',
             )}
-            diffValue={0}
           />
 
           <ProfitCard
             title={'Staking proceeds'}
-            income={numeral(lessorsData?.profit?.pledge_proceeds || 0).format(
-              '$0.00',
+            income={numeral(profit?.staking_proceeds.now || 0).format('$0.00')}
+            diffValue={numeral(profit?.staking_proceeds.growth || 0).format(
+              '0.0%',
             )}
-            diffValue={0}
+          />
+          <ProfitCard
+            title={'Invite Reward'}
+            income={numeral(profit?.invite_reward.now || 0).format('$0.00')}
+            diffValue={numeral(profit?.invite_reward.growth || 0).format(
+              '0.0%',
+            )}
           />
         </div>
       </div>
@@ -63,6 +111,7 @@ export default function Profit({ lessorsData, getLessors, percent }) {
 
 function ProfitCard({ title, income, diffValue }) {
   const isDrop = diffValue < 0;
+  console.log(diffValue);
   return (
     <Card title={title} className={styles['card']}>
       <div className={styles['income-value']}>
