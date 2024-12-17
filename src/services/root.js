@@ -50,11 +50,12 @@ export const fetchNFTSetting = (params) => {
   }
 };
 
-export const fetchNFTSettingUpdate = (params) => {
+export const fetchNFTSettingUpdate = (params, data) => {
   try {
     return request(`${baseUrl}/config`, {
       method: 'POST',
-      data: params,
+      params,
+      data,
       basicLoginAuth: true,
     });
   } catch (err) {

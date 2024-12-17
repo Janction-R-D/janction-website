@@ -43,6 +43,7 @@ const Root = (props) => {
   const [inviterPage, setInviterPage] = useState({ offset: 1, limit: 10 });
   const [inviterList, setInviterList] = useState([]);
   const [inviterLoading, setInviterLoading] = useState(false);
+  const [splitVisible, setSplitVisible] = useState(false);
 
   useEffect(() => {
     getNFTData();
@@ -139,6 +140,13 @@ const Root = (props) => {
     renderTableColumns('Total NFTs Purchased by Invited', 'invited_purchased'),
     renderTableColumns('Total points Earned by lnvited', 'invited_earned'),
     renderTableActionBar([
+      {
+        name: 'split settings',
+        onClick: (rowData) => {
+          setRecord(rowData);
+          setSplitVisible(true);
+        },
+      },
       {
         name: 'invited user',
         onClick: (rowData) => {
@@ -282,6 +290,7 @@ const Root = (props) => {
               bordered
               dataSource={inviterList}
               columns={columns2}
+              scroll={{ x: 'max-content' }}
               pagination={{
                 position: ['bottomCenter'],
                 current: inviterPage?.page || 1,
@@ -322,6 +331,17 @@ const Root = (props) => {
             setInvitedUserVisible(false);
             setRecord();
           }}
+        />
+      )}
+      {splitVisible && (
+        <SplitRatioSetting
+          visible={splitVisible}
+          record={record}
+          onCancel={() => {
+            setSplitVisible(false);
+            setRecord();
+          }}
+          onSuccess={getInviterList}
         />
       )}
     </div>
