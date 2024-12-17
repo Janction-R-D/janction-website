@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  connectorsForWallets,
   darkTheme,
   getDefaultConfig,
   RainbowKitProvider,
@@ -7,9 +8,34 @@ import {
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider } from 'wagmi';
 import { optimism, optimismSepolia } from 'wagmi/chains';
+import {
+  coinbaseWallet,
+  rainbowWallet,
+  tokenPocketWallet,
+  walletConnectWallet,
+} from '@rainbow-me/rainbowkit/wallets';
+
+const connectors = connectorsForWallets(
+  [
+    {
+      groupName: 'Recommended',
+      wallets: [
+        rainbowWallet,
+        tokenPocketWallet,
+        coinbaseWallet,
+        walletConnectWallet,
+      ],
+    },
+  ],
+  {
+    appName: 'Janction',
+    projectId: 'YOUR_PROJECT_ID',
+  },
+);
 
 const config = getDefaultConfig({
   appName: 'Janction',
+  connectors,
   projectId: 'YOUR_PROJECT_ID',
   chains: [optimismSepolia, optimism],
   ssr: true, // If your dApp uses server side rendering (SSR)
