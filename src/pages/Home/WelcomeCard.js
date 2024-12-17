@@ -18,6 +18,7 @@ export default function WelcomeCard() {
     setIsOpen(false);
   };
   useEffect(() => {
+    if (!isCodeLink) return;
     handleOk();
   }, []);
   const handleSubmit = () => {

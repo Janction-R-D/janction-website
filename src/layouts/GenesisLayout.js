@@ -16,7 +16,7 @@ const navList = [
   },
   {
     name: 'Deploy Node',
-    path: '/genesis/deployNode',
+    path: '/genesis/deployNodes',
     key: 1,
     icon: 'deploy-node',
     role: (isLessee) => !isLessee,

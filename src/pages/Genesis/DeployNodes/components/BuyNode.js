@@ -3,7 +3,7 @@ import purchase from '@/assets/images/genesis/purchase.png';
 import { ADDRESS } from '@/constant';
 import { fetchBeneficiary } from '@/services/genesis/distribution';
 import contract from '@/utils/contract';
-import { Button, Modal } from 'antd';
+import { Button, Input, Modal } from 'antd';
 import numeral from 'numeral';
 import { useEffect, useState } from 'react';
 import styles from './node.less';
@@ -16,6 +16,7 @@ export default function BuyNode({ item, initialState, inviterCode }) {
   const [price, setPrice] = useState(1000);
   const [addressList, setAddressList] = useState([]);
   const [benefitList, setBenefitList] = useState([]);
+  const [qty, setQty] = useState(1);
   const verifyUser = () => {
     if (inviterCode) {
       if (initialState?.userAccount?.address) {
@@ -36,6 +37,8 @@ export default function BuyNode({ item, initialState, inviterCode }) {
       history.push(`/login?inviterCode=${inviterCode}`, {
         inviterCode: inviterCode,
       });
+    } else if (initialState?.userAccount?.address) {
+      setIsOpen(true);
     }
   };
   useEffect(() => {
@@ -58,6 +61,16 @@ export default function BuyNode({ item, initialState, inviterCode }) {
       console.log('『err』', err);
     }
   };
+  const handleChange = (e) => {
+    setQty(e.target.value);
+  };
+  const handleAdd = () => {
+    setQty(qty + 1);
+  };
+  const handleDiff = () => {
+    if (qty <= 1) return;
+    setQty(qty);
+  };
 
   const handleOk = () => {
     verifyUser();
@@ -66,6 +79,7 @@ export default function BuyNode({ item, initialState, inviterCode }) {
     setIsPay(true);
   };
   const handleCancel = () => {
+    setQty(1);
     setIsOpen(false);
   };
   const handleCancelPay = () => {
@@ -106,15 +120,34 @@ export default function BuyNode({ item, initialState, inviterCode }) {
           <img src={buy} />
         </div>
         <section className={styles['modal-info']}>
-          <h2>Buy Janction Node</h2>
-          <p>
-            After purchasing this NFT, participate in the network of computing
-            power providers!
-          </p>
-          <div className={styles['input-box']}>
-            <i className="iconfont icon-my-nodes"></i>
-            <p>{`${numeral(price).format('0,0')} USDT`}</p>
+          <div>
+            <h2>Buy Janction Node</h2>
+            <p>
+              After purchasing this NFT, participate in the network of computing
+              power providers!
+            </p>
           </div>
+          <div className={styles['input-box']}>
+            <p>
+              <i className="iconfont icon-my-nodes"></i>
+              {`${numeral(price).format('0,0')} USDT`}
+            </p>
+            <div className={styles['input-box-container']}>
+              <Button className={styles['input-btn']} onClick={handleDiff}>
+                -
+              </Button>
+              <Input
+                type="number"
+                value={qty}
+                min={1}
+                onChange={handleChange}
+              />
+              <Button className={styles['input-btn']} onClick={handleAdd}>
+                +
+              </Button>
+            </div>
+          </div>
+
           <div>
             <Button className={styles['buy-btn']} onClick={handlePay}>
               Click to pay
@@ -124,6 +157,7 @@ export default function BuyNode({ item, initialState, inviterCode }) {
               Surrender your rights, <span>Enter immediately</span>
             </p>
           </div>
+          {/* <h2 style={{ textAlign: 'center' }}>Comming sooon...</h2> */}
         </section>
       </Modal>
     </>

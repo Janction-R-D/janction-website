@@ -3,7 +3,7 @@ import { Button, Modal } from 'antd';
 import styles from './profileHeader.less';
 import { useDisconnect } from 'wagmi';
 import storage from '@/utils/storage';
-import { history, useModel } from 'umi';
+import { history, useLocation, useModel } from 'umi';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import GenesisContext from '@/layouts/Context/GenesisContext';
 import { fetchUserCenter } from '@/services/genesis';
@@ -13,7 +13,8 @@ export default function ProfileHeader() {
   const { imgUrl, setImgUrl } = useContext(GenesisContext);
   const [isNotifyModalOpen, setIsNotifyModalOpen] = useState(false);
   const { initialState } = useModel('@@initialState');
-  const { inviterCode } = history.location.state || {};
+  const location = useLocation();
+  const { inviterCode } = location.query || {};
   const handleNotifyOk = () => {
     setIsNotifyModalOpen(true);
   };
@@ -133,9 +134,9 @@ function ProfileModal({ styles, imgUrl, isModalOpen, handleOk, handleCancel }) {
                 <img className={styles['profile-img']} src={imgUrl} />
               </div>
               <section className={styles['profile-info']} onClick={handleCopy}>
-                <h3>{chain?.name}</h3>
+                <h3>{chain?.name || 'Unknow'}</h3>
                 <span className={styles['chain-copy']}>
-                  <p> {account?.displayName}</p>
+                  <p> {account?.displayName || 'Unknow'}</p>
                   {textCopied ? (
                     <span className={styles['copied']}>Copied</span>
                   ) : (

@@ -15,7 +15,7 @@ import Nodes from '@/pages/Genesis/DeployNodes';
 export const fullWidthRoute = ['/home', '/explore', '/getStarted', '/solution'];
 export const authRoute = [
   '/genesis/dashboard',
-  '/genesis/deployNode',
+  // '/genesis/deployNodes',
   '/genesis/nodes',
   '/genesis/mount',
   '/genesis/instance',
