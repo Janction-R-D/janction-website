@@ -50,7 +50,7 @@ export const fetchNFTSetting = (params) => {
   }
 };
 
-export const fetchNFTSettingUpdate = (params, data) => {
+export const fetchNFTSettingUpdate = (data, params) => {
   try {
     return request(`${baseUrl}/config`, {
       method: 'POST',
@@ -77,47 +77,11 @@ export const fetchInviterCode = (params) => {
   }
 };
 
-export const fetchInviterCodeList = (params) => {
-  try {
-    return request(`${baseUrl}/count`, {
-      params,
-      basicLoginAuth: true,
-    });
-  } catch (err) {
-    console.log('『err』', err);
-    return null;
-  }
-};
-
 export const fetchRootUserPsdUpdate = (params) => {
   try {
     return request(`${baseUrl}/password`, {
       method: 'POST',
       data: params,
-      basicLoginAuth: true,
-    });
-  } catch (err) {
-    console.log('『err』', err);
-    return null;
-  }
-};
-
-export const fetchSplitSetting = (params) => {
-  try {
-    return request(`${baseUrl}/count`, {
-      params,
-      basicLoginAuth: true,
-    });
-  } catch (err) {
-    console.log('『err』', err);
-    return null;
-  }
-};
-
-export const fetchInviterEnable = (params) => {
-  try {
-    return request(`${baseUrl}/count`, {
-      params,
       basicLoginAuth: true,
     });
   } catch (err) {
