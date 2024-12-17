@@ -1,22 +1,38 @@
 import { FormInputNumber } from '@/components/JanctionInput';
 import JanctionModal from '@/components/JanctionModal';
-import { fetchNFTSettingUpdate } from '@/services/root';
+import { fetchNFTSetting, fetchNFTSettingUpdate } from '@/services/root';
 import { Col, Form, message, Row } from 'antd';
 import LabelValue from './LabelValue';
 import styles from './index.less';
+import { useEffect } from 'react';
 
 const SplitRatioSetting = (props) => {
   const { visible, onCancel, record, onSuccess } = props;
 
-  console.log('『record』', record);
-
   const [form] = Form.useForm();
+
+  useEffect(() => {
+    if (!record?.inviter_address) return;
+    getSplitRate();
+  }, [record]);
+  const getSplitRate = async () => {
+    try {
+      const res = await fetchNFTSetting({ inviter: record.inviter_address });
+      form.setFieldsValue(res?.split_rate || {});
+    } catch (err) {
+      console.log('『err』', err);
+    }
+  };
 
   const onOk = async () => {
     try {
       const values = await form.validateFields();
-      console.log('『value』', values);
-      fetchNFTSettingUpdate({ split_rate: values });
+      await fetchNFTSettingUpdate(
+        { inviter: record?.inviter_address },
+        {
+          split_rate: values,
+        },
+      );
       message.success('setting success!');
       onCancel();
       onSuccess();

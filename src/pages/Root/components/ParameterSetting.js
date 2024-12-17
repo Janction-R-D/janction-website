@@ -63,9 +63,9 @@ const ParameterSetting = (props) => {
               onEdit={() => onEdit(item)}
             />
           ))}
-        <LabelValue title="Split settings:" align="flex-start">
+        {/* <LabelValue title="Split settings:" align="flex-start">
           {renderSplitSetting()}
-        </LabelValue>
+        </LabelValue> */}
       </div>
       {visible && (
         <ModifyModal
