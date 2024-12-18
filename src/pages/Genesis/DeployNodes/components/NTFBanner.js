@@ -39,7 +39,7 @@ const NTFBanner = (props) => {
         profits！ Currently holding Janction Landlord NFT to participate in the
         computing power provider network！
       </p>
-      <BuyNode />
+      <BuyNode inviterCode={inviterCode} />
     </div>
   );
 };
