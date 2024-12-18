@@ -24,7 +24,6 @@ export const fetchUserVerify = async (data) => {
       method: 'POST',
       data,
     });
-    console.log('『response』', response);
     return response;
   } catch (error) {
     throw new Error(`Failed to fetch verify, ${error}`);
@@ -41,7 +40,6 @@ export const fetchRootUserLogin = async (data) => {
     const response = await request('/v0/affv2/root/dashboard', {
       headers: { Authorization: `Basic ${str}` },
     });
-    console.log('『response』', response);
     return response;
   } catch (error) {
     throw new Error(`Failed to fetch verify, ${error}`);

@@ -8,6 +8,7 @@ export const CONFIGURATION = {
     title: 'Discharge cycle',
     key: 'points_distribution_cycle',
     type: 'number',
+    unit: 'day',
   },
   // points_growth_rate: {
   //   title: 'Points Growth Rate',
@@ -24,7 +25,7 @@ export const CONFIGURATION = {
   mining_machine_management_fee: {
     title: 'Mining Machine Management Fee',
     key: 'mining_machine_management_fee',
-    unit: 'USDT',
+    unit: '%',
     type: 'number',
   },
   miner_price: {
