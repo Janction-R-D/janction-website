@@ -4,7 +4,7 @@ import {
   renderTableActionBar,
   renderTableColumns,
 } from '@/components/JanctionTable/column';
-import { fetchInviterCodeList, fetchInviterEnable } from '@/services/root';
+// import { fetchInviterCodeList, fetchInviterEnable } from '@/services/root';
 import { message, Switch } from 'antd';
 import { useEffect, useState } from 'react';
 import LabelValue from './LabelValue';
