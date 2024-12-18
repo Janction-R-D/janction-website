@@ -50,3 +50,12 @@ export const fetchInviteAccept = async (data) => {
     return error;
   }
 };
+export const fetchInviteVerify = async (code) => {
+  try {
+    const response = await request(`${baseUrl}/affv2/invitation?code=${code}`);
+    return response;
+  } catch (error) {
+    console.log('『error』', error);
+    return null;
+  }
+};
