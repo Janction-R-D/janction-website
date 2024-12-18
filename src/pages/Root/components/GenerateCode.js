@@ -31,11 +31,12 @@ const GenerateCode = (props) => {
   const onCopy = async () => {
     if (!showCodeGenerate) return;
     const code = await getCode();
+    const link = `http://localhost:8000/home?inviterCode=${code}`;
     if (!code) {
       message.warning('Invitation code failed to obtain, please try again!');
       return;
     }
-    copy(code);
+    copy(link);
   };
 
   return (
