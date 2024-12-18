@@ -44,12 +44,15 @@ const Invitation = (props) => {
   return (
     <>
       <div className={styles['invite-box']}>
-        <Button className={styles['buy-btn']} onClick={handleOk}>
-          Invite
-        </Button>
-        <picture>
-          <img src={gift2} />
-        </picture>
+        <h1>Dashboard</h1>
+        <div className={styles['btn']}>
+          <Button className={styles['buy-btn']} onClick={handleOk}>
+            Invite
+          </Button>
+          <picture>
+            <img src={gift2} />
+          </picture>
+        </div>
       </div>
       <div className={styles['invite-wrapper']}>
         <Modal

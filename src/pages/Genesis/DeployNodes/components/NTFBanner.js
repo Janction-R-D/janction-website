@@ -2,18 +2,21 @@ import { renderBackgroudImg } from '@/utils/lang';
 import banner1 from '@/assets/images/genesis/banner1.png';
 import BuyNode from './BuyNode';
 import styles from './index.less';
-import { useLocation, useModel } from 'umi';
+import { history, useLocation, useModel } from 'umi';
+import { useAccount } from 'wagmi';
+import { useEffect } from 'react';
 
 const NTFBanner = (props) => {
-  const { initialState } = useModel('@@initialState');
+  const { address } = useAccount();
   const location = useLocation();
   const { inviterCode } = location.query || {};
+  const inviterIsStorage = localStorage.getItem('inviterCode');
 
   const verifyUser = () => {
     if (inviterCode) {
-      if (initialState?.userAccount?.address) {
+      if (address) {
         const data = {
-          receive_address: initialState.userAccount.address,
+          receive_address: address,
           code: inviterCode,
         };
         console.log(data);
@@ -27,7 +30,7 @@ const NTFBanner = (props) => {
       });
     }
   };
-
+  if (!inviterIsStorage && !inviterCode) return;
   return (
     <div className={styles['banner']} style={renderBackgroudImg(banner1)}>
       <h1>Deploy node</h1>

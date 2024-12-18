@@ -25,7 +25,7 @@
   height: 35px;
   display: flex;
   width: 120px;
-  margin-bottom: 12px;
+
   justify-content: start;
   align-items: center;
   background: linear-gradient(90deg, #fdcb82, #f2933e);
@@ -50,12 +50,25 @@
 }
 .invite-box {
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
+  align-items: center;
   position: relative;
+  h1 {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 40px;
+    line-height: 60px;
+    color: #ffffff;
+  }
+  .btn {
+    display: flex;
+    align-items: center;
+  }
   img {
     pointer-events: none;
     position: absolute;
-    top: -12px;
+    top: 0px;
     right: -12px;
     width: 60px;
     height: 60px;

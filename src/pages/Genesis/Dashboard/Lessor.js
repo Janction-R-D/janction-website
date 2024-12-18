@@ -163,7 +163,6 @@ const Lessors = (props) => {
 
   return (
     <div className={styles['dashboard-wrapper']}>
-      <h1>Dashboard</h1>
       <Invitation />
 
       {/* <Invite /> */}

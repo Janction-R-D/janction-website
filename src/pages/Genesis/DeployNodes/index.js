@@ -9,7 +9,7 @@ import { history, useLocation, useModel } from 'umi';
 import { renderBackgroudImg } from '@/utils/lang';
 import banner1 from '@/assets/images/genesis/banner1.png';
 import BuyNode from './components/BuyNode';
-import { fetchInviteAccept } from '@/services/genesis';
+import { fetchInviteAccept, fetchInviteVerify } from '@/services/genesis';
 import NTFBanner from './components/NTFBanner';
 
 const DEFAULT = {
@@ -52,7 +52,17 @@ const Nodes = (props) => {
           code: inviterCode,
         };
         console.log(data);
-
+        fetchInviteVerify(inviterCode)
+          .then((res) => {
+            if (res && !res.error) {
+              localStorage.setItem('inviterCode', inviterCode);
+            } else {
+              message.warning('Invalid Code');
+            }
+          })
+          .catch((err) => {
+            message.warning('Invalid Code');
+          });
         return fetchInviteAccept(data)
           .then((res) => console.log(res))
           .catch((err) => console.log(err));

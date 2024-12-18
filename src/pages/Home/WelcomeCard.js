@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import welcome from '@/assets/images/home/welcome.png';
-import { Button, Input, Modal } from 'antd';
+import { Button, Input, message, Modal } from 'antd';
 import styles from './index.less';
 import { fetchInviteVerify } from '@/services/genesis';
 import { history, useLocation } from 'umi';
@@ -18,6 +18,12 @@ export default function WelcomeCard() {
   const handleCancel = () => {
     setIsOpen(false);
   };
+  const handleChange = (e) => {
+    if (error) {
+      setError(false);
+    }
+    setCode(e.target.value);
+  };
   useEffect(() => {
     if (!isCodeLink) return;
     handleOk();
@@ -28,18 +34,13 @@ export default function WelcomeCard() {
         if (res && !res.error) {
           history.push(`/deployNodes?inviterCode=${code}`);
         } else {
+          message.warning('Invalid Code');
           setError(true);
-          setTimeout(() => {
-            setError(false);
-          }, 2000);
         }
       })
       .catch((err) => {
-        console.error('Error occurred during invite verification:', err);
+        message.warning('Invalid Code');
         setError(true);
-        setTimeout(() => {
-          setError(false);
-        }, 2000);
       });
   };
   const handleSubmit = () => {
@@ -62,14 +63,14 @@ export default function WelcomeCard() {
         <div className={styles['input-box']}>
           <Input
             defaultValue={code}
-            onChange={(e) => setCode(e.target.value)}
+            onChange={handleChange}
             placeholder="Enter the invitation code（optional）"
             className={styles['input']}
             style={{ border: error ? '1px solid #f2933e' : '' }}
             bordered={error}
           />
           {!error ? (
-            <p>*Invitation code is not required</p>
+            <p>*Invitation code is required</p>
           ) : (
             <p style={{ color: '#f2933e' }}>Invalid Code</p>
           )}
