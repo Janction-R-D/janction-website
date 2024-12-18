@@ -3,49 +3,22 @@ import purchase from '@/assets/images/genesis/purchase.png';
 import { ADDRESS } from '@/constant';
 import { fetchBeneficiary } from '@/services/genesis/distribution';
 import contract from '@/utils/contract';
-import { Button, Input, message, Modal } from 'antd';
+import { Button, Modal } from 'antd';
 import numeral from 'numeral';
 import { useEffect, useState } from 'react';
 import styles from './node.less';
-import { history } from 'umi';
-import { fetchInviteAccept } from '@/services/genesis';
 import { useAccount } from 'wagmi';
+import { history } from 'umi';
 
-export default function BuyNode({ inviterCode }) {
+export default function BuyNode({ item }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [isComming, setIsComming] = useState(false);
   const [isPay, setIsPay] = useState(false);
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState(1000);
   const [addressList, setAddressList] = useState([]);
   const [benefitList, setBenefitList] = useState([]);
-  const [qty, setQty] = useState(1);
 
   const { address } = useAccount();
 
-  const verifyUser = () => {
-    if (inviterCode) {
-      if (address) {
-        const data = {
-          receive_address: address,
-          // code: '4430a4fb-bc3e-4100-a0ea-3527e8e51606',
-          code: inviterCode,
-        };
-        console.log(data);
-
-        return fetchInviteAccept(data)
-          .then((res) => {
-            console.log(res);
-            setIsOpen(true);
-          })
-          .catch((err) => console.log(err));
-      }
-      history.push(`/login?inviterCode=${inviterCode}`, {
-        inviterCode: inviterCode,
-      });
-    } else if (address) {
-      setIsOpen(true);
-    }
-  };
   useEffect(() => {
     if (!isOpen) return;
     getPrice();
@@ -53,10 +26,6 @@ export default function BuyNode({ inviterCode }) {
   const getPrice = async () => {
     try {
       const res = await fetchBeneficiary();
-      if (res?.code == 40411) {
-        message.warning(res.msg);
-        return;
-      }
       const beneficiaryAddress = (res?.split || []).map(
         (item) => item.receive_address,
       );
@@ -70,41 +39,19 @@ export default function BuyNode({ inviterCode }) {
       console.log('『err』', err);
     }
   };
-  const handleChange = (e) => {
-    setQty(e.target.value);
-  };
-  const handleAdd = () => {
-    setQty(qty + 1);
-  };
-  const handleDiff = () => {
-    if (qty <= 1) return;
-    setQty(qty);
-  };
 
   const handleOk = () => {
-    verifyUser();
+    setIsOpen(true);
   };
   const handleOkPay = () => {
     setIsPay(true);
   };
   const handleCancel = () => {
-    setQty(1);
     setIsOpen(false);
   };
   const handleCancelPay = () => {
     setIsPay(false);
   };
-  const handleCancelComming = () => {
-    setIsComming(false);
-  };
-  const handleOkComming = () => {
-    setTimeout(() => {
-      setIsComming(true);
-    }, 500);
-
-    setIsOpen(false);
-  };
-
   const handlePay = async () => {
     try {
       await contract.distribute(address, price, addressList, benefitList);
@@ -122,11 +69,11 @@ export default function BuyNode({ inviterCode }) {
       <div className={styles['btn']} onClick={handleOk}>
         Buy Now!
       </div>
-      <CommingSoon
-        isComming={isComming}
-        setIsComming={setIsComming}
-        handleCancelComming={handleCancelComming}
-        handleOkComming={handleOkComming}
+      <PayCaard
+        isPay={isPay}
+        setIsPay={setIsPay}
+        handleCancelPay={handleCancelPay}
+        handleOkPay={handleOkPay}
       />
       <Modal
         open={isOpen}
@@ -140,36 +87,17 @@ export default function BuyNode({ inviterCode }) {
           <img src={buy} />
         </div>
         <section className={styles['modal-info']}>
-          <div>
-            <h2>Buy Janction Node</h2>
-            <p>
-              After purchasing this NFT, participate in the network of computing
-              power providers!
-            </p>
-          </div>
+          <h2>Buy Janction Node</h2>
+          <p>
+            After purchasing this NFT, participate in the network of computing
+            power providers!
+          </p>
           <div className={styles['input-box']}>
-            <p>
-              <i className="iconfont icon-my-nodes"></i>
-              {`${numeral(price).format('0,0')} USDT`}
-            </p>
-            <div className={styles['input-box-container']}>
-              <Button className={styles['input-btn']} onClick={handleDiff}>
-                -
-              </Button>
-              <Input
-                type="number"
-                value={qty}
-                min={1}
-                onChange={handleChange}
-              />
-              <Button className={styles['input-btn']} onClick={handleAdd}>
-                +
-              </Button>
-            </div>
+            <i className="iconfont icon-my-nodes"></i>
+            <p>{`${numeral(price).format('0,0')} USDT`}</p>
           </div>
-
           <div>
-            <Button className={styles['buy-btn']} onClick={handleOkComming}>
+            <Button className={styles['buy-btn']} onClick={handlePay}>
               Click to pay
             </Button>
 
@@ -183,33 +111,9 @@ export default function BuyNode({ inviterCode }) {
   );
 }
 
-function CommingSoon({
-  isComming,
-  setIsComming,
-  handleCancelComming,
-  handleOkComming,
-}) {
-  return (
-    <Modal
-      open={isComming}
-      onOk={handleOkComming}
-      onCancel={handleCancelComming}
-      className={styles['modal']}
-      width={900}
-      footer={false}
-    >
-      <div className={styles['modal-img']}>
-        <img src={buy} />
-      </div>
-      <section className={styles['modal-info']}>
-        <h2 style={{ textAlign: 'center' }}>Comming soon...</h2>
-      </section>
-    </Modal>
-  );
-}
 function PayCaard({ isPay, setIsPay, handleCancelPay, handleOkPay }) {
-  const handlePay = () => {
-    setIsPay(true);
+  const checkRewards = () => {
+    history.push('/genesis/dashboard');
   };
 
   return (
@@ -252,7 +156,7 @@ function PayCaard({ isPay, setIsPay, handleCancelPay, handleOkPay }) {
         <p>Congratulations on joining the Janction Contributor Network!</p>
 
         <div>
-          <Button className={styles['buy-btn']} onClick={handlePay}>
+          <Button className={styles['buy-btn']} onClick={checkRewards}>
             Check rewards
           </Button>
         </div>
