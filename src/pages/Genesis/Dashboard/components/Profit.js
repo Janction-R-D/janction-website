@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import styles from '../index.less';
 import numeral from 'numeral';
 import { Card } from 'antd';
@@ -55,7 +56,8 @@ export default function Profit({ lessorsData, getLessors, percent }) {
       ),
     },
   };
-  console.log(profit);
+
+  console.log(profitInfo.by_date);
 
   return (
     <div
@@ -68,6 +70,8 @@ export default function Profit({ lessorsData, getLessors, percent }) {
       <div className={styles['content']}>
         <div className={styles['total-wrapper']}>
           <ProfitTotal
+            profit={profitInfo.by_date}
+            lessorsData={lessorsData}
             title={'Total'}
             income={numeral(profit?.invite_reward.now || 0).format('$0.00')}
             diffValue={numeral(profit?.invite_reward.growth || 0).format(
@@ -135,8 +139,9 @@ function ProfitCard({ title, income, diffValue }) {
     </Card>
   );
 }
-function ProfitTotal({ title, income, diffValue }) {
+function ProfitTotal({ title, income, diffValue, profit, lessorsData }) {
   const isDrop = diffValue < 0;
+
   return (
     <Card title={title} className={styles['card']}>
       <section className={styles['card-total']}>
@@ -160,7 +165,7 @@ function ProfitTotal({ title, income, diffValue }) {
             </div>
           </div>
         </div>
-        <Graph />
+        <Graph data={profit} lessorsData={lessorsData} />
       </section>
     </Card>
   );

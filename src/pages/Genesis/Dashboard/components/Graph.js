@@ -1,5 +1,29 @@
 import ReactECharts from 'echarts-for-react';
-export function Graph() {
+import { useMemo } from 'react';
+import { isEmpty } from '@/utils/lang';
+
+export function Graph({ data, lessorsData }) {
+  const echartsData = useMemo(() => {
+    if (isEmpty(lessorsData))
+      return {
+        xData: [],
+        yData: [],
+      };
+    // const data = {
+    //   '2024-12-19': 10,
+    //   '2024-12-20': 20,
+    //   '2024-12-22': 10,
+    //   '2024-12-25': 30,
+    // };
+    let keys = Object.keys(data || {}) || [];
+    let values = Object.values(data || {}) || [];
+
+    return {
+      keys,
+      values,
+    };
+  }, [data]);
+  console.log(echartsData);
   const option = {
     tooltip: {
       trigger: 'axis',
@@ -14,16 +38,7 @@ export function Graph() {
     },
     xAxis: {
       type: 'category',
-      data: [
-        '2024-09-01 10:00',
-        '2024-09-01 11:00',
-        '2024-09-01 12:00',
-        '2024-09-01 13:00',
-        '2024-09-01 14:00',
-        '2024-09-01 15:00',
-        '2024-09-01 16:00',
-        '2024-09-01 17:00',
-      ],
+      data: echartsData.keys,
 
       axisLabel: {
         show: false,
@@ -46,7 +61,7 @@ export function Graph() {
     },
     series: [
       {
-        data: [22.1, 82.5, 18.3, 62.9, 42.7, 13.0, 53.1223, 32.8],
+        data: echartsData.values,
         areaStyle: {
           color: {
             type: 'linear',
@@ -58,6 +73,7 @@ export function Graph() {
               { offset: 0, color: 'rgba(0, 170, 255, 1)' },
               { offset: 1, color: 'rgba(0, 170, 255, 0)' },
             ],
+
             global: false,
           },
         },
@@ -74,7 +90,7 @@ export function Graph() {
         alignItems: 'center',
       }}
     >
-      <ReactECharts option={option} style={{ height: '100%', width: '100%' }} />
+      <ReactECharts option={option} style={{ height: '100%', width: '90%' }} />
     </div>
   );
 }
