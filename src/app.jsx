@@ -6,6 +6,15 @@ import React from 'react';
 import RainbowKit from '@/components/RainbowKit';
 import '@xterm/xterm/css/xterm.css';
 
+import eruda from 'eruda';
+
+export function render(oldRender) {
+  const isMobile = /mobile/i.test(navigator.userAgent);
+  // if (process.env.NODE_ENV === 'development' && isMobile) {
+  eruda.init();
+  // }
+  oldRender();
+}
 /**
  * Request interceptor
  */
