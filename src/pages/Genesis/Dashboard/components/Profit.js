@@ -55,6 +55,7 @@ export default function Profit({ lessorsData, getLessors, percent }) {
         profitInfo.yesterday?.staking_proceeds,
       ),
     },
+    graph: profitInfo.by_unit_date.point || {},
   };
 
   return (
@@ -68,7 +69,7 @@ export default function Profit({ lessorsData, getLessors, percent }) {
       <div className={styles['content']}>
         <div className={styles['total-wrapper']}>
           <ProfitTotal
-            profit={profitInfo.by_unit_date.point}
+            profit={profit.graph}
             lessorsData={lessorsData}
             title={'Total'}
             income={numeral(profit?.invite_reward.now || 0).format('$0.00')}
