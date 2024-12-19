@@ -479,7 +479,7 @@
         }
         .menu-list {
           position: absolute;
-          top: 100%;
+          top: 40px;
           transform: translateY(8px);
           width: 100%;
           padding: 16px;
@@ -489,11 +489,13 @@
           border-radius: 20px;
           border: 1px solid #ffffff40;
           background: #ffffff1a;
+          border-radius: 20px;
           backdrop-filter: blur(25px);
           z-index: 2;
           gap: 24px;
           transition: all 0.3s;
-
+          display: flex;
+          flex-direction: column;
           div {
             width: 100%;
             display: flex;
@@ -512,6 +514,18 @@
               font-weight: 400;
               line-height: normal;
               text-transform: capitalize;
+            }
+          }
+          :global {
+            .ant-modal-content {
+              border-radius: 15px !important;
+              .ant-modal-body {
+                border-radius: 15px;
+                padding: 14px;
+              }
+            }
+            .ant-modal-footer {
+              display: none !important;
             }
           }
         }
@@ -1171,6 +1185,71 @@
           text-transform: capitalize;
         }
       }
+    }
+  }
+}
+.menu-list {
+  position: absolute;
+  top: 40px;
+  transform: translateY(8px);
+  width: 100%;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border-radius: 20px;
+
+  border-radius: 20px;
+
+  z-index: 2;
+  gap: 24px;
+  transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
+
+  div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: #fff;
+
+    i {
+      font-size: 30px;
+    }
+
+    span {
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+      text-transform: capitalize;
+    }
+  }
+  &.active {
+    background: rgba(94, 94, 94, 0.5);
+    background-blend-mode: color-dodge;
+    backdrop-filter: blur(10.05px);
+
+    .icon {
+      background: #73d5f4;
+
+      i {
+        color: #2c2c2f;
+      }
+    }
+  }
+  :global {
+    .ant-modal-content {
+      border-radius: 15px !important;
+      .ant-modal-body {
+        border-radius: 15px;
+        padding: 14px;
+      }
+    }
+    .ant-modal-footer {
+      display: none !important;
     }
   }
 }

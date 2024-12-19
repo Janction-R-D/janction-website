@@ -6,7 +6,7 @@ import { ProfileModal } from '@/components/ProfileHeader';
 import NotifyModal from '@/components/NotifyModal';
 import { Modal } from 'antd';
 
-export default function GenesisHeader({ menu }) {
+export default function GenesisHeader({ menu, active }) {
   const { initialState } = useModel('@@initialState');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNotifyModalOpen, setIsNotifyModalOpen] = useState(false);
@@ -57,6 +57,7 @@ export default function GenesisHeader({ menu }) {
           onNavChange={onNavChange}
           setMenuShow={setMenuShow}
           handleOk={handleMenuOk}
+          active={active}
         />
       </div>
       {/* <img
@@ -86,18 +87,34 @@ export default function GenesisHeader({ menu }) {
   );
 }
 
-function MenuModal({ menuShow, onNavChange, menu, setMenuShow, handleOk }) {
+function MenuModal({
+  menuShow,
+  onNavChange,
+  menu,
+  setMenuShow,
+  handleOk,
+  active,
+}) {
   const handleCancel = () => {
     setMenuShow(false);
   };
+  console.log(active, menu);
   return (
-    <Modal onCancel={handleCancel} onOk={handleOk}>
-      <nav
-        className={styles['menu-list']}
-        style={{ display: menuShow ? 'flex' : 'none' }}
-      >
+    <Modal
+      onCancel={handleCancel}
+      onOk={handleOk}
+      open={menuShow}
+      closable={false}
+      footer={false}
+      className={styles['menu-list']}
+    >
+      <nav>
         {menu.map((item) => (
-          <div key={item.key} onClick={() => onNavChange(item)}>
+          <div
+            key={item.key}
+            className={`${active == item.path ? styles['active'] : ''}`}
+            onClick={() => onNavChange(item)}
+          >
             <i className={`iconfont icon-${item.icon}`} />
             <span>{item.name}</span>
           </div>

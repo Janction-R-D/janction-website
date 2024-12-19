@@ -136,7 +136,7 @@ const GenesisLayout = (props) => {
             <section></section>
             <CustomConnectButton afterClick={() => setMenuShow(false)} />
           </header> */}
-          <GenesisHeader menu={menu} />
+          <GenesisHeader menu={menu} active={active} />
           <aside className={`${fold ? styles['fold'] : ''}`}>
             <header>
               <section>
