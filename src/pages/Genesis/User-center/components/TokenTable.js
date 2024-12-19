@@ -62,7 +62,7 @@ function TokenTable({ tokens }) {
   return (
     <>
       <JanctionTable
-        className={styles['table']}
+        className="wp100"
         columns={columns}
         dataSource={mappedOrders}
         emptyDescription={
