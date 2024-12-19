@@ -1,5 +1,6 @@
 import { fetchInviteVerify } from '@/services/genesis';
 import { message } from 'antd';
+import { history } from 'umi';
 export async function verifyInvite(inviterCode) {
   try {
     // Verificar el código de invitación
