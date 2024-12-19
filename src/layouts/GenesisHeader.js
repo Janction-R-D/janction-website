@@ -4,6 +4,7 @@ import styles from './genesis.less';
 import GenesisContext from './Context/GenesisContext';
 import { ProfileModal } from '@/components/ProfileHeader';
 import NotifyModal from '@/components/NotifyModal';
+import { Modal } from 'antd';
 
 export default function GenesisHeader({ menu }) {
   const { initialState } = useModel('@@initialState');
@@ -16,6 +17,9 @@ export default function GenesisHeader({ menu }) {
     setIsModalOpen(true);
   };
   const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleMenuOk = () => {
     setIsModalOpen(false);
   };
   const handleNotifyOk = () => {
@@ -47,18 +51,13 @@ export default function GenesisHeader({ menu }) {
             {isLessee ? <span>Tenant</span> : <span>Landlord</span>}
           </div>
         </section>
-
-        <nav
-          className={styles['menu-list']}
-          style={{ display: menuShow ? 'flex' : 'none' }}
-        >
-          {menu.map((item) => (
-            <div key={item.key} onClick={() => onNavChange(item)}>
-              <i className={`iconfont icon-${item.icon}`} />
-              <span>{item.name}</span>
-            </div>
-          ))}
-        </nav>
+        <MenuModal
+          menu={menu}
+          menuShow={menuShow}
+          onNavChange={onNavChange}
+          setMenuShow={setMenuShow}
+          handleOk={handleMenuOk}
+        />
       </div>
       {/* <img
               className={styles['logo']}
@@ -84,5 +83,26 @@ export default function GenesisHeader({ menu }) {
         />
       </section>
     </header>
+  );
+}
+
+function MenuModal({ menuShow, onNavChange, menu, setMenuShow, handleOk }) {
+  const handleCancel = () => {
+    setMenuShow(false);
+  };
+  return (
+    <Modal onCancel={handleCancel} onOk={handleOk}>
+      <nav
+        className={styles['menu-list']}
+        style={{ display: menuShow ? 'flex' : 'none' }}
+      >
+        {menu.map((item) => (
+          <div key={item.key} onClick={() => onNavChange(item)}>
+            <i className={`iconfont icon-${item.icon}`} />
+            <span>{item.name}</span>
+          </div>
+        ))}
+      </nav>
+    </Modal>
   );
 }

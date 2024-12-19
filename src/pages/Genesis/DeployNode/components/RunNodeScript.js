@@ -102,6 +102,7 @@ sudo docker run --privileged --name janction-node1 -e K3S_NODE_NAME=${
           },
         }}
       ></Markdown>
+      <a className="iconfont icon-copy" onClick={() => copy(script)}></a>
     </Card>
   );
 };
