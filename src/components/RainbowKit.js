@@ -40,7 +40,7 @@ const config = getDefaultConfig({
   connectors,
   projectId: '7d24efc09c76ce472f05c5a9fefe9677',
   chains: [optimismSepolia, optimism],
-  ssr: true, // If your dApp uses server side rendering (SSR)
+  ssr: false, // If your dApp uses server side rendering (SSR)
 });
 
 const queryClient = new QueryClient();
