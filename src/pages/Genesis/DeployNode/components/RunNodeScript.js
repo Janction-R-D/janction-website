@@ -6,6 +6,7 @@ import { Card } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
 import { fetchNodesRegister } from '@/services/genesis';
 import { RedoOutlined } from '@ant-design/icons';
+import { copy } from '@/utils/lang';
 
 const RunNodeScript = (props) => {
   const { isLinux } = props;
@@ -83,6 +84,7 @@ sudo docker run --privileged --name janction-node1 -e K3S_NODE_NAME=${
           },
         }}
       ></Markdown>
+      <a className="iconfont icon-copy" onClick={() => copy(script)}></a>
     </Card>
   );
 };

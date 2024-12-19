@@ -18,7 +18,7 @@ export default function Profit({ lessorsData, getLessors, percent }) {
   function calculateTotal(data) {
     return Object.values(data).reduce((total, value) => total + value, 0);
   }
-
+  console.log(lessorsData);
   const totalNow = calculateTotal(profitInfo?.now || 0);
   const totalYesterday = calculateTotal(profitInfo?.yesterday || 0);
   const profit = {
@@ -55,7 +55,7 @@ export default function Profit({ lessorsData, getLessors, percent }) {
         profitInfo.yesterday?.staking_proceeds,
       ),
     },
-    graph: profitInfo.by_unit_date?.point || {},
+    graph: profitInfo.by_unit_hour?.point || {},
   };
 
   return (
@@ -72,10 +72,8 @@ export default function Profit({ lessorsData, getLessors, percent }) {
             profit={profit.graph}
             lessorsData={lessorsData}
             title={'Total'}
-            income={numeral(profit?.invite_reward.now || 0).format('$0.00')}
-            diffValue={numeral(profit?.invite_reward.growth || 0).format(
-              '0.0%',
-            )}
+            income={numeral(profit?.total.now || 0).format('$0.00')}
+            diffValue={numeral(profit?.total.growth || 0).format('0.0%')}
           />
 
           <ProfitCard
