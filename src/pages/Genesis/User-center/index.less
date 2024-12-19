@@ -502,4 +502,15 @@
     gap: 14px;
     margin-bottom: 10px;
   }
+
+  .social-tags {
+    grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+    .social-tag {
+      .social-box {
+        .social-icon {
+          flex-shrink: 0;
+        }
+      }
+    }
+  }
 }

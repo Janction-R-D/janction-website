@@ -2,7 +2,7 @@ import Markdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark as dark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import styles from './index.less';
-import { Card } from 'antd';
+import { Card, message } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
 import { fetchNodesRegister } from '@/services/genesis';
 import { RedoOutlined } from '@ant-design/icons';
@@ -53,13 +53,31 @@ sudo docker run --privileged --name janction-node1 -e K3S_NODE_NAME=${
       title="Register node"
       className={styles['run-nodes-wrapper']}
       extra={
-        <RedoOutlined
-          rotate={90}
-          spin={loading}
-          loading={loading}
-          className="poi"
-          onClick={getNodes}
-        />
+        <div className="df ai_c gap10">
+          <RedoOutlined
+            rotate={90}
+            spin={loading}
+            loading={loading}
+            className="poi"
+            onClick={getNodes}
+          />
+          <a
+            className="iconfont icon-copy"
+            onClick={() => {
+              if (isLinux) {
+                if (!nodesData?.node_id)
+                  return message.warning(
+                    'Data missing, please click refresh to get and try again!',
+                  );
+              } else if (!nodesData?.node_id || !nodesData?.token) {
+                return message.warning(
+                  'Data missing, please click refresh to get and try again!',
+                );
+              }
+              copy(script);
+            }}
+          ></a>
+        </div>
       }
     >
       <Markdown
