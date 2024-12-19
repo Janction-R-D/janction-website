@@ -39,6 +39,38 @@ const Login = (props) => {
         chainId,
       };
 
+      const onSuccess = async (sig, message) => {
+        const param = {
+          message: message,
+          signature: sig,
+        };
+
+        console.log('『param』', param);
+
+        await fetchUserVerify(param);
+
+        const msg = btoa(message);
+
+        storage.set({
+          name: 'userAccount',
+          value: userAccount,
+          expires,
+        });
+        storage.set({
+          name: 'AUTH_HEADERS',
+          value: { 'x-siwe-sig': sig, 'x-siwe-msg': msg },
+          expires,
+        });
+
+        const from = history.location.query?.from || '/genesis/dashboard';
+        if (inviterCode) {
+          return window.location.replace(
+            `/genesis/deployNodes?inviterCode=${inviterCode}`,
+          );
+        }
+        window.location.replace(from);
+      };
+
       const signAndLogin = async () => {
         try {
           const nonce = await fetchUserNonce();
@@ -55,43 +87,12 @@ const Login = (props) => {
 
           const message = siweMessage.prepareMessage();
 
-          await signMessageAsync(
-            {
-              message,
-            },
-            {
-              onSuccess: async (sig) => {
-                const param = {
-                  message: message,
-                  signature: sig,
-                };
+          console.log('『message』', message);
 
-                await fetchUserVerify(param);
-
-                const msg = btoa(message);
-
-                storage.set({
-                  name: 'userAccount',
-                  value: userAccount,
-                  expires,
-                });
-                storage.set({
-                  name: 'AUTH_HEADERS',
-                  value: { 'x-siwe-sig': sig, 'x-siwe-msg': msg },
-                  expires,
-                });
-
-                const from =
-                  history.location.query?.from || '/genesis/dashboard';
-                if (inviterCode) {
-                  return window.location.replace(
-                    `/genesis/deployNodes?inviterCode=${inviterCode}`,
-                  );
-                }
-                window.location.replace(from);
-              },
-            },
-          );
+          const signature = await signMessageAsync({
+            message,
+          });
+          onSuccess(signature, message);
         } catch (err) {
           console.log('『err』', err);
         }
