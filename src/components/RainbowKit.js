@@ -10,6 +10,7 @@ import { WagmiProvider } from 'wagmi';
 import { optimism, optimismSepolia } from 'wagmi/chains';
 import {
   coinbaseWallet,
+  metaMaskWallet,
   rainbowWallet,
   tokenPocketWallet,
   walletConnectWallet,
@@ -20,6 +21,7 @@ const connectors = connectorsForWallets(
     {
       groupName: 'Recommended',
       wallets: [
+        metaMaskWallet,
         rainbowWallet,
         tokenPocketWallet,
         coinbaseWallet,
