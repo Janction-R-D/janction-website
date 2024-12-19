@@ -8,7 +8,7 @@ import numeral from 'numeral';
 import { useEffect, useState } from 'react';
 import styles from './node.less';
 import { history } from 'umi';
-import { fetchInviteAccept } from '@/services/genesis';
+import { fetchInviteAccept, fetchInviteVerify } from '@/services/genesis';
 import { useAccount } from 'wagmi';
 
 export default function BuyNode({ inviterCode }) {
@@ -22,28 +22,41 @@ export default function BuyNode({ inviterCode }) {
 
   const { address } = useAccount();
 
-  const verifyUser = () => {
+  const verifyUser = async () => {
     if (inviterCode) {
       if (address) {
         const data = {
           receive_address: address,
-          // code: '4430a4fb-bc3e-4100-a0ea-3527e8e51606',
           code: inviterCode,
         };
         console.log(data);
-
-        return fetchInviteAccept(data)
-          .then((res) => {
-            console.log(res);
-            setIsOpen(true);
-          })
-          .catch((err) => console.log(err));
+        try {
+          const res = await fetchInviteVerify(inviterCode);
+          if (res && !res.error) {
+            localStorage.setItem('inviterCode', inviterCode);
+            try {
+              const acceptRes = await fetchInviteAccept(data);
+              setIsOpen(true);
+            } catch (acceptErr) {
+              console.log(acceptErr);
+              message.warning('Error accepting invite');
+            }
+          } else {
+            message.warning('Invalid Code');
+            setTimeout(() => {
+              console.log('object');
+              history.push(`/home?inviterCode=${inviterCode}`);
+            }, 2000);
+          }
+        } catch (err) {
+          console.log(err);
+          message.warning('Invalid Code');
+        }
+      } else {
+        history.push(`/login?inviterCode=${inviterCode}`, {
+          inviterCode: inviterCode,
+        });
       }
-      history.push(`/login?inviterCode=${inviterCode}`, {
-        inviterCode: inviterCode,
-      });
-    } else if (address) {
-      setIsOpen(true);
     }
   };
   useEffect(() => {
