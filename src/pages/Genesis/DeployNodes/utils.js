@@ -1,3 +1,4 @@
+import { fetchInviteVerify } from '@/services/genesis';
 import { message } from 'antd';
 export async function verifyInvite(inviterCode) {
   try {
