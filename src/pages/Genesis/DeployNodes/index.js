@@ -53,26 +53,10 @@ const Nodes = (props) => {
         };
         console.log(data);
         try {
-          const res = await fetchInviteVerify(inviterCode);
-          if (res && !res.error) {
-            localStorage.setItem('inviterCode', inviterCode);
-            try {
-              const acceptRes = await fetchInviteAccept(data);
-              console.log(acceptRes);
-            } catch (acceptErr) {
-              console.log(acceptErr);
-              message.error('Error accepting invite');
-            }
-          } else {
-            message.warning('Invalid Code');
-            setTimeout(() => {
-              console.log('object');
-              history.push(`/home?inviterCode=${inviterCode}`);
-            }, 2000);
-          }
+          await handleInvite(inviterCode, data);
         } catch (err) {
-          console.log(err);
-          message.warning('Invalid Code');
+          console.error('Unexpected error:', err);
+          message.error('Unexpected error occurred');
         }
       } else {
         history.push(`/login?inviterCode=${inviterCode}`, {
@@ -81,9 +65,9 @@ const Nodes = (props) => {
       }
     }
   };
-  useEffect(() => {
-    verifyUser();
-  }, []);
+  // useEffect(() => {
+  //   verifyUser();
+  // }, []);
   // useEffect(() => {
   //   if (inviterCode) {
   //     if (initialState?.userAccount?.address) {
@@ -108,7 +92,7 @@ const Nodes = (props) => {
   };
 
   const onNext = () => {
-    // verifyUser();
+    verifyUser();
     const step = stepsList.find((item) => item.value == curStep['nextstep']);
     if (!step) return;
     if (!selectedValues?.system) {
