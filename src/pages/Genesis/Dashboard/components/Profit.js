@@ -81,7 +81,7 @@ export default function Profit({ lessorsData, getLessors, percent }) {
 
           <ProfitCard
             title={' Node rewards'}
-            income={numeral(profit?.node_reward.now || 0).format('$0.00')}
+            income={numeral(profit?.node_reward.now || 0).format('0.00')}
             diffValue={numeral(profit?.node_reward.growth || 0).format('0.0%')}
           />
 
