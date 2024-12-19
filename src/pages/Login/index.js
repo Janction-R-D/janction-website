@@ -18,12 +18,10 @@ const Login = (props) => {
   const { address } = useAccount();
   const { openConnectModal } = useConnectModal();
   const { signMessageAsync } = useSignMessage();
-  const { initialState, setInitialState } = useModel('@@initialState');
 
   const { disconnect } = useDisconnect();
   const { inviterCode } = history.location.state || {};
 
-  console.log(inviterCode);
   useEffect(() => {
     const refresh = storage.get('refresh');
     if (refresh) {
@@ -44,8 +42,6 @@ const Login = (props) => {
       const signAndLogin = async () => {
         try {
           const nonce = await fetchUserNonce();
-
-          console.log('nonce getted:', nonce);
 
           const siweMessage = new SiweMessage({
             domain: window.location.host,
@@ -106,7 +102,6 @@ const Login = (props) => {
   });
 
   const onConnect = async () => {
-    console.log('『address』', address);
     if (address) {
       disconnect();
       // Triggered when the user clears local data
