@@ -11,6 +11,7 @@ import banner1 from '@/assets/images/genesis/banner1.png';
 import BuyNode from './components/BuyNode';
 import { fetchInviteAccept, fetchInviteVerify } from '@/services/genesis';
 import NTFBanner from './components/NTFBanner';
+import { verifyInvite } from './utils';
 
 const DEFAULT = {
   system: SYSTEM_LIST[0].value,
@@ -40,49 +41,12 @@ const Nodes = (props) => {
   // const { inviterCode } = history.location.state || {};
   const [curStep, setCurStep] = useState(stepsList[0]);
   const [selectedValues, setSelectedValues] = useState(DEFAULT);
-  const { initialState } = useModel('@@initialState');
+
   const location = useLocation();
   const { inviterCode } = location.query || {};
 
-  const verifyUser = async () => {
-    if (inviterCode) {
-      if (initialState?.userAccount?.address) {
-        const data = {
-          receive_address: initialState.userAccount.address,
-          code: inviterCode,
-        };
-        console.log(data);
-        try {
-          const res = await fetchInviteVerify(inviterCode);
-          if (res && !res.error) {
-            localStorage.setItem('inviterCode', inviterCode);
-            try {
-              const acceptRes = await fetchInviteAccept(data);
-              console.log(acceptRes);
-            } catch (acceptErr) {
-              console.log(acceptErr);
-              message.error('Error accepting invite');
-            }
-          } else {
-            message.warning('Invalid Code');
-            setTimeout(() => {
-              console.log('object');
-              history.push(`/home?inviterCode=${inviterCode}`);
-            }, 2000);
-          }
-        } catch (err) {
-          console.log(err);
-          message.warning('Invalid Code');
-        }
-      } else {
-        history.push(`/login?inviterCode=${inviterCode}`, {
-          inviterCode: inviterCode,
-        });
-      }
-    }
-  };
   useEffect(() => {
-    verifyUser();
+    verifyInvite(inviterCode);
   }, []);
   // useEffect(() => {
   //   if (inviterCode) {
