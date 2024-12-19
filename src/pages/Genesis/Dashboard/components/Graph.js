@@ -9,12 +9,7 @@ export function Graph({ data, lessorsData }) {
         xData: [],
         yData: [],
       };
-    // const data = {
-    //   '2024-12-19': 10,
-    //   '2024-12-20': 20,
-    //   '2024-12-22': 10,
-    //   '2024-12-25': 30,
-    // };
+
     let keys = Object.keys(data || {}) || [];
     let values = Object.values(data || {}) || [];
 
