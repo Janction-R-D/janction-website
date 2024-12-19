@@ -2,9 +2,8 @@ import { renderBackgroudImg } from '@/utils/lang';
 import banner1 from '@/assets/images/genesis/banner1.png';
 import BuyNode from './BuyNode';
 import styles from './index.less';
-import { history, useLocation, useModel } from 'umi';
+import { history, useLocation } from 'umi';
 import { useAccount } from 'wagmi';
-import { useEffect } from 'react';
 
 const NTFBanner = (props) => {
   const { address } = useAccount();
@@ -30,7 +29,8 @@ const NTFBanner = (props) => {
       });
     }
   };
-  if (!inviterIsStorage && !inviterCode) return;
+  // si no hay codigo de invitacion en el link y en el local storage este componente no se muestra
+  if (!inviterIsStorage && !inviterCode) return null;
   return (
     <div className={styles['banner']} style={renderBackgroudImg(banner1)}>
       <h1>Deploy node</h1>

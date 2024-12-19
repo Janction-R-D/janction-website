@@ -44,7 +44,7 @@ const Nodes = (props) => {
   const location = useLocation();
   const { inviterCode } = location.query || {};
 
-  const verifyUser = () => {
+  const verifyUser = async () => {
     if (inviterCode) {
       if (initialState?.userAccount?.address) {
         const data = {
@@ -52,26 +52,38 @@ const Nodes = (props) => {
           code: inviterCode,
         };
         console.log(data);
-        fetchInviteVerify(inviterCode)
-          .then((res) => {
-            if (res && !res.error) {
-              localStorage.setItem('inviterCode', inviterCode);
-            } else {
-              message.warning('Invalid Code');
+        try {
+          const res = await fetchInviteVerify(inviterCode);
+          if (res && !res.error) {
+            localStorage.setItem('inviterCode', inviterCode);
+            try {
+              const acceptRes = await fetchInviteAccept(data);
+              console.log(acceptRes);
+            } catch (acceptErr) {
+              console.log(acceptErr);
+              message.error('Error accepting invite');
             }
-          })
-          .catch((err) => {
+          } else {
             message.warning('Invalid Code');
-          });
-        return fetchInviteAccept(data)
-          .then((res) => console.log(res))
-          .catch((err) => console.log(err));
+            setTimeout(() => {
+              console.log('object');
+              history.push(`/home?inviterCode=${inviterCode}`);
+            }, 2000);
+          }
+        } catch (err) {
+          console.log(err);
+          message.warning('Invalid Code');
+        }
+      } else {
+        history.push(`/login?inviterCode=${inviterCode}`, {
+          inviterCode: inviterCode,
+        });
       }
-      history.push(`/login?inviterCode=${inviterCode}`, {
-        inviterCode: inviterCode,
-      });
     }
   };
+  useEffect(() => {
+    verifyUser();
+  }, []);
   // useEffect(() => {
   //   if (inviterCode) {
   //     if (initialState?.userAccount?.address) {
@@ -96,7 +108,7 @@ const Nodes = (props) => {
   };
 
   const onNext = () => {
-    verifyUser();
+    // verifyUser();
     const step = stepsList.find((item) => item.value == curStep['nextstep']);
     if (!step) return;
     if (!selectedValues?.system) {

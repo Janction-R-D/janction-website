@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import welcome from '@/assets/images/home/welcome.png';
 import { Button, Input, message, Modal } from 'antd';
 import styles from './index.less';
 import { fetchInviteVerify } from '@/services/genesis';
 import { history, useLocation } from 'umi';
+import debounce from 'lodash/debounce';
 export default function WelcomeCard() {
   const location = useLocation();
 
@@ -23,6 +24,7 @@ export default function WelcomeCard() {
       setError(false);
     }
     setCode(e.target.value);
+    debounceError(e.target.value);
   };
   useEffect(() => {
     if (!isCodeLink) return;
@@ -43,6 +45,13 @@ export default function WelcomeCard() {
         setError(true);
       });
   };
+  const debounceError = useCallback(
+    debounce((value) => {
+      if (!value) return;
+      handleVerify(value);
+    }, 2000),
+    [],
+  );
   const handleSubmit = () => {
     handleVerify(code);
   };
