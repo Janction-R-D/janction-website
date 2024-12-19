@@ -1,5 +1,6 @@
 import { fetchInviteVerify } from '@/services/genesis';
 import { message } from 'antd';
+import { history } from 'umi';
 export async function verifyInvite(inviterCode) {
   try {
     // Verificar el código de invitación
@@ -12,8 +13,8 @@ export async function verifyInvite(inviterCode) {
       message.warning('Invalid Code');
       setTimeout(() => {
         console.log('object');
-        history.push(`/home?inviterCode=${inviterCode}`);
-      }, 2000);
+        history.push(`/genesis/404`);
+      }, 1500);
     }
   } catch (err) {
     console.error('Error verifying invite', err);

@@ -244,34 +244,49 @@ const Lessors = (props) => {
             ' ',
           )}
         >
-          <div className={styles['title']}>
-            <span>Activity Monitor</span>
-          </div>
-          <div className={styles['activity-filter']}>
-            <Radio.Group
-              defaultValue="large"
-              buttonStyle="solid"
-              className={styles['activity-monitor']}
-              onChange={onSortChange}
-            >
-              <Radio.Button value="cpu_usage">CPU</Radio.Button>
-              <Radio.Button value="memory_usage">Memory</Radio.Button>
-              {/* <Radio.Button value="energy">Energy</Radio.Button> */}
-              <Radio.Button value="disk_usage">Disk</Radio.Button>
-              <Radio.Button value="network">Network</Radio.Button>
-            </Radio.Group>
-            <Input
-              suffix={
-                <i
-                  className="iconfont icon-search"
-                  style={{ fontSize: '1vw' }}
-                />
-              }
-              placeholder="Search"
-              onChange={(e) => handleSearch(e.target.value)}
-              className={styles['search-input']}
-            />
-          </div>
+          <section className={styles['filters']}>
+            <div className={styles['activity-filter']}>
+              <div className={styles['title']}>
+                <span>Activity Monitor</span>
+              </div>
+              <Input
+                suffix={
+                  <i
+                    className="iconfont icon-search"
+                    style={{ fontSize: '1vw' }}
+                  />
+                }
+                placeholder="Search"
+                onChange={(e) => handleSearch(e.target.value)}
+                className={styles['search-input']}
+              />
+            </div>
+            <div className={styles['activity-filter-search']}>
+              <Radio.Group
+                defaultValue="large"
+                buttonStyle="solid"
+                className={styles['activity-monitor']}
+                onChange={onSortChange}
+              >
+                <Radio.Button value="cpu_usage">CPU</Radio.Button>
+                <Radio.Button value="memory_usage">Memory</Radio.Button>
+                {/* <Radio.Button value="energy">Energy</Radio.Button> */}
+                <Radio.Button value="disk_usage">Disk</Radio.Button>
+                <Radio.Button value="network">Network</Radio.Button>
+              </Radio.Group>
+              <Input
+                suffix={
+                  <i
+                    className="iconfont icon-search"
+                    style={{ fontSize: '1vw' }}
+                  />
+                }
+                placeholder="Search"
+                onChange={(e) => handleSearch(e.target.value)}
+                className={styles['search-input']}
+              />
+            </div>
+          </section>
           <JanctionTable
             bordered={false}
             className={styles['table']}

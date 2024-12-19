@@ -53,6 +53,7 @@ export default function ProfileHeader() {
         isModalOpen={isNotifyModalOpen}
         setIsModalOpen={setIsNotifyModalOpen}
         handleOk={handleNotifyOk}
+        styles={styles}
       />
       <ProfileModal
         styles={styles}
@@ -65,7 +66,7 @@ export default function ProfileHeader() {
   );
 }
 
-function ProfileModal({ styles, imgUrl, isModalOpen, handleOk, handleCancel }) {
+export function ProfileModal({ imgUrl, isModalOpen, handleOk, handleCancel }) {
   return (
     <ConnectButton.Custom>
       {({

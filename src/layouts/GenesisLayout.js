@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { history, useModel } from 'umi';
 import ProfileHeader from '../components/ProfileHeader';
 import styles from './genesis.less';
+import GenesisHeader from './GenesisHeader';
 
 const navList = [
   {
@@ -98,14 +99,23 @@ const GenesisLayout = (props) => {
     <div id={styles['genesis-layout']}>
       <main>
         <div className={styles['personal-container']}>
-          <header className={styles['android-header']}>
+          {/* <header className={styles['android-header']}>
             <div className={styles['menu']}>
-              <i
-                className="iconfont icon-point-menu"
-                onClick={() => {
-                  setMenuShow(!menuShow);
-                }}
-              ></i>
+              <section className={styles['menu-box']}>
+                <i
+                  className="iconfont icon-line-menu"
+                  onClick={() => {
+                    setMenuShow(!menuShow);
+                  }}
+                ></i>
+                <div
+                  className={`${styles['role']} ${
+                    isLessee ? styles['buyer-role'] : ''
+                  }`}
+                >
+                  {isLessee ? <span>Tenant</span> : <span>Landlord</span>}
+                </div>
+              </section>
 
               <nav
                 className={styles['menu-list']}
@@ -123,8 +133,10 @@ const GenesisLayout = (props) => {
               className={styles['logo']}
               src={require('@/assets/images/icons/logo_name.png')}
             />
+            <section></section>
             <CustomConnectButton afterClick={() => setMenuShow(false)} />
-          </header>
+          </header> */}
+          <GenesisHeader menu={menu} />
           <aside className={`${fold ? styles['fold'] : ''}`}>
             <header>
               <section>

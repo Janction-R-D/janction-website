@@ -20,8 +20,8 @@ const Login = (props) => {
   const { signMessageAsync } = useSignMessage();
 
   const { disconnect } = useDisconnect();
-  const { inviterCode } = history.location.state || {};
-
+  const inviterCode = storage.get('inviterCode');
+  console.log(inviterCode);
   useEffect(() => {
     const refresh = storage.get('refresh');
     if (refresh) {

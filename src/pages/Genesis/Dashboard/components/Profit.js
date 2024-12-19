@@ -154,12 +154,12 @@ function ProfitTotal({ title, income, diffValue, profit, lessorsData }) {
           </div>
           <div className={styles['card-footer']}>
             <div className={styles['compare']}>
-              <img src={isDrop ? drop : rise}></img>
               <span
-                className={`${styles['diff-value']}  {
+                className={`${styles['diff-value']}  ${
                   diffValue > 0 ? styles['text-red'] : styles['text-green']
                 }`}
               >
+                <img src={isDrop ? drop : rise}></img>
                 {diffValue ? numeral(diffValue).format('0%') : diffValue}
               </span>
               <span className={styles['name']}>Compared to yesterday</span>
