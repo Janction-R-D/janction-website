@@ -79,7 +79,7 @@ export default function Profit({ lessorsData, getLessors, percent }) {
             )}
           />
 
-          <ProfitCard
+          <ProfitReward
             title={' Node rewards'}
             income={numeral(profit?.node_reward.now || 0).format('0.00')}
             diffValue={numeral(profit?.node_reward.growth || 0).format('0.0%')}
@@ -139,6 +139,32 @@ function ProfitCard({ title, income, diffValue }) {
     </Card>
   );
 }
+function ProfitReward({ title, income, diffValue }) {
+  const isDrop = diffValue < 0;
+  console.log(diffValue);
+  return (
+    <Card title={title} className={styles['card']}>
+      <div className={styles['income-value']}>
+        <span className={styles['value']}>
+          {income ? numeral(income).format('0.00') : '~'}
+        </span>
+      </div>
+      <div className={styles['card-footer']}>
+        <div className={styles['compare']}>
+          <img src={isDrop ? drop : rise}></img>
+          <span
+            className={`${styles['diff-value']} ${
+              diffValue > 0 ? styles['text-red'] : styles['text-green']
+            }`}
+          >
+            {diffValue ? numeral(diffValue).format('0%') : diffValue}
+          </span>
+          <span className={styles['name']}>Compared to yesterday</span>
+        </div>
+      </div>
+    </Card>
+  );
+}
 function ProfitTotal({ title, income, diffValue, profit, lessorsData }) {
   const isDrop = diffValue < 0;
 
@@ -148,14 +174,14 @@ function ProfitTotal({ title, income, diffValue, profit, lessorsData }) {
         <div>
           <div className={styles['income-value']}>
             <span className={styles['total-value']}>
-              ${income ? numeral(income).format('0.00') : '~'}
+              {income ? numeral(income).format('0.00') : '~'}
             </span>
           </div>
           <div className={styles['card-footer']}>
             <div className={styles['compare']}>
               <img src={isDrop ? drop : rise}></img>
               <span
-                className={`${styles['diff-value']} ${
+                className={`${styles['diff-value']}  {
                   diffValue > 0 ? styles['text-red'] : styles['text-green']
                 }`}
               >
