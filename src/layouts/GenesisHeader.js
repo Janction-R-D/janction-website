@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { useModel } from 'umi';
+import { history, useModel } from 'umi';
 import styles from './genesis.less';
 import GenesisContext from './Context/GenesisContext';
 import { ProfileModal } from '@/components/ProfileHeader';
