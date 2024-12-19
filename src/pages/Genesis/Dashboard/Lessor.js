@@ -249,6 +249,19 @@ const Lessors = (props) => {
               <div className={styles['title']}>
                 <span>Activity Monitor</span>
               </div>
+              <Input
+                suffix={
+                  <i
+                    className="iconfont icon-search"
+                    style={{ fontSize: '1vw' }}
+                  />
+                }
+                placeholder="Search"
+                onChange={(e) => handleSearch(e.target.value)}
+                className={styles['search-input']}
+              />
+            </div>
+            <div className={styles['activity-filter-search']}>
               <Radio.Group
                 defaultValue="large"
                 buttonStyle="solid"
@@ -261,8 +274,6 @@ const Lessors = (props) => {
                 <Radio.Button value="disk_usage">Disk</Radio.Button>
                 <Radio.Button value="network">Network</Radio.Button>
               </Radio.Group>
-            </div>
-            <div className={styles['activity-filter-search']}>
               <Input
                 suffix={
                   <i

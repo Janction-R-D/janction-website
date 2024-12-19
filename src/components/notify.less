@@ -18,7 +18,8 @@
     justify-content: space-between;
     position: fixed;
     justify-content: space-between;
-    width: 420px;
+    max-width: 420px;
+    width: 100%;
     padding-top: 18px;
     padding-bottom: 6px;
     background-color: #141416;
@@ -164,6 +165,23 @@
     }
     .ant-modal-footer {
       display: none !important;
+    }
+  }
+}
+@media (max-width: 680px) {
+  .card-modal {
+    left: 10px;
+
+    transform: translateX(0%);
+    .card-header {
+      width: 100%;
+      position: relative;
+    }
+    .card-news {
+      height: auto;
+    }
+    .notifications-list {
+      margin-top: 4px;
     }
   }
 }

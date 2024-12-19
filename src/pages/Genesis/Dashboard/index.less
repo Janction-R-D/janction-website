@@ -488,18 +488,49 @@
       gap: 0;
       .filters {
         display: flex;
+        flex-direction: column;
         justify-content: space-between;
       }
       .activity-filter {
+        flex: 1;
         display: flex;
-        flex-direction: column;
         gap: 12px;
-        align-items: start;
+        align-items: center;
+        justify-content: space-between;
 
         margin: 16px 0 32px;
         .title {
           margin-bottom: 24px;
         }
+        :global {
+          .ant-input-affix-wrapper {
+            display: none;
+            border-radius: 61px;
+            outline: none;
+            padding-right: 16px;
+            background-color: #2e2e30;
+            max-width: 40px;
+            height: 32px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 61px;
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 20px;
+            /* identical to box height, or 167% */
+            text-align: center;
+            color: rgba(255, 255, 255, 0.4);
+            border: none;
+          }
+        }
+      }
+      .activity-filter-search {
+        margin-top: 8px;
+        margin-bottom: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         :global {
           .ant-radio-group {
             .ant-radio-button-wrapper {
@@ -544,34 +575,6 @@
               background: #2f2f31;
             }
           }
-
-          .ant-input-affix-wrapper {
-            border-radius: 61px;
-            outline: none;
-            padding-right: 16px;
-            background-color: #2e2e30;
-            max-width: 300px;
-            height: 32px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 61px;
-            font-family: 'Poppins';
-            font-style: normal;
-            font-weight: 400;
-            font-size: 12px;
-            line-height: 20px;
-            /* identical to box height, or 167% */
-            text-align: center;
-            color: rgba(255, 255, 255, 0.4);
-            border: none;
-          }
-        }
-      }
-      .activity-filter-search {
-        margin-top: 16px;
-        margin-bottom: 32px;
-        display: flex;
-        align-items: end;
-        :global {
           .ant-input-affix-wrapper {
             border-radius: 61px;
             outline: none;
@@ -1288,18 +1291,67 @@
           }
         }
       }
+      .monitor-wrapper {
+        .activity-filter {
+          flex-direction: column;
+          align-items: start !important;
+          justify-content: start;
+          gap: 8px;
+          margin-bottom: 12px;
+          :global {
+            .ant-input-affix-wrapper {
+              border-radius: 61px;
+              display: flex;
+              outline: none;
+              padding-right: 16px;
+              background-color: #2e2e30;
+              max-width: 300px;
+              height: 32px;
+              background: rgba(255, 255, 255, 0.05);
+              border-radius: 61px;
+              font-family: 'Poppins';
+              font-style: normal;
+              font-weight: 400;
+              font-size: 12px;
+              line-height: 20px;
+              /* identical to box height, or 167% */
+              text-align: center;
+              color: rgba(255, 255, 255, 0.4);
+              border: none;
+            }
+          }
+          .activity-monitor {
+            display: flex;
+            flex-wrap: nowrap;
+          }
+        }
+        .activity-filter-search {
+          align-items: start !important;
+          padding-right: 4px;
+          :global {
+            .ant-input-affix-wrapper {
+              border-radius: 61px;
+              outline: none;
+              display: none;
+              padding-right: 16px;
+              background-color: #2e2e30;
+              max-width: 300px;
+              height: 32px;
+              background: rgba(255, 255, 255, 0.05);
+              border-radius: 61px;
+              font-family: 'Poppins';
+              font-style: normal;
+              font-weight: 400;
+              font-size: 12px;
+              line-height: 20px;
+              /* identical to box height, or 167% */
+              text-align: center;
+              color: rgba(255, 255, 255, 0.4);
+              border: none;
+            }
+          }
+        }
+      }
     }
-  }
-
-  .activity-filter {
-    flex-direction: column;
-    align-items: start !important;
-    justify-content: start;
-    gap: 8px;
-  }
-  .activity-filter-search {
-    align-items: start !important;
-    width: 30px;
-    padding-right: 4px;
   }
 }
