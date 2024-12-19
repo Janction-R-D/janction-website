@@ -57,8 +57,6 @@ export default function Profit({ lessorsData, getLessors, percent }) {
     },
   };
 
-  console.log(profitInfo.by_date);
-
   return (
     <div
       className={[styles['content-item'], styles['profit-wrapper']].join(' ')}
@@ -70,7 +68,7 @@ export default function Profit({ lessorsData, getLessors, percent }) {
       <div className={styles['content']}>
         <div className={styles['total-wrapper']}>
           <ProfitTotal
-            profit={profitInfo.by_date}
+            profit={profitInfo.by_unit_date.point}
             lessorsData={lessorsData}
             title={'Total'}
             income={numeral(profit?.invite_reward.now || 0).format('$0.00')}
@@ -115,7 +113,7 @@ export default function Profit({ lessorsData, getLessors, percent }) {
 
 function ProfitCard({ title, income, diffValue }) {
   const isDrop = diffValue < 0;
-  console.log(diffValue);
+
   return (
     <Card title={title} className={styles['card']}>
       <div className={styles['income-value']}>

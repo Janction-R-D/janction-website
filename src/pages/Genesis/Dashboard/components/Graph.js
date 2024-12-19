@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import { isEmpty } from '@/utils/lang';
 
 export function Graph({ data, lessorsData }) {
+  console.log(data);
   const echartsData = useMemo(() => {
     if (isEmpty(lessorsData))
       return {
