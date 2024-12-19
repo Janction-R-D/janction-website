@@ -149,8 +149,8 @@ const Header = (props) => {
       ></a>
       <Dropdown
         placement="bottomRight"
-        // overlay={renderMenu}
-        menu={renderMenu}
+        overlay={renderMenu}
+        // menu={renderMenu}
       >
         <div className={styles['android-menu']}>
           <i className="iconfont icon-line-menu" />
