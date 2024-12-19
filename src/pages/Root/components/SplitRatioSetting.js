@@ -60,7 +60,7 @@ const SplitRatioSetting = (props) => {
           <Col span={24}>
             <LabelValue title="Level 1 ratio">
               <Form.Item name="level1">
-                <FormInputNumber />
+                <FormInputNumber min={0} />
               </Form.Item>
               <span>%</span>
             </LabelValue>
@@ -68,7 +68,7 @@ const SplitRatioSetting = (props) => {
           <Col span={24}>
             <LabelValue title="Level 2 ratio">
               <Form.Item name="level2">
-                <FormInputNumber />
+                <FormInputNumber min={0} />
               </Form.Item>
               <span>%</span>
             </LabelValue>
@@ -76,7 +76,7 @@ const SplitRatioSetting = (props) => {
           <Col span={24}>
             <LabelValue title="Level 3 ratio">
               <Form.Item name="level3">
-                <FormInputNumber />
+                <FormInputNumber min={0} />
               </Form.Item>
               <span>%</span>
             </LabelValue>
@@ -84,7 +84,7 @@ const SplitRatioSetting = (props) => {
           <Col span={24}>
             <LabelValue title="Level 4 ratio">
               <Form.Item name="level4">
-                <FormInputNumber />
+                <FormInputNumber min={0} />
               </Form.Item>
               <span>%</span>
             </LabelValue>
@@ -92,7 +92,7 @@ const SplitRatioSetting = (props) => {
           <Col span={24}>
             <LabelValue title="Level 5 ratio">
               <Form.Item name="level5">
-                <FormInputNumber />
+                <FormInputNumber min={0} />
               </Form.Item>
               <span>%</span>
             </LabelValue>
@@ -100,7 +100,7 @@ const SplitRatioSetting = (props) => {
           <Col span={24}>
             <LabelValue title="Level 6 ratio">
               <Form.Item name="level6">
-                <FormInputNumber max={50} />
+                <FormInputNumber min={0} max={50} />
               </Form.Item>
               <span>%</span>
             </LabelValue>
