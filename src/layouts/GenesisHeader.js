@@ -19,6 +19,9 @@ export default function GenesisHeader({ menu }) {
   const handleOk = () => {
     setIsModalOpen(false);
   };
+  const handleMenuOk = () => {
+    setIsModalOpen(false);
+  };
   const handleNotifyOk = () => {
     setIsNotifyModalOpen(true);
   };
@@ -53,6 +56,7 @@ export default function GenesisHeader({ menu }) {
           menuShow={menuShow}
           onNavChange={onNavChange}
           setMenuShow={setMenuShow}
+          handleOk={handleMenuOk}
         />
       </div>
       {/* <img
@@ -82,7 +86,7 @@ export default function GenesisHeader({ menu }) {
   );
 }
 
-function MenuModal({ menuShow, onNavChange, menu, setMenuShow }) {
+function MenuModal({ menuShow, onNavChange, menu, setMenuShow, handleOk }) {
   const handleCancel = () => {
     setMenuShow(false);
   };
