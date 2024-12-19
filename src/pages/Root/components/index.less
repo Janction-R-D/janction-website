@@ -94,6 +94,13 @@
   flex-direction: column;
   gap: 16px;
   padding-bottom: 20px;
+  .value-item:last-child {
+    .value > span {
+      max-width: 50%;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+  }
 }
 
 .value-item {
