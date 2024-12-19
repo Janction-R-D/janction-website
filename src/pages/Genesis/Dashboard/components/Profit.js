@@ -55,7 +55,7 @@ export default function Profit({ lessorsData, getLessors, percent }) {
         profitInfo.yesterday?.staking_proceeds,
       ),
     },
-    graph: profitInfo.by_unit_date.point || {},
+    graph: profitInfo.by_unit_date?.point || {},
   };
 
   return (
