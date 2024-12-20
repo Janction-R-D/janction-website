@@ -10,8 +10,8 @@ import {
   fetchPaymentHistory,
 } from '@/services/root';
 import { DATE_FORMAT_TYPE } from '@/utils/datetime';
-import { Col, Form, Row } from 'antd';
-import { useEffect, useState } from 'react';
+import { Col, Row } from 'antd';
+import { useEffect, useRef, useState } from 'react';
 import { history } from 'umi';
 import CodeManage from './components/CodeManage';
 import GenerateCode from './components/GenerateCode';
@@ -25,9 +25,8 @@ import StatisticCard from './components/StatisticCard';
 import styles from './index.less';
 
 const Root = (props) => {
-  const [editVisible, setEditVisible] = useState(false);
   const [record, setRecord] = useState();
-  const [form] = Form.useForm();
+  const timer = useRef();
 
   const [statisticData, setStatisticData] = useState();
   const [configData, setConfigData] = useState();
@@ -45,10 +44,22 @@ const Root = (props) => {
   const [splitVisible, setSplitVisible] = useState(false);
 
   useEffect(() => {
+    fetchData();
+    if (timer.current) {
+      clearInterval(timer.current);
+    }
+    setInterval(() => {
+      fetchData();
+    }, 1000 * 10);
+    return () => {
+      clearInterval(timer.current);
+    };
+  }, []);
+  const fetchData = () => {
     getNFTData();
     getPaymentHistory();
     getInviterList();
-  }, []);
+  };
   const getNFTData = async () => {
     try {
       const res = await fetchNFTData();
@@ -236,7 +247,7 @@ const Root = (props) => {
                   size="small"
                   // search
                   bordered
-                  loading={paymentHistoryLoading}
+                  // loading={paymentHistoryLoading}
                   dataSource={paymentHistory}
                   columns={columns}
                   scroll={{ x: 'max-content' }}
@@ -284,7 +295,7 @@ const Root = (props) => {
         <Col span={24}>
           <JanctionCard title="Level 1  inviter management" divider>
             <JanctionTable
-              loading={inviterLoading}
+              // loading={inviterLoading}
               size="small"
               bordered
               dataSource={inviterList}
