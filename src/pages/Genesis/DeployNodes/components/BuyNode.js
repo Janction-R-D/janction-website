@@ -41,7 +41,10 @@ export default function BuyNode({ inviterCode }) {
               setIsOpen(true);
             } catch (bindError) {
               console.log(bindError);
-              message.warning('Error accepting invite', 2);
+              // message.warning('Error accepting invite', 2);
+              message.warning(
+                'The wallet address has been successfully linked.',
+              );
             }
           } else {
             throw Error(res?.error);
@@ -68,8 +71,7 @@ export default function BuyNode({ inviterCode }) {
     try {
       const res = await fetchBeneficiary();
       if (res?.code == 40411) {
-        message.warning('The wallet address has been successfully linked.');
-        // message.warning(res.msg);
+        message.warning(res.msg);
         return;
       }
       const beneficiaryAddress = (res?.split || []).map(
