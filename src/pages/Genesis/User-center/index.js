@@ -103,20 +103,18 @@ export default function UserAccount() {
   // };
   useEffect(() => {
     getUserCenterData();
-
     fetchImageToServer(address)
       .then((res) => {
-        const url = URL.createObjectURL(res);
-        console.log(url);
-        setImgUrl(url);
+        const blob = bufferToBase64(res);
+        setImgUrl(blob);
       })
       .catch((err) => console.log(err));
+    console.log(imgUrl);
     // getUserKeysData();
   }, [isEmailModalOpen, isEmailConfigOpen]);
   const bufferToBase64 = (buffer) => {
-    const base64String = btoa(String.fromCharCode(...new Uint8Array(buffer)));
-    console.log(base64String);
-    return `data:image/png;base64,${base64String}`;
+    // const base64String = btoa(String.fromCharCode(...new Uint8Array(buffer)));
+    return `data:image/png;base64,${buffer}`;
   };
   // const getUserInfo = async () => {
   //   try {
@@ -246,7 +244,7 @@ export default function UserAccount() {
           <span>
             <i className="iconfont icon-secured"></i>
           </span>{' '}
-          Real name authentication
+          Authentication
         </Button>
         {/* <EmailVerify
           isEmailModalOpen={isEmailModalOpen}

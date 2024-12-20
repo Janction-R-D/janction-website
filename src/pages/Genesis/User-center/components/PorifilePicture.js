@@ -54,6 +54,7 @@ export default function PorifilePicture({
   const handleClick = () => {
     setImgUrl(inputUrl);
     const data = convertToFormData({ avatar: inputUrl });
+
     postImageToServer(data).then((res) => message.info(res));
     // Send the image blob to the back end
     // if (imageBlob) {

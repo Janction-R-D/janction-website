@@ -68,7 +68,8 @@ export default function BuyNode({ inviterCode }) {
     try {
       const res = await fetchBeneficiary();
       if (res?.code == 40411) {
-        message.warning(res.msg);
+        message.warning('The wallet address has been successfully linked.');
+        // message.warning(res.msg);
         return;
       }
       const beneficiaryAddress = (res?.split || []).map(
