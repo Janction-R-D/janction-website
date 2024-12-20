@@ -31,26 +31,27 @@ export default function BuyNode({ inviterCode }) {
         };
         console.log(data);
         try {
+          // Verify Inviter Code
           const res = await fetchInviteVerify(inviterCode);
           if (res && !res.error) {
             localStorage.setItem('inviterCode', inviterCode);
             try {
-              const acceptRes = await fetchInviteAccept(data);
+              // Bind invitation code
+              await fetchInviteAccept(data);
               setIsOpen(true);
-            } catch (acceptErr) {
-              console.log(acceptErr);
-              message.warning('Error accepting invite');
+            } catch (bindError) {
+              console.log(bindError);
+              message.warning('Error accepting invite', 2);
             }
           } else {
-            message.warning('Invalid Code');
-            setTimeout(() => {
-              console.log('object');
-              history.push(`/home?inviterCode=${inviterCode}`);
-            }, 2000);
+            throw Error(res?.error);
           }
-        } catch (err) {
-          console.log(err);
-          message.warning('Invalid Code');
+        } catch (verifyError) {
+          message.warning('Invalid Code', 2);
+          setTimeout(() => {
+            console.log(verifyError);
+            history.push(`/home?inviterCode=${inviterCode}`);
+          }, 2000);
         }
       } else {
         history.push(`/login?inviterCode=${inviterCode}`, {

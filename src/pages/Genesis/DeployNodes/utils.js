@@ -10,14 +10,13 @@ export async function verifyInvite(inviterCode) {
       localStorage.setItem('inviterCode', inviterCode);
       console.log(inviterCode);
     } else {
-      message.warning('Invalid Code');
-      setTimeout(() => {
-        console.log('object');
-        history.push(`/genesis/404`);
-      }, 1500);
+      throw Error(res?.error);
     }
   } catch (err) {
-    console.error('Error verifying invite', err);
-    message.error('Error verifying invite');
+    console.log(err);
+    message.warning('Invalid Code', 2);
+    setTimeout(() => {
+      history.push(`/genesis/404`);
+    }, 1500);
   }
 }

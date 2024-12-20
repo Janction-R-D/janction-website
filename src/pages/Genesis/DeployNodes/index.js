@@ -1,16 +1,13 @@
+import banner1 from '@/assets/images/genesis/banner1.png';
 import { SYSTEM_LIST } from '@/constant';
 import { message } from 'antd';
 import { useEffect, useState } from 'react';
-import styles from './index.less';
+import { useLocation } from 'umi';
+import NTFBanner from './components/NTFBanner';
 import Step3 from './components/RunNode';
 import StepChart from './components/StepChart';
 import Step1 from './components/System';
-import { history, useLocation, useModel } from 'umi';
-import { renderBackgroudImg } from '@/utils/lang';
-import banner1 from '@/assets/images/genesis/banner1.png';
-import BuyNode from './components/BuyNode';
-import { fetchInviteAccept, fetchInviteVerify } from '@/services/genesis';
-import NTFBanner from './components/NTFBanner';
+import styles from './index.less';
 import { verifyInvite } from './utils';
 
 const DEFAULT = {
@@ -48,22 +45,6 @@ const Nodes = (props) => {
   useEffect(() => {
     verifyInvite(inviterCode);
   }, []);
-  // useEffect(() => {
-  //   if (inviterCode) {
-  //     if (initialState?.userAccount?.address) {
-  //       const data = {
-  //         receive_address: initialState.userAccount.address,
-  //         code: inviterCode,
-  //       };
-  //       return fetchInviteAccept(data)
-  //         .then((res) => console.log(res))
-  //         .catch((err) => console.log(err));
-  //     }
-  //     history.push(`/login?inviterCode=${inviterCode}`, {
-  //       inviterCode: inviterCode,
-  //     });
-  //   }
-  // }, []);
 
   const onBack = () => {
     const step = stepsList.find((item) => item.value == curStep['prestep']);

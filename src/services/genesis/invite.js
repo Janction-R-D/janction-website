@@ -29,14 +29,6 @@ export const fetchInviteSend = (data) => {
  *accept invite link
  * @property {string} Query email
  */
-// export const fetchInviteAccept = (data) => {
-//   return request(`${baseUrl}/affv2/invitation/accept`, {
-//     method: 'POST',
-//     body: JSON.stringify(data),
-//     loginAuth: true,
-//   });
-// };
-
 export const fetchInviteAccept = async (data) => {
   try {
     const response = await request(`${baseUrl}/affv2/invitation/accept`, {
@@ -47,7 +39,7 @@ export const fetchInviteAccept = async (data) => {
     return response;
   } catch (error) {
     console.log('『error』', error);
-    return error;
+    throw Error('error');
   }
 };
 export const fetchInviteVerify = async (code) => {
@@ -56,6 +48,6 @@ export const fetchInviteVerify = async (code) => {
     return response;
   } catch (error) {
     console.log('『error』', error);
-    return null;
+    throw Error('error');
   }
 };
