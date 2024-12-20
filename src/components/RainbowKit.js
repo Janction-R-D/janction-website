@@ -31,14 +31,14 @@ const connectors = connectorsForWallets(
   ],
   {
     appName: 'Janction',
-    projectId: '7d24efc09c76ce472f05c5a9fefe9677',
+    projectId: '23cf742fb52fc761a81ebe69526d0b82',
   },
 );
 
 const config = getDefaultConfig({
   appName: 'Janction',
   connectors,
-  projectId: '7d24efc09c76ce472f05c5a9fefe9677',
+  projectId: '23cf742fb52fc761a81ebe69526d0b82',
   chains: [optimismSepolia, optimism],
   ssr: false, // If your dApp uses server side rendering (SSR)
 });
