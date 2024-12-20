@@ -6,8 +6,10 @@ import { useState } from 'react';
 import styles from './resources.less';
 
 import { history } from 'umi';
+import useData from './Hook/useData';
 
 function ResourceTable({ data }) {
+  const { list } = useData() || {};
   const columns = [
     {
       title: <div className="name">Date</div>,
@@ -49,8 +51,8 @@ function ResourceTable({ data }) {
       ),
     },
   ];
-  const mappedOrders = data?.map((resource) => ({
-    key: resource.key,
+  const mappedOrders = list?.map((resource) => ({
+    key: resource?.key,
     date: resource?.date,
     node: resource?.node,
     type: resource?.type,

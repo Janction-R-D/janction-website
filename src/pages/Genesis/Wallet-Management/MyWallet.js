@@ -9,7 +9,7 @@ import { formatDate } from '../Income/utils';
 import useData from './Hook/useData';
 
 export default function MyWallet() {
-  const { revenue, compared_yesterday, list, statisticData } = useData();
+  const { revenue, compared_yesterday, list, statisticData } = useData() || {};
   console.log(revenue);
   return (
     <div className={styles['income-wrapper']}>
