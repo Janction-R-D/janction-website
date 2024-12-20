@@ -191,6 +191,32 @@ export const sendImageToServer = async (formData) => {
     return null;
   }
 };
+export const postImageToServer = async (formData) => {
+  try {
+    const response = await request(`${baseUrl}/user/upload/avatar`, {
+      loginAuth: true,
+      method: 'POST',
+      body: formData,
+    });
+
+    return response;
+  } catch (error) {
+    console.log('『error』', error);
+    return null;
+  }
+};
+export const fetchImageToServer = async (address) => {
+  try {
+    const response = await request(`${baseUrl}/user/avatar/${address}`, {
+      loginAuth: true,
+    });
+
+    return response;
+  } catch (error) {
+    console.log('『error』', error);
+    return null;
+  }
+};
 // Function to post data to user center
 export const postKeyUserData = async (data) => {
   try {
@@ -364,6 +390,18 @@ export const fetchNodesInfo = async (params) => {
   try {
     const response = await request(`${baseUrl}/node/info`, {
       params,
+      loginAuth: true,
+    });
+    return response;
+  } catch (error) {
+    console.log('『error』', error);
+    throw new Error(`failed, ${error.message}`);
+  }
+};
+// market info , my wallet
+export const fetchMarketInfo = async (params) => {
+  try {
+    const response = await request(`${baseUrl}/market/income`, {
       loginAuth: true,
     });
     return response;

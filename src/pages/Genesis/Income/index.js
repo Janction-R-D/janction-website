@@ -8,6 +8,7 @@ import { fetchIncomeInfo } from '@/services/genesis';
 import { empty } from '@/utils/lang';
 import dayjs from 'dayjs';
 import JanctionTable from '@/components/JanctionTable';
+import { formatDate } from './utils';
 
 export default function Income() {
   const [list, setList] = useState([]);
@@ -17,17 +18,20 @@ export default function Income() {
   useEffect(() => {
     getData();
   }, []);
+  console.log(list);
   const getData = async () => {
     try {
       const { statistical_info, transaction_records, ...extra } =
         await fetchIncomeInfo();
       setStatisticData(statistical_info);
+
       const newList = transaction_records.map((item, index) => ({
         ...item,
         key: index,
       }));
 
       setList(newList || []);
+
       setRevenue(extra);
     } catch (error) {
       console.log('『error』', error);
@@ -108,7 +112,7 @@ export default function Income() {
             <span className={styles['name']}>Compared to yesterday</span>
             <img src={isDrop ? drop : rise}></img>
             <span className={styles['diff-value']}>
-              {diffValue ? numeral(diffValue).format('0%') : diffValue}
+              {diffValue ? numeral(diffValue).format('0%') : '~'}
             </span>
           </div>
           <span className={styles['update-time']}>Last Updated: {date}</span>
@@ -126,7 +130,7 @@ export default function Income() {
             value: revenue?.node_income,
             unit: 'veJCT',
             diffValue: compared_yesterday?.node_i,
-            date: '2020-09-31 20:59:59',
+            date: formatDate(revenue?.node_income_update_time),
           })}
         </Col>
         <Col span={12}>
@@ -135,7 +139,7 @@ export default function Income() {
             value: revenue?.rental_server_revenue,
             unit: 'veJCT',
             diffValue: compared_yesterday?.rentalServer_i,
-            date: '2020-09-31 20:59:59',
+            date: formatDate(revenue?.rental_server_revenue_update_time),
           })}
         </Col>
         <Col span={24}>

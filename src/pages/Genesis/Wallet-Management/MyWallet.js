@@ -1,18 +1,23 @@
 import drop from '@/assets/images/icons/drop.png';
 import rise from '@/assets/images/icons/rise.png';
-import { Button, Card, Col, Input, Row, Table } from 'antd';
+import { Button, Card, Col, Input, message, Row, Table } from 'antd';
 import numeral from 'numeral';
 import React, { useEffect, useMemo, useState } from 'react';
 import styles from './wallet.less';
+import { fetchIncomeInfo, fetchMarketInfo } from '@/services/genesis';
+import { formatDate } from '../Income/utils';
+import useData from './Hook/useData';
 
 export default function MyWallet() {
+  const { revenue, compared_yesterday, list, statisticData } = useData();
+  console.log(revenue);
   return (
     <div className={styles['income-wrapper']}>
       <Row className="mt40">
         <Col span={24}>
           {StatisticInfo({
             title: 'Statistical information',
-            value: '5831.20',
+            value: '00' || {},
             unit: 'veJCT',
           })}
         </Col>
@@ -20,20 +25,20 @@ export default function MyWallet() {
       <Row gutter={[20, 20]} className="mt40">
         <Col span={12}>
           {RenderIncomeCard({
-            title: 'Transaction record',
-            value: '5831.20',
-            unit: 'JCT',
-            diffValue: -0.15,
-            date: ' 2020-09-31 20:59:59',
+            title: 'Node income',
+            value: revenue?.node_income,
+            unit: 'veJCT',
+            diffValue: compared_yesterday?.node_i,
+            date: formatDate(revenue?.node_income_update_time),
           })}
         </Col>
         <Col span={12}>
           {RenderIncomeCard({
             title: 'Rental server revenue',
-            value: '5831.20',
-            unit: 'USDT',
-            diffValue: 0.15,
-            date: '2020-09-31 20:59:59',
+            value: revenue?.rental_server_revenue,
+            unit: 'veJCT',
+            diffValue: compared_yesterday?.rentalServer_i,
+            date: formatDate(revenue?.rental_server_revenue_update_time),
           })}
         </Col>
       </Row>
@@ -60,7 +65,7 @@ const RenderIncomeCard = ({ title, value, unit, diffValue, date }) => {
               diffValue > 0 ? styles['text-red'] : styles['text-green']
             }`}
           >
-            {diffValue ? numeral(diffValue).format('0%') : diffValue}
+            {diffValue ? numeral(diffValue).format('0%') : '~'}
           </span>
         </div>
         <span className={styles['update-time']}>Last Updated: {date}</span>
@@ -76,7 +81,7 @@ const StatisticInfo = ({ title, value, unit }) => {
           <p className={styles['text-grey']}>Current available balance</p>
           <section>
             <span className={styles['value']}>
-              {value ? numeral(value).format('0.00') : '~'}
+              {value ? numeral(value.total).format('0.00') : '~'}
             </span>
             <span className={styles['unit']}>
               <p>{unit}</p>
@@ -88,14 +93,19 @@ const StatisticInfo = ({ title, value, unit }) => {
           <section>
             <p className={styles['text-grey']}>Total revenue</p>
             <span className={styles['box']}>
-              <p className={styles['value']}>5831.20</p>
+              <p className={styles['value']}>
+                {value ? numeral(value.total_revenue).format('0.00') : '~'}
+              </p>
               <span className={styles['unit']}>JCT</span>
             </span>
           </section>
           <section>
             <p className={styles['text-grey']}>Total expenditure</p>
             <span className={styles['red-style']}>
-              <p className={styles['value']}>5831.20</p>
+              <p className={styles['value']}>
+                {' '}
+                {value ? numeral(value.total_revenue).format('0.00') : '~'}
+              </p>
               <span className={styles['unit']}>JCT</span>
             </span>
           </section>
@@ -105,7 +115,10 @@ const StatisticInfo = ({ title, value, unit }) => {
             </p>
 
             <span className={styles['red-style']}>
-              <p className={styles['value']}>5831.20</p>
+              <p className={styles['value']}>
+                {' '}
+                {value ? numeral(value.gross_pledge).format('0.00') : '~'}
+              </p>
               <span className={styles['unit']}>JCT</span>
             </span>
           </section>

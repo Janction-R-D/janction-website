@@ -6,10 +6,16 @@ import styles from './index.less';
 import reg from '@/utils/reg';
 import { fetchMineInviteCode } from '@/services/genesis/distribution';
 import { copy } from '@/utils/lang';
+import { useLocation } from 'umi';
 
 const Invitation = (props) => {
   const [visible, setVisible] = useState(false);
   const [code, setCode] = useState();
+  const locations = useLocation();
+  const { inviterCode } = locations.query || {};
+  const inviterIsStorage = localStorage.getItem('inviterCode');
+  console.log(inviterCode, inviterIsStorage);
+  // si no hay codigo de invitacion en el link y en el local storage este componente no se muestra
 
   useEffect(() => {
     if (!visible) return;
@@ -46,12 +52,16 @@ const Invitation = (props) => {
       <div className={styles['invite-box']}>
         <h1>Dashboard</h1>
         <div className={styles['btn']}>
-          <Button className={styles['buy-btn']} onClick={handleOk}>
-            Invite
-          </Button>
-          <picture>
-            <img src={gift2} />
-          </picture>
+          {!inviterIsStorage && !inviterCode ? null : (
+            <>
+              <Button className={styles['buy-btn']} onClick={handleOk}>
+                Invite
+              </Button>
+              <picture>
+                <img src={gift2} />
+              </picture>
+            </>
+          )}
         </div>
       </div>
       <div className={styles['invite-wrapper']}>

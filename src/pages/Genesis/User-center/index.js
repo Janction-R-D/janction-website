@@ -2,7 +2,26 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Button, Tooltip, Card, Input, Select } from 'antd';
 import styles from './index.less';
 import BindEmail from './components/BindEmail';
-
+export function convertToFormData(info) {
+  const formData = new FormData();
+  Object.entries(info).forEach(([key, value]) => {
+    if (
+      key === 'avatar' &&
+      typeof value === 'string' &&
+      value.startsWith('data:image')
+    ) {
+      const base64 = value.split(',')[1];
+      const blob = new Blob([atob(base64)], { type: 'image/png' });
+      formData.append(key, blob, 'icon.png');
+    } else if (typeof value === 'object' && !Array.isArray(value)) {
+      formData.append(key, JSON.stringify(value));
+    } else {
+      formData.append(key, value);
+    }
+  });
+  console.log(formData);
+  return formData;
+}
 import {
   fetchBindEmail,
   deleteKeysUserCenter,
@@ -10,6 +29,7 @@ import {
   fetchUserKeys,
   postKeyUserData,
   sendImageToServer,
+  fetchImageToServer,
 } from '@/services/genesis';
 import JanctionTip from '@/components/JanctionTip';
 import PorifilePicture from './components/PorifilePicture';
@@ -23,6 +43,7 @@ import EmailConfig from './components/EmailConfig';
 import UserAssets from './components/UserAssets';
 import TokenAccess from './components/TokenAccess';
 import SocialLink from './components/SocialLink';
+import { useAccount } from 'wagmi';
 
 export default function UserAccount() {
   const [data, setData] = useState({});
@@ -36,6 +57,7 @@ export default function UserAccount() {
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
   const [name, setName] = useState('');
   const { imgUrl, setImgUrl } = useContext(GenesisContext);
+  const { address } = useAccount();
   const showTokenModal = () => {
     setIsTokenModalOpen(true);
   };
@@ -82,9 +104,19 @@ export default function UserAccount() {
   useEffect(() => {
     getUserCenterData();
 
+    fetchImageToServer(address)
+      .then((res) => {
+        const base64Image = bufferToBase64(res);
+        setImgUrl(base64Image);
+      })
+      .catch((err) => console.log(err));
     // getUserKeysData();
   }, [isEmailModalOpen, isEmailConfigOpen]);
-
+  const bufferToBase64 = (buffer) => {
+    const base64String = btoa(String.fromCharCode(...new Uint8Array(buffer)));
+    console.log(base64String);
+    return `data:image/png;base64,${base64String}`;
+  };
   // const getUserInfo = async () => {
   //   try {
   //     const res = await fetchUserInfo();
@@ -120,27 +152,6 @@ export default function UserAccount() {
   const handleVerify = () => {
     setIsEmailModalOpen(true);
   };
-  function convertToFormData(info) {
-    const formData = new FormData();
-
-    Object.entries(info).forEach(([key, value]) => {
-      if (
-        key === 'icon' &&
-        typeof value === 'string' &&
-        value.startsWith('data:image')
-      ) {
-        const base64 = value.split(',')[1];
-        const blob = new Blob([atob(base64)], { type: 'image/png' });
-        formData.append(key, blob, 'icon.png');
-      } else if (typeof value === 'object' && !Array.isArray(value)) {
-        formData.append(key, JSON.stringify(value));
-      } else {
-        formData.append(key, value);
-      }
-    });
-    console.log(formData);
-    return formData;
-  }
 
   const handleSave = (e) => {
     e.preventDefault();

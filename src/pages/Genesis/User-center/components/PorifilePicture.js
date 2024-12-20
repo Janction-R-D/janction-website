@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Button, Modal } from 'antd';
+import { Button, message, Modal } from 'antd';
 import styles from './modal.less';
+import { postImageToServer } from '@/services/genesis';
+import { convertToFormData } from '..';
 
 export default function PorifilePicture({
   handleCancel,
@@ -51,6 +53,8 @@ export default function PorifilePicture({
 
   const handleClick = () => {
     setImgUrl(inputUrl);
+    const data = convertToFormData({ avatar: inputUrl });
+    postImageToServer(data).then((res) => message.info(res));
     // Send the image blob to the back end
     // if (imageBlob) {
     //   sendImageToServer(imageBlob);
