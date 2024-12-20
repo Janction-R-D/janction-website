@@ -51,5 +51,5 @@ export default function useData() {
       rental_server_revenue_yesterday;
     return { node_i, rentalServer_i };
   }, [revenue]);
-  return { revenue, list, compared_yesterdayss };
+  return { revenue, list, compared_yesterday };
 }
