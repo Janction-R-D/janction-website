@@ -84,7 +84,7 @@ const Login = (props) => {
             domain: window.location.host,
             address,
             statement: 'Sign in Janction with your wallet.',
-            uri: 'https://janction.com',
+            uri: 'https://janction.io',
             version: '1',
             chainId,
             nonce,
