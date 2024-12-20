@@ -106,8 +106,9 @@ export default function UserAccount() {
 
     fetchImageToServer(address)
       .then((res) => {
-        const base64Image = bufferToBase64(res);
-        setImgUrl(base64Image);
+        const url = URL.createObjectURL(res);
+        console.log(url);
+        setImgUrl(url);
       })
       .catch((err) => console.log(err));
     // getUserKeysData();
