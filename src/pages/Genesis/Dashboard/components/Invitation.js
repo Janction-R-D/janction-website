@@ -25,7 +25,8 @@ const Invitation = (props) => {
     try {
       const res = await fetchMineInviteCode();
       console.log('『res』', res);
-      setCode(res?.code);
+      // setCode(res?.code);
+      setCode(inviterIsStorage);
     } catch (err) {
       console.log('『err』', err);
     }
