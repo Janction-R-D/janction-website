@@ -296,7 +296,7 @@ export default function UserAccount() {
       </Card> */}
       <SocialLink />
       <UserAssets data={data} duration={duration} setDuration={setDuration} />
-      <TokenAccess />
+      {/* <TokenAccess /> */}
     </form>
   );
 }
