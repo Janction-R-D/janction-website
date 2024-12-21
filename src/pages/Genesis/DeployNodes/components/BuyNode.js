@@ -71,7 +71,9 @@ export default function BuyNode({ inviterCode }) {
       const res = await fetchBeneficiary();
       if (res?.code == 40411) {
         // message.warning(res.msg);
-        message.warning('The wallet address has been successfully linked.');
+        message.warning(
+          'Invitation to register successful, congratulations on joining Janction',
+        );
         return;
       }
       const beneficiaryAddress = (res?.split || []).map(
