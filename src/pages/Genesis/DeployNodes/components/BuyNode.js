@@ -72,7 +72,7 @@ export default function BuyNode({ inviterCode }) {
       if (res?.code == 40411) {
         // message.warning(res.msg);
         message.warning(
-          'Invitation to register successful, congratulations on joining Janction',
+          'Wallet address invitation relationship bound successfully.',
         );
         return;
       }
