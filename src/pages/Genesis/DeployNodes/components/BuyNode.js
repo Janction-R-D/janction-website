@@ -45,6 +45,7 @@ export default function BuyNode({ inviterCode }) {
               message.warning(
                 'The wallet address has been successfully linked.',
               );
+              setIsOpen(true);
             }
           } else {
             throw Error(res?.error);

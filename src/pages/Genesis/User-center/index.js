@@ -12,7 +12,7 @@ export function convertToFormData(info) {
     ) {
       const base64 = value.split(',')[1];
       const blob = new Blob([atob(base64)], { type: 'image/png' });
-      formData.append(key, blob, 'icon.png');
+      formData.append(key, blob, 'avatar.png');
     } else if (typeof value === 'object' && !Array.isArray(value)) {
       formData.append(key, JSON.stringify(value));
     } else {

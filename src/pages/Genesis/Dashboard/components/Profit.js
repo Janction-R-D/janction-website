@@ -147,7 +147,7 @@ function ProfitTotal({ title, income, diffValue, profit, lessorsData }) {
         <div>
           <div className={styles['income-value']}>
             <span className={styles['total-value']}>
-              {income ? numeral(income).format('$0.00') : '~'}
+              {income ? numeral(income).format('0.00') : '~'}
             </span>
           </div>
           <div className={styles['card-footer']}>

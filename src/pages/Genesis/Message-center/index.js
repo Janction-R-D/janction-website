@@ -50,8 +50,8 @@ export default function MessageCenter() {
         <div className="table-header">
           <Checkbox></Checkbox>
           <div>
-            <Button>Delete</Button>
-            <Button>Mark as Read</Button>
+            <Button onClick={deleteMessages}>Delete</Button>
+            <Button onClick={setAsReadedMessages}>Mark as Read</Button>
           </div>
         </div>
       ),
@@ -95,17 +95,27 @@ export default function MessageCenter() {
       );
     });
   };
-
+  const deleteMessages = () => {
+    const selectedMessages = filteredMessages.filter(
+      (message) => checked === false,
+    );
+    if (selectedMessages.length <= 0) return;
+    setAllMessages(selectedMessages);
+  };
+  const setAsReadedMessages = () => {
+    const selectedMessages = filteredMessages.filter(
+      (message) => message.estado !== 'Leído',
+    );
+    if (selectedMessages.length <= 0) return;
+    setAllMessages(selectedMessages);
+  };
   const filteredMessages = filterMessages();
   console.log(filteredMessages);
   return (
     <main className={styles['main-container']}>
-      <header className={styles['main-header']}>
-        <ProfileHeader />
-      </header>
       <h1>Message Center</h1>
       <Card className={styles['card-messages']}>
-        <header className={styles['activity-filter-container']}>
+        <section className={styles['activity-filter-container']}>
           <Radio.Group
             defaultValue="all"
             buttonStyle="solid"
@@ -139,7 +149,7 @@ export default function MessageCenter() {
               className={styles['search-input']}
             />
           </div>
-        </header>
+        </section>
         <JanctionTable
           bordered={false}
           className={styles['table']}

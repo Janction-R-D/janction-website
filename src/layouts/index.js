@@ -62,13 +62,13 @@ export default function Layout(props) {
     );
   }
   // message center route
-  if (isAuthRoute && props.location.pathname.includes('/message-center')) {
-    return (
-      <GenesisProvider>
-        <MessageCenter />
-      </GenesisProvider>
-    );
-  }
+  // if (isAuthRoute && props.location.pathname.includes('/message-center')) {
+  //   return (
+  //     <GenesisProvider>
+  //       <MessageCenter />
+  //     </GenesisProvider>
+  //   );
+  // }
   // deployNodes new UI for testing
   if (props.location.pathname.includes('/deployNodes')) {
     return (

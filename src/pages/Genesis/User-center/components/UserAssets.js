@@ -28,13 +28,13 @@ export default function UserAssets({ data, duration, setDuration }) {
       </section>
       <section className={styles['card-assets-items']}>
         <div>
-          <p>Quantity pledged (ETH)</p>
+          <p>Quantity pledged (USDT)</p>
           <Input
             type="number"
             inputMode="numeric"
             className={styles['card-assets-input']}
             defaultValue={data?.assets?.amount || 0}
-            suffix="ETH"
+            suffix="USDT"
             name="amount"
           />
           {/* <section className={styles['card-assets-input']}>
@@ -69,7 +69,7 @@ export default function UserAssets({ data, duration, setDuration }) {
             type="number"
             className={styles['card-assets-input']}
             defaultValue={data?.assets?.anticipated_income || 0}
-            suffix="ETH"
+            suffix="USDT"
             name="anticipated_income"
           />
           {/* <section className={styles['card-assets-input']}>
