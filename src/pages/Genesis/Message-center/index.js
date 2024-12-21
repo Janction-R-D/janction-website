@@ -58,11 +58,11 @@ export default function MessageCenter() {
       dataIndex: 'tipo',
       key: 'tipo',
       render: (text, record) => (
-        <div className="tipo">
-          <Checkbox>
-            <p>{text}</p>
-          </Checkbox>
-        </div>
+        <CheckedComponent
+          text={text}
+          record={record}
+          setAllMessages={setAllMessages}
+        />
       ),
     },
     {
@@ -163,5 +163,16 @@ export default function MessageCenter() {
         />
       </Card>
     </main>
+  );
+}
+
+function CheckedComponent({ text, record }) {
+  console.log(record.estado);
+  return (
+    <div className="tipo">
+      <Checkbox>
+        <p>{text}</p>
+      </Checkbox>
+    </div>
   );
 }
