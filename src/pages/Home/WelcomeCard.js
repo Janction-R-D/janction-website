@@ -5,6 +5,7 @@ import styles from './index.less';
 import { fetchInviteVerify } from '@/services/genesis';
 import { history, useLocation } from 'umi';
 import debounce from 'lodash/debounce';
+
 export default function WelcomeCard() {
   const location = useLocation();
 
@@ -33,12 +34,12 @@ export default function WelcomeCard() {
   const handleVerify = (code) => {
     fetchInviteVerify(code)
       .then((res) => {
-        if (res && !res.error) {
+        if (res?.code !== 40012 && res?.inviter) {
           history.push(`/deployNodes?inviterCode=${code}`);
-        } else {
-          message.warning('Invalid Code');
-          setError(true);
+          return;
         }
+        message.warning(res.msg);
+        setError(true);
       })
       .catch((err) => {
         message.warning('Invalid Code');

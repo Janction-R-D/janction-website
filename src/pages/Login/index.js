@@ -13,6 +13,8 @@ import styles from './index.less';
 import { useEffect, useState } from 'react';
 import { fetchUserNonce, fetchUserVerify } from '@/services/login';
 import { message } from 'antd';
+import { fetchMineInviteCode } from '@/services/genesis/distribution';
+import { fetchInviteAccept } from '@/services/genesis';
 
 const expires = 60 * 60 * 10 * 1000;
 const Login = (props) => {
@@ -66,14 +68,7 @@ const Login = (props) => {
           expires,
         });
 
-        const from = history.location.query?.from || '/genesis/dashboard';
-        if (inviterCode) {
-          storage.set({ name: 'isLessee', value: false });
-          return window.location.replace(
-            `/genesis/deployNodes?inviterCode=${inviterCode}`,
-          );
-        }
-        window.location.replace(from);
+        onRedirect(address);
       };
 
       const signAndLogin = async () => {
@@ -108,6 +103,42 @@ const Login = (props) => {
       message.destroy('loading');
     },
   });
+
+  const onRedirect = async (address) => {
+    const from = history.location.query?.from || '/genesis/dashboard';
+    if (inviterCode) {
+      storage.set({ name: 'isLessee', value: false });
+      await bindCode(address);
+      return window.location.replace(
+        `/genesis/deployNodes?inviterCode=${inviterCode}`,
+      );
+    }
+    await getCode();
+    window.location.replace(from);
+  };
+  const bindCode = async (address) => {
+    try {
+      const data = {
+        receive_address: address,
+        code: inviterCode,
+      };
+      await fetchInviteAccept(data);
+    } catch (err) {
+      console.log('『err』', err);
+    }
+  };
+  const getCode = async () => {
+    try {
+      const res = await fetchMineInviteCode();
+      if (res?.code == 40410) {
+        message.warning(res?.msg);
+        return;
+      }
+      storage.set({ name: 'inviterCode', value: res?.code });
+    } catch (err) {
+      console.log('『err』', err);
+    }
+  };
 
   const onConnect = async () => {
     if (address) {

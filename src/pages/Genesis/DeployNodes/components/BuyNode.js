@@ -1,67 +1,27 @@
 import buy from '@/assets/images/genesis/buy.png';
 import purchase from '@/assets/images/genesis/purchase.png';
-import { ADDRESS } from '@/constant';
+import { fetchInviteAccept, fetchInviteVerify } from '@/services/genesis';
 import { fetchBeneficiary } from '@/services/genesis/distribution';
 import contract from '@/utils/contract';
+import storage from '@/utils/storage';
 import { Button, Input, message, Modal } from 'antd';
 import numeral from 'numeral';
 import { useEffect, useState } from 'react';
-import styles from './node.less';
 import { history } from 'umi';
-import { fetchInviteAccept, fetchInviteVerify } from '@/services/genesis';
 import { useAccount } from 'wagmi';
+import styles from './node.less';
 
-export default function BuyNode({ inviterCode }) {
+// inviterCode is must be valuable
+export default function BuyNode({ isInvitePath, inviterCode }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isComming, setIsComming] = useState(false);
   const [isPay, setIsPay] = useState(false);
   const [price, setPrice] = useState(0);
   const [addressList, setAddressList] = useState([]);
   const [benefitList, setBenefitList] = useState([]);
-  const [qty, setQty] = useState(1);
 
   const { address } = useAccount();
 
-  const verifyUser = async () => {
-    if (inviterCode) {
-      if (address) {
-        const data = {
-          receive_address: address,
-          code: inviterCode,
-        };
-        console.log(data);
-        try {
-          // Verify Inviter Code
-          const res = await fetchInviteVerify(inviterCode);
-          if (res && !res.error) {
-            localStorage.setItem('inviterCode', inviterCode);
-            try {
-              // Bind invitation code
-              await fetchInviteAccept(data);
-              setIsOpen(true);
-            } catch (bindError) {
-              console.log(bindError);
-              // message.warning('Error accepting invite', 2);
-
-              setIsOpen(true);
-            }
-          } else {
-            throw Error(res?.error);
-          }
-        } catch (verifyError) {
-          message.warning('Invalid Code', 2);
-          setTimeout(() => {
-            console.log(verifyError);
-            history.push(`/home?inviterCode=${inviterCode}`);
-          }, 2000);
-        }
-      } else {
-        history.push(`/login?inviterCode=${inviterCode}`, {
-          inviterCode: inviterCode,
-        });
-      }
-    }
-  };
   useEffect(() => {
     if (!isOpen) return;
     getPrice();
@@ -69,13 +29,7 @@ export default function BuyNode({ inviterCode }) {
   const getPrice = async () => {
     try {
       const res = await fetchBeneficiary();
-      if (res?.code == 40411) {
-        // message.warning(res.msg);
-        message.warning(
-          'Wallet address invitation relationship bound successfully.',
-        );
-        return;
-      }
+      if (res?.code == 40411) return;
       const beneficiaryAddress = (res?.split || []).map(
         (item) => item.receive_address,
       );
@@ -89,34 +43,57 @@ export default function BuyNode({ inviterCode }) {
       console.log('『err』', err);
     }
   };
-  const handleChange = (e) => {
-    setQty(e.target.value);
+
+  const onBuy = async () => {
+    if (address) {
+      await onVerifyCode();
+      return;
+    }
+    history.push(`/login?inviterCode=${inviterCode}`, { inviterCode });
   };
-  const handleAdd = () => {
-    setQty(qty + 1);
+  const onVerifyCode = async () => {
+    try {
+      // Verify Inviter Code
+      const res = await fetchInviteVerify(inviterCode);
+      if (res?.code == 40012 || !res?.inviter) throw Error(res?.error);
+      // inviterCode already in localStorage after invited
+      if (isInvitePath) {
+        storage.set({ name: 'inviterCode', value: inviterCode });
+      }
+      await onBind();
+    } catch (verifyError) {
+      message.warning('Invalid Code', 2);
+      setTimeout(() => {
+        console.log(verifyError);
+        history.push(`/home?inviterCode=${inviterCode}`);
+      }, 2000);
+    }
   };
-  const handleDiff = () => {
-    if (qty <= 1) return;
-    setQty(qty);
+  const onBind = async () => {
+    const data = {
+      receive_address: address,
+      code: inviterCode,
+    };
+    try {
+      // Bind invitation code
+      const res = await fetchInviteAccept(data);
+      // 40310: already accept another invitation
+      if (res?.code != 40310) {
+        message.success(
+          'Wallet address invitation relationship bound successfully.',
+        );
+      }
+    } catch (bindError) {
+      console.log('『bindError』', bindError);
+    }
+    setIsOpen(true);
   };
 
-  const handleOk = () => {
-    verifyUser();
-  };
-  const handleOkPay = () => {
-    setIsPay(true);
-  };
   const handleCancel = () => {
-    setQty(1);
     setIsOpen(false);
   };
-  const handleCancelPay = () => {
-    setIsPay(false);
-  };
-  const handleCancelComming = () => {
-    setIsComming(false);
-  };
-  const handleOkComming = () => {
+
+  const handleBuyNowOk = (count) => {
     setTimeout(() => {
       setIsComming(true);
     }, 500);
@@ -135,84 +112,108 @@ export default function BuyNode({ inviterCode }) {
       console.log('『err』', err);
     }
   };
+  const handleCancelPay = () => {
+    setIsPay(false);
+  };
 
   return (
     <>
-      <div className={styles['btn']} onClick={handleOk}>
+      <div className={styles['btn']} onClick={onBuy}>
         Buy Now!
       </div>
-      <CommingSoon
-        isComming={isComming}
-        setIsComming={setIsComming}
-        handleCancelComming={handleCancelComming}
-        handleOkComming={handleOkComming}
-      />
-      <Modal
+
+      <BuyNow
         open={isOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        className={styles['modal']}
-        width={900}
-        footer={false}
-      >
-        <div className={styles['modal-img']}>
-          <img src={buy} />
-        </div>
-        <section className={styles['modal-info']}>
-          <div>
-            <h2>Buy Janction Node</h2>
-            <p>
-              After purchasing this NFT, participate in the network of computing
-              power providers!
-            </p>
-          </div>
-          <div className={styles['input-box']}>
-            <p>
-              <i className="iconfont icon-my-nodes"></i>
-              {`${numeral(price).format('0,0')} USDT`}
-            </p>
-            <div className={styles['input-box-container']}>
-              <Button className={styles['input-btn']} onClick={handleDiff}>
-                -
-              </Button>
-              <Input
-                type="number"
-                value={qty}
-                min={1}
-                onChange={handleChange}
-              />
-              <Button className={styles['input-btn']} onClick={handleAdd}>
-                +
-              </Button>
-            </div>
-          </div>
+        price={price}
+        handleOk={handleBuyNowOk}
+        handleCancel={handleCancel}
+      />
 
-          <div>
-            <Button className={styles['buy-btn']} onClick={handleOkComming}>
-              Click to pay
-            </Button>
+      <CommingSoon
+        open={isComming}
+        handleCancel={() => {
+          setIsComming(false);
+        }}
+      />
 
-            <p className={styles['text-grey']}>
-              Surrender your rights, <span>Enter immediately</span>
-            </p>
-          </div>
-        </section>
-      </Modal>
+      <PayCard
+        open={isPay}
+        setIsPay={setIsPay}
+        handleCancel={handleCancelPay}
+        handleOk={handlePay}
+      />
     </>
   );
 }
 
-function CommingSoon({
-  isComming,
-  setIsComming,
-  handleCancelComming,
-  handleOkComming,
-}) {
+function BuyNow({ open, price, handleCancel, handleOk }) {
+  const [qty, setQty] = useState(1);
+
+  const handleChange = (e) => {
+    setQty(e.target.value);
+  };
+  const handleAdd = () => {
+    setQty(qty + 1);
+  };
+  const handleDiff = () => {
+    if (qty <= 1) return;
+    setQty(qty - 1);
+  };
+
   return (
     <Modal
-      open={isComming}
-      onOk={handleOkComming}
-      onCancel={handleCancelComming}
+      open={open}
+      onCancel={handleCancel}
+      className={styles['modal']}
+      width={900}
+      footer={false}
+    >
+      <div className={styles['modal-img']}>
+        <img src={buy} />
+      </div>
+      <section className={styles['modal-info']}>
+        <div>
+          <h2>Buy Janction Node</h2>
+          <p>
+            After purchasing this NFT, participate in the network of computing
+            power providers!
+          </p>
+        </div>
+        <div className={styles['input-box']}>
+          <p>
+            <i className="iconfont icon-my-nodes"></i>
+            {`${numeral(price).format('0,0')} USDT`}
+          </p>
+          <div className={styles['input-box-container']}>
+            <Button className={styles['input-btn']} onClick={handleDiff}>
+              -
+            </Button>
+            <Input type="number" value={qty} min={1} onChange={handleChange} />
+            <Button className={styles['input-btn']} onClick={handleAdd}>
+              +
+            </Button>
+          </div>
+        </div>
+
+        <div>
+          <Button className={styles['buy-btn']} onClick={() => handleOk(qty)}>
+            Click to pay
+          </Button>
+
+          <p className={styles['text-grey']}>
+            Surrender your rights, <span>Enter immediately</span>
+          </p>
+        </div>
+      </section>
+    </Modal>
+  );
+}
+
+function CommingSoon({ open, handleCancel }) {
+  return (
+    <Modal
+      open={open}
+      onCancel={handleCancel}
       className={styles['modal']}
       width={900}
       footer={false}
@@ -226,16 +227,16 @@ function CommingSoon({
     </Modal>
   );
 }
-function PayCaard({ isPay, setIsPay, handleCancelPay, handleOkPay }) {
-  const handlePay = () => {
-    setIsPay(true);
+
+function PayCard({ open, handleCancel }) {
+  const handleOk = () => {
+    history.push('/genesis/dashboard');
   };
 
   return (
     <Modal
-      open={isPay}
-      onOk={handleOkPay}
-      onCancel={handleCancelPay}
+      open={open}
+      onCancel={handleCancel}
       className={styles['modal-purchase']}
       width={900}
       footer={false}
@@ -271,7 +272,7 @@ function PayCaard({ isPay, setIsPay, handleCancelPay, handleOkPay }) {
         <p>Congratulations on joining the Janction Contributor Network!</p>
 
         <div>
-          <Button className={styles['buy-btn']} onClick={handlePay}>
+          <Button className={styles['buy-btn']} onClick={handleOk}>
             Check rewards
           </Button>
         </div>
