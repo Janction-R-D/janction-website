@@ -6,6 +6,7 @@ import { Card } from 'antd';
 import drop from '@/assets/images/icons/drop.png';
 import rise from '@/assets/images/icons/rise.png';
 import { Graph } from './Graph';
+import { empty } from '@/utils/lang';
 
 export default function Profit({ lessorsData, getLessors, percent }) {
   const profitInfo = lessorsData?.profit || {};
@@ -18,7 +19,6 @@ export default function Profit({ lessorsData, getLessors, percent }) {
   function calculateTotal(data) {
     return Object.values(data).reduce((total, value) => total + value, 0);
   }
-  console.log(lessorsData);
   const totalNow = calculateTotal(profitInfo?.now || 0);
   const totalYesterday = calculateTotal(profitInfo?.yesterday || 0);
   const profit = {
@@ -71,38 +71,32 @@ export default function Profit({ lessorsData, getLessors, percent }) {
           <ProfitTotal
             profit={profit.graph}
             lessorsData={lessorsData}
-            title={'Total'}
-            income={numeral(profit?.total.now || 0).format('$0.00')}
-            diffValue={numeral(profit?.total.growth || 0).format('0.0%')}
+            title="Total"
+            income={profit?.total.now || 0}
+            diffValue={profit?.total.growth || 0}
           />
 
           <ProfitCard
-            title={'Node rewards'}
-            income={numeral(profit?.node_reward.now || 0).format('0.00')}
-            diffValue={numeral(profit?.node_reward.growth || 0).format('0.0%')}
+            title="Node rewards"
+            income={profit?.node_reward.now || 0}
+            diffValue={profit?.node_reward.growth || 0}
           />
 
           <ProfitCard
-            title={'Rental income'}
-            income={numeral(profit?.rental_income.now || 0).format('$0.00')}
-            diffValue={numeral(profit?.rental_income.growth || 0).format(
-              '0.0%',
-            )}
+            title="Rental income"
+            income={profit?.rental_income.now || 0}
+            diffValue={profit?.rental_income.growth || 0}
           />
 
           <ProfitCard
-            title={'Staking proceeds'}
-            income={numeral(profit?.staking_proceeds.now || 0).format('$0.00')}
-            diffValue={numeral(profit?.staking_proceeds.growth || 0).format(
-              '0.0%',
-            )}
+            title="Staking proceeds"
+            income={profit?.staking_proceeds.now || 0}
+            diffValue={profit?.staking_proceeds.growth || 0}
           />
           <ProfitCard
-            title={'Invite Reward'}
-            income={numeral(profit?.invite_reward.now || 0).format('$0.00')}
-            diffValue={numeral(profit?.invite_reward.growth || 0).format(
-              '0.0%',
-            )}
+            title="Invite Reward"
+            income={profit?.invite_reward.now || 0}
+            diffValue={profit?.invite_reward.growth || 0}
           />
         </div>
       </div>
@@ -117,8 +111,7 @@ function ProfitCard({ title, income, diffValue }) {
     <Card title={title} className={styles['card']}>
       <div className={styles['income-value']}>
         <span className={styles['value']}>
-          {title === 'Node rewards' ? '' : '$'}
-          {income ? numeral(income).format('0.00') : '~'}
+          {!empty(income) ? `${numeral(income).format('0.00')} veJCT` : '~'}
         </span>
       </div>
       <div className={styles['card-footer']}>
@@ -129,7 +122,7 @@ function ProfitCard({ title, income, diffValue }) {
               diffValue > 0 ? styles['text-red'] : styles['text-green']
             }`}
           >
-            {diffValue ? numeral(diffValue).format('0%') : diffValue}
+            {!empty(diffValue) ? numeral(diffValue).format('0%') : diffValue}
           </span>
           <span className={styles['name']}>Compared to yesterday</span>
         </div>
@@ -147,7 +140,7 @@ function ProfitTotal({ title, income, diffValue, profit, lessorsData }) {
         <div>
           <div className={styles['income-value']}>
             <span className={styles['total-value']}>
-              {income ? numeral(income).format('0.00') : '~'}
+              {!empty(income) ? `${numeral(income).format('0.00')} veJCT` : '~'}
             </span>
           </div>
           <div className={styles['card-footer']}>
@@ -158,7 +151,9 @@ function ProfitTotal({ title, income, diffValue, profit, lessorsData }) {
                 }`}
               >
                 <img src={isDrop ? drop : rise}></img>
-                {diffValue ? numeral(diffValue).format('0%') : diffValue}
+                {!empty(diffValue)
+                  ? numeral(diffValue).format('0%')
+                  : diffValue}
               </span>
               <span className={styles['name']}>Compared to yesterday</span>
             </div>
