@@ -1,6 +1,6 @@
 import gift from '@/assets/images/genesis/img-invite.png';
 import gift2 from '@/assets/images/genesis/gift-invitation.png';
-import { Button, Modal } from 'antd';
+import { Button, message, Modal } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
 import styles from './index.less';
 import reg from '@/utils/reg';
@@ -24,9 +24,11 @@ const Invitation = (props) => {
   const getMineCode = async () => {
     try {
       const res = await fetchMineInviteCode();
-      console.log('『res』', res);
-      // setCode(res?.code);
-      setCode(inviterIsStorage);
+      if (res?.code == 40410) {
+        message.warning(res?.msg);
+        return;
+      }
+      setCode(res.code);
     } catch (err) {
       console.log('『err』', err);
     }
@@ -45,6 +47,10 @@ const Invitation = (props) => {
   };
 
   const onCopy = () => {
+    if (!code) {
+      message.warning('Please get your invitation code first!');
+      return;
+    }
     copy(link);
   };
 
@@ -52,18 +58,16 @@ const Invitation = (props) => {
     <>
       <div className={styles['invite-box']}>
         <h1>Dashboard</h1>
-        <div className={styles['btn']}>
-          {!inviterIsStorage && !inviterCode ? null : (
-            <>
-              <Button className={styles['buy-btn']} onClick={handleOk}>
-                Invite
-              </Button>
-              <picture>
-                <img src={gift2} />
-              </picture>
-            </>
-          )}
-        </div>
+        {(inviterIsStorage || inviterCode) && (
+          <div className={styles['btn']}>
+            <Button className={styles['buy-btn']} onClick={handleOk}>
+              Invite
+            </Button>
+            <picture>
+              <img src={gift2} />
+            </picture>
+          </div>
+        )}
       </div>
       <div className={styles['invite-wrapper']}>
         <Modal
