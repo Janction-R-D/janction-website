@@ -12,8 +12,12 @@ const NTFBanner = (props) => {
   // si no hay codigo de invitacion en el link y en el local storage este componente no se muestra
   if (!inviterIsStorage && !inviterCode) return null;
   return (
-    <div className={styles['banner']} style={renderBackgroudImg(banner1)}>
+    <div
+      className={styles['banner']}
+      // style={renderBackgroudImg(banner1)}
+    >
       <h1>Deploy node</h1>
+      <img className={styles['banner-img']} src={banner1} />
       <p>
         Directly purchase deployed Janction mining machine nodes to share more
         profits！ Currently holding Janction Landlord NFT to participate in the

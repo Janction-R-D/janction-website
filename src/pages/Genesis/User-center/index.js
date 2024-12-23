@@ -78,10 +78,7 @@ export default function UserAccount() {
     return fetchUserCenter()
       .then((res) => {
         setData(res || {});
-        console.log(res);
-        if (res.icon !== '') {
-          setImgUrl(res.icon || './profile.png');
-        }
+
         if (res.name !== '') {
           setName(res.name || 'Unknow');
         }
@@ -93,23 +90,31 @@ export default function UserAccount() {
         }, 1500);
       });
   };
-  // const getUserKeysData = () => {
-  //   return fetchUserKeys()
-  //     .then((res) => {
-  //       console.log(res);
+  function hexToBase64(hexString) {
+    const bytes = [];
+    for (let i = 0; i < hexString.length; i += 2) {
+      bytes.push(parseInt(hexString.substr(i, 2), 16));
+    }
+    const byteArray = new Uint8Array(bytes);
+    let binary = '';
+    byteArray.forEach((byte) => (binary += String.fromCharCode(byte)));
+    return btoa(binary);
+  }
 
-  //     })
-  //     .catch((err) => setError(true));
-  // };
   useEffect(() => {
     getUserCenterData();
-    fetchImageToServer(address)
-      .then((res) => {
-        const blob = bufferToBase64(res);
-        setImgUrl(blob);
-      })
-      .catch((err) => console.log(err));
-    console.log(imgUrl);
+    const fetchImage = async () => {
+      try {
+        const res = await fetchImageToServer(address);
+        const base64String = bufferToBase64(res);
+        setImgUrl(res);
+        // setImgUrl(`data:image/png;base64,${base64String}`);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchImage();
     // getUserKeysData();
   }, [isEmailModalOpen, isEmailConfigOpen]);
   const bufferToBase64 = (buffer) => {
