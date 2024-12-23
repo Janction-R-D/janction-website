@@ -53,7 +53,11 @@ const Invitation = (props) => {
       <div className={styles['invite-box']}>
         <h1>Dashboard</h1>
         {code && (
-          <Badge count={mineInviteData?.invites_number || 0} offset={[-115, 0]}>
+          <Badge
+            count={mineInviteData?.invites_number || 0}
+            offset={[-115, 0]}
+            color="#EE385C"
+          >
             <div className={styles['invite-btn']}>
               <Button className={styles['buy-btn']} onClick={handleOk}>
                 Invite
