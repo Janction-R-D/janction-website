@@ -1,18 +1,15 @@
+import JanctionTable from '@/components/JanctionTable';
 import { fetchLessor } from '@/services/genesis/dashboard';
-import { Button, Card, Input, Radio, Table } from 'antd';
+import { empty } from '@/utils/lang';
+import { Input, Radio } from 'antd';
+import numeral from 'numeral';
 import { useEffect, useMemo, useState } from 'react';
 import HorizontalBar from './components/HorizontalBar';
-import Invite from './components/Invite';
-import Pie from './components/Pie';
-import VerticalBar from './components/VerticalBar';
-import { ARITHMETIC_SITUATION, pieColors } from './data';
-import numeral from 'numeral';
-import styles from './index.less';
-import JanctionTable from '@/components/JanctionTable';
-import MonthGoal from './components/MonthGoal';
-import { empty } from '@/utils/lang';
-import Profit from './components/Profit';
 import Invitation from './components/Invitation';
+import Pie from './components/Pie';
+import Profit from './components/Profit';
+import { ARITHMETIC_SITUATION, pieColors } from './data';
+import styles from './index.less';
 
 export function convertMBtoGB(mb) {
   if (empty(mb)) return '~';
@@ -36,12 +33,10 @@ const Lessors = (props) => {
 
   useEffect(() => {
     getLessors();
-    console.log(lessorsData);
   }, []);
   const getLessors = async () => {
     const res = await fetchLessor();
     setLessorsData(res);
-    console.log(res);
     setMonitorList(res?.activites || []);
   };
 
@@ -123,49 +118,20 @@ const Lessors = (props) => {
         return numeral(text || 0).format('0.0s');
       },
     },
-    // {
-    //   title: '#TH',
-    //   dataIndex: 'TH',
-    // },
-    // {
-    //   title: '#WQ',
-    //   dataIndex: 'WQ',
-    // },
-    // {
-    //   title: '#Ports',
-    //   dataIndex: 'Ports',
-    // },
     {
       title: 'MEM',
       dataIndex: 'memory_usage',
     },
-    // {
-    //   title: 'PURG',
-    //   dataIndex: 'PURG',
-    // },
-    // {
-    //   title: 'Cmprs',
-    //   dataIndex: 'Cmprs',
-    // },
-    // {
-    //   title: 'PPID',
-    //   dataIndex: 'PPID',
-    // },
     {
       title: 'State',
       dataIndex: 'status',
     },
-    // {
-    //   title: 'Boosts',
-    //   dataIndex: 'Boosts',
-    // },
   ];
 
   return (
     <div className={styles['dashboard-wrapper']}>
       <Invitation />
 
-      {/* <Invite /> */}
       <div className={styles['dashboard-content']}>
         <div className={styles['dashboard-cards']}>
           <div className={styles['dashboard-content-left']}>
@@ -224,20 +190,6 @@ const Lessors = (props) => {
             percent={percent}
           />
         </div>
-        {/* <div
-          className={[styles['content-item'], styles['state-wrapper']].join(
-            ' ',
-          )}
-        >
-          <div className={styles['title']}>
-            <span>State</span>
-          </div>
-          <div className={styles['content']}>
-            <div className={styles['chart-wrapper']}>
-              <VerticalBar data={lessorsData?.states || {}} />
-            </div>
-          </div>
-        </div> */}
 
         <div
           className={[styles['content-item'], styles['monitor-wrapper']].join(

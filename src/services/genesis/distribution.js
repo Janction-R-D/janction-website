@@ -15,6 +15,7 @@ export const fetchBeneficiary = async () => {
   }
 };
 
+// Only the invited user can return the invitation code, so this interface can be used as a basis to determine whether the user is an invited user
 export const fetchMineInviteCode = (params) => {
   try {
     return request(`${baseUrl}/me`, {

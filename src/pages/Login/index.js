@@ -1,8 +1,11 @@
-import { fetchNonce, performLogin } from '@/services/auth';
+import { fetchInviteAccept } from '@/services/genesis';
+import { fetchUserNonce, fetchUserVerify } from '@/services/login';
 import storage from '@/utils/storage';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
+import { message } from 'antd';
+import { useEffect } from 'react';
 import { SiweMessage } from 'siwe';
-import { history } from 'umi';
+import { history, useLocation } from 'umi';
 import {
   useAccount,
   useAccountEffect,
@@ -10,18 +13,17 @@ import {
   useSignMessage,
 } from 'wagmi';
 import styles from './index.less';
-import { useEffect, useState } from 'react';
-import { fetchUserNonce, fetchUserVerify } from '@/services/login';
-import { message } from 'antd';
 
 const expires = 60 * 60 * 10 * 1000;
 const Login = (props) => {
+  const location = useLocation();
+  const { inviterCode } = location.query || {};
+
   const { address } = useAccount();
   const { openConnectModal } = useConnectModal();
   const { signMessageAsync } = useSignMessage();
 
   const { disconnect } = useDisconnect();
-  const inviterCode = storage.get('inviterCode');
 
   useEffect(() => {
     const refresh = storage.get('refresh');
@@ -66,14 +68,7 @@ const Login = (props) => {
           expires,
         });
 
-        const from = history.location.query?.from || '/genesis/dashboard';
-        if (inviterCode) {
-          storage.set({ name: 'isLessee', value: false });
-          return window.location.replace(
-            `/genesis/deployNodes?inviterCode=${inviterCode}`,
-          );
-        }
-        window.location.replace(from);
+        onRedirect(address);
       };
 
       const signAndLogin = async () => {
@@ -108,6 +103,28 @@ const Login = (props) => {
       message.destroy('loading');
     },
   });
+
+  const onRedirect = async (address) => {
+    const from = history.location.query?.from || '/genesis/dashboard';
+    if (inviterCode) {
+      await bindCode(address);
+      return window.location.replace(
+        `/genesis/deployNodes?inviterCode=${inviterCode}&root='lessor'`,
+      );
+    }
+    window.location.replace(from);
+  };
+  const bindCode = async (address) => {
+    try {
+      const data = {
+        receive_address: address,
+        code: inviterCode,
+      };
+      await fetchInviteAccept(data);
+    } catch (err) {
+      console.log('『err』', err);
+    }
+  };
 
   const onConnect = async () => {
     if (address) {

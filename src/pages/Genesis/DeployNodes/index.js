@@ -2,13 +2,11 @@ import banner1 from '@/assets/images/genesis/banner1.png';
 import { SYSTEM_LIST } from '@/constant';
 import { message } from 'antd';
 import { useEffect, useState } from 'react';
-import { useLocation } from 'umi';
 import NTFBanner from './components/NTFBanner';
 import Step3 from './components/RunNode';
 import StepChart from './components/StepChart';
 import Step1 from './components/System';
 import styles from './index.less';
-import { verifyInvite } from './utils';
 
 const DEFAULT = {
   system: SYSTEM_LIST[0].value,
@@ -35,16 +33,8 @@ const stepsList = [
   },
 ];
 const Nodes = (props) => {
-  // const { inviterCode } = history.location.state || {};
   const [curStep, setCurStep] = useState(stepsList[0]);
   const [selectedValues, setSelectedValues] = useState(DEFAULT);
-
-  const location = useLocation();
-  const { inviterCode } = location.query || {};
-
-  useEffect(() => {
-    verifyInvite(inviterCode);
-  }, []);
 
   const onBack = () => {
     const step = stepsList.find((item) => item.value == curStep['prestep']);

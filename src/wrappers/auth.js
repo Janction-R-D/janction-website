@@ -23,6 +23,11 @@ export default (props) => {
   if (isLogin) {
     return props.children;
   } else {
-    return <Redirect to={`/login?from=${history.location.pathname}`} />;
+    let url = `/login?from=${history.location.pathname}`;
+    const inviterCode = storage.get('inviterCode');
+    if (inviterCode) {
+      url = `${url}&inviterCode=${inviterCode}`;
+    }
+    return <Redirect to={url} />;
   }
 };

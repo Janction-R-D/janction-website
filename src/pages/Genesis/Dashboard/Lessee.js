@@ -2,7 +2,6 @@ import JanctionTable from '@/components/JanctionTable';
 import numeral from 'numeral';
 import { useEffect, useState } from 'react';
 import { history } from 'umi';
-import Invite from './components/Invite';
 import Line from './components/Line';
 import { newsData } from './data';
 import useLesses from './Hooks/useLesses';
