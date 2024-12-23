@@ -3,26 +3,39 @@ import JanctionTable from '@/components/JanctionTable';
 import { fetchInviterList } from '@/services/root';
 import { useEffect, useState } from 'react';
 import LabelValue from './LabelValue';
+import styles from './index.less';
 
-const InvitedUser = (props) => {
-  const { visible, onCancel, record } = props;
+const InviterTable = (props) => {
+  const { record, level = 1 } = props;
 
   const [list, setList] = useState([]);
+  const [loading, setLoading] = useState(false);
 
+  // 初始化加载第一级数据
   useEffect(() => {
     if (!record?.inviter_address) return;
-    getList();
+    getList({ inviter: record?.inviter_address });
   }, [record]);
-  const getList = async () => {
+  // 获取数据的函数
+  const getList = async (params) => {
     try {
-      const res = await fetchInviterList({ inviter: record?.inviter_address });
-      setList(res.items || []);
+      setLoading(true);
+      const res = await fetchInviterList(params); // 替换为你的实际请求方法
+      setList(res?.items || []);
+      setLoading(false);
     } catch (error) {
-      console.log('『error』', error);
+      setLoading(false);
+      setList([]);
+      console.error('『error』', error);
     }
   };
 
   const columns = [
+    {
+      title: 'Invited Level',
+      dataIndex: 'invites_number',
+      render: () => `level${level}`,
+    },
     {
       title: 'Invited User Address',
       dataIndex: 'inviter_address',
@@ -38,6 +51,26 @@ const InvitedUser = (props) => {
   ];
 
   return (
+    <JanctionTable
+      dataSource={list}
+      columns={columns}
+      rowKey="inviter_address" // 使用唯一标识字段
+      pagination={false}
+      className={styles['inviter-table']}
+      expandable={{
+        expandedRowRender: (rowData) => (
+          <InviterTable record={rowData} level={level + 1} />
+        ),
+      }}
+      loading={loading} // 控制加载状态
+    />
+  );
+};
+
+const InvitedUser = (props) => {
+  const { visible, onCancel, record } = props;
+
+  return (
     <JanctionModal
       open={visible}
       title="Invited user"
@@ -50,7 +83,7 @@ const InvitedUser = (props) => {
         <LabelValue title="Inviter Address:" value={record?.inviter_address} />
         <LabelValue title="Inviter Name:" value={record?.inviter_name} />
       </div>
-      <JanctionTable dataSource={list} columns={columns} pagination={false} />
+      <InviterTable record={record} />
     </JanctionModal>
   );
 };
