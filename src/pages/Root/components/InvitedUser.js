@@ -16,6 +16,7 @@ const InvitedUser = (props) => {
   const getList = async () => {
     try {
       const res = await fetchInviterList({ inviter: record?.inviter_address });
+      console.log(res);
       setList(res.items || []);
     } catch (error) {
       console.log('『error』', error);

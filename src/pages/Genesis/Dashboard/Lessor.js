@@ -86,7 +86,7 @@ const Lessors = (props) => {
       },
     ];
   }, [lessorsData]);
-
+  console.log(arithmetic_situation);
   const handleSearch = (text) => {};
   const onSortChange = (e) => {
     const sortField = e.target.value;

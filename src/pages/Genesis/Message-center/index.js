@@ -7,6 +7,9 @@ import { DatePicker } from 'antd';
 import data from './mesages.json';
 import JanctionTable from '@/components/JanctionTable';
 import { check } from 'prettier';
+import { CheckHeader } from './components/CheckHeader';
+import { CheckedComponent } from './components/CheckedComponent';
+import Actions from './components/Actions';
 
 export default function MessageCenter() {
   const { RangePicker } = DatePicker;
@@ -42,9 +45,6 @@ export default function MessageCenter() {
       ...prevState,
       type: sortField,
     }));
-
-    // const _messages = messages.sort((a, b) => b[sortField] - a[sortField]);
-    // setMessages([..._messages]);
   };
   const columns = [
     {
@@ -88,15 +88,12 @@ export default function MessageCenter() {
       dataIndex: 'fecha',
       key: 'fecha',
       render: (text, record) => (
-        <div className="actions">
-          <p className={`${record.estado !== 'Leído' ? 'readed-sms' : ''}`}>
-            {text}
-          </p>
-          <div className="buttons">
-            <Button type="link">Delete</Button>
-            <Button type="link">Mark as Read</Button>
-          </div>
-        </div>
+        <Actions
+          setAllMessages={setAllMessages}
+          filteredMessages={filteredMessages}
+          text={text}
+          record={record}
+        />
       ),
     },
   ];
@@ -175,87 +172,5 @@ export default function MessageCenter() {
         />
       </Card>
     </main>
-  );
-}
-
-function CheckedComponent({ text, record, setAllMessages, filteredMessages }) {
-  const [isCheck, setIsCheck] = useState(false);
-  const handleSelect = () => {
-    setIsCheck((prevState) => !prevState);
-
-    const findIndexMessage = filteredMessages.findIndex(
-      (item) => item.key === record.key,
-    );
-
-    const newMessages = [...filteredMessages];
-    newMessages[findIndexMessage] = {
-      ...newMessages[findIndexMessage],
-      checked: isCheck ? false : true,
-    };
-
-    setAllMessages(newMessages);
-  };
-
-  return (
-    <div className={` tipo ${record.estado !== 'Leído' ? 'readed-sms' : ''}`}>
-      <Checkbox onClick={handleSelect}>
-        <p>{text}</p>
-      </Checkbox>
-    </div>
-  );
-}
-
-function CheckHeader({
-  filteredMessages,
-  setAllMessages,
-  setIsChecked,
-  isChecked,
-}) {
-  const setAsReadedMessages = () => {
-    const selectedMessages = filteredMessages.filter(
-      (message) => message.checked === true,
-    );
-
-    const updatedMessages = filteredMessages.map((message) => {
-      const isSelected = selectedMessages.find(
-        (selected) => selected.key === message.key,
-      );
-      if (isSelected) {
-        return { ...message, estado: 'Leído' };
-      }
-      return message;
-    });
-
-    setAllMessages(updatedMessages);
-  };
-  const deleteMessages = () => {
-    const selectedMessages = filteredMessages.filter(
-      (message) => message.checked === false,
-    );
-
-    if (selectedMessages.length <= 0) return;
-    setAllMessages(selectedMessages);
-  };
-  useEffect(() => {
-    const findIsChecked = filteredMessages.findIndex(
-      (message) => message.checked === true,
-    );
-
-    if (findIsChecked !== -1) {
-      setIsChecked(true);
-      return;
-    } else {
-      setIsChecked(false);
-    }
-  }, [filteredMessages]);
-
-  return (
-    <div className="table-header">
-      <Checkbox checked={isChecked} />
-      <div>
-        <Button onClick={deleteMessages}>Delete</Button>
-        <Button onClick={setAsReadedMessages}>Mark as Read</Button>
-      </div>
-    </div>
   );
 }
