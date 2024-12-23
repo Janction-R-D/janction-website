@@ -3,7 +3,6 @@ import purchase from '@/assets/images/genesis/purchase.png';
 import { fetchInviteAccept, fetchInviteVerify } from '@/services/genesis';
 import { fetchBeneficiary } from '@/services/genesis/distribution';
 import contract from '@/utils/contract';
-import storage from '@/utils/storage';
 import { Button, Input, message, Modal } from 'antd';
 import numeral from 'numeral';
 import { useEffect, useState } from 'react';
@@ -11,8 +10,7 @@ import { history } from 'umi';
 import { useAccount } from 'wagmi';
 import styles from './node.less';
 
-// inviterCode is must be valuable
-export default function BuyNode({ isInvitePath, inviterCode }) {
+export default function BuyNode({ mineCode, inviterCode }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isComming, setIsComming] = useState(false);
   const [isPay, setIsPay] = useState(false);
@@ -46,6 +44,10 @@ export default function BuyNode({ isInvitePath, inviterCode }) {
 
   const onBuy = async () => {
     if (address) {
+      if (mineCode && !inviterCode) {
+        setIsOpen(true);
+        return;
+      }
       await onVerifyCode();
       return;
     }
@@ -56,15 +58,10 @@ export default function BuyNode({ isInvitePath, inviterCode }) {
       // Verify Inviter Code
       const res = await fetchInviteVerify(inviterCode);
       if (res?.code == 40012 || !res?.inviter) throw Error(res?.error);
-      // inviterCode already in localStorage after invited
-      if (isInvitePath) {
-        storage.set({ name: 'inviterCode', value: inviterCode });
-      }
       await onBind();
     } catch (verifyError) {
       message.warning('Invalid Code', 2);
       setTimeout(() => {
-        console.log(verifyError);
         history.push(`/home?inviterCode=${inviterCode}`);
       }, 2000);
     }

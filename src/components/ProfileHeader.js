@@ -8,6 +8,8 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import GenesisContext from '@/layouts/Context/GenesisContext';
 import { fetchUserCenter } from '@/services/genesis';
 import NotifyModal from './NotifyModal';
+import { copy } from '@/utils/lang';
+
 export default function ProfileHeader() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { imgUrl, setImgUrl } = useContext(GenesisContext);
@@ -15,6 +17,7 @@ export default function ProfileHeader() {
   const { initialState } = useModel('@@initialState');
   const location = useLocation();
   const { inviterCode } = location.query || {};
+
   const handleNotifyOk = () => {
     setIsNotifyModalOpen(true);
   };
@@ -67,21 +70,15 @@ export default function ProfileHeader() {
 }
 
 export function ProfileModal({ imgUrl, isModalOpen, handleOk, handleCancel }) {
+  const location = useLocation();
+  const { inviterCode } = location.query || {};
   return (
     <ConnectButton.Custom>
-      {({
-        account,
-        chain,
-        openAccountModal,
-        openChainModal,
-        openConnectModal,
-        authenticationStatus,
-        mounted,
-      }) => {
+      {({ account, chain }) => {
         const { initialState, setInitialState } = useModel('@@initialState');
-        const [textCopied, setTextCopied] = useState(false);
         const { isLessee } = initialState || {};
         const { disconnect } = useDisconnect();
+
         const onIdentityChange = () => {
           storage.set({ name: 'isLessee', value: !isLessee });
           setInitialState({
@@ -99,24 +96,16 @@ export function ProfileModal({ imgUrl, isModalOpen, handleOk, handleCancel }) {
           });
           history.push('/');
         };
+        const handleLogin = () => {
+          let url = `/login?from=${location.pathname}`;
+          if (inviterCode) {
+            url = `${url}&inviterCode=${inviterCode}`;
+          }
+          history.push(url);
+        };
         const handleNavigate = (path) => {
           history.push(path);
           handleCancel();
-        };
-        const handleCopy = () => {
-          navigator.clipboard
-            .writeText(account?.address)
-            .then(() => {
-              setTextCopied(true);
-            })
-            .catch((err) => {
-              console.error('Error al copiar al portapapeles: ', err);
-            })
-            .finally(() => {
-              setTimeout(() => {
-                setTextCopied(false);
-              }, 3500);
-            });
         };
         return (
           <Modal
@@ -134,15 +123,14 @@ export function ProfileModal({ imgUrl, isModalOpen, handleOk, handleCancel }) {
               <div className={styles['modal-profile-img']}>
                 <img className={styles['profile-img']} src={imgUrl} />
               </div>
-              <section className={styles['profile-info']} onClick={handleCopy}>
+              <section className={styles['profile-info']}>
                 <h3>{chain?.name || 'Unknow'}</h3>
                 <span className={styles['chain-copy']}>
                   <p> {account?.displayName || 'Unknow'}</p>
-                  {textCopied ? (
-                    <span className={styles['copied']}>Copied</span>
-                  ) : (
-                    <i className="iconfont icon-copy"></i>
-                  )}
+                  <i
+                    className="iconfont icon-copy poi"
+                    onClick={() => copy(account?.address)}
+                  ></i>
                 </span>
                 <div className={styles['type-account']}>
                   {isLessee ? (
@@ -197,9 +185,16 @@ export function ProfileModal({ imgUrl, isModalOpen, handleOk, handleCancel }) {
                 </li>
               )}
             </ul>
-            <Button className={styles['log-out']} onClick={handleLogOut}>
-              Logout
-            </Button>
+            {!!account?.address && (
+              <Button className={styles['log-out']} onClick={handleLogOut}>
+                Logout
+              </Button>
+            )}
+            {!account?.address && (
+              <Button className={styles['log-out']} onClick={handleLogin}>
+                Login
+              </Button>
+            )}
           </Modal>
         );
       }}

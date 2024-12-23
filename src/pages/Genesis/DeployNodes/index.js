@@ -1,7 +1,7 @@
 import banner1 from '@/assets/images/genesis/banner1.png';
 import { SYSTEM_LIST } from '@/constant';
 import { message } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import NTFBanner from './components/NTFBanner';
 import Step3 from './components/RunNode';
 import StepChart from './components/StepChart';

@@ -1,26 +1,19 @@
-import gift from '@/assets/images/genesis/img-invite.png';
 import gift2 from '@/assets/images/genesis/gift-invitation.png';
-import { Button, message, Modal } from 'antd';
-import { useEffect, useMemo, useState } from 'react';
-import styles from './index.less';
-import reg from '@/utils/reg';
+import gift from '@/assets/images/genesis/img-invite.png';
 import { fetchMineInviteCode } from '@/services/genesis/distribution';
 import { copy } from '@/utils/lang';
-import { useLocation } from 'umi';
+import { Button, message, Modal, Badge } from 'antd';
+import { useEffect, useMemo, useState } from 'react';
+import styles from './index.less';
 
 const Invitation = (props) => {
   const [visible, setVisible] = useState(false);
   const [code, setCode] = useState();
-  const locations = useLocation();
-  const { inviterCode } = locations.query || {};
-  const inviterIsStorage = localStorage.getItem('inviterCode');
-  console.log(inviterCode, inviterIsStorage);
-  // si no hay codigo de invitacion en el link y en el local storage este componente no se muestra
+  const [mineInviteData, setMyInviteData] = useState();
 
   useEffect(() => {
-    if (!visible) return;
     getMineCode();
-  }, [visible]);
+  }, []);
   const getMineCode = async () => {
     try {
       const res = await fetchMineInviteCode();
@@ -28,6 +21,7 @@ const Invitation = (props) => {
         message.warning(res?.msg);
         return;
       }
+      setMyInviteData(res);
       setCode(res.code);
     } catch (err) {
       console.log('『err』', err);
@@ -58,15 +52,17 @@ const Invitation = (props) => {
     <>
       <div className={styles['invite-box']}>
         <h1>Dashboard</h1>
-        {(inviterIsStorage || inviterCode) && (
-          <div className={styles['btn']}>
-            <Button className={styles['buy-btn']} onClick={handleOk}>
-              Invite
-            </Button>
-            <picture>
-              <img src={gift2} />
-            </picture>
-          </div>
+        {code && (
+          <Badge count={mineInviteData?.invites_number || 0} offset={[-115, 0]}>
+            <div className={styles['invite-btn']}>
+              <Button className={styles['buy-btn']} onClick={handleOk}>
+                Invite
+              </Button>
+              <picture>
+                <img src={gift2} />
+              </picture>
+            </div>
+          </Badge>
         )}
       </div>
       <div className={styles['invite-wrapper']}>
