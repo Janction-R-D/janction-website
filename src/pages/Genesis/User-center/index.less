@@ -3,7 +3,7 @@
 }
 
 .banner {
-  padding-block: 22px;
+  margin: 22px 0;
   position: relative;
 }
 
@@ -24,55 +24,6 @@
   cursor: pointer;
 }
 
-.check-float {
-  color: #73d5f4;
-  position: absolute;
-  bottom: 10px;
-  right: 1/2;
-  width: 15px;
-  height: 15px;
-  transform: translateX(150%);
-}
-
-.check-float > i {
-  font-size: 1.4rem;
-}
-
-.user-profile {
-  position: absolute;
-  width: 100%;
-  bottom: -14px;
-  left: 0;
-  display: flex;
-  justify-content: center;
-}
-
-.user-profile-img {
-  width: 90px;
-  height: 90px;
-  display: block;
-  border-radius: 100%;
-  transition: all ease 250ms;
-  object-fit: cover;
-}
-.edit-float:hover + .user-profile-img,
-.user-profile-img:hover {
-  filter: brightness(40%);
-}
-.edit-float {
-  color: #fff;
-  position: absolute;
-  bottom: 40px;
-  right: 1/2;
-  width: 15px;
-  height: 15px;
-  z-index: 15;
-  transform: translateX(240%);
-  i {
-    font-weight: bold;
-    cursor: pointer;
-  }
-}
 .user-info {
   display: flex;
   flex-direction: column;
@@ -81,7 +32,8 @@
   align-items: center;
   text-align: center;
   padding: 16px;
-  margin-block: 20px;
+  margin-block: 45px;
+
   .edit-name {
     flex-direction: row;
     align-items: center;
@@ -99,6 +51,7 @@
   justify-content: center;
   display: flex;
   gap: 12px;
+
   h2 {
     display: inline;
   }
@@ -201,14 +154,17 @@
     flex-direction: column;
     gap: 18px;
     padding-top: 24px;
+
     p {
       max-width: 100%;
     }
+
     .text-blue {
       color: #72deff;
       margin-bottom: 18px;
     }
   }
+
   .text-red {
     color: #ff8c27;
     font-size: 0.8rem;
@@ -272,10 +228,12 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .card-security-key > div > span {
   text-overflow: ellipsis;
   overflow: hidden;
 }
+
 .card-security-input {
   padding: 12px;
   background-color: #2f2f31;
@@ -287,6 +245,7 @@
   cursor: pointer;
   color: #73d5f4 !important;
 }
+
 .token-container {
   display: flex;
   flex-wrap: wrap;
@@ -294,6 +253,7 @@
   padding-top: 20px;
   gap: 18px;
 }
+
 .token-box {
   padding: 12px;
   background-color: #1f1f21;
@@ -305,20 +265,24 @@
   justify-content: space-between;
 
   color: #73d5f4 !important;
+
   div {
     display: flex;
     align-items: center;
     gap: 6px;
     color: #fff;
+
     i {
       cursor: pointer;
       transition: all ease 200ms;
     }
+
     i:hover {
       color: #e7e7e7;
     }
   }
 }
+
 .btn-transparent {
   padding: 18px;
   background-color: transparent;
@@ -332,6 +296,7 @@
   border: 1px solid #72deff;
   color: #73d5f4 !important;
 }
+
 .card-security-input:placeholder {
   color: #73d5f4 !important;
 }
@@ -391,9 +356,11 @@
   display: flex;
   align-items: center;
 }
+
 .ant-input-affix-wrapper {
   color: unset;
 }
+
 .delete-section {
   color: #ff8c27;
   font-size: 0.8rem;
@@ -402,6 +369,7 @@
   gap: 5px;
   cursor: pointer;
 }
+
 .deploy-section {
   color: #47c2e8;
   font-size: 0.8rem;
@@ -410,18 +378,21 @@
   gap: 5px;
   cursor: pointer;
 }
+
 .social-tags {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(390px, 1fr));
   align-items: center;
   gap: 12px;
   margin-top: 22px;
+
   .social-tag {
     background-color: #2f2f31;
     padding: 18px 10px;
     display: flex;
     justify-content: space-between;
     border-radius: 12px;
+
     .buttons {
       display: flex;
       align-items: center;
@@ -430,6 +401,7 @@
         height: 35px;
         padding: 4px 18px;
       }
+
       .cancel-btn {
         height: 35px;
         display: flex;
@@ -447,10 +419,12 @@
         text-wrap: nowrap;
       }
     }
+
     .social-box {
       display: flex;
       align-items: center;
       gap: 12px;
+
       .isConnected {
         background-color: #242426;
         padding: 6px 12px;
@@ -459,10 +433,12 @@
         align-items: center;
         border-radius: 12px;
         gap: 8px;
+
         i {
           color: rgb(8, 200, 136);
         }
       }
+
       .social-icon {
         border: #e7e7e7 1px solid;
         border-radius: 50%;
@@ -476,6 +452,7 @@
     }
   }
 }
+
 @media screen and (max-width: 580px) {
   .card-content > ul {
     display: flex;
@@ -505,6 +482,7 @@
 
   .social-tags {
     grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+
     .social-tag {
       .social-box {
         .social-icon {

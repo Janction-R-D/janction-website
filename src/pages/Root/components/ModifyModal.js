@@ -13,12 +13,16 @@ const ModifyModal = (props) => {
   const Com = record?.type == 'number' ? FormInputNumber : FormInput;
 
   const okHandle = async () => {
-    if (empty(value)) {
+    if (empty(value) && record?.type !== 'number') {
       message.warning('Please complete the input!');
       return;
     }
     try {
-      onOk && onOk({ [record?.key]: value });
+      if (record?.type == 'number') {
+        onOk && onOk({ [record?.key]: value || 0 });
+      } else {
+        onOk && onOk({ [record?.key]: value });
+      }
       onCancel();
     } catch (err) {
       console.log('『err』', err);
@@ -37,6 +41,7 @@ const ModifyModal = (props) => {
       <LabelValue title={`${record?.title}:`}>
         <Com
           defaultValue={record.value}
+          min={0}
           onChange={(e) => setValue(e?.target ? e?.target?.value : e)}
         />
         <span>{record?.unit}</span>

@@ -1,106 +1,33 @@
-import { useEffect, useState } from 'react';
-import { Button, message, Modal } from 'antd';
+import { avatar } from '@/utils/lang';
+import { Tooltip } from 'antd';
+import { useState } from 'react';
+import { useAccount } from 'wagmi';
+import AvatarUpload from './AvatarUpload';
 import styles from './modal.less';
-import { postImageToServer } from '@/services/genesis';
-import { convertToFormData } from '..';
 
-export default function PorifilePicture({
-  handleCancel,
-  isModalOpen,
-  handleOk,
-  setImgUrl,
-  imgUrl,
-}) {
-  const [inputUrl, setinputUrl] = useState('');
-  const [imageBlob, setImageBlob] = useState(null);
+export default function PorifilePicture() {
+  const [imgUrl, setImgUrl] = useState();
 
-  const handleChange = (e) => {
-    const newFile = e.target.files[0];
-    // console.log(newFile);
-    if (newFile) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        setinputUrl(e.target.result);
-      };
-      reader.readAsDataURL(newFile);
-      setImageBlob(newFile);
-    }
-  };
-  useEffect(() => {
-    setinputUrl(imgUrl);
-  }, [imgUrl]);
-
-  // const sendImageToServer = async (blob) => {
-  //   const formData = new FormData();
-  //   formData.append('file', blob);
-
-  //   try {
-  //     const response = await fetch('/api/upload', {
-  //       method: 'POST',
-  //       body: formData,
-  //     });
-
-  //     if (!response.ok) {
-  //       throw new Error('Failed to upload image');
-  //     }
-
-  //     const result = await response.json();
-  //     console.log('Image uploaded successfully:', result);
-  //   } catch (error) {
-  //     console.error('Error uploading image:', error);
-  //   }
-  // };
-
-  const handleClick = () => {
-    setImgUrl(inputUrl);
-    const data = convertToFormData({ avatar: inputUrl });
-
-    postImageToServer(data).then((res) => message.info(res));
-    // Send the image blob to the back end
-    // if (imageBlob) {
-    //   sendImageToServer(imageBlob);
-    // }
-    handleCancel();
-  };
+  const { address } = useAccount();
 
   return (
-    <Modal
-      className={styles['card-modal']}
-      open={isModalOpen}
-      onOk={handleOk}
-      onCancel={handleCancel}
-      footer={false}
-      header={false}
-      height={300}
-      width={400}
-      closable={false}
-    >
-      <div>
-        <h3 className={styles['card-title']}>Change your profile picture</h3>
-      </div>
-      <img src={inputUrl} className={styles['card-modal-img']} />
-      <label className={styles['label']}>
-        <input
-          type="file"
-          onChange={handleChange}
-          className={styles['card-input']}
-        />
-        <div className={styles['input-btn']}>Change Picture</div>
-      </label>
-      <div className={styles['buttons']}>
-        <Button className={styles['create-btn']} onClick={handleClick}>
-          Confirm
-        </Button>
-        <Button
-          className={styles['cancel-btn']}
-          onClick={() => {
-            setinputUrl(imgUrl);
-            handleCancel();
-          }}
-        >
-          Cancel
-        </Button>
-      </div>
-    </Modal>
+    <div className={styles['avatar-upload']}>
+      <AvatarUpload onChange={setImgUrl}>
+        <div className={styles['user-profile']}>
+          <Tooltip title="You can click if you want to change your profile picture">
+            <i
+              className={['iconfont icon-edit', styles['edit-float']].join(' ')}
+            ></i>
+            <img
+              src={imgUrl || avatar(address)}
+              className={styles['user-profile-img']}
+            />
+          </Tooltip>
+          <span className={styles['check-float']}>
+            <i className="iconfont icon-certified"></i>
+          </span>
+        </div>
+      </AvatarUpload>
+    </div>
   );
 }

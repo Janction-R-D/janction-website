@@ -1,20 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, Modal } from 'antd';
 import styles from './profileHeader.less';
-import { useDisconnect } from 'wagmi';
+import { useAccount, useDisconnect } from 'wagmi';
 import storage from '@/utils/storage';
 import { history, useLocation, useModel } from 'umi';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import GenesisContext from '@/layouts/Context/GenesisContext';
 import { fetchUserCenter } from '@/services/genesis';
 import NotifyModal from './NotifyModal';
-import { copy } from '@/utils/lang';
+import { avatar, copy } from '@/utils/lang';
 
 export default function ProfileHeader() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { imgUrl, setImgUrl } = useContext(GenesisContext);
   const [isNotifyModalOpen, setIsNotifyModalOpen] = useState(false);
   const { initialState } = useModel('@@initialState');
+  const { address } = useAccount();
   const location = useLocation();
   const { inviterCode } = location.query || {};
 
@@ -25,11 +24,7 @@ export default function ProfileHeader() {
     if (inviterCode && !initialState?.userAccount) return;
     const getUserCenterData = () => {
       return fetchUserCenter()
-        .then((res) => {
-          if (res.icon !== '') {
-            setImgUrl(res.icon || './profile.png');
-          }
-        })
+        .then((res) => {})
         .catch((err) => console.log(err));
     };
     getUserCenterData();
@@ -50,7 +45,7 @@ export default function ProfileHeader() {
         <i className="iconfont icon-bell "></i>
       </span>
       <div className={styles['img-container']} onClick={showModal}>
-        <img className={styles['profile-img']} src={imgUrl} />
+        <img className={styles['profile-img']} src={avatar(address)} />
       </div>
       <NotifyModal
         isModalOpen={isNotifyModalOpen}
@@ -63,13 +58,12 @@ export default function ProfileHeader() {
         isModalOpen={isModalOpen}
         handleOk={handleOk}
         handleCancel={handleCancel}
-        imgUrl={imgUrl}
       />
     </header>
   );
 }
 
-export function ProfileModal({ imgUrl, isModalOpen, handleOk, handleCancel }) {
+export function ProfileModal({ isModalOpen, handleOk, handleCancel }) {
   const location = useLocation();
   const { inviterCode } = location.query || {};
   return (
@@ -121,7 +115,10 @@ export function ProfileModal({ imgUrl, isModalOpen, handleOk, handleCancel }) {
           >
             <section className={styles['header-card']}>
               <div className={styles['modal-profile-img']}>
-                <img className={styles['profile-img']} src={imgUrl} />
+                <img
+                  className={styles['profile-img']}
+                  src={avatar(account?.address)}
+                />
               </div>
               <section className={styles['profile-info']}>
                 <h3>{chain?.name || 'Unknow'}</h3>
