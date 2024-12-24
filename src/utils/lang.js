@@ -151,3 +151,10 @@ export const getNodeStatusMatch = ({ status_str, operating_status_str }) => {
 export function capitalizeFirstLetter(string) {
   return string.replace(/^\w/, (c) => c.toUpperCase());
 }
+
+export function avatar(address) {
+  const isDev = process.env.NODE_ENV == 'development';
+  return isDev
+    ? `http://54.95.234.135:81/v0/user/avatar/${address}`
+    : `${location.origin}/v0/user/avatar/${address}`;
+}

@@ -1,77 +1,32 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Button, Tooltip, Card, Input, Select } from 'antd';
-import styles from './index.less';
-import BindEmail from './components/BindEmail';
-export function convertToFormData(info) {
-  const formData = new FormData();
-  Object.entries(info).forEach(([key, value]) => {
-    if (
-      key === 'avatar' &&
-      typeof value === 'string' &&
-      value.startsWith('data:image')
-    ) {
-      const base64 = value.split(',')[1];
-      const blob = new Blob([atob(base64)], { type: 'image/png' });
-      formData.append(key, blob, 'avatar.png');
-    } else if (typeof value === 'object' && !Array.isArray(value)) {
-      formData.append(key, JSON.stringify(value));
-    } else {
-      formData.append(key, value);
-    }
-  });
-  console.log(formData);
-  return formData;
-}
 import {
-  fetchBindEmail,
   deleteKeysUserCenter,
   fetchUserCenter,
-  fetchUserKeys,
-  postKeyUserData,
   sendImageToServer,
-  fetchImageToServer,
 } from '@/services/genesis';
-import JanctionTip from '@/components/JanctionTip';
-import PorifilePicture from './components/PorifilePicture';
-import RefreshToken from './components/RefreshToken';
-import TokenModal from './components/RefreshToken';
-import AuthName from './components/AuthName';
+import { Button } from 'antd';
+import { useEffect, useState } from 'react';
 import EditName from './components/EditName';
 import EmailVerify from './components/EmailVerify';
-import GenesisContext from '@/layouts/Context/GenesisContext';
-import EmailConfig from './components/EmailConfig';
-import UserAssets from './components/UserAssets';
-import TokenAccess from './components/TokenAccess';
+import PorifilePicture from './components/PorifilePicture';
 import SocialLink from './components/SocialLink';
-import { useAccount } from 'wagmi';
+import UserAssets from './components/UserAssets';
+import styles from './index.less';
 
 export default function UserAccount() {
   const [data, setData] = useState({});
   const [error, setError] = useState(false);
   const [key, setKey] = useState({});
   const [duration, setDuration] = useState({ value: 1, label: '1 Month' });
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isTokenModalOpen, setIsTokenModalOpen] = useState(false);
   const [isEmailConfigOpen, setIsEmailConfigOpen] = useState(false);
   const [isNameModalOpen, setIsNameModalOpen] = useState(false);
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
   const [name, setName] = useState('');
-  const { imgUrl, setImgUrl } = useContext(GenesisContext);
-  const { address } = useAccount();
   const showTokenModal = () => {
     setIsTokenModalOpen(true);
   };
   const onEditName = () => {
     setIsNameModalOpen(true);
-  };
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
-  const handleOk = () => {
-    setIsModalOpen(false);
   };
 
   const getUserCenterData = () => {
@@ -90,45 +45,10 @@ export default function UserAccount() {
         }, 1500);
       });
   };
-  function hexToBase64(hexString) {
-    const bytes = [];
-    for (let i = 0; i < hexString.length; i += 2) {
-      bytes.push(parseInt(hexString.substr(i, 2), 16));
-    }
-    const byteArray = new Uint8Array(bytes);
-    let binary = '';
-    byteArray.forEach((byte) => (binary += String.fromCharCode(byte)));
-    return btoa(binary);
-  }
 
   useEffect(() => {
     getUserCenterData();
-    const fetchImage = async () => {
-      try {
-        const res = await fetchImageToServer(address);
-        const base64String = bufferToBase64(res);
-        setImgUrl(res);
-        // setImgUrl(`data:image/png;base64,${base64String}`);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    fetchImage();
-    // getUserKeysData();
   }, [isEmailModalOpen, isEmailConfigOpen]);
-  const bufferToBase64 = (buffer) => {
-    // const base64String = btoa(String.fromCharCode(...new Uint8Array(buffer)));
-    return `data:image/png;base64,${buffer}`;
-  };
-  // const getUserInfo = async () => {
-  //   try {
-  //     const res = await fetchUserInfo();
-  //     setUserInfo(res);
-  //   } catch (error) {
-  //     console.log('『error』', error);
-  //   }
-  // };
 
   const onEditEmail = () => {
     setVisible(true);
@@ -162,7 +82,6 @@ export default function UserAccount() {
     const formData = new FormData(e.target);
     const form = Object.fromEntries(formData);
     const info = {
-      icon: imgUrl,
       name: name,
       asstes: {
         amount: 2,
@@ -194,25 +113,7 @@ export default function UserAccount() {
         <div className={styles['banner-img']}>
           <img src="/account.png" className={styles['img']} />
         </div>
-        <div className={styles['user-profile']}>
-          <Tooltip title="You can click if you want to change your profile picture">
-            <span className={styles['edit-float']} onClick={showModal}>
-              <i className="iconfont icon-edit"></i>
-            </span>
-            <img src={imgUrl} className={styles['user-profile-img']} />
-          </Tooltip>
-          <span className={styles['check-float']}>
-            <i className="iconfont icon-certified"></i>
-          </span>
-        </div>
-
-        <PorifilePicture
-          handleCancel={handleCancel}
-          isModalOpen={isModalOpen}
-          handleOk={handleOk}
-          setImgUrl={setImgUrl}
-          imgUrl={imgUrl}
-        />
+        <PorifilePicture />
       </section>
       <article className={styles['user-info']}>
         <div className={styles['edit-name']}>
