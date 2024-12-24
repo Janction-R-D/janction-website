@@ -80,6 +80,7 @@ export default function Profit({ lessorsData, getLessors, percent }) {
             title="Node rewards"
             income={profit?.node_reward.now || 0}
             diffValue={profit?.node_reward.growth || 0}
+            unit="veJCT"
           />
 
           <ProfitCard
@@ -104,14 +105,16 @@ export default function Profit({ lessorsData, getLessors, percent }) {
   );
 }
 
-function ProfitCard({ title, income, diffValue }) {
+function ProfitCard({ title, income, diffValue, unit = '' }) {
   const isDrop = diffValue < 0;
 
   return (
     <Card title={title} className={styles['card']}>
       <div className={styles['income-value']}>
         <span className={styles['value']}>
-          {!empty(income) ? `${numeral(income).format('0.00')} veJCT` : '~'}
+          {!empty(income)
+            ? `${unit ? '' : '$'}${numeral(income).format('0.00')} ${unit}`
+            : '~'}
         </span>
       </div>
       <div className={styles['card-footer']}>
@@ -140,7 +143,7 @@ function ProfitTotal({ title, income, diffValue, profit, lessorsData }) {
         <div>
           <div className={styles['income-value']}>
             <span className={styles['total-value']}>
-              {!empty(income) ? `${numeral(income).format('0.00')} veJCT` : '~'}
+              {!empty(income) ? `$${numeral(income).format('0.00')}` : '~'}
             </span>
           </div>
           <div className={styles['card-footer']}>
