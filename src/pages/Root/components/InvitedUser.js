@@ -4,9 +4,10 @@ import { fetchInviterList } from '@/services/root';
 import { useEffect, useState } from 'react';
 import LabelValue from './LabelValue';
 import styles from './index.less';
+import { copy } from '@/utils/lang';
 
 const InviterTable = (props) => {
-  const { record, level = 1 } = props;
+  const { record, level = 2, omitFirst } = props;
 
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -39,6 +40,7 @@ const InviterTable = (props) => {
     {
       title: 'Invited User Address',
       dataIndex: 'inviter_address',
+      render: (text) => <Address text={text} />,
     },
     {
       title: 'Quantity Purchased',
@@ -59,8 +61,9 @@ const InviterTable = (props) => {
       className={styles['inviter-table']}
       expandable={{
         expandedRowRender: (rowData) => (
-          <InviterTable record={rowData} level={level + 1} />
+          <InviterTable record={rowData} level={level + 1} omitFirst={false} />
         ),
+        expandIcon: customExpandIcon,
       }}
       loading={loading} // 控制加载状态
     />
@@ -75,7 +78,7 @@ const InvitedUser = (props) => {
       open={visible}
       title="Invited user"
       centered
-      width={900}
+      width={950}
       onCancel={onCancel}
       footerCenter
     >
@@ -83,9 +86,40 @@ const InvitedUser = (props) => {
         <LabelValue title="Inviter Address:" value={record?.inviter_address} />
         <LabelValue title="Inviter Name:" value={record?.inviter_name} />
       </div>
-      <InviterTable record={record} />
+      <InviterTable record={record} omitFirst={true} />
     </JanctionModal>
   );
 };
-
+const customExpandIcon = (props) => {
+  if (props.expanded) {
+    return (
+      <i
+        className="iconfont icon-up"
+        onClick={(e) => {
+          props.onExpand(props.record, e);
+        }}
+      ></i>
+    );
+  } else {
+    return (
+      <i
+        className="iconfont icon-icon-down"
+        onClick={(e) => {
+          props.onExpand(props.record, e);
+        }}
+      ></i>
+    );
+  }
+};
+const Address = ({ text }) => {
+  const handleClick = () => {
+    copy(text);
+  };
+  return (
+    <p className="address">
+      {text}
+      <i className="iconfont icon-copy" onClick={handleClick}></i>
+    </p>
+  );
+};
 export default InvitedUser;

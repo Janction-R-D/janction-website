@@ -214,3 +214,63 @@
     }
   }
 }
+.inviter-table {
+  i {
+    font-size: 0.7rem !important;
+    cursor: pointer;
+  }
+  :global {
+    .address {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      p {
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      i {
+        cursor: pointer;
+      }
+    }
+    .ant-table-container {
+      .ant-table {
+        border-radius: 0px;
+      }
+      .ant-table-tbody {
+        // hacer cambios aqui...
+        .ant-table-expanded-row {
+          td {
+            padding-inline: 16px !important;
+
+            table {
+              overflow: auto;
+              thead {
+                background: #33333575;
+                tr {
+                  padding-inline: 16px;
+                }
+                th {
+                  background-color: transparent !important;
+                  border-radius: 0px;
+                }
+                th:first-child,
+                th:last-child {
+                  border-radius: unset !important;
+                }
+              }
+              tbody {
+                tr {
+                  padding-inline: 32px;
+                }
+                td {
+                  padding-inline: 16px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
