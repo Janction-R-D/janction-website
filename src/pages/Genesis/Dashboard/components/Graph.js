@@ -1,6 +1,7 @@
 import ReactECharts from 'echarts-for-react';
 import { useMemo } from 'react';
 import { isEmpty } from '@/utils/lang';
+import JactionEmpty from '@/components/JactionEmpty';
 
 export function Graph({ data, lessorsData }) {
   const echartsData = useMemo(() => {
@@ -77,15 +78,24 @@ export function Graph({ data, lessorsData }) {
     ],
   };
   return (
-    <div
-      style={{
-        height: '200px',
-        width: '60%',
-        display: 'flex',
-        alignItems: 'center',
-      }}
-    >
-      <ReactECharts option={option} style={{ height: '100%', width: '90%' }} />
-    </div>
+    <>
+      {echartsData?.keys?.length > 0 ? (
+        <div
+          style={{
+            height: '200px',
+            width: '60%',
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          <ReactECharts
+            option={option}
+            style={{ height: '100%', width: '90%' }}
+          />
+        </div>
+      ) : (
+        <JactionEmpty showEmptyIcon />
+      )}
+    </>
   );
 }

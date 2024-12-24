@@ -98,7 +98,7 @@ function MenuModal({
   const handleCancel = () => {
     setMenuShow(false);
   };
-  console.log(active, menu);
+
   return (
     <Modal
       onCancel={handleCancel}

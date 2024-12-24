@@ -4,9 +4,12 @@ import styles from './components/orders.less';
 import { fetchMarketOrders } from '../../../services/genesis/instance';
 import { isEmpty } from '@/utils/lang';
 import JactionEmpty from '@/components/JactionEmpty';
+import { Redirect, useModel } from 'umi';
 
 function Orders() {
   const [orders, setOrders] = useState([]);
+  const { initialState } = useModel('@@initialState');
+  const { isLessee } = initialState || {};
 
   useEffect(() => {
     fetchMarketOrders()
@@ -17,7 +20,7 @@ function Orders() {
       })
       .catch((error) => console.log(error));
   }, []);
-
+  if (!isLessee) return <Redirect to="/genesis/dashboard"></Redirect>;
   return (
     <main className={styles['orders-component']}>
       <h1>Orders</h1>
