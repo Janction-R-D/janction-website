@@ -13,6 +13,7 @@ export default function ProfileHeader() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNotifyModalOpen, setIsNotifyModalOpen] = useState(false);
   const { initialState } = useModel('@@initialState');
+  const { avatarSnapUrl } = useModel('common');
   const { address } = useAccount();
   const location = useLocation();
   const { inviterCode } = location.query || {};
@@ -45,7 +46,10 @@ export default function ProfileHeader() {
         <i className="iconfont icon-bell "></i>
       </span>
       <div className={styles['img-container']} onClick={showModal}>
-        <img className={styles['profile-img']} src={avatar(address)} />
+        <img
+          className={styles['profile-img']}
+          src={avatarSnapUrl || avatar(address)}
+        />
       </div>
       <NotifyModal
         isModalOpen={isNotifyModalOpen}
@@ -65,6 +69,8 @@ export default function ProfileHeader() {
 
 export function ProfileModal({ isModalOpen, handleOk, handleCancel }) {
   const location = useLocation();
+  const { avatarSnapUrl } = useModel('common');
+
   const { inviterCode } = location.query || {};
   return (
     <ConnectButton.Custom>
@@ -117,7 +123,7 @@ export function ProfileModal({ isModalOpen, handleOk, handleCancel }) {
               <div className={styles['modal-profile-img']}>
                 <img
                   className={styles['profile-img']}
-                  src={avatar(account?.address)}
+                  src={avatarSnapUrl || avatar(account?.address)}
                 />
               </div>
               <section className={styles['profile-info']}>

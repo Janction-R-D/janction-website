@@ -1,25 +1,25 @@
 import { avatar } from '@/utils/lang';
 import { Tooltip } from 'antd';
-import { useState } from 'react';
+import { useModel } from 'umi';
 import { useAccount } from 'wagmi';
 import AvatarUpload from './AvatarUpload';
 import styles from './modal.less';
 
 export default function PorifilePicture() {
-  const [imgUrl, setImgUrl] = useState();
+  const { avatarSnapUrl, setAvatarSnapUrl } = useModel('common');
 
   const { address } = useAccount();
 
   return (
     <div className={styles['avatar-upload']}>
-      <AvatarUpload onChange={setImgUrl}>
+      <AvatarUpload onChange={setAvatarSnapUrl}>
         <div className={styles['user-profile']}>
           <Tooltip title="You can click if you want to change your profile picture">
             <i
               className={['iconfont icon-edit', styles['edit-float']].join(' ')}
             ></i>
             <img
-              src={imgUrl || avatar(address)}
+              src={avatarSnapUrl || avatar(address)}
               className={styles['user-profile-img']}
             />
           </Tooltip>
