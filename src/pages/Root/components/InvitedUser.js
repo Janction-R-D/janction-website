@@ -4,10 +4,9 @@ import { fetchInviterList } from '@/services/root';
 import { useEffect, useState } from 'react';
 import LabelValue from './LabelValue';
 import styles from './index.less';
-import { copy } from '@/utils/lang';
 
 const InviterTable = (props) => {
-  const { record, level = 2, omitFirst } = props;
+  const { record, level = 2 } = props;
 
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -33,22 +32,43 @@ const InviterTable = (props) => {
 
   const columns = [
     {
-      title: 'Invited Level',
+      title: 'Level',
       dataIndex: 'invites_number',
       render: () => `level${level}`,
     },
     {
       title: 'Invited User Address',
       dataIndex: 'inviter_address',
-      render: (text) => <Address text={text} />,
     },
     {
-      title: 'Quantity Purchased',
+      title: 'Purchase Time',
+      dataIndex: 'purchased_time',
+      width: 200,
+      fixed: 'right',
+    },
+    {
+      title: 'Purchase Quantity',
       dataIndex: 'purchased_quantity',
+      width: 200,
+      fixed: 'right',
+    },
+    {
+      title: 'Invitees Number',
+      dataIndex: 'invites_number',
+      width: 200,
+      fixed: 'right',
     },
     {
       title: 'Cumulative Rewards',
       dataIndex: 'rewards_cumulative',
+      width: 200,
+      fixed: 'right',
+    },
+    {
+      title: 'Higher-level',
+      dataIndex: 'higher_level',
+      width: 200,
+      fixed: 'right',
     },
   ];
 
@@ -59,6 +79,7 @@ const InviterTable = (props) => {
       rowKey="inviter_address" // 使用唯一标识字段
       pagination={false}
       className={styles['inviter-table']}
+      showHeader={level == 2}
       expandable={{
         expandedRowRender: (rowData) => (
           <InviterTable record={rowData} level={level + 1} omitFirst={false} />
@@ -78,7 +99,7 @@ const InvitedUser = (props) => {
       open={visible}
       title="Invited user"
       centered
-      width={950}
+      width="80vw"
       onCancel={onCancel}
       footerCenter
     >
@@ -110,16 +131,5 @@ const customExpandIcon = (props) => {
       ></i>
     );
   }
-};
-const Address = ({ text }) => {
-  const handleClick = () => {
-    copy(text);
-  };
-  return (
-    <p className="address">
-      {text}
-      <i className="iconfont icon-copy" onClick={handleClick}></i>
-    </p>
-  );
 };
 export default InvitedUser;
