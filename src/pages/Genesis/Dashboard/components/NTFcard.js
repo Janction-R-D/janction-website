@@ -47,14 +47,23 @@ const NTFcard = () => {
     setIsPay(false);
   };
   useEffect(() => {
-    const swiper = new Swiper(`.${styles['sales-wrapper']}`, {
+    const swiper = new Swiper('.swiper-container', {
       // Optional parameters
       direction: 'horizontal',
       loop: true,
+      effect: 'coverFlow',
+      grabCursor: true,
       centeredSlides: true,
       slidesPerView: 'auto',
-      spaceBetween: 30,
-
+      spaceBetween: 20,
+      initialSlide: 1,
+      coverflowEffect: {
+        rotate: 0,
+        stretch: 80,
+        depth: 200,
+        modifier: 1,
+        slideShadows: true,
+      },
       // If we need pagination
       pagination: {
         el: `.${styles['swiper-pagination']}`,
@@ -73,10 +82,10 @@ const NTFcard = () => {
 
   return (
     <div
-      className={`${styles['sales-wrapper']} ${styles['swiper-container']}  `}
+      className={`swiper-container ${styles['sales-wrapper']} ${styles['swiper-container']}  `}
     >
       <img className={styles['banner-img']} src={banner} />
-      <div className="swiper-wrapper">
+      <div className={`swiper-wrapper ${styles['swiper-wrapper']}`}>
         {sliderElements.map((item) => (
           <div
             className={`swiper-slide ${styles['swiper-slide']}`}
