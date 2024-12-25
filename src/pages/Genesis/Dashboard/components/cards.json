@@ -1,0 +1,29 @@
+{
+  "slides": [
+    {
+      "key": 1,
+      "image": "@/assets/images/genesis/ntf/silde-1.png",
+      "address": "0x1234567890abcdef1234567890abcdef12345678"
+    },
+    {
+      "key": 2,
+      "image": "@/assets/images/genesis/ntf/silde-3.png",
+      "address": "0xabcdef1234567890abcdef1234567890abcdef12"
+    },
+    {
+      "key": 3,
+      "image": "@/assets/images/genesis/ntf/silde-4.png",
+      "address": "0x7890abcdef1234567890abcdef1234567890abcd"
+    },
+    {
+      "key": 4,
+      "image": "@/assets/images/genesis/ntf/silde-5.png",
+      "address": "0x4567890abcdef1234567890abcdef1234567890a"
+    },
+    {
+      "key": 5,
+      "image": "@/assets/images/genesis/ntf/silde-6.png",
+      "address": "0xabcdef7890abcdef1234567890abcdef1234567b"
+    }
+  ]
+}
