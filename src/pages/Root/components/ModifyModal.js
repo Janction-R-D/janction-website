@@ -19,9 +19,9 @@ const ModifyModal = (props) => {
     }
     try {
       if (record?.type == 'number') {
-        onOk && onOk({ [record?.key]: value || 0 });
+        onOk && (await onOk({ [record?.key]: value || 0 }));
       } else {
-        onOk && onOk({ [record?.key]: value });
+        onOk && (await onOk({ [record?.key]: value }));
       }
       onCancel();
     } catch (err) {
@@ -41,7 +41,8 @@ const ModifyModal = (props) => {
       <LabelValue title={`${record?.title}:`}>
         <Com
           defaultValue={record.value}
-          min={0}
+          min={record?.min || 0}
+          max={record?.max}
           onChange={(e) => setValue(e?.target ? e?.target?.value : e)}
         />
         <span>{record?.unit}</span>

@@ -37,8 +37,8 @@ const Root = (props) => {
   const [psPage, setPsPage] = useState({ offset: 0, limit: 10 });
   const [paymentHistory, setPaymentHistory] = useState([]);
   const [paymentHistoryLoading, setPaymentHistoryLoading] = useState(false);
-  const [inviterQuery, setInviterQuery] = useState({ offset: 1, limit: 10 });
-  const [inviterPage, setInviterPage] = useState({ offset: 1, limit: 10 });
+  const [inviterQuery, setInviterQuery] = useState({ offset: 0, limit: 10 });
+  const [inviterPage, setInviterPage] = useState({ offset: 0, limit: 10 });
   const [inviterList, setInviterList] = useState([]);
   const [inviterLoading, setInviterLoading] = useState(false);
   const [splitVisible, setSplitVisible] = useState(false);

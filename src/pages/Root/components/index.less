@@ -94,6 +94,7 @@
   flex-direction: column;
   gap: 16px;
   padding-bottom: 20px;
+
   .value-item:last-child {
     .value > span {
       max-width: 50%;
@@ -214,33 +215,19 @@
     }
   }
 }
+
 .inviter-table {
   i {
     font-size: 0.7rem !important;
     cursor: pointer;
   }
-  :global {
-    .address {
-      display: flex;
-      align-items: center;
 
-      justify-content: space-between;
-      overflow: hidden;
-      gap: 8px;
-      p {
-        overflow: hidden;
-        width: 200px;
-        text-overflow: ellipsis;
-        text-wrap: nowrap;
-      }
-      i {
-        cursor: pointer;
-      }
-    }
+  :global {
     .ant-table-container {
       .ant-table {
         border-radius: 0px;
       }
+
       .ant-table-tbody {
         td {
           height: 70px !important;
@@ -249,33 +236,44 @@
         // hacer cambios aqui...
         .ant-table-expanded-row {
           td {
-            padding-inline: 16px !important;
+            // padding-inline: 16px !important;
 
             table {
               overflow: auto;
+
               thead {
                 background: #33333575;
+
                 tr {
                   padding-inline: 16px;
                 }
+
                 th {
                   background-color: transparent !important;
                   border-radius: 0px;
                 }
+
                 th:first-child,
                 th:last-child {
                   border-radius: unset !important;
                 }
               }
+
               tbody {
                 tr {
                   padding-inline: 32px;
                 }
+
                 td {
                   padding-inline: 16px;
                 }
               }
             }
+          }
+
+          > td.ant-table-cell {
+            padding: 8px 0;
+            padding-left: 16px;
           }
         }
       }
