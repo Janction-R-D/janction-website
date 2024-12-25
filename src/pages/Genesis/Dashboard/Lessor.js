@@ -10,6 +10,7 @@ import Pie from './components/Pie';
 import Profit from './components/Profit';
 import { ARITHMETIC_SITUATION, pieColors } from './data';
 import styles from './index.less';
+import NTFcard from './components/NTFcard';
 
 export function convertMBtoGB(mb) {
   if (empty(mb)) return '~';
@@ -140,17 +141,24 @@ const Lessors = (props) => {
                 ' ',
               )}
             >
+              <NTFcard />
+            </div>
+            {/* <div
+              className={[styles['content-item'], styles['sales-wrapper']].join(
+                ' ',
+              )}
+            >
               <div className={styles['title']}>
                 <span>Sales by Rep</span>
-                {/* <div className={styles['extra']}>
+                <div className={styles['extra']}>
               <span>See All</span>
               <i className="iconfont icon-next_page"></i>
-            </div> */}
+            </div>
               </div>
               <div className={styles['content']}>
                 <HorizontalBar data={sales_by_rep || []} />
               </div>
-            </div>
+            </div> */}
             <div
               className={[
                 styles['content-item'],

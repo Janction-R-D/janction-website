@@ -53,6 +53,7 @@
     "remark-stringify": "^11.0.0",
     "remark-toc": "^9.0.0",
     "siwe": "^2.3.2",
+    "swiper": "^11.1.15",
     "umi": "^3.5.41",
     "unified": "^11.0.5",
     "viem": "2.9.31",

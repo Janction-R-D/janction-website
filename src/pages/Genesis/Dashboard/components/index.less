@@ -4,7 +4,57 @@
   right: 32px;
   z-index: 999;
 }
+.modal-purchase {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: 18px;
 
+  border-radius: 16px;
+  img {
+    max-width: 100%;
+    height: 300px;
+    object-fit: cover;
+    margin-bottom: 22px;
+  }
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-block: 12px;
+    li {
+      flex: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  :global {
+    .ant-modal-content {
+      max-width: 900px;
+      height: 600px;
+      width: 100%;
+      margin-top: 0px;
+      border: #808080 1px solid;
+      border-radius: 20px;
+
+      background: linear-gradient(-10deg, #1e1e20, rgb(47, 47, 51));
+
+      .ant-modal-body {
+        display: flex;
+        padding: 22px;
+        gap: 22px;
+        height: 100%;
+        div {
+          display: flex;
+          flex-direction: column;
+          gap: 32px;
+        }
+      }
+    }
+  }
+}
 .invite-box {
   display: flex;
   align-items: center;
@@ -359,11 +409,12 @@
   }
 }
 
-.sale-wrapper {
+.sales-wrapper {
   display: flex;
   flex-direction: column;
   gap: 8px;
-
+  overflow: hidden;
+  height: 100%;
   .sale-item {
     display: flex;
     align-items: center;
@@ -423,4 +474,65 @@
       }
     }
   }
+  .swiper-slide {
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 18px;
+
+    width: 200px;
+    height: 100%;
+    position: relative;
+    transition: transform 0.3s ease;
+    z-index: 1;
+  }
+
+  .swiper-slide img {
+    width: 300px;
+    border-radius: 10px;
+  }
+
+  .swiper-slide-active {
+    transform: scale(1.1);
+    z-index: 2;
+  }
+
+  .swiper-pagination {
+    position: absolute;
+    text-align: center;
+    transition: 0.3s opacity;
+    transform: translate3d(0, 0, 0);
+    z-index: 10;
+    width: 100%;
+  }
+  .swiper-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+  .banner-img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    border-radius: 16px;
+  }
+
+  .swiper-wrapper {
+    display: flex;
+    align-items: center;
+  }
+  .swiper-button-prev,
+  .swiper-button-next {
+    color: #000;
+  }
+}
+.swiper {
+  width: 600px;
+  height: 300px;
 }
