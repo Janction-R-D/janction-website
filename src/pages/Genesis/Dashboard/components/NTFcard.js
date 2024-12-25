@@ -9,6 +9,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import styles from './index.less';
+import Cards from './Cards';
 
 const sliderElements = [
   {
@@ -39,118 +40,48 @@ const sliderElements = [
 ];
 
 const NTFcard = () => {
-  const [isPay, setIsPay] = useState(false);
-  const handleOk = () => {
-    setIsPay(true);
-  };
-  const handleCancelPay = () => {
-    setIsPay(false);
-  };
-  useEffect(() => {
-    const swiper = new Swiper('.swiper-container', {
-      // Optional parameters
-      direction: 'horizontal',
-      loop: true,
-      effect: 'coverFlow',
-      grabCursor: true,
-      centeredSlides: true,
-      slidesPerView: 'auto',
-      spaceBetween: 20,
-      initialSlide: 1,
-      coverflowEffect: {
-        rotate: 0,
-        stretch: 80,
-        depth: 200,
-        modifier: 1,
-        slideShadows: true,
-      },
-      // If we need pagination
-      pagination: {
-        el: `.${styles['swiper-pagination']}`,
-        clickable: true,
-      },
+  //   useEffect(() => {
+  //     const swiper = new Swiper('.swiper-container', {
+  //       // Optional parameters
+  //       direction: 'horizontal',
+  //       loop: true,
+  //       effect: 'coverFlow',
+  //       grabCursor: true,
+  //       centeredSlides: true,
+  //       slidesPerView: 'auto',
+  //       spaceBetween: 20,
+  //       initialSlide: 1,
+  //       coverflowEffect: {
+  //         rotate: 0,
+  //         stretch: 80,
+  //         depth: 200,
+  //         modifier: 1,
+  //         slideShadows: true,
+  //       },
+  //       // If we need pagination
+  //       pagination: {
+  //         el: `.${styles['swiper-pagination']}`,
+  //         clickable: true,
+  //       },
 
-      // Navigation arrows
-      navigation: {
-        nextEl: `.${styles['swiper-button-next']}`,
-        prevEl: `.${styles['swiper-button-prev']}`,
-      },
+  //       // Navigation arrows
+  //       navigation: {
+  //         nextEl: '.swiper-button-next',
+  //         prevEl: '.swiper-button-prev',
+  //       },
 
-      modules: [Navigation, Pagination],
-    });
-  }, []);
+  //       modules: [Navigation, Pagination],
+  //     });
+  //   }, []);
 
   return (
     <div
       className={`swiper-container ${styles['sales-wrapper']} ${styles['swiper-container']}  `}
     >
       <img className={styles['banner-img']} src={banner} />
-      <div className={`swiper-wrapper ${styles['swiper-wrapper']}`}>
-        {sliderElements.map((item) => (
-          <div
-            className={`swiper-slide ${styles['swiper-slide']}`}
-            key={item.key}
-          >
-            <img
-              src={img}
-              alt={`Slide ${item.key}`}
-              className={styles['slide-image']}
-              onClick={handleOk}
-            />
-            <MyNtf
-              isPay={isPay}
-              setIsPay={setIsPay}
-              handleCancel={handleCancelPay}
-            />
-          </div>
-        ))}
-      </div>
-
-      <div className={styles['swiper-pagination']}></div>
-      <div className={styles['swiper-button-prev']}></div>
-      <div className={styles['swiper-button-next']}></div>
+      <Cards />
     </div>
   );
 };
-function MyNtf({ isPay, handleCancel, handleOk }) {
-  return (
-    <Modal
-      open={isPay}
-      onOk={handleOk}
-      onCancel={handleCancel}
-      className={styles['modal-purchase']}
-      width={500}
-      footer={false}
-      closable={false}
-    >
-      <div className={styles['modal-img']}>
-        <img src={img} />
-        <section>
-          <p>
-            <i className="iconfont icon-list"></i> Details
-          </p>
-          <ul>
-            <li>
-              <p>Status:</p>
-              <p>Complete</p>
-            </li>
-            <li>
-              <p>Transaction Hash:</p>
-              <p>0xe3802293</p>
-            </li>
-            <li>
-              <p>ID:</p>
-              <p>73489024hu094invm</p>
-            </li>
-            <li>
-              <p>Contract address:</p>
-              <p>4678ghrtcgmgc</p>
-            </li>
-          </ul>
-        </section>
-      </div>
-    </Modal>
-  );
-}
 
 export default NTFcard;
