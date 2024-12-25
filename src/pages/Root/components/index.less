@@ -223,11 +223,15 @@
     .address {
       display: flex;
       align-items: center;
+
       justify-content: space-between;
+      overflow: hidden;
       gap: 8px;
       p {
         overflow: hidden;
+        width: 200px;
         text-overflow: ellipsis;
+        text-wrap: nowrap;
       }
       i {
         cursor: pointer;

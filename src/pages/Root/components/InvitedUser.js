@@ -7,7 +7,7 @@ import styles from './index.less';
 import { copy } from '@/utils/lang';
 
 const InviterTable = (props) => {
-  const { record, level = 2, omitFirst } = props;
+  const { record, level = 2 } = props;
 
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -23,6 +23,7 @@ const InviterTable = (props) => {
       setLoading(true);
       const res = await fetchInviterList(params); // 替换为你的实际请求方法
       setList(res?.items || []);
+      console.log(res);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -47,8 +48,22 @@ const InviterTable = (props) => {
       dataIndex: 'purchased_quantity',
     },
     {
+      title: 'Purchase Time',
+      dataIndex: 'purchase time',
+      render: (text) => text || '~',
+    },
+    {
       title: 'Cumulative Rewards',
       dataIndex: 'rewards_cumulative',
+    },
+    {
+      title: 'Inviters number',
+      dataIndex: 'invites_number',
+    },
+    {
+      title: 'Higher-level',
+      dataIndex: 'Higher-level',
+      render: (text) => text || '~',
     },
   ];
 
@@ -61,7 +76,7 @@ const InviterTable = (props) => {
       className={styles['inviter-table']}
       expandable={{
         expandedRowRender: (rowData) => (
-          <InviterTable record={rowData} level={level + 1} omitFirst={false} />
+          <InviterTable record={rowData} level={level + 1} />
         ),
         expandIcon: customExpandIcon,
       }}
@@ -78,7 +93,7 @@ const InvitedUser = (props) => {
       open={visible}
       title="Invited user"
       centered
-      width={950}
+      width={1200}
       onCancel={onCancel}
       footerCenter
     >
@@ -86,7 +101,7 @@ const InvitedUser = (props) => {
         <LabelValue title="Inviter Address:" value={record?.inviter_address} />
         <LabelValue title="Inviter Name:" value={record?.inviter_name} />
       </div>
-      <InviterTable record={record} omitFirst={true} />
+      <InviterTable record={record} />
     </JanctionModal>
   );
 };
@@ -116,10 +131,10 @@ const Address = ({ text }) => {
     copy(text);
   };
   return (
-    <p className="address">
-      {text}
+    <div className="address">
+      <p>{text}</p>
       <i className="iconfont icon-copy" onClick={handleClick}></i>
-    </p>
+    </div>
   );
 };
 export default InvitedUser;
