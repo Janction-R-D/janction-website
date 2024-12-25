@@ -85,6 +85,7 @@ const InviterTable = (props) => {
       dataIndex: 'purchased_time',
       width: 180,
       fixed: 'right',
+      render: (text) => text || '~',
     },
     {
       title: 'Purchase Quantity',
@@ -98,11 +99,7 @@ const InviterTable = (props) => {
       width: 180,
       fixed: 'right',
     },
-    {
-      title: 'Purchase Time',
-      dataIndex: 'purchase time',
-      render: (text) => text || '~',
-    },
+
     {
       title: 'Cumulative Rewards',
       dataIndex: 'rewards_cumulative',
@@ -124,15 +121,6 @@ const InviterTable = (props) => {
       ),
       width: 100,
       fixed: 'right',
-    },
-    {
-      title: 'Inviters number',
-      dataIndex: 'invites_number',
-    },
-    {
-      title: 'Higher-level',
-      dataIndex: 'Higher-level',
-      render: (text) => text || '~',
     },
   ];
 
