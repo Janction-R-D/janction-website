@@ -5,11 +5,16 @@ import { copy } from '@/utils/lang';
 import { Button, message, Modal, Badge } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
 import styles from './index.less';
+import InvitedUser from '@/pages/Root/components/InvitedUser';
+import { useAccount } from 'wagmi';
 
 const Invitation = (props) => {
   const [visible, setVisible] = useState(false);
   const [code, setCode] = useState();
   const [mineInviteData, setMyInviteData] = useState();
+  const [invitedUserVisible, setInvitedUserVisible] = useState(false);
+
+  const { address } = useAccount();
 
   useEffect(() => {
     getMineCode();
@@ -48,25 +53,34 @@ const Invitation = (props) => {
     copy(link);
   };
 
+  const onInvitersView = () => {
+    setInvitedUserVisible(true);
+  };
+
   return (
     <>
       <div className={styles['invite-box']}>
         <h1>Dashboard</h1>
         {code && (
-          <Badge
-            count={mineInviteData?.invites_number || 0}
-            offset={[-115, 0]}
-            color="#EE385C"
-          >
-            <div className={styles['invite-btn']}>
-              <Button className={styles['buy-btn']} onClick={handleOk}>
-                Invite
-              </Button>
-              <picture>
-                <img src={gift2} />
-              </picture>
-            </div>
-          </Badge>
+          <div className="df ai_c gap10">
+            <Badge
+              count={mineInviteData?.invites_number || 0}
+              offset={[-115, 0]}
+              color="#EE385C"
+            >
+              <div className={styles['invite-btn']}>
+                <Button className={styles['buy-btn']} onClick={handleOk}>
+                  Invite
+                </Button>
+                <picture>
+                  <img src={gift2} />
+                </picture>
+              </div>
+            </Badge>
+            <Button className={styles['setting-btn']} onClick={onInvitersView}>
+              Inviter Setting
+            </Button>
+          </div>
         )}
       </div>
       <div className={styles['invite-wrapper']}>
@@ -108,6 +122,16 @@ const Invitation = (props) => {
           </div>
         </Modal>
       </div>
+      {invitedUserVisible && (
+        <InvitedUser
+          visible={invitedUserVisible}
+          root={false}
+          record={{ inviter_address: address }}
+          onCancel={() => {
+            setInvitedUserVisible(false);
+          }}
+        />
+      )}
     </>
   );
 };

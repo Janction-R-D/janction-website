@@ -26,3 +26,29 @@ export const fetchNewsList = () => {
     loginAuth: true,
   });
 };
+
+export const fetchInviters = async (params) => {
+  try {
+    const response = await request(`${baseUrl}/affv2/inviters`, {
+      params,
+      loginAuth: true,
+    });
+    return response;
+  } catch (error) {
+    console.log('『error』', error);
+    return null;
+  }
+};
+
+export const fetchInvitersUpdate = async (data) => {
+  try {
+    const response = await request(`${baseUrl}/affv2/inviters`, {
+      method: 'POST',
+      data,
+      loginAuth: true,
+    });
+    return response;
+  } catch (error) {
+    throw Error(error);
+  }
+};
