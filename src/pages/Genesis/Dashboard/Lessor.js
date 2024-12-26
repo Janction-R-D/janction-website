@@ -134,7 +134,7 @@ const Lessors = (props) => {
       dataIndex: 'status',
     },
   ];
-
+  console.log(lessorsData);
   return (
     <div className={styles['dashboard-wrapper']}>
       <Invitation />
