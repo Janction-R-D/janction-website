@@ -23,7 +23,7 @@ const Invitation = (props) => {
     try {
       const res = await fetchMineInviteCode();
       if (res?.code == 40410) {
-        message.warning(res?.msg);
+        // message.warning(res?.msg);
         return;
       }
       setMyInviteData(res);

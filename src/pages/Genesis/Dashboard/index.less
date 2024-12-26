@@ -322,6 +322,24 @@
             }
           }
         }
+        .card-reneward {
+          display: flex;
+          justify-content: space-between;
+          height: 110px;
+          align-items: center;
+
+          .compare {
+            text-wrap: nowrap;
+
+            .diffValue {
+              display: flex;
+            }
+            img {
+              width: 20px;
+              height: 20px;
+            }
+          }
+        }
 
         .name {
           color: #606263;
@@ -1294,6 +1312,21 @@
       .profit-wrapper {
         .card {
           .card-total {
+            height: 120px;
+
+            .compare {
+              text-wrap: nowrap;
+              display: flex;
+              flex-direction: column;
+            }
+
+            .total-value {
+              font-size: 1.8rem;
+              margin-bottom: 12px;
+              color: #00bbd4;
+            }
+          }
+          .card-reneward {
             height: 120px;
 
             .compare {
