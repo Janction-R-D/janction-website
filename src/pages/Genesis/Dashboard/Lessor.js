@@ -82,8 +82,14 @@ const Lessors = (props) => {
       },
     ];
   }, [lessorsData]);
-  console.log(arithmetic_situation);
-  const handleSearch = (text) => {};
+  const nft_sumary = useMemo(() => {
+    const { ammount, detail } = lessorsData?.nft_summary || {};
+    return {
+      ammount: ammount || 0,
+      detail: detail || [],
+    };
+  }, [lessorsData]);
+
   const onSortChange = (e) => {
     const sortField = e.target.value;
     const _monitorList = monitorList.sort(
@@ -128,7 +134,7 @@ const Lessors = (props) => {
       dataIndex: 'status',
     },
   ];
-
+  console.log(lessorsData);
   return (
     <div className={styles['dashboard-wrapper']}>
       <Invitation />
@@ -136,29 +142,34 @@ const Lessors = (props) => {
       <div className={styles['dashboard-content']}>
         <div className={styles['dashboard-cards']}>
           <div className={styles['dashboard-content-left']}>
-            <div
-              className={[styles['content-item'], styles['sales-wrapper']].join(
-                ' ',
-              )}
-            >
-              <NTFcard />
-            </div>
-            {/* <div
-              className={[styles['content-item'], styles['sales-wrapper']].join(
-                ' ',
-              )}
-            >
-              <div className={styles['title']}>
-                <span>Sales by Rep</span>
-                <div className={styles['extra']}>
-              <span>See All</span>
-              <i className="iconfont icon-next_page"></i>
-            </div>
+            {nft_sumary.ammount !== 0 ? (
+              <div
+                className={[
+                  styles['content-item'],
+                  styles['sales-wrapper'],
+                ].join(' ')}
+              >
+                <NTFcard nft={nft_sumary} />
               </div>
-              <div className={styles['content']}>
-                <HorizontalBar data={sales_by_rep || []} />
+            ) : (
+              <div
+                className={[
+                  styles['content-item'],
+                  styles['sales-wrapper'],
+                ].join(' ')}
+              >
+                <div className={styles['title']}>
+                  <span>Sales by Rep</span>
+                  {/* <div className={styles['extra']}>
+                    <span>See All</span>
+                    <i className="iconfont icon-next_page"></i>
+                  </div> */}
+                </div>
+                <div className={styles['content']}>
+                  <HorizontalBar data={sales_by_rep || []} />
+                </div>
               </div>
-            </div> */}
+            )}
             <div
               className={[
                 styles['content-item'],

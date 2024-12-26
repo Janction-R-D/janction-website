@@ -464,3 +464,16 @@ export const fetchNodeProcessers = async (params) => {
     throw new Error(`failed, ${error.message}`);
   }
 };
+export const fetchNft = async (id) => {
+  console.log(id);
+  try {
+    const response = await request(
+      `https://pub-da89859eb37b4af0ab4fbec6b5247ec5.r2.dev/${id}`,
+    );
+
+    return response;
+  } catch (error) {
+    console.log('『error』', error);
+    throw new Error(`failed, ${error.message}`);
+  }
+};

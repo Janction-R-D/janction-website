@@ -19,7 +19,7 @@ export function Graph({ data, lessorsData }) {
       values,
     };
   }, [data]);
-  console.log(echartsData);
+
   const option = {
     tooltip: {
       trigger: 'axis',
