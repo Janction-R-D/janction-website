@@ -40,7 +40,7 @@ const Login = (props) => {
 
       console.log('『credential』', credential);
 
-      await fetchRootRegisterVerify(userid, credential);
+      await fetchRootRegisterVerify(reg_user_id, credential);
 
       message.success('registered successfully!');
 
