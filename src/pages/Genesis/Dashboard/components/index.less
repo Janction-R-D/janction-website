@@ -15,7 +15,10 @@
     max-width: 100%;
     height: 300px;
     object-fit: cover;
-    margin-bottom: 22px;
+    margin-bottom: 12px;
+  }
+  .details-text {
+    margin-bottom: 32px;
   }
   ul {
     display: flex;
@@ -27,6 +30,13 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      p {
+        text-align: end;
+        max-width: 200px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        text-wrap: nowrap;
+      }
     }
   }
 

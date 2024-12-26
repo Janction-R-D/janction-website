@@ -83,10 +83,10 @@ const Lessors = (props) => {
     ];
   }, [lessorsData]);
   const nft_sumary = useMemo(() => {
-    const { ammount = 0, detail = 0 } = lessorsData?.ntf_summary || {};
+    const { ammount, detail } = lessorsData?.nft_summary || {};
     return {
-      ammount: ammount,
-      detail: detail,
+      ammount: ammount || 0,
+      detail: detail || [],
     };
   }, [lessorsData]);
 
@@ -142,14 +142,14 @@ const Lessors = (props) => {
       <div className={styles['dashboard-content']}>
         <div className={styles['dashboard-cards']}>
           <div className={styles['dashboard-content-left']}>
-            {nft_sumary.ammount == 0 ? (
+            {nft_sumary.ammount !== 0 ? (
               <div
                 className={[
                   styles['content-item'],
                   styles['sales-wrapper'],
                 ].join(' ')}
               >
-                <NTFcard />
+                <NTFcard nft={nft_sumary} />
               </div>
             ) : (
               <div
