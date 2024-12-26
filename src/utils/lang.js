@@ -24,11 +24,6 @@ export const logout = () => {
   history.push('/login');
 };
 
-export const rootLogout = () => {
-  storage.remove('ROOT_AUTH');
-  window.location.replace('/root/login');
-};
-
 export const showValue = (value, fixed) => {
   if (empty(value)) return '~';
   if (empty(fixed)) {

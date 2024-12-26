@@ -63,80 +63,17 @@
     text-align: center;
   }
 
-  form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .user-box {
-    position: relative;
-
-    &::before {
-      position: absolute;
-      content: '';
-      display: block;
-      height: 2px;
-      width: 100%;
-      background-color: #000;
-      top: -1px;
-      left: 0;
-      z-index: 2;
-    }
-
-    input {
-      width: 100%;
-      padding: 10px 0;
-      font-size: 16px;
-      color: #fff;
-      margin-bottom: 5px;
-      border: none;
-      border-bottom: 1px solid #fff;
-      outline: none;
-      z-index: 1;
-      background-color: transparent !important;
-    }
-
-    input:-webkit-autofill {
-      /* 覆盖自动填充背景 */
-      -webkit-text-fill-color: #fff !important;
-      /* 保持字体颜色 */
-      box-shadow: 0 0 0 1000px rgb(0, 0, 0) inset !important;
-      /* 匹配容器背景 */
-    }
-
-    label {
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 3;
-      padding: 10px 0;
-      font-size: 16px;
-      color: #fff;
-      pointer-events: none;
-      transition: 0.5s;
-    }
-
-    input:focus ~ label,
-    input:valid ~ label {
-      top: -20px;
-      left: 0;
-      color: #03e9f4;
-      font-size: 12px;
-    }
-
-    .error {
-      font-size: 12px;
-      color: red;
-      opacity: 0.8;
-    }
-  }
-
   .submit {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
+  }
+
+  p.tip {
+    margin-top: 20px;
+    font-size: 12px;
+    color: #666;
   }
 }
