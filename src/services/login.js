@@ -1,6 +1,6 @@
 import { request } from 'umi';
 
-const baseUrl = 'http://54.95.234.135:81/v0/user/login';
+const baseUrl = '/v0/user/login';
 
 /**
  * Fetch nonce from the server.

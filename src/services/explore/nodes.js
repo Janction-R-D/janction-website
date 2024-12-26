@@ -1,6 +1,6 @@
 import { request } from 'umi';
 
-const baseUrl = 'https://www.janction.io/api/v1';
+const baseUrl = 'api/v1';
 
 export const fetchRuningNodes = async (params) => {
   try {

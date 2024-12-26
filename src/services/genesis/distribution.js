@@ -1,6 +1,6 @@
 import { request } from 'umi';
 
-const baseUrl = 'http://54.95.234.135:81/v0/affv2';
+const baseUrl = '/v0/affv2';
 
 // Beneficiary acquisition
 export const fetchBeneficiary = async () => {

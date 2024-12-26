@@ -1,6 +1,6 @@
 import { request } from 'umi';
 
-const baseUrl = 'http://54.95.234.135:81/v0/affv2/root';
+const baseUrl = '/v0/affv2/root';
 
 export const fetchNFTData = (params) => {
   try {
