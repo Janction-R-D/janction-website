@@ -1,10 +1,10 @@
 import { request } from 'umi';
 
-const baseUrl = '/api/v1/node';
+const baseUrl = 'api/v1';
 
 export const fetchRuningNodes = async (params) => {
   try {
-    const response = await request(`${baseUrl}/count`, {
+    const response = await request(`${baseUrl}/node/count`, {
       params,
     });
     if (response.code === 1000) {
@@ -19,7 +19,7 @@ export const fetchRuningNodes = async (params) => {
 
 export const fetchOverviewNodes = async (params) => {
   try {
-    const response = await request(`${baseUrl}/count`, {
+    const response = await request(`${baseUrl}/node/count`, {
       params,
     });
     if (response.code === 1000) {
@@ -33,7 +33,7 @@ export const fetchOverviewNodes = async (params) => {
 
 export const fetchNodesPoints = async (params) => {
   try {
-    const response = await request(`/api/v1/task/info`, {
+    const response = await request(`${baseUrl}/task/info`, {
       params,
     });
     if (response.code === 1000) {

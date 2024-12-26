@@ -99,14 +99,20 @@ export const fetchRootRegisterVerify = (userId, data) => {
   });
 };
 
-export const fetchRootAuthChallenge = () => {
+export const fetchRootAuthChallenge = (data) => {
   return request(`${baseUrl}/authentication/options`, {
     method: 'POST',
+    data,
   });
 };
 
-export const fetchRootAuthVerify = () => {
+export const fetchRootAuthVerify = (data) => {
   return request(`${baseUrl}/authentication/verification`, {
     method: 'POST',
+    data,
   });
+};
+
+export const fetchRootAuthStatus = () => {
+  return request(`${baseUrl}/authentication/status`);
 };
