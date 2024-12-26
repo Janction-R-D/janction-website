@@ -1,16 +1,15 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { history, useModel } from 'umi';
 import styles from './genesis.less';
 import GenesisContext from './Context/GenesisContext';
 import { ProfileModal } from '@/components/ProfileHeader';
 import NotifyModal from '@/components/NotifyModal';
-import { Modal } from 'antd';
 
 export default function GenesisHeader({ menu, active }) {
   const { initialState } = useModel('@@initialState');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNotifyModalOpen, setIsNotifyModalOpen] = useState(false);
-  const { imgUrl, setImgUrl } = useContext(GenesisContext);
+  const { imgUrl } = useContext(GenesisContext);
   const [menuShow, setMenuShow] = useState(false);
   const { isLessee } = initialState || {};
   const showModal = () => {
@@ -19,9 +18,7 @@ export default function GenesisHeader({ menu, active }) {
   const handleOk = () => {
     setIsModalOpen(false);
   };
-  const handleMenuOk = () => {
-    setIsModalOpen(false);
-  };
+
   const handleNotifyOk = () => {
     setIsNotifyModalOpen(true);
   };
@@ -32,13 +29,17 @@ export default function GenesisHeader({ menu, active }) {
     setMenuShow(false);
     history.push(nav.path);
   };
-
+  useEffect(() => {
+    setMenuShow(false);
+  }, [location.pathname]);
   return (
     <header className={styles['android-header']}>
       <div className={styles['menu']}>
         <section className={styles['menu-box']}>
           <i
-            className="iconfont icon-line-menu"
+            className={`iconfont ${
+              !menuShow ? 'icon-line-menu' : 'icon-close'
+            }`}
             onClick={() => {
               setMenuShow(!menuShow);
             }}
@@ -51,19 +52,23 @@ export default function GenesisHeader({ menu, active }) {
             {isLessee ? <span>Tenant</span> : <span>Landlord</span>}
           </div>
         </section>
-        <MenuModal
-          menu={menu}
-          menuShow={menuShow}
-          onNavChange={onNavChange}
-          setMenuShow={setMenuShow}
-          handleOk={handleMenuOk}
-          active={active}
-        />
+        <nav className={`${menuShow ? styles['menu-show'] : ''}`}>
+          {menu.map((item) => (
+            <li key={item.key}>
+              <div
+                className={`${active == item.path ? styles['active'] : ''}`}
+                onClick={() => onNavChange(item)}
+              >
+                <i className={`iconfont icon-${item.icon}`} />
+                <span>{item.name}</span>
+              </div>
+              {active == item.path ? (
+                <i className="iconfont icon-check"></i>
+              ) : null}
+            </li>
+          ))}
+        </nav>
       </div>
-      {/* <img
-              className={styles['logo']}
-              src={require('@/assets/images/icons/logo_name.png')}
-            /> */}
       <section className={styles['profile']}>
         <span onClick={handleNotifyOk}>
           <i className="iconfont icon-bell "></i>
@@ -84,42 +89,5 @@ export default function GenesisHeader({ menu, active }) {
         />
       </section>
     </header>
-  );
-}
-
-function MenuModal({
-  menuShow,
-  onNavChange,
-  menu,
-  setMenuShow,
-  handleOk,
-  active,
-}) {
-  const handleCancel = () => {
-    setMenuShow(false);
-  };
-
-  return (
-    <Modal
-      onCancel={handleCancel}
-      onOk={handleOk}
-      open={menuShow}
-      closable={false}
-      footer={false}
-      className={styles['menu-list']}
-    >
-      <nav>
-        {menu.map((item) => (
-          <div
-            key={item.key}
-            className={`${active == item.path ? styles['active'] : ''}`}
-            onClick={() => onNavChange(item)}
-          >
-            <i className={`iconfont icon-${item.icon}`} />
-            <span>{item.name}</span>
-          </div>
-        ))}
-      </nav>
-    </Modal>
   );
 }

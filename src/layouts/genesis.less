@@ -420,6 +420,7 @@
   .personal-container {
     border-radius: 0 0 12px 12px;
     flex-direction: column;
+    padding-top: 42px;
     background: linear-gradient(
       226deg,
       #192d52 5.03%,
@@ -440,16 +441,27 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 24px;
-      height: 48px;
+      padding: 24px 16px;
+      padding-top: 24px;
+      height: 58px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 5;
+      background: linear-gradient(60deg, #192d52 5.03%, #201436 99.86%);
+
+      background-blend-mode: color-dodge;
+      -webkit-backdrop-filter: blur(10.05px); /* Safari y Chrome */
+      backdrop-filter: blur(10.05px); /* Navegadores modernos */
 
       .menu {
-        position: relative;
         width: 100%;
         .menu-box {
           display: flex;
           align-items: center;
           gap: 5px;
+          position: relative;
+          z-index: 20;
           .role {
             display: flex;
             justify-content: center;
@@ -532,6 +544,55 @@
 
         i {
           font-size: 24px;
+        }
+        nav {
+          transform: translateX(-100%);
+          padding: 6px 16px;
+          background: linear-gradient(60deg, #192d52 5.03%, #201436 99.86%);
+          position: fixed;
+          width: 100vw;
+          z-index: 10;
+          height: 100vh;
+          left: 0;
+          top: 0;
+          padding-top: 58px;
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+          transition: all 250ms ease-in;
+          li {
+            padding-block: 8px;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 6px;
+            div {
+              display: flex;
+              align-items: center;
+              gap: 4px;
+            }
+            div ~ i {
+              background-color: transparent;
+              color: #72deff;
+            }
+          }
+          .active {
+            // background: rgba(94, 94, 94, 0.5);
+            background-blend-mode: color-dodge;
+            backdrop-filter: blur(10.05px);
+            color: #73d5f4;
+            .icon {
+              background: #73d5f4;
+
+              i {
+                color: #2c2c2f;
+              }
+            }
+          }
+        }
+        .menu-show {
+          transform: translateX(0%);
         }
       }
       .profile {
