@@ -35,7 +35,7 @@ const Login = (props) => {
 
       const credential = await client.register({
         ...(response?.publicKey || {}),
-        domian: response?.publicKey?.rp.id,
+        domain: response?.publicKey?.rp.id,
       });
 
       console.log('『credential』', credential);
@@ -61,7 +61,7 @@ const Login = (props) => {
 
       const credential = await client.authenticate({
         ...(response?.publicKey || {}),
-        domian: response?.publicKey?.rpId,
+        domain: response?.publicKey?.rpId,
       });
 
       console.log('『credential』', credential);
