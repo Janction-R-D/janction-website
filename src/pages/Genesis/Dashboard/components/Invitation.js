@@ -27,6 +27,7 @@ const Invitation = (props) => {
         return;
       }
       setMyInviteData(res);
+
       setCode(res.code);
     } catch (err) {
       console.log('『err』', err);
@@ -77,9 +78,14 @@ const Invitation = (props) => {
                 </picture>
               </div>
             </Badge>
-            <Button className={styles['setting-btn']} onClick={onInvitersView}>
-              Inviter Setting
-            </Button>
+            {mineInviteData?.level == 1 && (
+              <Button
+                className={styles['setting-btn']}
+                onClick={onInvitersView}
+              >
+                Inviter Setting
+              </Button>
+            )}
           </div>
         )}
       </div>

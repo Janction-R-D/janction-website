@@ -42,18 +42,18 @@ const slidesData = [
 ];
 
 export default function Cards() {
-  const [selectedNtf, setSelectedNtf] = useState(null); // Nuevo estado para almacenar el NFT seleccionado
+  const [selectedNtf, setSelectedNtf] = useState(null);
 
   const handleOk = () => {
-    setSelectedNtf(null); // Cierra el modal al hacer clic en 'Ok'
+    setSelectedNtf(null);
   };
 
   const handleCancelPay = () => {
-    setSelectedNtf(null); // Cierra el modal al cancelar
+    setSelectedNtf(false);
   };
 
   const handleClick = (ntf) => {
-    setSelectedNtf(ntf); // Establece el NFT seleccionado al hacer clic en la imagen
+    setSelectedNtf(ntf);
   };
 
   return (
@@ -65,6 +65,7 @@ export default function Cards() {
         slidesPerView={'auto'}
         coverflowEffect={{
           rotate: 10,
+
           stretch: 0,
           depth: 500,
           modifier: 1,
@@ -121,11 +122,11 @@ function MyNtf({ handleOk, handleCancel, data }) {
             </li>
             <li>
               <p>Transaction Hash:</p>
-              <p>{data.address}</p>
+              <p>0xe3802293</p>
             </li>
             <li>
               <p>ID:</p>
-              <p>{data.key}</p>
+              <p>73489024hu094invm</p>
             </li>
             <li>
               <p>Contract address:</p>
