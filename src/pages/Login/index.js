@@ -131,7 +131,7 @@ const Login = (props) => {
       await disconnect();
       // Triggered when the user clears local data
       storage.set({ name: 'refresh', value: true });
-      location.reload();
+      window.location.reload();
       // openConnectModal();
     } else {
       openConnectModal();
