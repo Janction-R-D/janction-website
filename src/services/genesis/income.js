@@ -1,6 +1,6 @@
 import { request } from 'umi';
 
-const baseUrl = '/v0';
+const baseUrl = 'http://54.95.234.135:81/v0';
 
 /**
  * Gain detail

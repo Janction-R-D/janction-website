@@ -1,6 +1,6 @@
 import { request } from 'umi';
 
-const baseUrl = '/api/point/v1';
+const baseUrl = 'https://www.janction.io/api/point/v1';
 
 export const fetchUserCreditsInfo = async (params) => {
   try {
