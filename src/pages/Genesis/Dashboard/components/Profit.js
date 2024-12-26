@@ -69,14 +69,13 @@ export default function Profit({ lessorsData, getLessors, percent }) {
       <div className={styles['content']}>
         <div className={styles['total-wrapper']}>
           <ProfitTotal
-            profit={profit.graph}
-            lessorsData={lessorsData}
             title="Total"
             income={profit?.total.now || 0}
             diffValue={profit?.total.growth || 0}
           />
-
-          <ProfitCard
+          <RewardCard
+            profit={profit.graph}
+            lessorsData={lessorsData}
             title="Node rewards"
             income={profit?.node_reward.now || 0}
             diffValue={profit?.node_reward.growth || 0}
@@ -134,7 +133,7 @@ function ProfitCard({ title, income, diffValue, unit = '' }) {
   );
 }
 
-function ProfitTotal({ title, income, diffValue, profit, lessorsData }) {
+function ProfitTotal({ title, income, diffValue }) {
   const isDrop = diffValue < 0;
 
   return (
@@ -144,6 +143,40 @@ function ProfitTotal({ title, income, diffValue, profit, lessorsData }) {
           <div className={styles['income-value']}>
             <span className={styles['total-value']}>
               {!empty(income) ? `$${numeral(income).format('0.00')}` : '~'}
+            </span>
+          </div>
+          <div className={styles['card-footer']}>
+            <div className={styles['compare']}>
+              <span
+                className={`${styles['diff-value']}  ${
+                  diffValue > 0 ? styles['text-red'] : styles['text-green']
+                }`}
+              >
+                <img src={isDrop ? drop : rise}></img>
+                {!empty(diffValue)
+                  ? numeral(diffValue).format('0%')
+                  : diffValue}
+              </span>
+              <span className={styles['name']}>Compared to yesterday</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </Card>
+  );
+}
+
+function RewardCard({ title, income, diffValue, profit, lessorsData, unit }) {
+  const isDrop = diffValue < 0;
+
+  return (
+    <Card title={title} className={styles['card']}>
+      <section className={styles['card-reneward']}>
+        <div>
+          <div className={styles['income-value']}>
+            <span className={styles['value']}>
+              {!empty(income) ? `${numeral(income).format('0.00')}` : '~'}
+              {unit}
             </span>
           </div>
           <div className={styles['card-footer']}>
