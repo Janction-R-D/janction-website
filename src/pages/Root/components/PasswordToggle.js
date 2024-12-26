@@ -34,7 +34,7 @@ const PasswordToggle = ({ initialPassword = '12345678' }) => {
   };
 
   const record = useMemo(() => {
-    return { title: 'Password', value: password };
+    return { title: 'Password', key: 'new_password', value: password };
   }, [password]);
 
   const toggleVisibility = () => {
@@ -49,7 +49,7 @@ const PasswordToggle = ({ initialPassword = '12345678' }) => {
     try {
       fetchRootUserPsdUpdate({
         old_password: password,
-        new_password,
+        ...new_password,
       });
       setInitialState({
         ...initialState,
@@ -57,10 +57,9 @@ const PasswordToggle = ({ initialPassword = '12345678' }) => {
       });
       setTimeout(() => {
         storage.remove('ROOT_AUTH');
-      }, 1000);
+      }, 500);
     } catch (err) {
-      console.log('『err111』', err);
-      // throw Error(err);
+      console.log('『err』', err);
     }
   };
 

@@ -78,14 +78,9 @@ export const fetchInviterCode = (params) => {
 };
 
 export const fetchRootUserPsdUpdate = (params) => {
-  try {
-    return request(`${baseUrl}/password`, {
-      method: 'POST',
-      data: params,
-      basicLoginAuth: true,
-    });
-  } catch (err) {
-    console.log('『err』', err);
-    return null;
-  }
+  return request(`${baseUrl}/password`, {
+    method: 'POST',
+    data: params,
+    basicLoginAuth: true,
+  });
 };
