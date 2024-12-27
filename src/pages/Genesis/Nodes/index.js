@@ -16,7 +16,7 @@ export default function Nodes() {
 
   const { initialState } = useModel('@@initialState');
   const { isLessee } = initialState || {};
-
+  console.log(list);
   useEffect(() => {
     getList();
   }, []);
@@ -24,6 +24,7 @@ export default function Nodes() {
     try {
       const res = await fetchNodesList({ mine: true });
       setList(res || []);
+      console.log(res);
       setFilteredData(res || []);
       setFilter(initQuery);
     } catch (error) {
