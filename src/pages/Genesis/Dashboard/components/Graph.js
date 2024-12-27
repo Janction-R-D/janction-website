@@ -2,6 +2,7 @@ import ReactECharts from 'echarts-for-react';
 import { useMemo } from 'react';
 import { isEmpty } from '@/utils/lang';
 import JactionEmpty from '@/components/JactionEmpty';
+import numeral from 'numeral';
 
 export function Graph({ data, lessorsData }) {
   const echartsData = useMemo(() => {
@@ -26,7 +27,7 @@ export function Graph({ data, lessorsData }) {
       formatter: function (params) {
         const date = params[0].name;
         const price = params[0].value;
-        return `Time: ${date}<br/>Price: ¥${price}`;
+        return `Time: ${date}<br/>Price: ${numeral(price).format('0.000')}`;
       },
       label: {
         backgroundColor: '#19191A',

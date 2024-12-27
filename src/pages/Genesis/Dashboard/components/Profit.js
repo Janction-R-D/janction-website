@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import styles from '../index.less';
 import numeral from 'numeral';
@@ -10,22 +10,43 @@ import { empty } from '@/utils/lang';
 
 export default function Profit({ lessorsData, getLessors, percent }) {
   const profitInfo = lessorsData?.profit || {};
+
+  // Función para calcular el crecimiento
   function calculateGrowth(current, previous) {
     if (previous === 0) {
       return current === 0 ? 0 : 100; // Assume 0% growth if both are 0, or 100% if current is > 0
     }
     return ((current - previous) / previous) * 100;
   }
-  function calculateTotal(data) {
-    return Object.values(data).reduce((total, value) => total + value, 0);
+
+  // Función para calcular el total de los valores en un objeto, excluyendo node_reward
+  function calculateFilteredTotal(data) {
+    return Object.entries(data)
+      .filter(([key]) => key !== 'node_reward')
+      .reduce((total, [, value]) => total + value, 0);
   }
-  const totalNow = calculateTotal(profitInfo?.now || 0);
-  const totalYesterday = calculateTotal(profitInfo?.yesterday || 0);
+
+  // Calcular los totales filtrados para 'now' y 'yesterday'
+  const totalFilteredNow = useMemo(
+    () => calculateFilteredTotal(profitInfo.now || {}),
+    [profitInfo.now],
+  );
+  const totalFilteredYesterday = useMemo(
+    () => calculateFilteredTotal(profitInfo.yesterday || {}),
+    [profitInfo.yesterday],
+  );
+
+  // Calcular el crecimiento basado en los totales filtrados
+  const filteredGrowth = useMemo(
+    () => calculateGrowth(totalFilteredNow, totalFilteredYesterday),
+    [totalFilteredNow, totalFilteredYesterday],
+  );
+
   const profit = {
     total: {
-      now: totalNow,
-      yesterday: totalYesterday,
-      growth: calculateGrowth(totalNow, totalYesterday),
+      now: totalFilteredNow,
+      yesterday: totalFilteredYesterday,
+      growth: filteredGrowth,
     },
     invite_reward: {
       now: profitInfo.now?.invite_reward,
