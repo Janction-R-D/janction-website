@@ -80,7 +80,14 @@ export const renderBackgroudImg = (img) => {
     backgroundRepeat: 'no-repeat',
   };
 };
-
+export const renderBackgroudImgMobile = (img) => {
+  return {
+    backgroundImage: `url(${img})`,
+    backgroundSize: 'cover',
+    backgroundPosition: '70% 40%',
+    backgroundRepeat: 'no-repeat',
+  };
+};
 // Determine whether it is a JSON string
 export const isJSON = (str) => {
   if (typeof str == 'string') {

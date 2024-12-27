@@ -1,11 +1,11 @@
-import step1 from '@/assets/images/get-started/step1.png';
-import step2 from '@/assets/images/get-started/step2.png';
-import step3 from '@/assets/images/get-started/step3.png';
+import step1 from '@/assets/images/get-started/step1.webp';
+import step2 from '@/assets/images/get-started/step2.webp';
+import step3 from '@/assets/images/get-started/step3.webp';
 import eye from '@/assets/images/get-started/eye.png';
 import data_bank from '@/assets/images/get-started/data_bank.png';
 import path from '@/assets/images/get-started/path.png';
 import '@/assets/images/get-started/flow.png';
-import '@/assets/images/get-started/step_shadow.png';
+import '@/assets/images/get-started/step_shadow.webp';
 
 export const steps = [
   {

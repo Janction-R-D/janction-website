@@ -1,8 +1,8 @@
 import '@/assets/images/explore/statistic_bg.png';
-import '@/assets/images/explore/slogan_bg.png';
+import '@/assets/images/explore/slogan_bg.webp';
 import '@/assets/images/explore/device_item_active_bg.png';
-import '@/assets/images/home/shadow_left.png';
-import '@/assets/images/home/shadow_right.png';
+import '@/assets/images/home/shadow_left.webp';
+import '@/assets/images/home/shadow_right.webp';
 import BulletScreen from 'rc-bullets';
 import { useEffect, useRef, useState } from 'react';
 import { fetchUserCreditsInfo } from '../../services/explore/point';

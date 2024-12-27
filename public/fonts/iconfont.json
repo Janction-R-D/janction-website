@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1410260",
+      "name": "check",
+      "font_class": "check1",
+      "unicode": "e661",
+      "unicode_decimal": 58977
+    },
+    {
       "icon_id": "866325",
       "name": "时钟_clock74",
       "font_class": "shizhongclock74",

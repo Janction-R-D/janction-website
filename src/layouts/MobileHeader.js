@@ -5,7 +5,7 @@ import GenesisContext from './Context/GenesisContext';
 import { ProfileModal } from '@/components/ProfileHeader';
 import NotifyModal from '@/components/NotifyModal';
 
-export default function GenesisHeader({ menu, active }) {
+export default function GenesisMobileHeader({ menu, active }) {
   const { initialState } = useModel('@@initialState');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNotifyModalOpen, setIsNotifyModalOpen] = useState(false);
@@ -63,7 +63,7 @@ export default function GenesisHeader({ menu, active }) {
                 <span>{item.name}</span>
               </div>
               {active == item.path ? (
-                <i className="iconfont icon-check"></i>
+                <i className="iconfont icon-check1"></i>
               ) : null}
             </li>
           ))}

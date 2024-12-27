@@ -1,13 +1,13 @@
-import whyIcon1 from '@/assets/images/home/why_icon1.png';
-import whyIcon2 from '@/assets/images/home/why_icon2.png';
-import whyIcon3 from '@/assets/images/home/why_icon3.png';
-import hiroshi_harada from '@/assets/images/home/hiroshi_harada.png';
+import whyIcon1 from '@/assets/images/home/why_icon1.webp';
+import whyIcon2 from '@/assets/images/home/why_icon2.webp';
+import whyIcon3 from '@/assets/images/home/why_icon3.webp';
+import hiroshi_harada from '@/assets/images/home/hiroshi_harada.webp';
 import hiroshi_harada_android from '@/assets/images/home/hiroshi_harada_android.png';
-import kunitake_ando from '@/assets/images/home/kunitake_ando.png';
+import kunitake_ando from '@/assets/images/home/kunitake_ando.webp';
 import kunitake_ando_android from '@/assets/images/home/kunitake_ando_android.png';
-import kazumasa_sato from '@/assets/images/home/kazumasa_sato.png';
+import kazumasa_sato from '@/assets/images/home/kazumasa_sato.webp';
 import kazumasa_sato_android from '@/assets/images/home/kazumasa_sato_android.png';
-import takashi_hagiwara from '@/assets/images/home/takashi_hagiwara.png';
+import takashi_hagiwara from '@/assets/images/home/takashi_hagiwara.webp';
 import takashi_hagiwara_android from '@/assets/images/home/takashi_hagiwara_android.png';
 
 export const characteristics = [

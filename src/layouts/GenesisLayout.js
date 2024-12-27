@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { history, useModel } from 'umi';
 import ProfileHeader from '../components/ProfileHeader';
 import styles from './genesis.less';
-import GenesisHeader from './GenesisHeader';
+import GenesisMobileHeader from './MobileHeader';
 
 const navList = [
   {
@@ -136,7 +136,7 @@ const GenesisLayout = (props) => {
             <section></section>
             <CustomConnectButton afterClick={() => setMenuShow(false)} />
           </header> */}
-          <GenesisHeader menu={menu} active={active} />
+          <GenesisMobileHeader menu={menu} active={active} />
           <aside className={`${fold ? styles['fold'] : ''}`}>
             <header>
               <section>

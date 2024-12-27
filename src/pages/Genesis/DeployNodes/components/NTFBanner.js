@@ -1,5 +1,9 @@
 import banner1 from '@/assets/images/genesis/banner1.png';
-import { empty, renderBackgroudImg } from '@/utils/lang';
+import {
+  empty,
+  renderBackgroudImg,
+  renderBackgroudImgMobile,
+} from '@/utils/lang';
 import storage from '@/utils/storage';
 import { useLocation } from 'umi';
 import BuyNode from './BuyNode';
@@ -7,10 +11,11 @@ import styles from './index.less';
 import { useEffect, useState } from 'react';
 import { useAccount } from 'wagmi';
 import { fetchMineInviteCode } from '@/services/genesis/distribution';
+import useScale from '@/hooks/useScale';
 
 const NTFBanner = (props) => {
   const [code, setCode] = useState();
-
+  const { isPC } = useScale();
   const { address } = useAccount();
 
   const location = useLocation();
@@ -47,10 +52,12 @@ const NTFBanner = (props) => {
   return (
     <div
       className={styles['banner']}
-      // style={renderBackgroudImg(banner1)}
+      style={
+        isPC ? renderBackgroudImg(banner1) : renderBackgroudImgMobile(banner1)
+      }
     >
       <h1>Deploy node</h1>
-      <img className={styles['banner-img']} src={banner1} />
+      {/* <img className={styles['banner-img']} src={banner1} /> */}
       <p>
         Directly purchase deployed Janction mining machine nodes to share more
         profits！ Currently holding Janction Landlord NFT to participate in the

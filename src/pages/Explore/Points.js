@@ -3,7 +3,7 @@ import first from '@/assets/images/explore/first.png';
 import second from '@/assets/images/explore/second.png';
 import third from '@/assets/images/explore/third.png';
 import line_charts from '@/assets/images/explore/line_charts.png';
-import ranking_bg from '@/assets/images/explore/ranking_bg.png';
+import ranking_bg from '@/assets/images/explore/ranking_bg.webp';
 import '@/assets/images/explore/total_bg.png';
 import '@/assets/images/explore/total_android_bg.png';
 import '@/assets/images/explore/device_item_android_bg.png';
