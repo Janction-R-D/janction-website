@@ -87,6 +87,15 @@ export default function Layout(props) {
     );
   }
 
+  // no aside
+  if (props.location.pathname.includes('/genesis/contributorReward')) {
+    return (
+      <GenesisProvider>
+        <GenesisLayout aside={false}>{children}</GenesisLayout>
+      </GenesisProvider>
+    );
+  }
+
   // auth route 404
   if (props.location.pathname.includes('/genesis')) {
     return (

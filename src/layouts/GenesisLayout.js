@@ -59,7 +59,7 @@ const navList = [
   },
 ];
 const GenesisLayout = (props) => {
-  const { children, noPadding } = props;
+  const { children, noPadding, aside = true } = props;
 
   const { initialState } = useModel('@@initialState');
 
@@ -99,115 +99,81 @@ const GenesisLayout = (props) => {
     <div id={styles['genesis-layout']}>
       <main>
         <div className={styles['personal-container']}>
-          {/* <header className={styles['android-header']}>
-            <div className={styles['menu']}>
-              <section className={styles['menu-box']}>
-                <i
-                  className="iconfont icon-line-menu"
-                  onClick={() => {
-                    setMenuShow(!menuShow);
-                  }}
-                ></i>
-                <div
-                  className={`${styles['role']} ${
-                    isLessee ? styles['buyer-role'] : ''
-                  }`}
-                >
-                  {isLessee ? <span>Tenant</span> : <span>Landlord</span>}
-                </div>
-              </section>
+          <GenesisMobileHeader menu={menu} active={active} />
+          {aside && (
+            <aside className={`${fold ? styles['fold'] : ''}`}>
+              <header>
+                <section>
+                  <img
+                    className={styles['logo-name']}
+                    src={require('@/assets/images/icons/logo_name.png')}
+                  />
+                  <div className={styles['logo']}>
+                    <img src={require('@/assets/images/icons/logo.png')} />
+                  </div>
 
-              <nav
-                className={styles['menu-list']}
-                style={{ display: menuShow ? 'flex' : 'none' }}
-              >
+                  {!fold && (
+                    <div
+                      className={`${styles['role']} ${
+                        isLessee ? styles['buyer-role'] : ''
+                      }`}
+                    >
+                      {isLessee ? <span>Tenant</span> : <span>Landlord</span>}
+                    </div>
+                  )}
+                </section>
+              </header>
+              <nav>
                 {menu.map((item) => (
-                  <div key={item.key} onClick={() => onNavChange(item)}>
-                    <i className={`iconfont icon-${item.icon}`} />
+                  <div
+                    key={item.key}
+                    className={`${styles['menu-item']} ${
+                      active === item.path ||
+                      (active && active === item.redirect)
+                        ? styles['active']
+                        : ''
+                    }`}
+                    onClick={() => onNavChange(item)}
+                  >
+                    <div className={styles['icon']}>
+                      <i className={`iconfont icon-${item.icon}`} />
+                    </div>
                     <span>{item.name}</span>
                   </div>
                 ))}
               </nav>
-            </div>
-            <img
-              className={styles['logo']}
-              src={require('@/assets/images/icons/logo_name.png')}
-            />
-            <section></section>
-            <CustomConnectButton afterClick={() => setMenuShow(false)} />
-          </header> */}
-          <GenesisMobileHeader menu={menu} active={active} />
-          <aside className={`${fold ? styles['fold'] : ''}`}>
-            <header>
-              <section>
-                <img
-                  className={styles['logo-name']}
-                  src={require('@/assets/images/icons/logo_name.png')}
-                />
-                <div className={styles['logo']}>
-                  <img src={require('@/assets/images/icons/logo.png')} />
-                </div>
-
-                {!fold && (
-                  <div
-                    className={`${styles['role']} ${
-                      isLessee ? styles['buyer-role'] : ''
-                    }`}
-                  >
-                    {isLessee ? <span>Tenant</span> : <span>Landlord</span>}
-                  </div>
-                )}
-              </section>
-            </header>
-            <nav>
-              {menu.map((item) => (
+              <div className={styles['footer']}>
                 <div
-                  key={item.key}
-                  className={`${styles['menu-item']} ${
-                    active === item.path || (active && active === item.redirect)
-                      ? styles['active']
-                      : ''
-                  }`}
-                  onClick={() => onNavChange(item)}
+                  className={styles['item']}
+                  onClick={() => {
+                    history.push('/genesis/help');
+                  }}
                 >
                   <div className={styles['icon']}>
-                    <i className={`iconfont icon-${item.icon}`} />
+                    <QuestionCircleOutlined />
                   </div>
-                  <span>{item.name}</span>
+                  <span>Help</span>
                 </div>
-              ))}
-            </nav>
-            <div className={styles['footer']}>
-              <div
-                className={styles['item']}
-                onClick={() => {
-                  history.push('/genesis/help');
-                }}
-              >
-                <div className={styles['icon']}>
-                  <QuestionCircleOutlined />
-                </div>
-                <span>Help</span>
-              </div>
-              {/* <div className={styles['item']}>
+                {/* <div className={styles['item']}>
                 <div className={styles['icon']}>
                   <SettingOutlined />
                 </div>
                 <span>Settings</span>
               </div> */}
-            </div>
-            <div
-              className={styles['fold-wrapper-2']}
-              onClick={() => history.push('/')}
-            >
-              <i className="iconfont icon-home1"></i>
-            </div>
-            <div className={styles['fold-wrapper']} onClick={foldHandle}>
-              <i
-                className={`iconfont ${fold ? 'icon-unfold' : 'icon-fold'}`}
-              ></i>
-            </div>
-          </aside>
+              </div>
+              <div
+                className={styles['fold-wrapper-2']}
+                onClick={() => history.push('/')}
+              >
+                <i className="iconfont icon-home1"></i>
+              </div>
+              <div className={styles['fold-wrapper']} onClick={foldHandle}>
+                <i
+                  className={`iconfont ${fold ? 'icon-unfold' : 'icon-fold'}`}
+                ></i>
+              </div>
+            </aside>
+          )}
           <main className={noPadding && styles['main-no-padding']}>
             <header>
               <ProfileHeader />

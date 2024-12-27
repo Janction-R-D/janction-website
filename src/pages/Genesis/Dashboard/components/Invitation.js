@@ -1,38 +1,19 @@
 import gift2 from '@/assets/images/genesis/gift-invitation.png';
 import gift from '@/assets/images/genesis/img-invite.png';
-import { fetchMineInviteCode } from '@/services/genesis/distribution';
-import { copy } from '@/utils/lang';
-import { Button, message, Modal, Badge } from 'antd';
-import { useEffect, useMemo, useState } from 'react';
-import styles from './index.less';
 import InvitedUser from '@/pages/Root/components/InvitedUser';
+import { copy } from '@/utils/lang';
+import { Badge, Button, message, Modal } from 'antd';
+import { useMemo, useState } from 'react';
+import { useModel } from 'umi';
 import { useAccount } from 'wagmi';
+import styles from './index.less';
 
 const Invitation = (props) => {
   const [visible, setVisible] = useState(false);
-  const [code, setCode] = useState();
-  const [mineInviteData, setMyInviteData] = useState();
   const [invitedUserVisible, setInvitedUserVisible] = useState(false);
+  const { code, mineInviteData } = useModel('common');
 
   const { address } = useAccount();
-
-  useEffect(() => {
-    getMineCode();
-  }, []);
-  const getMineCode = async () => {
-    try {
-      const res = await fetchMineInviteCode();
-      if (res?.code == 40410) {
-        // message.warning(res?.msg);
-        return;
-      }
-      setMyInviteData(res);
-
-      setCode(res.code);
-    } catch (err) {
-      console.log('『err』', err);
-    }
-  };
 
   const link = useMemo(() => {
     const origin = location.origin;

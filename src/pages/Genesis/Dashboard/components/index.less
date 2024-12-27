@@ -4,6 +4,7 @@
   right: 32px;
   z-index: 999;
 }
+
 .modal-purchase {
   display: flex;
   flex-direction: column;
@@ -11,25 +12,30 @@
   padding: 18px;
 
   border-radius: 16px;
+
   img {
     max-width: 100%;
     height: 300px;
     object-fit: cover;
     margin-bottom: 12px;
   }
+
   .details-text {
     margin-bottom: 32px;
   }
+
   ul {
     display: flex;
     flex-direction: column;
     gap: 8px;
     margin-block: 12px;
+
     li {
       flex: 1;
       display: flex;
       justify-content: space-between;
       align-items: center;
+
       p {
         text-align: end;
         max-width: 200px;
@@ -56,6 +62,7 @@
         padding: 22px;
         gap: 22px;
         height: 100%;
+
         div {
           display: flex;
           flex-direction: column;
@@ -66,6 +73,7 @@
     }
   }
 }
+
 .invite-box {
   display: flex;
   align-items: center;
@@ -443,6 +451,7 @@
   gap: 8px;
   overflow: hidden;
   height: 100%;
+
   .sale-item {
     display: flex;
     align-items: center;
@@ -502,6 +511,7 @@
       }
     }
   }
+
   // .swiper-slide {
   //   overflow: hidden;
   //   display: flex;
@@ -537,7 +547,162 @@
     border-radius: 16px;
   }
 }
+
 .swiper {
   width: 500px;
   height: 300px;
+}
+
+.contributor-reward {
+  width: 100%;
+  height: 137px;
+  border-radius: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  backdrop-filter: blur(30px);
+
+  img {
+    width: 355px;
+    height: 45.04px;
+  }
+
+  .receive {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .value {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+
+      .icon {
+        width: 24px;
+        height: 24px;
+        background: url('../../../../assets/images/genesis/jasmy_coin.png');
+        background-size: 100% 100%;
+      }
+
+      span {
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 24px;
+        line-height: 36px;
+        color: #f6931e;
+      }
+    }
+
+    .btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 8.8px 22px;
+      gap: 11px;
+      width: 160px;
+      height: 44.6px;
+      background-color: linear-gradient(139.61deg, -32.94%, #000000 45.49%);
+      // border-image-source: linear-gradient(95.72deg, #FFF4DA -1.58%, #B85600 89.37%);
+      border: 1px solid transparent;
+      background-clip: padding-box, border-box;
+      background-origin: padding-box, border-box;
+      background-image: linear-gradient(to right, #000, #000),
+        linear-gradient(90deg, #fff4da 0%, #b85600 100%);
+      border-radius: 28.6px;
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 500;
+      font-size: 15px;
+      line-height: 26px;
+      color: #fff7dd;
+      cursor: pointer;
+    }
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .invite-box {
+    h1 {
+      font-size: 22px;
+      line-height: 60px;
+    }
+
+    :global {
+      .ant-badge {
+        .ant-badge-count {
+          right: 85px !important;
+        }
+      }
+    }
+  }
+
+  .invite-btn {
+    .buy-btn {
+      width: auto;
+      height: 30px;
+      padding: 10px 25px;
+      font-size: 14px;
+    }
+
+    img {
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  .setting-btn {
+    height: 30px;
+    padding-inline: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 24px;
+  }
+
+  .contributor-reward {
+    height: auto;
+    flex-direction: column;
+    padding: 16px;
+
+    img {
+      width: 90%;
+      height: auto;
+    }
+
+    .receive {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-direction: column;
+
+      .value {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+
+        .icon {
+          width: 24px;
+          height: 24px;
+          background: url('../../../../assets/images/genesis/jasmy_coin.png');
+          background-size: 100% 100%;
+        }
+
+        span {
+          font-family: 'Poppins';
+          font-style: normal;
+          font-weight: 600;
+          font-size: 24px;
+          line-height: 36px;
+          color: #f6931e;
+        }
+      }
+
+      .btn {
+        width: auto;
+        height: 32px;
+        font-size: 14px;
+      }
+    }
+  }
 }

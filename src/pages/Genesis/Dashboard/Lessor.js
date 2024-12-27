@@ -11,6 +11,8 @@ import Profit from './components/Profit';
 import { ARITHMETIC_SITUATION, pieColors } from './data';
 import styles from './index.less';
 import NTFcard from './components/NTFcard';
+import ContributorReward from './components/ContributorReward';
+import { useModel } from 'umi';
 
 export function convertMBtoGB(mb) {
   if (empty(mb)) return '~';
@@ -25,6 +27,7 @@ export function convertMBtoGB(mb) {
 const Lessors = (props) => {
   const [lessorsData, setLessorsData] = useState();
   const [monitorList, setMonitorList] = useState([]);
+  const { code } = useModel('common');
 
   const percent = useMemo(() => {
     const { monthly_goal = 0, total = 0 } = lessorsData?.profit || {};
@@ -140,6 +143,7 @@ const Lessors = (props) => {
       <Invitation />
 
       <div className={styles['dashboard-content']}>
+        {code && <ContributorReward />}
         <div className={styles['dashboard-cards']}>
           <div className={styles['dashboard-content-left']}>
             {nft_sumary.ammount !== 0 ? (
