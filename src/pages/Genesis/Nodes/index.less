@@ -164,7 +164,7 @@
       }
       @media screen and (max-width: 620px) {
         .ant-radio-button-wrapper {
-          width: 65px;
+          width: 60px;
           height: 44px;
           font-size: 0.65rem;
         }
@@ -367,6 +367,18 @@
   :global {
     .ant-input-prefix {
       margin-right: 0.488vw;
+    }
+  }
+}
+@media screen and (max-width: 620px) {
+  .search-input {
+    font-size: 0.65rem;
+    :global {
+      .ant-input-suffix {
+        i {
+          font-size: 0.6rem !important;
+        }
+      }
     }
   }
 }

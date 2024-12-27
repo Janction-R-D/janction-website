@@ -171,12 +171,12 @@ export function ProfileModal({ isModalOpen, handleOk, handleCancel }) {
                   </a>
                 </li>
               )}
-              <li>
+              {/* <li>
                 <i className="iconfont icon-income"></i>
                 <a onClick={() => handleNavigate('/genesis/income')}>
                   Income management
                 </a>
-              </li>
+              </li> */}
               {!isLessee && (
                 <li>
                   <i className="iconfont icon-wallet1"></i>
