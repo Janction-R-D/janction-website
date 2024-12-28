@@ -5,7 +5,6 @@ import { useAccount, useDisconnect } from 'wagmi';
 import storage from '@/utils/storage';
 import { history, useLocation, useModel } from 'umi';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { fetchUserCenter } from '@/services/genesis';
 import NotifyModal from './NotifyModal';
 import { avatar, copy } from '@/utils/lang';
 
@@ -13,24 +12,12 @@ export default function ProfileHeader(props) {
   const { showLogo } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNotifyModalOpen, setIsNotifyModalOpen] = useState(false);
-  const { initialState } = useModel('@@initialState');
   const { avatarSnapUrl } = useModel('common');
   const { address } = useAccount();
-  const location = useLocation();
-  const { inviterCode } = location.query || {};
 
   const handleNotifyOk = () => {
     setIsNotifyModalOpen(true);
   };
-  useEffect(() => {
-    if (inviterCode && !initialState?.userAccount) return;
-    const getUserCenterData = () => {
-      return fetchUserCenter()
-        .then((res) => {})
-        .catch((err) => console.log(err));
-    };
-    getUserCenterData();
-  }, []);
   const showModal = () => {
     setIsModalOpen(true);
   };
