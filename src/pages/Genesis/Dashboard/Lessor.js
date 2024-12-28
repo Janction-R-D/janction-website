@@ -143,7 +143,7 @@ const Lessors = (props) => {
       <Invitation />
 
       <div className={styles['dashboard-content']}>
-        {code && <ContributorReward />}
+        {!!nft_sumary?.ammount && <ContributorReward />}
         <div className={styles['dashboard-cards']}>
           <div className={styles['dashboard-content-left']}>
             {nft_sumary.ammount !== 0 ? (

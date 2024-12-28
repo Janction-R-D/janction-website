@@ -1,7 +1,13 @@
-import { history, Redirect } from 'umi';
+import { history, Redirect, useAccess } from 'umi';
 
 export default (props) => {
   const { reward } = history.location.state || {};
+  const { isLogin } = useAccess();
+
+  if (!isLogin) {
+    let url = `/login?from=${history.location.pathname}`;
+    return <Redirect to={url} />;
+  }
 
   if (reward) {
     return props.children;
