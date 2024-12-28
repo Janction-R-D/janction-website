@@ -8,6 +8,7 @@ import { fetchNTFClaimJasmy } from '@/services/genesis';
 import { message } from 'antd';
 
 const ContributorReward = (props) => {
+  const [remaining, setRemaining] = useState(0);
   const [reward, setReward] = useState(0);
 
   useEffect(() => {
@@ -17,7 +18,9 @@ const ContributorReward = (props) => {
     try {
       const res = await fetchNTFClaimJasmy();
       const _reward = res.data.reduce((a, b) => a + b.airdropable, 0);
+      const _remaining = res.data.reduce((a, b) => a + b.airdropped, 0);
       setReward(_reward);
+      setRemaining(_remaining);
     } catch (error) {
       console.log('『error』', error);
     }
@@ -41,7 +44,7 @@ const ContributorReward = (props) => {
               message.warning('The reward has been claimed!');
               return;
             }
-            history.push('/genesis/contributorReward', { reward });
+            history.push('/genesis/contributorReward', { reward, remaining });
           }}
         >
           Receive award

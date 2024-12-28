@@ -319,6 +319,7 @@ const contract = {
       message.destroy('tx');
       message.error('Failed, please try again!');
       console.log('『err』', err);
+      return null;
     }
   },
   // distributeRewards: async (nature, rewards) => {
