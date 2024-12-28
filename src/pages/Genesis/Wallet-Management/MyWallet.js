@@ -13,7 +13,7 @@ export default function MyWallet() {
   console.log(revenue);
   return (
     <div className={styles['income-wrapper']}>
-      <Row className="mt40">
+      <Row>
         <Col span={24}>
           {StatisticInfo({
             title: 'Statistical information',

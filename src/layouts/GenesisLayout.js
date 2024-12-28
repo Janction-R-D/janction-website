@@ -1,11 +1,9 @@
-import CustomConnectButton from '@/components/CustomConnectButton';
+import AuthHeader from '@/components/Layouts/Auth/AuthHeader';
+import { AuthMenuAside } from '@/components/Layouts/Auth/AuthMenu';
 import SocialsLinks from '@/components/SocialsLinks';
-import { QuestionCircleOutlined, SettingOutlined } from '@ant-design/icons';
 import { useEffect, useMemo, useState } from 'react';
 import { history, useModel } from 'umi';
-import ProfileHeader from '../components/ProfileHeader';
 import styles from './genesis.less';
-import GenesisMobileHeader from './MobileHeader';
 
 export const navList = [
   {
@@ -66,19 +64,12 @@ const GenesisLayout = (props) => {
   const { isLessee } = initialState || {};
 
   const [active, setActive] = useState();
-  const [fold, setFold] = useState(false);
-  const [menuShow, setMenuShow] = useState(false);
 
   useEffect(() => {
     setActive(history.location.pathname);
   }, [history.location.pathname]);
 
-  const foldHandle = () => {
-    setFold(!fold);
-  };
-
-  const onNavChange = (nav) => {
-    setMenuShow(false);
+  const onMenuChange = (nav) => {
     history.push(nav.path);
   };
 
@@ -86,98 +77,24 @@ const GenesisLayout = (props) => {
     return navList.filter((item) => (item.role ? item.role(isLessee) : true));
   }, [isLessee]);
 
-  // const onIdentityChange = () => {
-  //   storage.set({ name: 'isLessee', value: !isLessee });
-  //   setInitialState({
-  //     ...initialState,
-  //     isLessee: !isLessee,
-  //   });
-  //   location.reload();
-  // };
-
   return (
     <div id={styles['genesis-layout']}>
       <main>
         <div className={styles['personal-container']}>
-          <GenesisMobileHeader menu={menu} active={active} />
           {aside && (
-            <aside className={`${fold ? styles['fold'] : ''}`}>
-              <header>
-                <section>
-                  <img
-                    className={styles['logo-name']}
-                    src={require('@/assets/images/icons/logo_name.png')}
-                  />
-                  <div className={styles['logo']}>
-                    <img src={require('@/assets/images/icons/logo.png')} />
-                  </div>
-
-                  {!fold && (
-                    <div
-                      className={`${styles['role']} ${
-                        isLessee ? styles['buyer-role'] : ''
-                      }`}
-                    >
-                      {isLessee ? <span>Tenant</span> : <span>Landlord</span>}
-                    </div>
-                  )}
-                </section>
-              </header>
-              <nav>
-                {menu.map((item) => (
-                  <div
-                    key={item.key}
-                    className={`${styles['menu-item']} ${
-                      active === item.path ||
-                      (active && active === item.redirect)
-                        ? styles['active']
-                        : ''
-                    }`}
-                    onClick={() => onNavChange(item)}
-                  >
-                    <div className={styles['icon']}>
-                      <i className={`iconfont icon-${item.icon}`} />
-                    </div>
-                    <span>{item.name}</span>
-                  </div>
-                ))}
-              </nav>
-              <div className={styles['footer']}>
-                <div
-                  className={styles['item']}
-                  onClick={() => {
-                    history.push('/genesis/help');
-                  }}
-                >
-                  <div className={styles['icon']}>
-                    <QuestionCircleOutlined />
-                  </div>
-                  <span>Help</span>
-                </div>
-                {/* <div className={styles['item']}>
-                <div className={styles['icon']}>
-                  <SettingOutlined />
-                </div>
-                <span>Settings</span>
-              </div> */}
-              </div>
-              <div
-                className={styles['fold-wrapper-2']}
-                onClick={() => history.push('/')}
-              >
-                <i className="iconfont icon-home1"></i>
-              </div>
-              <div className={styles['fold-wrapper']} onClick={foldHandle}>
-                <i
-                  className={`iconfont ${fold ? 'icon-unfold' : 'icon-fold'}`}
-                ></i>
-              </div>
-            </aside>
+            <AuthMenuAside
+              menu={menu}
+              active={active}
+              onMenuChange={onMenuChange}
+            />
           )}
           <main className={noPadding && styles['main-no-padding']}>
-            <header>
-              <ProfileHeader showLogo={!aside} />
-            </header>
+            <AuthHeader
+              showLogo={rewards}
+              menu={menu}
+              active={active}
+              onMenuChange={onMenuChange}
+            />
             <div className={styles['content']}>{children}</div>
             {rewards && (
               <footer className={styles['rewards-footer']}>

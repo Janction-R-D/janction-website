@@ -1,15 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import styles from './index.less';
-import { Button, Card, Checkbox, Input, message, Radio } from 'antd';
-import ProfileHeader from '@/components/ProfileHeader';
-
-import { DatePicker } from 'antd';
-import data from './mesages.json';
 import JanctionTable from '@/components/JanctionTable';
-import { check } from 'prettier';
+import { Card, DatePicker, Input, Radio } from 'antd';
+import { useEffect, useState } from 'react';
+import Actions from './components/Actions';
 import { CheckHeader } from './components/CheckHeader';
 import { CheckedComponent } from './components/CheckedComponent';
-import Actions from './components/Actions';
+import styles from './index.less';
+import data from './mesages.json';
 
 export default function MessageCenter() {
   const { RangePicker } = DatePicker;
