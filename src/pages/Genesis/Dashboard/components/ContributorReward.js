@@ -44,7 +44,7 @@ const ContributorReward = (props) => {
               message.warning('The reward has been claimed!');
               return;
             }
-            history.push('/genesis/contributorReward', { reward, remaining });
+            history.push('/genesis/rewards', { reward, remaining });
           }}
         >
           Receive award

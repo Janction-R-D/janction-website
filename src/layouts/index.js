@@ -88,10 +88,12 @@ export default function Layout(props) {
   }
 
   // no aside
-  if (props.location.pathname.includes('/genesis/contributorReward')) {
+  if (props.location.pathname == '/genesis/rewards') {
     return (
       <GenesisProvider>
-        <GenesisLayout aside={false}>{children}</GenesisLayout>
+        <GenesisLayout aside={false} rewards>
+          {children}
+        </GenesisLayout>
       </GenesisProvider>
     );
   }

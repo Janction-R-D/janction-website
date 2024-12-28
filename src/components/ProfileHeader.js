@@ -9,7 +9,8 @@ import { fetchUserCenter } from '@/services/genesis';
 import NotifyModal from './NotifyModal';
 import { avatar, copy } from '@/utils/lang';
 
-export default function ProfileHeader() {
+export default function ProfileHeader(props) {
+  const { showLogo } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNotifyModalOpen, setIsNotifyModalOpen] = useState(false);
   const { initialState } = useModel('@@initialState');
@@ -42,14 +43,29 @@ export default function ProfileHeader() {
 
   return (
     <header className={styles['header']}>
-      <span onClick={handleNotifyOk}>
-        <i className="iconfont icon-bell "></i>
-      </span>
-      <div className={styles['img-container']} onClick={showModal}>
-        <img
-          className={styles['profile-img']}
-          src={avatarSnapUrl || avatar(address)}
-        />
+      <a
+        className={styles['logo']}
+        onClick={() => {
+          history.push('/');
+        }}
+      >
+        {showLogo && (
+          <img
+            src={require('@/assets/images/icons/logo_name.png')}
+            alt="logo"
+          />
+        )}
+      </a>
+      <div className={styles['extra']}>
+        <span onClick={handleNotifyOk}>
+          <i className="iconfont icon-bell "></i>
+        </span>
+        <div className={styles['img-container']} onClick={showModal}>
+          <img
+            className={styles['profile-img']}
+            src={avatarSnapUrl || avatar(address)}
+          />
+        </div>
       </div>
       <NotifyModal
         isModalOpen={isNotifyModalOpen}

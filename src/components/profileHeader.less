@@ -1,24 +1,63 @@
 .header {
   margin-top: 8px;
   display: flex;
-  gap: 16px;
-  justify-content: end;
+  justify-content: space-between !important;
   align-items: center;
   position: relative;
+
+  .logo {
+    img {
+      display: block;
+      width: 136px;
+    }
+  }
+
+  .extra {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    span {
+      display: flex;
+      align-items: center;
+    }
+
+    i {
+      font-size: 1.6rem;
+      cursor: pointer;
+    }
+
+    .img-container {
+      width: 35px;
+      height: 35px;
+      border-radius: 100%;
+      overflow: hidden;
+      box-shadow: 2px 2px 10px #ffffff2e;
+
+      .profile-img {
+        display: block;
+        max-width: 100%;
+        height: 100%;
+        cursor: pointer;
+        object-fit: cover;
+      }
+    }
+  }
 }
-.header i {
-  font-size: 1.6rem;
-  cursor: pointer;
-}
+
 .profile-img .chain-copy {
   cursor: pointer;
+
   i {
     cursor: copy;
     transition: all 200ms ease;
   }
+
   i:hover {
     color: aliceblue;
   }
+
   .copied {
     background-color: #2f2f30;
     border: 1px solid #646464;
@@ -30,33 +69,18 @@
     border-radius: 4px;
   }
 }
-.header span {
-  display: flex;
-  align-items: center;
-}
-.img-container {
-  width: 35px;
-  height: 35px;
-  border-radius: 100%;
-  overflow: hidden;
-  box-shadow: 2px 2px 10px #ffffff2e;
-}
+
 .modal-profile-img {
   width: 45px;
   height: 45px;
   border-radius: 100%;
   overflow: hidden;
 }
-.profile-img {
-  display: block;
-  max-width: 100%;
-  height: 100%;
-  cursor: pointer;
-  object-fit: cover;
-}
+
 .none {
   display: none;
 }
+
 .card-modal {
   width: 330px;
 
@@ -82,19 +106,23 @@
     background-color: #252527;
     width: 100%;
   }
+
   :global {
     .ant-modal-content {
       border-radius: 15px !important;
+
       .ant-modal-body {
         border-radius: 15px;
         padding: 14px;
       }
     }
+
     .ant-modal-footer {
       display: none !important;
     }
   }
 }
+
 .header-card {
   display: flex;
   gap: 12px;
@@ -103,6 +131,7 @@
   border-radius: 10px;
   background: #252527;
 }
+
 .log-out {
   padding: 6px;
   margin-top: 12px;
@@ -119,39 +148,47 @@
   flex: 1;
   gap: 2px;
 }
+
 .profile-info h3 {
   font-size: 1.2rem;
   font-weight: bold;
 }
+
 .profile-info span {
   display: flex;
   align-items: center;
   gap: 4px;
   color: #929293;
 }
+
 .profile-info span > i {
   font-size: 0.8rem;
 }
+
 .profile-info > div > i {
   font-size: 0.9rem;
 }
+
 .profile-info > div {
   display: flex;
   align-items: center;
   flex-wrap: nowrap;
   gap: 3px;
 }
+
 .type-account > div > p {
   cursor: pointer;
   color: #c9c8c8;
   font-size: 0.8rem;
 }
+
 .type-account > div {
   display: flex;
   align-items: center;
   flex-wrap: nowrap;
   gap: 3px;
 }
+
 .card-modal ul {
   display: flex;
   flex-direction: column;

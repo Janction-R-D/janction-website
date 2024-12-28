@@ -7,7 +7,7 @@ import ProfileHeader from '../components/ProfileHeader';
 import styles from './genesis.less';
 import GenesisMobileHeader from './MobileHeader';
 
-const navList = [
+export const navList = [
   {
     name: 'Dashboard',
     path: '/genesis/dashboard',
@@ -59,7 +59,7 @@ const navList = [
   },
 ];
 const GenesisLayout = (props) => {
-  const { children, noPadding, aside = true } = props;
+  const { children, noPadding, aside = true, rewards } = props;
 
   const { initialState } = useModel('@@initialState');
 
@@ -176,24 +176,42 @@ const GenesisLayout = (props) => {
           )}
           <main className={noPadding && styles['main-no-padding']}>
             <header>
-              <ProfileHeader />
+              <ProfileHeader showLogo={!aside} />
             </header>
             <div className={styles['content']}>{children}</div>
+            {rewards && (
+              <footer className={styles['rewards-footer']}>
+                <div>
+                  <a className={styles['logo']}>
+                    <img
+                      src={require('@/assets/images/icons/logo_name.png')}
+                      alt="logo"
+                    />
+                  </a>
+                  <p>
+                    Thank you for your contributions to the Janction computing
+                    Power Network
+                  </p>
+                </div>
+              </footer>
+            )}
           </main>
-          <footer className={styles['android-footer']}>
-            <img
-              className={styles['logo']}
-              src={require('@/assets/images/icons/logo_name.png')}
-            />
-            <div className={styles['bottom']}>
-              <SocialsLinks />
-              <p className={styles['comp-info']}>
-                JANCTION ©2024
-                <br />
-                janction.io
-              </p>
-            </div>
-          </footer>
+          {!rewards && (
+            <footer className={styles['android-footer']}>
+              <img
+                className={styles['logo']}
+                src={require('@/assets/images/icons/logo_name.png')}
+              />
+              <div className={styles['bottom']}>
+                <SocialsLinks />
+                <p className={styles['comp-info']}>
+                  JANCTION ©2024
+                  <br />
+                  janction.io
+                </p>
+              </div>
+            </footer>
+          )}
         </div>
       </main>
     </div>
