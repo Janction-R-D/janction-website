@@ -295,10 +295,6 @@ const contract = {
         provider,
       ).connect(signer);
 
-      const parseRewards = ethers.utils.parseEther(
-        BigInt(rewards).toString(10),
-      );
-
       message.info({
         content: 'waitting...',
         key: 'tx',
@@ -307,17 +303,15 @@ const contract = {
       const signatureStruct = await buildEIP712Signature(
         signer,
         distribution,
-        parseRewards,
+        rewards,
       );
 
       console.log('『signatureStruct』', signatureStruct);
 
       message.destroy('tx');
-      message.success('Successfully!');
       return signatureStruct;
     } catch (err) {
       message.destroy('tx');
-      message.error('Failed, please try again!');
       console.log('『err』', err);
       return null;
     }

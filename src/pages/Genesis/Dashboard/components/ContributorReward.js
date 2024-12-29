@@ -1,14 +1,15 @@
-import { renderBackgroudImg } from '@/utils/lang';
-import styles from './index.less';
 import reward_banner from '@/assets/images/genesis/reward_banner.png';
 import reward_title from '@/assets/images/genesis/reward_title.png';
-import { history } from 'umi';
-import { useEffect, useState } from 'react';
 import { fetchNTFClaimJasmy } from '@/services/genesis';
 import { message } from 'antd';
+import { renderBackgroudImg } from '@/utils/lang';
+import { useEffect, useState } from 'react';
+import { history } from 'umi';
+import { toFixed } from '../../lang';
+import styles from './index.less';
 
 const ContributorReward = (props) => {
-  const [remaining, setRemaining] = useState(0);
+  const { nft } = props;
   const [reward, setReward] = useState(0);
 
   useEffect(() => {
@@ -17,10 +18,7 @@ const ContributorReward = (props) => {
   const getData = async () => {
     try {
       const res = await fetchNTFClaimJasmy();
-      const _reward = res.data.reduce((a, b) => a + b.airdropable, 0);
-      const _remaining = res.data.reduce((a, b) => a + b.airdropped, 0);
-      setReward(_reward);
-      setRemaining(_remaining);
+      setReward(res.claim_available);
     } catch (error) {
       console.log('『error』', error);
     }
@@ -28,23 +26,26 @@ const ContributorReward = (props) => {
 
   return (
     <div
-      className={styles['contributor-reward']}
+      className={[
+        styles['contributor-reward'],
+        !Number(toFixed(reward, 2)) && styles['disabled'],
+      ].join(' ')}
       style={renderBackgroudImg(reward_banner)}
     >
       <img src={reward_title} className={styles['title']}></img>
       <div className={styles['receive']}>
         <div className={styles['value']}>
           <i className={styles['icon']}></i>
-          <span>{reward}</span>
+          <span>{toFixed(reward, 2)}</span>
         </div>
         <div
           className={styles['btn']}
           onClick={() => {
-            if (!reward) {
+            if (!Number(toFixed(reward, 2))) {
               message.warning('The reward has been claimed!');
               return;
             }
-            history.push('/genesis/rewards', { reward, remaining });
+            history.push('/genesis/rewards', { nft });
           }}
         >
           Receive award

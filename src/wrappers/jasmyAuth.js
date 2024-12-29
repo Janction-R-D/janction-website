@@ -1,7 +1,7 @@
 import { history, Redirect, useAccess } from 'umi';
 
 export default (props) => {
-  const { reward } = history.location.state || {};
+  const { nft } = history.location.state || {};
   const { isLogin } = useAccess();
 
   if (!isLogin) {
@@ -9,7 +9,7 @@ export default (props) => {
     return <Redirect to={url} />;
   }
 
-  if (reward) {
+  if (nft) {
     return props.children;
   }
 
