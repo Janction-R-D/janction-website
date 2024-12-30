@@ -67,12 +67,7 @@ function ResourceTable({ data }) {
         className={styles['table']}
         columns={columns}
         dataSource={mappedOrders}
-        emptyDescription={
-          <p>
-            No instance is currently available. Please{' '}
-            <a onClick={() => {}}>create an instance</a>.
-          </p>
-        }
+        emptyDescription={<p>No Data</p>}
         pagination={{
           pageSize: 5,
           position: ['bottomCenter'],

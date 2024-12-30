@@ -7,7 +7,15 @@ export default function Resources() {
   return (
     <Card className={styles['card-table']}>
       <Row justify="end" align="middle">
-        <Col span={10} style={{ display: 'flex', gap: '16px' }}>
+        <Col
+          span={10}
+          xs={24}
+          sm={24}
+          md={24}
+          lg={10}
+          xl={10}
+          style={{ display: 'flex', gap: '16px' }}
+        >
           <Input
             suffix={
               <i className="iconfont icon-search" style={{ fontSize: '1vw' }} />

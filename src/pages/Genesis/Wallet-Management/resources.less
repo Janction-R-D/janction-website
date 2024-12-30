@@ -47,6 +47,7 @@
   padding: 15px;
   margin-top: 120px;
   width: 100%;
+  max-width: 1400px;
   flex: 1;
 }
 
@@ -252,5 +253,39 @@
 .meodal-status {
   .ant-modal {
     border-radius: 20px !important;
+  }
+}
+@media screen and (max-width: 1024px) {
+  .card-table {
+    background-color: #242426 !important;
+    border-radius: 22px !important;
+    margin-bottom: 22px;
+    margin-inline: 0px;
+    padding: 2px;
+    margin-top: 40px;
+    width: 100%;
+    flex: 1;
+  }
+
+  .search-input {
+    border: none;
+    flex-grow: 1;
+    outline-style: none;
+    width: 100%;
+    margin-bottom: 10px;
+
+    background: #3c3a3d;
+    border-radius: 2.604vw;
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1.833vw;
+    line-height: 1.25vw;
+
+    :global {
+      .ant-input-prefix {
+        margin-right: 0.488vw;
+      }
+    }
   }
 }
