@@ -19,59 +19,6 @@ export function durationMultiplier(duration, discount) {
   }
 }
 
-async function buildEIP712Signature(signer, contract, rewards) {
-  // 从合约动态获取 name 和 version
-  const name = await contract.eip712Domain().then((d) => d.name); // EIP712 name
-  const version = await contract.eip712Domain().then((d) => d.version); // EIP712 version
-
-  // 获取 nonce
-  const signerAddress = await signer.getAddress();
-  const nonce = await contract.getSigNonce(signerAddress);
-
-  // 定义 EIP-712 域
-  const chainId = await signer.getChainId(); // 当前链 ID
-  const domain = {
-    name,
-    version,
-    chainId,
-    verifyingContract: contract.address,
-  };
-
-  // 定义 EIP-712 类型
-  const types = {
-    DistributeRewards: [
-      { name: 'rewards', type: 'uint256' },
-      { name: 'nonce', type: 'uint256' },
-      { name: 'deadline', type: 'uint256' },
-    ],
-  };
-
-  // 设置数据
-  const deadline = Math.floor(Date.now() / 1000) + 3600; // 当前时间 + 1 小时
-  const value = {
-    rewards: rewards.toString(),
-    nonce: nonce.toString(),
-    deadline: deadline.toString(),
-  };
-
-  // 签名
-  const signature = await signer._signTypedData(domain, types, value);
-
-  // 分解签名为 v, r, s
-  const { v, r, s } = ethers.utils.splitSignature(signature);
-
-  // 构建 EIP712Signature 结构体
-  const EIP712Signature = {
-    signer: signerAddress,
-    v,
-    r,
-    s,
-    deadline,
-  };
-
-  return EIP712Signature;
-}
-
 const contract = {
   list: async (nodeId, price) => {
     try {
@@ -282,7 +229,7 @@ const contract = {
       throw new Error(error);
     }
   },
-  eIP712Signature: async (rewards) => {
+  distributeRewards: async (nature, rewards) => {
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       await provider.send('eth_requestAccounts', []);
@@ -295,60 +242,26 @@ const contract = {
         provider,
       ).connect(signer);
 
+      const parseRewards = ethers.utils.parseEther(
+        BigInt(rewards).toString(10),
+      );
+
       message.info({
         content: 'waitting...',
         key: 'tx',
         duration: 0,
       });
-      const signatureStruct = await buildEIP712Signature(
-        signer,
-        distribution,
-        rewards,
-      );
-
-      console.log('『signatureStruct』', signatureStruct);
-
+      const tx = await distribution.distributeRewards(nature, parseRewards);
+      await tx.wait(); // 等待交易完成
       message.destroy('tx');
-      return signatureStruct;
+      message.success('Successfully!');
+      return tx;
     } catch (err) {
       message.destroy('tx');
+      message.error('Failed, please try again!');
       console.log('『err』', err);
-      return null;
     }
   },
-  // distributeRewards: async (nature, rewards) => {
-  //   try {
-  //     const provider = new ethers.providers.Web3Provider(window.ethereum);
-  //     await provider.send('eth_requestAccounts', []);
-  //     const signer = provider.getSigner();
-
-  //     // 初始化合约
-  //     const distribution = new ethers.Contract(
-  //       ADDRESS.JasmyRewards,
-  //       JasmyRewards.abi,
-  //       provider,
-  //     ).connect(signer);
-
-  //     const parseRewards = ethers.utils.parseEther(
-  //       BigInt(rewards).toString(10),
-  //     );
-
-  //     message.info({
-  //       content: 'waitting...',
-  //       key: 'tx',
-  //       duration: 0,
-  //     });
-  //     const tx = await distribution.distributeRewards(nature, parseRewards);
-  //     await tx.wait(); // 等待交易完成
-  //     message.destroy('tx');
-  //     message.success('Successfully!');
-  //     return tx;
-  //   } catch (err) {
-  //     message.destroy('tx');
-  //     message.error('Failed, please try again!');
-  //     console.log('『err』', err);
-  //   }
-  // },
 };
 
 export default contract;

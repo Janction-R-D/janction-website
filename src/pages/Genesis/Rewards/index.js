@@ -37,13 +37,8 @@ const ContributorReward = (props) => {
       if (loading) return;
       if (!Number(toFixed(reward, 2))) return;
       setLoading(true);
-      const signature = await contract.eIP712Signature(reward);
-      if (!signature) {
-        message.error('Failed to claim, please try again!');
-        setLoading(false);
-        return;
-      }
-      await fetchNTFClaimJasmyUpdate({ signature });
+      const claimData = await fetchNTFClaimJasmyUpdate();
+      await contract.distributeRewards(claimData.signature, reward);
       await getData();
       message.success('Successfully!');
     } catch (err) {
