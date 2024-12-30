@@ -23,7 +23,7 @@ export default function MyWallet() {
         </Col>
       </Row>
       <Row gutter={[20, 20]} className="mt40">
-        <Col span={12}>
+        <Col span={12} xs={24} sm={24} md={12} lg={12} xl={12}>
           {RenderIncomeCard({
             title: 'Node income',
             value: revenue?.node_income,
@@ -32,7 +32,7 @@ export default function MyWallet() {
             date: formatDate(revenue?.node_income_update_time),
           })}
         </Col>
-        <Col span={12}>
+        <Col span={12} xs={24} sm={24} md={12} lg={12} xl={12}>
           {RenderIncomeCard({
             title: 'Rental server revenue',
             value: revenue?.rental_server_revenue,
