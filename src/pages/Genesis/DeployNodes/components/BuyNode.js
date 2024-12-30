@@ -1,6 +1,10 @@
 import buy from '@/assets/images/genesis/buy.png';
 import purchase from '@/assets/images/genesis/purchase.png';
-import { fetchInviteAccept, fetchInviteVerify } from '@/services/genesis';
+import {
+  fetchInviteAccept,
+  fetchInviteVerify,
+  fetchLessor,
+} from '@/services/genesis';
 import { fetchBeneficiary } from '@/services/genesis/distribution';
 import contract from '@/utils/contract';
 import { Button, Input, message, Modal } from 'antd';
@@ -9,6 +13,8 @@ import { useEffect, useState } from 'react';
 import { history } from 'umi';
 import { useAccount } from 'wagmi';
 import styles from './node.less';
+import dayjs from 'dayjs';
+import { showValue } from '@/utils/lang';
 
 export default function BuyNode({ mineCode, inviterCode }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -98,9 +104,9 @@ export default function BuyNode({ mineCode, inviterCode }) {
     setIsOpen(false);
   };
 
-  const handlePay = async () => {
+  const handlePay = async (num) => {
     try {
-      await contract.distribute(address, price, addressList, benefitList);
+      await contract.distribute(address, price * num, addressList, benefitList);
       setIsOpen(false);
       setTimeout(() => {
         setIsPay(true);
@@ -122,7 +128,7 @@ export default function BuyNode({ mineCode, inviterCode }) {
       <BuyNow
         open={isOpen}
         price={price}
-        handleOk={handleBuyNowOk}
+        handleOk={handlePay}
         handleCancel={handleCancel}
       />
 
@@ -137,7 +143,6 @@ export default function BuyNode({ mineCode, inviterCode }) {
         open={isPay}
         setIsPay={setIsPay}
         handleCancel={handleCancelPay}
-        handleOk={handlePay}
       />
     </>
   );
@@ -193,7 +198,11 @@ function BuyNow({ open, price, handleCancel, handleOk }) {
         </div>
 
         <div>
-          <Button className={styles['buy-btn']} onClick={() => handleOk(qty)}>
+          <Button
+            disabled={!price}
+            className={styles['buy-btn']}
+            onClick={() => handleOk(qty)}
+          >
             Click to pay
           </Button>
 
@@ -226,8 +235,26 @@ function CommingSoon({ open, handleCancel }) {
 }
 
 function PayCard({ open, handleCancel }) {
-  const handleOk = () => {
-    history.push('/genesis/dashboard');
+  const [detail, setDetail] = useState();
+
+  useEffect(() => {
+    if (!open) return;
+    getLatestData();
+  }, [open]);
+  const getLatestData = async () => {
+    try {
+      const res = await fetchLessor();
+      const data = res?.nft_summary?.detail || [];
+      const latestData = data.reduce((latest, current) => {
+        return dayjs(current.time).isAfter(dayjs(latest.time))
+          ? current
+          : latest;
+      });
+      setDetail(latestData);
+    } catch (err) {
+      console.log('『err』', err);
+      return null;
+    }
   };
 
   return (
@@ -247,19 +274,19 @@ function PayCard({ open, handleCancel }) {
           <ul>
             <li>
               <p>Status:</p>
-              <p>Complete</p>
+              <p>{detail ? 'Complete' : 'Not found'}</p>
             </li>
             <li>
               <p>Transaction Hash:</p>
-              <p>0xe3802293</p>
+              <p>{showValue(detail?.transaction_hash)}</p>
             </li>
             <li>
               <p>ID:</p>
-              <p>73489024hu094invm</p>
+              <p>{showValue(detail?.token_id)}</p>
             </li>
             <li>
               <p>Contract address:</p>
-              <p>4678ghrtcgmgc</p>
+              <p>{showValue(detail?.contract)}</p>
             </li>
           </ul>
         </section>
@@ -269,7 +296,12 @@ function PayCard({ open, handleCancel }) {
         <p>Congratulations on joining the Janction Contributor Network!</p>
 
         <div>
-          <Button className={styles['buy-btn']} onClick={handleOk}>
+          <Button
+            className={styles['buy-btn']}
+            onClick={() => {
+              history.push('/genesis/dashboard');
+            }}
+          >
             Check rewards
           </Button>
         </div>
