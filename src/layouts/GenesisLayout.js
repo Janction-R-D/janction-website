@@ -91,7 +91,7 @@ const GenesisLayout = (props) => {
           <main className={noPadding && styles['main-no-padding']}>
             <AuthHeader
               showLogo={rewards}
-              menu={menu}
+              // menu={menu}
               active={active}
               onMenuChange={onMenuChange}
             />

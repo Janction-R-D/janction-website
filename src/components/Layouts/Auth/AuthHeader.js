@@ -23,7 +23,12 @@ export const Logo = () => {
 };
 
 export default function AuthHeader(props) {
-  const { showLogo, menu, active, onMenuChange } = props;
+  const {
+    showLogo,
+    // menu,
+    active,
+    onMenuChange,
+  } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNotifyModalOpen, setIsNotifyModalOpen] = useState(false);
   const { avatarSnapUrl } = useModel('common');
@@ -51,7 +56,7 @@ export default function AuthHeader(props) {
             <Logo />
           ) : (
             <AndroidAuthMenu
-              menu={menu}
+              // menu={menu}
               active={active}
               onMenuChange={onMenuChange}
             />

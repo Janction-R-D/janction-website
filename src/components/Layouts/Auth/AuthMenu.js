@@ -1,14 +1,16 @@
 import { QuestionCircleOutlined } from '@ant-design/icons';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { history, useModel } from 'umi';
 import styles from './index.less';
-
-export const AndroidAuthMenu = ({ menu, active, onMenuChange }) => {
+import { navList } from '@/layouts/GenesisLayout';
+export const AndroidAuthMenu = ({ active, onMenuChange }) => {
   const [menuShow, setMenuShow] = useState(false);
   const { initialState } = useModel('@@initialState');
-
   const { isLessee } = initialState || {};
-
+  const menu = useMemo(() => {
+    return navList.filter((item) => (item.role ? item.role(isLessee) : true));
+  }, [isLessee]);
+  console.log(navList);
   return (
     <div className={styles['android-auth-menu']}>
       <section className={styles['menu-box']}>
