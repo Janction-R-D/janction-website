@@ -1,7 +1,6 @@
 .main-container {
   background: #141416;
   min-height: 100vh;
-  padding-inline: 32px;
 }
 
 .personal-container {
@@ -12,7 +11,7 @@
   min-height: 100%;
   overflow: auto;
   padding-top: 70px;
-
+  padding-inline: 32px;
   @media screen and (max-width: 1024px) {
     background: linear-gradient(
       226deg,
@@ -20,6 +19,8 @@
       #201436 39.86%,
       #010003 74.68%
     );
+    flex-direction: column;
+    padding-inline: 16px;
   }
 }
 
@@ -34,17 +35,13 @@
   padding-top: 10px;
   padding-inline: 12px;
   flex-direction: column;
-  //   align-items: center;
   flex-shrink: 0;
   transition: all 0.3s;
-  //   background: #1a1b1d;
   position: relative;
   z-index: 1;
-
   h1 {
     font-size: 2.2rem;
   }
-
   nav {
     flex: 1;
     width: 192px;
@@ -79,6 +76,40 @@
         border-radius: 3px;
         background-color: #73d5f4;
         transition: all 0.3s;
+      }
+    }
+  }
+}
+@media screen and (max-width: 1024px) {
+  .aside {
+    height: 100%;
+    width: 272px;
+    display: flex;
+    padding-top: 10px;
+    padding-inline: 12px;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: all 0.3s;
+    position: relative;
+    z-index: 1;
+    h1 {
+      font-size: 1.6rem;
+      text-wrap: nowrap;
+    }
+    nav {
+      flex: 1;
+      padding: 30px 0 0;
+
+      .menu {
+        gap: 20px;
+        flex-direction: row;
+
+        .menu-item {
+          font-size: 1rem;
+          height: 30px;
+          position: relative;
+          text-wrap: nowrap;
+        }
       }
     }
   }

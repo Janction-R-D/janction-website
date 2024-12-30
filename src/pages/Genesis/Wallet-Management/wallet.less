@@ -610,6 +610,7 @@
     }
   }
 }
+
 .card-security {
   display: flex;
   text-wrap: nowrap;
@@ -751,7 +752,49 @@
   display: flex;
   align-items: center;
 }
-
+@media screen and (max-width: 768px) {
+  .income-wrapper {
+    padding-top: 0px;
+  }
+  .card-statistic {
+    section:first-child {
+      flex-direction: column;
+      gap: 12px;
+      .card-data {
+        flex-direction: column;
+        section {
+          flex-direction: row;
+          align-items: center;
+          .unit {
+            width: min-content;
+            display: flex;
+            align-items: center;
+            padding-left: 12px;
+          }
+        }
+        section:not(:last-child) {
+          border-bottom: #5f5f60 1px solid;
+          border-right: none;
+          padding-right: 0px;
+        }
+      }
+    }
+  }
+  .card {
+    .card-footer {
+      margin-top: 32px;
+      display: flex;
+      align-items: start;
+      justify-content: start;
+      flex-direction: column;
+      .compare {
+        display: flex;
+        align-items: start;
+        gap: 4px;
+      }
+    }
+  }
+}
 @media screen and (max-width: 580px) {
   .card-content > ul {
     display: flex;
