@@ -22,9 +22,12 @@ const ContributorReward = (props) => {
   const getData = async () => {
     try {
       const res = await fetchNTFClaimJasmy();
-      const _remaining = res.data.reduce((a, b) => a + b.airdropped, 0);
+      const _remaining = res.data.reduce(
+        (a, b) => a + Number(b.airdropped || 0),
+        0,
+      );
       setReward(res.claim_available);
-      setRemaining(toFixed(_remaining, 2));
+      setRemaining(_remaining);
       setLoading(false);
     } catch (error) {
       setLoading(false);
