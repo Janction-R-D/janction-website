@@ -242,16 +242,16 @@ const contract = {
         provider,
       ).connect(signer);
 
-      const parseRewards = ethers.utils.parseEther(
-        BigInt(rewards).toString(10),
-      );
+      // const parseRewards = ethers.utils.parseEther(
+      //   BigInt(rewards).toString(10),
+      // );
 
       message.info({
         content: 'waitting...',
         key: 'tx',
         duration: 0,
       });
-      const tx = await distribution.distributeRewards(nature, parseRewards);
+      const tx = await distribution.distributeRewards(nature, rewards);
       await tx.wait(); // 等待交易完成
       message.destroy('tx');
       message.success('Successfully!');
