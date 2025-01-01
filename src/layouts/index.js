@@ -57,7 +57,7 @@ export default function Layout(props) {
   if (isAuthRoute && props.location.pathname.includes('/wallet-management')) {
     return (
       <GenesisProvider>
-        <GenesisLayout>
+        <GenesisLayout aside={false}>
           <WalletManagement />
         </GenesisLayout>
       </GenesisProvider>
