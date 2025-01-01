@@ -9,7 +9,7 @@ import numeral from 'numeral';
 import { useEffect, useState } from 'react';
 import styles from './index.less';
 import { Button, message } from 'antd';
-import { toFixed } from '../lang';
+import { toFixed, toNumber } from '../lang';
 
 const ContributorReward = (props) => {
   const [remaining, setRemaining] = useState(0);
@@ -38,7 +38,7 @@ const ContributorReward = (props) => {
   const onClaim = async () => {
     try {
       if (loading) return;
-      if (!Number(toFixed(reward, 2))) return;
+      if (!toNumber(reward)) return;
       setLoading(true);
       const claimData = await fetchNTFClaimJasmyUpdate();
       await contract.distributeRewards(claimData.signature, reward);
@@ -78,13 +78,13 @@ const ContributorReward = (props) => {
       <div className={styles['content']} style={renderBackgroudImg(reward_bg)}>
         <div>
           <div className={styles['claim-container']}>
-            <p className={styles['value']}>{toFixed(reward, 2)}</p>
+            <p className={styles['value']}>{toFixed(reward)}</p>
             <span className={styles['unit']}>Jasmy</span>
             <Button
               loading={loading}
               className={[
                 styles['btn'],
-                !Number(toFixed(reward, 2)) && styles['disabled'],
+                !toNumber(reward) && styles['disabled'],
               ].join(' ')}
               onClick={onClaim}
             >

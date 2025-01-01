@@ -5,7 +5,7 @@ export default {
       changeOrigin: true,
     },
     '/v0/': {
-      target: 'https://www.janction.io/',
+      target: 'http://54.95.234.135:81/',
       changeOrigin: true,
     },
   },

@@ -1,11 +1,11 @@
 import reward_banner from '@/assets/images/genesis/reward_banner.png';
 import reward_title from '@/assets/images/genesis/reward_title.png';
 import { fetchNTFClaimJasmy } from '@/services/genesis';
-import { message } from 'antd';
 import { renderBackgroudImg } from '@/utils/lang';
+import { message } from 'antd';
 import { useEffect, useState } from 'react';
 import { history } from 'umi';
-import { toFixed } from '../../lang';
+import { toFixed, toNumber } from '../../lang';
 import styles from './index.less';
 
 const ContributorReward = (props) => {
@@ -28,7 +28,7 @@ const ContributorReward = (props) => {
     <div
       className={[
         styles['contributor-reward'],
-        !Number(toFixed(reward, 2)) && styles['disabled'],
+        !toNumber(reward) && styles['disabled'],
       ].join(' ')}
       style={renderBackgroudImg(reward_banner)}
     >
@@ -36,12 +36,12 @@ const ContributorReward = (props) => {
       <div className={styles['receive']}>
         <div className={styles['value']}>
           <i className={styles['icon']}></i>
-          <span>{toFixed(reward, 2)}</span>
+          <span>{toFixed(reward)}</span>
         </div>
         <div
           className={styles['btn']}
           onClick={() => {
-            if (!Number(toFixed(reward, 2))) {
+            if (!toNumber(reward)) {
               message.warning('The reward has been claimed!');
               return;
             }
