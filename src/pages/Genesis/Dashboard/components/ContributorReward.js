@@ -2,10 +2,9 @@ import reward_banner from '@/assets/images/genesis/reward_banner.png';
 import reward_title from '@/assets/images/genesis/reward_title.png';
 import { fetchNTFClaimJasmy } from '@/services/genesis';
 import { renderBackgroudImg } from '@/utils/lang';
-import { message } from 'antd';
 import { useEffect, useState } from 'react';
 import { history } from 'umi';
-import { toFixed, toNumber } from '../../lang';
+import { toFixed } from '../../lang';
 import styles from './index.less';
 
 const ContributorReward = (props) => {
@@ -26,10 +25,7 @@ const ContributorReward = (props) => {
 
   return (
     <div
-      className={[
-        styles['contributor-reward'],
-        !toNumber(reward) && styles['disabled'],
-      ].join(' ')}
+      className={[styles['contributor-reward']].join(' ')}
       style={renderBackgroudImg(reward_banner)}
     >
       <img src={reward_title} className={styles['title']}></img>
@@ -41,10 +37,6 @@ const ContributorReward = (props) => {
         <div
           className={styles['btn']}
           onClick={() => {
-            if (!toNumber(reward)) {
-              message.warning('The reward has been claimed!');
-              return;
-            }
             history.push('/genesis/rewards', { nft });
           }}
         >
