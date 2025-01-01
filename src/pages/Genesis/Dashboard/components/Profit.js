@@ -133,7 +133,7 @@ function ProfitCard({ title, income, diffValue, unit = '' }) {
       <div className={styles['income-value']}>
         <span className={styles['value']}>
           {!empty(income)
-            ? `${unit ? '' : '$'}${numeral(income).format('0.00')} ${unit}`
+            ? `${unit}${numeral(income).format('0.00')} ${unit}`
             : '~'}
         </span>
       </div>

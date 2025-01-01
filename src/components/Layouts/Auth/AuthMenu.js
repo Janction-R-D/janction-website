@@ -10,7 +10,6 @@ export const AndroidAuthMenu = ({ active, onMenuChange }) => {
   const menu = useMemo(() => {
     return navList.filter((item) => (item.role ? item.role(isLessee) : true));
   }, [isLessee]);
-  console.log(navList);
   return (
     <div className={styles['android-auth-menu']}>
       <section className={styles['menu-box']}>
