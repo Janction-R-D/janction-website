@@ -27,7 +27,7 @@ export default function Cards({ nft }) {
   };
 
   return (
-    <>
+    <div className={styles['modal-nft']}>
       <Swiper
         effect={'coverflow'}
         grabCursor={true}
@@ -59,7 +59,7 @@ export default function Cards({ nft }) {
           data={selectedNtf} // Pasa el NFT seleccionado
         />
       )}
-    </>
+    </div>
   );
 }
 
