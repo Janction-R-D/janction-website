@@ -9,7 +9,7 @@ import styles from './index.less';
 
 const ContributorReward = (props) => {
   const { nft } = props;
-  const [reward, setReward] = useState(0);
+  const [rewardShow, setRewardShow] = useState(0);
 
   useEffect(() => {
     getData();
@@ -17,7 +17,7 @@ const ContributorReward = (props) => {
   const getData = async () => {
     try {
       const res = await fetchNTFClaimJasmy();
-      setReward(res.claim_available);
+      setRewardShow(res.claim_available_show);
     } catch (error) {
       console.log('『error』', error);
     }
@@ -32,7 +32,7 @@ const ContributorReward = (props) => {
       <div className={styles['receive']}>
         <div className={styles['value']}>
           <i className={styles['icon']}></i>
-          <span>{toFixed(reward)}</span>
+          <span>{toFixed(rewardShow)}</span>
         </div>
         <div
           className={styles['btn']}

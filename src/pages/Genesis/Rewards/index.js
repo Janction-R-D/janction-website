@@ -14,6 +14,7 @@ import { toFixed, toNumber } from '../lang';
 const ContributorReward = (props) => {
   const [remaining, setRemaining] = useState(0);
   const [reward, setReward] = useState(0);
+  const [rewardShow, setRewardShow] = useState(0);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -27,6 +28,7 @@ const ContributorReward = (props) => {
         0,
       );
       setReward(res.claim_available);
+      setRewardShow(res.claim_available_show);
       setRemaining(_remaining);
       setLoading(false);
     } catch (error) {
@@ -40,7 +42,7 @@ const ContributorReward = (props) => {
   const onClaim = async () => {
     try {
       if (loading) return;
-      if (!toNumber(reward)) return;
+      if (!toNumber(rewardShow)) return;
       setLoading(true);
       const claimData = await fetchNTFClaimJasmyUpdate();
       await contract.distributeRewards(claimData.signature, reward);
@@ -81,13 +83,13 @@ const ContributorReward = (props) => {
       <div className={styles['content']} style={renderBackgroudImg(reward_bg)}>
         <div>
           <div className={styles['claim-container']}>
-            <p className={styles['value']}>{toFixed(reward)}</p>
+            <p className={styles['value']}>{toFixed(rewardShow)}</p>
             <span className={styles['unit']}>Jasmy</span>
             <Button
               loading={loading}
               className={[
                 styles['btn'],
-                !toNumber(reward) && styles['disabled'],
+                !toNumber(rewardShow) && styles['disabled'],
               ].join(' ')}
               onClick={onClaim}
             >

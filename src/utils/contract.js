@@ -231,23 +231,57 @@ const contract = {
   },
   distributeRewards: async (nature, rewards) => {
     try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
       await provider.send('eth_requestAccounts', []);
       const signer = provider.getSigner();
-
+  
+      const network = await provider.getNetwork();
+      const sepoliaChainId = 11155111; // Sepolia 测试网的 Chain ID
+  
+      if (network.chainId !== sepoliaChainId) {
+        try {
+          await window.ethereum.request({
+            method: 'wallet_switchEthereumChain',
+            params: [{ chainId: `0x${sepoliaChainId.toString(16)}` }],
+          });
+        } catch (switchError) {
+          console.log("switch error catched")
+          if (switchError.code === 4902) {
+            try {
+              await window.ethereum.request({
+                method: 'wallet_addEthereumChain',
+                params: [
+                  {
+                    chainId: `0x${sepoliaChainId.toString(16)}`,
+                    chainName: 'Sepolia Test Network',
+                    nativeCurrency: {
+                      name: 'Sepolia Ether',
+                      symbol: 'ETH',
+                      decimals: 18,
+                    },
+                    rpcUrls: ['https://rpc.sepolia.org'], // Sepolia 的 RPC URL
+                    blockExplorerUrls: ['https://sepolia.etherscan.io'], // Sepolia 的区块浏览器
+                  },
+                ],
+              });
+            } catch (addError) {
+              throw new Error('Failed to add Sepolia network to your wallet.');
+            }
+          } else {
+            throw new Error('Failed to switch to Sepolia network.');
+          }
+        }
+      }
+  
       // 初始化合约
       const distribution = new ethers.Contract(
         ADDRESS.JasmyRewards,
         JasmyRewards.abi,
         provider,
       ).connect(signer);
-
-      // const parseRewards = ethers.utils.parseEther(
-      //   BigInt(rewards).toString(10),
-      // );
-
+  
       message.info({
-        content: 'waitting...',
+        content: 'Waiting...',
         key: 'tx',
         duration: 0,
       });
