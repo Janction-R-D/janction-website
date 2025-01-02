@@ -236,39 +236,38 @@ const contract = {
       const signer = provider.getSigner();
   
       const network = await provider.getNetwork();
-      const sepoliaChainId = 11155111; // Sepolia 测试网的 Chain ID
+      const ethMainnet = 1; 
   
-      if (network.chainId !== sepoliaChainId) {
+      if (network.chainId !== ethMainnet) { 
         try {
           await window.ethereum.request({
             method: 'wallet_switchEthereumChain',
-            params: [{ chainId: `0x${sepoliaChainId.toString(16)}` }],
+            params: [{ chainId: `0x${ethMainnet.toString(16)}` }], 
           });
         } catch (switchError) {
-          console.log("switch error catched")
           if (switchError.code === 4902) {
             try {
               await window.ethereum.request({
                 method: 'wallet_addEthereumChain',
                 params: [
                   {
-                    chainId: `0x${sepoliaChainId.toString(16)}`,
-                    chainName: 'Sepolia Test Network',
+                    chainId: '0x1', 
+                    chainName: 'Ethereum Mainnet', 
                     nativeCurrency: {
-                      name: 'Sepolia Ether',
-                      symbol: 'ETH',
-                      decimals: 18,
+                      name: 'Ether', 
+                      symbol: 'ETH', 
+                      decimals: 18, 
                     },
-                    rpcUrls: ['https://rpc.sepolia.org'], // Sepolia 的 RPC URL
-                    blockExplorerUrls: ['https://sepolia.etherscan.io'], // Sepolia 的区块浏览器
+                    rpcUrls: ['https://eth.llamarpc.com'], 
+                    blockExplorerUrls: ['https://etherscan.io'], 
                   },
                 ],
               });
             } catch (addError) {
-              throw new Error('Failed to add Sepolia network to your wallet.');
+              throw new Error('Failed to add Ethereum Mainnet to your wallet.');
             }
           } else {
-            throw new Error('Failed to switch to Sepolia network.');
+            throw new Error('Failed to switch to Ethereum Mainnet.');
           }
         }
       }

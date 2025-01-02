@@ -224,7 +224,7 @@ export const ADDRESS = {
   USDCPrice: '0x9d7CB65110A02432423cE0775b09dfB66859baaF',
   JCTPrice: '0xD9BeFA1c7da2891CAb652AB9f163340545177fbD',
   Distribution: '0x37E1f8E11edc97FA177A287e7D9D741342DF303d',
-  JasmyRewards: '0xEce3d97486783b5a6E32B49c122EC3A5b73dd064',
+  JasmyRewards: '0x38bd30c4ce1ac8e4feeb16ef5e689b9da9207ade',
 };
 
 export const PAY_CURRENCY = [
