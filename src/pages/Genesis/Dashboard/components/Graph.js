@@ -27,7 +27,7 @@ export function Graph({ data, lessorsData }) {
       formatter: function (params) {
         const date = params[0].name;
         const price = params[0].value;
-        return `Time: ${date}<br/>Price: ${numeral(price).format('0.000')}`;
+        return `Time: ${date}<br/>Number: ${numeral(price).format('0.000')}`;
       },
       label: {
         backgroundColor: '#19191A',
