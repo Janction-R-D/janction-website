@@ -254,12 +254,10 @@ const contract = {
       const tx = await distribution.distributeRewards(nature, rewards);
       await tx.wait(); // 等待交易完成
       message.destroy('tx');
-      message.success('Successfully!');
-      return tx;
     } catch (err) {
       message.destroy('tx');
-      message.error('Failed, please try again!');
       console.log('『err』', err);
+      throw new Error(err);
     }
   },
 };

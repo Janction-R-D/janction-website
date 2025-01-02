@@ -35,6 +35,8 @@ const ContributorReward = (props) => {
     }
   };
 
+  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
   const onClaim = async () => {
     try {
       if (loading) return;
@@ -42,6 +44,7 @@ const ContributorReward = (props) => {
       setLoading(true);
       const claimData = await fetchNTFClaimJasmyUpdate();
       await contract.distributeRewards(claimData.signature, reward);
+      await delay(1000);
       await getData();
       message.success('Successfully!');
     } catch (err) {
