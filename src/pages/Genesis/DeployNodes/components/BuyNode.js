@@ -4,6 +4,7 @@ import {
   fetchInviteAccept,
   fetchInviteVerify,
   fetchLessor,
+  fetchPaymentUpdate,
 } from '@/services/genesis';
 import { fetchBeneficiary } from '@/services/genesis/distribution';
 import contract from '@/utils/contract';
@@ -15,6 +16,7 @@ import { useAccount } from 'wagmi';
 import styles from './node.less';
 import dayjs from 'dayjs';
 import { showValue } from '@/utils/lang';
+import { ethers } from 'ethers';
 
 export default function BuyNode({ mineCode, inviterCode }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -37,9 +39,7 @@ export default function BuyNode({ mineCode, inviterCode }) {
       const beneficiaryAddress = (res?.split || []).map(
         (item) => item.receive_address,
       );
-      const beneficiaryBenefit = (res?.split || []).map(
-        (item) => (item.percentage / 100) * res?.node_price,
-      );
+      const beneficiaryBenefit = (res?.split || []).map((item) => item.ammount);
       setPrice(res?.node_price);
       setAddressList(beneficiaryAddress);
       setBenefitList(beneficiaryBenefit);
@@ -106,13 +106,21 @@ export default function BuyNode({ mineCode, inviterCode }) {
 
   const handlePay = async (num) => {
     try {
-      await contract.distribute(address, price * num, addressList, benefitList);
+      const totalAmount = price * num;
+      const tx = await contract.distribute(
+        address,
+        ethers.utils.parseUnits(`${totalAmount}`, 6),
+        addressList,
+        benefitList,
+      );
+      await fetchPaymentUpdate({ tx_hash: tx.hash });
       setIsOpen(false);
       setTimeout(() => {
         setIsPay(true);
       }, 500);
     } catch (err) {
       console.log('『err』', err);
+      message.error('Failed to pay, please try again later.');
     }
   };
   const handleCancelPay = () => {

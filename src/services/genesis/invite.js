@@ -51,3 +51,11 @@ export const fetchInviteVerify = async (code) => {
     throw Error('error');
   }
 };
+
+export const fetchPaymentUpdate = (data) => {
+  return request(`${baseUrl}/affv2/payment_record`, {
+    method: 'POST',
+    data,
+    loginAuth: true,
+  });
+};

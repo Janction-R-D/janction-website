@@ -205,18 +205,11 @@ const contract = {
       });
 
       // 调起支付
-      const query = {
-        a: ADDRESS.USDT,
-        b: totalAmount,
-        c: beneficiaries || [],
-        d: (rewards || []).map((item) => ethers.utils.parseUnits(item, 6)),
-      };
-      console.log('『query』', query);
       const tx = await distribution.distribute(
         ADDRESS.USDT,
         totalAmount,
         beneficiaries || [],
-        (rewards || []).map((item) => ethers.utils.parseUnits(item, 6)),
+        rewards || [],
       );
       await tx.wait(); // 等待交易完成
       message.destroy('tx');
