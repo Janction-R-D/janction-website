@@ -205,18 +205,11 @@ const contract = {
       });
 
       // 调起支付
-      const query = {
-        a: ADDRESS.USDT,
-        b: totalAmount,
-        c: beneficiaries || [],
-        d: (rewards || []).map((item) => ethers.utils.parseUnits(item, 6)),
-      };
-      console.log('『query』', query);
       const tx = await distribution.distribute(
         ADDRESS.USDT,
         totalAmount,
         beneficiaries || [],
-        (rewards || []).map((item) => ethers.utils.parseUnits(item, 6)),
+        rewards || [],
       );
       await tx.wait(); // 等待交易完成
       message.destroy('tx');
@@ -231,18 +224,21 @@ const contract = {
   },
   distributeRewards: async (nature, rewards) => {
     try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
+      const provider = new ethers.providers.Web3Provider(
+        window.ethereum,
+        'any',
+      );
       await provider.send('eth_requestAccounts', []);
       const signer = provider.getSigner();
-  
+
       const network = await provider.getNetwork();
-      const ethMainnet = 1; 
-  
-      if (network.chainId !== ethMainnet) { 
+      const ethMainnet = 1;
+
+      if (network.chainId !== ethMainnet) {
         try {
           await window.ethereum.request({
             method: 'wallet_switchEthereumChain',
-            params: [{ chainId: `0x${ethMainnet.toString(16)}` }], 
+            params: [{ chainId: `0x${ethMainnet.toString(16)}` }],
           });
         } catch (switchError) {
           if (switchError.code === 4902) {
@@ -251,15 +247,15 @@ const contract = {
                 method: 'wallet_addEthereumChain',
                 params: [
                   {
-                    chainId: '0x1', 
-                    chainName: 'Ethereum Mainnet', 
+                    chainId: '0x1',
+                    chainName: 'Ethereum Mainnet',
                     nativeCurrency: {
-                      name: 'Ether', 
-                      symbol: 'ETH', 
-                      decimals: 18, 
+                      name: 'Ether',
+                      symbol: 'ETH',
+                      decimals: 18,
                     },
-                    rpcUrls: ['https://eth.llamarpc.com'], 
-                    blockExplorerUrls: ['https://etherscan.io'], 
+                    rpcUrls: ['https://eth.llamarpc.com'],
+                    blockExplorerUrls: ['https://etherscan.io'],
                   },
                 ],
               });
@@ -271,14 +267,14 @@ const contract = {
           }
         }
       }
-  
+
       // 初始化合约
       const distribution = new ethers.Contract(
         ADDRESS.JasmyRewards,
         JasmyRewards.abi,
         provider,
       ).connect(signer);
-  
+
       message.info({
         content: 'Waiting...',
         key: 'tx',
