@@ -231,18 +231,24 @@ const contract = {
   },
   distributeRewards: async (nature, rewards) => {
     try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
+      const isTest = true;
+      const provider = new ethers.providers.Web3Provider(
+        window.ethereum,
+        'any',
+      );
       await provider.send('eth_requestAccounts', []);
       const signer = provider.getSigner();
-  
+
       const network = await provider.getNetwork();
-      const ethMainnet = 1; 
-  
-      if (network.chainId !== ethMainnet) { 
+      const sepoliaChainId = 11155111;
+      const ethMainnet = 1;
+      const chainId = isTest ? sepoliaChainId : ethMainnet;
+
+      if (network.chainId !== chainId) {
         try {
           await window.ethereum.request({
             method: 'wallet_switchEthereumChain',
-            params: [{ chainId: `0x${ethMainnet.toString(16)}` }], 
+            params: [{ chainId: `0x${chainId.toString(16)}` }],
           });
         } catch (switchError) {
           if (switchError.code === 4902) {
@@ -251,15 +257,25 @@ const contract = {
                 method: 'wallet_addEthereumChain',
                 params: [
                   {
-                    chainId: '0x1', 
-                    chainName: 'Ethereum Mainnet', 
+                    chainId: isTest
+                      ? `0x${sepoliaChainId.toString(16)}`
+                      : '0x1',
+                    chainName: isTest
+                      ? 'Sepolia Test Network'
+                      : 'Ethereum Mainnet',
                     nativeCurrency: {
-                      name: 'Ether', 
-                      symbol: 'ETH', 
-                      decimals: 18, 
+                      name: isTest ? 'Sepolia Ether' : 'Ether',
+                      symbol: 'ETH',
+                      decimals: 18,
                     },
-                    rpcUrls: ['https://eth.llamarpc.com'], 
-                    blockExplorerUrls: ['https://etherscan.io'], 
+                    // rpcUrls: ['https://rpc.sepolia.org'], // Sepolia 的 RPC URL
+                    // blockExplorerUrls: ['https://sepolia.etherscan.io'], // Sepolia 的区块浏览器
+                    rpcUrls: isTest
+                      ? ['https://rpc.sepolia.org']
+                      : ['https://eth.llamarpc.com'],
+                    blockExplorerUrls: isTest
+                      ? ['https://sepolia.etherscan.io']
+                      : ['https://etherscan.io'],
                   },
                 ],
               });
@@ -271,14 +287,14 @@ const contract = {
           }
         }
       }
-  
+
       // 初始化合约
       const distribution = new ethers.Contract(
         ADDRESS.JasmyRewards,
         JasmyRewards.abi,
         provider,
       ).connect(signer);
-  
+
       message.info({
         content: 'Waiting...',
         key: 'tx',
