@@ -1,15 +1,13 @@
+import banner1 from '@/assets/images/genesis/banner1.png';
 import { SYSTEM_LIST } from '@/constant';
 import { message } from 'antd';
 import { useState } from 'react';
-import styles from './index.less';
+import { Redirect, useModel } from 'umi';
+import NTFBanner from '../DeployNodes/components/NTFBanner';
 import Step3 from './components/RunNode';
 import StepChart from './components/StepChart';
 import Step1 from './components/System';
-import { history, Redirect, useModel } from 'umi';
-import { renderBackgroudImg } from '@/utils/lang';
-import banner1 from '@/assets/images/genesis/banner1.png';
-import BuyNode from './components/BuyNode';
-import NTFBanner from '../DeployNodes/components/NTFBanner';
+import styles from './index.less';
 
 const DEFAULT = {
   system: SYSTEM_LIST[0].value,

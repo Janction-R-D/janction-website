@@ -158,6 +158,7 @@ export default function BuyNode({ mineCode, inviterCode }) {
 
 function BuyNow({ open, price, handleCancel, handleOk }) {
   const [qty, setQty] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setQty(e.target.value);
@@ -208,8 +209,14 @@ function BuyNow({ open, price, handleCancel, handleOk }) {
         <div>
           <Button
             disabled={!price}
+            loading={loading}
             className={styles['buy-btn']}
-            onClick={() => handleOk(qty)}
+            onClick={async () => {
+              if (loading) return;
+              setLoading(true);
+              await handleOk(qty);
+              setLoading(false);
+            }}
           >
             Click to pay
           </Button>
@@ -286,15 +293,17 @@ function PayCard({ open, handleCancel }) {
             </li>
             <li>
               <p>Transaction Hash:</p>
-              <p>{showValue(detail?.transaction_hash)}</p>
+              <p title={detail?.transaction_hash}>
+                {showValue(detail?.transaction_hash)}
+              </p>
             </li>
             <li>
               <p>ID:</p>
-              <p>{showValue(detail?.token_id)}</p>
+              <p title={detail?.token_id}>{showValue(detail?.token_id)}</p>
             </li>
             <li>
               <p>Contract address:</p>
-              <p>{showValue(detail?.contract)}</p>
+              <p title={detail?.contract}>{showValue(detail?.contract)}</p>
             </li>
           </ul>
         </section>
