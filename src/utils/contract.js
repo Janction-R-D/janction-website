@@ -94,7 +94,7 @@ const contract = {
       await provider.send('eth_requestAccounts', []);
       const signer = provider.getSigner();
 
-      // await switchNetwork();
+      // await switchNetwork(provider);
 
       // 初始化合约
       const payment = new ethers.Contract(
@@ -129,7 +129,7 @@ const contract = {
       await provider.send('eth_requestAccounts', []);
       const signer = provider.getSigner();
 
-      // await switchNetwork();
+      // await switchNetwork(provider);
 
       // 初始化合约
       const payment = new ethers.Contract(
@@ -170,7 +170,7 @@ const contract = {
       await provider.send('eth_requestAccounts', []);
       const signer = provider.getSigner();
 
-      // await switchNetwork();
+      // await switchNetwork(provider);
 
       // 初始化合约
       const payment = new ethers.Contract(
@@ -245,7 +245,7 @@ const contract = {
       await provider.send('eth_requestAccounts', []);
       const signer = provider.getSigner();
 
-      // await switchNetwork();
+      // await switchNetwork(provider);
 
       // 初始化合约
       const distribution = new ethers.Contract(
@@ -312,7 +312,7 @@ const contract = {
       await provider.send('eth_requestAccounts', []);
       const signer = provider.getSigner();
 
-      await switchNetwork();
+      await switchNetwork(provider);
 
       // 初始化合约
       const distribution = new ethers.Contract(
