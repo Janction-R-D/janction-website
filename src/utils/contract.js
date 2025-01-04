@@ -189,16 +189,13 @@ const contract = {
       const discountTotalDays =
         durationNum * durationMultiplier(duration, true);
       const totalAmount = discountTotalDays * price;
-      console.log('Total Amount to approve:', totalAmount.toString());
 
       // 检查授权额度
       const currentAllowance = await currency.allowance(
         payerAddress,
         getAddresses().Payment,
       );
-      console.log('currentAllowance:', currentAllowance.toString());
       if (currentAllowance.lt(totalAmount)) {
-        console.log('Insufficient allowance, approving...');
         message.info({
           content: 'Approving...',
           key: 'approveTx',
@@ -207,8 +204,6 @@ const contract = {
         const approveTx = await currency.approve(payerAddress, totalAmount);
         await approveTx.wait();
         message.success('Approval successful!');
-      } else {
-        console.log('Sufficient allowance, skipping approve step.');
       }
 
       message.destroy('approveTx');
@@ -264,13 +259,11 @@ const contract = {
         currencyABI,
         provider,
       ).connect(signer);
-      console.log('『payerAddress』', payerAddress);
       // 检查授权额度
       const currentAllowance = await currency.allowance(
         payerAddress,
         getAddresses().Distribution,
       );
-      console.log('『currentAllowance』', currentAllowance);
       if (currentAllowance.lt(totalAmount)) {
         message.info({
           content: 'Approving...',
@@ -284,8 +277,6 @@ const contract = {
         await approveTx.wait();
         message.destroy('approveTx');
         message.success('Approval successful!');
-      } else {
-        console.log('Sufficient allowance, skipping approve step.');
       }
 
       message.info({

@@ -120,7 +120,6 @@ function InstanceTable({ data, getAllNodes }) {
       width: 'auto',
       fixed: 'right',
       render: (error, record) => {
-        console.log(record.status);
         return (
           <Space
             size="middle"

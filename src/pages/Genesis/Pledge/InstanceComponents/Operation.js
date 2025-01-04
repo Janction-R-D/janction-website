@@ -9,7 +9,6 @@ export default function Operation({ record }) {
     setIsModalOpenRefound(true);
   };
   const handleOkRefound = () => {
-    console.log('dcdcdcdcdc');
     setIsModalOpenRefound(false);
   };
   const handleCancelRefound = () => {
@@ -20,7 +19,6 @@ export default function Operation({ record }) {
     setIsModalOpenStake(true);
   };
   const handleOkStake = () => {
-    console.log('dcdcdcdcdc');
     setIsModalOpenStake(false);
   };
   const handleCancelStake = () => {

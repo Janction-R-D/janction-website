@@ -256,7 +256,6 @@ const Root = (props) => {
                     current: psPage?.page || 1,
                     total: psPage?.total || 0,
                     onChange: (page, pageSize) => {
-                      console.log('『page, pageSize』', page, pageSize);
                       getPaymentHistory({ offset: page * 10 });
                     },
                   }}

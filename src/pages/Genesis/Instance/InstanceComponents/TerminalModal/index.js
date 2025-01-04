@@ -42,7 +42,6 @@ const TerminalModal = (props) => {
     });
 
     xterm.current.onResize((size) => {
-      console.log('resize:', size.cols, 'x', size.rows);
       const resizeMsg = JSON.stringify({
         operation: 'resize',
         cols: size.cols,

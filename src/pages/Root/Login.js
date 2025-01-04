@@ -31,14 +31,10 @@ const Login = (props) => {
       setLoading(true);
       const response = await fetchRootRegisterChallenge(reg_user_id);
 
-      console.log('『response』', response);
-
       const credential = await client.register({
         ...(response?.publicKey || {}),
         domain: response?.publicKey?.rp.id,
       });
-
-      console.log('『credential』', credential);
 
       await fetchRootRegisterVerify(reg_user_id, credential);
 
@@ -57,14 +53,11 @@ const Login = (props) => {
       setLoading(true);
       const response = await fetchRootAuthChallenge();
 
-      console.log('『response』', response);
-
       const credential = await client.authenticate({
         ...(response?.publicKey || {}),
         domain: response?.publicKey?.rpId,
       });
 
-      console.log('『credential』', credential);
       if (credential?.response?.userHandle) {
         const userHandleBase64Decoded = atob(credential.response.userHandle);
         credential.response.userHandle = userHandleBase64Decoded;

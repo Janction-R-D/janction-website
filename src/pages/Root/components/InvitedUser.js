@@ -57,7 +57,6 @@ const InviterTable = (props) => {
 
   const onOk = async (value) => {
     try {
-      console.log('『activeRowData』', activeRowData);
       await fetchInvitersUpdate({
         user: activeRowData.inviter_address,
         ...value,

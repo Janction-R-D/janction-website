@@ -32,7 +32,6 @@ const Storage = (props) => {
       data: { [field]: value },
       identifierValue: id,
     });
-    console.log('『_list』', _list);
     onChange(_list);
   };
 
