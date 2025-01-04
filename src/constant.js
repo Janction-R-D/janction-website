@@ -1,3 +1,5 @@
+const isProduction = process.env.NODE_ENV === 'production';
+
 // abbreviated month name
 export const MONTH = [
   { value: 1, label: 'Jan' },
@@ -215,32 +217,38 @@ export const CPU_GPU_OPTIONS = [
   { label: 'GPU', value: 'gpu' },
 ];
 
+export const TEST_ADDRESS = {
+  Payment: '0xCCC448d11A64E9778599C136503c668dd9729C43',
+  USDT: '0xCA181238E466Fd450AbCCFc8eaADECA3646e7b99',
+  USDC: '0x1123904310D41b95e30747E9687Bb167eB370547',
+  JCT: '0xa780e5799805eCF2c8aaebf551180F8109139B38',
+  Distribution: '0x37E1f8E11edc97FA177A287e7D9D741342DF303d',
+  JasmyRewards: '0xEce3d97486783b5a6E32B49c122EC3A5b73dd064',
+};
+
 export const ADDRESS = {
   Payment: '0xCCC448d11A64E9778599C136503c668dd9729C43',
   USDT: '0xCA181238E466Fd450AbCCFc8eaADECA3646e7b99',
   USDC: '0x1123904310D41b95e30747E9687Bb167eB370547',
   JCT: '0xa780e5799805eCF2c8aaebf551180F8109139B38',
-  USDTPrice: '0x31c876b373a9Dd35B164ba626c702E8BCdE58082',
-  USDCPrice: '0x9d7CB65110A02432423cE0775b09dfB66859baaF',
-  JCTPrice: '0xD9BeFA1c7da2891CAb652AB9f163340545177fbD',
   Distribution: '0x37E1f8E11edc97FA177A287e7D9D741342DF303d',
   JasmyRewards: '0x38bd30c4ce1ac8e4feeb16ef5e689b9da9207ade',
 };
 
 export const PAY_CURRENCY = [
   {
-    value: ADDRESS.JCT,
+    value: [isProduction ? ADDRESS : TEST_ADDRESS].JCT,
     label: 'veJCT',
     desc: 'From JANCTION',
     rate: 0.02,
   },
   {
-    value: ADDRESS.USDT,
+    value: [isProduction ? ADDRESS : TEST_ADDRESS].USDT,
     label: 'USDT',
     rate: 1,
   },
   {
-    value: ADDRESS.USDC,
+    value: [isProduction ? ADDRESS : TEST_ADDRESS].USDC,
     label: 'USDC',
     rate: 1,
   },

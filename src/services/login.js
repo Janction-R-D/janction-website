@@ -1,6 +1,6 @@
 import { request } from 'umi';
 
-const baseUrl = '/v0/user/login';
+const baseUrl = process.env.JANCTION_V0_API;
 
 /**
  * Fetch nonce from the server.
@@ -8,7 +8,9 @@ const baseUrl = '/v0/user/login';
  */
 export const fetchUserNonce = async () => {
   try {
-    const response = await request(`${baseUrl}/nonce`, { method: 'POST' });
+    const response = await request(`${baseUrl}/user/login/nonce`, {
+      method: 'POST',
+    });
     return response;
   } catch (error) {
     throw new Error(`Failed to fetch nonce, ${error}`);
@@ -20,7 +22,7 @@ export const fetchUserNonce = async () => {
  */
 export const fetchUserVerify = async (data) => {
   try {
-    const response = await request(`${baseUrl}/verify`, {
+    const response = await request(`${baseUrl}/user/login/verify`, {
       method: 'POST',
       data,
     });
@@ -37,7 +39,7 @@ export const fetchRootUserLogin = async (data) => {
   const { username, password } = data || {};
   const str = btoa(`${username}:${password}`);
   try {
-    const response = await request('/v0/affv2/root/dashboard', {
+    const response = await request(`${baseUrl}/affv2/root/dashboard`, {
       headers: { Authorization: `Basic ${str}` },
     });
     return response;

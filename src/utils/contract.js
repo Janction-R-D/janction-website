@@ -1,9 +1,11 @@
-import { ADDRESS, currencyABI, Duration } from '@/constant';
+import { ADDRESS, TEST_ADDRESS, currencyABI, Duration } from '@/constant';
 import { message } from 'antd';
 import { ethers } from 'ethers';
 import Distribution from './Distribution.json';
 import Payment from './Payment.json';
 import JasmyRewards from './JasmyRewards.json';
+
+const isProduction = process.env.NODE_ENV === 'production';
 
 export function durationMultiplier(duration, discount) {
   if (duration == Duration.Day) {
@@ -19,15 +21,84 @@ export function durationMultiplier(duration, discount) {
   }
 }
 
+const getAddresses = () => (isProduction ? ADDRESS : TEST_ADDRESS);
+
+const switchNetwork = async (provider) => {
+  try {
+    const network = await provider.getNetwork();
+    const ethMainnet = 1;
+    const sepoliaChainId = 11155111; // Sepolia 测试网的 Chain ID
+    const chainId = isProduction ? ethMainnet : sepoliaChainId;
+
+    if (network.chainId !== chainId) {
+      try {
+        await window.ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: `0x${chainId.toString(16)}` }],
+        });
+      } catch (switchError) {
+        if (switchError.code === 4902) {
+          try {
+            await window.ethereum.request({
+              method: 'wallet_addEthereumChain',
+              params: [
+                {
+                  chainId: isProduction
+                    ? '0x1'
+                    : `0x${sepoliaChainId.toString(16)}`,
+                  chainName: isProduction
+                    ? 'Ethereum Mainnet'
+                    : 'Sepolia Test Network',
+                  nativeCurrency: {
+                    name: 'Ether',
+                    symbol: 'ETH',
+                    decimals: 18,
+                  },
+                  rpcUrls: isProduction
+                    ? ['https://eth.llamarpc.com']
+                    : ['https://rpc.sepolia.org'],
+                  blockExplorerUrls: isProduction
+                    ? ['https://etherscan.io']
+                    : ['https://sepolia.etherscan.io'],
+                },
+              ],
+            });
+          } catch (addError) {
+            throw new Error(
+              isProduction
+                ? 'Failed to add Ethereum Mainnet to your wallet.'
+                : 'Failed to add Sepolia Test Network to your wallet.',
+            );
+          }
+        } else {
+          throw new Error(
+            isProduction
+              ? 'Failed to switch to Ethereum Mainnet.'
+              : 'Failed to switch to Sepolia Test Network.',
+          );
+        }
+      }
+    }
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
 const contract = {
   list: async (nodeId, price) => {
     try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const provider = new ethers.providers.Web3Provider(
+        window.ethereum,
+        'any',
+      );
+      await provider.send('eth_requestAccounts', []);
       const signer = provider.getSigner();
+
+      // await switchNetwork();
 
       // 初始化合约
       const payment = new ethers.Contract(
-        ADDRESS.Payment,
+        getAddresses().Payment,
         Payment.abi,
         provider,
       ).connect(signer);
@@ -51,12 +122,18 @@ const contract = {
   },
   delist: async (nodeId) => {
     try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const provider = new ethers.providers.Web3Provider(
+        window.ethereum,
+        'any',
+      );
+      await provider.send('eth_requestAccounts', []);
       const signer = provider.getSigner();
+
+      // await switchNetwork();
 
       // 初始化合约
       const payment = new ethers.Contract(
-        ADDRESS.Payment,
+        getAddresses().Payment,
         Payment.abi,
         provider,
       ).connect(signer);
@@ -86,12 +163,18 @@ const contract = {
     price,
   }) => {
     try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const provider = new ethers.providers.Web3Provider(
+        window.ethereum,
+        'any',
+      );
+      await provider.send('eth_requestAccounts', []);
       const signer = provider.getSigner();
+
+      // await switchNetwork();
 
       // 初始化合约
       const payment = new ethers.Contract(
-        ADDRESS.Payment,
+        getAddresses().Payment,
         Payment.abi,
         provider,
       ).connect(signer);
@@ -111,7 +194,7 @@ const contract = {
       // 检查授权额度
       const currentAllowance = await currency.allowance(
         payerAddress,
-        ADDRESS.Payment,
+        getAddresses().Payment,
       );
       console.log('currentAllowance:', currentAllowance.toString());
       if (currentAllowance.lt(totalAmount)) {
@@ -160,27 +243,34 @@ const contract = {
     rewards, // uint256[]
   ) => {
     try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const provider = new ethers.providers.Web3Provider(
+        window.ethereum,
+        'any',
+      );
+      await provider.send('eth_requestAccounts', []);
       const signer = provider.getSigner();
+
+      // await switchNetwork();
 
       // 初始化合约
       const distribution = new ethers.Contract(
-        ADDRESS.Distribution,
+        getAddresses().Distribution,
         Distribution.abi,
         provider,
       ).connect(signer);
 
       const currency = new ethers.Contract(
-        ADDRESS.USDT,
+        getAddresses().USDT,
         currencyABI,
         provider,
       ).connect(signer);
-
+      console.log('『payerAddress』', payerAddress);
       // 检查授权额度
       const currentAllowance = await currency.allowance(
         payerAddress,
-        ADDRESS.Distribution,
+        getAddresses().Distribution,
       );
+      console.log('『currentAllowance』', currentAllowance);
       if (currentAllowance.lt(totalAmount)) {
         message.info({
           content: 'Approving...',
@@ -188,7 +278,7 @@ const contract = {
           duration: 0,
         });
         const approveTx = await currency.approve(
-          ADDRESS.Distribution,
+          getAddresses().Distribution,
           totalAmount,
         );
         await approveTx.wait();
@@ -206,7 +296,7 @@ const contract = {
 
       // 调起支付
       const tx = await distribution.distribute(
-        ADDRESS.USDT,
+        getAddresses().USDT,
         totalAmount,
         beneficiaries || [],
         rewards || [],
@@ -231,46 +321,11 @@ const contract = {
       await provider.send('eth_requestAccounts', []);
       const signer = provider.getSigner();
 
-      const network = await provider.getNetwork();
-      const ethMainnet = 1;
-
-      if (network.chainId !== ethMainnet) {
-        try {
-          await window.ethereum.request({
-            method: 'wallet_switchEthereumChain',
-            params: [{ chainId: `0x${ethMainnet.toString(16)}` }],
-          });
-        } catch (switchError) {
-          if (switchError.code === 4902) {
-            try {
-              await window.ethereum.request({
-                method: 'wallet_addEthereumChain',
-                params: [
-                  {
-                    chainId: '0x1',
-                    chainName: 'Ethereum Mainnet',
-                    nativeCurrency: {
-                      name: 'Ether',
-                      symbol: 'ETH',
-                      decimals: 18,
-                    },
-                    rpcUrls: ['https://eth.llamarpc.com'],
-                    blockExplorerUrls: ['https://etherscan.io'],
-                  },
-                ],
-              });
-            } catch (addError) {
-              throw new Error('Failed to add Ethereum Mainnet to your wallet.');
-            }
-          } else {
-            throw new Error('Failed to switch to Ethereum Mainnet.');
-          }
-        }
-      }
+      await switchNetwork();
 
       // 初始化合约
       const distribution = new ethers.Contract(
-        ADDRESS.JasmyRewards,
+        getAddresses().JasmyRewards,
         JasmyRewards.abi,
         provider,
       ).connect(signer);

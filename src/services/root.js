@@ -1,6 +1,6 @@
 import { request } from 'umi';
 
-const baseUrl = '/v0/affv2/root';
+const baseUrl = `${process.env.JANCTION_V0_API}/affv2/root`;
 
 export const fetchNFTData = (params) => {
   try {

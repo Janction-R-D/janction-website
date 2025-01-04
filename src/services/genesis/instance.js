@@ -1,6 +1,6 @@
 import { request } from 'umi';
 
-const baseUrl = '/v0';
+const baseUrl = process.env.JANCTION_V0_API;
 
 /**
  * Webshell demo，websockt

@@ -1,6 +1,6 @@
 import { request } from 'umi';
 
-const baseUrl = 'api/v1/auth';
+const baseUrl = `${process.env.JANCTION_API}/v1/auth`;
 
 /**
  * Fetch nonce from the server.

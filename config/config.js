@@ -1,10 +1,9 @@
 import { defineConfig } from 'umi';
 import proxy from './proxy';
 import metas from './metas';
-const { REACT_APP_ENV } = process.env;
 
 export default defineConfig({
-  proxy: proxy[REACT_APP_ENV || 'dev'],
+  proxy,
   nodeModulesTransform: {
     type: 'none',
   },
