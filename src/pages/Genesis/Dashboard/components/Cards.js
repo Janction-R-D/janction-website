@@ -44,6 +44,7 @@ export default function Cards({ nft }) {
           nft?.detail?.length > 1 ? Math.floor(nft?.detail?.length / 2) : 0
         }
         pagination={true}
+        loop={true}
         modules={[EffectCoverflow, Pagination]}
         className="swiper"
       >
