@@ -19,13 +19,13 @@ export default function Cards({ nft }) {
   };
 
   const handleCancelPay = () => {
-    setSelectedNtf(false);
+    setSelectedNtf(null);
   };
 
   const handleClick = (ntf) => {
     setSelectedNtf(ntf);
   };
-
+  console.log(nft);
   return (
     <div className={styles['modal-nft']}>
       <Swiper
@@ -36,17 +36,20 @@ export default function Cards({ nft }) {
         coverflowEffect={{
           rotate: 10,
           stretch: 120,
-          depth: 480,
+          depth: 450,
           modifier: 1,
           slideShadows: false,
         }}
+        initialSlide={
+          nft?.detail?.length > 1 ? Math.floor(nft?.detail?.length / 2) : 0
+        }
         pagination={true}
         modules={[EffectCoverflow, Pagination]}
-        className="mySwiper"
+        className="swiper"
       >
-        {nft.detail?.map((item) => (
+        {nft?.detail?.map((item) => (
           <SwiperSlide key={item.token_id} onClick={() => handleClick(item)}>
-            <SwiperImg nft={item} />
+            <SwiperImg item={item} />
           </SwiperSlide>
         ))}
       </Swiper>
@@ -116,6 +119,8 @@ function MyNtf({ handleOk, handleCancel, data }) {
   );
 }
 
-function SwiperImg({ nft }) {
-  return <img src={`${IMG_URL}${nft.token_id}.jpg`} alt={`NFT`} />;
+function SwiperImg({ item }) {
+  return (
+    <img src={`${IMG_URL}${item.token_id}.jpg`} alt={`NFT ${item.token_id}`} />
+  );
 }
