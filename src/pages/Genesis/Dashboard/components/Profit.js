@@ -6,6 +6,7 @@ import { Card } from 'antd';
 import drop from '@/assets/images/icons/drop.png';
 import rise from '@/assets/images/icons/rise.png';
 import { Graph } from './Graph';
+import { Graph2 } from './Graph2';
 import { empty } from '@/utils/lang';
 
 export default function Profit({ lessorsData, getLessors, percent }) {
@@ -216,7 +217,7 @@ function RewardCard({ title, income, diffValue, profit, lessorsData, unit }) {
             </div>
           </div>
         </div>
-        <Graph data={profit} lessorsData={lessorsData} />
+        <Graph2 data={profit} lessorsData={lessorsData} />
       </section>
     </Card>
   );

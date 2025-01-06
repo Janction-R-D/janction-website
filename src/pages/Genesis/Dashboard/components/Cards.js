@@ -71,7 +71,7 @@ function MyNtf({ handleOk, handleCancel, data }) {
       .then((res) => setNft(res))
       .catch((err) => console.log(err));
   }, []);
-  console.log(nft);
+  console.log(data);
   return (
     <Modal
       open={true} // El modal siempre está abierto cuando hay un NFT seleccionado
@@ -117,13 +117,5 @@ function MyNtf({ handleOk, handleCancel, data }) {
 }
 
 function SwiperImg({ nft }) {
-  // const [img,setImg] = useState()
-  console.log(nft);
-  return (
-    <img
-      src={`${IMG_URL}${nft.token_id}.jpg`}
-      alt={`NFT`}
-      // Llama a handleClick con el NFT correspondiente
-    />
-  );
+  return <img src={`${IMG_URL}${nft.token_id}.jpg`} alt={`NFT`} />;
 }
