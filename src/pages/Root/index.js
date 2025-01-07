@@ -48,7 +48,7 @@ const Root = (props) => {
     if (timer.current) {
       clearInterval(timer.current);
     }
-    setInterval(() => {
+    timer.current = setInterval(() => {
       fetchData();
     }, 1000 * 10);
     return () => {
@@ -98,14 +98,16 @@ const Root = (props) => {
       console.log('『err』', err);
     }
   };
+
   const getInviterList = async (params = {}) => {
     try {
       setInviterLoading(true);
       const _query = { ...inviterQuery, ...params };
       const res = await fetchInviterList(_query);
-      const { items, extra } = res || {};
+      const { items, ...extra } = res || {};
+
       setInviterList(items || []);
-      setInviterPage(extra);
+      setInviterPage({ extra, page: extra.offset / 10 });
       setInviterQuery(_query);
       setInviterLoading(false);
     } catch (err) {
