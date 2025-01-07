@@ -5,7 +5,7 @@ import { Col, Drawer, List, Row, Space } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
 import styles from './BillDetails.less';
 import { fetchBillingList } from '@/services/genesis/billings';
-import { useModel } from 'umi';
+import { Redirect, useModel } from 'umi';
 import numeral from 'numeral';
 
 function BillDetails() {
@@ -136,7 +136,7 @@ function BillDetails() {
       </div>
     );
   };
-
+  if (isLessee) return <Redirect to="/genesis/dashboard"></Redirect>;
   return (
     <>
       <div className={styles['title']}>Billings</div>
