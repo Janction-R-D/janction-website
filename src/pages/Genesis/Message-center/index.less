@@ -26,6 +26,12 @@
 .filters {
   display: flex;
   flex-wrap: nowrap;
+  width: 100%;
+  overflow: scroll;
+  scrollbar-width: none;
+}
+.filters::-webkit-scrollbar {
+  display: none; /* hide scroll bar */
 }
 .activity-filter-container {
   display: flex;
@@ -212,4 +218,127 @@
       }
     }
   }
+}
+
+@media (max-width: 1024px) {
+  .main-container {
+    padding-inline: 0px;
+    background: transparent;
+    padding-top: 24px;
+  }
+  .personal-container {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .filters {
+    box-shadow: inset -10px 0 10px rgba(0, 0, 0, 0.5);
+  }
+  .activity-filter {
+    label {
+      p {
+        text-wrap: nowrap;
+      }
+      .activity-range {
+        background: transparent;
+      }
+    }
+  }
+  .card-messages {
+    margin-top: 16px;
+    margin-bottom: 32px;
+  }
+  .table {
+    .ant-table-container table {
+      .ant-table-thead {
+        th {
+          font-size: 0.9rem;
+        }
+      }
+      .ant-table-tbody {
+        tr {
+          .tipo {
+            width: 80px;
+          }
+          .descripcion {
+            width: 100%;
+          }
+          .actions {
+            min-width: 150px;
+          }
+        }
+      }
+    }
+  }
+  // .activity-filter-container {
+  //   display: flex;
+  //   flex-direction: column;
+  //   gap: 12px;
+  //   :global {
+  //     .ant-radio-group {
+  //       .ant-radio-button-wrapper {
+  //         border-color: transparent;
+  //         background: #1b1b1c;
+  //         padding: 8px 12px !important;
+  //         display: flex;
+  //         align-items: center;
+  //         > span:not(.ant-radio-button) {
+  //           font-family: 'Poppins';
+  //           font-style: normal;
+  //           font-weight: 400;
+  //           font-size: 8px;
+  //           line-height: 20px;
+  //           color: rgba(255, 255, 255, 0.6);
+  //         }
+
+  //         .ant-radio-button-checked {
+  //           display: none;
+  //         }
+  //       }
+
+  //       .ant-radio-button-wrapper::before {
+  //         background-color: rgba(255, 255, 255, 0.1);
+  //       }
+
+  //       .ant-radio-button-wrapper-checked {
+  //         > span:not(.ant-radio-button) {
+  //           color: rgba(255, 255, 255, 0.9);
+  //         }
+  //       }
+
+  //       .ant-radio-button-wrapper:first-child {
+  //         border-radius: 41px 0 0 41px;
+  //       }
+
+  //       .ant-radio-button-wrapper:last-child {
+  //         border-radius: 0 41px 41px 0;
+  //       }
+
+  //       .ant-radio-button-wrapper-checked:not(
+  //           .ant-radio-button-wrapper-disabled
+  //         ) {
+  //         background: #2f2f31;
+  //       }
+  //     }
+
+  //     .ant-input-affix-wrapper {
+  //       border-radius: 61px;
+  //       outline: none;
+  //       padding-right: 16px;
+  //       background-color: #2e2e30;
+  //       max-width: 300px;
+  //       height: 32px;
+  //       background: rgba(255, 255, 255, 0.05);
+  //       border-radius: 61px;
+  //       font-family: 'Poppins';
+  //       font-style: normal;
+  //       font-weight: 400;
+  //       font-size: 12px;
+  //       line-height: 20px;
+  //       /* identical to box height, or 167% */
+  //       text-align: center;
+  //       color: rgba(255, 255, 255, 0.4);
+  //       border: none;
+  //     }
+  //   }
+  // }
 }
