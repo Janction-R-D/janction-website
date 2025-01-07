@@ -4,9 +4,9 @@ import { message } from 'antd';
 import { useState } from 'react';
 import { Redirect, useModel } from 'umi';
 import NTFBanner from '../DeployNodes/components/NTFBanner';
-import Step3 from './components/RunNode';
-import StepChart from './components/StepChart';
-import Step1 from './components/System';
+import Step3 from '../DeployNodes/components/RunNode';
+import Step1 from '../DeployNodes/components/System';
+import StepChart from '../DeployNodes/components/StepChart';
 import styles from './index.less';
 
 const DEFAULT = {
