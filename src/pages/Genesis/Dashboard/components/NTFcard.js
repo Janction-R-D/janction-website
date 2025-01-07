@@ -15,12 +15,12 @@ const NTFcard = ({ nft }) => {
     >
       <header className={styles['nft-header']}>
         <h2>My NFT</h2>
-        <p onClick={handleOk}>
+        {/* <p onClick={handleOk}>
           Node hoisting
           <div>
             <i className="iconfont icon-up"></i>
           </div>
-        </p>
+        </p> */}
       </header>
       <img className={styles['banner-img']} src={banner} />
       <Cards nft={nft} />
