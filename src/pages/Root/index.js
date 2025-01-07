@@ -6,11 +6,12 @@ import {
 } from '@/components/JanctionTable/column';
 import {
   fetchInviterList,
+  fetchInviterNameUpdate,
   fetchNFTData,
   fetchPaymentHistory,
 } from '@/services/root';
 import { DATE_FORMAT_TYPE } from '@/utils/datetime';
-import { Col, Row } from 'antd';
+import { Col, message, Row } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import { history } from 'umi';
 import GenerateCode from './components/GenerateCode';
@@ -22,6 +23,8 @@ import PayDetail from './components/PayDetail';
 import SplitRatioSetting from './components/SplitRatioSetting';
 import StatisticCard from './components/StatisticCard';
 import styles from './index.less';
+import ModifyModal from './components/ModifyModal';
+import { update } from 'lodash';
 
 const Root = (props) => {
   const [record, setRecord] = useState();
@@ -40,6 +43,7 @@ const Root = (props) => {
   const [inviterList, setInviterList] = useState([]);
   const [inviterLoading, setInviterLoading] = useState(false);
   const [splitVisible, setSplitVisible] = useState(false);
+  const [inviterEdit, setInviterEdit] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -136,6 +140,22 @@ const Root = (props) => {
       },
     ]),
   ];
+
+  const updateInviterName = async (params, rowData) => {
+    try {
+      console.log('『rowData』', rowData);
+      await fetchInviterNameUpdate({
+        ...params,
+        inviter: rowData.inviter,
+      });
+      message.success('Update success!');
+      getInviterList();
+    } catch (err) {
+      console.log('『err』', err);
+      throw Error(err);
+    }
+  };
+
   const columns2 = [
     renderTableColumns('Inviter Address', 'inviter_address', { copy: true }),
     renderTableColumns('Inviter Name', 'inviter_name', { copy: true }),
@@ -162,6 +182,18 @@ const Root = (props) => {
         onClick: (rowData) => {
           setRecord(rowData);
           setInvitedUserVisible(true);
+        },
+      },
+      {
+        name: 'edit',
+        onClick: (rowData) => {
+          setRecord({
+            title: 'Inviter Name',
+            key: 'nickname',
+            value: rowData.inviter_name,
+            inviter: rowData.inviter_address,
+          });
+          setInviterEdit(true);
         },
       },
     ]),
@@ -341,6 +373,18 @@ const Root = (props) => {
             setRecord();
           }}
           onSuccess={getInviterList}
+        />
+      )}
+      {inviterEdit && (
+        <ModifyModal
+          title="Edit Inviter"
+          visible={inviterEdit}
+          record={record}
+          onCancel={() => {
+            setInviterEdit(false);
+            setRecord();
+          }}
+          onOk={updateInviterName}
         />
       )}
     </div>

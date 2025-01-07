@@ -6,7 +6,7 @@ import LabelValue from './LabelValue';
 import { empty } from '@/utils/lang';
 
 const ModifyModal = (props) => {
-  const { visible, onCancel, record, onOk } = props;
+  const { visible, onCancel, record, onOk, title } = props;
 
   const [value, setValue] = useState(record?.value);
 
@@ -19,9 +19,9 @@ const ModifyModal = (props) => {
     }
     try {
       if (record?.type == 'number') {
-        onOk && (await onOk({ [record?.key]: value || 0 }));
+        onOk && (await onOk({ [record?.key]: value || 0 }, record));
       } else {
-        onOk && (await onOk({ [record?.key]: value }));
+        onOk && (await onOk({ [record?.key]: value }, record));
       }
       onCancel();
     } catch (err) {
@@ -32,7 +32,7 @@ const ModifyModal = (props) => {
   return (
     <JanctionModal
       open={visible}
-      title="Modify the configuration"
+      title={title || 'Modify the configuration'}
       centered
       width={706}
       onOk={okHandle}

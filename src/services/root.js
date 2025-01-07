@@ -77,6 +77,19 @@ export const fetchInviterCode = (params) => {
   }
 };
 
+export const fetchInviterNameUpdate = (params) => {
+  try {
+    return request(`${baseUrl}/invitation`, {
+      method: 'PUT',
+      data: params,
+      basicLoginAuth: true,
+    });
+  } catch (err) {
+    console.log('『err』', err);
+    return null;
+  }
+};
+
 export const fetchRootUserPsdUpdate = (params) => {
   return request(`${baseUrl}/password`, {
     method: 'POST',
