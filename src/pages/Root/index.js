@@ -13,7 +13,6 @@ import { DATE_FORMAT_TYPE } from '@/utils/datetime';
 import { Col, Row } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import { history } from 'umi';
-import CodeManage from './components/CodeManage';
 import GenerateCode from './components/GenerateCode';
 import InvitedUser from './components/InvitedUser';
 import LabelValue from './components/LabelValue';
@@ -31,7 +30,6 @@ const Root = (props) => {
   const [statisticData, setStatisticData] = useState();
   const [configData, setConfigData] = useState();
   const [payDetailVisible, setPayDetailVisible] = useState(false);
-  const [codeManageVisible, setCodeManageVisible] = useState(false);
   const [invitedUserVisible, setInvitedUserVisible] = useState(false);
   const [psQuery, setPsQuery] = useState({ offset: 0, limit: 10 });
   const [psPage, setPsPage] = useState({ offset: 0, limit: 10 });
@@ -88,9 +86,9 @@ const Root = (props) => {
       setPaymentHistoryLoading(true);
       const _query = { ...psQuery, ...params };
       const res = await fetchPaymentHistory(_query);
-      const { items, extra } = res || {};
+      const { items, ...extra } = res || {};
       setPaymentHistory(items || []);
-      setPsPage(extra);
+      setPsPage({ ...(extra || {}), page: (_query?.offset || 0) / 10 });
       setPsQuery(_query);
       setPaymentHistoryLoading(false);
     } catch (err) {
@@ -107,7 +105,7 @@ const Root = (props) => {
       const { items, ...extra } = res || {};
 
       setInviterList(items || []);
-      setInviterPage({ extra, page: extra.offset / 10 });
+      setInviterPage({ ...(extra || {}), page: (_query?.offset || 0) / 10 });
       setInviterQuery(_query);
       setInviterLoading(false);
     } catch (err) {
@@ -320,16 +318,6 @@ const Root = (props) => {
           record={record}
           onCancel={() => {
             setPayDetailVisible(false);
-            setRecord();
-          }}
-        />
-      )}
-      {codeManageVisible && (
-        <CodeManage
-          visible={codeManageVisible}
-          record={record}
-          onCancel={() => {
-            setCodeManageVisible(false);
             setRecord();
           }}
         />

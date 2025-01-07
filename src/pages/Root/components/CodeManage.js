@@ -32,9 +32,12 @@ const CodeManage = (props) => {
 
   const onEnableSwitch = async (checked) => {
     try {
-      const res = await fetchInviterEnable();
+      await fetchInviterEnable();
       message.success('updated!');
-    } catch (error) {}
+    } catch (error) {
+      message.error('fail to update!');
+      console.log('『error』', error);
+    }
   };
 
   const columns = [
