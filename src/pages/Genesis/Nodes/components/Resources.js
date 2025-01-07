@@ -18,19 +18,16 @@ export default function Resources({ statisticData }) {
     {
       name: 'Running nodes',
       field: 'running',
-      value: 24546,
       color: 'white',
     },
     {
       name: 'listed nodes',
       field: 'listed',
-      value: 19283,
       color: 'white',
     },
     {
       name: 'active instances',
       field: 'active',
-      value: 2193,
       color: 'white',
     },
   ];

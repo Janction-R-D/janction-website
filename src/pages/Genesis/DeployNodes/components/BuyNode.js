@@ -15,7 +15,7 @@ import { history } from 'umi';
 import { useAccount } from 'wagmi';
 import styles from './node.less';
 import dayjs from 'dayjs';
-import { showValue } from '@/utils/lang';
+import { delay, showValue } from '@/utils/lang';
 import { ethers } from 'ethers';
 
 export default function BuyNode({ mineCode, inviterCode }) {
@@ -315,7 +315,9 @@ function PayCard({ open, handleCancel }) {
         <div>
           <Button
             className={styles['buy-btn']}
-            onClick={() => {
+            onClick={async () => {
+              message.loading({ content: 'Loading...', duration: 1 });
+              await delay(1000);
               history.push('/genesis/dashboard');
             }}
           >

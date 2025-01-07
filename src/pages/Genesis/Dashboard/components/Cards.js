@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-
+import React, { useEffect, useMemo, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Modal } from 'antd';
 import 'swiper/css';
@@ -7,10 +6,10 @@ import 'swiper/css/effect-cards';
 import styles from './index.less';
 import './cards.less';
 import { EffectCoverflow, Pagination } from 'swiper/modules';
-
 import { fetchNft } from '@/services/genesis';
 
 const IMG_URL = 'https://pub-da89859eb37b4af0ab4fbec6b5247ec5.r2.dev/image/';
+
 export default function Cards({ nft }) {
   const [selectedNtf, setSelectedNtf] = useState(null);
 
@@ -25,9 +24,9 @@ export default function Cards({ nft }) {
   const handleClick = (ntf) => {
     setSelectedNtf(ntf);
   };
-  console.log(nft);
-  return (
-    <div className={styles['modal-nft']}>
+
+  const renderSwiper = useMemo(() => {
+    return (
       <Swiper
         effect={'coverflow'}
         grabCursor={true}
@@ -54,7 +53,12 @@ export default function Cards({ nft }) {
           </SwiperSlide>
         ))}
       </Swiper>
+    );
+  }, [nft]);
 
+  return (
+    <div className={styles['modal-nft']}>
+      {renderSwiper}
       {/* Mostrar el modal solo si hay un NFT seleccionado */}
       {selectedNtf && (
         <MyNtf

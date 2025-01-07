@@ -4,7 +4,7 @@ import {
   fetchNTFClaimJasmyUpdate,
 } from '@/services/genesis';
 import contract from '@/utils/contract';
-import { renderBackgroudImg } from '@/utils/lang';
+import { delay, renderBackgroudImg } from '@/utils/lang';
 import numeral from 'numeral';
 import { useEffect, useState } from 'react';
 import styles from './index.less';
@@ -36,8 +36,6 @@ const ContributorReward = (props) => {
       console.log('『error』', error);
     }
   };
-
-  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
   const onClaim = async () => {
     try {
