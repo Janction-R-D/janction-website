@@ -24,7 +24,6 @@ import SplitRatioSetting from './components/SplitRatioSetting';
 import StatisticCard from './components/StatisticCard';
 import styles from './index.less';
 import ModifyModal from './components/ModifyModal';
-import { update } from 'lodash';
 
 const Root = (props) => {
   const [record, setRecord] = useState();
@@ -151,6 +150,7 @@ const Root = (props) => {
       message.success('Update success!');
       getInviterList();
     } catch (err) {
+      message.error('Update failed!');
       console.log('『err』', err);
       throw Error(err);
     }
