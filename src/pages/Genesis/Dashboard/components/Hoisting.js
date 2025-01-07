@@ -14,14 +14,14 @@ export default function Hoisting({ showModal, handleOk, setShowModal }) {
       name: 'Janction Lanlord #001',
       image: 'https://pub-da89859eb37b4af0ab4fbec6b5247ec5.r2.dev/image/35.jpg',
       hostingTime: '3Days 3h 30min',
-      earnings: 1250,
+      earnings: '~',
       status: 'trusted',
     },
     {
       name: 'Janction Lanlord #002',
       image: 'https://pub-da89859eb37b4af0ab4fbec6b5247ec5.r2.dev/image/37.jpg',
       hostingTime: '3Days 3h 30min',
-      earnings: 1250,
+      earnings: '~',
       status: 'untrusted',
     },
   ];
