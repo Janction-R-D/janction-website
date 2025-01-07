@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import LabelVal from '../Card/LabelVal';
 import styles from './index.less';
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 const PayType = (props) => {
   const { value, onChange } = props;
   const [active, setActive] = useState();
@@ -14,7 +16,9 @@ const PayType = (props) => {
   return (
     <LabelVal name="Payment type">
       <div className={styles['pay-type']}>
-        {PAY_CURRENCY.map((item) => (
+        {PAY_CURRENCY.filter((item) =>
+          isProduction ? item.label !== 'veJCT' : true,
+        ).map((item) => (
           <div
             className={[
               styles['pay-type-item'],

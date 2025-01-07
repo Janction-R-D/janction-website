@@ -8,7 +8,7 @@ import './cards.less';
 import { EffectCoverflow, Pagination } from 'swiper/modules';
 import { fetchNft } from '@/services/genesis';
 
-const IMG_URL = 'https://pub-da89859eb37b4af0ab4fbec6b5247ec5.r2.dev/image/';
+const IMG_URL = 'https://assets.janction.io/image/';
 
 export default function Cards({ nft }) {
   const [selectedNtf, setSelectedNtf] = useState(null);
