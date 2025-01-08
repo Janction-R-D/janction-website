@@ -102,14 +102,16 @@ export const fetchRootUserPsdUpdate = (params) => {
 export const fetchRootRegisterChallenge = (userId) => {
   return request(`${baseUrl}/registration/options`, {
     method: 'POST',
-    headers: { 'x-user-id': userId, credentials: 'include' },
+    credentials: 'include',
+    headers: { 'x-user-id': userId },
   });
 };
 export const fetchRootRegisterVerify = (userId, data) => {
   return request(`${baseUrl}/registration/verification`, {
     method: 'POST',
     data,
-    headers: { 'x-user-id': userId, credentials: 'include' },
+    credentials: 'include',
+    headers: { 'x-user-id': userId },
   });
 };
 
@@ -117,7 +119,7 @@ export const fetchRootAuthChallenge = (data) => {
   return request(`${baseUrl}/authentication/options`, {
     method: 'POST',
     data,
-    headers: { credentials: 'include' },
+    credentials: 'include',
   });
 };
 
@@ -125,12 +127,12 @@ export const fetchRootAuthVerify = (data) => {
   return request(`${baseUrl}/authentication/verification`, {
     method: 'POST',
     data,
-    headers: { credentials: 'include' },
+    credentials: 'include',
   });
 };
 
 export const fetchRootAuthStatus = () => {
   return request(`${baseUrl}/authentication/status`, {
-    headers: { credentials: 'include' },
+    credentials: 'include',
   });
 };
