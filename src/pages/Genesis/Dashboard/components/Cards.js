@@ -8,8 +8,6 @@ import './cards.less';
 import { EffectCoverflow, Pagination } from 'swiper/modules';
 import { fetchNft } from '@/services/genesis';
 
-const IMG_URL = 'https://assets.janction.io/image/';
-
 export default function Cards({ nft }) {
   const [selectedNtf, setSelectedNtf] = useState(null);
 
@@ -126,6 +124,9 @@ function MyNtf({ handleOk, handleCancel, data }) {
 
 function SwiperImg({ item }) {
   return (
-    <img src={`${IMG_URL}${item.token_id}.jpg`} alt={`NFT ${item.token_id}`} />
+    <img
+      src={`${process.env.ASSETS_URL}/image/${item.token_id}.jpg`}
+      alt={`NFT ${item.token_id}`}
+    />
   );
 }

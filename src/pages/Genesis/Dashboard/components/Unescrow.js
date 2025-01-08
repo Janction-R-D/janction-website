@@ -40,7 +40,12 @@ function Edit({ handleCancel, isModalOpen, handleOk }) {
   );
 }
 
-export default function Unescrow({ islModalOpen, setIslModalOpen, handleOk }) {
+export default function Unescrow({
+  record,
+  islModalOpen,
+  setIslModalOpen,
+  handleOk,
+}) {
   const handleCancel = () => {
     setIslModalOpen(false);
   };

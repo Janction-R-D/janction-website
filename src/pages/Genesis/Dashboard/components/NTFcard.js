@@ -25,6 +25,7 @@ const NTFcard = ({ nft }) => {
       <img className={styles['banner-img']} src={banner} />
       <Cards nft={nft} />
       <Hoisting
+        nft={nft}
         showModal={showModal}
         handleOk={handleOk}
         setShowModal={setShowModal}

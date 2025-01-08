@@ -4,6 +4,8 @@ import { ethers } from 'ethers';
 import Distribution from './Distribution.json';
 import Payment from './Payment.json';
 import JasmyRewards from './JasmyRewards.json';
+import NFTEscrowImpl from './NFTEscrowImpl.json';
+import JanctionNFT from './JanctionNFT.json';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -327,6 +329,99 @@ const contract = {
         duration: 0,
       });
       const tx = await distribution.distributeRewards(nature, rewards);
+      await tx.wait(); // 等待交易完成
+      message.destroy('tx');
+    } catch (err) {
+      message.destroy('tx');
+      console.log('『err』', err);
+      throw new Error(err);
+    }
+  },
+
+  escrow: async (tokenId) => {
+    try {
+      const provider = new ethers.providers.Web3Provider(
+        window.ethereum,
+        'any',
+      );
+      await provider.send('eth_requestAccounts', []);
+      const signer = provider.getSigner();
+
+      // await switchNetwork(provider);
+
+      // 初始化合约
+      const escrowContract = new ethers.Contract(
+        getAddresses().NFTEscrowProxy,
+        NFTEscrowImpl.abi,
+        provider,
+      ).connect(signer);
+
+      const nftContract = new ethers.Contract(
+        getAddresses().JanctionNFT,
+        JanctionNFT.abi,
+        provider,
+      ).connect(signer);
+
+      const approveTx = await nftContract.approve(
+        getAddresses().NFTEscrowProxy,
+        tokenId,
+      );
+      console.log('Approve transaction sent:', approveTx.hash);
+
+      // 等待交易完成
+      await approveTx.wait();
+      console.log(`Escrow contract approved for tokenId: ${tokenId}.`);
+
+      // 检查授权是否成功
+      const approvedAddress = await nftContract.getApproved(tokenId);
+      if (
+        approvedAddress.toLowerCase() !==
+        getAddresses().NFTEscrowProxy.toLowerCase()
+      ) {
+        throw new Error('Approval failed. Escrow contract is not approved.');
+      }
+
+      console.log(`Escrowing NFT with tokenId: ${tokenId}...`);
+
+      message.info({
+        content: 'Waiting...',
+        key: 'tx',
+        duration: 0,
+      });
+      const tx = await escrowContract.escrow(tokenId);
+      await tx.wait(); // 等待交易完成
+      message.destroy('tx');
+    } catch (err) {
+      message.destroy('tx');
+      console.log('『err』', err);
+      throw new Error(err);
+    }
+  },
+
+  unescrow: async (tokenId) => {
+    try {
+      const provider = new ethers.providers.Web3Provider(
+        window.ethereum,
+        'any',
+      );
+      await provider.send('eth_requestAccounts', []);
+      const signer = provider.getSigner();
+
+      // await switchNetwork(provider);
+
+      // 初始化合约
+      const unescrowContract = new ethers.Contract(
+        getAddresses().NFTEscrowProxy,
+        NFTEscrowImpl.abi,
+        provider,
+      ).connect(signer);
+
+      message.info({
+        content: 'Waiting...',
+        key: 'tx',
+        duration: 0,
+      });
+      const tx = await unescrowContract.unescrow(tokenId);
       await tx.wait(); // 等待交易完成
       message.destroy('tx');
     } catch (err) {

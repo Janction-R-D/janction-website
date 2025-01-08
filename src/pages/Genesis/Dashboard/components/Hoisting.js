@@ -1,48 +1,37 @@
 import React, { useState } from 'react';
-import { Button, Modal } from 'antd';
+import { Button, message, Modal } from 'antd';
 import styles from './index.less';
 import JanctionTable from '@/components/JanctionTable';
 import Unescrow from './Unescrow';
 import trustImg from '@/assets/images/genesis/coin-img.png';
+import contract from '@/utils/contract';
 
-export default function Hoisting({ showModal, handleOk, setShowModal }) {
+const inTrustValue = 'trusted';
+export default function Hoisting({ nft, showModal, handleOk, setShowModal }) {
   const handleCancel = () => {
     setShowModal(false);
   };
-  const data = [
-    {
-      name: 'Janction Lanlord #001',
-      image: 'https://pub-da89859eb37b4af0ab4fbec6b5247ec5.r2.dev/image/35.jpg',
-      hostingTime: '3Days 3h 30min',
-      earnings: '~',
-      status: 'trusted',
-    },
-    {
-      name: 'Janction Lanlord #002',
-      image: 'https://pub-da89859eb37b4af0ab4fbec6b5247ec5.r2.dev/image/37.jpg',
-      hostingTime: '3Days 3h 30min',
-      earnings: '~',
-      status: 'untrusted',
-    },
-  ];
   const columns = [
     {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
       ellipsis: true,
-      render: (text, record) => (
+      render: (text, rowData) => (
         <div className="name">
           <div>
-            <p>{text}</p>
-            {record.status === 'trusted' && (
+            <p>{`Janction Landlord #${rowData.token_id}`}</p>
+            {rowData.status === inTrustValue && (
               <span className="trusted">
                 <img src={trustImg} />
                 In trust
               </span>
             )}
           </div>
-          <img src={record.image} alt="node" />
+          <img
+            src={`${process.env.ASSETS_URL}/image/${rowData.token_id}.jpg`}
+            alt="node"
+          />
         </div>
       ),
     },
@@ -59,7 +48,7 @@ export default function Hoisting({ showModal, handleOk, setShowModal }) {
       render: (text, record) => (
         <div>
           <Operation
-            text={record.status === 'trusted' ? 'Hoisting' : 'Unescrow'}
+            text={record.status === inTrustValue ? 'Unescrow' : 'Hoisting'}
             record={record}
           />
         </div>
@@ -83,7 +72,7 @@ export default function Hoisting({ showModal, handleOk, setShowModal }) {
       <JanctionTable
         className={styles['table']}
         columns={columns}
-        dataSource={data}
+        dataSource={nft?.detail}
         pagination={false}
         scroll={{ x: 'auto' }}
         emptyDescription={<p>No data</p>}
@@ -100,30 +89,47 @@ export default function Hoisting({ showModal, handleOk, setShowModal }) {
 
 function Operation({ text, record }) {
   const [showUnscrow, setShowUnscrow] = useState(false);
-  const onShow = () => {
-    setShowUnscrow(true);
+
+  const onEscrow = async () => {
+    try {
+      await contract.escrow(record.token_id);
+      message.success('Successfully!');
+    } catch (error) {
+      console.log('『error』', error);
+    }
   };
+
+  const onUnEscrow = async () => {
+    try {
+      await contract.unescrow(record.token_id);
+      message.success('Successfully!');
+    } catch (error) {
+      console.log('『error』', error);
+    }
+  };
+
   const handleClick = () => {
-    if (record.status === 'untrusted') {
-      onShow();
+    if (record.status === inTrustValue) {
+      setShowUnscrow(true);
       return;
     }
-    console.log('trust');
+    onEscrow(record);
   };
   return (
     <>
       <Button
         className={`${
-          record.status == 'trusted' ? styles['create-btn'] : styles['pre']
+          record.status == inTrustValue ? styles['pre'] : styles['create-btn']
         }`}
         onClick={handleClick}
       >
         {text}
       </Button>
       <Unescrow
+        record={record}
         setIslModalOpen={setShowUnscrow}
         islModalOpen={showUnscrow}
-        handleOk={onShow}
+        handleOk={onUnEscrow}
       />
     </>
   );
