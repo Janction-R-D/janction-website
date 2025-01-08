@@ -6,7 +6,6 @@ import { CheckHeader } from './components/CheckHeader';
 import { CheckedComponent } from './components/CheckedComponent';
 import styles from './index.less';
 import data from './mesages.json';
-import useScale from '@/hooks/useScale';
 
 export default function MessageCenter() {
   const { RangePicker } = DatePicker;
