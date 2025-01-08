@@ -37,3 +37,20 @@
     border-color: #73d5f4;
   }
 }
+@media (max-width: 680px) {
+  .image-conf-wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
+    gap: 16px;
+    .item {
+      max-width: 100%;
+      flex-direction: row;
+      align-items: center;
+      justify-content: start;
+      gap: 18px;
+      height: 65px;
+
+      padding: 16px;
+    }
+  }
+}

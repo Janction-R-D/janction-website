@@ -9,6 +9,7 @@ import data from './mesages.json';
 
 export default function MessageCenter() {
   const { RangePicker } = DatePicker;
+
   const [allMessages, setAllMessages] = useState(data.messages);
   const [time, setTime] = useState(['2023-12-01', '2024-12-30']);
   const [isChecked, setIsChecked] = useState(false);
@@ -136,9 +137,11 @@ export default function MessageCenter() {
           <div className={styles['activity-filter']}>
             <label>
               <p>Time Horizon</p>
+
               <RangePicker
                 onChange={handleChangeTime}
                 className={styles['activity-range']}
+                placement="bottomRight"
                 suffixIcon={<i className="iconfont icon-shizhongclock74"></i>}
               />
             </label>

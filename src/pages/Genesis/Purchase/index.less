@@ -368,3 +368,51 @@
   flex-direction: column;
   gap: 5px;
 }
+
+@media (max-width: 680px) {
+  .purchase-container {
+    padding: 0 0 80px;
+    width: 100%;
+    max-width: 1440px;
+
+    .text__title {
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 500;
+      font-size: 32px;
+      line-height: 40px;
+      margin: 40px 0;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .purchase-type-nav {
+      width: 100%;
+      max-width: 523px;
+      height: 52px;
+      background: transparent;
+      border-radius: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .nav-item {
+        font-size: 0.8rem;
+        height: 40px;
+        border-radius: none;
+        display: flex;
+        align-items: center;
+        text-align: start;
+        justify-content: center;
+        cursor: pointer;
+      }
+
+      .nav-active-item {
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid #73d5f4;
+        color: #73d5f4;
+        border-radius: 0px;
+      }
+    }
+  }
+}

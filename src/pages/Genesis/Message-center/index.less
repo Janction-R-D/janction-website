@@ -219,7 +219,6 @@
     }
   }
 }
-
 @media (max-width: 1024px) {
   .main-container {
     padding-inline: 0px;
@@ -230,6 +229,8 @@
     flex-direction: column;
     gap: 20px;
   }
+}
+@media (max-width: 580px) {
   .filters {
     box-shadow: inset -10px 0 10px rgba(0, 0, 0, 0.5);
   }
@@ -248,22 +249,117 @@
     margin-bottom: 32px;
   }
   .table {
-    .ant-table-container table {
-      .ant-table-thead {
-        th {
-          font-size: 0.9rem;
+    :global {
+      .ant-table-container table {
+        .ant-table-thead {
+          th {
+            background: #1c1c1d !important;
+            border-bottom: 1px solid #2e2e30 !important;
+          }
+          th:last-child {
+            display: none;
+          }
+          th:nth-child(n-1) {
+            display: none;
+          }
+          .table-header {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            > div {
+              display: flex;
+              align-items: center;
+              gap: 6px;
+              > button {
+                border-radius: 4px;
+                border-color: #2f2f31;
+              }
+            }
+          }
         }
-      }
-      .ant-table-tbody {
-        tr {
-          .tipo {
-            width: 80px;
-          }
-          .descripcion {
+        .ant-table-tbody {
+          background: #1c1c1d !important;
+          tr {
+            display: flex;
+            overflow: hidden;
+            position: relative;
+            flex-direction: column;
             width: 100%;
+            border-bottom: 1px solid #2e2e30 !important;
+            td {
+              height: 45px !important;
+              border-bottom: none !important;
+            }
+            td:last-child {
+              order: -1;
+
+              position: absolute;
+              top: 0;
+              right: 10px;
+              z-index: 10;
+              height: 50px;
+              width: 30ch;
+              padding: 8px 12px;
+            }
+            .tipo {
+              width: 100px;
+              display: flex;
+
+              gap: 4px;
+              font-size: 0.8rem;
+              color: #fff;
+              font-weight: 500;
+            }
+            .descripcion {
+              width: 70vw;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              text-wrap: nowrap;
+              position: relative;
+            }
+            .readed-sms {
+              font-weight: bold;
+              color: #fff;
+            }
+            .actions {
+              min-width: 100px;
+              display: flex;
+              justify-content: end;
+              p {
+                display: flex;
+                align-items: center;
+                transition: all 200ms ease;
+              }
+              .buttons {
+                transition: all 200ms ease;
+                display: none;
+                gap: 12px;
+                align-items: start;
+
+                > button {
+                  padding: 4px 3px;
+                  font-size: 0.8rem;
+                  font-weight: bold;
+                  color: rgb(93, 96, 250);
+                  border: none;
+                }
+              }
+            }
+
+            .ellipsis {
+              text-overflow: ellipsis;
+              text-wrap: nowrap;
+            }
           }
-          .actions {
-            min-width: 150px;
+          tr:hover {
+            .actions {
+              p {
+                display: none;
+              }
+              .buttons {
+                display: flex;
+              }
+            }
           }
         }
       }
