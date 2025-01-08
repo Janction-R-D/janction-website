@@ -7,6 +7,8 @@ export const fetchNFTData = (params) => {
     return request(`${baseUrl}/dashboard`, {
       params,
       basicLoginAuth: true,
+      credentials: 'include',
+      withCredentials: true,
     });
   } catch (err) {
     console.log('『err』', err);
@@ -19,6 +21,8 @@ export const fetchPaymentHistory = (params) => {
     return request(`${baseUrl}/payment_histry`, {
       params,
       basicLoginAuth: true,
+      credentials: 'include',
+      withCredentials: true,
     });
   } catch (err) {
     console.log('『err』', err);
@@ -31,6 +35,8 @@ export const fetchInviterList = (params) => {
     return request(`${baseUrl}/l1inviters`, {
       params,
       basicLoginAuth: true,
+      credentials: 'include',
+      withCredentials: true,
     });
   } catch (err) {
     console.log('『err』', err);
@@ -43,6 +49,8 @@ export const fetchNFTSetting = (params) => {
     return request(`${baseUrl}/config`, {
       params,
       basicLoginAuth: true,
+      credentials: 'include',
+      withCredentials: true,
     });
   } catch (err) {
     console.log('『err』', err);
@@ -57,6 +65,8 @@ export const fetchNFTSettingUpdate = (data, params) => {
       params,
       data,
       basicLoginAuth: true,
+      credentials: 'include',
+      withCredentials: true,
     });
   } catch (err) {
     console.log('『err』', err);
@@ -71,6 +81,7 @@ export const fetchInviterCode = (params) => {
       data: params,
       basicLoginAuth: true,
       credentials: 'include',
+      withCredentials: true,
     });
   } catch (err) {
     console.log('『err』', err);
@@ -84,6 +95,8 @@ export const fetchInviterNameUpdate = (params) => {
       method: 'PUT',
       data: params,
       basicLoginAuth: true,
+      credentials: 'include',
+      withCredentials: true,
     });
   } catch (err) {
     console.log('『err』', err);
@@ -96,6 +109,8 @@ export const fetchRootUserPsdUpdate = (params) => {
     method: 'POST',
     data: params,
     basicLoginAuth: true,
+    credentials: 'include',
+    withCredentials: true,
   });
 };
 
