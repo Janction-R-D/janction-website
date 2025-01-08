@@ -103,6 +103,7 @@ export const fetchRootRegisterChallenge = (userId) => {
   return request(`${baseUrl}/registration/options`, {
     method: 'POST',
     credentials: 'include',
+    withCredentials: true,
     headers: { 'x-user-id': userId },
   });
 };
@@ -111,6 +112,7 @@ export const fetchRootRegisterVerify = (userId, data) => {
     method: 'POST',
     data,
     credentials: 'include',
+    withCredentials: true,
     headers: { 'x-user-id': userId },
   });
 };
@@ -120,6 +122,7 @@ export const fetchRootAuthChallenge = (data) => {
     method: 'POST',
     data,
     credentials: 'include',
+    withCredentials: true,
   });
 };
 
@@ -128,11 +131,13 @@ export const fetchRootAuthVerify = (data) => {
     method: 'POST',
     data,
     credentials: 'include',
+    withCredentials: true,
   });
 };
 
 export const fetchRootAuthStatus = () => {
   return request(`${baseUrl}/authentication/status`, {
     credentials: 'include',
+    withCredentials: true,
   });
 };
