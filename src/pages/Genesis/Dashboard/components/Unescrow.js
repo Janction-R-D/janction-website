@@ -29,7 +29,11 @@ function Edit({ loading, handleCancel, isModalOpen, handleOk }) {
         TextTextTextT
       </p>
       <footer className={styles['buttons']}>
-        <Button className={styles['pre']} onClick={handleCancel}>
+        <Button
+          disabled={loading}
+          className={styles['pre']}
+          onClick={handleCancel}
+        >
           Cancel
         </Button>
         <Button

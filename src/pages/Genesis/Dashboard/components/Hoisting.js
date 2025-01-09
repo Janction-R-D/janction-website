@@ -114,16 +114,20 @@ export default function Hoisting({ nft, showModal, handleOk, setShowModal }) {
 
 function Operation({ text, record, loading, setLoading, onSuccess }) {
   const [showUnscrow, setShowUnscrow] = useState(false);
+  const [opLoading, setOpLoading] = useState(false);
 
   const onEscrow = async () => {
     try {
       setLoading(true);
+      setOpLoading(true);
       await contract.escrow(record.token_id);
       message.success('Escrow successfully!');
       setLoading(false);
+      setOpLoading(false);
       onSuccess();
     } catch (error) {
       setLoading(false);
+      setOpLoading(false);
       message.success('Escrow failed!');
       console.log('『error』', error);
     }
@@ -154,6 +158,7 @@ function Operation({ text, record, loading, setLoading, onSuccess }) {
   return (
     <>
       <Button
+        loading={opLoading}
         disabled={loading}
         className={`${
           record.host_status == inTrustValue
