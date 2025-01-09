@@ -1,5 +1,4 @@
 import buy from '@/assets/images/genesis/buy.png';
-import purchase from '@/assets/images/genesis/purchase.png';
 import {
   fetchInviteAccept,
   fetchInviteVerify,
@@ -17,6 +16,7 @@ import styles from './node.less';
 import dayjs from 'dayjs';
 import { delay, showValue } from '@/utils/lang';
 import { ethers } from 'ethers';
+import { SwiperImg } from '../../Dashboard/components/Cards';
 
 export default function BuyNode({ mineCode, inviterCode }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -281,7 +281,7 @@ function PayCard({ open, handleCancel }) {
       footer={false}
     >
       <div className={styles['modal-img']}>
-        <img src={purchase} />
+        <SwiperImg item={detail} />
         <section>
           <p>
             <i className="iconfont icon-list"></i> Details

@@ -1,16 +1,35 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, message, Modal } from 'antd';
 import styles from './index.less';
 import JanctionTable from '@/components/JanctionTable';
 import Unescrow from './Unescrow';
 import trustImg from '@/assets/images/genesis/coin-img.png';
 import contract from '@/utils/contract';
+import { fetchNftStatus } from '@/services/genesis';
+import { renderTableColumns } from '@/components/JanctionTable/column';
+import { DATE_FORMAT_TYPE } from '@/utils/datetime';
 
-const inTrustValue = 'trusted';
+const inTrustValue = 'hosted';
 export default function Hoisting({ nft, showModal, handleOk, setShowModal }) {
+  const [list, setList] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!showModal) return;
+    getNFTStatus();
+  }, [showModal]);
+  const getNFTStatus = async () => {
+    try {
+      const res = await fetchNftStatus();
+      console.log('『res』', res);
+      setList(res.Data || []);
+    } catch (error) {}
+  };
+
   const handleCancel = () => {
     setShowModal(false);
   };
+
   const columns = [
     {
       title: 'Name',
@@ -21,7 +40,7 @@ export default function Hoisting({ nft, showModal, handleOk, setShowModal }) {
         <div className="name">
           <div>
             <p>{`Janction Landlord #${rowData.token_id}`}</p>
-            {rowData.status === inTrustValue && (
+            {rowData.host_status === inTrustValue && (
               <span className="trusted">
                 <img src={trustImg} />
                 In trust
@@ -35,10 +54,13 @@ export default function Hoisting({ nft, showModal, handleOk, setShowModal }) {
         </div>
       ),
     },
-    { title: 'Hosting Time', dataIndex: 'hostingTime', key: 'hostingTime' },
+    renderTableColumns('Hosting Time', 'time', {
+      type: 'date',
+      format: DATE_FORMAT_TYPE.YMDHMS,
+    }),
     {
       title: 'Earnings',
-      dataIndex: 'earnings',
+      dataIndex: 'rental_income',
       key: 'earnings',
       render: (text) => <p className="earnings">{text}</p>,
     },
@@ -48,8 +70,11 @@ export default function Hoisting({ nft, showModal, handleOk, setShowModal }) {
       render: (text, record) => (
         <div>
           <Operation
-            text={record.status === inTrustValue ? 'Unescrow' : 'Hoisting'}
+            text={record.host_status === inTrustValue ? 'Unescrow' : 'Hoisting'}
             record={record}
+            onSuccess={getNFTStatus}
+            loading={loading}
+            setLoading={setLoading}
           />
         </div>
       ),
@@ -72,9 +97,9 @@ export default function Hoisting({ nft, showModal, handleOk, setShowModal }) {
       <JanctionTable
         className={styles['table']}
         columns={columns}
-        dataSource={nft?.detail}
+        dataSource={list}
         pagination={false}
-        scroll={{ x: 'auto' }}
+        scroll={{ x: 'auto', y: '60vh' }}
         emptyDescription={<p>No data</p>}
       />
       <footer>
@@ -87,29 +112,40 @@ export default function Hoisting({ nft, showModal, handleOk, setShowModal }) {
   );
 }
 
-function Operation({ text, record }) {
+function Operation({ text, record, loading, setLoading, onSuccess }) {
   const [showUnscrow, setShowUnscrow] = useState(false);
 
   const onEscrow = async () => {
     try {
+      setLoading(true);
       await contract.escrow(record.token_id);
-      message.success('Successfully!');
+      message.success('Escrow successfully!');
+      setLoading(false);
+      onSuccess();
     } catch (error) {
+      setLoading(false);
+      message.success('Escrow failed!');
       console.log('『error』', error);
     }
   };
 
   const onUnEscrow = async () => {
     try {
+      setLoading(true);
       await contract.unescrow(record.token_id);
-      message.success('Successfully!');
+      message.success('Unescrow successfully!');
+      setLoading(false);
+      setShowUnscrow(false);
+      onSuccess();
     } catch (error) {
+      setLoading(false);
+      message.success('Unescrow failed!');
       console.log('『error』', error);
     }
   };
 
   const handleClick = () => {
-    if (record.status === inTrustValue) {
+    if (record.host_status === inTrustValue) {
       setShowUnscrow(true);
       return;
     }
@@ -118,14 +154,18 @@ function Operation({ text, record }) {
   return (
     <>
       <Button
+        disabled={loading}
         className={`${
-          record.status == inTrustValue ? styles['pre'] : styles['create-btn']
+          record.host_status == inTrustValue
+            ? styles['pre']
+            : styles['create-btn']
         }`}
         onClick={handleClick}
       >
         {text}
       </Button>
       <Unescrow
+        loading={loading}
         record={record}
         setIslModalOpen={setShowUnscrow}
         islModalOpen={showUnscrow}

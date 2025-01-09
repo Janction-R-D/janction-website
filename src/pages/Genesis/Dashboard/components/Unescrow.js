@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Button, Input, Modal } from 'antd';
 import styles from './index.less';
 
-function Edit({ handleCancel, isModalOpen, handleOk }) {
+function Edit({ loading, handleCancel, isModalOpen, handleOk }) {
   return (
     <Modal
       className={styles['card-modal-hosting']}
@@ -32,7 +32,11 @@ function Edit({ handleCancel, isModalOpen, handleOk }) {
         <Button className={styles['pre']} onClick={handleCancel}>
           Cancel
         </Button>
-        <Button className={styles['create-btn']} onClick={handleOk}>
+        <Button
+          loading={loading}
+          className={styles['create-btn']}
+          onClick={handleOk}
+        >
           confirm
         </Button>
       </footer>
@@ -41,7 +45,7 @@ function Edit({ handleCancel, isModalOpen, handleOk }) {
 }
 
 export default function Unescrow({
-  record,
+  loading,
   islModalOpen,
   setIslModalOpen,
   handleOk,
@@ -52,6 +56,7 @@ export default function Unescrow({
 
   return (
     <Edit
+      loading={loading}
       handleCancel={handleCancel}
       isModalOpen={islModalOpen}
       handleOk={handleOk}

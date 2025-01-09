@@ -122,11 +122,11 @@ function MyNtf({ handleOk, handleCancel, data }) {
   );
 }
 
-function SwiperImg({ item }) {
+export function SwiperImg({ item }) {
   return (
     <img
-      src={`${process.env.ASSETS_URL}/image/${item.token_id}.jpg`}
-      alt={`NFT ${item.token_id}`}
+      src={`${process.env.ASSETS_URL}/image/${item?.token_id}.jpg`}
+      alt={`NFT ${item?.token_id}`}
     />
   );
 }

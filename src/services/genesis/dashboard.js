@@ -52,3 +52,9 @@ export const fetchInvitersUpdate = async (data) => {
     throw Error(error);
   }
 };
+
+export const fetchNftStatus = () => {
+  return request(`${baseUrl}/nft/status`, {
+    loginAuth: true,
+  });
+};
