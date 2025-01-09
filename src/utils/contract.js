@@ -62,6 +62,9 @@ const switchNetwork = async (provider, networkName = 'op') => {
       NETWORKS[`${networkName}${isProduction ? '' : '_test'}`];
     const chainId = networkConf.chainId;
 
+    console.log('『chainId』', chainId);
+    console.log('『network』', network);
+
     if (network.chainId !== chainId) {
       try {
         await window.ethereum.request({
