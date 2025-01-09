@@ -9,6 +9,9 @@ import JanctionNFT from './JanctionNFT.json';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
+console.log('『process.env.NODE_ENV』', process.env.NODE_ENV);
+console.log('『isProduction』', isProduction);
+
 export function durationMultiplier(duration, discount) {
   if (duration == Duration.Day) {
     return 1;
@@ -23,7 +26,7 @@ export function durationMultiplier(duration, discount) {
   }
 }
 
-const getAddresses = () => (isProduction ? ADDRESS : TEST_ADDRESS);
+const getAddresses = () => TEST_ADDRESS;
 
 const switchNetwork = async (provider) => {
   try {
