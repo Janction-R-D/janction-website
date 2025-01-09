@@ -12,6 +12,33 @@ const isProduction = process.env.JANCTION_ENV === 'production';
 
 console.log('『process.env.JANCTION_ENV』', process.env.JANCTION_ENV);
 
+const NETWORKS = {
+  eth: {
+    chainId: 1,
+    chainName: 'Ethereum Mainnet',
+    rpcUrls: ['https://eth.llamarpc.com'],
+    blockExplorerUrls: ['https://etherscan.io'],
+  },
+  eth_test: {
+    chainId: 11155111,
+    chainName: 'Sepolia Test Network',
+    rpcUrls: ['https://rpc.sepolia.org'],
+    blockExplorerUrls: ['https://sepolia.etherscan.io'],
+  },
+  op: {
+    chainId: 10,
+    chainName: 'Optimism Mainnet',
+    rpcUrls: ['https://mainnet.optimism.io'],
+    blockExplorerUrls: ['https://optimistic.etherscan.io'],
+  },
+  op_test: {
+    chainId: 11155420,
+    chainName: 'Optimism Sepolia Testnet',
+    rpcUrls: ['https://sepolia.optimism.io'],
+    blockExplorerUrls: ['https://sepolia-optimism.etherscan.io'],
+  },
+};
+
 export function durationMultiplier(duration, discount) {
   if (duration == Duration.Day) {
     return 1;
@@ -28,12 +55,12 @@ export function durationMultiplier(duration, discount) {
 
 const getAddresses = () => (isProduction ? ADDRESS : TEST_ADDRESS);
 
-const switchNetwork = async (provider) => {
+const switchNetwork = async (provider, networkName = 'op') => {
   try {
     const network = await provider.getNetwork();
-    const ethMainnet = 1;
-    const sepoliaChainId = 11155111; // Sepolia 测试网的 Chain ID
-    const chainId = isProduction ? ethMainnet : sepoliaChainId;
+    const networkConf =
+      NETWORKS[`${networkName}${isProduction ? '' : '_test'}`];
+    const chainId = networkConf.chainId;
 
     if (network.chainId !== chainId) {
       try {
@@ -48,39 +75,25 @@ const switchNetwork = async (provider) => {
               method: 'wallet_addEthereumChain',
               params: [
                 {
-                  chainId: isProduction
-                    ? '0x1'
-                    : `0x${sepoliaChainId.toString(16)}`,
-                  chainName: isProduction
-                    ? 'Ethereum Mainnet'
-                    : 'Sepolia Test Network',
+                  chainId: isProduction ? '0x1' : `0x${chainId.toString(16)}`,
+                  chainName: networkConf.chainName,
                   nativeCurrency: {
                     name: 'Ether',
                     symbol: 'ETH',
                     decimals: 18,
                   },
-                  rpcUrls: isProduction
-                    ? ['https://eth.llamarpc.com']
-                    : ['https://rpc.sepolia.org'],
-                  blockExplorerUrls: isProduction
-                    ? ['https://etherscan.io']
-                    : ['https://sepolia.etherscan.io'],
+                  rpcUrls: networkConf.rpcUrls,
+                  blockExplorerUrls: networkConf.blockExplorerUrls,
                 },
               ],
             });
           } catch (addError) {
             throw new Error(
-              isProduction
-                ? 'Failed to add Ethereum Mainnet to your wallet.'
-                : 'Failed to add Sepolia Test Network to your wallet.',
+              `Failed to add ${networkConf.chainName} to your wallet.`,
             );
           }
         } else {
-          throw new Error(
-            isProduction
-              ? 'Failed to switch to Ethereum Mainnet.'
-              : 'Failed to switch to Sepolia Test Network.',
-          );
+          throw new Error(`Failed to switch to ${networkConf.chainName}.`);
         }
       }
     }
@@ -247,10 +260,10 @@ const contract = {
         window.ethereum,
         'any',
       );
-      // await provider.send('eth_requestAccounts', []);
+      await provider.send('eth_requestAccounts', []);
       const signer = provider.getSigner();
 
-      // await switchNetwork(provider);
+      await switchNetwork(provider);
 
       // 初始化合约
       const distribution = new ethers.Contract(
@@ -318,7 +331,7 @@ const contract = {
       await provider.send('eth_requestAccounts', []);
       const signer = provider.getSigner();
 
-      // await switchNetwork(provider);
+      await switchNetwork(provider, 'eth');
 
       // 初始化合约
       const distribution = new ethers.Contract(
@@ -351,7 +364,7 @@ const contract = {
       await provider.send('eth_requestAccounts', []);
       const signer = provider.getSigner();
 
-      // await switchNetwork(provider);
+      await switchNetwork(provider);
 
       // 初始化合约
       const escrowContract = new ethers.Contract(
@@ -411,7 +424,7 @@ const contract = {
       await provider.send('eth_requestAccounts', []);
       const signer = provider.getSigner();
 
-      // await switchNetwork(provider);
+      await switchNetwork(provider);
 
       // 初始化合约
       const unescrowContract = new ethers.Contract(
