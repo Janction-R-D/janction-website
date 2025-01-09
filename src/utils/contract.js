@@ -62,9 +62,6 @@ const switchNetwork = async (provider, networkName = 'op') => {
       NETWORKS[`${networkName}${isProduction ? '' : '_test'}`];
     const chainId = networkConf.chainId;
 
-    console.log('『chainId』', chainId);
-    console.log('『network』', network);
-
     if (network.chainId !== chainId) {
       try {
         await window.ethereum.request({
@@ -78,7 +75,7 @@ const switchNetwork = async (provider, networkName = 'op') => {
               method: 'wallet_addEthereumChain',
               params: [
                 {
-                  chainId: isProduction ? '0x1' : `0x${chainId.toString(16)}`,
+                  chainId: `0x${chainId.toString(16)}`,
                   chainName: networkConf.chainName,
                   nativeCurrency: {
                     name: 'Ether',
@@ -367,6 +364,12 @@ const contract = {
       await provider.send('eth_requestAccounts', []);
       const signer = provider.getSigner();
 
+      message.info({
+        content: 'Waiting...',
+        key: 'tx',
+        duration: 0,
+      });
+
       await switchNetwork(provider);
 
       // 初始化合约
@@ -403,11 +406,6 @@ const contract = {
 
       console.log(`Escrowing NFT with tokenId: ${tokenId}...`);
 
-      message.info({
-        content: 'Waiting...',
-        key: 'tx',
-        duration: 0,
-      });
       const tx = await escrowContract.escrow(tokenId);
       await tx.wait(); // 等待交易完成
       message.destroy('tx');
@@ -427,6 +425,12 @@ const contract = {
       await provider.send('eth_requestAccounts', []);
       const signer = provider.getSigner();
 
+      message.info({
+        content: 'Waiting...',
+        key: 'tx',
+        duration: 0,
+      });
+
       await switchNetwork(provider);
 
       // 初始化合约
@@ -436,11 +440,6 @@ const contract = {
         provider,
       ).connect(signer);
 
-      message.info({
-        content: 'Waiting...',
-        key: 'tx',
-        duration: 0,
-      });
       const tx = await unescrowContract.unescrow(tokenId);
       await tx.wait(); // 等待交易完成
       message.destroy('tx');
