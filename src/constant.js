@@ -1,4 +1,4 @@
-const isProduction = process.env.NODE_ENV === 'production';
+const isProduction = process.env.JANCTION_ENV === 'production';
 
 // abbreviated month name
 export const MONTH = [

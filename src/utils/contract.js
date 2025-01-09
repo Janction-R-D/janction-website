@@ -6,11 +6,11 @@ import Payment from './Payment.json';
 import JasmyRewards from './JasmyRewards.json';
 import NFTEscrowImpl from './NFTEscrowImpl.json';
 import JanctionNFT from './JanctionNFT.json';
+import { delay } from './lang';
 
-const isProduction = process.env.NODE_ENV === 'production';
+const isProduction = process.env.JANCTION_ENV === 'production';
 
-console.log('『process.env.NODE_ENV』', process.env.NODE_ENV);
-console.log('『isProduction』', isProduction);
+console.log('『process.env.JANCTION_ENV』', process.env.JANCTION_ENV);
 
 export function durationMultiplier(duration, discount) {
   if (duration == Duration.Day) {
@@ -26,7 +26,7 @@ export function durationMultiplier(duration, discount) {
   }
 }
 
-const getAddresses = () => TEST_ADDRESS;
+const getAddresses = () => (isProduction ? ADDRESS : TEST_ADDRESS);
 
 const switchNetwork = async (provider) => {
   try {
@@ -247,7 +247,7 @@ const contract = {
         window.ethereum,
         'any',
       );
-      await provider.send('eth_requestAccounts', []);
+      // await provider.send('eth_requestAccounts', []);
       const signer = provider.getSigner();
 
       // await switchNetwork(provider);
@@ -299,6 +299,7 @@ const contract = {
       );
       await tx.wait(); // 等待交易完成
       message.destroy('tx');
+      await delay(2000);
       message.success('Trade successfully!');
       return tx;
     } catch (error) {

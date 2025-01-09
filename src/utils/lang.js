@@ -155,7 +155,7 @@ export function capitalizeFirstLetter(string) {
 }
 
 export function avatar(address) {
-  const isDev = process.env.NODE_ENV == 'development';
+  const isDev = process.env.JANCTION_ENV == 'development';
   return isDev
     ? `http://54.95.234.135:81/v0/user/avatar/${address}`
     : `${location.origin}/v0/user/avatar/${address}`;

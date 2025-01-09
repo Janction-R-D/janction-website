@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import LabelVal from '../Card/LabelVal';
 import styles from './index.less';
 
-const isProduction = process.env.NODE_ENV === 'production';
+const isProduction = process.env.JANCTION_ENV === 'production';
 
 const PayType = (props) => {
   const { value, onChange } = props;
