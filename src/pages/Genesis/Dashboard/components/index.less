@@ -365,7 +365,105 @@
     }
   }
 }
+@media (max-width: 680px) {
+  .invite-modal {
+    .invite-box {
+      border-radius: 16px;
+      background-color: #0f0f10;
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      width: 90%;
 
+      .invite-box-info {
+        flex: 1;
+        width: 80%;
+        padding: 10px 18px;
+      }
+
+      .invite-box-button {
+        width: 60px;
+        height: 60px;
+        cursor: pointer;
+        background-color: #3c3a3d;
+        border-radius: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        i {
+          font-size: 20px;
+        }
+      }
+
+      p {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 95%;
+        text-wrap: nowrap;
+      }
+    }
+
+    :global {
+      .ant-modal-content {
+        background: radial-gradient(
+              68.82% 108.11% at 28.33% -13.1%,
+              rgba(240, 216, 168, 0.2) 0%,
+              rgba(238, 218, 179, 0.002) 86.27%,
+              rgba(238, 218, 181, 0) 100%
+            )
+            /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */,
+          rgba(128, 128, 128, 0.15);
+        background-blend-mode: normal, luminosity;
+        /* Blur */
+        backdrop-filter: blur(50px);
+        /* Note: backdrop-filter has minimal browser support */
+        border-radius: 32px;
+        border: 1.4px solid;
+        border-image-source: linear-gradient(
+          187.9deg,
+          rgba(255, 255, 255, 0.4) 6.09%,
+          rgba(255, 255, 255, 0.01) 53.52%,
+          rgba(255, 255, 255, 0.01) 73.24%,
+          rgba(255, 255, 255, 0.25) 123%
+        );
+      }
+    }
+
+    .invite-modal-content {
+      img {
+        max-width: 352px;
+        width: 100%;
+        height: 194px;
+      }
+
+      h1 {
+        margin-block: 12px;
+        width: 80%;
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 24px;
+        text-align: center;
+        color: rgba(255, 255, 255, 0.96);
+      }
+
+      p.desc {
+        margin-top: 8px;
+        max-width: 350px;
+        width: 100%;
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 20px;
+        text-align: center;
+        color: rgba(255, 255, 255, 0.4);
+      }
+    }
+  }
+}
 .modal-nft {
   flex: 1;
 }
