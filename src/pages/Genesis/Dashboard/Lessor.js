@@ -269,6 +269,7 @@ const Lessors = (props) => {
             columns={watchColumns}
             dataSource={monitorList}
             pagination={false}
+            scroll={{ x: 'auto' }}
           />
         </div>
       </div>

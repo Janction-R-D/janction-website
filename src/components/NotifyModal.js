@@ -23,7 +23,7 @@ export default function NotifyModal({ setIsModalOpen, isModalOpen, handleOk }) {
       onCancel={handleCancel}
       footer={false}
       header={false}
-      width={450}
+      width={430}
       closable={false}
     >
       <header className={styles['card-header']}>

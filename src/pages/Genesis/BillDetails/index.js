@@ -170,6 +170,7 @@ function BillDetails() {
           //   position: ['bottomCenter'],
           // }}
           pagination={false}
+          scroll={{ x: 'auto' }}
         />
       </div>
       <Drawer className="drawer" width={510} onClose={onClose} open={open}>
