@@ -4,7 +4,7 @@ import Cards from './Cards';
 import { useState } from 'react';
 import Hoisting from './Hoisting';
 
-const isTest = process.env.JANCTION_ENV === 'test';
+const isProduction = process.env.JANCTION_ENV === 'production';
 
 const NTFcard = ({ nft }) => {
   const [showModal, setShowModal] = useState(false);
@@ -17,7 +17,7 @@ const NTFcard = ({ nft }) => {
     >
       <header className={styles['nft-header']}>
         <h2>My NFT</h2>
-        {isTest && (
+        {!isProduction && (
           <p onClick={handleOk}>
             Node hoisting
             <div>
