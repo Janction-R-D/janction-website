@@ -30,7 +30,7 @@ const News = (props) => {
     //Pagination Control
     const endIndex = page * query.size;
     const startINdex = endIndex - query.size;
-    const filterData = resource?.slice(startINdex, endIndex);
+    const filterData = list?.slice(startINdex, endIndex);
     setList(filterData);
   };
 
