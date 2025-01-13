@@ -25,6 +25,7 @@ const ModifyModal = (props) => {
       }
       onCancel();
     } catch (err) {
+      message.error('Setup failed, please try again!');
       console.log('『err』', err);
     }
   };
