@@ -1,27 +1,33 @@
 import { useEffect, useState } from 'react';
-import { Button, Input, Modal } from 'antd';
+import { Button, Input, message, Modal } from 'antd';
 import styles from './modal.less';
 
-function Edit({ handleCancel, isModalOpen, handleOk, setName, name }) {
+export default function EditName({ open, onOk, onCancel, name }) {
   const [input, setInput] = useState(name);
+
+  useEffect(() => {
+    setInput(name);
+    return () => {
+      setInput();
+    };
+  }, []);
+
   const handleChange = (e) => {
     setInput(e.target.value);
   };
-  const handleClick = () => {
-    if (input === '') return;
-    setName(input);
-    handleOk();
+  const onConfirm = () => {
+    if (input?.trim() == '') {
+      message.warning('please enter name!');
+      return;
+    }
+    onOk(input);
   };
-  useEffect(() => {
-    console.log(name);
-    setInput(name);
-  }, []);
+
   return (
     <Modal
       className={styles['card-modal-username']}
-      open={isModalOpen}
-      onOk={handleOk}
-      onCancel={handleCancel}
+      open={open}
+      onCancel={onCancel}
       footer={false}
       header={false}
       height={300}
@@ -30,7 +36,7 @@ function Edit({ handleCancel, isModalOpen, handleOk, setName, name }) {
     >
       <header>
         <p>Edit Username</p>
-        <i className="iconfont icon-close" onClick={handleCancel}></i>
+        <i className="iconfont icon-close" onClick={onCancel}></i>
       </header>
       <Input
         className={styles['input-name']}
@@ -38,40 +44,17 @@ function Edit({ handleCancel, isModalOpen, handleOk, setName, name }) {
         defaultValue={name}
         onChange={handleChange}
         maxLength={20}
-        suffix={`${name?.length}/20`}
+        suffix={`${input?.length}/20`}
       />
 
       <footer className={styles['buttons']}>
-        <Button className={styles['cancel-btn']} onClick={handleCancel}>
+        <Button className={styles['cancel-btn']} onClick={onCancel}>
           Cancel
         </Button>
-        <Button className={styles['create-btn']} onClick={handleClick}>
+        <Button className={styles['create-btn']} onClick={onConfirm}>
           Confirm
         </Button>
       </footer>
     </Modal>
-  );
-}
-
-export default function EditName({
-  isNameModalOpen,
-  setIsNameModalOpen,
-  setName,
-  name,
-}) {
-  const handleCancel = () => {
-    setIsNameModalOpen(false);
-  };
-  const handleOk = () => {
-    setIsNameModalOpen(false);
-  };
-  return (
-    <Edit
-      handleCancel={handleCancel}
-      isModalOpen={isNameModalOpen}
-      handleOk={handleOk}
-      setName={setName}
-      name={name}
-    />
   );
 }

@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 import styles from './index.less';
 import textImg from './image.png';
 import { fetchNewsList, fetchNewsUpdate } from '@/services/genesis';
-import { Skeleton } from 'antd';
+import { Pagination, Skeleton } from 'antd';
 import { isEmpty } from '@/utils/lang';
-
+const initQuery = { current: 1, size: 20 };
 const News = (props) => {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  const [query, setQuery] = useState(initQuery);
   useEffect(() => {
     getList();
   }, []);
@@ -17,6 +17,7 @@ const News = (props) => {
       setLoading(true);
       // await fetchNewsUpdate();
       const res = await fetchNewsList();
+      console.log(res);
       setList(res || []);
       setLoading(false);
     } catch (error) {
@@ -24,9 +25,17 @@ const News = (props) => {
       console.log('『error』', error);
     }
   };
+  const onPageChange = (page) => {
+    setQuery({ ...query, current: page });
+    //Pagination Control
+    const endIndex = page * query.size;
+    const startINdex = endIndex - query.size;
+    const filterData = list?.slice(startINdex, endIndex);
+    setList(filterData);
+  };
 
   const renderNewsList = () => {
-    return list.map((item, index) => {
+    return list.slice(0, 20).map((item, index) => {
       let banner = textImg;
       const thumbnail = item?.extensions?.media?.thumbnail || [];
       if (!!thumbnail.length) {
@@ -74,7 +83,18 @@ const News = (props) => {
             <Skeleton avatar active round title paragraph={{ rows: 1 }} />
           </>
         ) : (
-          renderNewsList()
+          <>
+            {renderNewsList()}
+            {/* <div className={styles['pagination-wrapper']}>
+              <Pagination
+                current={query?.current}
+                pageSize={query?.size}
+                total={list?.length}
+                showLessItems
+                onChange={onPageChange}
+              />
+            </div> */}
+          </>
         )}
       </div>
     </div>

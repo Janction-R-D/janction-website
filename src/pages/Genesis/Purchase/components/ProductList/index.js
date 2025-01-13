@@ -107,6 +107,7 @@ const ProductList = (props) => {
       ),
       dataIndex: 'last_start_at',
       width: 'auto',
+      ellipsis: 'true',
       render: (text) => {
         if (!text) return '--';
         return calculateDuration(text, { showSeconds: false });
@@ -133,6 +134,7 @@ const ProductList = (props) => {
         dataSource={dataSource}
         pagination={false}
         rowKey="id"
+        scroll={{ x: 'auto' }}
         rowSelection={{
           selectedRowKeys: [selectKey],
           onChange: (selectedRowKeys, selectedRows) => {

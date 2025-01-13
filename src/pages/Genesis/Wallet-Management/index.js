@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styles from './index.less';
-import ProfileHeader from '@/components/ProfileHeader';
 import MyWallet from './MyWallet';
 import Resources from './Resources';
 import AuthHeader from '@/components/Layouts/Auth/AuthHeader';
