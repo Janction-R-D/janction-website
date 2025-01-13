@@ -381,7 +381,7 @@
 
 .social-tags {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(390px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
   align-items: center;
   gap: 12px;
   margin-top: 22px;
@@ -452,6 +452,38 @@
     }
   }
 }
+.address-id {
+  white-space: nowrap;
+  .address-id-text {
+    display: inline-block;
+    width: min-content;
+    text-align: center;
+    white-space: nowrap;
+
+    position: relative;
+  }
+}
+
+@media (max-width: 768px) {
+  .address-id {
+    .address-id-text {
+      width: 100px;
+      visibility: hidden; /* Hide the original text */
+      position: relative;
+    }
+
+    .address-id-text::after {
+      content: attr(data-id-prefix) '****' attr(data-id-suffix);
+      position: absolute;
+      top: 0;
+      left: 0;
+      visibility: visible;
+      display: inline-block;
+      text-align: center;
+      white-space: nowrap;
+    }
+  }
+}
 
 @media screen and (max-width: 580px) {
   .card-content > ul {
@@ -460,7 +492,11 @@
 
     gap: 28px;
   }
-
+  .banner-img,
+  .img {
+    width: 100%;
+    min-height: 160px;
+  }
   .card-security-keys {
     flex-direction: column;
     justify-content: start;
@@ -481,7 +517,7 @@
   }
 
   .social-tags {
-    grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
 
     .social-tag {
       flex-direction: column;

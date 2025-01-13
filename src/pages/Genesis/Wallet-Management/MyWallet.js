@@ -80,12 +80,14 @@ const StatisticInfo = ({ title, value, unit }) => {
         <div className={styles['statistic-value']}>
           <p className={styles['text-grey']}>Current available balance</p>
           <section>
-            <span className={styles['value']}>
-              {value ? numeral(value.total).format('0.00') : '~'}
-            </span>
-            <span className={styles['unit']}>
-              <p>{unit}</p>
-            </span>
+            <div>
+              <span className={styles['value']}>
+                {value ? numeral(value.total).format('0.00') : '~'}
+              </span>
+              <span className={styles['unit']}>
+                <p>{unit}</p>
+              </span>
+            </div>
             <Button className={styles['create-btn']}>Top-up</Button>
           </section>
         </div>

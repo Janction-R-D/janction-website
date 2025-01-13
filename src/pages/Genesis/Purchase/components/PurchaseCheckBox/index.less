@@ -1,14 +1,17 @@
 .purchase-checkbox-wrapper {
-  display: flex;
-  flex-wrap: wrap;
+  // display: flex;
+  // flex-wrap: wrap;
   gap: 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 
   .item {
     display: flex;
     justify-content: center;
+    text-align: center;
     align-items: center;
     height: 44px;
-    padding: 0 20px;
+    padding: 3px 20px;
     background: #2f2f31;
     border-radius: 16px;
     border: 2px solid;
