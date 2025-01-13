@@ -56,7 +56,7 @@ function Instance() {
     setQuery({ ...query, current: page });
     //Pagination Control
     const endIndex = page * query.size;
-    const startINdex = indexOfLastInstance - query.size;
+    const startINdex = endIndex - query.size;
     const filterData = resource?.slice(startINdex, endIndex);
     setFilteredData(filterData);
   };
