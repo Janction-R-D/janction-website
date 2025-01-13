@@ -326,9 +326,19 @@
   border-radius: 14px;
   width: 100%;
   max-width: 350px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+
+  :global {
+    .ant-input-number,
+    .ant-input-number-group-addon {
+      border: none;
+      box-shadow: none;
+      padding: 0;
+      outline: none;
+    }
+    .ant-input-number-group-addon {
+      background-color: transparent;
+    }
+  }
 }
 
 .card-assets-select {
@@ -452,8 +462,10 @@
     }
   }
 }
+
 .address-id {
   white-space: nowrap;
+
   .address-id-text {
     display: inline-block;
     width: min-content;
@@ -468,7 +480,8 @@
   .address-id {
     .address-id-text {
       width: 100px;
-      visibility: hidden; /* Hide the original text */
+      visibility: hidden;
+      /* Hide the original text */
       position: relative;
     }
 
@@ -492,11 +505,13 @@
 
     gap: 28px;
   }
+
   .banner-img,
   .img {
     width: 100%;
     min-height: 160px;
   }
+
   .card-security-keys {
     flex-direction: column;
     justify-content: start;
@@ -521,6 +536,7 @@
 
     .social-tag {
       flex-direction: column;
+
       .buttons {
         flex: 1;
         margin-top: 18px;
@@ -535,6 +551,7 @@
           padding: 8px;
         }
       }
+
       .social-box {
         .social-icon {
           flex-shrink: 0;
