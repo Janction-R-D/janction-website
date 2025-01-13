@@ -133,17 +133,21 @@ export default function UserAccount() {
         <div>
           <p className={styles['address-id']}>
             ID:{' '}
-            <span
-              className={styles['address-id-text']}
-              data-id-prefix={data?.id
-                ?.toString()
-                .slice(0, 4)} /*First 4 digit of id */
-              data-id-suffix={data?.id
-                ?.toString()
-                .slice(-4)} /*Last 4 digit of id */
-            >
-              {data?.id}
-            </span>
+            {data?.id ? (
+              <span
+                className={styles['address-id-text']}
+                data-id-prefix={data?.id
+                  ?.toString()
+                  .slice(0, 4)} /*First 4 digit of id */
+                data-id-suffix={data?.id
+                  ?.toString()
+                  .slice(-4)} /*Last 4 digit of id */
+              >
+                {data?.id}
+              </span>
+            ) : (
+              '~~'
+            )}
           </p>
           <p>Registration date: {data?.registered_at?.split('T')[0]}</p>
 

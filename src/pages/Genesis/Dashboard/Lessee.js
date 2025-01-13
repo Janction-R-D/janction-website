@@ -209,6 +209,7 @@ const Lessees = (props) => {
               columns={detailColumns}
               dataSource={detailsData}
               pagination={false}
+              scroll={{ x: 'auto' }}
             />
           </div>
         </div>
@@ -231,6 +232,7 @@ const Lessees = (props) => {
               columns={watchColumns}
               dataSource={watchlistData}
               pagination={false}
+              scroll={{ x: 'auto' }}
             />
           </div>
         </div>
