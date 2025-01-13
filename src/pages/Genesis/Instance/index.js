@@ -81,7 +81,7 @@ function Instance() {
       </div>
       {showOverView && <HeaderCard summary={summary} />}
       <Card className={styles['card-table']}>
-        <Row justify="space-between" align="middle">
+        <Row justify="space-between" style={{ gap: '12px' }} align="middle">
           <Col>
             <Space>
               <Button
@@ -93,12 +93,17 @@ function Instance() {
               </Button>
             </Space>
           </Col>
-          <Col span={15} style={{ display: 'flex', gap: '16px' }}>
+          <Col
+            span={15}
+            sm={24}
+            xs={24}
+            style={{ display: 'flex', gap: '16px' }}
+          >
             <Input
               suffix={
                 <i
                   className="iconfont icon-search"
-                  style={{ fontSize: '1vw' }}
+                  style={{ fontSize: '14px' }}
                 />
               }
               placeholder="You can fuzzy search for cloud servers by ID, name, and IP. Multiple keywords are separated by commas"

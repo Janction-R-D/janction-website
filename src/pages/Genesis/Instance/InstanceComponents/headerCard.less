@@ -30,6 +30,7 @@
 .card ul {
   display: flex;
   justify-content: start;
+  flex-wrap: wrap;
 }
 .card ul > li {
   display: flex;
@@ -51,4 +52,9 @@
 }
 .yellow {
   color: yellow;
+}
+@media (max-width: 680px) {
+  .card {
+    padding: 4px;
+  }
 }
