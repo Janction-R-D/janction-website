@@ -32,7 +32,7 @@ const RunNodeScript = (props) => {
       const value = `curl '${
         process.env.REGISTER_NODE_URL
       }/v0/node/install.sh?v2=true' | LOCATION=cn NODE_ID=${
-        nodesData?.node_id || 'xxxx'
+        nodesData?.node_id || ''
       } bash -s install`;
       return {
         show: `
@@ -44,8 +44,8 @@ ${value}
       };
     }
     const value = `sudo docker run --privileged --name janction-node1 -e K3S_NODE_NAME=${
-      nodesData?.node_id || 'xxxx'
-    } -e K3S_TOKEN=${nodesData?.token || 'xxxx'} -e K3S_URL=${
+      nodesData?.node_id || ''
+    } -e K3S_TOKEN=${nodesData?.token || ''} -e K3S_URL=${
       process.env.REGISTER_NODE_URL
     } -d rancher/k3s:latest agent`;
     return {
