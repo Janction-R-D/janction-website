@@ -45,10 +45,24 @@ export function CheckHeader({
       setIsChecked(false);
     }
   }, [filteredMessages]);
-
+  const handleClick = () => {
+    if (isChecked) {
+      const newMessages = filteredMessages.map((sms) => ({
+        ...sms,
+        checked: false,
+      }));
+      setAllMessages(newMessages);
+      return;
+    }
+    const newMessages = filteredMessages.map((sms) => ({
+      ...sms,
+      checked: true,
+    }));
+    setAllMessages(newMessages);
+  };
   return (
     <div className="table-header">
-      <Checkbox checked={isChecked} />
+      <Checkbox checked={isChecked} onClick={handleClick} />
       <div>
         <Button onClick={deleteMessages}>Delete</Button>
         <Button onClick={setAsReadedMessages}>Mark as Read</Button>
