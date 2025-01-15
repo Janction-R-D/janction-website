@@ -33,6 +33,7 @@ const SplitRatioSetting = (props) => {
         { split_rate: values },
         { inviter: record?.inviter_address },
       );
+
       // Check if the response indicates success
       if (res?.code == 40011) {
         message.warning(res?.msg);
@@ -42,8 +43,7 @@ const SplitRatioSetting = (props) => {
       onCancel(); // Close the modal
       onSuccess(); // Execute success callback
     } catch (err) {
-      message.warning('invalid split rate');
-      // message.warning(err || 'Except for some issues, please try again!');
+      message.warning(err || 'Except for some issues, please try again!');
       console.log('『err』', err);
     }
   };
