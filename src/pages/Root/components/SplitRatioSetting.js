@@ -43,7 +43,7 @@ const SplitRatioSetting = (props) => {
       onCancel(); // Close the modal
       onSuccess(); // Execute success callback
     } catch (err) {
-      message.warning(err || 'Except for some issues, please try again!');
+      message.warning('Except for some issues, please try again!');
       console.log('『err』', err);
     }
   };
