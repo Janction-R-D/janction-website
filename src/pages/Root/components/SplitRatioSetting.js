@@ -29,28 +29,24 @@ const SplitRatioSetting = (props) => {
   const onOk = async () => {
     try {
       const values = await form.validateFields();
-      const levelData = Object.values(values).filter((item) => item);
-      const lastOne = levelData.pop();
-      const total =
-        levelData.reduce((acc, cur) => acc + (cur || 0), 0) +
-        (lastOne || 0) * 20;
-      if (total > 40) {
-        message.warning('May result in total profit sharing exceeding 40%!');
-        return;
-      }
-      await fetchNFTSettingUpdate(
+      const res = await fetchNFTSettingUpdate(
         { split_rate: values },
         { inviter: record?.inviter_address },
       );
-      message.success('setting success!');
-      onCancel();
-      onSuccess();
+      // Check if the response indicates success
+      if (res?.code == 40011) {
+        message.warning(res?.msg);
+        return;
+      }
+      message.success('Settings updated successfully!');
+      onCancel(); // Close the modal
+      onSuccess(); // Execute success callback
     } catch (err) {
-      message.warning('Except for some issues, please try again!');
+      message.warning('invalid split rate');
+      // message.warning(err || 'Except for some issues, please try again!');
       console.log('『err』', err);
     }
   };
-
   return (
     <JanctionModal
       open={visible}
