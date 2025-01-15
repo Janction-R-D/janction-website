@@ -6,10 +6,20 @@ import { CheckHeader } from './components/CheckHeader';
 import { CheckedComponent } from './components/CheckedComponent';
 import styles from './index.less';
 import data from './mesages.json';
+import TimeRangePickerNumeric from './components/TimeRangePickerNumeric';
+import useScale from '@/hooks/useScale';
 
+export function formatDate(originalDateStr) {
+  const date = new Date(originalDateStr);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const formattedDate = `${year}-${month}-${day}`;
+  return formattedDate;
+}
 export default function MessageCenter() {
   const { RangePicker } = DatePicker;
-
+  const { isPC } = useScale();
   const [allMessages, setAllMessages] = useState(data.messages);
   const [time, setTime] = useState(['2023-12-01', '2024-12-30']);
   const [isChecked, setIsChecked] = useState(false);
@@ -17,17 +27,10 @@ export default function MessageCenter() {
     type: 'all',
     date: ['2023-12-01', '2024-12-30'],
   });
-  function formatDate(originalDateStr) {
-    const date = new Date(originalDateStr);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    const formattedDate = `${year}-${month}-${day}`;
-    return formattedDate;
-  }
+
   const handleChangeTime = (e) => {
     const times = e.map((moment) => {
-      return formatDate(moment._d);
+      return formatDateYMD(moment._d);
     });
     setTime(times);
     setFilter((prevState) => ({
@@ -68,7 +71,6 @@ export default function MessageCenter() {
       dataIndex: 'descripcion',
       key: 'descripcion',
       render: (text, record) => {
-        console.log(record.estado);
         return (
           <p
             className={`descripcion ${
@@ -116,7 +118,10 @@ export default function MessageCenter() {
     });
     setAllMessages(mappedMessages);
   }, []);
-
+  const onChange = (dates, dateStrings) => {
+    console.log('Selected dates:', dates);
+    console.log('Formatted dates:', dateStrings);
+  };
   return (
     <main className={styles['main-container']}>
       <h1>Message Center</h1>
@@ -139,12 +144,19 @@ export default function MessageCenter() {
             <label>
               <p>Time Horizon</p>
 
-              <RangePicker
-                onChange={handleChangeTime}
-                className={styles['activity-range']}
-                placement="bottomRight"
-                suffixIcon={<i className="iconfont icon-shizhongclock74"></i>}
-              />
+              {isPC ? (
+                <RangePicker
+                  onChange={handleChangeTime}
+                  className={styles['activity-range']}
+                  placement="bottomRight"
+                  suffixIcon={<i className="iconfont icon-shizhongclock74"></i>}
+                />
+              ) : (
+                <TimeRangePickerNumeric
+                  setTime={setTime}
+                  setFilter={setFilter}
+                />
+              )}
             </label>
             <Input
               suffix={
