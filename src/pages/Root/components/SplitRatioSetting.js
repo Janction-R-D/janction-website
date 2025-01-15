@@ -36,7 +36,7 @@ const SplitRatioSetting = (props) => {
 
       // Check if the response indicates success
       if (res?.code == 40011) {
-        message.warning(res?.msg);
+        message.warning(res?.error);
         return;
       }
       message.success('Settings updated successfully!');
