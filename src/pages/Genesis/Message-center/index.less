@@ -298,20 +298,20 @@
               right: 10px;
               z-index: 10;
               height: 50px;
-              width: 30ch;
-              padding: 8px 12px;
+              width: 20ch;
+              padding: 4px;
             }
             .tipo {
               width: 100px;
               display: flex;
-
+              text-transform: capitalize;
               gap: 4px;
-              font-size: 0.8rem;
+              font-size: 0.65rem;
               color: #fff;
               font-weight: 500;
             }
             .descripcion {
-              width: 70vw;
+              width: calc(60vw - 40px);
               overflow: hidden;
               text-overflow: ellipsis;
               text-wrap: nowrap;
@@ -324,24 +324,32 @@
             .actions {
               min-width: 100px;
               display: flex;
+              gap: 15px;
+              flex-direction: column-reverse;
               justify-content: end;
+              overflow: hidden;
               p {
                 display: flex;
                 align-items: center;
+                justify-content: end;
                 transition: all 200ms ease;
               }
               .buttons {
                 transition: all 200ms ease;
-                display: none;
-                gap: 12px;
+                display: flex;
+                justify-content: end;
+                gap: 4px;
                 align-items: start;
 
                 > button {
-                  padding: 4px 3px;
-                  font-size: 0.8rem;
+                  padding: 4px 8px;
+                  font-size: 0.7rem;
                   font-weight: bold;
                   color: rgb(93, 96, 250);
                   border: none;
+                }
+                > button:first-child {
+                  border-right: 1px solid #363636;
                 }
               }
             }

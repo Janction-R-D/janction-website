@@ -127,6 +127,7 @@ export default function MessageCenter() {
             buttonStyle="solid"
             className={styles['filters']}
             onChange={onSortChange}
+            scroll={{ x: 'auto' }}
           >
             <Radio.Button value="all">All</Radio.Button>
             <Radio.Button value="service">service</Radio.Button>
