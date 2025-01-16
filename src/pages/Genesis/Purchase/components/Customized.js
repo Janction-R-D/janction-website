@@ -31,6 +31,9 @@ const Customized = (props) => {
 
   const onValuesChange = async () => {
     const values = form.getFieldsValue();
+    if (values.operating_system_str == 'android') {
+      values.Architecture = undefined;
+    }
     setFormValues(values);
   };
 
@@ -48,11 +51,14 @@ const Customized = (props) => {
               <OperatingSystem />
             </Form.Item>
           </PurchaseSubCard>
-          <PurchaseSubCard title="Architecture">
-            <Form.Item name="architechture_str">
-              <Architecture />
-            </Form.Item>
-          </PurchaseSubCard>
+          {formValues?.operating_system_str &&
+            formValues.operating_system_str !== 'android' && (
+              <PurchaseSubCard title="Architecture">
+                <Form.Item name="architechture_str">
+                  <Architecture formValues={formValues} />
+                </Form.Item>
+              </PurchaseSubCard>
+            )}
           <PurchaseSubCard title="Internet">
             <Form.Item name="internet_type">
               <InternetSelect />
