@@ -162,7 +162,7 @@ export default function MessageCenter() {
               suffix={
                 <i
                   className="iconfont icon-search"
-                  style={{ fontSize: '1vw' }}
+                  style={{ fontSize: '14px' }}
                 />
               }
               placeholder="Search by time and quantity"
