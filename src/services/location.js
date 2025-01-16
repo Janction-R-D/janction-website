@@ -6,7 +6,9 @@ import { request } from 'umi';
  */
 export const fetchLocation = async () => {
   try {
-    const response = await request('https://restcountries.com/v3.1/all');
+    const response = await request(
+      'https://restcountries.com/v3.1/all?all=123',
+    );
     return response;
   } catch (error) {
     throw new Error(`Failed to fetch nonce, ${error}`);

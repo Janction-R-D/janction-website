@@ -1,14 +1,14 @@
 import { Checkbox, Empty, Tabs } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
 import PurchaseCheckBox from '../PurchaseCheckBox';
-import useLocation from '@/hooks/useLocation';
+import useContinents from '@/hooks/useContinents';
 import styles from './index.less';
 import { isEmpty } from '@/utils/lang';
 
 const Location = (props) => {
   const { value, onChange } = props;
 
-  const { continents } = useLocation();
+  const continents = useContinents();
 
   const [list, setList] = useState([]);
 
