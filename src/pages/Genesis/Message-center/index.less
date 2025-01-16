@@ -144,13 +144,63 @@
           display: flex;
           align-items: center;
           gap: 6px;
+
           > div {
             display: flex;
             align-items: center;
             gap: 6px;
+
             > button {
               border-radius: 4px;
               border-color: #2f2f31;
+            }
+          }
+
+          .isCheckSome {
+            :global {
+              /* Personalizar el checkbox */
+              .ant-checkbox-wrapper {
+                display: flex;
+                align-items: center;
+                font-size: 14px;
+                color: #333; /* Color del texto */
+              }
+
+              .ant-checkbox {
+                .ant-checkbox-inner {
+                  width: 18px; /* Tamaño del checkbox */
+                  height: 18px;
+                  border: 2px solid #2f2f31; /* Color del borde */
+                  border-radius: 4px; /* Cambiar forma (redondeada) */
+
+                  /* Estilo cuando está seleccionado */
+                  &::after {
+                    content: ''; /* Asegura que el check sea visible */
+                    border: 2px solid #fff;
+                    // background-color: #4caf50; /* Color de fondo al estar seleccionado */
+                  }
+                }
+
+                /* Estilo del icono cuando el checkbox está marcado */
+                &.ant-checkbox-checked {
+                  // .ant-checkbox-inner {
+                  //   background-color: #4caf50;
+                  //   border-color: #4caf50;
+                  // }
+
+                  /* Icono personalizado */
+                  .ant-checkbox-inner::after {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    width: 3px;
+                    height: 10px;
+                    border: solid white;
+                    border-width: 0 2px 0px 0;
+                    transform: translate(-50%, -50%) rotate(90deg);
+                  }
+                }
+              }
             }
           }
         }
@@ -266,10 +316,12 @@
             display: flex;
             align-items: center;
             gap: 6px;
+
             > div {
               display: flex;
               align-items: center;
               gap: 6px;
+
               > button {
                 border-radius: 4px;
                 border-color: #2f2f31;
