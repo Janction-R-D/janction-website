@@ -4,7 +4,7 @@ import { isEmpty } from '@/utils/lang';
 import JactionEmpty from '@/components/JactionEmpty';
 import numeral from 'numeral';
 
-export function Graph2({ data, lessorsData }) {
+export function Graph2({ data }) {
   const echartsData = useMemo(() => {
     if (isEmpty(data))
       return {
@@ -93,7 +93,7 @@ export function Graph2({ data, lessorsData }) {
       {echartsData?.keys?.length > 0 ? (
         <div
           style={{
-            height: '200px',
+            height: '220px',
             width: '60%',
             display: 'flex',
             alignItems: 'center',

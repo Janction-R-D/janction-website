@@ -327,7 +327,12 @@
           justify-content: space-between;
           height: 110px;
           align-items: center;
-
+          .graph-profit {
+            height: 210px;
+            width: 60%;
+            display: flex;
+            align-items: center;
+          }
           .compare {
             text-wrap: nowrap;
 
@@ -1327,14 +1332,23 @@
             }
           }
           .card-reneward {
-            height: 120px;
-
+            height: 160px;
+            flex-direction: column;
+            justify-content: start;
+            gap: 12px;
+            align-items: start;
+            .card-context {
+              order: 2;
+            }
             .compare {
               text-wrap: nowrap;
               display: flex;
-              flex-direction: column;
+              flex-direction: row;
             }
-
+            .graph-profit {
+              width: 100%;
+              padding: 0;
+            }
             .total-value {
               font-size: 1.8rem;
               margin-bottom: 12px;
