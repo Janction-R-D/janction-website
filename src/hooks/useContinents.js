@@ -1,10 +1,11 @@
 import { fetchLocation } from '@/services/location';
 import { useEffect, useState } from 'react';
+import defaultContinents from '@/utils/continents.json';
+import { isEmpty } from 'lodash';
 
 // 获取缩放比例
-const useLocation = () => {
-  const [data, setData] = useState([]);
-  const [continents, setContinents] = useState({});
+const useContinents = () => {
+  const [continents, setContinents] = useState(defaultContinents);
 
   useEffect(() => {
     fetchData();
@@ -26,15 +27,17 @@ const useLocation = () => {
         });
         return acc;
       }, {});
-
-      setData(countries);
+      if (isEmpty(grouped)) {
+        setContinents(defaultContinents);
+        return;
+      }
       setContinents(grouped);
     } catch (error) {
       console.error('Error fetching country data:', error);
     }
   };
 
-  return { data, continents };
+  return continents;
 };
 
-export default useLocation;
+export default useContinents;
