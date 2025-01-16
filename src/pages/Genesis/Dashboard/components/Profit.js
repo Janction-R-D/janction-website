@@ -5,9 +5,9 @@ import numeral from 'numeral';
 import { Card } from 'antd';
 import drop from '@/assets/images/icons/drop.png';
 import rise from '@/assets/images/icons/rise.png';
-import { Graph } from './Graph';
 import { Graph2 } from './Graph2';
 import { empty } from '@/utils/lang';
+import { Graph } from './Graph';
 
 export default function Profit({ lessorsData, getLessors, percent }) {
   const profitInfo = lessorsData?.profit || {};
@@ -194,7 +194,7 @@ function RewardCard({ title, income, diffValue, profit, lessorsData, unit }) {
   return (
     <Card title={title} className={styles['card']}>
       <section className={styles['card-reneward']}>
-        <div>
+        <div className={styles['card-context']}>
           <div className={styles['income-value']}>
             <span className={styles['value']}>
               {!empty(income) ? `${numeral(income).format('0.00')}` : '~'}
@@ -217,7 +217,7 @@ function RewardCard({ title, income, diffValue, profit, lessorsData, unit }) {
             </div>
           </div>
         </div>
-        <Graph2 data={profit} lessorsData={lessorsData} />
+        <Graph data={profit} />
       </section>
     </Card>
   );
