@@ -1,3 +1,4 @@
+import { fetchUserCenter } from '@/services/genesis';
 import { fetchMineInviteCode } from '@/services/genesis/distribution';
 import { useState } from 'react';
 
@@ -5,6 +6,8 @@ export default () => {
   const [avatarSnapUrl, setAvatarSnapUrl] = useState();
   const [code, setCode] = useState();
   const [mineInviteData, setMyInviteData] = useState();
+  const [userName, setUserName] = useState();
+  const [userInfo, setUserInfo] = useState();
 
   const getMineCode = async () => {
     try {
@@ -20,11 +23,31 @@ export default () => {
     }
   };
 
+  const getUserInfo = (callback) => {
+    let result = null;
+    fetchUserCenter()
+      .then((res) => {
+        result = res;
+        setUserInfo(res);
+      })
+      .catch((err) => {
+        console.log('『get-user-info-err』', err);
+      })
+      .finally(() => {
+        callback && callback(result);
+      });
+  };
+
   return {
     avatarSnapUrl,
     setAvatarSnapUrl,
     getMineCode,
     code,
     mineInviteData,
+    userName,
+    setUserName,
+    userInfo,
+    setUserInfo,
+    getUserInfo,
   };
 };

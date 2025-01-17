@@ -1,25 +1,21 @@
+import { Modal } from 'antd';
 import { useState } from 'react';
-import { Button, Input, Modal } from 'antd';
 import styles from './modal.less';
 import ReminderModal from './ReminderEmail';
 
-function Edit({
-  handleCancel,
-  isModalOpen,
-  setIsEmailModalOpen,
-  handleOk,
-  data,
-}) {
+export default function EmailVerify({ open, onCancel, data }) {
   const [isRemindOpen, setIsRemindOpen] = useState(false);
-  const showModal = () => {
-    setIsRemindOpen(true);
+
+  const onSuccess = () => {
+    setIsRemindOpen(false);
+    onCancel();
   };
+
   return (
     <Modal
       className={styles['card-modal-email']}
-      open={isModalOpen}
-      onOk={handleOk}
-      onCancel={handleCancel}
+      open={open}
+      onCancel={onCancel}
       footer={false}
       header={false}
       height={300}
@@ -28,7 +24,7 @@ function Edit({
     >
       <header>
         <p>Email Address</p>
-        <i className="iconfont icon-close" onClick={handleCancel}></i>
+        <i className="iconfont icon-close" onClick={onCancel}></i>
       </header>
 
       <div className={styles['email-box']}>
@@ -36,49 +32,20 @@ function Edit({
           <i className="iconfont icon-check"></i>
           <p>{data?.email}</p>
         </div>
-        <i className="iconfont icon-link-unlink" onClick={showModal}></i>
+        <i
+          className="iconfont icon-link-unlink"
+          onClick={() => setIsRemindOpen(true)}
+        ></i>
         <ReminderModal
-          isRemindOpen={isRemindOpen}
-          setIsRemindOpen={setIsRemindOpen}
-          setIsEmailModalOpen={setIsEmailModalOpen}
+          open={isRemindOpen}
+          onCancel={() => setIsRemindOpen(false)}
+          closeAll={onSuccess}
         />
       </div>
       <p className={styles['email-verify']}>
         By verification, you've subscribed all email notifications. You can also
         <b> manageyour subscription.</b>
       </p>
-      <footer className={styles['buttons']}>
-        <Button className={styles['cancel-btn']} onClick={handleCancel}>
-          Cancel
-        </Button>
-        {data?.email && (
-          <Button className={styles['create-btn']} onClick={handleOk}>
-            Verify
-          </Button>
-        )}
-      </footer>
     </Modal>
-  );
-}
-
-export default function EmailVerify({
-  isEmailModalOpen,
-  setIsEmailModalOpen,
-  data,
-}) {
-  const handleCancel = () => {
-    setIsEmailModalOpen(false);
-  };
-  const handleOk = () => {
-    setIsEmailModalOpen(false);
-  };
-  return (
-    <Edit
-      handleCancel={handleCancel}
-      isModalOpen={isEmailModalOpen}
-      handleOk={handleOk}
-      setIsEmailModalOpen={setIsEmailModalOpen}
-      data={data}
-    />
   );
 }

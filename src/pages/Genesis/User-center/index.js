@@ -1,10 +1,7 @@
-import {
-  deleteKeysUserCenter,
-  fetchUserCenter,
-  sendImageToServer,
-} from '@/services/genesis';
-import { Button } from 'antd';
-import { useEffect, useState } from 'react';
+import { fetchUserCenter, sendImageToServer } from '@/services/genesis';
+import { Button, message } from 'antd';
+import { useState } from 'react';
+import { useModel } from 'umi';
 import EditName from './components/EditName';
 import EmailVerify from './components/EmailVerify';
 import PorifilePicture from './components/PorifilePicture';
@@ -13,101 +10,32 @@ import UserAssets from './components/UserAssets';
 import styles from './index.less';
 
 export default function UserAccount() {
-  const [data, setData] = useState({});
-  const [error, setError] = useState(false);
-  const [key, setKey] = useState({});
-  const [duration, setDuration] = useState({ value: 1, label: '1 Month' });
-  const [isTokenModalOpen, setIsTokenModalOpen] = useState(false);
-  const [isEmailConfigOpen, setIsEmailConfigOpen] = useState(false);
+  const { userName, setUserName, userInfo } = useModel('common');
+
   const [isNameModalOpen, setIsNameModalOpen] = useState(false);
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
-  const [name, setName] = useState('');
-  const showTokenModal = () => {
-    setIsTokenModalOpen(true);
-  };
+
   const onEditName = () => {
     setIsNameModalOpen(true);
   };
 
-  const getUserCenterData = () => {
-    return fetchUserCenter()
-      .then((res) => {
-        setData(res || {});
-
-        if (res.name !== '') {
-          setName(res.name || 'Unknow');
-        }
-      })
-      .catch((err) => setError(true))
-      .finally(() => {
-        setTimeout(() => {
-          setError(false);
-        }, 1500);
-      });
-  };
-
-  useEffect(() => {
-    getUserCenterData();
-  }, [isEmailModalOpen, isEmailConfigOpen]);
-
-  const onEditEmail = () => {
-    setVisible(true);
-  };
-
-  const handleDelete = (key) => {
-    const data = {
-      id: key,
-    };
-    deleteKeysUserCenter(data)
-      .then((res) => {
-        getUserKeysData();
-        // const filtered = keys.filter((item) => item.name !== data.name);
-        // setKeys(filtered);
-        console.log('Succeded :  Key Deleted successfully');
-      })
-      .catch((err) => console.log(err));
-  };
-  const onGenerate = () => {
-    setKey({ key: 1234567891234566 });
-  };
-  const onDelete = () => {
-    setKey({});
-  };
   const handleVerify = () => {
     setIsEmailModalOpen(true);
   };
 
-  const handleSave = (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const form = Object.fromEntries(formData);
-    const info = {
-      name: name,
-      asstes: {
-        amount: 2,
-        duration_months: 2,
-        anticipated_income: 2,
-      },
-      // asstes: {
-      //   ...form,
-      //   duration_months: duration.value,
-      // },
-    };
-    console.log(info);
-    // const formData = convertToFormData(info);
-
-    sendImageToServer(JSON.stringify(info))
-      .then((res) => {
-        console.log(res);
-        getUserCenterData();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const onNameChange = async (name) => {
+    try {
+      await sendImageToServer({ name });
+      message.success('Update success!');
+      setUserName(name);
+      setIsNameModalOpen(false);
+    } catch (error) {
+      message.error('Update failed, please try again!');
+    }
   };
 
   return (
-    <form encType="multipart/form-data" onSubmit={handleSave}>
+    <form encType="multipart/form-data">
       <h1 className={styles['title']}>Personal information</h1>
       <section className={styles['banner']}>
         <div className={styles['banner-img']}>
@@ -117,115 +45,63 @@ export default function UserAccount() {
       </section>
       <article className={styles['user-info']}>
         <div className={styles['edit-name']}>
-          <h2>{name}</h2>
+          <h2>{userName}</h2>
           <span onClick={onEditName}>Edit</span>
-          <EditName
-            isNameModalOpen={isNameModalOpen}
-            setIsNameModalOpen={setIsNameModalOpen}
-            name={name}
-            setName={setName}
-          />
-          {/* <EmailConfig
-            isEmailConfigOpen={isEmailConfigOpen}
-            setIsEmailConfigOpen={setIsEmailConfigOpen}
-          /> */}
+          {isNameModalOpen && (
+            <EditName
+              open={isNameModalOpen}
+              name={userName}
+              onOk={onNameChange}
+              onCancel={() => {
+                setIsNameModalOpen(false);
+              }}
+            />
+          )}
         </div>
         <div>
           <p className={styles['address-id']}>
             ID:{' '}
-            <span
-              className={styles['address-id-text']}
-              data-id-prefix={data?.id
-                ?.toString()
-                .slice(0, 4)} /*First 4 digit of id */
-              data-id-suffix={data?.id
-                ?.toString()
-                .slice(-4)} /*Last 4 digit of id */
-            >
-              {data?.id}
-            </span>
+            {userInfo?.id ? (
+              <span
+                className={styles['address-id-text']}
+                data-id-prefix={userInfo?.id
+                  ?.toString()
+                  .slice(0, 4)} /*First 4 digit of id */
+                data-id-suffix={userInfo?.id
+                  ?.toString()
+                  .slice(-4)} /*Last 4 digit of id */
+              >
+                {userInfo?.id}
+              </span>
+            ) : (
+              '~~'
+            )}
           </p>
-          <p>Registration date: {data?.registered_at?.split('T')[0]}</p>
+          <p>Registration date: {userInfo?.registered_at?.split('T')[0]}</p>
 
           <div className={styles['edit-info']}>
-            <p>E-mail: {data?.email || '-'} </p>
+            <p>E-mail: {userInfo?.email || '-'} </p>
             <span onClick={handleVerify}>
-              {data?.email !== '' ? 'Bind' : 'Bind'}
+              {userInfo?.email ? 'Update' : 'Bind'}
             </span>
-            <EmailVerify
-              isEmailModalOpen={isEmailModalOpen}
-              setIsEmailModalOpen={setIsEmailModalOpen}
-              data={data}
-            />
+            {isEmailModalOpen && (
+              <EmailVerify
+                open={isEmailModalOpen}
+                data={userInfo}
+                onCancel={() => setIsEmailModalOpen(false)}
+              />
+            )}
           </div>
         </div>
         <Button className={styles['create-btn']} type="primary">
           <span>
             <i className="iconfont icon-secured"></i>
-          </span>{' '}
+          </span>
           Authentication
         </Button>
-        {/* <EmailVerify
-          isEmailModalOpen={isEmailModalOpen}
-          setIsEmailModalOpen={setIsEmailModalOpen}
-          data={data}
-        /> */}
       </article>
-      {/* <AuthName data={data} /> */}
-      {/* <Card className={styles['card']}>
-        <section className={styles['card-header']}>
-          <h3>Access Token</h3>
-        </section>
-        <section className={styles['card-security']}>
-          <article>
-            <p>
-              Access Token You can use the Access Token feature to manage the
-              credentials you curate. This includes amending/replacing/removing
-              items. In the future, Galxe will support the use of Access Tokens
-              to manage campaigns, NFT metadata, and so much more.
-            </p>
-            <span className={styles['text-blue']}>
-              Learn More detail about access token and how to update credentials
-              with GraphQL API.
-            </span>
-          </article>
-          <section className={styles['token-container']}>
-            {key?.key ? (
-              <div className={styles['token-box']}>
-                <p>123456789123456</p>
-                <div>
-                  <i
-                    className="iconfont icon-refresh"
-                    onClick={showTokenModal}
-                  ></i>
-                  <i className="iconfont icon-delete" onClick={onDelete}></i>
-                </div>
-              </div>
-            ) : (
-              <Button
-                className={styles['btn-transparent']}
-                onClick={onGenerate}
-              >
-                Generate
-              </Button>
-            )}
-
-            <TokenModal
-              isTokenModalOpen={isTokenModalOpen}
-              setIsTokenModalOpen={setIsTokenModalOpen}
-            />
-          </section>
-          {key.key && (
-            <p className={styles['text-red']}>
-              The current access token is only displayed once, please keep it
-              well, if it is lost, it cannot be retrieved
-            </p>
-          )}
-        </section>
-      </Card> */}
       <SocialLink />
-      <UserAssets data={data} duration={duration} setDuration={setDuration} />
-      {/* <TokenAccess /> */}
+      <UserAssets data={userInfo} />
     </form>
   );
 }

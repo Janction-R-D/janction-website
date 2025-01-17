@@ -177,12 +177,12 @@ export const deleteKeysUserCenter = async (data) => {
     return null;
   }
 };
-export const sendImageToServer = async (formData) => {
+export const sendImageToServer = async (params) => {
   try {
     const response = await request(`${baseUrl}/user/update`, {
       loginAuth: true,
       method: 'POST',
-      body: formData,
+      data: params,
     });
 
     return response;

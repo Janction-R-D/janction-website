@@ -3,7 +3,7 @@ import { avatar, copy } from '@/utils/lang';
 import storage from '@/utils/storage';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Button, Modal } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { history, useLocation, useModel } from 'umi';
 import { useAccount, useDisconnect } from 'wagmi';
 import AndroidAuthMenu from './AuthMenu';
@@ -31,9 +31,23 @@ export default function AuthHeader(props) {
   } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNotifyModalOpen, setIsNotifyModalOpen] = useState(false);
-  const { avatarSnapUrl } = useModel('common');
+  const { avatarSnapUrl, getUserInfo, setUserName } = useModel('common');
 
   const { address } = useAccount();
+
+  useEffect(() => {
+    getUserInfo((res) => {
+      if (res?.name) {
+        setUserName(res.name);
+      } else {
+        defaultNameHandle();
+      }
+    });
+  }, []);
+  const defaultNameHandle = () => {
+    const addStr = address.slice(0, 16);
+    setUserName(`user_${addStr}`);
+  };
 
   const handleNotifyOk = () => {
     setIsNotifyModalOpen(true);
@@ -92,7 +106,7 @@ export default function AuthHeader(props) {
 
 export function ProfileModal({ isModalOpen, handleOk, handleCancel }) {
   const location = useLocation();
-  const { avatarSnapUrl } = useModel('common');
+  const { avatarSnapUrl, userName } = useModel('common');
 
   const { inviterCode } = location.query || {};
   return (
@@ -150,7 +164,7 @@ export function ProfileModal({ isModalOpen, handleOk, handleCancel }) {
                 />
               </div>
               <section className={styles['profile-info']}>
-                <h3>{chain?.name || 'Unknow'}</h3>
+                <h3>{userName}</h3>
                 <span className={styles['chain-copy']}>
                   <p> {account?.displayName || 'Unknow'}</p>
                   <i
