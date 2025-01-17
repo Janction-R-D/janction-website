@@ -64,12 +64,8 @@ export default function UserAccount() {
             {userInfo?.id ? (
               <span
                 className={styles['address-id-text']}
-                data-id-prefix={userInfo?.id
-                  ?.toString()
-                  .slice(0, 4)} /*First 4 digit of id */
-                data-id-suffix={userInfo?.id
-                  ?.toString()
-                  .slice(-4)} /*Last 4 digit of id */
+                data-id-prefix={userInfo?.id?.toString().slice(0, 4)}
+                data-id-suffix={userInfo?.id?.toString().slice(-4)}
               >
                 {userInfo?.id}
               </span>
