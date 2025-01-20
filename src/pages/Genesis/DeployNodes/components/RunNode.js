@@ -29,6 +29,7 @@ const RunNode = (props) => {
     }
     setLocation('');
   };
+
   const renderLinks = () => {
     if (selectedValues?.system == 'android') {
       return (
@@ -104,7 +105,7 @@ const RunNode = (props) => {
               ></a>
             </div>
           </section>
-          <RunNodeScript props={props} />
+          <RunNodeScript />
         </>
       );
     }

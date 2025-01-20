@@ -15,7 +15,7 @@ const RunNodeScript = (props) => {
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     getNodes();
-  }, []);
+  }, [location]);
   const getNodes = async () => {
     try {
       setLoading(true);
