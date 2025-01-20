@@ -2,20 +2,22 @@ import Markdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark as dark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import styles from './index.less';
-import { Card, message } from 'antd';
+import { Card, Checkbox, message } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
 import { fetchNodesRegister } from '@/services/genesis';
 import { RedoOutlined } from '@ant-design/icons';
 import { copy } from '@/utils/lang';
 
 const RunNodeScript = (props) => {
-  const { isLinux, location } = props;
+  const { isLinux } = props;
 
   const [nodesData, setNodesData] = useState();
   const [loading, setLoading] = useState(false);
+  const [isCN, setIsCn] = useState(false);
+
   useEffect(() => {
     getNodes();
-  }, [location]);
+  }, []);
   const getNodes = async () => {
     try {
       setLoading(true);
@@ -32,7 +34,7 @@ const RunNodeScript = (props) => {
     if (isLinux) {
       const value = `curl '${
         process.env.REGISTER_NODE_URL
-      }/v0/node/install.sh?v2=true' | ${location} NODE_ID=${
+      }/v0/node/install.sh' | ${isCN ? 'LOCATION=cn' : ''} NODE_ID=${
         nodesData?.node_id || ''
       } bash -s install`;
       return {
@@ -57,7 +59,11 @@ ${value}
 `,
       value,
     };
-  }, [nodesData]);
+  }, [nodesData, isCN]);
+
+  const onChange = () => {
+    setIsCn(!isCN);
+  };
 
   return (
     <Card
@@ -65,6 +71,15 @@ ${value}
       className={styles['run-nodes-wrapper']}
       extra={
         <div className="df ai_c gap10">
+          {isLinux && (
+            <Checkbox
+              className={styles['location-btn']}
+              checked={isCN}
+              onChange={onChange}
+            >
+              CN
+            </Checkbox>
+          )}
           <RedoOutlined
             rotate={90}
             spin={loading}

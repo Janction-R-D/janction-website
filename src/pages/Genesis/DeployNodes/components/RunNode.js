@@ -9,7 +9,6 @@ import RunNodeScript from './RunNodeScript';
 const RunNode = (props) => {
   const { selectedValues } = props;
   const [nodeData, setNodaData] = useState();
-  const [location, setLocation] = useState('');
   useEffect(() => {
     let nodeData = {
       docker: DOCKER_PATH[selectedValues?.system],
@@ -21,54 +20,39 @@ const RunNode = (props) => {
       nodeData.apk = ANDROID_APK_PATH;
     }
     setNodaData(nodeData);
-  }, [selectedValues, location]);
-  const onChange = () => {
-    if (location == '') {
-      setLocation('LOCATION=cn');
-      return;
-    }
-    setLocation('');
-  };
+  }, [selectedValues]);
 
   const renderLinks = () => {
     if (selectedValues?.system == 'android') {
       return (
-        <section className={styles['link']}>
-          <h2>Download APK</h2>
-          <div>
-            <p className="ell" title={nodeData?.apk}>
-              {nodeData?.apk}
-            </p>
-            <a
-              href={nodeData?.apk}
-              className="iconfont icon-link"
-              target="_blank"
-            ></a>
-          </div>
-          <ul>
-            <li>
-              You can get our apk installation package through the following
-              link (Tip: remove the .1 suffix).
-            </li>
-            <li>Install the app.</li>
-            <li>Enter the Janction app and click wallet connect.</li>
-            <li>
-              Then click the login button, which will redirect you to the wallet
-              app of your choice, then approve and sign in.
-            </li>
-          </ul>
-        </section>
+        <>
+          <section className={styles['link']}>
+            <h1>Prerequisites: Install termux-app</h1>
+            <div>
+              <p className="ell" title={nodeData?.apk}>
+                {nodeData?.apk}
+              </p>
+              <a
+                href={nodeData?.apk}
+                className="iconfont icon-link"
+                target="_blank"
+              ></a>
+            </div>
+          </section>
+          <RunNodeScript isLinux />
+        </>
       );
     }
     if (selectedValues?.system == 'macos') {
       return (
         <>
           <section className={styles['link']}>
-            <h1>Prerequisites: Install Docker</h1>
+            <h1>Prerequisites</h1>
+            <h2>1. Install Docker</h2>
             <p>
               Install the latest version of{' '}
               <a
-                className="cm"
+                className="cm tdl"
                 href="https://docs.docker.com/desktop/install/mac-install/"
                 target="_blank"
               >
@@ -98,10 +82,18 @@ const RunNode = (props) => {
               </p>
               <a
                 className="iconfont icon-copy"
-                onClick={() =>
-                  copy(`$ docker --version
-                  Docker version 24.0.7, build afdd53b`)
-                }
+                onClick={() => copy(`docker --version`)}
+              ></a>
+            </div>
+            <h2>2. Install lima</h2>
+            <div>
+              <p className="ell">
+                <span className="db">$ brew install lima</span>
+                <span className="db">$ limactl start</span>
+              </p>
+              <a
+                className="iconfont icon-copy"
+                onClick={() => copy(`brew install lima;limactl start`)}
               ></a>
             </div>
           </section>
@@ -169,7 +161,7 @@ const RunNode = (props) => {
               ></a>
             </div>
           </section> */}
-          <RunNodeScript isLinux location={location} />
+          <RunNodeScript isLinux />
         </>
       );
     }
@@ -177,10 +169,11 @@ const RunNode = (props) => {
       <>
         <section className={styles['link']}>
           <h1>Prerequisites</h1>
+          <h2>1. Install Docker</h2>
           <p>
             Install the latest version of{' '}
             <a
-              className="cm"
+              className="cm tdl"
               href="https://docs.docker.com/desktop/install/windows-install/"
               target="_blank"
             >
@@ -219,6 +212,17 @@ const RunNode = (props) => {
               }
             ></a>
           </div>
+          <h2>2. Install WSL</h2>
+          <div>
+            <p className="ell">
+              https://learn.microsoft.com/en-us/windows/wsl/install
+            </p>
+            <a
+              href="https://learn.microsoft.com/en-us/windows/wsl/install"
+              className="iconfont icon-link"
+              target="_blank"
+            ></a>
+          </div>
         </section>
         {/* <section className={styles['link']}>
           <h2>Download Binaray</h2>
@@ -251,11 +255,6 @@ const RunNode = (props) => {
           </h1>
 
           <span>You need to execute the following command</span>
-          <div>
-            <Checkbox className={styles['location-btn']} onChange={onChange}>
-              China
-            </Checkbox>
-          </div>
         </hgroup>
         <div className={styles['content']}>{renderLinks()}</div>
       </section>
