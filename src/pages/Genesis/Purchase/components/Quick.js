@@ -19,8 +19,6 @@ const Quick = (props) => {
   };
 
   const onConfirm = async () => {
-    console.log(formValues);
-    return;
     try {
       await form.validateFields();
       history.push('/genesis/purchase/settlement', { formValues });
