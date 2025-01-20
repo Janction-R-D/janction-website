@@ -26,6 +26,7 @@ const Architecture = (props) => {
           ].join(' ')}
           onClick={() => {
             setActiveAp(item);
+            console.log(item);
             onChange(item.value);
           }}
         >

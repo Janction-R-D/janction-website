@@ -24,6 +24,7 @@ const Settlement = (props) => {
   const [loading, setLoading] = useState(false);
   const [currency, setCurrency] = useState(ADDRESS.USDT);
   const [list, setList] = useState([]);
+  const [configInfo, setConfigInfo] = useState('');
 
   useEffect(() => {
     if (!formValues?.node?.id) return;
@@ -38,6 +39,7 @@ const Settlement = (props) => {
         return;
       }
       setList([res]);
+      setConfigInfo(res);
     } catch (error) {
       console.log('『error』', error);
     }
@@ -64,6 +66,17 @@ const Settlement = (props) => {
   const onPay = async () => {
     try {
       const { node, duration } = formValues || {};
+      let _unitDuration;
+      if (duration?.unit === 'Day') {
+        _unitDuration = 0;
+      } else if (duration?.unit == 'Week') {
+        _unitDuration = 1;
+      } else if (duration?.unit == 'Month') {
+        _unitDuration = 2;
+      }
+      const goal = DURATION_OPTIONS.find((item) => item.value == _unitDuration);
+      console.log(_unitDuration, goal);
+
       setLoading(true);
       const tx = await contract.rent({
         payerAddress: address,
@@ -73,7 +86,7 @@ const Settlement = (props) => {
         duration: duration?.unit,
         price: configInfo?.price,
       });
-      const goal = DURATION_OPTIONS.find((item) => item.value == duration.unit);
+
       await onRent({
         tx_id: tx.hash,
         node_id: node.id,
@@ -92,7 +105,7 @@ const Settlement = (props) => {
   const columns = [
     {
       title: 'Device ID',
-      dataIndex: 'id',
+      dataIndex: 'node_id',
       key: 'deviceId',
       width: 'auto',
       ellipsis: true,
@@ -118,8 +131,10 @@ const Settlement = (props) => {
       width: 'auto',
       render: (text) => {
         const { value, unit } = formValues?.duration || {};
+        console.log(unit);
         if (!value && !unit) return '--';
-        const goal = DURATION_OPTIONS.find((item) => item.value == unit);
+        const goal = DURATION_OPTIONS.find((item) => item.label == unit);
+        console.log(goal);
         return `${value || 0}${goal?.label}`;
       },
     },
@@ -130,9 +145,17 @@ const Settlement = (props) => {
       render: (text) => {
         const { value, unit } = formValues?.duration || {};
         if (!value && !unit) return '--';
+        let _unit;
+        if (unit === 'Day') {
+          _unit = 0;
+        } else if (unit == 'Week') {
+          _unit = 1;
+        } else if (unit == 'Month') {
+          _unit = 2;
+        }
         const { price } = list[0] || {};
         const _currency = PAY_CURRENCY.find((item) => item.value == currency);
-        const _total = (price || 0) * value * durationMultiplier(unit, true);
+        const _total = (price || 0) * value * durationMultiplier(_unit, true);
         return (Number(_total) / Number(_currency?.rate || 1)).toFixed(2);
       },
     },
