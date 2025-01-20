@@ -17,7 +17,7 @@ function hasIntersection(arr1, arr2) {
 }
 
 const ProductList = (props) => {
-  const { value, onChange, formValues } = props;
+  const { value, onChange: change, formValues } = props;
   const [list, setList] = useState([]);
   const [selectKey, setSelectKey] = useState();
 
@@ -76,7 +76,9 @@ const ProductList = (props) => {
   }, [list, formValues]);
 
   useEffect(() => {
-    setSelectKey(value?.id);
+    if (value?.id !== selectKey?.[0]) {
+      setSelectKey([value?.id]); // Solo actualiza si es necesario
+    }
   }, [value]);
 
   const columns = [
@@ -139,7 +141,7 @@ const ProductList = (props) => {
           selectedRowKeys: [selectKey],
           onChange: (selectedRowKeys, selectedRows) => {
             setSelectKey(selectedRowKeys[0]);
-            onChange(selectedRows[0]);
+            change(selectedRows[0]);
           },
         }}
       />

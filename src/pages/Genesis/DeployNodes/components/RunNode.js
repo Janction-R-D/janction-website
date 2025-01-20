@@ -3,12 +3,13 @@ import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { copy } from '@/utils/lang';
 import styles from './index.less';
+import { Checkbox } from 'antd';
 import RunNodeScript from './RunNodeScript';
 
 const RunNode = (props) => {
   const { selectedValues } = props;
   const [nodeData, setNodaData] = useState();
-
+  const [location, setLocation] = useState('');
   useEffect(() => {
     let nodeData = {
       docker: DOCKER_PATH[selectedValues?.system],
@@ -20,8 +21,14 @@ const RunNode = (props) => {
       nodeData.apk = ANDROID_APK_PATH;
     }
     setNodaData(nodeData);
-  }, [selectedValues]);
-
+  }, [selectedValues, location]);
+  const onChange = () => {
+    if (location == '') {
+      setLocation('LOCATION=cn');
+      return;
+    }
+    setLocation('');
+  };
   const renderLinks = () => {
     if (selectedValues?.system == 'android') {
       return (
@@ -97,7 +104,7 @@ const RunNode = (props) => {
               ></a>
             </div>
           </section>
-          <RunNodeScript />
+          <RunNodeScript props={props} />
         </>
       );
     }
@@ -161,7 +168,7 @@ const RunNode = (props) => {
               ></a>
             </div>
           </section> */}
-          <RunNodeScript isLinux />
+          <RunNodeScript isLinux location={location} />
         </>
       );
     }
@@ -241,7 +248,13 @@ const RunNode = (props) => {
               ? 'Running on Android'
               : 'Run Node'}
           </h1>
+
           <span>You need to execute the following command</span>
+          <div>
+            <Checkbox className={styles['location-btn']} onChange={onChange}>
+              China
+            </Checkbox>
+          </div>
         </hgroup>
         <div className={styles['content']}>{renderLinks()}</div>
       </section>

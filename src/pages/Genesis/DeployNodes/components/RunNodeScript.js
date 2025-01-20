@@ -9,7 +9,8 @@ import { RedoOutlined } from '@ant-design/icons';
 import { copy } from '@/utils/lang';
 
 const RunNodeScript = (props) => {
-  const { isLinux } = props;
+  const { isLinux, location } = props;
+
   const [nodesData, setNodesData] = useState();
   const [loading, setLoading] = useState(false);
   useEffect(() => {
@@ -31,7 +32,7 @@ const RunNodeScript = (props) => {
     if (isLinux) {
       const value = `curl '${
         process.env.REGISTER_NODE_URL
-      }/v0/node/install.sh?v2=true' | LOCATION=cn NODE_ID=${
+      }/v0/node/install.sh?v2=true' | ${location} NODE_ID=${
         nodesData?.node_id || ''
       } bash -s install`;
       return {
