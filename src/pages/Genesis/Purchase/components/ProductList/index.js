@@ -61,8 +61,8 @@ const ProductList = (props) => {
       let network = !network_down || item.attr?.network_down >= network_down;
       let _location = !location || location.includes(item.attr?.location);
       const chip = [
-        ...(item.attr?.cpu_chip || []),
-        ...(item.attr?.attr.gpu_chip || []),
+        ...(item?.attr?.cpu_chip || []),
+        ...(item?.attr?.gpu_chip || []),
       ];
       let _processor =
         !(!isEmpty(processor) && !isEmpty(chip)) ||
