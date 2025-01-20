@@ -177,7 +177,12 @@ const Settlement = (props) => {
       />
       <PurchaseCard title="Price detail">
         <PayType value={currency} onChange={(e) => setCurrency(e)} />
-        <JanctionTable columns={columns} dataSource={list} pagination={false} />
+        <JanctionTable
+          columns={columns}
+          dataSource={list}
+          pagination={false}
+          scroll={{ x: 'auto' }}
+        />
       </PurchaseCard>
       <Footer
         isSettlement

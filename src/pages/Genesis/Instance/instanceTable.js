@@ -98,17 +98,20 @@ function InstanceTable({ data, getAllNodes }) {
       title: 'GPU Rate',
       dataIndex: 'GPUrate',
       key: 'GPUrate',
+      ellipsis: 'true',
     },
 
     {
       title: 'Memory Usage Rates',
       dataIndex: 'MemoryUsage',
       key: 'MemoryUsage',
+      ellipsis: 'true',
     },
     {
       title: 'Release time / Downtime',
       key: 'downtime',
       dataIndex: 'downtime',
+      ellipsis: 'true',
       render: (_, record) => (
         <div style={{ whiteSpace: 'pre' }}>{record.downtime}</div>
       ),

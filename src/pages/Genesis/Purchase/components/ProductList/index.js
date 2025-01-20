@@ -122,6 +122,7 @@ const ProductList = (props) => {
       dataIndex: 'last_config_at',
       width: 'auto',
       key: 'time',
+      ellipsis: 'true',
       render: (text) => {
         if (!text) return '--';
         return dayjs(text).format('YYYY-MM-DD HH:mm:ss');

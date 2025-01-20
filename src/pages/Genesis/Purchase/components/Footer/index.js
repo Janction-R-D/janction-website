@@ -68,24 +68,25 @@ const Footer = (props) => {
                 </div>
               </Checkbox>
             </div>
-            <div className={styles['price-info']}>
-              <span className={styles['value']}>
-                {total || 0} {currency?.label}
-              </span>
-              <div className={styles['detail']}>
-                <span>Bill Details</span>
-                <i className="iconfont icon-next_page"></i>
-              </div>
-            </div>
           </>
         )}
       </div>
       <div className={styles['btn']}>
+        <div className={styles['price-info']}>
+          <span className={styles['value']}>
+            {total || 0} {currency?.label}
+          </span>
+          <div className={styles['detail']}>
+            <span>Bill Details</span>
+            <i className="iconfont icon-next_page"></i>
+          </div>
+        </div>
         {isConfirm && (
           <div className={styles['confirm']} onClick={() => onConfirm()}>
             <Button loading={loading}>Confirm the order</Button>
           </div>
         )}
+
         {isSettlement && (
           <div className={styles['pre']}>
             <Button onClick={() => onPre()}>Previous</Button>
