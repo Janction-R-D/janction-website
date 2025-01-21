@@ -239,18 +239,18 @@ export const ADDRESS = {
 
 export const PAY_CURRENCY = [
   {
-    value: [isProduction ? ADDRESS : TEST_ADDRESS].JCT,
+    value: isProduction ? ADDRESS.JCT : TEST_ADDRESS.JCT,
     label: 'veJCT',
     desc: 'From JANCTION',
     rate: 0.02,
   },
   {
-    value: [isProduction ? ADDRESS : TEST_ADDRESS].USDT,
+    value: isProduction ? ADDRESS.USDT : TEST_ADDRESS.USDT,
     label: 'USDT',
     rate: 1,
   },
   {
-    value: [isProduction ? ADDRESS : TEST_ADDRESS].USDC,
+    value: isProduction ? ADDRESS.USDC : TEST_ADDRESS.USDC,
     label: 'USDC',
     rate: 1,
   },
