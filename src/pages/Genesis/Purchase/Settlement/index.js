@@ -11,8 +11,16 @@ import Footer from '../components/Footer';
 import PayType from '../components/PayType';
 import { SETTLEMENT_COLUMNS } from '../extra';
 import styles from './index.less';
-import { ADDRESS, DURATION_OPTIONS, PAY_CURRENCY } from '@/constant';
 import { isEmpty } from '@/utils/lang';
+import {
+  ADDRESS,
+  DURATION_OPTIONS,
+  PAY_CURRENCY,
+  TEST_ADDRESS,
+} from '@/constant';
+
+const initialCurrency =
+  process.env.JANCTION_ENV === 'production' ? ADDRESS.USDT : TEST_ADDRESS.USDT;
 
 const Settlement = (props) => {
   const [deadline, setDeadline] = useState();
@@ -22,7 +30,7 @@ const Settlement = (props) => {
   const { address } = useAccount();
 
   const [loading, setLoading] = useState(false);
-  const [currency, setCurrency] = useState(ADDRESS.USDT);
+  const [currency, setCurrency] = useState(initialCurrency);
   const [list, setList] = useState([]);
   const [configInfo, setConfigInfo] = useState('');
 
@@ -150,7 +158,9 @@ const Settlement = (props) => {
           _unit = 2;
         }
         const { price } = list[0] || {};
+
         const _currency = PAY_CURRENCY.find((item) => item.value == currency);
+        // console.log(price, _currency?.rate, value);
         const _total = (price || 0) * value * durationMultiplier(_unit, true);
         return (Number(_total) / Number(_currency?.rate || 1)).toFixed(2);
       },

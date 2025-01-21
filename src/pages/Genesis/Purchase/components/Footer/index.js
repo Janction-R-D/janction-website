@@ -19,7 +19,10 @@ const Footer = (props) => {
   } = props;
 
   const [agree, setAgree] = useState(false);
-
+  const currency = useMemo(() => {
+    const goal = PAY_CURRENCY.find((item) => item.value == currencyAddress);
+    return goal;
+  }, currencyAddress);
   const total = useMemo(() => {
     if (!formValues) return;
     const { duration } = formValues;
@@ -36,11 +39,6 @@ const Footer = (props) => {
       node?.price * duration?.value * durationMultiplier(_unitDuration, true);
     return (Number(_total) / Number(currency?.rate || 1)).toFixed(2);
   }, [node, formValues, currency]);
-
-  const currency = useMemo(() => {
-    const goal = PAY_CURRENCY.find((item) => item.value == currencyAddress);
-    return goal;
-  }, currencyAddress);
 
   const onAgreeChange = (e) => {
     setAgree(e.target.checked);
