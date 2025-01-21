@@ -23,9 +23,7 @@ const Footer = (props) => {
   const total = useMemo(() => {
     if (!formValues) return;
     const { duration } = formValues;
-    console.log(duration);
     if (isEmpty(node) || !duration?.value || !duration?.unit) return 0;
-
     let _unitDuration;
     if (duration?.unit === 'Day') {
       _unitDuration = 0;

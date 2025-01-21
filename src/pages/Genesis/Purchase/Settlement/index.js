@@ -44,7 +44,6 @@ const Settlement = (props) => {
       console.log('『error』', error);
     }
   };
-
   useEffect(() => {
     setDeadline(Date.now() + 20 * 60 * 1000);
   }, []);
@@ -75,7 +74,6 @@ const Settlement = (props) => {
         _unitDuration = 2;
       }
       const goal = DURATION_OPTIONS.find((item) => item.value == _unitDuration);
-      console.log(_unitDuration, goal);
 
       setLoading(true);
       const tx = await contract.rent({
@@ -83,7 +81,7 @@ const Settlement = (props) => {
         ownerAddress: node.user_id,
         currencyAddress: currency,
         durationNum: duration?.value,
-        duration: duration?.unit,
+        duration: _unitDuration,
         price: configInfo?.price,
       });
 
@@ -131,10 +129,8 @@ const Settlement = (props) => {
       width: 'auto',
       render: (text) => {
         const { value, unit } = formValues?.duration || {};
-        console.log(unit);
         if (!value && !unit) return '--';
         const goal = DURATION_OPTIONS.find((item) => item.label == unit);
-        console.log(goal);
         return `${value || 0}${goal?.label}`;
       },
     },

@@ -18,8 +18,9 @@ const PayType = (props) => {
       <div className={styles['pay-type']}>
         {PAY_CURRENCY.filter((item) =>
           isProduction ? item.label !== 'veJCT' : true,
-        ).map((item) => (
+        ).map((item, index) => (
           <div
+            key={index}
             className={[
               styles['pay-type-item'],
               active == item.value && styles['active'],
