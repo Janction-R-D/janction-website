@@ -1,13 +1,10 @@
-import React from 'react';
+import { janctionTestnet } from '@/utils/customChains';
 import {
   connectorsForWallets,
   darkTheme,
   getDefaultConfig,
   RainbowKitProvider,
 } from '@rainbow-me/rainbowkit';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { WagmiProvider } from 'wagmi';
-import { optimism, optimismSepolia } from 'wagmi/chains';
 import {
   coinbaseWallet,
   metaMaskWallet,
@@ -15,6 +12,12 @@ import {
   tokenPocketWallet,
   walletConnectWallet,
 } from '@rainbow-me/rainbowkit/wallets';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { WagmiProvider } from 'wagmi';
+import { optimism, optimismSepolia } from 'wagmi/chains';
+
+const projectId = '23cf742fb52fc761a81ebe69526d0b82';
+const chains = [optimismSepolia, optimism, janctionTestnet];
 
 const connectors = connectorsForWallets(
   [
@@ -31,15 +34,15 @@ const connectors = connectorsForWallets(
   ],
   {
     appName: 'Janction',
-    projectId: '23cf742fb52fc761a81ebe69526d0b82',
+    projectId,
   },
 );
 
 const config = getDefaultConfig({
   appName: 'Janction',
   connectors,
-  projectId: '23cf742fb52fc761a81ebe69526d0b82',
-  chains: [optimismSepolia, optimism],
+  projectId,
+  chains,
   ssr: false, // If your dApp uses server side rendering (SSR)
 });
 
