@@ -477,3 +477,11 @@ export const fetchNft = async (id) => {
     throw new Error(`failed, ${error.message}`);
   }
 };
+
+export const fetchStopRentParams = (data) => {
+  return request(`${baseUrl}/market/stop`, {
+    method: 'POST',
+    data,
+    loginAuth: true,
+  });
+};

@@ -1,22 +1,50 @@
 import React, { useState } from 'react';
-import { Card } from 'antd';
+import { Card, message, Popconfirm } from 'antd';
 import styles from './operation.less';
 import TerminalModal from './TerminalModal';
 import JanctionPopover from '@/components/JanctionPopover';
+import contract from '@/utils/contract';
+import { fetchStopRentParams } from '@/services/genesis';
 
-export default function OperationModal({ record }) {
-  const [showModal, setShowModal] = useState(true);
+export default function OperationModal({ record, getAllNodes }) {
   const [visible, setVisible] = useState(false);
-  const classname = showModal
-    ? styles['card-modal-show']
-    : styles['card-modal'];
-  const handleClick = () => {
-    setShowModal(!showModal);
-  };
 
   const handleConnect = () => {
-    // 创建一个 xterm 实例
     setVisible(true);
+  };
+
+  const getRentParams = async () => {
+    try {
+      const res = await fetchStopRentParams({
+        resource_id: record.id,
+      });
+      console.log('『res』', res);
+      // return res;
+    } catch (error) {
+      throw Error(error);
+    }
+  };
+
+  const handleStop = async () => {
+    try {
+      const { paymentId, signatures } = await getRentParams();
+      if (!paymentId) return;
+      await contract.stopRent(paymentId, signatures);
+      getAllNodes();
+    } catch (error) {
+      message.warning('Operation failed, please try again later!');
+      console.log('『error』', error);
+    }
+  };
+
+  const handleReceive = async () => {
+    try {
+      const { paymentId } = await getRentParams();
+      await contract.releaseDailyPayment(paymentId);
+    } catch (error) {
+      message.warning('Operation failed, please try again later!');
+      console.log('『error』', error);
+    }
   };
 
   return (
@@ -25,6 +53,14 @@ export default function OperationModal({ record }) {
         content={
           <ul className={styles['more-function']} style={{ padding: '0px' }}>
             <li onClick={handleConnect}>Remote connection</li>
+            {/* <Popconfirm
+              title="Please confirm whether to stop renting this node!"
+              onConfirm={handleStop}
+              okText='Yes'
+            >
+              <li>Stop Renting</li>
+            </Popconfirm> */}
+            {/* <li onClick={handleReceive}>Receive Profits</li> */}
             <li>Renewal</li>
           </ul>
         }

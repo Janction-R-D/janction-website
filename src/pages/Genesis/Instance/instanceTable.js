@@ -163,7 +163,11 @@ function InstanceTable({ data, getAllNodes }) {
               <p>Start</p>
             </a>
 
-            <OperationModal record={record} styles={styles} />
+            <OperationModal
+              record={record}
+              styles={styles}
+              getAllNodes={getAllNodes}
+            />
           </Space>
         );
       },
