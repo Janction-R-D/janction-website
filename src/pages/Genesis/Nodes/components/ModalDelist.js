@@ -5,7 +5,6 @@ import { check } from 'prettier';
 import { fetchNodesConfigDelete } from '@/services/genesis';
 import dayjs from 'dayjs';
 import { calculateDuration } from '@/utils/datetime';
-import contract from '@/utils/contract';
 export default function ModalDelist({
   handleCancel,
   handleOk,
@@ -17,7 +16,6 @@ export default function ModalDelist({
 
   const onDelete = async () => {
     try {
-      await contract.delist(record?.id);
       await fetchNodesConfigDelete({ node_id: record?.id });
       message.success('delist success!');
       handleCancel();
