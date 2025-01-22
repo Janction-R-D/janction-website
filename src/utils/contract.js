@@ -179,7 +179,7 @@ const contract = {
       message.destroy('tx');
     }
   },
-  stopRent: async (paymentId, signatures) => {
+  stopRent: async (paymentId, signatures = []) => {
     try {
       const provider = new ethers.providers.Web3Provider(
         window.ethereum,
@@ -196,22 +196,17 @@ const contract = {
 
       await switchNetwork(provider);
 
-      const message = ethers.utils.solidityPack(
+      const signMessage = ethers.utils.solidityPack(
         ['bytes32', 'string'],
         [paymentId, 'STOP'],
       );
 
       // 哈希化消息
-      const messageHash = ethers.utils.keccak256(message);
-
-      // 添加 Ethereum 签名前缀
-      const prefixedMessageHash = ethers.utils.hashMessage(
-        ethers.utils.arrayify(messageHash),
-      );
+      const messageHash = ethers.utils.keccak256(signMessage);
 
       // 签名
       const signature = await signer.signMessage(
-        ethers.utils.arrayify(prefixedMessageHash),
+        ethers.utils.arrayify(messageHash),
       );
       signatures.push(signature);
 
