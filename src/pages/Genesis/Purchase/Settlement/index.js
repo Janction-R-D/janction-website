@@ -85,7 +85,7 @@ const Settlement = (props) => {
       });
       history.push('/genesis/instance');
     } catch (error) {
-      console.error('操作合约失败：', error);
+      console.error(error);
       message.error('Operation contract failed, please try again!');
     } finally {
       setLoading(false);
