@@ -65,7 +65,7 @@ export default function InstanceCard({ instance, getAllNodes }) {
     MemoryUsage: convertMBtoGB(instance?.activity?.memory_usage?.toFixed(2)),
     downtime: '2024-09-15 10:00:00\r\n2024-09-16 18:00:00',
     activity: instance.activity,
-    resource: instance.activity.resource_id,
+    resource: instance.activity?.resource_id,
   };
 
   return (
