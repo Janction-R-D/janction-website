@@ -101,40 +101,6 @@ const switchNetwork = async (provider, networkName = 'op') => {
 };
 
 const contract = {
-  delist: async (nodeId) => {
-    try {
-      const provider = new ethers.providers.Web3Provider(
-        window.ethereum,
-        'any',
-      );
-      await provider.send('eth_requestAccounts', []);
-      const signer = provider.getSigner();
-
-      await switchNetwork(provider);
-
-      // 初始化合约
-      const payment = new ethers.Contract(
-        getAddresses().Payment,
-        Payment.abi,
-        provider,
-      ).connect(signer);
-
-      const delistTx = await payment.delist(
-        ethers.utils.parseBytes32String(nodeId),
-      );
-      message.info({
-        content: 'The operation is in progress, please wait...',
-        key: 'delistTx',
-        duration: 0,
-      });
-      await delistTx.wait();
-      message.destroy('delistTx');
-      message.success('The operation was successful!');
-    } catch (error) {
-      console.log('『error』', error);
-      throw new Error(error);
-    }
-  },
   rent: async ({
     payerAddress,
     ownerAddress,
@@ -195,14 +161,7 @@ const contract = {
       }
 
       // 调起支付
-      const totalDays = durationNum * durationMultiplier(duration);
-      console.log({
-        payerAddress,
-        ownerAddress,
-        currencyAddress,
-        totalAmount,
-        totalDays,
-      });
+      const totalDays = durationNum * durationMultiplier(duration, true);
       const tx = await payment.createPaymentPlan(
         payerAddress,
         ownerAddress,
@@ -212,6 +171,97 @@ const contract = {
       );
       await tx.wait(); // 等待交易完成
       message.success('Trade successfully!');
+      return tx;
+    } catch (error) {
+      console.log('『error』', error);
+      throw new Error(error);
+    } finally {
+      message.destroy('tx');
+    }
+  },
+  stopRent: async (paymentId, signatures) => {
+    try {
+      const provider = new ethers.providers.Web3Provider(
+        window.ethereum,
+        'any',
+      );
+      await provider.send('eth_requestAccounts', []);
+      const signer = provider.getSigner();
+
+      message.info({
+        content: 'Waiting...',
+        key: 'tx',
+        duration: 0,
+      });
+
+      await switchNetwork(provider);
+
+      const message = ethers.utils.solidityPack(
+        ['bytes32', 'string'],
+        [paymentId, 'STOP'],
+      );
+
+      // 哈希化消息
+      const messageHash = ethers.utils.keccak256(message);
+
+      // 添加 Ethereum 签名前缀
+      const prefixedMessageHash = ethers.utils.hashMessage(
+        ethers.utils.arrayify(messageHash),
+      );
+
+      // 签名
+      const signature = await signer.signMessage(
+        ethers.utils.arrayify(prefixedMessageHash),
+      );
+      signatures.push(signature);
+
+      console.log('『signatures』', signatures);
+
+      // 初始化合约
+      const payment = new ethers.Contract(
+        getAddresses().Payment,
+        Payment.abi,
+        provider,
+      ).connect(signer);
+
+      const tx = await payment.stopPaymentPlan(paymentId, signatures);
+      await tx.wait(); // 等待交易完成
+      message.success('Stop successfully!');
+      return tx;
+    } catch (error) {
+      console.log('『error』', error);
+      throw new Error(error);
+    } finally {
+      message.destroy('tx');
+    }
+  },
+  releaseDailyPayment: async (paymentId) => {
+    try {
+      const provider = new ethers.providers.Web3Provider(
+        window.ethereum,
+        'any',
+      );
+      await provider.send('eth_requestAccounts', []);
+      const signer = provider.getSigner();
+
+      message.info({
+        content: 'Waiting...',
+        key: 'tx',
+        duration: 0,
+      });
+
+      await switchNetwork(provider);
+
+      // 初始化合约
+      const payment = new ethers.Contract(
+        getAddresses().Payment,
+        Payment.abi,
+        provider,
+      ).connect(signer);
+
+      const tx = await payment.releaseDailyPayment(paymentId);
+      await tx.wait(); // 等待交易完成
+      message.success('Release successfully!');
       return tx;
     } catch (error) {
       console.log('『error』', error);
