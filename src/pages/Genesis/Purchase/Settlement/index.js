@@ -120,7 +120,6 @@ const Settlement = (props) => {
       dataIndex: 'duration',
       width: 'auto',
       render: (text) => {
-        console.log('『purDuration』', formValues.purDuration);
         const { value, unit } = formValues?.purDuration || {};
         if (!value && empty(unit)) return '--';
         const goal = DURATION_OPTIONS.find((item) => item.value == unit);

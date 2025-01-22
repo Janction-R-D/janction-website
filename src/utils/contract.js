@@ -10,8 +10,6 @@ import { delay } from './lang';
 
 const isProduction = process.env.JANCTION_ENV === 'production';
 
-console.log('『process.env.JANCTION_ENV』', process.env.JANCTION_ENV);
-
 const NETWORKS = {
   eth: {
     chainId: 1,
@@ -103,41 +101,6 @@ const switchNetwork = async (provider, networkName = 'op') => {
 };
 
 const contract = {
-  list: async (nodeId, price) => {
-    try {
-      const provider = new ethers.providers.Web3Provider(
-        window.ethereum,
-        'any',
-      );
-      await provider.send('eth_requestAccounts', []);
-      const signer = provider.getSigner();
-
-      await switchNetwork(provider);
-
-      // 初始化合约
-      const payment = new ethers.Contract(
-        getAddresses().Payment,
-        Payment.abi,
-        provider,
-      ).connect(signer);
-
-      const listTx = await payment.list(
-        ethers.utils.parseBytes32String(nodeId),
-        ethers.utils.parseUnits(price, 6),
-      );
-      message.info({
-        content: 'The operation is in progress, please wait...',
-        key: 'listTx',
-        duration: 0,
-      });
-      await listTx.wait();
-      message.destroy('listTx');
-      message.success('The operation was successful!');
-    } catch (error) {
-      console.log('『error』', error);
-      throw new Error(error);
-    }
-  },
   delist: async (nodeId) => {
     try {
       const provider = new ethers.providers.Web3Provider(
@@ -188,6 +151,12 @@ const contract = {
       await provider.send('eth_requestAccounts', []);
       const signer = provider.getSigner();
 
+      message.info({
+        content: 'Waiting...',
+        key: 'tx',
+        duration: 0,
+      });
+
       await switchNetwork(provider);
 
       // 初始化合约
@@ -206,7 +175,10 @@ const contract = {
       // 获取需要支付的总金额
       const discountTotalDays =
         durationNum * durationMultiplier(duration, true);
-      const totalAmount = discountTotalDays * price;
+      const totalAmount = ethers.utils.parseUnits(
+        `${discountTotalDays * price}`,
+        6,
+      );
 
       // 检查授权额度
       const currentAllowance = await currency.allowance(
@@ -214,22 +186,10 @@ const contract = {
         getAddresses().Payment,
       );
       if (currentAllowance.lt(totalAmount)) {
-        message.info({
-          content: 'Approving...',
-          key: 'approveTx',
-          duration: 0,
-        });
         const approveTx = await currency.approve(payerAddress, totalAmount);
         await approveTx.wait();
         message.success('Approval successful!');
       }
-
-      message.destroy('approveTx');
-      message.info({
-        content: 'Transaction in transit...',
-        key: 'tx',
-        duration: 0,
-      });
 
       // 调起支付
       const totalDays = durationNum * durationMultiplier(duration);
@@ -237,18 +197,17 @@ const contract = {
         payerAddress,
         ownerAddress,
         currencyAddress,
-        aa: ethers.utils.parseUnits(`${totalAmount}`, 6),
+        totalAmount,
         totalDays,
       });
       const tx = await payment.createPaymentPlan(
         payerAddress,
         ownerAddress,
         currencyAddress,
-        ethers.utils.parseUnits(`${totalAmount}`, 6),
+        totalAmount,
         totalDays,
       );
       await tx.wait(); // 等待交易完成
-      message.destroy('tx');
       message.success('Trade successfully!');
       return tx;
     } catch (error) {
