@@ -186,7 +186,10 @@ const contract = {
         getAddresses().Payment,
       );
       if (currentAllowance.lt(totalAmount)) {
-        const approveTx = await currency.approve(payerAddress, totalAmount);
+        const approveTx = await currency.approve(
+          getAddresses().Payment,
+          totalAmount,
+        );
         await approveTx.wait();
         message.success('Approval successful!');
       }
