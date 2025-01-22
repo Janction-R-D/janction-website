@@ -1,9 +1,9 @@
-import { Button, Checkbox, message } from 'antd';
-import { useEffect, useMemo, useState } from 'react';
-import styles from './index.less';
-import { isEmpty } from '@/utils/lang';
 import { PAY_CURRENCY } from '@/constant';
 import { durationMultiplier } from '@/utils/contract';
+import { empty, isEmpty } from '@/utils/lang';
+import { Button, Checkbox, message } from 'antd';
+import { useMemo, useState } from 'react';
+import styles from './index.less';
 
 const Footer = (props) => {
   const {
@@ -24,19 +24,9 @@ const Footer = (props) => {
     return goal;
   }, currencyAddress);
   const total = useMemo(() => {
-    if (!formValues) return;
-    const { duration } = formValues;
-    if (isEmpty(node) || !duration?.value || !duration?.unit) return 0;
-    let _unitDuration;
-    if (duration?.unit === 'Day') {
-      _unitDuration = 0;
-    } else if (duration?.unit == 'Week') {
-      _unitDuration = 1;
-    } else if (duration?.unit == 'Month') {
-      _unitDuration = 2;
-    }
-    const _total =
-      node?.price * duration?.value * durationMultiplier(_unitDuration, true);
+    const { value, unit } = formValues?.purDuration || {};
+    if (isEmpty(node) || !value || empty(unit)) return 0;
+    const _total = node?.price * value * durationMultiplier(unit, true);
     return (Number(_total) / Number(currency?.rate || 1)).toFixed(2);
   }, [node, formValues, currency]);
 
@@ -68,15 +58,17 @@ const Footer = (props) => {
         )}
       </div>
       <div className={styles['btn']}>
-        <div className={styles['price-info']}>
-          <span className={styles['value']}>
-            {total || 0} {currency?.label}
-          </span>
-          <div className={styles['detail']}>
-            <span>Bill Details</span>
-            <i className="iconfont icon-next_page"></i>
+        {isSettlement && (
+          <div className={styles['price-info']}>
+            <span className={styles['value']}>
+              {total || 0} {currency?.label}
+            </span>
+            <div className={styles['detail']}>
+              <span>Bill Details</span>
+              <i className="iconfont icon-next_page"></i>
+            </div>
           </div>
-        </div>
+        )}
         {isConfirm && (
           <div className={styles['confirm']} onClick={() => onConfirm()}>
             <Button loading={loading}>Confirm the order</Button>

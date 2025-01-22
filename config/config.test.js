@@ -6,7 +6,7 @@ export default defineConfig({
       JANCTION_ENV: 'test',
       JANCTION_API: 'https://dev.janction.io/api',
       JANCTION_V0_API: 'https://dev.janction.io/v0',
-      REGISTER_NODE_URL: 'https://dev.janction.io',
+      JANCTION_BASE_API: 'https://dev.janction.io',
       ASSETS_URL: 'https://assets.janction.io',
     },
   },

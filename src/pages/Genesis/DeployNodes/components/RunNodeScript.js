@@ -33,7 +33,7 @@ const RunNodeScript = (props) => {
   const script = useMemo(() => {
     if (isLinux) {
       const value = `curl '${
-        process.env.REGISTER_NODE_URL
+        process.env.JANCTION_BASE_API
       }/v0/node/install.sh' | ${isCN ? 'LOCATION=cn' : ''} NODE_ID=${
         nodesData?.node_id || ''
       } bash -s install`;
@@ -49,7 +49,7 @@ ${value}
     const value = `sudo docker run --privileged --name janction-node1 -e K3S_NODE_NAME=${
       nodesData?.node_id || ''
     } -e K3S_TOKEN=${nodesData?.token || ''} -e K3S_URL=${
-      process.env.REGISTER_NODE_URL
+      process.env.JANCTION_BASE_API
     } -d rancher/k3s:latest agent`;
     return {
       show: `

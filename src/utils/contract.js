@@ -233,11 +233,18 @@ const contract = {
 
       // 调起支付
       const totalDays = durationNum * durationMultiplier(duration);
+      console.log({
+        payerAddress,
+        ownerAddress,
+        currencyAddress,
+        aa: ethers.utils.parseUnits(`${totalAmount}`, 6),
+        totalDays,
+      });
       const tx = await payment.createPaymentPlan(
         payerAddress,
         ownerAddress,
         currencyAddress,
-        ethers.utils.parseUnits(totalAmount, 6),
+        ethers.utils.parseUnits(`${totalAmount}`, 6),
         totalDays,
       );
       await tx.wait(); // 等待交易完成
@@ -247,6 +254,8 @@ const contract = {
     } catch (error) {
       console.log('『error』', error);
       throw new Error(error);
+    } finally {
+      message.destroy('tx');
     }
   },
   distribute: async (

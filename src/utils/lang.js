@@ -155,10 +155,7 @@ export function capitalizeFirstLetter(string) {
 }
 
 export function avatar(address) {
-  const isDev = process.env.JANCTION_ENV == 'development';
-  return isDev
-    ? `http://54.95.234.135:81/v0/user/avatar/${address}`
-    : `${location.origin}/v0/user/avatar/${address}`;
+  return `${process.env.JANCTION_BASE_API}/v0/user/avatar/${address}`;
 }
 
 export const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));

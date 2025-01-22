@@ -77,7 +77,7 @@ const ProductList = (props) => {
   }, [list, formValues]);
 
   useEffect(() => {
-    if (value?.id !== selectKey?.[0]) {
+    if (value?.id !== selectKey) {
       setSelectKey([value?.id]); // Solo actualiza si es necesario
     }
   }, [value]);

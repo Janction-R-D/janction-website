@@ -45,7 +45,7 @@ export default function AuthHeader(props) {
     });
   }, []);
   const defaultNameHandle = () => {
-    const addStr = address.slice(0, 16);
+    const addStr = address?.slice(0, 16);
     setUserName(`user_${addStr}`);
   };
 

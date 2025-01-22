@@ -48,16 +48,7 @@ const Quick = (props) => {
           </Form.Item>
         </PurchaseCard>
         <PurchaseCard>
-          <Form.Item
-            name="duration"
-            rules={[
-              {
-                required: true,
-                message: 'please select duration',
-              },
-            ]}
-            initialValue={{ value: undefined, unit: 'Month' }}
-          >
+          <Form.Item name="purDuration">
             <PurDuration />
           </Form.Item>
           <Footer isConfirm onConfirm={onConfirm} />

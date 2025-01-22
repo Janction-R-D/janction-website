@@ -14,6 +14,7 @@ import Processor from './Processor';
 import ProductList from './ProductList';
 import InternetSelect from './InternetSelect';
 import { useState } from 'react';
+import { empty } from '@/utils/lang';
 
 const Customized = (props) => {
   const [form] = Form.useForm();
@@ -96,15 +97,7 @@ const Customized = (props) => {
           </Form.Item>
         </PurchaseCard>
         <PurchaseCard>
-          <Form.Item
-            name="purDuration"
-            rules={[
-              {
-                required: true,
-                message: 'please select PurDuration',
-              },
-            ]}
-          >
+          <Form.Item name="purDuration">
             <PurDuration />
           </Form.Item>
           <Footer isConfirm onConfirm={onConfirm} />

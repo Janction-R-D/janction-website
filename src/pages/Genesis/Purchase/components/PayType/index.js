@@ -1,12 +1,9 @@
-import { ADDRESS, PAY_CURRENCY, TEST_ADDRESS } from '@/constant';
+import { PAY_CURRENCY } from '@/constant';
 import { useEffect, useState } from 'react';
 import LabelVal from '../Card/LabelVal';
 import styles from './index.less';
 
 const isProduction = process.env.JANCTION_ENV === 'production';
-
-const initialCurrency =
-  process.env.JANCTION_ENV === 'production' ? ADDRESS.USDT : TEST_ADDRESS.USDT;
 
 const PayType = (props) => {
   const { value, onChange } = props;
