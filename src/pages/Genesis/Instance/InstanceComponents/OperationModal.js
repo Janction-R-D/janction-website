@@ -4,15 +4,23 @@ import styles from './operation.less';
 import TerminalModal from './TerminalModal';
 import JanctionPopover from '@/components/JanctionPopover';
 import contract from '@/utils/contract';
-import { fetchStopRentParams } from '@/services/genesis';
+import { fetchMarketOrders, fetchStopRentParams } from '@/services/genesis';
 
 export default function OperationModal({ record, getAllNodes }) {
   const [visible, setVisible] = useState(false);
-
+  const [paymentId, setPaymentId] = useState('');
   const handleConnect = () => {
     setVisible(true);
   };
-
+  const getOrderInfo = async () => {
+    try {
+      const res = await fetchMarketOrders();
+      const info = res?.find((item) => item.order.node_id === record.id) || [];
+      setPaymentId(info?.order?.patment_id);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const getRentParams = async () => {
     try {
       const res = await fetchStopRentParams({
@@ -27,11 +35,10 @@ export default function OperationModal({ record, getAllNodes }) {
 
   const handleStop = async () => {
     try {
-      const { paymentId, signatures } = await getRentParams();
-      console.log(paymentId, signatures);
-      return;
-      // if (!paymentId) return;
-      // await contract.stopRent(paymentId, signatures);
+      const { signatures } = await getRentParams();
+      await getOrderInfo();
+      if (!paymentId) return;
+      await contract.stopRent(paymentId, signatures);
       getAllNodes();
     } catch (error) {
       message.warning('Operation failed, please try again later!');

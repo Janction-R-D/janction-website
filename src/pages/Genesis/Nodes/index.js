@@ -16,7 +16,7 @@ export default function Nodes() {
 
   const { initialState } = useModel('@@initialState');
   const { isLessee } = initialState || {};
-  console.log(list);
+
   useEffect(() => {
     getList();
   }, []);

@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { message, Space } from 'antd';
 import ModalDelist from './ModalDelist';
 import { history } from 'umi';
 import { getNodeStatusMatch } from './extra';
-import { fetchNodesDelete, fetchNodesRefresh } from '@/services/genesis';
+import {
+  fetchMarketOrders,
+  fetchNodesDelete,
+  fetchNodesRefresh,
+} from '@/services/genesis';
 import { DeleteOutlined, RedoOutlined } from '@ant-design/icons';
 import contract from '@/utils/contract';
 
@@ -11,7 +15,17 @@ export default function OperationDelis({ record, error, getList }) {
   const [isModalOpenStake, setIsModalOpenStake] = useState(false);
   const { isRunning, isListed } = getNodeStatusMatch(record);
   const [loading, setLoading] = useState(false);
+  const [paymentid, setPaymentId] = useState('');
 
+  const getOrderInfo = async () => {
+    try {
+      const res = await fetchMarketOrders();
+      const info = res?.find((item) => item.order.node_id === record.id) || [];
+      setPaymentId(info?.order?.patment_id);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const showModalStake = () => {
     if (!isListed) return;
     setIsModalOpenStake(true);
@@ -55,7 +69,9 @@ export default function OperationDelis({ record, error, getList }) {
 
   const handleReceive = async () => {
     try {
-      await contract.releaseDailyPayment(record.paymentId);
+      await getOrderInfo();
+      if (!paymentid) return;
+      await contract.releaseDailyPayment(paymentid);
     } catch (error) {
       message.warning('Operation failed, please try again later!');
       console.log('『error』', error);
