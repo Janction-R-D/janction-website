@@ -5,6 +5,8 @@ import { Terminal } from '@xterm/xterm';
 import { FitAddon } from '@xterm/addon-fit';
 import styles from './index.less';
 
+const baseUrl = process.env.JANCTION_SOCKET_API;
+
 const TerminalModal = (props) => {
   const { visible, onCancel, resource_id } = props;
 
@@ -54,7 +56,7 @@ const TerminalModal = (props) => {
   // Connect to WebSocket
   const connectWebSocket = () => {
     if (clientRef.current) return;
-    let url = `wss://janction.fdkevin.cloud:8443/v0/resource/shell?resource_id=${resource_id}`;
+    let url = `${baseUrl}/v0/resource/shell?resource_id=${resource_id}`;
     conn = new WebSocket(url);
 
     // Event listeners
