@@ -152,7 +152,7 @@ const Login = (props) => {
         <p>One account for everything Janction</p>
       </div>
       <a className={styles['login-btn']} onClick={onConnect}>
-        Sign in with Ethereum
+        Sign in
       </a>
     </div>
   );

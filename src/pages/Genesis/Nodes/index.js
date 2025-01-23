@@ -36,7 +36,7 @@ export default function Nodes() {
     let running = 0;
     let listed = 0;
     let active = 0;
-    list.map((item) => {
+    list?.map((item) => {
       const { isRunning, isListed, isActive } = getNodeStatusMatch(item);
       if (isRunning) running += 1;
       if (isListed) listed += 1;

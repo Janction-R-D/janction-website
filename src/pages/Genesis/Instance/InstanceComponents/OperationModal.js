@@ -28,8 +28,10 @@ export default function OperationModal({ record, getAllNodes }) {
   const handleStop = async () => {
     try {
       const { paymentId, signatures } = await getRentParams();
-      if (!paymentId) return;
-      await contract.stopRent(paymentId, signatures);
+      console.log(paymentId, signatures);
+      return;
+      // if (!paymentId) return;
+      // await contract.stopRent(paymentId, signatures);
       getAllNodes();
     } catch (error) {
       message.warning('Operation failed, please try again later!');

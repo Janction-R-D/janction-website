@@ -222,7 +222,7 @@ export default [
   },
   {
     name: 'title',
-    content: 'Node Runing',
+    content: 'Node Running',
   },
   {
     name: 'title',
