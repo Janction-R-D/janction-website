@@ -55,7 +55,7 @@ export default function OperationDelis({ record, error, getList }) {
 
   const handleReceive = async () => {
     try {
-      await contract.releaseDailyPayment({ paymentId: record.paymentId });
+      await contract.releaseDailyPayment(record.paymentId);
     } catch (error) {
       message.warning('Operation failed, please try again later!');
       console.log('『error』', error);
