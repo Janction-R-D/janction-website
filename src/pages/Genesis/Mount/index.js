@@ -80,6 +80,7 @@ export default function Mount() {
       setLoading(true);
       const res = await fetchNodesConfigInfo({ node_id: searchId });
       setUserInfo(res || {});
+
       setTags(res?.tags || []);
       setPrice(res?.price || 0);
       setMaxLease(res?.maximum_lease_duration || 1);
@@ -106,6 +107,7 @@ export default function Mount() {
     try {
       const res = await fetchNodesInfo({ node_id: searchId });
       setNodeInfo(res);
+      console.log(res);
     } catch (error) {
       console.log('『error』', error);
     }
@@ -237,7 +239,7 @@ export default function Mount() {
           </section>
           <main className={styles['card-content']}>
             <h3>Configurable Parameters</h3>
-            {userInfo?.node_id ? (
+            {!loading && nodeInfo ? (
               <NodeInfo
                 styles={styles}
                 nodeInfo={nodeInfo}
