@@ -3,7 +3,7 @@ import JanctionTable from '@/components/JanctionTable';
 import { DURATION_OPTIONS, PAY_CURRENCY } from '@/constant';
 import { fetchMarketRent, fetchNodesConfigInfo } from '@/services/genesis';
 import contract, { durationMultiplier } from '@/utils/contract';
-import { empty, isEmpty } from '@/utils/lang';
+import { delay, empty, isEmpty } from '@/utils/lang';
 import { message } from 'antd';
 import { useEffect, useState } from 'react';
 import { history } from 'umi';
@@ -76,6 +76,8 @@ const Settlement = (props) => {
         duration: unit,
         price: configInfo?.price,
       });
+
+      await delay(1000);
 
       await onRent({
         tx_id: tx.hash,
