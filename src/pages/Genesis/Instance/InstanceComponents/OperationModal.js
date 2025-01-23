@@ -19,7 +19,7 @@ export default function OperationModal({ record, getAllNodes }) {
         resource_id: record.id,
       });
       console.log('『res』', res);
-      // return res;
+      return res;
     } catch (error) {
       throw Error(error);
     }
@@ -37,30 +37,19 @@ export default function OperationModal({ record, getAllNodes }) {
     }
   };
 
-  const handleReceive = async () => {
-    try {
-      const { paymentId } = await getRentParams();
-      await contract.releaseDailyPayment(paymentId);
-    } catch (error) {
-      message.warning('Operation failed, please try again later!');
-      console.log('『error』', error);
-    }
-  };
-
   return (
     <div className="ellipsis operation-modal">
       <JanctionPopover
         content={
           <ul className={styles['more-function']} style={{ padding: '0px' }}>
             <li onClick={handleConnect}>Remote connection</li>
-            {/* <Popconfirm
+            <Popconfirm
               title="Please confirm whether to stop renting this node!"
               onConfirm={handleStop}
-              okText='Yes'
+              okText="Yes"
             >
               <li>Stop Renting</li>
-            </Popconfirm> */}
-            {/* <li onClick={handleReceive}>Receive Profits</li> */}
+            </Popconfirm>
             <li>Renewal</li>
           </ul>
         }

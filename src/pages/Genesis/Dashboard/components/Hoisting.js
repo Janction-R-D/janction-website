@@ -21,7 +21,6 @@ export default function Hoisting({ nft, showModal, handleOk, setShowModal }) {
   const getNFTStatus = async () => {
     try {
       const res = await fetchNftStatus();
-      console.log('『res』', res);
       setList(res.Data || []);
     } catch (error) {}
   };

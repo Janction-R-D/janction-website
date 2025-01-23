@@ -5,6 +5,8 @@ import { history } from 'umi';
 import { getNodeStatusMatch } from './extra';
 import { fetchNodesDelete, fetchNodesRefresh } from '@/services/genesis';
 import { DeleteOutlined, RedoOutlined } from '@ant-design/icons';
+import contract from '@/utils/contract';
+
 export default function OperationDelis({ record, error, getList }) {
   const [isModalOpenStake, setIsModalOpenStake] = useState(false);
   const { isRunning, isListed } = getNodeStatusMatch(record);
@@ -51,6 +53,15 @@ export default function OperationDelis({ record, error, getList }) {
     }
   };
 
+  const handleReceive = async () => {
+    try {
+      await contract.releaseDailyPayment({ paymentId: record.paymentId });
+    } catch (error) {
+      message.warning('Operation failed, please try again later!');
+      console.log('『error』', error);
+    }
+  };
+
   return (
     <Space
       size="middle"
@@ -71,6 +82,9 @@ export default function OperationDelis({ record, error, getList }) {
           handleSuccess={getList}
           handleCancel={handleCancelStake}
         />
+      </a>
+      <a className={`${'operation-action'}`} onClick={handleReceive}>
+        <p>Receive Rewards</p>
       </a>
       {/* <a onClick={() => onRefresh()}>
         <RedoOutlined
