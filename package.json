@@ -4,6 +4,7 @@
     "start": "cross-env UMI_ENV=dev NODE_OPTIONS=--openssl-legacy-provider umi dev",
     "build": "cross-env UMI_ENV=prod NODE_OPTIONS=--openssl-legacy-provider umi build",
     "build:test": "cross-env UMI_ENV=test NODE_OPTIONS=--openssl-legacy-provider umi build",
+    "build:ai": "cross-env UMI_ENV=ai NODE_OPTIONS=--openssl-legacy-provider umi build",
     "postinstall": "umi generate tmp",
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
     "test": "umi-test",
