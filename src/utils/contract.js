@@ -7,6 +7,7 @@ import JasmyRewards from './JasmyRewards.json';
 import NFTEscrowImpl from './NFTEscrowImpl.json';
 import JanctionNFT from './JanctionNFT.json';
 import { delay } from './lang';
+import { janctionTestnet } from './customChains';
 
 const isProduction = process.env.JANCTION_ENV === 'production';
 
@@ -29,6 +30,12 @@ const NETWORKS = {
     rpcUrls: ['https://mainnet.optimism.io'],
     blockExplorerUrls: ['https://optimistic.etherscan.io'],
   },
+  // op_test: {
+  //   chainId: janctionTestnet.id,
+  //   chainName: janctionTestnet.name,
+  //   rpcUrls: [janctionTestnet.rpcUrls.default],
+  //   blockExplorerUrls: [janctionTestnet.blockExplorers.default.url],
+  // },
   op_test: {
     chainId: 11155420,
     chainName: 'Optimism Sepolia Testnet',
