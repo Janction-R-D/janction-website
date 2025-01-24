@@ -5,7 +5,7 @@ import { INTERNET } from '../../extra';
 import JanctionSelect from '@/components/JanctionSelect';
 
 const InternetSelect = (props) => {
-  const { value, onChange } = props;
+  const { value, onChange, formValues } = props;
   const [active, setActive] = useState();
 
   useEffect(() => {
@@ -22,7 +22,7 @@ const InternetSelect = (props) => {
           ].join(' ')}
           onClick={() => {
             setActive(item.value);
-            if (item.value === formValues.internet_type) {
+            if (item.value === formValues?.internet_type) {
               onChange();
               return;
             }

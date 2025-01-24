@@ -21,7 +21,7 @@ const OperatingSystem = (props) => {
           ].join(' ')}
           onClick={() => {
             setActiveI(item.value);
-            if (item.value === formValues.operating_system_str) {
+            if (item.value === formValues?.operating_system_str) {
               onChange();
               return;
             }

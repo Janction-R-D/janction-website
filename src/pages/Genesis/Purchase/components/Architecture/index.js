@@ -26,7 +26,7 @@ const Architecture = (props) => {
           ].join(' ')}
           onClick={() => {
             setActiveAp(item);
-            if (item.value === formValues.architechture_str) {
+            if (item.value === formValues?.architechture_str) {
               onChange();
               return;
             }
