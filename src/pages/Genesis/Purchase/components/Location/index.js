@@ -53,6 +53,7 @@ const Location = (props) => {
           indeterminate: someChecked && !checked,
         };
       }
+
       return item;
     });
     const checkedIds = newArray.flatMap((item) => item.checkedIds || []);

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import styles from './index.less';
 
 const OperatingSystem = (props) => {
-  const { value, onChange } = props;
+  const { value, onChange, formValues } = props;
 
   const [active_i, setActiveI] = useState(SYSTEM_LIST[0].value);
 
@@ -21,6 +21,10 @@ const OperatingSystem = (props) => {
           ].join(' ')}
           onClick={() => {
             setActiveI(item.value);
+            if (item.value === formValues.operating_system_str) {
+              onChange();
+              return;
+            }
             onChange(item.value);
           }}
         >

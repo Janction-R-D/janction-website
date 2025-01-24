@@ -59,7 +59,10 @@ const ProductList = (props) => {
       let internet =
         !internet_type || item.attr?.internet_type == internet_type;
       let network = !network_down || item.attr?.network_down >= network_down;
-      let _location = !location || location.includes(item.attr?.location);
+      let _location =
+        !location ||
+        location.length == 0 ||
+        location.includes(item.attr?.location);
       const chip = [
         ...(item?.attr?.cpu_chip || []),
         ...(item?.attr?.gpu_chip || []),

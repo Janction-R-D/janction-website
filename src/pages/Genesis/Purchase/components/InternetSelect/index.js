@@ -22,6 +22,10 @@ const InternetSelect = (props) => {
           ].join(' ')}
           onClick={() => {
             setActive(item.value);
+            if (item.value === formValues.internet_type) {
+              onChange();
+              return;
+            }
             onChange(item.value);
           }}
         >

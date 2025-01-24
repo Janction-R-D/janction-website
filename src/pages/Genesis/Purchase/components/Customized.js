@@ -49,7 +49,7 @@ const Customized = (props) => {
         <PurchaseCard title="Basic configuration">
           <PurchaseSubCard title="Operating System">
             <Form.Item name="operating_system_str">
-              <OperatingSystem />
+              <OperatingSystem formValues={formValues} />
             </Form.Item>
           </PurchaseSubCard>
           {formValues?.operating_system_str &&
@@ -62,7 +62,7 @@ const Customized = (props) => {
             )}
           <PurchaseSubCard title="Internet">
             <Form.Item name="internet_type">
-              <InternetSelect />
+              <InternetSelect formValues={formValues} />
             </Form.Item>
           </PurchaseSubCard>
           <PurchaseSubCard title="Connectivity Tier">
