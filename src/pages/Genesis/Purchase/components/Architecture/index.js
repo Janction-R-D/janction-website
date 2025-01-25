@@ -18,8 +18,9 @@ const Architecture = (props) => {
 
   return (
     <div className={styles['application-wrapper']}>
-      {options.map((item) => (
+      {options.map((item, index) => (
         <div
+          key={index}
           className={[
             styles['item'],
             active_ap == item.value && styles['active-item'],

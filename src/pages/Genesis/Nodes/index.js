@@ -24,7 +24,6 @@ export default function Nodes() {
     try {
       const res = await fetchNodesList({ mine: true });
       setList(res || []);
-      console.log(res);
       setFilteredData(res || []);
       setFilter(initQuery);
     } catch (error) {

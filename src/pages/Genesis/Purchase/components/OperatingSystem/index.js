@@ -13,8 +13,9 @@ const OperatingSystem = (props) => {
 
   return (
     <div className={styles['image-conf-wrapper']}>
-      {SYSTEM_LIST.map((item) => (
+      {SYSTEM_LIST.map((item, index) => (
         <div
+          key={index}
           className={[
             styles['item'],
             active_i == item.value && styles['active-item'],
