@@ -15,6 +15,7 @@ function NodesTable({ data, getList }) {
       dataIndex: 'id',
       key: 'deviceId',
       width: 320,
+      ellipsis: 'true',
     },
     {
       title: 'Status',

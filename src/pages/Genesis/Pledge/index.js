@@ -27,7 +27,7 @@ function Staking() {
   const columns = [
     {
       title: 'Device ID',
-      dataIndex: 'name',
+      dataIndex: 'id',
       key: 'name',
       ellipsis: true,
     },
