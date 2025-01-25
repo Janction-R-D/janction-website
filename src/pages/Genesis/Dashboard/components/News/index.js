@@ -17,7 +17,6 @@ const News = (props) => {
       setLoading(true);
       // await fetchNewsUpdate();
       const res = await fetchNewsList();
-      console.log(res);
       setList(res || []);
       setLoading(false);
     } catch (error) {
