@@ -20,7 +20,8 @@ export default function OperationDelis({ record, error, getList }) {
   const getOrderInfo = async () => {
     try {
       const res = await fetchMarketOrders();
-      const info = res?.find((item) => item.order.node_id === record.id) || [];
+      const info =
+        res?.find((item) => item.resource.node_id === record.id) || [];
       setPaymentId(info?.order?.patment_id);
     } catch (err) {
       console.log(err);

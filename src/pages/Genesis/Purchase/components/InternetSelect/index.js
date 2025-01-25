@@ -14,8 +14,9 @@ const InternetSelect = (props) => {
 
   return (
     <div className={styles['region-select']}>
-      {INTERNET.map((item) => (
+      {INTERNET.map((item, index) => (
         <div
+          key={index}
           className={[
             styles['item'],
             active == item.value && styles['active-item'],

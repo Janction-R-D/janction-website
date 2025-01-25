@@ -15,7 +15,8 @@ export default function OperationModal({ record, getAllNodes }) {
   const getOrderInfo = async () => {
     try {
       const res = await fetchMarketOrders();
-      const info = res?.find((item) => item.order.node_id === record.id) || [];
+      const info =
+        res?.find((item) => item.order.resource_id === record.id) || [];
       setPaymentId(info?.order?.patment_id);
     } catch (err) {
       console.log(err);
@@ -39,6 +40,7 @@ export default function OperationModal({ record, getAllNodes }) {
       await getOrderInfo();
       if (!paymentId) return;
       await contract.stopRent(paymentId, signatures);
+      console.log('Funciono');
       getAllNodes();
     } catch (error) {
       message.warning('Operation failed, please try again later!');
