@@ -20,10 +20,8 @@ function InstanceTable({ data, getAllNodes }) {
       operation,
       id,
     });
-
     fetchNodeOperation(payload)
       .then((res) => {
-        console.log(res);
         getAllNodes();
         setSuccess(true);
       })
@@ -136,11 +134,7 @@ function InstanceTable({ data, getAllNodes }) {
                   : ''
               }`}
               onClick={() =>
-                handleOperation(
-                  'stop',
-                  record?.activity?.resource_id,
-                  record?.id,
-                )
+                handleOperation('stop', record?.id, record?.node?.id)
               }
             >
               <p>Stop</p>
@@ -153,11 +147,7 @@ function InstanceTable({ data, getAllNodes }) {
                   : ''
               }`}
               onClick={() =>
-                handleOperation(
-                  'start',
-                  record?.activity?.resource_id,
-                  record?.id,
-                )
+                handleOperation('start', record?.id, record?.node?.id)
               }
             >
               <p>Start</p>

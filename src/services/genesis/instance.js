@@ -94,6 +94,19 @@ export const fetchMarketOrders = async () => {
     return null;
   }
 };
+
+export const fetchMarketOrder = async (params) => {
+  try {
+    const response = await request(`${baseUrl}/market/orders`, {
+      loginAuth: true,
+      params: params,
+    });
+    return response;
+  } catch (error) {
+    console.log('『error』', error);
+    return null;
+  }
+};
 /**
  * @property {string} Query resource_id
  */

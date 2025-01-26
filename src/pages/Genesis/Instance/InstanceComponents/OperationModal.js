@@ -4,7 +4,7 @@ import styles from './operation.less';
 import TerminalModal from './TerminalModal';
 import JanctionPopover from '@/components/JanctionPopover';
 import contract from '@/utils/contract';
-import { fetchMarketOrders, fetchStopRentParams } from '@/services/genesis';
+import { fetchMarketOrder, fetchStopRentParams } from '@/services/genesis';
 
 export default function OperationModal({ record, getAllNodes }) {
   const [visible, setVisible] = useState(false);
@@ -13,11 +13,15 @@ export default function OperationModal({ record, getAllNodes }) {
     setVisible(true);
   };
   const getOrderInfo = async () => {
+    const data = {
+      node_id: record.node_id,
+      resource_id: record.id,
+    };
     try {
-      const res = await fetchMarketOrders();
-      const info =
-        res?.find((item) => item.order.resource_id === record.id) || [];
-      setPaymentId(info?.order?.patment_id);
+      const [res] = (await fetchMarketOrder(data)) || [];
+      const code = res?.order?.patment_id;
+      console.log(code);
+      setPaymentId(code);
     } catch (err) {
       console.log(err);
     }
@@ -40,7 +44,6 @@ export default function OperationModal({ record, getAllNodes }) {
       await getOrderInfo();
       if (!paymentId) return;
       await contract.stopRent(paymentId, signatures);
-      console.log('Funciono');
       getAllNodes();
     } catch (error) {
       message.warning('Operation failed, please try again later!');

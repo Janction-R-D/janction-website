@@ -4,7 +4,7 @@ import ModalDelist from './ModalDelist';
 import { history } from 'umi';
 import { getNodeStatusMatch } from './extra';
 import {
-  fetchMarketOrders,
+  fetchMarketOrder,
   fetchNodesDelete,
   fetchNodesRefresh,
 } from '@/services/genesis';
@@ -15,14 +15,16 @@ export default function OperationDelis({ record, error, getList }) {
   const [isModalOpenStake, setIsModalOpenStake] = useState(false);
   const { isRunning, isListed } = getNodeStatusMatch(record);
   const [loading, setLoading] = useState(false);
-  const [paymentid, setPaymentId] = useState('');
+  const [paymentId, setPaymentId] = useState('');
 
   const getOrderInfo = async () => {
+    const data = {
+      node_id: record.id,
+    };
     try {
-      const res = await fetchMarketOrders();
-      const info =
-        res?.find((item) => item.resource.node_id === record.id) || [];
-      setPaymentId(info?.order?.patment_id);
+      const [res] = (await fetchMarketOrder(data)) || [];
+      const code = res?.order?.patment_id;
+      setPaymentId(code);
     } catch (err) {
       console.log(err);
     }
@@ -71,8 +73,8 @@ export default function OperationDelis({ record, error, getList }) {
   const handleReceive = async () => {
     try {
       await getOrderInfo();
-      if (!paymentid) return;
-      await contract.releaseDailyPayment(paymentid);
+      if (!paymentId) return;
+      await contract.releaseDailyPayment(paymentId);
     } catch (error) {
       message.warning('Operation failed, please try again later!');
       console.log('『error』', error);
