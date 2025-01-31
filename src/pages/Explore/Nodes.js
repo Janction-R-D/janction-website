@@ -100,7 +100,7 @@ const Nodes = (props) => {
   return (
     <div className={styles['node-wrapper']}>
       <div className={[styles['wrapper'], styles['node-running']].join(' ')}>
-        <h1>Node Runing</h1>
+        <h1>Node Running</h1>
         <div className={styles['content']}>
           <Statistic
             title="Live Nodes"
