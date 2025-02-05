@@ -60,7 +60,7 @@ const NTFBanner = (props) => {
       {/* <img className={styles['banner-img']} src={banner1} /> */}
       <p>
         Directly purchase deployed Janction mining machine nodes to share more
-        profits！ Currently holding Janction Landlord NFT to participate in the
+        profits！ Currently holding Janction Lessor NFT to participate in the
         computing power provider network！
       </p>
       <BuyNode mineCode={code} inviterCode={inviterCode} />

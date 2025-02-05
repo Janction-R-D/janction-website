@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Joyride from 'react-joyride';
-import { steps } from './constants';
+import { steps, stepsMobile, customStyles } from './constants';
 import { history } from 'umi';
+import { Button, Modal } from 'antd';
+import styles from './guide.less';
 import { changeUserConfig } from '@/services/genesis';
-export default function Guide({ run, setRun, setIsModalOpen, isModalOpen }) {
+import useScale from '@/hooks/useScale';
+export default function Guide({ run, setRun }) {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const { isPC } = useScale();
   const routes = {
     2: '/genesis/dashboard',
     3: '/genesis/purchase',
@@ -25,55 +30,82 @@ export default function Guide({ run, setRun, setIsModalOpen, isModalOpen }) {
     //   setRun(true);
     //   console.log(status);
     // }
-    if (action === 'next' && routes[index]) {
+
+    if (action === 'next' && routes[index] && isPC) {
       history.push(routes[index]);
     }
     if (status === 'finished' || status === 'skipped') {
       setRun(false);
-      updateConfig();
+      setIsModalVisible(true);
+      showModal();
+      //   updateConfig();
     }
   };
-  const customStyles = {
-    options: {
-      backgroundColor: '#2c3e50', // Fondo de la ventana emergente
-      overlayColor: 'rgba(0, 0, 0, 0.7)', // Color de la superposición de fondo
-      primaryColor: '#3498db', // Color del botón primario
-      textColor: '#ecf0f1', // Color del texto
-      width: 400, // Ancho de la ventana emergente
-      zIndex: 99999, // Asegurarse de que la guía se muestre por encima
-    },
-    beacon: {
-      inner: {
-        backgroundColor: '#ff4081', // Color del círculo que resalta los elementos
-      },
-      outer: {
-        backgroundColor: 'rgba(255, 64, 129, 0.3)', // Color del borde del círculo
-      },
-    },
-    buttonClose: {
-      display: 'none',
-      backgroundColor: '#e74c3c', // Color del botón de cerrar
-      color: '#ecf0f1', // Color del texto del botón de cerrar
-    },
-    buttonBack: {
-      backgroundColor: 'transparent', // Color del botón de retroceso
-      color: '#fff', // Color del texto del botón de retroceso
-    },
-    buttonNext: {
-      backgroundColor:
-        'linear-gradient(275.81deg,rgb(36, 193, 241) 18.68%,rgb(74, 118, 250) 100%);', // Color del botón de siguiente
-      color: '#000', // Color del texto del botón de siguiente
-    },
+
+  const showModal = () => {
+    setIsModalVisible(true);
   };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+    setRun(false); // Detener el recorrido
+  };
+  const handleCancel = () => {
+    setIsModalVisible(false);
+    setRun(false); // Detener el recorrido
+  };
+  useEffect(() => {
+    const updateConfig = async () => {
+      const data = {
+        pass_newbie_guide: false,
+      };
+      changeUserConfig(data);
+    };
+    updateConfig();
+  }, []);
   return (
-    <Joyride
-      steps={steps}
-      run={run}
-      continuous
-      showProgress
-      showSkipButton
-      callback={handleJoyrideCallback}
-      styles={customStyles}
-    />
+    <>
+      <Joyride
+        steps={isPC ? steps : stepsMobile}
+        run={run}
+        continuous
+        showProgress
+        showSkipButton
+        callback={handleJoyrideCallback}
+        styles={customStyles}
+      />
+      <Modal
+        title="Welcome"
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={false}
+        className={styles['modal']}
+        style={{
+          borderRadius: '10px',
+        }}
+      >
+        <div className={styles['modal-header']}>
+          <h3 className={styles['modal-title']}>
+            Thank you for using our service!
+          </h3>
+        </div>
+        <div className={styles['modal-body']}>
+          <p>
+            We hope you enjoyed your experience. Feel free to explore more
+            features!
+          </p>
+        </div>
+        <div className={styles['modal-footer']}>
+          <Button
+            key="submit"
+            className={styles['btn-primary']}
+            onClick={handleOk}
+          >
+            Finish
+          </Button>
+        </div>
+      </Modal>
+    </>
   );
 }

@@ -88,7 +88,7 @@ const Invitation = (props) => {
                 share more profits！
               </p>{' '}
               <p>
-                Currently holding Janction Landlord NFT to participate in the
+                Currently holding Janction Lessor NFT to participate in the
                 computing power provider network！
               </p>
             </p>

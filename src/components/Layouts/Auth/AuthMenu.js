@@ -18,6 +18,7 @@ export const AndroidAuthMenu = ({ active }) => {
     <div className={styles['android-auth-menu']}>
       <section className={styles['menu-box']}>
         <i
+          id="menu-icon"
           className={`iconfont ${!menuShow ? 'icon-line-menu' : 'icon-close'}`}
           onClick={() => {
             setMenuShow(!menuShow);
@@ -27,6 +28,7 @@ export const AndroidAuthMenu = ({ active }) => {
           className={`${styles['role']} ${
             isLessee ? styles['buyer-role'] : ''
           }`}
+          id="welcome-android"
         >
           {isLessee ? <span>Lessee</span> : <span>Lessor</span>}
         </div>
