@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Joyride from 'react-joyride';
 import { steps, stepsMobile, customStyles } from './constants';
 import { history } from 'umi';
@@ -17,10 +17,15 @@ export default function Guide({ run, setRun }) {
     6: '/genesis/dashboard',
   };
   const updateConfig = async () => {
-    const data = {
-      pass_newbie_guide: true,
-    };
-    changeUserConfig(data);
+    try {
+      const data = {
+        pass_newbie_guide: true,
+      };
+      await changeUserConfig(data);
+      showModal();
+    } catch (err) {
+      console.log(err);
+    }
   };
   const handleJoyrideCallback = (data) => {
     const { action, index, status, type } = data;
@@ -37,8 +42,7 @@ export default function Guide({ run, setRun }) {
     if (status === 'finished' || status === 'skipped') {
       setRun(false);
       setIsModalVisible(true);
-      showModal();
-      //   updateConfig();
+      updateConfig();
     }
   };
 
@@ -54,15 +58,7 @@ export default function Guide({ run, setRun }) {
     setIsModalVisible(false);
     setRun(false); // Detener el recorrido
   };
-  useEffect(() => {
-    const updateConfig = async () => {
-      const data = {
-        pass_newbie_guide: false,
-      };
-      changeUserConfig(data);
-    };
-    updateConfig();
-  }, []);
+
   return (
     <>
       <Joyride

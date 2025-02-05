@@ -407,6 +407,7 @@ header.auth-header {
       }
 
       .type-account {
+        transition: all 300ms ease;
         & > div {
           display: flex;
           align-items: center;
@@ -419,6 +420,10 @@ header.auth-header {
             font-size: 0.8rem;
           }
         }
+      }
+      .type-account:hover {
+        font-weight: bold;
+        color: #fff;
       }
     }
   }
