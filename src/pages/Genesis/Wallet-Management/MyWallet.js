@@ -29,7 +29,7 @@ export default function MyWallet() {
             value: revenue?.node_income,
             unit: 'veJCT',
             diffValue: compared_yesterday?.node_i,
-            date: formatDate(revenue?.node_income_update_time),
+            date: formatDate(revenue?.node_income_update_time) || '~',
           })}
         </Col>
         <Col span={12} xs={24} sm={24} md={12} lg={12} xl={12}>
@@ -38,7 +38,7 @@ export default function MyWallet() {
             value: revenue?.rental_server_revenue,
             unit: 'veJCT',
             diffValue: compared_yesterday?.rentalServer_i,
-            date: formatDate(revenue?.rental_server_revenue_update_time),
+            date: formatDate(revenue?.rental_server_revenue_update_time) || '~',
           })}
         </Col>
       </Row>

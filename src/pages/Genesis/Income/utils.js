@@ -1,4 +1,5 @@
 export function formatDate(fechaCadena) {
+  if (!fechaCadena) return;
   const fecha = new Date(fechaCadena);
 
   const year = fecha.getFullYear();
