@@ -1,8 +1,12 @@
 import JanctionCountDown from '@/components/JanctionCountDown';
 import JanctionTable from '@/components/JanctionTable';
-import { DURATION_OPTIONS, PAY_CURRENCY } from '@/constant';
+import { DURATION_OPTIONS } from '@/constant';
 import { fetchMarketRent, fetchNodesConfigInfo } from '@/services/genesis';
-import contract, { durationMultiplier } from '@/utils/contract';
+import contract, {
+  durationMultiplier,
+  getCurrency,
+  getDefaultCurrency,
+} from '@/utils/contract';
 import { delay, empty, isEmpty } from '@/utils/lang';
 import { message } from 'antd';
 import { useEffect, useState } from 'react';
@@ -21,7 +25,7 @@ const Settlement = (props) => {
   const { address } = useAccount();
 
   const [loading, setLoading] = useState(false);
-  const [currency, setCurrency] = useState(PAY_CURRENCY[1].value);
+  const [currency, setCurrency] = useState(getDefaultCurrency());
   const [list, setList] = useState([]);
   const [configInfo, setConfigInfo] = useState('');
 
@@ -137,7 +141,7 @@ const Settlement = (props) => {
         if (!value && empty(unit)) return '--';
         const { price } = list[0] || {};
 
-        const _currency = PAY_CURRENCY.find((item) => item.value == currency);
+        const _currency = getCurrency().find((item) => item.value == currency);
         const _total = (price || 0) * value * durationMultiplier(unit, true);
         return (Number(_total) / Number(_currency?.rate || 1)).toFixed(2);
       },

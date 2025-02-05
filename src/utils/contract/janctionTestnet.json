@@ -1,0 +1,25 @@
+{
+  "id": 679,
+  "name": "Janction Testnet",
+  "network": "janction-testnet",
+  "nativeCurrency": {
+    "decimals": 18,
+    "name": "Janction Token",
+    "symbol": "JCT"
+  },
+  "rpcUrls": {
+    "default": {
+      "http": ["https://janction-testnet.alt.technology"]
+    },
+    "public": {
+      "http": ["https://janction-testnet.alt.technology"]
+    }
+  },
+  "blockExplorers": {
+    "default": {
+      "name": "JanctionExplorer",
+      "url": "https://janction-testnet-explorer.alt.technology"
+    }
+  },
+  "testnet": true
+}

@@ -1,13 +1,15 @@
-import { ADDRESS, TEST_ADDRESS, currencyABI, Duration } from '@/constant';
+import { Duration } from '@/constant';
 import { message } from 'antd';
 import { ethers } from 'ethers';
+import currencyABI from './CurrencyAbi.json';
 import Distribution from './Distribution.json';
 import Payment from './Payment.json';
 import JasmyRewards from './JasmyRewards.json';
 import NFTEscrowImpl from './NFTEscrowImpl.json';
 import JanctionNFT from './JanctionNFT.json';
-import { delay } from './lang';
-import { janctionTestnet } from './customChains';
+import { delay } from '../lang';
+import janctionTestnet from './janctionTestnet.json';
+import Addresses from './Addresses.json';
 
 const isProduction = process.env.JANCTION_ENV === 'production';
 
@@ -30,18 +32,49 @@ const NETWORKS = {
     rpcUrls: ['https://mainnet.optimism.io'],
     blockExplorerUrls: ['https://optimistic.etherscan.io'],
   },
-  // op_test: {
-  //   chainId: janctionTestnet.id,
-  //   chainName: janctionTestnet.name,
-  //   rpcUrls: [janctionTestnet.rpcUrls.default],
-  //   blockExplorerUrls: [janctionTestnet.blockExplorers.default.url],
-  // },
   op_test: {
     chainId: 11155420,
     chainName: 'Optimism Sepolia Testnet',
     rpcUrls: ['https://sepolia.optimism.io'],
     blockExplorerUrls: ['https://sepolia-optimism.etherscan.io'],
   },
+  janction_test: {
+    chainId: janctionTestnet.id,
+    chainName: janctionTestnet.name,
+    rpcUrls: [janctionTestnet.rpcUrls.default],
+    blockExplorerUrls: [janctionTestnet.blockExplorers.default.url],
+  },
+};
+
+export const getCurrency = () => {
+  const address = isProduction
+    ? Addresses.OP
+    : process.env.TESTNET == 'janction'
+    ? Addresses.JANCTION_TESTNET
+    : Addresses.OP_SEPOLIA;
+  return [
+    // {
+    //   value: address.veJCT,
+    //   label: 'veJCT',
+    //   desc: 'From JANCTION',
+    //   rate: 0.02,
+    // },
+    {
+      value: address.USDT,
+      label: 'USDT',
+      rate: 1,
+    },
+    {
+      value: address.USDC,
+      label: 'USDC',
+      rate: 1,
+    },
+  ];
+};
+
+export const getDefaultCurrency = () => {
+  const allCurrency = getCurrency();
+  return allCurrency[0].value;
 };
 
 export function durationMultiplier(duration, discount) {
@@ -58,13 +91,24 @@ export function durationMultiplier(duration, discount) {
   }
 }
 
-const getAddresses = () => (isProduction ? ADDRESS : TEST_ADDRESS);
+const getAddresses = (networkName = 'OP') => {
+  const network_name = isProduction
+    ? networkName
+    : networkName == 'ETH'
+    ? 'SEPOLIA'
+    : process.env.TESTNET == 'janction'
+    ? 'JANCTION_TESTNET'
+    : 'OP_SEPOLIA';
+  return Addresses[network_name];
+};
 
 const switchNetwork = async (provider, networkName = 'op') => {
   try {
     const network = await provider.getNetwork();
+    const network_name =
+      isProduction || networkName == 'eth' ? networkName : process.env.TESTNET;
     const networkConf =
-      NETWORKS[`${networkName}${isProduction ? '' : '_test'}`];
+      NETWORKS[`${network_name}${isProduction ? '' : '_test'}`];
     const chainId = networkConf.chainId;
 
     if (network.chainId !== chainId) {
@@ -134,7 +178,7 @@ const contract = {
 
       // 初始化合约
       const payment = new ethers.Contract(
-        getAddresses().Payment,
+        getAddresses().PaymentProxy,
         Payment.abi,
         provider,
       ).connect(signer);
@@ -156,11 +200,11 @@ const contract = {
       // 检查授权额度
       const currentAllowance = await currency.allowance(
         payerAddress,
-        getAddresses().Payment,
+        getAddresses().PaymentProxy,
       );
       if (currentAllowance.lt(totalAmount)) {
         const approveTx = await currency.approve(
-          getAddresses().Payment,
+          getAddresses().PaymentProxy,
           totalAmount,
         );
         await approveTx.wait();
@@ -221,7 +265,7 @@ const contract = {
 
       // 初始化合约
       const payment = new ethers.Contract(
-        getAddresses().Payment,
+        getAddresses().PaymentProxy,
         Payment.abi,
         provider,
       ).connect(signer);
@@ -256,7 +300,7 @@ const contract = {
 
       // 初始化合约
       const payment = new ethers.Contract(
-        getAddresses().Payment,
+        getAddresses().PaymentProxy,
         Payment.abi,
         provider,
       ).connect(signer);
@@ -358,7 +402,7 @@ const contract = {
 
       // 初始化合约
       const distribution = new ethers.Contract(
-        getAddresses().JasmyRewards,
+        getAddresses('ETH').JasmyRewards,
         JasmyRewards.abi,
         provider,
       ).connect(signer);

@@ -1,7 +1,7 @@
-import { PAY_CURRENCY } from '@/constant';
 import { useEffect, useState } from 'react';
 import LabelVal from '../Card/LabelVal';
 import styles from './index.less';
+import { getCurrency } from '@/utils/contract';
 
 const isProduction = process.env.JANCTION_ENV === 'production';
 
@@ -16,9 +16,7 @@ const PayType = (props) => {
   return (
     <LabelVal name="Payment type">
       <div className={styles['pay-type']}>
-        {PAY_CURRENCY.filter((item) =>
-          isProduction ? item.label !== 'veJCT' : true,
-        ).map((item, index) => (
+        {getCurrency().map((item, index) => (
           <div
             key={index}
             className={[

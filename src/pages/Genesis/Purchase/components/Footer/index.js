@@ -1,5 +1,4 @@
-import { PAY_CURRENCY } from '@/constant';
-import { durationMultiplier } from '@/utils/contract';
+import { durationMultiplier, getCurrency } from '@/utils/contract';
 import { empty, isEmpty } from '@/utils/lang';
 import { Button, Checkbox, message } from 'antd';
 import { useMemo, useState } from 'react';
@@ -20,7 +19,7 @@ const Footer = (props) => {
 
   const [agree, setAgree] = useState(false);
   const currency = useMemo(() => {
-    const goal = PAY_CURRENCY.find((item) => item.value == currencyAddress);
+    const goal = getCurrency().find((item) => item.value == currencyAddress);
     return goal;
   }, currencyAddress);
   const total = useMemo(() => {

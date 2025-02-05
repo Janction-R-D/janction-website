@@ -1,4 +1,4 @@
-import { janctionTestnet } from '@/utils/customChains';
+import janctionTestnet from '@/utils/contract/janctionTestnet.json';
 import {
   connectorsForWallets,
   darkTheme,
