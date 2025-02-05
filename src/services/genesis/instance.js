@@ -265,7 +265,35 @@ export const MonthlyGoal = async (data) => {
     return null;
   }
 };
-
+// Fetch user config
+export const fetchUserConfig = async (params) => {
+  try {
+    const response = await request(`${baseUrl}/user/config`, {
+      loginAuth: true,
+      params,
+    });
+    return response;
+  } catch (error) {
+    console.log('『error』', error);
+    return null;
+  }
+};
+export const changeUserConfig = async (data) => {
+  try {
+    const response = await request(`${baseUrl}/user/config`, {
+      method: 'PUT',
+      loginAuth: true,
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    return response;
+  } catch (error) {
+    console.log('『error』', error);
+    return null;
+  }
+};
 //fetch ConfigInfo
 export const fetchNodesConfigInfo = async (params) => {
   try {

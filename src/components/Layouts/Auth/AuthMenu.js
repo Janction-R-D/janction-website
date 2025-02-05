@@ -28,7 +28,7 @@ export const AndroidAuthMenu = ({ active }) => {
             isLessee ? styles['buyer-role'] : ''
           }`}
         >
-          {isLessee ? <span>Tenant</span> : <span>Landlord</span>}
+          {isLessee ? <span>Lessee</span> : <span>Lessor</span>}
         </div>
       </section>
       <nav className={`${menuShow ? styles['menu-show'] : ''}`}>
@@ -73,6 +73,7 @@ export const AuthMenuAside = ({ menu, active, onMenuChange }) => {
         <section>
           <img
             className={styles['logo-name']}
+            id="welcome"
             src={require('@/assets/images/icons/logo_name.png')}
           />
           <div className={styles['logo']}>
@@ -85,7 +86,7 @@ export const AuthMenuAside = ({ menu, active, onMenuChange }) => {
                 isLessee ? styles['buyer-role'] : ''
               }`}
             >
-              {isLessee ? <span>Tenant</span> : <span>Landlord</span>}
+              {isLessee ? <span>Lessee</span> : <span>Lessor</span>}
             </div>
           )}
         </section>
@@ -93,6 +94,7 @@ export const AuthMenuAside = ({ menu, active, onMenuChange }) => {
       <nav>
         {menu.map((item) => (
           <div
+            id={item.id}
             key={item.key}
             className={`${styles['menu-item']} ${
               active === item.path || (active && active === item.redirect)
@@ -130,6 +132,7 @@ export const AuthMenuAside = ({ menu, active, onMenuChange }) => {
       <div
         className={styles['fold-wrapper-2']}
         onClick={() => history.push('/')}
+        id="home-icon"
       >
         <i className="iconfont icon-home1"></i>
       </div>

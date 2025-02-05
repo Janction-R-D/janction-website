@@ -8,6 +8,8 @@ import { history, useLocation, useModel } from 'umi';
 import { useAccount, useDisconnect } from 'wagmi';
 import AndroidAuthMenu from './AuthMenu';
 import styles from './index.less';
+import Guide from '@/pages/Genesis/Dashboard/components/Guide/Guide';
+import { fetchUserConfig } from '@/services/genesis';
 
 export const Logo = () => {
   return (
@@ -32,10 +34,11 @@ export default function AuthHeader(props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNotifyModalOpen, setIsNotifyModalOpen] = useState(false);
   const { avatarSnapUrl, getUserInfo, setUserName } = useModel('common');
-
+  const [run, setRun] = useState(false);
   const { address } = useAccount();
 
   useEffect(() => {
+    getUserConfig();
     getUserInfo((res) => {
       if (res?.name) {
         setUserName(res.name);
@@ -48,7 +51,14 @@ export default function AuthHeader(props) {
     const addStr = address?.slice(0, 16);
     setUserName(`user_${addStr}`);
   };
-
+  const getUserConfig = async () => {
+    const res = await fetchUserConfig();
+    if (!res?.pass_newbie_guide) {
+      setRun(true);
+      return;
+    }
+    setRun(false);
+  };
   const handleNotifyOk = () => {
     setIsNotifyModalOpen(true);
   };
@@ -64,6 +74,12 @@ export default function AuthHeader(props) {
 
   return (
     <header className={styles['auth-header']}>
+      <Guide
+        run={run}
+        setRun={setRun}
+        setIsModalOpen={setIsModalOpen}
+        isModalOpen={isModalOpen}
+      />
       <div className={styles['wrapper']}>
         <div className={styles['left']}>
           {showLogo ? (
@@ -77,10 +93,18 @@ export default function AuthHeader(props) {
           )}
         </div>
         <div className={styles['extra']}>
-          <div className={styles['msg']} onClick={handleNotifyOk}>
+          <div
+            className={styles['msg']}
+            id="notifications-icon"
+            onClick={handleNotifyOk}
+          >
             <i className="iconfont icon-bell "></i>
           </div>
-          <div className={styles['img-container']} onClick={showModal}>
+          <div
+            className={styles['img-container']}
+            onClick={showModal}
+            id="profile-menu-icon"
+          >
             <img
               className={styles['profile-img']}
               src={avatarSnapUrl || avatar(address)}
@@ -155,6 +179,7 @@ export function ProfileModal({ isModalOpen, handleOk, handleCancel }) {
             height={300}
             width={400}
             closable={false}
+            id="user-mode"
           >
             <section className={styles['header-card']}>
               <div className={styles['modal-profile-img']}>
@@ -163,7 +188,7 @@ export function ProfileModal({ isModalOpen, handleOk, handleCancel }) {
                   src={avatarSnapUrl || avatar(account?.address)}
                 />
               </div>
-              <section className={styles['profile-info']}>
+              <section className={styles['profile-info']} id="change-mode">
                 <h3>{userName}</h3>
                 <span className={styles['chain-copy']}>
                   <p> {account?.displayName || 'Unknow'}</p>
@@ -175,12 +200,12 @@ export function ProfileModal({ isModalOpen, handleOk, handleCancel }) {
                 <div className={styles['type-account']}>
                   {isLessee ? (
                     <div onClick={onIdentityChange}>
-                      <p>Switch to Landlord Role</p>
+                      <p>Switch to Lessor Role</p>
                       <i className="iconfont icon-next"></i>
                     </div>
                   ) : (
                     <div onClick={onIdentityChange}>
-                      <p>Switch to Tenant Role</p>
+                      <p>Switch to Lessee Role</p>
                       <i className="iconfont icon-next"></i>
                     </div>
                   )}

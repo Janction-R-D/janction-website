@@ -4,12 +4,14 @@ import SocialsLinks from '@/components/SocialsLinks';
 import { useEffect, useMemo, useState } from 'react';
 import { history, useModel } from 'umi';
 import styles from './genesis.less';
+import { id } from 'ethers/lib/utils';
 
 export const navList = [
   {
     name: 'Dashboard',
     path: '/genesis/dashboard',
     redirect: '/genesis',
+    id: 'dashboard',
     key: 0,
     icon: 'home',
   },
@@ -17,6 +19,7 @@ export const navList = [
     name: 'Deploy Node',
     path: '/genesis/deployNode',
     key: 1,
+    id: 'deployNode',
     icon: 'deploy-node',
     role: (isLessee) => !isLessee,
   },
@@ -24,6 +27,7 @@ export const navList = [
     name: 'Purchase',
     path: '/genesis/purchase',
     key: 6,
+    id: 'purchase-link',
     icon: 'purchase',
     role: (isLessee) => isLessee,
   },
@@ -31,6 +35,7 @@ export const navList = [
     name: 'My Instance',
     path: '/genesis/instance',
     key: 2,
+    id: 'instances-link',
     icon: 'my-nodes',
     role: (isLessee) => isLessee,
   },
@@ -38,6 +43,7 @@ export const navList = [
     name: 'My Nodes',
     path: '/genesis/nodes',
     key: 3,
+    id: 'nodes',
     icon: 'my-nodes',
     role: (isLessee) => !isLessee,
   },
@@ -45,6 +51,7 @@ export const navList = [
     name: 'Orders',
     path: '/genesis/orders',
     key: 4,
+    id: 'orders-link',
     icon: 'workbench',
     role: (isLessee) => isLessee,
   },
@@ -53,6 +60,7 @@ export const navList = [
     path: '/genesis/billDetails',
     key: 5,
     icon: 'billings',
+    id: 'billDetails',
     role: (isLessee) => !isLessee,
   },
 ];

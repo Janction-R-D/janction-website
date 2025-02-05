@@ -38,7 +38,7 @@ export default function Hoisting({ nft, showModal, handleOk, setShowModal }) {
       render: (text, rowData) => (
         <div className="name">
           <div>
-            <p>{`Janction Landlord #${rowData.token_id}`}</p>
+            <p>{`Janction Lessor #${rowData.token_id}`}</p>
             {rowData.host_status === inTrustValue && (
               <span className="trusted">
                 <img src={trustImg} />
