@@ -34,7 +34,7 @@ export default function NotifyModal({ setIsModalOpen, isModalOpen, handleOk }) {
           </Button>
         )}
       </header>
-      <main className={styles['card-news']}>
+      <main className={styles['card-news']} id="notifications-modal">
         {news.length <= 0 ? (
           <div className={styles['news-img-container']}>
             <img src="/icon-messages.png" className={styles['news-img']} />

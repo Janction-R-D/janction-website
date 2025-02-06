@@ -4,12 +4,34 @@ export const steps = [
     content:
       'Welcome to our platform! Here, you can easily navigate through different sections and get started with the features available.',
     disableBeacon: true, // Disable the entry beacon to make the intro more smooth
-    placement: 'right',
+    placement: 'center',
   },
   {
     target: '#home-icon', // Icon to navigate to the home page
     content:
       'Click here to return to the homepage and start fresh. You can always access this from any section.',
+    placement: 'bottom',
+  },
+  {
+    target: '#notifications-icon', // Icon to open the notifications modal
+    content:
+      'Click here to open your notifications. Stay up-to-date with the latest updates and alerts related to your account.',
+    placement: 'bottomLeft',
+  },
+  {
+    target: '#notifications-modal', // Icon to open the notifications modal
+    content: 'Here you can see all your messages and notifications',
+    placement: 'bottomLeft',
+  },
+  {
+    target: '#profile-menu-icon', // Icon to open the profile menu
+    content:
+      'Click here to access your profile and settings. From here, you can manage your personal information, preferences, change from lessee to lessor, and more.',
+    placement: 'left',
+  },
+  {
+    target: '#user-mode', // Icon to navigate to the home page
+    content: 'Click here to chage lessor mode',
     placement: 'bottom',
   },
   {
@@ -35,31 +57,8 @@ export const steps = [
     content:
       'Click here to view your past orders. You can check your order history and manage existing orders from this section.',
     placement: 'right',
-  },
-
-  {
-    target: '#notifications-icon', // Icon to open the notifications modal
-    content:
-      'Click here to open your notifications. Stay up-to-date with the latest updates and alerts related to your account.',
-    placement: 'bottomLeft',
-  },
-
-  {
-    target: '#profile-menu-icon', // Icon to open the profile menu
-    content:
-      'Click here to access your profile and settings. From here, you can manage your personal information, preferences, change from lessee to lessor, and more.',
-    placement: 'left',
     disableBeacon: true,
   },
-  // {
-  //   target: '#user-mode', // Icon to switch between lessor and lessee
-  //   content:
-  //     'Click here to switch between the lessor and lessee modes. This allows you to change the view and access the options relevant to each role.',
-  //   placement: 'left',
-  //   callback: () => {
-  //     setModalOpen(true);
-  //   },
-  // },
 ];
 export const stepsMobile = [
   {
@@ -67,9 +66,8 @@ export const stepsMobile = [
     content:
       'Welcome to our platform! Here, you can easily navigate through different sections and get started with the features available.',
     disableBeacon: true, // Disable the entry beacon to make the intro more smooth
-    placement: 'right',
+    placement: 'center',
   },
-
   {
     target: '#menu-icon', // Icon to open the navigation menu
     content:
@@ -80,7 +78,7 @@ export const stepsMobile = [
     target: '#notifications-icon', // Icon to open the notifications modal
     content:
       'Click here to open your notifications. Stay up-to-date with the latest updates and alerts related to your account.',
-    placement: 'left',
+    placement: 'bottomLeft',
   },
   {
     target: '#profile-menu-icon', // Icon to open the profile menu
@@ -121,4 +119,11 @@ export const customStyles = {
       'linear-gradient(275.81deg,rgb(36, 193, 241) 18.68%,rgb(74, 118, 250) 100%);',
     color: '#000',
   },
+};
+export const routes = {
+  6: '/genesis/dashboard',
+  7: '/genesis/purchase',
+  8: '/genesis/instance',
+  9: '/genesis/orders',
+  10: '/genesis/dashboard',
 };

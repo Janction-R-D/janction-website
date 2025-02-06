@@ -78,7 +78,7 @@ export default function AuthHeader(props) {
         run={run}
         setRun={setRun}
         setIsModalOpen={setIsModalOpen}
-        isModalOpen={isModalOpen}
+        setIsNotifyModalOpen={setIsNotifyModalOpen}
       />
       <div className={styles['wrapper']}>
         <div className={styles['left']}>
@@ -197,7 +197,7 @@ export function ProfileModal({ isModalOpen, handleOk, handleCancel }) {
                     onClick={() => copy(account?.address)}
                   ></i>
                 </span>
-                <div className={styles['type-account']}>
+                <div className={styles['type-account']} id="user-mode">
                   {isLessee ? (
                     <div onClick={onIdentityChange}>
                       <p>Switch to Lessor Role</p>

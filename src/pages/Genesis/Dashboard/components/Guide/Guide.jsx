@@ -1,21 +1,20 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Joyride from 'react-joyride';
-import { steps, stepsMobile, customStyles } from './constants';
+import { steps, stepsMobile, customStyles, routes } from './constants';
 import { history } from 'umi';
 import { Button, Modal } from 'antd';
 import styles from './guide.less';
 import { changeUserConfig } from '@/services/genesis';
 import useScale from '@/hooks/useScale';
-export default function Guide({ run, setRun }) {
+export default function Guide({
+  run,
+  setRun,
+  setIsModalOpen,
+  setIsNotifyModalOpen,
+}) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { isPC } = useScale();
-  const routes = {
-    2: '/genesis/dashboard',
-    3: '/genesis/purchase',
-    4: '/genesis/instance',
-    5: '/genesis/orders',
-    6: '/genesis/dashboard',
-  };
+
   const updateConfig = async () => {
     try {
       const data = {
@@ -29,30 +28,39 @@ export default function Guide({ run, setRun }) {
   };
   const handleJoyrideCallback = (data) => {
     const { action, index, status, type } = data;
-    // if (index === 7 && action == 'next') {
-    //   // Si el usuario está en el paso 1 y avanza, abrimos el menú
-    //   setIsModalOpen(true);
-    //   setRun(true);
-    //   console.log(status);
-    // }
+    if (index !== 1 && index !== 2) {
+      setIsNotifyModalOpen(false); //  close notify modal
+    }
+    if (index === 2 || index === 3) {
+      if (isPC) {
+        setIsNotifyModalOpen(true); //  Open notify modal
+      }
+    }
 
-    if (action === 'next' && routes[index] && isPC) {
-      history.push(routes[index]);
+    if (index !== 3 && index !== 4) {
+      setIsModalOpen(false); //  close profile modal
+    }
+    if (index === 4 || index === 5 || index === 6) {
+      setIsModalOpen(true); //  Open profile modal
+    }
+
+    if (action === 'next' || action === 'prev') {
+      if (routes[index] && isPC) {
+        history.push(routes[index]);
+      }
     }
     if (status === 'finished' || status === 'skipped') {
       setRun(false);
-      setIsModalVisible(true);
       updateConfig();
     }
   };
-
   const showModal = () => {
     setIsModalVisible(true);
   };
-
   const handleOk = () => {
     setIsModalVisible(false);
-    setRun(false); // Detener el recorrido
+    setRun(false);
+    history.push('/genesis/dashboard'); // redirect to dashboard after finsih the guide
   };
   const handleCancel = () => {
     setIsModalVisible(false);
@@ -72,13 +80,13 @@ export default function Guide({ run, setRun }) {
       />
       <Modal
         title="Welcome"
-        visible={isModalVisible}
+        open={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
         footer={false}
         className={styles['modal']}
         style={{
-          borderRadius: '10px',
+          borderRadius: '14px',
         }}
       >
         <div className={styles['modal-header']}>
