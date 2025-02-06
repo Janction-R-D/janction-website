@@ -30,9 +30,10 @@ export const steps = [
     placement: 'left',
   },
   {
-    target: '#user-mode', // Icon to navigate to the home page
-    content: 'Click here to chage lessor mode',
-    placement: 'bottom',
+    target: '#user-mode', // Icon to switch between Lessee and Lessor modes
+    content:
+      'Click here to switch between Lessee mode and Lessor mode, depending on your role.',
+    placement: 'bottom', // Message placed just below the icon
   },
   {
     target: '#dashboard', // Link to navigate to the "Dashboard" section
