@@ -52,12 +52,17 @@ export default function AuthHeader(props) {
     setUserName(`user_${addStr}`);
   };
   const getUserConfig = async () => {
-    const res = await fetchUserConfig();
-    if (!res?.pass_newbie_guide) {
-      setRun(true);
-      return;
+    try {
+      const res = await fetchUserConfig();
+      if (!res?.pass_newbie_guide) {
+        setRun(true);
+        return;
+      }
+      setRun(false);
+    } catch (err) {
+      console.log(err);
+      setRun(false);
     }
-    setRun(false);
   };
   const handleNotifyOk = () => {
     setIsNotifyModalOpen(true);
