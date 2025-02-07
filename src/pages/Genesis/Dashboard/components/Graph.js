@@ -36,7 +36,6 @@ export function Graph({ data }) {
     const formattedTime = date.toTimeString().slice(0, 9);
     return [formattedDate, formattedTime];
   }
-  console.log(data);
   const option = {
     tooltip: {
       trigger: 'axis',

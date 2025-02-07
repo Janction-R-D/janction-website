@@ -33,6 +33,7 @@ export default function Guide({
     }, 1000);
   }, [isLessee]);
   const onIdentityChange = () => {
+    if (!isPC) return;
     storage.set({ name: 'isLessee', value: !isLessee });
     setInitialState({
       ...initialState,
@@ -79,7 +80,7 @@ export default function Guide({
 
     // Tour completion
     if (['finished', 'skipped'].includes(status)) {
-      if (isLessee) {
+      if (isLessee && isPC) {
         setRun(false);
         onIdentityChange();
       } else {

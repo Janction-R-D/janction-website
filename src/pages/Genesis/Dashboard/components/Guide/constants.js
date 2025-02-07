@@ -120,18 +120,21 @@ export const stepsMobile = [
     content:
       'Click here to open the navigation menu. From here, you can explore different sections of the platform, like Dashboard, Purchases, Orders, and more. Use this menu to navigate seamlessly.',
     placement: 'bottom',
+    disableBeacon: true,
   },
   {
     target: '#notifications-icon', // Icon to open the notifications modal
     content:
       'Click here to open your notifications. Stay up-to-date with the latest updates and alerts related to your account.',
     placement: 'bottomLeft',
+    disableBeacon: true,
   },
   {
     target: '#profile-menu-icon', // Icon to open the profile menu
     content:
       'Click here to access your profile and settings. From here, you can manage your personal information, preferences, change from lessee to lessor, and more.',
     placement: 'left',
+    disableBeacon: true,
   },
 ];
 export const customStyles = {
