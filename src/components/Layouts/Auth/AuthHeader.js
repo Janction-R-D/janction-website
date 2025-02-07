@@ -62,7 +62,6 @@ export default function AuthHeader(props) {
       setRun(false); // User has passed the guide, don't show it
     } catch (err) {
       console.log(err);
-      setRun(false);
     }
   };
   const handleNotifyOk = () => {
