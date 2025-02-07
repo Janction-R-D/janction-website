@@ -46,19 +46,20 @@ export default function AuthHeader(props) {
         defaultNameHandle();
       }
     });
-  }, []);
+  }, [run]);
   const defaultNameHandle = () => {
     const addStr = address?.slice(0, 16);
     setUserName(`user_${addStr}`);
   };
   const getUserConfig = async () => {
+    if (!location.pathname.includes('dashboard')) return; // Modal guide  will pop up only in dahsboard page
     try {
       const res = await fetchUserConfig();
       if (!res?.pass_newbie_guide) {
-        setRun(true);
+        setRun(true); //If the users haven't passed the new user guidance yet
         return;
       }
-      setRun(false);
+      setRun(false); // User has passed the guide, don't show it
     } catch (err) {
       console.log(err);
       setRun(false);

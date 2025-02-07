@@ -1,11 +1,19 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Joyride from 'react-joyride';
-import { steps, stepsMobile, customStyles, routes } from './constants';
-import { history } from 'umi';
+import {
+  stepsLesse,
+  setpsLessor,
+  stepsMobile,
+  customStyles,
+  routesLessee,
+  routesLesssor,
+} from './constants';
+import { history, useModel } from 'umi';
 import { Button, Modal } from 'antd';
 import styles from './guide.less';
 import { changeUserConfig } from '@/services/genesis';
 import useScale from '@/hooks/useScale';
+import storage from '@/utils/storage';
 export default function Guide({
   run,
   setRun,
@@ -13,8 +21,24 @@ export default function Guide({
   setIsNotifyModalOpen,
 }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [steps, setSteps] = useState(stepsLesse);
   const { isPC } = useScale();
-
+  const { initialState, setInitialState } = useModel('@@initialState');
+  const { isLessee } = initialState || {};
+  useEffect(() => {
+    setTimeout(() => {
+      if (!run && !isLessee) {
+        setSteps(setpsLessor); // change the steps : if current mode isn't islessee
+      }
+    }, 1000);
+  }, [isLessee]);
+  const onIdentityChange = () => {
+    storage.set({ name: 'isLessee', value: !isLessee });
+    setInitialState({
+      ...initialState,
+      isLessee: !isLessee,
+    });
+  };
   const updateConfig = async () => {
     try {
       const data = {
@@ -28,39 +52,50 @@ export default function Guide({
   };
   const handleJoyrideCallback = (data) => {
     const { action, index, status, type } = data;
-    if (index !== 1 && index !== 2) {
-      setIsNotifyModalOpen(false); //  close notify modal
+
+    //  Conditions to close or open the  modal notifications
+    if (![1, 2].includes(index)) {
+      setIsNotifyModalOpen(false); // close the notifications modal
     }
-    if (index === 2 || index === 3) {
-      if (isPC) {
-        setIsNotifyModalOpen(true); //  Open notify modal
+    if (isPC && isLessee && (index === 2 || index === 3)) {
+      setIsNotifyModalOpen(true); // Open the notifications modal
+    }
+
+    // Conditions to close or open the profile modal
+    if (![8, 9].includes(index)) {
+      setIsModalOpen(false); // close the profile modal
+    } else if ([8, 9, 10].includes(index)) {
+      setIsModalOpen(true); // open the profile modal
+    }
+
+    // Logic to handle navigation between routes
+    if (['next', 'prev', 'close'].includes(action)) {
+      const routes = isLessee ? routesLessee : routesLesssor;
+      const targetRoute = routes[index];
+      if (targetRoute && isPC) {
+        history.push(targetRoute);
       }
     }
 
-    if (index !== 3 && index !== 4) {
-      setIsModalOpen(false); //  close profile modal
-    }
-    if (index === 4 || index === 5 || index === 6) {
-      setIsModalOpen(true); //  Open profile modal
-    }
-
-    if (action === 'next' || action === 'prev') {
-      if (routes[index] && isPC) {
-        history.push(routes[index]);
+    // Tour completion
+    if (['finished', 'skipped'].includes(status)) {
+      if (isLessee) {
+        setRun(false);
+        onIdentityChange();
+      } else {
+        updateConfig();
       }
-    }
-    if (status === 'finished' || status === 'skipped') {
-      setRun(false);
-      updateConfig();
     }
   };
+
   const showModal = () => {
     setIsModalVisible(true);
   };
   const handleOk = () => {
     setIsModalVisible(false);
-    setRun(false);
+
     history.push('/genesis/dashboard'); // redirect to dashboard after finsih the guide
+    onIdentityChange();
   };
   const handleCancel = () => {
     setIsModalVisible(false);
@@ -73,7 +108,7 @@ export default function Guide({
         steps={isPC ? steps : stepsMobile}
         run={run}
         continuous
-        showProgress
+        showProgress={false}
         showSkipButton
         callback={handleJoyrideCallback}
         styles={customStyles}
