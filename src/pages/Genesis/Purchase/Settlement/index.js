@@ -141,7 +141,7 @@ const Settlement = (props) => {
         if (!value && empty(unit)) return '--';
         const { price } = list[0] || {};
 
-        const _currency = getCurrency()?.find((item) => item.value == currency);
+        const _currency = getCurrency().find((item) => item.value == currency);
         const _total = (price || 0) * value * durationMultiplier(unit, true);
         return (Number(_total) / Number(_currency?.rate || 1)).toFixed(2);
       },
