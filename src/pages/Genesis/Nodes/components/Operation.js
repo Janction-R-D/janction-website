@@ -9,7 +9,7 @@ import {
   fetchNodesRefresh,
 } from '@/services/genesis';
 import { DeleteOutlined, RedoOutlined } from '@ant-design/icons';
-import contract from '@/utils/contract';
+import contract from '@/utils/contracts';
 
 export default function OperationDelis({ record, error, getList }) {
   const [isModalOpenStake, setIsModalOpenStake] = useState(false);
