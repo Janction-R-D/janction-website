@@ -3,7 +3,7 @@ import { Card, message, Popconfirm } from 'antd';
 import styles from './operation.less';
 import TerminalModal from './TerminalModal';
 import JanctionPopover from '@/components/JanctionPopover';
-import contract from '@/utils/contract';
+import contract from '@/utils/contracts';
 import { fetchMarketOrder, fetchStopRentParams } from '@/services/genesis';
 
 export default function OperationModal({ record, getAllNodes }) {

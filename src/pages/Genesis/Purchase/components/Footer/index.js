@@ -1,4 +1,4 @@
-import { durationMultiplier, getCurrency } from '@/utils/contract';
+import { durationMultiplier, getCurrency } from '@/utils/contracts';
 import { empty, isEmpty } from '@/utils/lang';
 import { Button, Checkbox, message } from 'antd';
 import { useMemo, useState } from 'react';

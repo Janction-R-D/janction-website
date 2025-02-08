@@ -4,7 +4,7 @@ import styles from './index.less';
 import JanctionTable from '@/components/JanctionTable';
 import Unescrow from './Unescrow';
 import trustImg from '@/assets/images/genesis/coin-img.png';
-import contract from '@/utils/contract';
+import contract from '@/utils/contracts';
 import { fetchNftStatus } from '@/services/genesis';
 import { renderTableColumns } from '@/components/JanctionTable/column';
 import { DATE_FORMAT_TYPE } from '@/utils/datetime';

@@ -3,7 +3,7 @@ import {
   fetchNTFClaimJasmy,
   fetchNTFClaimJasmyUpdate,
 } from '@/services/genesis';
-import contract from '@/utils/contract';
+import contract from '@/utils/contracts';
 import { delay, renderBackgroudImg } from '@/utils/lang';
 import numeral from 'numeral';
 import { useEffect, useState } from 'react';

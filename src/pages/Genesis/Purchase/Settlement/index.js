@@ -6,7 +6,7 @@ import contract, {
   durationMultiplier,
   getCurrency,
   getDefaultCurrency,
-} from '@/utils/contract';
+} from '@/utils/contracts';
 import { delay, empty, isEmpty } from '@/utils/lang';
 import { message } from 'antd';
 import { useEffect, useState } from 'react';

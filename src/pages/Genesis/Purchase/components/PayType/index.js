@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import LabelVal from '../Card/LabelVal';
 import styles from './index.less';
-import { getCurrency } from '@/utils/contract';
+import { getCurrency } from '@/utils/contracts';
 
 const isProduction = process.env.JANCTION_ENV === 'production';
 

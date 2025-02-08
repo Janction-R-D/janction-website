@@ -6,7 +6,7 @@ import {
   fetchPaymentUpdate,
 } from '@/services/genesis';
 import { fetchBeneficiary } from '@/services/genesis/distribution';
-import contract from '@/utils/contract';
+import contract from '@/utils/contracts';
 import { Button, Input, message, Modal } from 'antd';
 import numeral from 'numeral';
 import { useEffect, useState } from 'react';
