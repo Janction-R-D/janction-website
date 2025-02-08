@@ -19,7 +19,6 @@ const Footer = (props) => {
 
   const [agree, setAgree] = useState(false);
   const currency = useMemo(() => {
-    console.log(getCurrency);
     const goal = getCurrency().find((item) => item.value == currencyAddress);
     return goal;
   }, currencyAddress);
