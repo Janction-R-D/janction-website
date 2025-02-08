@@ -8,15 +8,17 @@ const isProduction = process.env.JANCTION_ENV === 'production';
 const PayType = (props) => {
   const { value, onChange } = props;
   const [active, setActive] = useState();
-
+  const [currency, setCurrency] = useState([]);
   useEffect(() => {
+    const newCurrency = getCurrency();
+    setCurrency(newCurrency);
     setActive(value);
   }, [value]);
 
   return (
     <LabelVal name="Payment type">
       <div className={styles['pay-type']}>
-        {getCurrency().map((item, index) => (
+        {currency.map((item, index) => (
           <div
             key={index}
             className={[

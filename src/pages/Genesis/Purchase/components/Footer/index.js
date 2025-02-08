@@ -19,7 +19,8 @@ const Footer = (props) => {
 
   const [agree, setAgree] = useState(false);
   const currency = useMemo(() => {
-    const goal = getCurrency().find((item) => item.value == currencyAddress);
+    const currency = getCurrency();
+    const goal = currency?.find((item) => item.value == currencyAddress);
     return goal;
   }, currencyAddress);
   const total = useMemo(() => {
