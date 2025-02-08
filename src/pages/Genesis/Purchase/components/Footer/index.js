@@ -19,9 +19,11 @@ const Footer = (props) => {
 
   const [agree, setAgree] = useState(false);
   const currency = useMemo(() => {
+    console.log(getCurrency);
     const goal = getCurrency().find((item) => item.value == currencyAddress);
     return goal;
   }, currencyAddress);
+
   const total = useMemo(() => {
     const { value, unit } = formValues?.purDuration || {};
     if (isEmpty(node) || !value || empty(unit)) return 0;
