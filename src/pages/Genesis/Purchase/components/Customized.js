@@ -15,11 +15,9 @@ import ProductList from './ProductList';
 import InternetSelect from './InternetSelect';
 import { useState } from 'react';
 import { empty } from '@/utils/lang';
-import { getDefaultCurrency } from '@/utils/contract';
 
 const Customized = (props) => {
   const [form] = Form.useForm();
-  const [currency, setCurrency] = useState(getDefaultCurrency());
   const [formValues, setFormValues] = useState();
 
   const onConfirm = async (callback) => {
@@ -101,7 +99,7 @@ const Customized = (props) => {
           <Form.Item name="purDuration">
             <PurDuration />
           </Form.Item>
-          <Footer isConfirm onConfirm={onConfirm} currencyAddress={currency} />
+          <Footer isConfirm onConfirm={onConfirm} />
         </PurchaseCard>
       </div>
     </Form>
