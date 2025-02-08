@@ -22,7 +22,7 @@ const Footer = (props) => {
     const allcurrency = getCurrency();
     const goal = allcurrency?.find((item) => item.value == currencyAddress);
     return goal;
-  }, currencyAddress);
+  }, [currencyAddress]);
 
   const total = useMemo(() => {
     const { value, unit } = formValues?.purDuration || {};
