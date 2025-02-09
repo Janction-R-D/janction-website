@@ -53,10 +53,13 @@ const Lessees = (props) => {
         <div className={styles['name-column']}>
           <div className={styles['icon']}>
             {record.Brand === 'Apple' && (
-              <i className="iconfont icon-nvidia green"></i>
+              <i className="iconfont icon-macos green"></i>
             )}
-            {record.Brand === 'Brand 2' && (
+            {record.Brand === 'Linux' && (
               <i className="iconfont icon-linux white"></i>
+            )}
+            {record.Brand === 'Nvidia' && (
+              <i className="iconfont icon-nvidia white"></i>
             )}
           </div>
           <div className={styles['info']}>
