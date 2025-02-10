@@ -58,34 +58,34 @@ const Lessees = (props) => {
       title: 'Name',
       dataIndex: 'Name',
       key: 'Name',
-      render: (text, record) => (
-        <div className={styles['name-column']}>
-          <div className={styles['icon']}>
-            {brandDetails[record.Brand] && (
-              <i
-                className={`iconfont icon-${brandDetails[record.Brand].icon} ${
-                  brandDetails[record.Brand].color
-                }`}
-              ></i>
-            )}
+      render: (text, record) => {
+        const name = text.split(' ');
+        let firstName = name[0];
+        let model = name?.slice(1)?.join(' ');
+        return (
+          <div className={styles['name-column']}>
+            <div className={styles['icon']}>
+              {brandDetails[record.Brand] && (
+                <i
+                  className={`iconfont icon-${
+                    brandDetails[record.Brand].icon
+                  } ${brandDetails[record.Brand].color}`}
+                ></i>
+              )}
+            </div>
+            <div className={styles['info']}>
+              <span className={styles['name']}>{firstName.toUpperCase()}</span>
+              <span className={styles['value']}>{model.toUpperCase()}</span>
+            </div>
           </div>
-          <div className={styles['info']}>
-            <span className={styles['name']}>
-              {text.split(' ')[0]?.toUpperCase()}
-            </span>
-            <span className={styles['value']}>
-              {text.split(' ')[1]?.toUpperCase()}
-            </span>
-          </div>
-        </div>
-      ),
+        );
+      },
     },
     {
       title: 'Purchase price',
       dataIndex: 'Balance',
       key: 'Balance',
       render: (text, record) => {
-        console.log(record);
         return (
           <div className={styles['info']}>
             {/* <span className={styles['name']}>{record.Balance}</span> */}
@@ -130,17 +130,28 @@ const Lessees = (props) => {
       title: 'Name',
       dataIndex: 'Name',
       key: 'Name',
-      render: (text, record) => (
-        <div className={styles['name-column-2']}>
-          <div className={styles['icon-2']}>
-            <i className="iconfont icon-nvidia green"></i>
+      render: (text, record) => {
+        const name = text.split(' ');
+        let firstName = name[0];
+        let model = name.slice(1).join(' ');
+        return (
+          <div className={styles['name-column-2']}>
+            <div className={styles['icon-2']}>
+              {brandDetails[record.Brand] && (
+                <i
+                  className={`iconfont icon-${
+                    brandDetails[record.Brand].icon
+                  } ${brandDetails[record.Brand].color}`}
+                ></i>
+              )}
+            </div>
+            <div className={styles['info']}>
+              <span className={styles['name']}>{firstName}</span>
+              <span className={styles['value']}>{model.toUpperCase()}</span>
+            </div>
           </div>
-          <div className={styles['info']}>
-            <span className={styles['name']}>Name</span>
-            <span className={styles['value']}>{text}</span>
-          </div>
-        </div>
-      ),
+        );
+      },
     },
     {
       title: 'Rental price',
