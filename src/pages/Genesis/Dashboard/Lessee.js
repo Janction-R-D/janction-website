@@ -43,7 +43,7 @@ const Lessees = (props) => {
   };
 
   useEffect(() => {}, []);
-
+  console.log(details);
   const detailColumns = [
     {
       title: 'Name',
@@ -85,21 +85,25 @@ const Lessees = (props) => {
     {
       title: 'Rental price',
       dataIndex: 'Price',
-      render: (text, record) => (
-        <div className={styles['info']}>
-          <span className={styles['name']}>
-            {numeral(text || 0).format('$0,0')}
-          </span>
-          <span
-            className={record.PriceChanges > 0 ? styles['up'] : styles['down']}
-          >
-            {`${record.PriceChanges > 0 ? '+' : ''}${numeral(
-              record.PriceChanges || 0,
-            ).format('0,0')}`}
-            %
-          </span>
-        </div>
-      ),
+      render: (text, record) => {
+        return (
+          <div className={styles['info']}>
+            <span className={styles['name']}>
+              {numeral(text || 0).format('$0.00')}
+            </span>
+            <span
+              className={
+                record.PriceChanges > 0 ? styles['up'] : styles['down']
+              }
+            >
+              {`${record.PriceChanges > 0 ? '+' : ''}${numeral(
+                record.PriceChanges || 0,
+              ).format('0,0')}`}
+              %
+            </span>
+          </div>
+        );
+      },
     },
     {
       title: 'Market shares',
