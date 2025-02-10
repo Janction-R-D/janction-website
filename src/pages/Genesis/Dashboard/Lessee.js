@@ -52,7 +52,7 @@ const Lessees = (props) => {
   };
 
   useEffect(() => {}, []);
-  console.log(details);
+
   const detailColumns = [
     {
       title: 'Name',
