@@ -18,7 +18,6 @@ import { empty } from '@/utils/lang';
 
 const Customized = (props) => {
   const [form] = Form.useForm();
-
   const [formValues, setFormValues] = useState();
 
   const onConfirm = async (callback) => {

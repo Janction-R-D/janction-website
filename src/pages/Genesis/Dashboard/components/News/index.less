@@ -163,11 +163,19 @@
           font-family: 'Poppins';
           font-style: normal;
           font-weight: 400;
+          width: 100%;
           font-size: 14px;
           line-height: 22px;
           color: #ffffff;
           overflow: hidden;
           text-overflow: ellipsis;
+          height: 50px;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          line-clamp: 2;
+          line-height: 1.7;
         }
 
         .desc {
@@ -207,5 +215,16 @@
   .news-wrapper {
     width: 100%;
     height: 412px;
+    .content {
+      .news-item {
+        .info {
+          .title {
+            display: flex;
+            padding-top: 8px;
+            align-items: center;
+          }
+        }
+      }
+    }
   }
 }

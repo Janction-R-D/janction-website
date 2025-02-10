@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "8664175",
+      "name": "AMD",
+      "font_class": "AMD",
+      "unicode": "e662",
+      "unicode_decimal": 58978
+    },
+    {
+      "icon_id": "24164614",
+      "name": "intel",
+      "font_class": "intel1",
+      "unicode": "e610",
+      "unicode_decimal": 58896
+    },
+    {
       "icon_id": "1410260",
       "name": "check",
       "font_class": "check1",

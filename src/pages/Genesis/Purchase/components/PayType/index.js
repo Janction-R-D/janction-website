@@ -8,7 +8,6 @@ const isProduction = process.env.JANCTION_ENV === 'production';
 const PayType = (props) => {
   const { value, onChange } = props;
   const [active, setActive] = useState();
-
   useEffect(() => {
     setActive(value);
   }, [value]);

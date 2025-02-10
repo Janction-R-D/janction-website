@@ -9,6 +9,15 @@ import styles from './index.less';
 import News from './components/News';
 import Invitation from './components/Invitation';
 
+const brandDetails = {
+  Apple: { icon: 'macos', color: 'white' },
+  Linux: { icon: 'linux', color: 'white' },
+  Nvidia: { icon: 'nvidia', color: 'green' },
+  Windows: { icon: 'windows', color: 'white' },
+  Android: { icon: 'android', color: 'green' },
+  Intel: { icon: 'intel', color: 'blue' },
+  Amd: { icon: 'amd', color: 'green' },
+};
 const Lessees = (props) => {
   const [news, setNews] = useState(newsData);
   const { lessesData } = useLesses();
@@ -49,54 +58,66 @@ const Lessees = (props) => {
       title: 'Name',
       dataIndex: 'Name',
       key: 'Name',
-      render: (text, record) => (
-        <div className={styles['name-column']}>
-          <div className={styles['icon']}>
-            {record.Brand === 'Apple' && (
-              <i className="iconfont icon-nvidia green"></i>
-            )}
-            {record.Brand === 'Brand 2' && (
-              <i className="iconfont icon-linux white"></i>
-            )}
+      render: (text, record) => {
+        const name = text.split(' ');
+        let firstName = name[0];
+        let model = name?.slice(1)?.join(' ');
+        return (
+          <div className={styles['name-column']}>
+            <div className={styles['icon']}>
+              {brandDetails[record.Brand] && (
+                <i
+                  className={`iconfont icon-${
+                    brandDetails[record.Brand].icon
+                  } ${brandDetails[record.Brand].color}`}
+                ></i>
+              )}
+            </div>
+            <div className={styles['info']}>
+              <span className={styles['name']}>{firstName.toUpperCase()}</span>
+              <span className={styles['value']}>{model.toUpperCase()}</span>
+            </div>
           </div>
-          <div className={styles['info']}>
-            <span className={styles['name']}>Name</span>
-            <span className={styles['value']}>{text}</span>
-          </div>
-        </div>
-      ),
+        );
+      },
     },
     {
       title: 'Purchase price',
       dataIndex: 'Balance',
       key: 'Balance',
-      render: (text, record) => (
-        <div className={styles['info']}>
-          {/* <span className={styles['name']}>{record.Balance}</span> */}
-          <span className={(styles['value'], styles['white'])}>
-            ${`${text}${record.unit || ''}`}
-          </span>
-        </div>
-      ),
+      render: (text, record) => {
+        return (
+          <div className={styles['info']}>
+            {/* <span className={styles['name']}>{record.Balance}</span> */}
+            <span className={(styles['value'], styles['white'])}>
+              ${`${record.Allocation}${record.unit || ''}`}
+            </span>
+          </div>
+        );
+      },
     },
     {
       title: 'Rental price',
       dataIndex: 'Price',
-      render: (text, record) => (
-        <div className={styles['info']}>
-          <span className={styles['name']}>
-            {numeral(text || 0).format('$0,0')}
-          </span>
-          <span
-            className={record.PriceChanges > 0 ? styles['up'] : styles['down']}
-          >
-            {`${record.PriceChanges > 0 ? '+' : ''}${numeral(
-              record.PriceChanges || 0,
-            ).format('0,0')}`}
-            %
-          </span>
-        </div>
-      ),
+      render: (text, record) => {
+        return (
+          <div className={styles['info']}>
+            <span className={styles['name']}>
+              {numeral(text || 0).format('$0.00')}
+            </span>
+            <span
+              className={
+                record.PriceChanges > 0 ? styles['up'] : styles['down']
+              }
+            >
+              {`${record.PriceChanges > 0 ? '+' : ''}${numeral(
+                record.PriceChanges || 0,
+              ).format('0,0')}`}
+              %
+            </span>
+          </div>
+        );
+      },
     },
     {
       title: 'Market shares',
@@ -109,17 +130,28 @@ const Lessees = (props) => {
       title: 'Name',
       dataIndex: 'Name',
       key: 'Name',
-      render: (text, record) => (
-        <div className={styles['name-column-2']}>
-          <div className={styles['icon-2']}>
-            <i className="iconfont icon-nvidia green"></i>
+      render: (text, record) => {
+        const name = text.split(' ');
+        let firstName = name[0];
+        let model = name.slice(1).join(' ');
+        return (
+          <div className={styles['name-column-2']}>
+            <div className={styles['icon-2']}>
+              {brandDetails[record.Brand] && (
+                <i
+                  className={`iconfont icon-${
+                    brandDetails[record.Brand].icon
+                  } ${brandDetails[record.Brand].color}`}
+                ></i>
+              )}
+            </div>
+            <div className={styles['info']}>
+              <span className={styles['name']}>{firstName}</span>
+              <span className={styles['value']}>{model.toUpperCase()}</span>
+            </div>
           </div>
-          <div className={styles['info']}>
-            <span className={styles['name']}>Name</span>
-            <span className={styles['value']}>{text}</span>
-          </div>
-        </div>
-      ),
+        );
+      },
     },
     {
       title: 'Rental price',
