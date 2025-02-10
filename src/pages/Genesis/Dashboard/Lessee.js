@@ -9,6 +9,15 @@ import styles from './index.less';
 import News from './components/News';
 import Invitation from './components/Invitation';
 
+const brandDetails = {
+  Apple: { icon: 'macos', color: 'white' },
+  Linux: { icon: 'linux', color: 'white' },
+  Nvidia: { icon: 'nvidia', color: 'green' },
+  Windows: { icon: 'windows', color: 'white' },
+  Android: { icon: 'android', color: 'green' },
+  Intel: { icon: 'intel', color: 'blue' },
+  Amd: { icon: 'amd', color: 'green' },
+};
 const Lessees = (props) => {
   const [news, setNews] = useState(newsData);
   const { lessesData } = useLesses();
@@ -52,19 +61,21 @@ const Lessees = (props) => {
       render: (text, record) => (
         <div className={styles['name-column']}>
           <div className={styles['icon']}>
-            {record.Brand === 'Apple' && (
-              <i className="iconfont icon-macos green"></i>
-            )}
-            {record.Brand === 'Linux' && (
-              <i className="iconfont icon-linux white"></i>
-            )}
-            {record.Brand === 'Nvidia' && (
-              <i className="iconfont icon-nvidia white"></i>
+            {brandDetails[record.Brand] && (
+              <i
+                className={`iconfont icon-${brandDetails[record.Brand].icon} ${
+                  brandDetails[record.Brand].color
+                }`}
+              ></i>
             )}
           </div>
           <div className={styles['info']}>
-            <span className={styles['name']}>Name</span>
-            <span className={styles['value']}>{text}</span>
+            <span className={styles['name']}>
+              {text.split(' ')[0]?.toUpperCase()}
+            </span>
+            <span className={styles['value']}>
+              {text.split(' ')[1]?.toUpperCase()}
+            </span>
           </div>
         </div>
       ),
@@ -73,14 +84,17 @@ const Lessees = (props) => {
       title: 'Purchase price',
       dataIndex: 'Balance',
       key: 'Balance',
-      render: (text, record) => (
-        <div className={styles['info']}>
-          {/* <span className={styles['name']}>{record.Balance}</span> */}
-          <span className={(styles['value'], styles['white'])}>
-            ${`${text}${record.unit || ''}`}
-          </span>
-        </div>
-      ),
+      render: (text, record) => {
+        console.log(record);
+        return (
+          <div className={styles['info']}>
+            {/* <span className={styles['name']}>{record.Balance}</span> */}
+            <span className={(styles['value'], styles['white'])}>
+              ${`${record.Allocation}${record.unit || ''}`}
+            </span>
+          </div>
+        );
+      },
     },
     {
       title: 'Rental price',

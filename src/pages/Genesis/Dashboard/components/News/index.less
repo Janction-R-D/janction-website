@@ -163,11 +163,18 @@
           font-family: 'Poppins';
           font-style: normal;
           font-weight: 400;
+          width: 100%;
           font-size: 14px;
           line-height: 22px;
           color: #ffffff;
           overflow: hidden;
           text-overflow: ellipsis;
+          height: 50px;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 2; /* Limita el texto a 2 líneas */
+          -webkit-box-orient: vertical;
+          line-height: 1.7;
         }
 
         .desc {
