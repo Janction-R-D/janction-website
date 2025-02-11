@@ -36,7 +36,7 @@ const RunNodeScript = (props) => {
         process.env.JANCTION_BASE_API
       }/v0/node/install.sh' | ${isCN ? 'LOCATION=cn' : ''} NODE_ID=${
         nodesData?.node_id || ''
-      } sudo bash -s install`;
+      } bash -s install`;
       return {
         show: `
 \`\`\`sh
@@ -50,7 +50,7 @@ ${value}
       process.env.JANCTION_BASE_API
     }/v0/node/install.sh' | ${isCN ? 'LOCATION=cn' : ''} NODE_ID=${
       nodesData?.node_id || ''
-    } sudo bash -s install`;
+    } bash -s install`;
     return {
       show: `
 \`\`\`sh
