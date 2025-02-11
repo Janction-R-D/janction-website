@@ -62,11 +62,11 @@ const RunNode = (props) => {
             <h2>2. Replace shell with linux version</h2>
             <div>
               <p className="ell">
-                <span className="db">$ lima sudo -i</span>
+                <span className="db">$ lima</span>
               </p>
               <a
                 className="iconfont icon-copy"
-                onClick={() => copy(`sudo -i lima;`)}
+                onClick={() => copy(`lima;`)}
               ></a>
             </div>
           </section>
