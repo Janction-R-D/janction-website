@@ -79,13 +79,16 @@ export default function Guide({
     }
 
     // Tour completion
-    if (['finished', 'skipped'].includes(status)) {
+    if (status == 'finished') {
       if (isLessee && isPC) {
         setRun(false);
         onIdentityChange();
       } else {
         updateConfig();
       }
+    }
+    if (status == 'skipped') {
+      updateConfig();
     }
   };
 
