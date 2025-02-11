@@ -79,6 +79,9 @@ export default function Guide({
     }
 
     // Tour completion
+    if (status == 'skipped') {
+      updateConfig();
+    }
     if (status == 'finished') {
       if (isLessee && isPC) {
         setRun(false);
@@ -86,9 +89,6 @@ export default function Guide({
       } else {
         updateConfig();
       }
-    }
-    if (status == 'skipped') {
-      updateConfig();
     }
   };
 
