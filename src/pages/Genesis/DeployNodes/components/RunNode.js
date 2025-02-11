@@ -66,7 +66,7 @@ const RunNode = (props) => {
               </p>
               <a
                 className="iconfont icon-copy"
-                onClick={() => copy(`lima;`)}
+                onClick={() => copy(`lima`)}
               ></a>
             </div>
           </section>
@@ -156,7 +156,7 @@ const RunNode = (props) => {
           <h2>2. Replace shell with linux version</h2>
           <div>
             <p className="ell">$ wsl</p>
-            <a className="iconfont icon-copy" onClick={() => copy(`wsl;`)}></a>
+            <a className="iconfont icon-copy" onClick={() => copy(`wsl`)}></a>
           </div>
         </section>
         {/* <section className={styles['link']}>
