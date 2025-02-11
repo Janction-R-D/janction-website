@@ -62,15 +62,15 @@ const RunNode = (props) => {
             <h2>2. Replace shell with linux version</h2>
             <div>
               <p className="ell">
-                <span className="db">$ lima</span>
+                <span className="db">$ lima sudo -i</span>
               </p>
               <a
                 className="iconfont icon-copy"
-                onClick={() => copy(`lima`)}
+                onClick={() => copy(`lima sudo -i`)}
               ></a>
             </div>
           </section>
-          <RunNodeScript isLinux />
+          <RunNodeScript />
         </>
       );
     }
@@ -155,8 +155,11 @@ const RunNode = (props) => {
           </div>
           <h2>2. Replace shell with linux version</h2>
           <div>
-            <p className="ell">$ wsl</p>
-            <a className="iconfont icon-copy" onClick={() => copy(`wsl`)}></a>
+            <p className="ell">$ wsl sudo -i</p>
+            <a
+              className="iconfont icon-copy"
+              onClick={() => copy(`wsl sudo -i`)}
+            ></a>
           </div>
         </section>
         {/* <section className={styles['link']}>
@@ -170,7 +173,7 @@ const RunNode = (props) => {
             ></a>
           </div>
         </section> */}
-        <RunNodeScript isLinux />
+        <RunNodeScript />
       </>
     );
   };
