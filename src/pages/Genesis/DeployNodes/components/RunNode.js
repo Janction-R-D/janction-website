@@ -48,44 +48,7 @@ const RunNode = (props) => {
         <>
           <section className={styles['link']}>
             <h1>Prerequisites</h1>
-            <h2>1. Install Docker</h2>
-            <p>
-              Install the latest version of{' '}
-              <a
-                className="cm tdl"
-                href="https://docs.docker.com/desktop/install/mac-install/"
-                target="_blank"
-              >
-                Docker Desktop
-              </a>{' '}
-              if it is not already installed.
-            </p>
-            <ul>
-              <li>
-                For Apple M series (e.g. M1/M2/M3), please click the “Docker
-                Desktop for Mac with Apple silicon” button to download and
-                install.
-              </li>
-              <li>
-                For Intel chips (e.g. i7/i5/i3), please click the “Docker
-                Desktop for Mac with Intel chip” button to download and install.
-              </li>
-            </ul>
-            <p>
-              Once installed, you can check the version of docker on the command
-              line.
-            </p>
-            <div>
-              <p>
-                <span className="db">$ docker --version</span>
-                <span className="db">Docker version 24.0.7, build afdd53b</span>
-              </p>
-              <a
-                className="iconfont icon-copy"
-                onClick={() => copy(`docker --version`)}
-              ></a>
-            </div>
-            <h2>2. Install lima</h2>
+            <h2>1. Install lima</h2>
             <div>
               <p className="ell">
                 <span className="db">$ brew install lima</span>
@@ -96,8 +59,18 @@ const RunNode = (props) => {
                 onClick={() => copy(`brew install lima;limactl start`)}
               ></a>
             </div>
+            <h2>2. Replace shell with linux version</h2>
+            <div>
+              <p className="ell">
+                <span className="db">$ lima sudo -i</span>
+              </p>
+              <a
+                className="iconfont icon-copy"
+                onClick={() => copy(`sudo -i lima;`)}
+              ></a>
+            </div>
           </section>
-          <RunNodeScript />
+          <RunNodeScript isLinux />
         </>
       );
     }
@@ -169,50 +142,7 @@ const RunNode = (props) => {
       <>
         <section className={styles['link']}>
           <h1>Prerequisites</h1>
-          <h2>1. Install Docker</h2>
-          <p>
-            Install the latest version of{' '}
-            <a
-              className="cm tdl"
-              href="https://docs.docker.com/desktop/install/windows-install/"
-              target="_blank"
-            >
-              Docker Desktop
-            </a>{' '}
-            if it is not already installed.
-          </p>
-          <p>
-            click the “Docker Desktop for Windows - x86_64” button to download
-            and install.
-          </p>
-          <p>
-            If after installation, you see an error message "Docker Engine
-            stopped" when opening the application, you need to{' '}
-            <a
-              className="cm"
-              href="https://learn.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v"
-            >
-              enable hyper-v
-            </a>
-          </p>
-          <p>
-            Once installed, you can check the version of docker on the command
-            line.
-          </p>
-          <div>
-            <p className="ell">
-              <span className="db">$ docker --version</span>
-              <span className="db">Docker version 27.0.3, build 7d4bcd8</span>
-            </p>
-            <a
-              className="iconfont icon-copy"
-              onClick={() =>
-                copy(`$ docker --version
-              Docker version 27.0.3, build 7d4bcd8`)
-              }
-            ></a>
-          </div>
-          <h2>2. Install WSL</h2>
+          <h2>1. Install WSL</h2>
           <div>
             <p className="ell">
               https://learn.microsoft.com/en-us/windows/wsl/install
@@ -222,6 +152,11 @@ const RunNode = (props) => {
               className="iconfont icon-link"
               target="_blank"
             ></a>
+          </div>
+          <h2>2. Replace shell with linux version</h2>
+          <div>
+            <p className="ell">$ wsl</p>
+            <a className="iconfont icon-copy" onClick={() => copy(`wsl;`)}></a>
           </div>
         </section>
         {/* <section className={styles['link']}>
@@ -235,7 +170,7 @@ const RunNode = (props) => {
             ></a>
           </div>
         </section> */}
-        <RunNodeScript />
+        <RunNodeScript isLinux />
       </>
     );
   };

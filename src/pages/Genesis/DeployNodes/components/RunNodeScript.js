@@ -46,19 +46,19 @@ ${value}
         value,
       };
     }
-    const value = `sudo docker run --privileged --name janction-node1 -e K3S_NODE_NAME=${
-      nodesData?.node_id || ''
-    } -e K3S_TOKEN=${nodesData?.token || ''} -e K3S_URL=${
-      process.env.JANCTION_BASE_API
-    } -d rancher/k3s:latest agent`;
-    return {
-      show: `
-\`\`\`sh
-${value}
-\`\`\`
-`,
-      value,
-    };
+    //     const value = `sudo curl --privileged --name janction-node1 -e K3S_NODE_NAME=${
+    //       nodesData?.node_id || ''
+    //     } -e K3S_TOKEN=${nodesData?.token || ''} -e K3S_URL=${
+    //       process.env.JANCTION_BASE_API
+    //     } -d rancher/k3s:latest agent`;
+    //     return {
+    //       show: `
+    // \`\`\`sh
+    // ${value}
+    // \`\`\`
+    // `,
+    //       value,
+    //     };
   }, [nodesData, isCN]);
 
   const onChange = () => {
