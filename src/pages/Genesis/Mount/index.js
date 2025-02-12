@@ -107,7 +107,6 @@ export default function Mount() {
     try {
       const res = await fetchNodesInfo({ node_id: searchId });
       setNodeInfo(res);
-      console.log(res);
     } catch (error) {
       console.log('『error』', error);
     }
