@@ -4,7 +4,6 @@ import SocialsLinks from '@/components/SocialsLinks';
 import { useEffect, useMemo, useState } from 'react';
 import { history, useModel } from 'umi';
 import styles from './genesis.less';
-import { id } from 'ethers/lib/utils';
 
 export const navList = [
   {
