@@ -12,4 +12,6 @@ COPY . .
 # Install dependencies
 RUN pnpm install
 
+RUN pnpm run build
+
 CMD ["pnpm", "run", "start"]
