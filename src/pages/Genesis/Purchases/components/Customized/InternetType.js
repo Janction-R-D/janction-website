@@ -1,18 +1,14 @@
-import React, { useEffect } from 'react';
+import { useState } from 'react';
+
 import { Card, Checkbox } from 'antd';
 import styles from './index.less';
-
 const Internet_List = [
   { name: 'Bangalore, India', value: 'Bangalore, India' },
-  { name: 'Manchester, UK', value: 'Manchester, UK' },
+  { name: 'Manchester,UK', value: 'Manchester,UK' },
 ];
-
-export default function InternetType({ value, onChange }) {
-  useEffect(() => {
-    if (!value) {
-      onChange?.(Internet_List[0]?.value);
-    }
-  }, [value, onChange]);
+export default function InternetType(props) {
+  const { value, onChange, formValues, setCurrent } = props;
+  const [activeValue, setActiveValue] = useState();
 
   const handleCheckboxChange = (value) => {
     if (value === activeValue) {
@@ -26,12 +22,12 @@ export default function InternetType({ value, onChange }) {
     <div className={styles['internet-conf-wrapper']}>
       <h3>Internet</h3>
       <section className={styles['internet-conf-cards']}>
-        {Internet_List.map((item) => (
+        {Internet_List.map((item, index) => (
           <Card
-            key={item.value}
+            key={index}
             className={[
               styles['item'],
-              value === item.value && styles['active-item'],
+              activeValue === item.value && styles['active-item'],
             ].join(' ')}
             onClick={() => handleCheckboxChange(item.value)}
           >

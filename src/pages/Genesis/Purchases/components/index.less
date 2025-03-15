@@ -24,10 +24,31 @@
     }
   }
   .header {
-    margin-bottom: 24px;
+    margin-bottom: 12px;
   }
 }
+.quick-conf-wrapper {
+  display: flex;
 
+  gap: 34px;
+  .form {
+    width: auto;
+    width: 100%;
+
+    .form-content {
+      width: auto;
+    }
+  }
+  .header {
+    margin-bottom: 12px;
+  }
+  .divider {
+    width: 12px;
+    :global {
+      height: 75vh;
+    }
+  }
+}
 .processor-conf-wrapper {
   background-color: rgba(21, 21, 21, 0.807);
   border-radius: 18px;
@@ -68,19 +89,6 @@
     padding: 12px;
     border-radius: 16px;
     border: none;
-  }
-}
-
-.quick-wrapper {
-  width: 100%;
-
-  .summary-value {
-    font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 20px;
-    color: rgba(255, 255, 255, 0.9);
   }
 }
 

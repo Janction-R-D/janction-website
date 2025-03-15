@@ -1,19 +1,18 @@
-import React, { useEffect } from 'react';
-import { SYSTEM_LIST } from '@/constant';
+import React from 'react';
 import { Card, Checkbox } from 'antd';
+import { instance_types } from './constant.json';
 import styles from './index.less';
-
-export default function OperatingCard({ value, onChange }) {
+export default function Specification({ value, onChange }) {
   const handleCheckboxChange = (newValue) => {
     if (newValue !== value) {
       onChange?.(newValue); // Actualiza el formulario
     }
   };
-
   return (
-    <div className={styles['image-conf-wrapper']}>
-      <section className={styles['image-conf-cards']}>
-        {SYSTEM_LIST.map((item) => (
+    <main className={styles['specification-conf-wrapper']}>
+      <p>Instance Specification</p>
+      <section className={styles['specification-conf-cards']}>
+        {instance_types.map((item) => (
           <Card
             key={item.value}
             className={[
@@ -24,9 +23,6 @@ export default function OperatingCard({ value, onChange }) {
           >
             <section className={styles['item-header']}>
               <div className={styles['header-left']}>
-                <div className={styles['icon']}>
-                  <i className={`iconfont icon-${item.icon}`}></i>
-                </div>
                 <span>{item.label}</span>
               </div>
               <div className={styles['header-right']}>
@@ -37,13 +33,9 @@ export default function OperatingCard({ value, onChange }) {
                 />
               </div>
             </section>
-            <p className={styles['des']}>
-              Mobile is convenient, and large users can provide flexible
-              computing power.
-            </p>
           </Card>
         ))}
       </section>
-    </div>
+    </main>
   );
 }
