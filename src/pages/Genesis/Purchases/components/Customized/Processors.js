@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Card, Checkbox } from 'antd';
 import styles from './index.less';
 const proccess = [
@@ -32,7 +32,7 @@ export function Processors(props) {
 
   const handleCheckboxChange = (newValue) => {
     if (newValue !== value) {
-      onChange?.(newValue);
+      onChange(newValue);
     }
   };
   return (

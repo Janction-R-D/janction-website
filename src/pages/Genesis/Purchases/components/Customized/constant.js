@@ -35,3 +35,13 @@ export const PROCESSOR = [
     value: 'amd',
   },
 ];
+export const FRAMEWORK = [
+  {
+    name: 'TensorFlow',
+    value: 'tensorflow',
+  },
+  {
+    name: 'Pytorch',
+    value: 'pytorch',
+  },
+];

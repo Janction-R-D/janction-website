@@ -1,5 +1,5 @@
 import { Button, Card, Form } from 'antd';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import OperatingCard from './Customized/OperatingCard';
 import InternetType from './Customized/InternetType';
 import Location from './Customized/Location';
@@ -10,6 +10,8 @@ import Processor from './Customized/Processor';
 import { Processors } from './Customized/Processors';
 import ProductList from './Customized/ProductList';
 import AsidePrice from './AsidePrice/AsidePrice';
+import { motion } from 'framer-motion';
+import FrameworkAi from './Customized/FrameworkAi';
 
 const Customized = () => {
   const [form] = Form.useForm();
@@ -24,9 +26,19 @@ const Customized = () => {
     {
       title: 'Operating System',
       content: (
-        <Form.Item name="operating_system_str">
-          <OperatingCard formValues={formValues} setCurrent={setCurrent} />
-        </Form.Item>
+        <>
+          <Form.Item
+            name="operating_system_str"
+            rules={[
+              { required: true, message: 'Please select an Operating System' },
+            ]}
+          >
+            <OperatingCard formValues={formValues} setCurrent={setCurrent} />
+          </Form.Item>
+          <Form.Item name="ai_framework">
+            <FrameworkAi formValues={formValues} setCurrent={setCurrent} />
+          </Form.Item>
+        </>
       ),
       field: 'Operating System',
       description:
@@ -36,10 +48,18 @@ const Customized = () => {
       title: 'Internet',
       content: (
         <>
-          <Form.Item name="internet_type">
+          <Form.Item
+            name="internet_type"
+            rules={[
+              { required: true, message: 'Please select a type of internet' },
+            ]}
+          >
             <InternetType formValues={formValues} setCurrent={setCurrent} />
           </Form.Item>
-          <Form.Item name="network_down" initialValue={1}>
+          <Form.Item
+            name="network_down"
+            rules={[{ required: true, message: 'Please select an value' }]}
+          >
             <SliderBand formValues={formValues} setCurrent={setCurrent} />
           </Form.Item>
         </>
@@ -51,7 +71,10 @@ const Customized = () => {
     {
       title: 'Location',
       content: (
-        <Form.Item name="location">
+        <Form.Item
+          name="location"
+          rules={[{ required: true, message: 'Please select a Location' }]}
+        >
           <Location formValues={formValues} setCurrent={setCurrent} />
         </Form.Item>
       ),
@@ -63,13 +86,14 @@ const Customized = () => {
       title: 'Processor',
       content: (
         <Card className={styles['processor-conf-wrapper']}>
-          <Processor
-            formValues={formValues}
-            setCurrent={setCurrent}
-            onChange={onValuesChange}
-          />
-          <Form.Item name="processor_model">
-            <Processors onChange={onValuesChange} formValues={formValues} />
+          <Processor formValues={formValues} onChange={onValuesChange} />
+          <Form.Item
+            name="processor_model"
+            rules={[
+              { required: true, message: 'Please select a processor model' },
+            ]}
+          >
+            <Processors formValues={formValues} />
           </Form.Item>
         </Card>
       ),
@@ -93,12 +117,24 @@ const Customized = () => {
     },
   ];
 
-  const next = () => {
-    if (current < steps.length - 1) {
-      setCurrent(current + 1);
+  const next = async () => {
+    try {
+      // Obtiene los nombres de los campos del paso actual
+      const fieldsToValidate = steps[current].content.props.children
+        ? React.Children.toArray(steps[current].content.props.children)
+            .filter((child) => child.type === Form.Item)
+            .map((item) => item.props.name)
+        : [];
+
+      await form.validateFields(fieldsToValidate); // Valida solo los campos del paso actual
+
+      if (current < steps.length - 1) {
+        setCurrent(current + 1);
+      }
+    } catch (error) {
+      console.log('Error en la validación:', error);
     }
   };
-
   const back = () => {
     if (current > 0) {
       setCurrent(current - 1);
@@ -144,17 +180,25 @@ const Customized = () => {
               </Button>
             )}
           </header>
-          {steps.map((step, index) => (
-            <div
-              key={index}
-              style={{ display: index === current ? 'block' : 'none' }}
-            >
-              {step.content}
-            </div>
-          ))}
+          <motion.div
+            key={current}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.5 }}
+          >
+            {steps.map((step, index) => (
+              <div
+                key={index}
+                style={{ display: index === current ? 'block' : 'none' }}
+              >
+                {step.content}
+              </div>
+            ))}
+          </motion.div>
         </section>
       </Form>
-      <AsidePrice />
+      <AsidePrice formValues={formValues} />
     </main>
   );
 };

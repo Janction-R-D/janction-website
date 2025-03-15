@@ -14,13 +14,6 @@ const locations = [
 export default function Location({ value, onChange }) {
   const { allFlags } = useFlag({ locations });
 
-  // Establecer valor inicial si es undefined
-  useEffect(() => {
-    if (!value) {
-      onChange?.(locations[0]?.value);
-    }
-  }, [value, onChange]);
-
   const handleCheckboxChange = (newValue) => {
     if (newValue !== value) {
       onChange?.(newValue);

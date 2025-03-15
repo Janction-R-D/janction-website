@@ -10,7 +10,7 @@ export default function Processor({ value, onChange }) {
 
   const list = useMemo(() => {
     if (isEmpty(value?.data)) return [];
-    let _list = value?.data[value.cpu_gpu];
+    let _list = value?.data[value.cpu_gpu] || [];
     _list = _list.filter((item) => {
       const matchesKeyword =
         !keyword || item.name.toLowerCase().includes(keyword.toLowerCase());
@@ -21,8 +21,8 @@ export default function Processor({ value, onChange }) {
   }, [value, keyword]);
 
   const handleCheckboxChange = (newValue) => {
-    if (newValue !== value.processor) {
-      onChange({ ...value, processor: newValue });
+    if (newValue !== value?.processor) {
+      onChange(newValue);
     }
   };
 
@@ -37,11 +37,13 @@ export default function Processor({ value, onChange }) {
       />
 
       <section className={styles['options']}>
-        <Form.Item name="processor">
+        <Form.Item
+          name="processor"
+          rules={[{ required: true, message: 'Please select a processor' }]}
+        >
           <Radio.Group
             className={styles['processors']}
             value={value?.processor}
-            onChange={(e) => onChange({ ...value, processor: e.target.value })}
           >
             {PROCESSOR.map((processor) => (
               <Radio.Button
@@ -59,12 +61,11 @@ export default function Processor({ value, onChange }) {
 
         <Divider type="vertical" className={styles['divider']} />
 
-        <Form.Item name="gpu">
-          <Radio.Group
-            className={styles['processors']}
-            value={value?.cpu_gpu}
-            onChange={(e) => onChange({ ...value, cpu_gpu: e.target.value })}
-          >
+        <Form.Item
+          name="gpu"
+          rules={[{ required: true, message: 'Please select a chip' }]}
+        >
+          <Radio.Group className={styles['processors']} value={value?.cpu_gpu}>
             {CPU_GPU_OPTIONS.map((option) => (
               <Radio.Button
                 key={option.value}
