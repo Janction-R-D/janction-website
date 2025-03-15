@@ -5,7 +5,7 @@ import { CPU_GPU_OPTIONS } from '@/constant';
 import { PROCESSOR } from './constant';
 import { isEmpty } from '@/utils/lang';
 
-export default function Processor({ value, onChange }) {
+export default function Processor({ value, onChange, formValues }) {
   const [keyword, setKeyword] = useState('');
 
   const list = useMemo(() => {
@@ -25,9 +25,7 @@ export default function Processor({ value, onChange }) {
       onChange(newValue);
     }
   };
-  useEffect(() => {
-    console.log(value);
-  }, []);
+
   return (
     <section className={styles['processor-conf']}>
       <Input
@@ -54,7 +52,8 @@ export default function Processor({ value, onChange }) {
                 className={[
                   styles['processor'],
                   styles['gradient-card'],
-                  processor.value == value && styles['active-item'],
+                  processor.value == formValues.processor &&
+                    styles['active-item'],
                 ].join(' ')}
               >
                 {processor.label}
@@ -74,9 +73,11 @@ export default function Processor({ value, onChange }) {
               <Radio.Button
                 key={option.value}
                 value={option.value}
-                className={[styles['processor'], styles['gradient-card']].join(
-                  ' ',
-                )}
+                className={[
+                  styles['processor'],
+                  styles['gradient-card'],
+                  option.value == formValues.gpu && styles['active-item'],
+                ].join(' ')}
               >
                 {option.label}
               </Radio.Button>
