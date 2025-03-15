@@ -9,9 +9,10 @@ import SliderBand from './Customized/SliderBand';
 import Processor from './Customized/Processor';
 import { Processors } from './Customized/Processors';
 import ProductList from './Customized/ProductList';
-import AsidePrice from './AsidePrice/AsidePrice';
+
 import { motion } from 'framer-motion';
 import FrameworkAi from './Customized/FrameworkAi';
+import AsidePrice from './Customized/AsidePrice/AsidePrice';
 
 const Customized = () => {
   const [form] = Form.useForm();
@@ -198,7 +199,7 @@ const Customized = () => {
           </motion.div>
         </section>
       </Form>
-      <AsidePrice formValues={formValues} />
+      <AsidePrice formValues={formValues} styles={styles} />
     </main>
   );
 };

@@ -19,7 +19,7 @@
   ],
   "instances": [
     {
-      "name": "AWS EC2 g4dn.xlarge",
+      "name": "EC2 g4dn.xlarge",
       "value": "ec2_g4dn_xlarge",
       "cpu": "Intel Xeon Scalable (Cascade Lake)",
       "gpu": "1x NVIDIA T4",
@@ -30,7 +30,7 @@
       "processor": "Intel Xeon Scalable"
     },
     {
-      "name": "AWS EC2 p3.2xlarge",
+      "name": "EC2 p3.2xlarge",
       "value": "ec2_p3_2xlarge",
       "cpu": "Intel Xeon E5-2686 v4 (Broadwell)",
       "gpu": "1x NVIDIA V100",
@@ -40,19 +40,9 @@
       "connectivity_tier": ["Up to 10 Gbps"],
       "processor": "Intel Xeon E5-2686 v4"
     },
+
     {
-      "name": "AWS EC2 p4d.24xlarge",
-      "value": "ec2_p4d_24xlarge",
-      "cpu": "Intel Xeon Scalable (Cascade Lake)",
-      "gpu": "8x NVIDIA A100",
-      "storage": "8TB NVMe SSD",
-      "memory": "1TB DDR4",
-      "internet_configuration": ["Elastic IP", "VPC"],
-      "connectivity_tier": ["Up to 400 Gbps"],
-      "processor": "Intel Xeon Scalable"
-    },
-    {
-      "name": "AWS EC2 g5.12xlarge",
+      "name": "EC2 g5.12xlarge",
       "value": "ec2_g5_12xlarge",
       "cpu": "AMD EPYC 7003",
       "gpu": "4x NVIDIA A10G",
