@@ -24,24 +24,52 @@ export default function AsidePrice({ formValues, styles, onConfirm }) {
                 <p className={styles['text__type']}>Operating System</p>
                 <div className={styles['text__content']}>
                   <span className={styles['description']}>
-                    <i className="iconfont icon-nvidia" />
+                    <i
+                      className={`iconfont icon-${formValues?.operating_system_str}`}
+                    />
                     <p className={styles['text__description']}>
-                      NAT | 1200 Mbps
+                      {formValues?.operating_system_str}
                     </p>
                   </span>
                   <span className={styles['price']}>$35.669</span>
                 </div>
               </section>
             )}
-
+            {formValues?.ai_framework && (
+              <section>
+                <p className={styles['text__type']}>AI Framework</p>
+                <div className={styles['text__content']}>
+                  <span className={styles['description']}>
+                    <p className={styles['text__description']}>
+                      {formValues?.ai_framework}
+                    </p>
+                  </span>
+                  <span className={styles['price']}>$35.669</span>
+                </div>
+              </section>
+            )}
             {formValues?.internet_type && (
               <section>
                 <p className={styles['text__type']}>Internet </p>
                 <div className={styles['text__content']}>
                   <span className={styles['description']}>
                     <p className={styles['text__description']}>
-                      NAT | 1200 Mbps
+                      {formValues?.internet_type}
                     </p>
+                  </span>
+                  <span className={styles['price']}>$35.669</span>
+                </div>
+              </section>
+            )}
+            {formValues?.conectivity_tier && (
+              <section>
+                <p className={styles['text__type']}>Conectivity tier </p>
+                <div className={styles['text__content']}>
+                  <span className={styles['description']}>
+                    <p className={styles['text__description']}>
+                      {formValues?.conectivity_tier}
+                    </p>
+                    <span>Mbps</span>
                   </span>
                   <span className={styles['price']}>$35.669</span>
                 </div>

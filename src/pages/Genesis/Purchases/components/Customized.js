@@ -59,7 +59,7 @@ const Customized = () => {
             <InternetType formValues={formValues} setCurrent={setCurrent} />
           </Form.Item>
           <Form.Item
-            name="network_down"
+            name="conectivity_tier"
             rules={[{ required: true, message: 'Please select an value' }]}
           >
             <SliderBand formValues={formValues} setCurrent={setCurrent} />
