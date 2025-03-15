@@ -1,62 +1,101 @@
-import React, { useEffect } from 'react';
-import { Avatar, Button, Card, Checkbox, Input } from 'antd';
+import { useEffect, useState } from 'react';
+import { Avatar, Button, Card, Checkbox, Empty, Input, Pagination } from 'antd';
 import styles from './index.less';
-import useFlag from '../hook/useFlag';
-
-const locations = [
-  { label: 'Nueva York', value: 'new_york', country: 'United States' },
-  { label: 'Londres', value: 'london', country: 'UK' },
-  { label: 'Tokio', value: 'tokyo', country: 'Japan' },
-  { label: 'París', value: 'paris', country: 'France' },
-  { label: 'Sídney', value: 'sydney', country: 'Australia' },
-];
+import useContinents from '@/hooks/useContinents';
+import { isEmpty } from 'lodash';
 
 export default function Location({ value, onChange }) {
-  const { allFlags } = useFlag({ locations });
+  const continents = useContinents();
+  const [list, setList] = useState([]);
+  const [search, setSearch] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 5;
+
+  useEffect(() => {
+    if (isEmpty(continents)) return;
+    const allItems = Object.values(continents).flatMap(
+      (countries) => countries,
+    );
+    setList(allItems);
+  }, [continents]);
 
   const handleCheckboxChange = (newValue) => {
-    if (newValue !== value) {
-      onChange?.(newValue);
-    }
+    onChange?.(newValue);
   };
+
+  // Filtrar países según el texto de búsqueda
+  const filteredList = list.filter((country) =>
+    country.name.toLowerCase().includes(search.toLowerCase()),
+  );
+
+  // Obtener los países de la página actual
+  const paginatedList = filteredList.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize,
+  );
 
   return (
     <Card className={styles['location-conf-wrapper']}>
       <header className={styles['header']}>
         <Input
-          placeholder="Search"
+          placeholder="Search country..."
           prefix={<i className="iconfont icon-search" />}
           className={styles['search']}
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value); // Actualiza el estado de búsqueda
+            setCurrentPage(1); // Reinicia a la primera página tras una nueva búsqueda
+          }}
         />
-        <Button className={styles['btn']}>Select All Countries</Button>
+        <Button
+          className={styles['btn']}
+          onClick={() => onChange(filteredList.map((c) => c.name))}
+        >
+          Select All Countries
+        </Button>
       </header>
 
-      {allFlags.map((country, index) => (
-        <Card
-          key={index}
-          className={[
-            styles['item'],
-            value === country.value && styles['active-item'],
-          ].join(' ')}
-          onClick={() => handleCheckboxChange(country.value)}
-        >
-          <div className={styles['content']}>
-            <div className={styles['content-flag']}>
-              <Avatar
-                src={'https://flagsapi.com/BE/shiny/64.png'} // Usa la URL correcta
-                alt={`${country.label} flag`}
-                className={styles['flag']}
+      {filteredList.length === 0 ? (
+        <Empty description="Not Found" className={styles['not-found']} />
+      ) : (
+        paginatedList.map((country) => (
+          <Card
+            key={country.code}
+            className={[
+              styles['item'],
+              value === country.name && styles['active-item'],
+            ].join(' ')}
+            onClick={() => handleCheckboxChange(country.name)}
+          >
+            <div className={styles['content']}>
+              <div className={styles['content-flag']}>
+                <Avatar
+                  src={`https://flagsapi.com/${country.code}/flat/64.png`}
+                  alt={`${country.name} flag`}
+                  className={styles['flag']}
+                />
+                <p className={styles['description']}>{country.name}</p>
+              </div>
+              <Checkbox
+                className={styles['rounded-check']}
+                checked={value === country.name}
+                onChange={() => handleCheckboxChange(country.name)}
               />
-              <p className={styles['description']}>{country.label}</p>
             </div>
-            <Checkbox
-              className={styles['rounded-check']}
-              checked={value === country.value}
-              onChange={() => handleCheckboxChange(country.value)}
-            />
-          </div>
-        </Card>
-      ))}
+          </Card>
+        ))
+      )}
+
+      {filteredList.length > 0 && (
+        <Pagination
+          current={currentPage}
+          pageSize={pageSize}
+          total={filteredList.length}
+          onChange={(page) => setCurrentPage(page)}
+          className={styles['pagination-wrapper']}
+          showSizeChanger={false}
+        />
+      )}
     </Card>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Checkbox, Divider, Form, Input, Radio, Space, Card } from 'antd';
 import styles from './index.less';
 import { CPU_GPU_OPTIONS } from '@/constant';
@@ -25,7 +25,9 @@ export default function Processor({ value, onChange }) {
       onChange(newValue);
     }
   };
-
+  useEffect(() => {
+    console.log(value);
+  }, []);
   return (
     <section className={styles['processor-conf']}>
       <Input
@@ -49,9 +51,11 @@ export default function Processor({ value, onChange }) {
               <Radio.Button
                 key={processor.value}
                 value={processor.value}
-                className={[styles['processor'], styles['gradient-card']].join(
-                  ' ',
-                )}
+                className={[
+                  styles['processor'],
+                  styles['gradient-card'],
+                  processor.value == value && styles['active-item'],
+                ].join(' ')}
               >
                 {processor.label}
               </Radio.Button>
