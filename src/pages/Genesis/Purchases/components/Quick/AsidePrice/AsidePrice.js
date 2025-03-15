@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import instacePng from '@/assets/images/genesis/instance.png';
 import { Avatar, Button, Divider } from 'antd';
-export default function AsidePrice({ formValues, styles }) {
+export default function AsidePrice({ formValues, styles, onConfirm }) {
   const [isFormEmpty, setIsEmpty] = useState(true);
   useEffect(() => {
     let isNotEmpty = Object.values(formValues)?.some(
@@ -10,6 +10,7 @@ export default function AsidePrice({ formValues, styles }) {
     console.log(formValues);
     setIsEmpty(!isNotEmpty);
   }, [formValues]);
+
   return (
     <aside className={styles['aside-wrapper']}>
       <header className={styles['aside-header']}>
@@ -55,7 +56,7 @@ export default function AsidePrice({ formValues, styles }) {
                 <div className={styles['text__content']}>
                   <span className={styles['description']}>
                     <p className={styles['text__description']}>
-                      {formValues?.instance}
+                      {formValues?.instance.name}
                     </p>
                   </span>
                   <span className={styles['price']}>$35.669</span>
@@ -99,7 +100,9 @@ export default function AsidePrice({ formValues, styles }) {
       <Divider></Divider>
       <footer className={styles['aside-footer']}>
         <span className={styles['text__price']}>$34.669</span>
-        <Button className={styles['btn-confirm']}>Confirm the order</Button>
+        <Button className={styles['btn-confirm']} onClick={onConfirm}>
+          Confirm the order
+        </Button>
       </footer>
       <Divider></Divider>
     </aside>

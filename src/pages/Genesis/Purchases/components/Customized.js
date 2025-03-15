@@ -1,4 +1,4 @@
-import { Button, Card, Form } from 'antd';
+import { Button, Card, Divider, Form } from 'antd';
 import React, { useState } from 'react';
 import OperatingCard from './Customized/OperatingCard';
 import InternetType from './Customized/InternetType';
@@ -13,6 +13,7 @@ import ProductList from './Customized/ProductList';
 import { motion } from 'framer-motion';
 import FrameworkAi from './Customized/FrameworkAi';
 import AsidePrice from './Customized/AsidePrice/AsidePrice';
+import { history } from 'umi';
 
 const Customized = () => {
   const [form] = Form.useForm();
@@ -145,7 +146,14 @@ const Customized = () => {
   const onFinish = (values) => {
     console.log(values);
   };
-
+  const onConfirm = async () => {
+    try {
+      await form.validateFields();
+      history.push('/genesis/purchases/settlement', { formValues });
+    } catch (err) {
+      console.log('『err』', err);
+    }
+  };
   return (
     <main className={styles['custom-conf-wrapper']}>
       <Form
@@ -163,21 +171,13 @@ const Customized = () => {
               <p>{steps[current].description}</p>
             </section>
 
-            {current < steps.length - 1 ? (
+            {current < steps.length - 1 && (
               <Button
                 type="primary"
                 className={styles['btn-next']}
                 onClick={next}
               >
                 Next Step
-              </Button>
-            ) : (
-              <Button
-                type="primary"
-                className={styles['btn-next']}
-                htmlType="submit"
-              >
-                Confirm
               </Button>
             )}
           </header>
@@ -199,7 +199,12 @@ const Customized = () => {
           </motion.div>
         </section>
       </Form>
-      <AsidePrice formValues={formValues} styles={styles} />
+      <Divider type="vertical" className={styles['divider']} />
+      <AsidePrice
+        formValues={formValues}
+        styles={styles}
+        onConfirm={onConfirm}
+      />
     </main>
   );
 };

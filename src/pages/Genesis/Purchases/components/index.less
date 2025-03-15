@@ -15,8 +15,8 @@
   }
 }
 .aside-wrapper {
-  flex: 1;
   min-width: 300px;
+  width: 400px;
   .aside-header {
     padding-block: 50px 20px;
     .aside-title {
@@ -24,7 +24,6 @@
     }
   }
   .aside-content {
-    border-bottom: 1px solid #fff;
     display: flex;
     flex-direction: column;
     min-height: 350px;
@@ -82,6 +81,7 @@
   }
   .aside-footer {
     margin-top: 20px;
+    padding-bottom: 50px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -192,5 +192,11 @@
     color: rgba(114, 222, 255, 1);
     border: solid 1px rgba(114, 222, 255, 1);
     background-color: #000;
+  }
+}
+.divider {
+  width: 12px;
+  :global {
+    height: 75vh;
   }
 }
