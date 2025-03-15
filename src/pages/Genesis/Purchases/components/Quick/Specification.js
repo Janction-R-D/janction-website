@@ -1,40 +1,35 @@
 import React from 'react';
-import { Card, Checkbox } from 'antd';
+import { Card, Checkbox, Radio } from 'antd';
 import { instance_types } from './constant.json';
 import styles from './index.less';
 export default function Specification({ value, onChange }) {
-  const handleCheckboxChange = (newValue) => {
-    if (newValue !== value) {
-      onChange?.(newValue); // Actualiza el formulario
-    }
+  const handleRadioChange = (e) => {
+    onChange?.(e.target.value);
   };
   return (
     <main className={styles['specification-conf-wrapper']}>
       <p>Instance Specification</p>
-      <section className={styles['specification-conf-cards']}>
-        {instance_types.map((item) => (
-          <Card
-            key={item.value}
-            className={[
-              styles['item'],
-              value === item.value && styles['active-item'],
-            ].join(' ')}
-            onClick={() => handleCheckboxChange(item.value)}
-          >
-            <section className={styles['item-header']}>
-              <div className={styles['header-left']}>
-                <span>{item.label}</span>
-              </div>
-              <div className={styles['header-right']}>
-                <Checkbox
-                  className={styles['rounded-check']}
-                  checked={value === item.value} // Vincula con el estado de Form
-                  onChange={() => handleCheckboxChange(item.value)}
-                />
-              </div>
-            </section>
-          </Card>
-        ))}
+      <section className={styles['options']}>
+        <Radio.Group
+          className={styles['processors']}
+          value={value?.processor}
+          onChange={handleRadioChange}
+        >
+          {instance_types.map((processor) => (
+            <Radio.Button
+              key={processor.value}
+              value={processor.value}
+              className={[
+                styles['processor'],
+                styles['gradient-card'],
+                processor.value == value && styles['active-item'],
+              ].join(' ')}
+            >
+              <i className={`iconfont icon-${processor.label}`} />
+              {processor.label}
+            </Radio.Button>
+          ))}
+        </Radio.Group>
       </section>
     </main>
   );

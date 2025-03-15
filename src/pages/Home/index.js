@@ -25,6 +25,7 @@ import { history } from 'umi';
 import useScale from '../../hooks/useScale';
 import { characteristics, reasons, teamList, bannderNav } from './data';
 import WelcomeCard from './WelcomeCard';
+import AttentionCard from './AttentionCard';
 
 const { Panel } = Collapse;
 
@@ -40,6 +41,7 @@ const Home = (props) => {
   return (
     <div className={styles['home-container']}>
       <WelcomeCard />
+      <AttentionCard />
       <div
         className={styles['slogan']}
         style={renderBackgroudImg(isPC ? slogan_bg : slogan_android_bg)}

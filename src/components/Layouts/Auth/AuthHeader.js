@@ -37,16 +37,16 @@ export default function AuthHeader(props) {
   const [run, setRun] = useState(false);
   const { address } = useAccount();
 
-  // useEffect(() => {
-  //   getUserConfig();
-  //   getUserInfo((res) => {
-  //     if (res?.name) {
-  //       setUserName(res.name);
-  //     } else {
-  //       defaultNameHandle();
-  //     }
-  //   });
-  // }, [run]);
+  useEffect(() => {
+    getUserConfig();
+    getUserInfo((res) => {
+      if (res?.name) {
+        setUserName(res.name);
+      } else {
+        defaultNameHandle();
+      }
+    });
+  }, [run]);
   const defaultNameHandle = () => {
     const addStr = address?.slice(0, 16);
     setUserName(`user_${addStr}`);

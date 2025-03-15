@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "704908",
+      "name": "ubuntu",
+      "font_class": "ubuntu",
+      "unicode": "eb37",
+      "unicode_decimal": 60215
+    },
+    {
+      "icon_id": "21053638",
+      "name": "centos",
+      "font_class": "centos",
+      "unicode": "e670",
+      "unicode_decimal": 58992
+    },
+    {
       "icon_id": "8664175",
       "name": "AMD",
       "font_class": "AMD",

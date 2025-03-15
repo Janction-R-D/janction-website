@@ -4,7 +4,7 @@ import styles from './index.less';
 import { useEffect, useState } from 'react';
 import Operating from './Quick/Operating';
 import FrameworkAi from './Quick/FrameworkAi';
-import AsidePrice from './AsidePrice/AsidePrice';
+import AsidePrice from './Quick/AsidePrice/AsidePrice';
 import Instances from './Quick/Instances';
 import Specification from './Quick/Specification';
 
@@ -48,7 +48,7 @@ const Quick = (props) => {
         </Form.Item>
       </Form>
       <Divider type="vertical" className={styles['divider']} />
-      <AsidePrice formValues={formValues} />
+      <AsidePrice formValues={formValues} styles={styles} />
     </main>
   );
 };
