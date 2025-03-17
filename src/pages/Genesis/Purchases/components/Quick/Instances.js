@@ -20,7 +20,7 @@ export default function Instances({ value, onChange, formValues }) {
   };
 
   useEffect(() => {
-    getList();
+    // getList();
   }, []);
   const getList = async () => {
     try {
@@ -81,55 +81,75 @@ export default function Instances({ value, onChange, formValues }) {
       <p> Recommended Instances</p>
       <section className={styles['image-conf-cards']}>
         {/* //sustituir data por datasource */}
-        {data.instances.map((item) => (
-          <Card
-            key={item.id}
-            className={[
-              styles['item'],
-              value === item.id && styles['active-item'],
-            ].join(' ')}
-            onClick={() => handleCheckboxChange(item)}
-          >
-            <section className={styles['item-header']}>
-              <div className={styles['header-left']}>
-                <span>{item.name}</span>
+        {data.instances.map((item) => {
+          console.log(value?.id === item?.id);
+          return (
+            <Card
+              key={item.id}
+              className={[
+                styles['item'],
+                value?.id === item.id && styles['active-item'],
+              ].join(' ')}
+              onClick={() => handleCheckboxChange(item)}
+            >
+              <section className={styles['item-header']}>
+                <div className={styles['header-right']}>
+                  <Checkbox
+                    className={styles['rounded-check']}
+                    checked={value?.id === item.id} // Vincula con el estado de Form
+                    onChange={() => handleCheckboxChange(item)}
+                  />
+                </div>
+              </section>
+              <article>
+                <div className={styles['des-group']}>
+                  <span>CPU</span>
+                  <span className={styles['des-text']}>
+                    {item.attr.cpu_clip || '~'}
+                  </span>
+                </div>
+                <div className={styles['des-group']}>
+                  <span>GPU</span>
+                  <span className={styles['des-text']}>
+                    {item.attr.gpu_clip || '~'}
+                  </span>
+                </div>
+                <div className={styles['des-group']}>
+                  <span>Memory</span>
+                  <span className={styles['des-text']}>{item.attr.memory}</span>
+                </div>
+                <div className={styles['des-group']}>
+                  <span>Location</span>
+                  <span className={styles['des-text']}>
+                    {item.attr.location || '~'}
+                  </span>
+                </div>
+                <div className={styles['des-group']}>
+                  <span>Cores</span>
+                  <span className={styles['des-text']}>
+                    {item.attr.cpu || '~'}
+                  </span>
+                </div>
+                <div className={styles['des-group']}>
+                  <span>Created</span>
+                  <span className={styles['des-text']}>
+                    {formatDate(item.updated_at)}
+                  </span>
+                </div>
+                <div className={styles['des-group']}>
+                  <span>Updated at</span>
+                  <span className={styles['des-text']}>
+                    {formatDate(item.updated_at)}
+                  </span>
+                </div>
+              </article>
+              <div>
+                <p>ID</p>
+                <span className={styles['des-text']}>{item.id}</span>
               </div>
-              <div className={styles['header-right']}>
-                <Checkbox
-                  className={styles['rounded-check']}
-                  checked={value === item.id} // Vincula con el estado de Form
-                  onChange={() => handleCheckboxChange(item)}
-                />
-              </div>
-            </section>
-            <article>
-              <div className={styles['des-group']}>
-                <span>CPU</span>
-                <span className={styles['des-text']}>{item.cpu_chip}</span>
-              </div>
-              <div className={styles['des-group']}>
-                <span>GPU</span>
-                <span className={styles['des-text']}>{item.gpu_chip}</span>
-              </div>
-              <div className={styles['des-group']}>
-                <span>Start at</span>
-                <span className={styles['des-text']}>
-                  {formatDate(item.last_start_at)}
-                </span>
-              </div>
-              <div className={styles['des-group']}>
-                <span>Last config</span>
-                <span className={styles['des-text']}>
-                  {formatDate(item.last_config_at)}
-                </span>
-              </div>
-            </article>
-            <div>
-              <p>ID</p>
-              <span className={styles['des-text']}>{item.id}</span>
-            </div>
-          </Card>
-        ))}
+            </Card>
+          );
+        })}
       </section>
     </div>
   );
