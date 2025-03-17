@@ -19,28 +19,20 @@
   ],
   "instances": [
     {
-      "id": "550e8400-e29b-41d4-a716-446655440000",
-      "name": "DEV-001",
-      "gpu_chip": "NVIDIA RTX 3090",
-      "cpu_chip": "Intel i9-12900K",
-      "last_start_at": "2024-03-10T08:00:00Z",
-      "last_config_at": "2024-03-12T14:30:00Z"
-    },
-    {
-      "id": "6a1d8b50-8f9d-4f39-b597-0e2dfd1a15d1",
-      "name": "DEV-002",
-      "gpu_chip": "AMD Radeon RX 7900 XTX",
-      "cpu_chip": "AMD Ryzen 9 7950X",
-      "last_start_at": "2024-03-09T10:15:00Z",
-      "last_config_at": "2024-03-11T16:45:00Z"
-    },
-    {
-      "id": "3c8a7f21-6d9a-44fb-bbc5-4f8f3ebf2c88",
-      "name": "DEV-003",
-      "gpu_chip": "NVIDIA RTX 4080",
-      "cpu_chip": "Intel i7-12700H",
-      "last_start_at": "2024-03-11T06:45:00Z",
-      "last_config_at": "2024-03-13T12:10:00Z"
+      "id": "d9ede8ea-379b-4d8d-9d4d-c7f21b6400df",
+      "name": "",
+      "created_at": "2024-09-27T00:30:24.832231Z",
+      "updated_at": "2024-09-27T01:20:24.958548Z",
+      "deleted_at": null,
+      "status": 1,
+      "attr": {
+        "architechture": 0,
+        "gpu_clip": null,
+        "cpu_clip": ["Intel(R) Xeon(R) CPU E5-2686 v4 @ 2.30GHz"],
+        "cpu": 2,
+        "memory": 3924,
+        "location": "JP"
+      }
     }
   ],
   "operating_systems": [
