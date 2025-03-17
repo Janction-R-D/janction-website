@@ -10,13 +10,13 @@ import News from './components/News';
 import Invitation from './components/Invitation';
 
 const brandDetails = {
-  Apple: { icon: 'macos', color: 'white' },
-  Linux: { icon: 'linux', color: 'white' },
-  Nvidia: { icon: 'nvidia', color: 'green' },
-  Windows: { icon: 'windows', color: 'white' },
-  Android: { icon: 'android', color: 'green' },
-  Intel: { icon: 'intel', color: 'blue' },
-  Amd: { icon: 'amd', color: 'green' },
+  apple: { icon: 'macos', color: 'white' },
+  linux: { icon: 'linux', color: 'white' },
+  nvidia: { icon: 'nvidia', color: 'green' },
+  windows: { icon: 'windows', color: 'white' },
+  android: { icon: 'android', color: 'green' },
+  intel: { icon: 'intel', color: 'blue' },
+  amd: { icon: 'amd', color: 'green' },
 };
 const Lessees = (props) => {
   const [news, setNews] = useState(newsData);
@@ -29,18 +29,18 @@ const Lessees = (props) => {
     Balance: item?.Balance,
     Price: item?.Price,
     Allocation: item?.Allocation,
-    Brand: item?.Brand,
+    Brand: item?.Brand.toLowerCase(),
     Description: item?.Description,
     PriceChanges: item?.PriceChanges,
   }));
   const watchlistData = watchlist?.map((item, index) => ({
     key: index,
-    Name: item?.Name,
-    Balance: item?.Balance,
-    MarketCap: item?.MarketCap,
-    Change: item?.Change,
-    Brand: item?.Brand,
-    Description: item?.Description,
+    Name: item?.name,
+    Balance: item?.balance,
+    MarketCap: item?.marketCap,
+    Change: item?.change,
+    Brand: item?.brand.toLowerCase(),
+    Description: item?.description,
   }));
 
   const onBuy = (rowData) => {
@@ -68,7 +68,7 @@ const Lessees = (props) => {
               {brandDetails[record.Brand] && (
                 <i
                   className={`iconfont icon-${
-                    brandDetails[record.Brand].icon
+                    brandDetails[record.Brand.toLowerCase()].icon
                   } ${brandDetails[record.Brand].color}`}
                 ></i>
               )}
@@ -131,9 +131,10 @@ const Lessees = (props) => {
       dataIndex: 'Name',
       key: 'Name',
       render: (text, record) => {
-        const name = text.split(' ');
-        let firstName = name[0];
-        let model = name.slice(1).join(' ');
+        const name = text?.split(' ');
+        let firstName = name?.[0];
+        let model = name?.slice(1).join(' ');
+        console.log(record);
         return (
           <div className={styles['name-column-2']}>
             <div className={styles['icon-2']}>
@@ -147,7 +148,7 @@ const Lessees = (props) => {
             </div>
             <div className={styles['info']}>
               <span className={styles['name']}>{firstName}</span>
-              <span className={styles['value']}>{model.toUpperCase()}</span>
+              <span className={styles['value']}>{model?.toUpperCase()}</span>
             </div>
           </div>
         );
