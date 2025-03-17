@@ -93,6 +93,9 @@ export default function Instances({ value, onChange, formValues }) {
               onClick={() => handleCheckboxChange(item)}
             >
               <section className={styles['item-header']}>
+                <div className={styles['des-group']}>
+                  <span className={styles['des-text']}>{item.name || '~'}</span>
+                </div>
                 <div className={styles['header-right']}>
                   <Checkbox
                     className={styles['rounded-check']}
