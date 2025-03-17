@@ -35,7 +35,7 @@ const Lessees = (props) => {
   }));
   const watchlistData = watchlist?.map((item, index) => ({
     key: index,
-    Name: item?.Name,
+    Name: item?.name,
     Balance: item?.Balance,
     MarketCap: item?.MarketCap,
     Change: item?.Change,
@@ -131,6 +131,7 @@ const Lessees = (props) => {
       dataIndex: 'Name',
       key: 'Name',
       render: (text, record) => {
+        if (!text) return '--';
         const name = text.split(' ');
         let firstName = name[0];
         let model = name.slice(1).join(' ');
