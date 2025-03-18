@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Switch, Card, Checkbox } from 'antd';
+import pytorch from '@/assets/images/genesis/pytorch.png';
+import tensorflow from '@/assets/images/genesis/tensorflow.png';
 import { FRAMEWORK } from './constant';
 import styles from './index.less';
 export default function FrameworkAi({ value, onChange }) {
@@ -40,15 +42,16 @@ export default function FrameworkAi({ value, onChange }) {
             onClick={() => handleCheckboxChange(item.value)}
           >
             <div className={styles['content']}>
-              <p className={styles['description']}>{item.name}</p>
-              {check && (
-                <Checkbox
-                  className={styles['rounded-check']}
-                  checked={value === item.value}
-                  onChange={() => handleCheckboxChange(item.value)}
-                  disabled={!check}
-                />
-              )}
+              <div>
+                {<img src={item.value == 'pytorch' ? pytorch : tensorflow} />}
+              </div>
+
+              <Checkbox
+                className={styles['rounded-check']}
+                checked={value === item.value}
+                style={{ visibility: 'hidden' }}
+                onChange={() => handleCheckboxChange(item.value)}
+              />
             </div>
           </Card>
         ))}

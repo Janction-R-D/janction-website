@@ -12,6 +12,7 @@ import WalletManagement from '@/pages/Genesis/Wallet-Management';
 import MessageCenter from '@/pages/Genesis/Message-center';
 import Nodes from '@/pages/Genesis/DeployNodes';
 import Purchases from '@/pages/Genesis/Purchases';
+import PurchaseLayout from './PurchaseLayout';
 
 export const fullWidthRoute = ['/home', '/explore', '/getStarted', '/solution'];
 export const authRoute = [
@@ -85,9 +86,9 @@ export default function Layout(props) {
   if (props.location.pathname == '/genesis/purchases') {
     return (
       <GenesisProvider>
-        <GenesisLayout>
+        <PurchaseLayout>
           <Purchases />
-        </GenesisLayout>
+        </PurchaseLayout>
       </GenesisProvider>
     );
   }

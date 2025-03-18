@@ -22,7 +22,7 @@ const authHeaderInterceptor = (url, options) => {
   options.headers = {
     ...options.headers,
     ...authHeader,
-    withCredentials: true,
+    // withCredentials: true,
   };
   return {
     url,

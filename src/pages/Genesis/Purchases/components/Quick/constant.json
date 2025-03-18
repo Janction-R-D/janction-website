@@ -19,20 +19,92 @@
   ],
   "instances": [
     {
-      "id": "d9ede8ea-379b-4d8d-9d4d-c7f21b6400df",
-      "name": "",
-      "created_at": "2024-09-27T00:30:24.832231Z",
-      "updated_at": "2024-09-27T01:20:24.958548Z",
-      "deleted_at": null,
-      "status": 1,
-      "attr": {
-        "architechture": 0,
-        "gpu_clip": null,
-        "cpu_clip": ["Intel(R) Xeon(R) CPU E5-2686 v4 @ 2.30GHz"],
-        "cpu": 2,
-        "memory": 3924,
-        "location": "JP"
-      }
+      "id": "ec9a4c77-9b26-4863-9017-720a850394fc",
+      "name": "EC2 g5.12xlarge",
+      "value": "ec2_g5_12xlarge",
+      "operatingSystem": "Android",
+      "architecture": "ARM64",
+      "cpu": "AMD EPYC 7003",
+      "gpu": "4x NVIDIA A10G",
+      "storage": "3.8TB NVMe SSD",
+      "memory": "192GB DDR4",
+      "internet": "NAT",
+      "internet_configuration": ["Elastic IP", "VPC"],
+      "connectivity": "600 Mbps",
+      "connectivity_tier": ["Up to 100 Gbps"],
+      "location": "China",
+      "process": {
+        "name": "INTEL | CPU",
+        "model": "H100 PCIe"
+      },
+      "processor": "AMD EPYC 7003",
+      "price": "¥180,000.00"
+    },
+    {
+      "id": "a5b1d7f3-2c9e-45b1-9e6a-74a1d8f3c123",
+      "name": "EC2 c6i.8xlarge",
+      "value": "ec2_c6i_8xlarge",
+      "operatingSystem": "Linux",
+      "architecture": "x86_64",
+      "cpu": "Intel Xeon Platinum 8375C",
+      "gpu": "None",
+      "storage": "1.8TB NVMe SSD",
+      "memory": "64GB DDR4",
+      "internet": "Direct Connect",
+      "internet_configuration": ["Elastic IP", "VPC Peering"],
+      "connectivity": "1 Gbps",
+      "connectivity_tier": ["Up to 25 Gbps"],
+      "location": "USA",
+      "process": {
+        "name": "Intel | CPU",
+        "model": "Xeon Platinum 8375C"
+      },
+      "processor": "Intel Xeon Platinum 8375C",
+      "price": "$5,600.00"
+    },
+    {
+      "id": "f8e2a6c5-6d44-4cb0-9348-1a3d59f2b7d9",
+      "name": "EC2 p4.16xlarge",
+      "value": "ec2_p4_16xlarge",
+      "operatingSystem": "Windows",
+      "architecture": "x86_64",
+      "cpu": "Intel Xeon Scalable",
+      "gpu": "8x NVIDIA A100",
+      "storage": "8TB NVMe SSD",
+      "memory": "512GB DDR4",
+      "internet": "NAT",
+      "internet_configuration": ["Elastic IP", "VPC", "VPN Gateway"],
+      "connectivity": "5 Gbps",
+      "connectivity_tier": ["Up to 400 Gbps"],
+      "location": "Germany",
+      "process": {
+        "name": "Intel | CPU",
+        "model": "Xeon Scalable"
+      },
+      "processor": "Intel Xeon Scalable",
+      "price": "€25,000.00"
+    },
+    {
+      "id": "f8e2a6c5-6d44-4cb0-9348-1a3d59f2b7d0",
+      "name": "EC2 p4.16xlarge",
+      "value": "ec2_p4_16xlarge",
+      "operatingSystem": "Windows",
+      "architecture": "x86_64",
+      "cpu": "Intel Xeon Scalable",
+      "gpu": "8x NVIDIA A100",
+      "storage": "8TB NVMe SSD",
+      "memory": "512GB DDR4",
+      "internet": "NAT",
+      "internet_configuration": ["Elastic IP", "VPC", "VPN Gateway"],
+      "connectivity": "5 Gbps",
+      "connectivity_tier": ["Up to 400 Gbps"],
+      "location": "Germany",
+      "process": {
+        "name": "Intel | CPU",
+        "model": "Xeon Scalable"
+      },
+      "processor": "Intel Xeon Scalable",
+      "price": "€25,000.00"
     }
   ],
   "operating_systems": [
