@@ -38,7 +38,7 @@ const Processor = (props) => {
     _list = _list.filter((item) => {
       let _keyword =
         !keyword || item.name.toLowerCase().includes(keyword.toLowerCase());
-      let _brand = !brand || item.brand == brand;
+      let _brand = !brand || item.brand.toLowerCase() == brand;
       return _keyword && _brand;
     });
     return _list;
