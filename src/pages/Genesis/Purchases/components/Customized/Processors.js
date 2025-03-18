@@ -1,6 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Card, Checkbox } from 'antd';
 import styles from './index.less';
+import { PROCESSOR } from './constant';
+import { CPU_GPU_OPTIONS } from '@/constant';
+import { fetchNodeProcessers } from '@/services/genesis';
+import { isEmpty } from 'lodash';
 const proccess = [
   {
     name: 'GeForce RTX 4090',
@@ -30,6 +34,38 @@ export function Processors(props) {
     formValues?.processor_model || proccess[0]?.value,
   );
 
+  const [data, setData] = useState();
+  const [cpu_gpu, setCpuGpu] = useState(CPU_GPU_OPTIONS[0].value);
+  const [brand, setBrand] = useState(PROCESSOR[0].value);
+  const [selectKey, setSelectKey] = useState();
+  const [keyword, setKeyword] = useState();
+  useEffect(() => {
+    setSelectKey(value);
+  }, [value]);
+  useEffect(() => {
+    fetchData();
+  }, []);
+  const fetchData = async () => {
+    try {
+      const res = await fetchNodeProcessers();
+      setData(res);
+    } catch (error) {
+      console.log('『error』', error);
+    }
+  };
+
+  const list = useMemo(() => {
+    if (isEmpty(data)) return [];
+    let _list = data[cpu_gpu];
+    _list = _list.filter((item) => {
+      let _keyword =
+        !keyword || item.name.toLowerCase().includes(keyword.toLowerCase());
+      let _brand = !brand || item.brand.toLowerCase() == brand;
+      return _keyword && _brand;
+    });
+    console.log(_list);
+    return _list;
+  }, [data, brand, cpu_gpu, keyword]);
   const handleCheckboxChange = (newValue) => {
     if (newValue !== value) {
       onChange(newValue);
@@ -37,14 +73,14 @@ export function Processors(props) {
   };
   return (
     <section className={styles['models-conf-cards']}>
-      {proccess.map((item, index) => (
+      {list.map((item, index) => (
         <Card
           key={index}
           className={[
             styles['item'],
-            value === item.value && styles['active-item'],
+            value?.name === item.name && styles['active-item'],
           ].join(' ')}
-          onClick={() => handleCheckboxChange(item.value)}
+          onClick={() => handleCheckboxChange(item)}
         >
           <div className={styles['content']}>
             <div
@@ -57,8 +93,8 @@ export function Processors(props) {
             </div>
             <Checkbox
               className={styles['rounded-check']}
-              checked={value === item.value}
-              onChange={() => handleCheckboxChange(item.value)}
+              checked={value?.name === item.name}
+              onChange={() => handleCheckboxChange(item)}
             />
           </div>
         </Card>

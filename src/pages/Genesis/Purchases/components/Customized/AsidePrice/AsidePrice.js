@@ -99,7 +99,7 @@ export default function AsidePrice({ formValues, styles, onConfirm }) {
                         <span>
                           {formValues?.processor} | {formValues?.gpu} |
                         </span>
-                        <span>{formValues?.processor_model}</span>
+                        <span>{formValues?.processor_model.name}</span>
                       </p>
                     </span>
                     <span className={styles['price']}>$35.669</span>
@@ -115,7 +115,7 @@ export default function AsidePrice({ formValues, styles, onConfirm }) {
                       <span>
                         {formValues?.processor} | {formValues?.gpu} |
                       </span>
-                      <span>{formValues?.processor_model}</span>
+                      <span>{formValues?.processor_model.brand}</span>
                     </p>
                   </span>
                   <span className={styles['price']}>$35.669</span>

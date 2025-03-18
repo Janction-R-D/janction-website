@@ -37,7 +37,10 @@ const Customized = () => {
           >
             <OperatingCard formValues={formValues} setCurrent={setCurrent} />
           </Form.Item>
-          <Form.Item name="ai_framework">
+          <Form.Item
+            name="ai_framework"
+            rules={[{ required: true, message: 'Please select the Framework' }]}
+          >
             <FrameworkAi formValues={formValues} setCurrent={setCurrent} />
           </Form.Item>
         </>
@@ -118,23 +121,25 @@ const Customized = () => {
       description: '',
     },
   ];
-
+  const onValidateStep = () => {
+    const fields = steps[current].content.props.children
+      ? React.Children.toArray(steps[current].content.props.children)
+          .filter((child) => child.type === Form.Item)
+          .map((item) => item.props.name)
+      : [];
+    return fields;
+  };
   const next = async () => {
     try {
       // Obtiene los nombres de los campos del paso actual
-      const fieldsToValidate = steps[current].content.props.children
-        ? React.Children.toArray(steps[current].content.props.children)
-            .filter((child) => child.type === Form.Item)
-            .map((item) => item.props.name)
-        : [];
-
+      const fieldsToValidate = onValidateStep();
       await form.validateFields(fieldsToValidate); // Valida solo los campos del paso actual
 
       if (current < steps.length - 1) {
         setCurrent(current + 1);
       }
     } catch (error) {
-      console.log('Error en la validación:', error);
+      console.log('Error during validation:', error);
     }
   };
   const back = () => {
@@ -164,7 +169,13 @@ const Customized = () => {
         className={styles['form']}
       >
         <section className={styles['form-content']}>
-          <CustomizedSteps current={current} steps={steps} />
+          <CustomizedSteps
+            current={current}
+            steps={steps}
+            setCurrent={setCurrent}
+            onValidateStep={onValidateStep}
+            form={form}
+          />
           <header className={styles['header']}>
             <section className={styles['header-desc']}>
               <h2 className={styles['title']}>{steps[current].field}</h2>
@@ -192,6 +203,7 @@ const Customized = () => {
               <div
                 key={index}
                 style={{ display: index === current ? 'block' : 'none' }}
+                aria-hidden={index !== current}
               >
                 {step.content}
               </div>
