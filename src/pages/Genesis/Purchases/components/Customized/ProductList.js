@@ -6,51 +6,50 @@ import { fetchListFilter, fetchListOptions } from '@/services/genesis';
 
 function ProductList(props) {
   const { onChange, formValues, current } = props;
-  const [selectedKeys, setSelectedKeys] = useState([]);
+  const [selectKey, setSelectKey] = useState();
+
   const [list, setList] = useState([]);
   useEffect(() => {
-    console.log(formValues);
+    // getOpt();
     if (current !== 4) return;
+    console.log(formValues);
     const {
       location: region,
       gpu: cpu_name,
       processor: gpu_name,
       conectivity_tier: memory,
       operating_system_str: operating_system,
-    } = formValues;
+    } = formValues || {};
     const payload = {
       region,
       cpu_name: [cpu_name],
       gpu_name: [gpu_name],
       operating_system,
     };
-    console.log(payload);
     getList(payload);
   }, []);
   const getList = async (data) => {
     try {
       const listItems = await fetchListFilter(data);
-      console.log(listItems);
+      setList(listItems);
     } catch (error) {
       console.log(error);
     }
   };
   const getOpt = async () => {
     const data = await fetchListOptions();
-    console.log(data);
     return data;
   };
   const rowSelection = {
-    selectedRowKeys: selectedKeys,
+    selectedRowKeys: [selectKey],
     onChange: (selectedRowKeys, selectedRows) => {
-      setSelectedKeys(selectedRowKeys);
-      onChange?.(selectedRows);
+      setSelectKey(selectedRowKeys[0]);
+      onChange?.(selectedRows[0]);
     },
   };
-
-  // columnWidth: 0, // Oculta la columna
-  // renderCell: () => null, // Evita que se renderice el checkbox en cada fila
-
+  const getRowClassName = (record) => {
+    return record.id === selectKey ? styles['selected-row'] : '';
+  };
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm }) => (
       <div style={{ padding: 8 }}>
@@ -71,8 +70,6 @@ function ProductList(props) {
     onFilter: (value, record) =>
       record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
   });
-  const getRowClassName = (record) =>
-    selectedKeys.includes(record.id) ? 'selected-row' : '';
 
   const columns = [
     {
@@ -134,7 +131,7 @@ function ProductList(props) {
       dataSource={list}
       pagination={false}
       rowKey={'id'}
-      rowClassName={getRowClassName} // Agrega clase a la fila seleccionada
+      rowClassName={getRowClassName}
       className={styles['table']}
       scroll={{ x: 'auto' }}
       onRow={(record) => ({

@@ -4,7 +4,7 @@ import styles from './index.less';
 import useContinents from '@/hooks/useContinents';
 import { isEmpty } from 'lodash';
 
-export default function Location({ value = [], onChange }) {
+export default function Location({ value = [], onChange, current }) {
   const continents = useContinents();
   const [list, setList] = useState([]);
   const [search, setSearch] = useState('');
@@ -75,7 +75,11 @@ export default function Location({ value = [], onChange }) {
             <div className={styles['content']}>
               <div className={styles['content-flag']}>
                 <Avatar
-                  src={`https://flagsapi.com/${country.code}/flat/64.png`}
+                  src={
+                    current !== 2
+                      ? ''
+                      : `https://flagsapi.com/${country.code}/flat/64.png`
+                  }
                   alt={`${country.name} flag`}
                   className={styles['flag']}
                 />

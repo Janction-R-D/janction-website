@@ -30,13 +30,13 @@ export default function AsidePrice({ formValues, styles, onConfirm }) {
       <main className={styles['aside-content']}>
         {!isFormEmpty ? (
           <>
-            {formValues?.operating_system_str && (
+            {formValues?.operating_system_str.length >= 1 && (
               <section>
                 <p className={styles['text__type']}>Operating System</p>
                 <div className={styles['text__content']}>
                   <span className={styles['description']}>
                     <i
-                      className={`iconfont icon-${formValues?.operating_system_str}`}
+                      className={`iconfont icon-${formValues?.operating_system_str?.[0]}`}
                     />
                     <p className={styles['text__description']}>
                       {formValues?.operating_system_str.join(' | ')}
@@ -52,7 +52,7 @@ export default function AsidePrice({ formValues, styles, onConfirm }) {
               formValues?.conectivity_tier,
               <span>Mbps</span>,
             )}
-            {renderSection('Location', formValues?.location.join(' | '))}
+            {renderSection('Location', formValues?.location?.join(' | '))}
             {formValues?.processor_model &&
               formValues?.processor &&
               formValues?.gpu &&

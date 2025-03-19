@@ -62,7 +62,6 @@ export function Processors(props) {
 
       return _keyword && _brand;
     });
-    console.log(_list);
     return _list;
   }, [data, brand, cpu_gpu, keyword]);
   const handleCheckboxChange = (checked, newValue) => {

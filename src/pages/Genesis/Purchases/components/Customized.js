@@ -61,7 +61,7 @@ const Customized = () => {
       title: 'Location',
       content: (
         <Form.Item name="location">
-          <Location formValues={formValues} setCurrent={setCurrent} />
+          <Location formValues={formValues} current={current} />
         </Form.Item>
       ),
       field: 'Location',

@@ -33,7 +33,7 @@ export default function AsidePrice({ formValues, styles, onConfirm }) {
               </section>
             )}
 
-            {formValues?.operating_system_str && (
+            {formValues?.operating_system_str?.length >= 1 && (
               <section>
                 <p className={styles['text__type']}>Operating System</p>
                 <div className={styles['text__content']}>
