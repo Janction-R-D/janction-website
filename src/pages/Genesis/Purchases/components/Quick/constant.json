@@ -41,28 +41,6 @@
       "price": "¥180,000.00"
     },
     {
-      "id": "a5b1d7f3-2c9e-45b1-9e6a-74a1d8f3c123",
-      "name": "EC2 c6i.8xlarge",
-      "value": "ec2_c6i_8xlarge",
-      "operatingSystem": "Linux",
-      "architecture": "x86_64",
-      "cpu": "Intel Xeon Platinum 8375C",
-      "gpu": "None",
-      "storage": "1.8TB NVMe SSD",
-      "memory": "64GB DDR4",
-      "internet": "Direct Connect",
-      "internet_configuration": ["Elastic IP", "VPC Peering"],
-      "connectivity": "1 Gbps",
-      "connectivity_tier": ["Up to 25 Gbps"],
-      "location": "USA",
-      "process": {
-        "name": "Intel | CPU",
-        "model": "Xeon Platinum 8375C"
-      },
-      "processor": "Intel Xeon Platinum 8375C",
-      "price": "$5,600.00"
-    },
-    {
       "id": "f8e2a6c5-6d44-4cb0-9348-1a3d59f2b7d9",
       "name": "EC2 p4.16xlarge",
       "value": "ec2_p4_16xlarge",

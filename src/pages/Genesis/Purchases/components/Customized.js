@@ -29,18 +29,10 @@ const Customized = () => {
       title: 'Operating System',
       content: (
         <>
-          <Form.Item
-            name="operating_system_str"
-            rules={[
-              { required: true, message: 'Please select an Operating System' },
-            ]}
-          >
+          <Form.Item name="operating_system_str">
             <OperatingCard formValues={formValues} setCurrent={setCurrent} />
           </Form.Item>
-          <Form.Item
-            name="ai_framework"
-            rules={[{ required: true, message: 'Please select the Framework' }]}
-          >
+          <Form.Item name="ai_framework">
             <FrameworkAi formValues={formValues} setCurrent={setCurrent} />
           </Form.Item>
         </>
@@ -53,18 +45,10 @@ const Customized = () => {
       title: 'Internet',
       content: (
         <>
-          <Form.Item
-            name="internet_type"
-            rules={[
-              { required: true, message: 'Please select a type of internet' },
-            ]}
-          >
+          <Form.Item name="internet_type">
             <InternetType formValues={formValues} setCurrent={setCurrent} />
           </Form.Item>
-          <Form.Item
-            name="conectivity_tier"
-            rules={[{ required: true, message: 'Please select an value' }]}
-          >
+          <Form.Item name="conectivity_tier">
             <SliderBand formValues={formValues} setCurrent={setCurrent} />
           </Form.Item>
         </>
@@ -76,10 +60,7 @@ const Customized = () => {
     {
       title: 'Location',
       content: (
-        <Form.Item
-          name="location"
-          rules={[{ required: true, message: 'Please select a Location' }]}
-        >
+        <Form.Item name="location">
           <Location formValues={formValues} setCurrent={setCurrent} />
         </Form.Item>
       ),
@@ -92,13 +73,8 @@ const Customized = () => {
       content: (
         <Card className={styles['processor-conf-wrapper']}>
           <Processor formValues={formValues} onChange={onValuesChange} />
-          <Form.Item
-            name="processor_model"
-            rules={[
-              { required: true, message: 'Please select a processor model' },
-            ]}
-          >
-            <Processors formValues={formValues} />
+          <Form.Item name="processor_model">
+            <Processors formValues={formValues} current={current} />
           </Form.Item>
         </Card>
       ),
@@ -113,7 +89,7 @@ const Customized = () => {
             name="node"
             rules={[{ required: true, message: 'Please select an instance' }]}
           >
-            <ProductList formValues={formValues} />
+            <ProductList formValues={formValues} current={current} />
           </Form.Item>
         </Card>
       ),
@@ -142,15 +118,7 @@ const Customized = () => {
       console.log('Error during validation:', error);
     }
   };
-  const back = () => {
-    if (current > 0) {
-      setCurrent(current - 1);
-    }
-  };
 
-  const onFinish = (values) => {
-    console.log(values);
-  };
   const onConfirm = async () => {
     try {
       await form.validateFields();
@@ -164,7 +132,6 @@ const Customized = () => {
       <Form
         form={form}
         name="customized"
-        onFinish={onFinish}
         onValuesChange={onValuesChange}
         className={styles['form']}
       >

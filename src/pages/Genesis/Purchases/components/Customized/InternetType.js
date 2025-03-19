@@ -7,15 +7,15 @@ const Internet_List = [
   { name: 'Manchester,UK', value: 'Manchester,UK' },
 ];
 export default function InternetType(props) {
-  const { value, onChange, formValues, setCurrent } = props;
+  const { value = [], onChange, formValues, setCurrent } = props;
   const [activeValue, setActiveValue] = useState();
 
-  const handleCheckboxChange = (value) => {
-    if (value === activeValue) {
-      return; // Evita deseleccionar el único seleccionado
-    }
-    setActiveValue(value);
-    onChange(value); // Llama a la función para actualizar el formulario
+  const handleCheckboxChange = (checked, newVal) => {
+    let newValues = checked
+      ? [...value, newVal]
+      : value.filter((item) => item !== newVal);
+
+    onChange(newValues); // Llama a la función para actualizar el formulario
   };
 
   return (
@@ -29,14 +29,18 @@ export default function InternetType(props) {
               styles['item'],
               activeValue === item.value && styles['active-item'],
             ].join(' ')}
-            onClick={() => handleCheckboxChange(item.value)}
+            onClick={() =>
+              handleCheckboxChange(!value.includes(item.value), item.value)
+            }
           >
             <div className={styles['content']}>
               <p className={styles['description']}>{item.name}</p>
               <Checkbox
                 className={styles['rounded-check']}
-                checked={value === item.value}
-                onChange={() => handleCheckboxChange(item.value)}
+                checked={value.includes(item.value)}
+                onChange={(e) =>
+                  handleCheckboxChange(e.target.value, item.value)
+                }
               />
             </div>
           </Card>

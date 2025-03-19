@@ -29,7 +29,6 @@ export default function AsidePrice({ formValues, styles, onConfirm }) {
                       {formValues?.specification}
                     </p>
                   </span>
-                  <span className={styles['price']}>$35.669</span>
                 </div>
               </section>
             )}
@@ -40,13 +39,12 @@ export default function AsidePrice({ formValues, styles, onConfirm }) {
                 <div className={styles['text__content']}>
                   <span className={styles['description']}>
                     <i
-                      className={`iconfont icon-${formValues?.operating_system_str}`}
+                      className={`iconfont icon-${formValues?.operating_system_str[0]}`}
                     />
                     <p className={styles['text__description']}>
-                      {formValues?.operating_system_str}
+                      {formValues?.operating_system_str.join(' | ')}
                     </p>
                   </span>
-                  <span className={styles['price']}>$35.669</span>
                 </div>
               </section>
             )}
@@ -59,7 +57,6 @@ export default function AsidePrice({ formValues, styles, onConfirm }) {
                       {formValues?.instance.name}
                     </p>
                   </span>
-                  <span className={styles['price']}>$35.669</span>
                 </div>
               </section>
             )}
@@ -72,7 +69,6 @@ export default function AsidePrice({ formValues, styles, onConfirm }) {
                       {formValues?.especification}
                     </p>
                   </span>
-                  <span className={styles['price']}>$35.669</span>
                 </div>
               </section>
             )}
@@ -85,7 +81,6 @@ export default function AsidePrice({ formValues, styles, onConfirm }) {
                       {formValues?.ai_framework}
                     </p>
                   </span>
-                  <span className={styles['price']}>$35.669</span>
                 </div>
               </section>
             )}
@@ -93,16 +88,18 @@ export default function AsidePrice({ formValues, styles, onConfirm }) {
         ) : (
           <div className={styles['instance-empty']}>
             <img src={instacePng} alt="instance empty icon" />
-            <p>请从左侧开始配置 instance</p>
+            <p>Please start configuring the instance from the left.</p>
           </div>
         )}
       </main>
       <Divider></Divider>
       <footer className={styles['aside-footer']}>
-        <span className={styles['text__price']}>$34.669</span>
-        <Button className={styles['btn-confirm']} onClick={onConfirm}>
-          Confirm the order
-        </Button>
+        {/* <span className={styles['text__price']}>$34.669</span> */}
+        {Object.values(formValues).some((item) => item !== undefined) && (
+          <Button className={styles['btn-confirm']} onClick={onConfirm}>
+            Confirm the order
+          </Button>
+        )}
       </footer>
       <Divider></Divider>
     </aside>

@@ -1,10 +1,10 @@
-import { Table, Input } from 'antd';
-import { SearchOutlined } from '@ant-design/icons';
+import { Table } from 'antd';
+
 import styles from './index.less';
-import data from './constant.json';
+
 import { useState } from 'react';
 export default function QuickTable(props) {
-  const { onChange, formValues, value } = props;
+  const { onChange, formValues, value, list } = props;
   const [selectKey, setSelectKey] = useState(value || null);
 
   const rowSelection = {
@@ -65,7 +65,7 @@ export default function QuickTable(props) {
       dataIndex: 'price',
       render: (text, record) => (
         <p className="price">
-          <span>{text}</span>/mon.
+          <span>{text}</span>USDT
         </p>
       ),
     },
@@ -75,7 +75,7 @@ export default function QuickTable(props) {
     <Table
       rowSelection={rowSelection}
       columns={columns}
-      dataSource={data.instances}
+      dataSource={list}
       pagination={false}
       rowKey={'id'}
       rowClassName={getRowClassName}

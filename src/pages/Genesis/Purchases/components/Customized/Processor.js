@@ -37,10 +37,7 @@ export default function Processor({ value, onChange, formValues }) {
       />
 
       <section className={styles['options']}>
-        <Form.Item
-          name="processor"
-          rules={[{ required: true, message: 'Please select a processor' }]}
-        >
+        <Form.Item name="processor">
           <Radio.Group
             className={styles['processors']}
             value={value?.processor}
@@ -64,10 +61,7 @@ export default function Processor({ value, onChange, formValues }) {
 
         <Divider type="vertical" className={styles['divider']} />
 
-        <Form.Item
-          name="gpu"
-          rules={[{ required: true, message: 'Please select a chip' }]}
-        >
+        <Form.Item name="gpu">
           <Radio.Group className={styles['processors']} value={value?.cpu_gpu}>
             {CPU_GPU_OPTIONS.map((option) => (
               <Radio.Button

@@ -4,7 +4,7 @@ import styles from './index.less';
 import useContinents from '@/hooks/useContinents';
 import { isEmpty } from 'lodash';
 
-export default function Location({ value, onChange }) {
+export default function Location({ value = [], onChange }) {
   const continents = useContinents();
   const [list, setList] = useState([]);
   const [search, setSearch] = useState('');
@@ -19,8 +19,11 @@ export default function Location({ value, onChange }) {
     setList(allItems);
   }, [continents]);
 
-  const handleCheckboxChange = (newValue) => {
-    onChange?.(newValue);
+  const handleCheckboxChange = (checked, newValue) => {
+    let newValues = checked
+      ? [...value, newValue]
+      : value.filter((item) => item !== newValue);
+    onChange?.(newValues);
   };
 
   // Filtrar países según el texto de búsqueda
@@ -63,9 +66,11 @@ export default function Location({ value, onChange }) {
             key={country.code}
             className={[
               styles['item'],
-              value === country.name && styles['active-item'],
+              value.includes(country.name) && styles['active-item'],
             ].join(' ')}
-            onClick={() => handleCheckboxChange(country.name)}
+            onClick={() =>
+              handleCheckboxChange(!value.includes(country.name), country.name)
+            }
           >
             <div className={styles['content']}>
               <div className={styles['content-flag']}>
@@ -78,8 +83,10 @@ export default function Location({ value, onChange }) {
               </div>
               <Checkbox
                 className={styles['rounded-check']}
-                checked={value === country.name}
-                onChange={() => handleCheckboxChange(country.name)}
+                checked={value.includes(country.name)}
+                onChange={(e) =>
+                  handleCheckboxChange(e.target.value, country.name)
+                }
               />
             </div>
           </Card>

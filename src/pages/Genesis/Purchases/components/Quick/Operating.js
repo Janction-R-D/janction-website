@@ -1,37 +1,37 @@
-import React from 'react';
-import { Form, Radio } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Checkbox } from 'antd';
 import styles from './index.less';
 import { operating_systems as PROCESSOR } from './constant.json';
 
-export default function Operating({ value, onChange }) {
-  const handleRadioChange = (e) => {
-    onChange?.(e.target.value);
+export default function Operating({ value = [], onChange }) {
+  const handleCheckboxChange = (checkedValues) => {
+    onChange?.(checkedValues);
   };
 
   return (
     <section className={styles['processor-conf']}>
       <p>Operating System</p>
       <section className={styles['options']}>
-        <Radio.Group
+        <Checkbox.Group
           className={styles['processors']}
-          value={value?.processor}
-          onChange={handleRadioChange}
+          value={value}
+          onChange={handleCheckboxChange}
         >
           {PROCESSOR.map((processor) => (
-            <Radio.Button
+            <Checkbox
               key={processor.value}
               value={processor.value}
               className={[
                 styles['processor'],
                 styles['gradient-card'],
-                processor.value == value && styles['active-item'],
+                value.includes(processor.value) && styles['active-item'],
               ].join(' ')}
             >
               <i className={`iconfont icon-${processor.label}`} />
               {processor.label}
-            </Radio.Button>
+            </Checkbox>
           ))}
-        </Radio.Group>
+        </Checkbox.Group>
       </section>
     </section>
   );

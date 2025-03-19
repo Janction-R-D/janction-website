@@ -1,15 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import instacePng from '@/assets/images/genesis/instance.png';
 import { Avatar, Button, Divider } from 'antd';
+
 export default function AsidePrice({ formValues, styles, onConfirm }) {
   const [isFormEmpty, setIsEmpty] = useState(true);
+
   useEffect(() => {
-    let isNotEmpty = Object.values(formValues).some(
-      (item) => item !== undefined,
-    );
-    console.log(formValues);
-    setIsEmpty(!isNotEmpty);
+    setIsEmpty(!Object.values(formValues).some((item) => item !== undefined));
   }, [formValues]);
+
+  const renderSection = (label, value, extra) =>
+    value && (
+      <section>
+        <p className={styles['text__type']}>{label}</p>
+        <div className={styles['text__content']}>
+          <span className={styles['description']}>
+            {extra || <p className={styles['text__description']}>{value}</p>}
+          </span>
+        </div>
+      </section>
+    );
+
   return (
     <aside className={styles['aside-wrapper']}>
       <header className={styles['aside-header']}>
@@ -28,114 +39,53 @@ export default function AsidePrice({ formValues, styles, onConfirm }) {
                       className={`iconfont icon-${formValues?.operating_system_str}`}
                     />
                     <p className={styles['text__description']}>
-                      {formValues?.operating_system_str}
+                      {formValues?.operating_system_str.join(' | ')}
                     </p>
                   </span>
-                  <span className={styles['price']}>$35.669</span>
                 </div>
               </section>
             )}
-            {formValues?.ai_framework && (
-              <section>
-                <p className={styles['text__type']}>AI Framework</p>
-                <div className={styles['text__content']}>
-                  <span className={styles['description']}>
-                    <p className={styles['text__description']}>
-                      {formValues?.ai_framework}
-                    </p>
-                  </span>
-                  <span className={styles['price']}>$35.669</span>
-                </div>
-              </section>
+            {renderSection('AI Framework', formValues?.ai_framework)}
+            {renderSection('Internet', formValues?.internet_type)}
+            {renderSection(
+              'Connectivity tier',
+              formValues?.conectivity_tier,
+              <span>Mbps</span>,
             )}
-            {formValues?.internet_type && (
-              <section>
-                <p className={styles['text__type']}>Internet </p>
-                <div className={styles['text__content']}>
-                  <span className={styles['description']}>
-                    <p className={styles['text__description']}>
-                      {formValues?.internet_type}
-                    </p>
-                  </span>
-                  <span className={styles['price']}>$35.669</span>
-                </div>
-              </section>
-            )}
-            {formValues?.conectivity_tier && (
-              <section>
-                <p className={styles['text__type']}>Conectivity tier </p>
-                <div className={styles['text__content']}>
-                  <span className={styles['description']}>
-                    <p className={styles['text__description']}>
-                      {formValues?.conectivity_tier}
-                    </p>
-                    <span>Mbps</span>
-                  </span>
-                  <span className={styles['price']}>$35.669</span>
-                </div>
-              </section>
-            )}
-            {formValues?.location && (
-              <section>
-                <p className={styles['text__type']}>Location </p>
-                <div className={styles['text__content']}>
-                  <span className={styles['description']}>
-                    <p className={styles['text__description']}>
-                      {formValues?.location}
-                    </p>
-                  </span>
-                  <span className={styles['price']}>$35.669</span>
-                </div>
-              </section>
-            )}
+            {renderSection('Location', formValues?.location.join(' | '))}
             {formValues?.processor_model &&
               formValues?.processor &&
-              formValues?.gpu && (
-                <section>
-                  <p className={styles['text__type']}>Basic configuration </p>
-                  <div className={styles['text__content']}>
-                    <span className={styles['description']}>
-                      <p className={styles['text__description']}>
-                        <span>
-                          {formValues?.processor} | {formValues?.gpu} |
-                        </span>
-                        <span>{formValues?.processor_model.name}</span>
-                      </p>
-                    </span>
-                    <span className={styles['price']}>$35.669</span>
-                  </div>
-                </section>
+              formValues?.gpu &&
+              renderSection(
+                'Basic configuration',
+                `${formValues?.processor} | ${
+                  formValues?.gpu
+                } | ${formValues?.processor_model.join(' | ')}`,
               )}
-            {formValues?.node && (
-              <section>
-                <p className={styles['text__type']}>Basic configuration </p>
-                <div className={styles['text__content']}>
-                  <span className={styles['description']}>
-                    <p className={styles['text__description']}>
-                      <span>
-                        {formValues?.processor} | {formValues?.gpu} |
-                      </span>
-                      <span>{formValues?.processor_model.brand}</span>
-                    </p>
-                  </span>
-                  <span className={styles['price']}>$35.669</span>
-                </div>
-              </section>
-            )}
+            {formValues?.node &&
+              renderSection(
+                'Basic configuration',
+                `${formValues?.processor} | ${
+                  formValues?.gpu
+                } | ${formValues?.processor_model.join(' | ')}`,
+              )}
           </>
         ) : (
           <div className={styles['instance-empty']}>
             <img src={instacePng} alt="instance empty icon" />
-            <p>请从左侧开始配置 instance</p>
+            <p>Please start configuring the instance from the left</p>
           </div>
         )}
       </main>
+
       <Divider />
       <footer className={styles['aside-footer']}>
-        <span className={styles['text__price']}>$34.669</span>
-        <Button className={styles['btn-confirm']} onClick={onConfirm}>
-          Confirm the order
-        </Button>
+        {/* <span className={styles['text__price']}>$34.669</span> */}
+        {Object.values(formValues).some((item) => item !== undefined) && (
+          <Button className={styles['btn-confirm']} onClick={onConfirm}>
+            Confirm the order
+          </Button>
+        )}
       </footer>
       <Divider />
     </aside>

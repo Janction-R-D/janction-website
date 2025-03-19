@@ -1,44 +1,56 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table, Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import styles from './index.less';
-const data = [
-  {
-    id: 'ec9a4c77-9b26-4863-9017-720a850394fc',
-    operatingSystem: 'Android',
-    architecture: 'ARM64',
-    internet: 'NAT',
-    connectivity: '600 Mbps',
-    location: 'China',
-    process: { name: 'INTEL | CPU', model: ' H100 PCIe' },
-    price: '¥180,000.00',
-  },
-  {
-    id: 'c1810c72-5c8a-4ce4-9a03-862d3418641e',
-    operatingSystem: 'Android',
-    architecture: 'ARM64',
-    internet: 'NAT',
-    connectivity: '600 Mbps',
-    location: 'China',
-    process: { name: 'INTEL | CPU', model: ' H100 PCIe' },
-    price: '180,000.00',
-  },
-];
+import { fetchListFilter, fetchListOptions } from '@/services/genesis';
 
 function ProductList(props) {
-  const { onChange, formValues } = props;
-  const [selectKey, setSelectKey] = useState(null);
-
-  const rowSelection = {
-    selectedRowKeys: [selectKey],
-    onChange: (selectedRowKeys, selectedRows) => {
-      setSelectKey(selectedRowKeys[0]);
-      onChange?.(selectedRows[0]);
-    },
-
-    // columnWidth: 0, // Oculta la columna
-    // renderCell: () => null, // Evita que se renderice el checkbox en cada fila
+  const { onChange, formValues, current } = props;
+  const [selectedKeys, setSelectedKeys] = useState([]);
+  const [list, setList] = useState([]);
+  useEffect(() => {
+    console.log(formValues);
+    if (current !== 4) return;
+    const {
+      location: region,
+      gpu: cpu_name,
+      processor: gpu_name,
+      conectivity_tier: memory,
+      operating_system_str: operating_system,
+    } = formValues;
+    const payload = {
+      region,
+      cpu_name: [cpu_name],
+      gpu_name: [gpu_name],
+      operating_system,
+    };
+    console.log(payload);
+    getList(payload);
+  }, []);
+  const getList = async (data) => {
+    try {
+      const listItems = await fetchListFilter(data);
+      console.log(listItems);
+    } catch (error) {
+      console.log(error);
+    }
   };
+  const getOpt = async () => {
+    const data = await fetchListOptions();
+    console.log(data);
+    return data;
+  };
+  const rowSelection = {
+    selectedRowKeys: selectedKeys,
+    onChange: (selectedRowKeys, selectedRows) => {
+      setSelectedKeys(selectedRowKeys);
+      onChange?.(selectedRows);
+    },
+  };
+
+  // columnWidth: 0, // Oculta la columna
+  // renderCell: () => null, // Evita que se renderice el checkbox en cada fila
+
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm }) => (
       <div style={{ padding: 8 }}>
@@ -60,7 +72,8 @@ function ProductList(props) {
       record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
   });
   const getRowClassName = (record) =>
-    record.key === selectKey ? 'selected-row' : '';
+    selectedKeys.includes(record.id) ? 'selected-row' : '';
+
   const columns = [
     {
       title: 'Operating System',
@@ -118,7 +131,7 @@ function ProductList(props) {
     <Table
       rowSelection={rowSelection}
       columns={columns}
-      dataSource={data}
+      dataSource={list}
       pagination={false}
       rowKey={'id'}
       rowClassName={getRowClassName} // Agrega clase a la fila seleccionada

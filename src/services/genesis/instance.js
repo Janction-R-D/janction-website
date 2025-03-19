@@ -526,3 +526,18 @@ export const fetchStopRentParams = (data) => {
     loginAuth: true,
   });
 };
+
+export const fetchListFilter = (data) => {
+  return request(`${baseUrl}/node/filter/list`, {
+    method: 'POST',
+    data,
+    loginAuth: true,
+  });
+};
+export const fetchListOptions = (data) => {
+  return request(`${baseUrl}/node/filter/options`, {
+    method: 'GET',
+    data,
+    loginAuth: true,
+  });
+};

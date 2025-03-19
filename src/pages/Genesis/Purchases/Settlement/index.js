@@ -148,7 +148,6 @@ const Settlement = (props) => {
     },
   ];
   const goBack = () => {
-    console.log('object');
     history.push('/genesis/purchases');
   };
   return (

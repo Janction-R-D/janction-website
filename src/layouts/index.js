@@ -13,6 +13,7 @@ import MessageCenter from '@/pages/Genesis/Message-center';
 import Nodes from '@/pages/Genesis/DeployNodes';
 import Purchases from '@/pages/Genesis/Purchases';
 import PurchaseLayout from './PurchaseLayout';
+import Settlement from '@/pages/Genesis/Purchases/Settlement';
 
 export const fullWidthRoute = ['/home', '/explore', '/getStarted', '/solution'];
 export const authRoute = [
@@ -88,6 +89,15 @@ export default function Layout(props) {
       <GenesisProvider>
         <PurchaseLayout>
           <Purchases />
+        </PurchaseLayout>
+      </GenesisProvider>
+    );
+  }
+  if (props.location.pathname == '/genesis/purchases/settlement') {
+    return (
+      <GenesisProvider>
+        <PurchaseLayout>
+          <Settlement />
         </PurchaseLayout>
       </GenesisProvider>
     );

@@ -11,21 +11,36 @@ import { history } from 'umi';
 import ToggleSwitch from './Quick/ToggelSwitch';
 import FrameworkAi from './Customized/FrameworkAi';
 import QuickTable from './Quick/QuickTable';
+import ProductList from './Quick/ProductList';
+import { fetchListFilter } from '@/services/genesis';
 
 const Quick = (props) => {
   const [form] = Form.useForm();
   const [isGrid, setIsGrid] = useState(false);
   const [formValues, setFormValues] = useState({});
+  const [list, setList] = useState([]);
   useEffect(() => {
-    console.log(formValues);
-  }, [formValues, isGrid]);
+    let { operating_system_str: operating_system = [] } = formValues || {};
+
+    const payload = {
+      operating_system,
+    };
+
+    getList(payload);
+  }, [formValues]);
+  const getList = async (data) => {
+    try {
+      const listItems = await fetchListFilter(data);
+      console.log(listItems);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const onValuesChange = async () => {
     const values = form.getFieldsValue();
     setFormValues(values);
   };
-  const onFinish = async (values) => {
-    console.log(values);
-  };
+
   const onConfirm = async () => {
     try {
       await form.validateFields();
@@ -39,7 +54,6 @@ const Quick = (props) => {
       <Form
         form={form}
         name="customized"
-        onFinish={onFinish}
         onValuesChange={onValuesChange}
         className={styles['form']}
       >
@@ -51,70 +65,44 @@ const Quick = (props) => {
           </p>
         </section>
         <main className={styles['specification-conf-wrapper']}>
+          <Form.Item name="operating_system_str">
+            <Operating />
+          </Form.Item>
+          <Collapse
+            className={styles['custom-collapse']}
+            bordered={false}
+            defaultActiveKey={1}
+          >
+            <Collapse.Panel
+              header="Pre-installed application (AI Framework)"
+              key="1"
+              style={{ background: '#000' }}
+            >
+              <Form.Item name="ai_framework">
+                <FrameworkAi formValues={formValues} />
+              </Form.Item>
+            </Collapse.Panel>
+          </Collapse>
           <p>Instance Specification</p>
           <Card className={styles['specification-card']}>
             <section className={styles['specification-card-header']}>
-              <Form.Item
-                name="specification"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please select an instance specification',
-                  },
-                ]}
-              >
+              <Form.Item name="specification">
                 <Specification />
               </Form.Item>
+
               <section className={styles['switch-container']}>
                 <ToggleSwitch isGrid={isGrid} setIsGrid={setIsGrid} />
               </section>
             </section>
+
             <Form.Item
               name="instance"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please select an instance ',
-                },
-              ]}
+              rules={[{ required: true, message: 'Please select an instance' }]}
             >
-              {isGrid ? (
-                <Instances styles={styles} />
-              ) : (
-                <QuickTable formValues={formValues} />
-              )}
+              <ProductList list={list} isGrid={isGrid} styles={styles} />
             </Form.Item>
           </Card>
         </main>
-        <Form.Item
-          name="operating_system_str"
-          rules={[{ required: true, message: 'Please select a processor' }]}
-        >
-          <Operating />
-        </Form.Item>
-
-        <Collapse
-          className={styles['custom-collapse']}
-          bordered={false}
-          defaultActiveKey={1}
-        >
-          <Collapse.Panel
-            header="Pre-installed application (AI Framework)"
-            key="1"
-          >
-            <Form.Item
-              name="ai_framework"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please select a pre-installed application option',
-                },
-              ]}
-            >
-              <FrameworkAi formValues={formValues} />
-            </Form.Item>
-          </Collapse.Panel>
-        </Collapse>
       </Form>
       <Divider type="vertical" className={styles['divider']} />
       <AsidePrice

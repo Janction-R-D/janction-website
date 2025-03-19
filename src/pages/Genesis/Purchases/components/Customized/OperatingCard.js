@@ -1,13 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import { SYSTEM_LIST } from '@/constant';
 import { Card, Checkbox } from 'antd';
 import styles from './index.less';
 
-export default function OperatingCard({ value, onChange }) {
-  const handleCheckboxChange = (newValue) => {
-    if (newValue !== value) {
-      onChange?.(newValue); // Actualiza el formulario
-    }
+export default function OperatingCard({ value = [], onChange }) {
+  const handleCheckboxChange = (checked, newValue) => {
+    let newValues = checked
+      ? [...value, newValue]
+      : value.filter((item) => item !== newValue);
+    onChange?.(newValues);
   };
 
   return (
@@ -18,9 +19,11 @@ export default function OperatingCard({ value, onChange }) {
             key={item.value}
             className={[
               styles['item'],
-              value === item.value && styles['active-item'],
+              value.includes(item.value) && styles['active-item'],
             ].join(' ')}
-            onClick={() => handleCheckboxChange(item.value)}
+            onClick={() =>
+              handleCheckboxChange(!value.includes(item.value), item.value)
+            }
           >
             <section className={styles['item-header']}>
               <div className={styles['header-left']}>
@@ -32,8 +35,11 @@ export default function OperatingCard({ value, onChange }) {
               <div className={styles['header-right']}>
                 <Checkbox
                   className={styles['rounded-check']}
-                  checked={value === item.value} // Vincula con el estado de Form
-                  onChange={() => handleCheckboxChange(item.value)}
+                  checked={value.includes(item.value)}
+                  onChange={(e) =>
+                    handleCheckboxChange(e.target.checked, item.value)
+                  }
+                  onClick={(e) => e.stopPropagation()} // Evita que el click en el checkbox active el Card
                 />
               </div>
             </section>
