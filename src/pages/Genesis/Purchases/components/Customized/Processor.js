@@ -80,7 +80,7 @@ export default function Processor({ value, onChange, formValues }) {
         </Form.Item>
       </section>
 
-      <div className={styles['processor-list']}>
+      {/* <div className={styles['processor-list']}>
         {list.map((item, index) => (
           <Card
             key={index}
@@ -100,7 +100,7 @@ export default function Processor({ value, onChange, formValues }) {
             </div>
           </Card>
         ))}
-      </div>
+      </div> */}
     </section>
   );
 }
