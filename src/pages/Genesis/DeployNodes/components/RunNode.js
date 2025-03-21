@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { copy } from '@/utils/lang';
 import styles from './index.less';
-import { Checkbox } from 'antd';
+import { Button, Checkbox } from 'antd';
 import RunNodeScript from './RunNodeScript';
 
 const RunNode = (props) => {
@@ -28,6 +28,7 @@ const RunNode = (props) => {
         <>
           <section className={styles['link']}>
             <h1>Prerequisites: Install termux-app</h1>
+
             <div>
               <p className="ell" title={nodeData?.apk}>
                 {nodeData?.apk}
@@ -186,13 +187,19 @@ const RunNode = (props) => {
     >
       <section className={styles['run-node']}>
         <hgroup>
-          <h1>
-            {selectedValues?.system == 'android'
-              ? 'Running on Android'
-              : 'Run Node'}
-          </h1>
-
-          <span>You need to execute the following command</span>
+          <div className={styles['run-node__box']}>
+            <h1>
+              {selectedValues?.system == 'android'
+                ? 'Running on Android'
+                : 'Run Node'}
+            </h1>
+            <Button type="primary" className={styles['token-btn']}>
+              Get an ID token
+            </Button>
+          </div>
+          <span className={styles['node-desc']}>
+            You need to execute the following command
+          </span>
         </hgroup>
         <div className={styles['content']}>{renderLinks()}</div>
       </section>
