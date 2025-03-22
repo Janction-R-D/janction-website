@@ -48,13 +48,13 @@ export default function AsidePrice({ formValues, styles, onConfirm }) {
                 </div>
               </section>
             )}
-            {formValues?.instance && (
+            {formValues?.node && (
               <section>
                 <p className={styles['text__type']}>Instance</p>
                 <div className={styles['text__content']}>
                   <span className={styles['description']}>
                     <p className={styles['text__description']}>
-                      {formValues?.instance.name}
+                      {formValues?.node.id}
                     </p>
                   </span>
                 </div>

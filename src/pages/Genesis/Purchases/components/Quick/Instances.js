@@ -7,7 +7,22 @@ const formatDate = (isoString, format = 'YYYY-MM-DD HH:mm:ss') => {
   return dayjs(isoString).format(format);
 };
 export default function Instances({ value, onChange, styles, data }) {
-  const [list, setList] = useState(data);
+  const cardData = data?.map((node) => ({
+    id: node?.id ?? 'unknown',
+    name: node?.name ?? 'Unknown',
+    cpu: node?.attr?.cpu ?? 'Unknown',
+    gpu: node?.attr?.gpu ?? 'Unknown',
+    storage: node?.attr?.storage ?? 'Unknown',
+    memory: node?.attr?.memory ?? 'Unknown',
+    location: node?.attr?.location !== '' ? node?.attr?.location : '~',
+    connectivityTier: node?.attr?.connectivity_tier ?? [],
+    internet:
+      node?.attr?.network_up !== undefined &&
+      node?.attr?.network_down !== undefined
+        ? `${node.attr.network_up} / ${node.attr.network_down} Mbps`
+        : 'Unknown',
+    processor: node?.attr?.processor ?? 'Unknown',
+  }));
   const [selectKey, setSelectKey] = useState();
   const handleCheckboxChange = (newValue) => {
     if (newValue !== value) {
@@ -19,20 +34,19 @@ export default function Instances({ value, onChange, styles, data }) {
     <div className={styles['image-conf-wrapper']}>
       <p> Recommended Instances</p>
       <section className={styles['image-conf-cards']}>
-        {Array.isArray(list) && list.length >= 1 ? (
-          list?.map((item) => {
+        {cardData?.length >= 1 ? (
+          cardData?.map((item) => {
             return (
               <Card
                 key={item?.id}
-                className={[
-                  styles['item'],
-                  value?.id === item?.id && styles['active-item'],
-                ].join(' ')}
+                className={`${styles['item']} ${
+                  value?.id === item?.id ? styles['active-item'] : ''
+                }`}
                 onClick={() => handleCheckboxChange(item)}
               >
                 <section className={styles['item-header']}>
                   <div className={styles['header-left']}>
-                    <span>{item?.name}</span>
+                    <span>{item?.id}</span>
                   </div>
                   <div className={styles['header-right']}>
                     <Checkbox
@@ -62,16 +76,19 @@ export default function Instances({ value, onChange, styles, data }) {
                 </article>
                 <section className={styles['config-info']}>
                   <p className={styles['des-title']}>Internet configuration</p>
-
                   <div className={styles['des-group']}>
-                    {item?.internet_configuration?.map((subItem) => (
-                      <span className={styles['des-text']}>{subItem}</span>
-                    ))}
+                    <span className={styles['des-text']}>{item?.internet}</span>
                   </div>
                   <div className={styles['des-group']}>
                     {item?.connectivity_tier?.map((subItem) => (
                       <span className={styles['des-text']}>{subItem}</span>
                     ))}
+                  </div>
+                </section>
+                <section className={styles['config-info']}>
+                  <p className={styles['des-title']}>Location</p>
+                  <div className={styles['des-group']}>
+                    <span className={styles['des-text']}>{item?.location}</span>
                   </div>
                 </section>
                 <section className={styles['config-info']}>

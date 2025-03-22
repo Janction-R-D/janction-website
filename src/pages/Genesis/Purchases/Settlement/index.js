@@ -19,7 +19,6 @@ import styles from './index.less';
 
 const Settlement = (props) => {
   const [deadline, setDeadline] = useState();
-
   const { formValues } = history.location.state || {};
   console.log(formValues);
   const { address } = useAccount();
@@ -37,6 +36,7 @@ const Settlement = (props) => {
   const getNodeConfigInfo = async (params) => {
     try {
       const res = await fetchNodesConfigInfo(params);
+      console.log('res :', list);
       if (isEmpty(res)) {
         setList([]);
         return;
@@ -171,6 +171,7 @@ const Settlement = (props) => {
           dataSource={list}
           pagination={false}
           scroll={{ x: 'auto' }}
+          rowKey="id"
         />
       </PurchaseCard>
       <Footer

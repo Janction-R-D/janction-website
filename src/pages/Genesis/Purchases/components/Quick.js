@@ -13,6 +13,7 @@ import FrameworkAi from './Customized/FrameworkAi';
 import QuickTable from './Quick/QuickTable';
 import ProductList from './Quick/ProductList';
 import { fetchListFilter } from '@/services/genesis';
+import { getNodeStatusMatch } from '@/utils/lang';
 
 const Quick = (props) => {
   const [form] = Form.useForm();
@@ -30,12 +31,18 @@ const Quick = (props) => {
   }, [formValues]);
   const getList = async (data) => {
     try {
-      const listItems = await fetchListFilter(data);
-      console.log(listItems);
+      const res = await fetchListFilter(data);
+      setList(
+        (res || []).filter((node) => {
+          const { isListed } = getNodeStatusMatch(node);
+          return isListed;
+        }),
+      );
     } catch (error) {
       console.log(error);
     }
   };
+
   const onValuesChange = async () => {
     const values = form.getFieldsValue();
     setFormValues(values);
@@ -96,7 +103,7 @@ const Quick = (props) => {
             </section>
 
             <Form.Item
-              name="instance"
+              name="node"
               rules={[{ required: true, message: 'Please select an instance' }]}
             >
               <ProductList list={list} isGrid={isGrid} styles={styles} />

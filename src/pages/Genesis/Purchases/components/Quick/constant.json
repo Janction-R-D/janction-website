@@ -87,13 +87,10 @@
   ],
   "operating_systems": [
     {
-      "label": "ubuntu",
-      "value": "ubuntu"
+      "label": "linux",
+      "value": "linux"
     },
-    {
-      "label": "centos",
-      "value": "centos"
-    },
+
     {
       "label": "macos",
       "value": "macos"

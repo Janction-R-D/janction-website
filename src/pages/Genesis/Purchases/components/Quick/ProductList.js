@@ -3,20 +3,26 @@ import Instances from './Instances';
 import QuickTable from './QuickTable';
 import { fetchListFilter } from '@/services/genesis';
 export default function ProductList(props) {
-  const { formValues, onChange, isGrid, styles, list } = props;
+  const { formValues, onChange, isGrid, styles, list, value } = props;
 
   return (
-    <div>
+    <>
       {isGrid ? (
         <Instances
           styles={styles}
           formValues={formValues}
           onChange={onChange}
           data={list}
+          value={value}
         />
       ) : (
-        <QuickTable formValues={formValues} onChange={onChange} data={list} />
+        <QuickTable
+          value={value}
+          formValues={formValues}
+          onChange={onChange}
+          data={list}
+        />
       )}
-    </div>
+    </>
   );
 }

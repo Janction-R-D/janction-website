@@ -3,10 +3,12 @@ import { Table } from 'antd';
 import styles from './index.less';
 
 import { useState } from 'react';
-export default function QuickTable(props) {
-  const { onChange, formValues, value, list } = props;
-  const [selectKey, setSelectKey] = useState(value || null);
+import { getTableData } from '../utils';
 
+export default function QuickTable(props) {
+  const { onChange, formValues, value, data } = props;
+  const [selectKey, setSelectKey] = useState(value || null);
+  const list = getTableData(data);
   const rowSelection = {
     selectedRowKeys: [selectKey],
     onChange: (selectedRowKeys, selectedRows) => {
@@ -76,7 +78,7 @@ export default function QuickTable(props) {
       rowSelection={rowSelection}
       columns={columns}
       dataSource={list}
-      pagination={false}
+      pagination={{ pageSize: 5 }}
       rowKey={'id'}
       rowClassName={getRowClassName}
       className={styles['table']}

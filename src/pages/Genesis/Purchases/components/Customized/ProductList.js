@@ -3,6 +3,8 @@ import { Table, Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import styles from './index.less';
 import { fetchListFilter, fetchListOptions } from '@/services/genesis';
+import { getNodeStatusMatch } from '@/utils/lang';
+import { getTableData } from '../utils';
 
 function ProductList(props) {
   const { onChange, formValues, current } = props;
@@ -21,17 +23,24 @@ function ProductList(props) {
       operating_system_str: operating_system,
     } = formValues || {};
     const payload = {
-      region,
-      cpu_name: [cpu_name],
-      gpu_name: [gpu_name],
-      operating_system,
+      region: region || [],
+      cpu_name: cpu_name || [],
+      gpu_name: gpu_name || [],
+      operating_system: operating_system || [],
     };
+    console.log(payload);
     getList(payload);
   }, []);
-  const getList = async (data) => {
+  const getList = async (input) => {
     try {
-      const listItems = await fetchListFilter(data);
-      setList(listItems);
+      const res = await fetchListFilter(input);
+
+      const data = (res || []).filter((node) => {
+        const { isListed } = getNodeStatusMatch(node);
+        return isListed;
+      });
+      const tableData = getTableData(data);
+      setList(tableData);
     } catch (error) {
       console.log(error);
     }
