@@ -13,7 +13,7 @@ function ProductList(props) {
   const [list, setList] = useState([]);
   useEffect(() => {
     // getOpt();
-    if (current !== 4) return;
+    if (current !== 5) return;
     console.log(formValues);
     const {
       location: region,
@@ -82,6 +82,11 @@ function ProductList(props) {
 
   const columns = [
     {
+      title: 'ID',
+      ellipsis: true,
+      dataIndex: 'id',
+    },
+    {
       title: 'Operating System',
       ellipsis: true,
       dataIndex: 'operatingSystem',
@@ -96,22 +101,6 @@ function ProductList(props) {
       onFilter: (value, record) => record.architecture.includes(value),
     },
     {
-      title: 'Internet',
-      ellipsis: true,
-      dataIndex: 'internet',
-    },
-    {
-      title: 'Connectivity Tier',
-      ellipsis: true,
-      dataIndex: 'connectivity',
-    },
-    {
-      title: 'Location',
-      dataIndex: 'location',
-      filters: [{ text: 'China', value: 'China' }],
-      onFilter: (value, record) => record.location.includes(value),
-    },
-    {
       title: 'Processor',
       dataIndex: 'process',
       ellipsis: true,
@@ -120,15 +109,6 @@ function ProductList(props) {
           <p>{text?.name}</p>
           <p>{text?.model}</p>
         </div>
-      ),
-    },
-    {
-      title: 'Price',
-      dataIndex: 'price',
-      render: (text, record) => (
-        <p className="price">
-          <span>{text}</span>/mon.
-        </p>
       ),
     },
   ];

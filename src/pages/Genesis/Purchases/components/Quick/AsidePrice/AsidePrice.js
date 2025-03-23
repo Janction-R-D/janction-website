@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import instacePng from '@/assets/images/genesis/instance.png';
 import { Avatar, Button, Divider } from 'antd';
+import { getDurationUnit } from '../../utils';
+
 export default function AsidePrice({ formValues, styles, onConfirm }) {
   const [isFormEmpty, setIsEmpty] = useState(true);
   useEffect(() => {
@@ -55,6 +57,19 @@ export default function AsidePrice({ formValues, styles, onConfirm }) {
                   <span className={styles['description']}>
                     <p className={styles['text__description']}>
                       {formValues?.node.id}
+                    </p>
+                  </span>
+                </div>
+              </section>
+            )}
+            {formValues?.purDuration && (
+              <section>
+                <p className={styles['text__type']}>Duration</p>
+                <div className={styles['text__content']}>
+                  <span className={styles['description']}>
+                    <p className={styles['text__description']}>
+                      {formValues?.purDuration?.value}{' '}
+                      {getDurationUnit(formValues?.purDuration?.unit)}
                     </p>
                   </span>
                 </div>

@@ -1,5 +1,6 @@
 export function getTableData(data) {
   return data?.map((node) => ({
+    user_id: node?.user_id,
     id: node?.id ?? 'unknown',
     operatingSystem: node?.attr?.operating_system_str ?? 'Unknown',
     architecture: node?.attr?.architechture_str ?? 'Unknown',
@@ -21,3 +22,23 @@ export function getTableData(data) {
     price: 'N/A', // Si hay un precio disponible, puedes ajustarlo aquí
   }));
 }
+
+const units = [
+  {
+    value: 0,
+    unit: 'Day',
+  },
+  {
+    value: 1,
+    unit: 'Week',
+  },
+  {
+    value: 2,
+    unit: 'Month',
+  },
+];
+
+export const getDurationUnit = (number) => {
+  const unitObj = units.find((item) => item.value === number);
+  return unitObj ? unitObj.unit : 'Unknown';
+};

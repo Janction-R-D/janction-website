@@ -38,69 +38,87 @@ export default function Processor({ value, onChange, formValues }) {
 
       <section className={styles['options']}>
         <Form.Item name="processor">
-          <Radio.Group
-            className={styles['processors']}
-            value={value?.processor}
-          >
-            {PROCESSOR.map((processor) => (
-              <Radio.Button
-                key={processor.value}
-                value={processor.value}
-                className={[
-                  styles['processor'],
-                  styles['gradient-card'],
-                  processor.value == formValues.processor &&
-                    styles['active-item'],
-                ].join(' ')}
-              >
-                {processor.label}
-              </Radio.Button>
-            ))}
-          </Radio.Group>
+          <Processors formValues={formValues} />
         </Form.Item>
-
         <Divider type="vertical" className={styles['divider']} />
-
         <Form.Item name="gpu">
-          <Radio.Group className={styles['processors']} value={value?.cpu_gpu}>
-            {CPU_GPU_OPTIONS.map((option) => (
-              <Radio.Button
-                key={option.value}
-                value={option.value}
-                className={[
-                  styles['processor'],
-                  styles['gradient-card'],
-                  option.value == formValues.gpu && styles['active-item'],
-                ].join(' ')}
-              >
-                {option.label}
-              </Radio.Button>
-            ))}
-          </Radio.Group>
+          <Gpu formValues={formValues} />
         </Form.Item>
       </section>
-
-      {/* <div className={styles['processor-list']}>
-        {list.map((item, index) => (
-          <Card
-            key={index}
-            className={[
-              styles['item'],
-              value.processor === item.value && styles['active-item'],
-            ].join(' ')}
-            onClick={() => handleCheckboxChange(item.value)}
-          >
-            <div className={styles['content']}>
-              <p className={styles['description']}>{item.name}</p>
-              <Checkbox
-                className={styles['rounded-check']}
-                checked={value.processor === item.value}
-                onChange={() => handleCheckboxChange(item.value)}
-              />
-            </div>
-          </Card>
-        ))}
-      </div> */}
     </section>
+  );
+}
+
+function Processors(props) {
+  const { value = [], onChange, formValues } = props;
+
+  const handleCheckboxChange = (newValue) => {
+    const newValues = value.includes(newValue)
+      ? value.filter((v) => v !== newValue) // Deseleccionar
+      : [...value, newValue]; // Seleccionar
+
+    onChange(newValues);
+  };
+
+  return (
+    <Checkbox.Group className={styles['processors']} value={value}>
+      {PROCESSOR.map((processor) => (
+        <div
+          key={processor.value}
+          className={[
+            styles['processor'],
+            styles['gradient-card'],
+            value.includes(processor.value) && styles['active-item'],
+          ].join(' ')}
+          onClick={() => handleCheckboxChange(processor.value)}
+        >
+          <Checkbox
+            value={processor.value}
+            className={styles['hidden-checkbox']}
+          />
+          {processor.label}
+        </div>
+      ))}
+    </Checkbox.Group>
+  );
+}
+
+function Gpu(props) {
+  const { value = [], onChange, formValues } = props;
+
+  const handleCheckboxChange = (checkedValues) => {
+    onChange(checkedValues); // Permite múltiples selecciones
+  };
+
+  return (
+    <Checkbox.Group
+      className={styles['processors']}
+      value={value}
+      onChange={handleCheckboxChange}
+    >
+      {CPU_GPU_OPTIONS.map((option) => (
+        <div
+          key={option.value}
+          className={[
+            styles['processor'],
+            styles['gradient-card'],
+            value.includes(option.value) && styles['active-item'],
+          ].join(' ')}
+          onClick={() => {
+            const newValues = value.includes(option.value)
+              ? value.filter((v) => v !== option.value) // Deseleccionar
+              : [...value, option.value]; // Seleccionar
+
+            onChange(newValues);
+          }}
+        >
+          <Checkbox
+            value={option.value}
+            className={styles['hidden-checkbox']}
+          />
+          <p className={styles['processor-label']}>{option.label}</p>
+        </div>
+      ))}
+    </Checkbox.Group>
   );
 }

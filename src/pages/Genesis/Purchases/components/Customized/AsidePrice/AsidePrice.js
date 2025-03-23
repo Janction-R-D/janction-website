@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import instacePng from '@/assets/images/genesis/instance.png';
 import { Avatar, Button, Divider } from 'antd';
+import { getDurationUnit } from '../../utils';
 
 export default function AsidePrice({ formValues, styles, onConfirm }) {
   const [isFormEmpty, setIsEmpty] = useState(true);
@@ -46,6 +47,15 @@ export default function AsidePrice({ formValues, styles, onConfirm }) {
               </section>
             )}
             {renderSection('AI Framework', formValues?.ai_framework)}
+            {renderSection(
+              'Purchase Duration',
+              formValues?.purDuration,
+              <span>
+                {' '}
+                {formValues?.purDuration?.value}{' '}
+                {getDurationUnit(formValues?.purDuration?.unit)}
+              </span>,
+            )}
             {renderSection('Internet', formValues?.internet_type?.join(' | '))}
             {renderSection(
               'Connectivity tier',

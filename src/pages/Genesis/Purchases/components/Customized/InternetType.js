@@ -2,10 +2,8 @@ import { useState } from 'react';
 
 import { Card, Checkbox } from 'antd';
 import styles from './index.less';
-const Internet_List = [
-  { name: 'Bangalore, India', value: 'Bangalore, India' },
-  { name: 'Manchester,UK', value: 'Manchester,UK' },
-];
+import { INTERNET } from '../../extra';
+
 export default function InternetType(props) {
   const { value = [], onChange, formValues, setCurrent } = props;
   const [activeValue, setActiveValue] = useState();
@@ -22,7 +20,7 @@ export default function InternetType(props) {
     <div className={styles['internet-conf-wrapper']}>
       <h3>Internet</h3>
       <section className={styles['internet-conf-cards']}>
-        {Internet_List.map((item, index) => (
+        {INTERNET.map((item, index) => (
           <Card
             key={index}
             className={[
@@ -34,7 +32,7 @@ export default function InternetType(props) {
             }
           >
             <div className={styles['content']}>
-              <p className={styles['description']}>{item.name}</p>
+              <p className={styles['description']}>{item.label}</p>
               <Checkbox
                 className={styles['rounded-check']}
                 checked={value.includes(item.value)}

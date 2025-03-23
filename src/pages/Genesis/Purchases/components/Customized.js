@@ -14,6 +14,7 @@ import { motion } from 'framer-motion';
 import FrameworkAi from './Customized/FrameworkAi';
 import AsidePrice from './Customized/AsidePrice/AsidePrice';
 import { history } from 'umi';
+import PurDuration from './PurDuration';
 
 const Customized = () => {
   const [form] = Form.useForm();
@@ -69,10 +70,25 @@ const Customized = () => {
         'Mobile is convenient, and large users can provide flexible computing power.',
     },
     {
+      title: 'Duration',
+      content: (
+        <Form.Item name="purDuration">
+          <PurDuration formValues={formValues} />
+        </Form.Item>
+      ),
+      field: 'Purchase Duration',
+      description:
+        'Mobile is convenient, and large users can provide flexible computing power.',
+    },
+    {
       title: 'Processor',
       content: (
         <Card className={styles['processor-conf-wrapper']}>
-          <Processor formValues={formValues} onChange={onValuesChange} />
+          <Processor
+            formValues={formValues}
+            onChange={onValuesChange}
+            current={current}
+          />
           <Form.Item name="processor_model">
             <Processors formValues={formValues} current={current} />
           </Form.Item>

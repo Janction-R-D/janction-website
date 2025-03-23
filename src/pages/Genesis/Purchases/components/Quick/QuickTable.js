@@ -22,6 +22,11 @@ export default function QuickTable(props) {
 
   const columns = [
     {
+      title: 'ID',
+      ellipsis: true,
+      dataIndex: 'id',
+    },
+    {
       title: 'Operating System',
       ellipsis: true,
       dataIndex: 'operatingSystem',
@@ -35,22 +40,7 @@ export default function QuickTable(props) {
       filters: [{ text: 'ARM64', value: 'ARM64' }],
       onFilter: (value, record) => record.architecture.includes(value),
     },
-    {
-      title: 'Internet',
-      ellipsis: true,
-      dataIndex: 'internet',
-    },
-    {
-      title: 'Connectivity Tier',
-      ellipsis: true,
-      dataIndex: 'connectivity',
-    },
-    {
-      title: 'Location',
-      dataIndex: 'location',
-      filters: [{ text: 'China', value: 'China' }],
-      onFilter: (value, record) => record.location.includes(value),
-    },
+
     {
       title: 'Processor',
       dataIndex: 'process',
@@ -60,15 +50,6 @@ export default function QuickTable(props) {
           <p>{text?.name}</p>
           <p>{text?.model}</p>
         </div>
-      ),
-    },
-    {
-      title: 'Price',
-      dataIndex: 'price',
-      render: (text, record) => (
-        <p className="price">
-          <span>{text}</span>USDT
-        </p>
       ),
     },
   ];

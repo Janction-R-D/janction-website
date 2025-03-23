@@ -29,20 +29,25 @@ const proccess = [
   },
 ];
 export function Processors(props) {
-  const { onChange, formValues, value = [] } = props;
+  const { onChange, formValues, value = [], current } = props;
   const [activeValue, setActiveValue] = useState(
     formValues?.processor_model || proccess[0]?.value,
   );
 
   const [data, setData] = useState();
   const [cpu_gpu, setCpuGpu] = useState(CPU_GPU_OPTIONS[0].value);
-  const [brand, setBrand] = useState(PROCESSOR[0].value);
+  const [brand, setBrand] = useState([PROCESSOR[0].value]);
   const [selectKey, setSelectKey] = useState();
   const [keyword, setKeyword] = useState();
 
   useEffect(() => {
+    console.log(formValues);
+    if (current !== 4) return;
+    setCpuGpu(formValues?.gpu);
+    setBrand(formValues?.processor);
+    console.log(brand);
     fetchData();
-  }, []);
+  }, [formValues]);
   const fetchData = async () => {
     try {
       const res = await fetchNodeProcessers();
@@ -55,15 +60,17 @@ export function Processors(props) {
   const list = useMemo(() => {
     if (isEmpty(data)) return [];
     let _list = data[cpu_gpu];
-    _list = _list.filter((item) => {
+    _list = _list?.filter((item) => {
       let _keyword =
         !keyword || item.name.toLowerCase().includes(keyword.toLowerCase());
-      let _brand = !brand || item.brand.toLowerCase() == brand.toLowerCase();
-
+      let _brand =
+        !brand ||
+        brand.some((b) => b.toLowerCase() === item.brand.toLowerCase());
       return _keyword && _brand;
     });
     return _list;
   }, [data, brand, cpu_gpu, keyword]);
+
   const handleCheckboxChange = (checked, newValue) => {
     let newValues = checked
       ? [...value, newValue]
@@ -73,7 +80,7 @@ export function Processors(props) {
 
   return (
     <section className={styles['models-conf-cards']}>
-      {list.lenght >= 1 ? (
+      {list?.length >= 1 ? (
         list?.map((item, index) => (
           <Card
             key={index}

@@ -7,23 +7,8 @@ const formatDate = (isoString, format = 'YYYY-MM-DD HH:mm:ss') => {
   return dayjs(isoString).format(format);
 };
 export default function Instances({ value, onChange, styles, data }) {
-  const cardData = data?.map((node) => ({
-    id: node?.id ?? 'unknown',
-    name: node?.name ?? 'Unknown',
-    cpu: node?.attr?.cpu ?? 'Unknown',
-    gpu: node?.attr?.gpu ?? 'Unknown',
-    storage: node?.attr?.storage ?? 'Unknown',
-    memory: node?.attr?.memory ?? 'Unknown',
-    location: node?.attr?.location !== '' ? node?.attr?.location : '~',
-    connectivityTier: node?.attr?.connectivity_tier ?? [],
-    internet:
-      node?.attr?.network_up !== undefined &&
-      node?.attr?.network_down !== undefined
-        ? `${node.attr.network_up} / ${node.attr.network_down} Mbps`
-        : 'Unknown',
-    processor: node?.attr?.processor ?? 'Unknown',
-  }));
-  const [selectKey, setSelectKey] = useState();
+  const cardData = getTableData(data);
+
   const handleCheckboxChange = (newValue) => {
     if (newValue !== value) {
       onChange?.(newValue); // Actualiza el formulario

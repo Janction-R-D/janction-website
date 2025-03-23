@@ -628,8 +628,14 @@
         display: flex;
         align-items: center;
         justify-content: center;
-
+        position: relative;
         color: white !important;
+        .processor-label {
+          position: relative;
+        }
+        .hidden-checkbox {
+          display: none;
+        }
         :global {
           .ant-radio-button-checked {
             border: none;

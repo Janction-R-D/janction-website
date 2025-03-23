@@ -14,6 +14,7 @@ import QuickTable from './Quick/QuickTable';
 import ProductList from './Quick/ProductList';
 import { fetchListFilter } from '@/services/genesis';
 import { getNodeStatusMatch } from '@/utils/lang';
+import PurDuration from './PurDuration';
 
 const Quick = (props) => {
   const [form] = Form.useForm();
@@ -107,6 +108,12 @@ const Quick = (props) => {
               rules={[{ required: true, message: 'Please select an instance' }]}
             >
               <ProductList list={list} isGrid={isGrid} styles={styles} />
+            </Form.Item>
+          </Card>
+          <p>Purchase Duration</p>
+          <Card className={styles['duration-card']}>
+            <Form.Item name="purDuration">
+              <PurDuration />
             </Form.Item>
           </Card>
         </main>
