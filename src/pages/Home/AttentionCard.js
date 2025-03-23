@@ -33,7 +33,8 @@ export default function AttentionCard() {
           <i className="iconfont icon-bell" />
         </div>
         <p className={styles['modal-description']}>
-          <b>janction.io </b> is migrating to <b>janction.ai </b> soon.
+          <span className={styles['text-bold']}>janction.io </span> is migrating
+          to <span className={styles['text-bold']}>janction.ai </span> soon.
         </p>
         <Button className={styles['buy-btn']} onClick={handleCancel}>
           Confirm

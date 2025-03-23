@@ -959,8 +959,10 @@
       flex: 1;
       font-size: 1.1rem;
       align-items: center;
-      b {
+      flex-wrap: wrap;
+      .text-bold {
         margin-inline: 6px;
+        font-weight: bold;
       }
     }
   }
@@ -1921,6 +1923,41 @@
           img {
             height: 100%;
           }
+        }
+      }
+    }
+  }
+}
+@media (max-width: 420px) {
+  .modal {
+    margin-top: 80px;
+    background: #000;
+    .modal-attention {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 25px;
+      padding: 20px;
+
+      .header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        i {
+          font-size: 1.2rem;
+        }
+      }
+      .modal-description {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        flex: 1;
+        font-size: 0.8rem !important;
+        align-items: center;
+        .text-bold {
+          margin-inline: 6px;
+          font-weight: bold;
         }
       }
     }
