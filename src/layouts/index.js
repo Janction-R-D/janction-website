@@ -102,15 +102,7 @@ export default function Layout(props) {
       </GenesisProvider>
     );
   }
-  if (props.location.pathname == '/genesis/purchases') {
-    return (
-      <GenesisProvider>
-        <GenesisLayout>
-          <Purchases />
-        </GenesisLayout>
-      </GenesisProvider>
-    );
-  }
+
   if (isAuthRoute) {
     return (
       <GenesisProvider>
