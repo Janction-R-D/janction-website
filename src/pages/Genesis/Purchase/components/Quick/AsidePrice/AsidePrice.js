@@ -9,7 +9,6 @@ export default function AsidePrice({ formValues, styles, onConfirm }) {
     let isNotEmpty = Object.values(formValues)?.some(
       (item) => item !== undefined,
     );
-    console.log(formValues);
     setIsEmpty(!isNotEmpty);
   }, [formValues]);
 

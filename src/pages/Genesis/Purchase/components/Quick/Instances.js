@@ -1,26 +1,26 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import dayjs from 'dayjs';
 import { Card, Checkbox, Empty } from 'antd';
+import { getTableData } from '../utils';
 
 const formatDate = (isoString, format = 'YYYY-MM-DD HH:mm:ss') => {
   if (!isoString) return '--';
   return dayjs(isoString).format(format);
 };
 export default function Instances({ value, onChange, styles, data }) {
-  const cardData = getTableData(data);
-
   const handleCheckboxChange = (newValue) => {
     if (newValue !== value) {
       onChange?.(newValue); // Actualiza el formulario
     }
   };
+  console.log(data);
 
   return (
     <div className={styles['image-conf-wrapper']}>
       <p> Recommended Instances</p>
       <section className={styles['image-conf-cards']}>
-        {cardData?.length >= 1 ? (
-          cardData?.map((item) => {
+        {data?.length >= 1 ? (
+          data?.map((item) => {
             return (
               <Card
                 key={item?.id}
@@ -44,47 +44,46 @@ export default function Instances({ value, onChange, styles, data }) {
                 <article>
                   <div className={styles['des-group']}>
                     <span>CPU</span>
-                    <span className={styles['des-text']}>{item?.cpu}</span>
+                    <span className={styles['des-text']}>{item?.attr.cpu}</span>
                   </div>
                   <div className={styles['des-group']}>
                     <span>GPU</span>
-                    <span className={styles['des-text']}>{item?.gpu}</span>
+                    <span className={styles['des-text']}>
+                      {item?.attr.cpu_chip || '~'}
+                    </span>
                   </div>
-                  <div className={styles['des-group']}>
-                    <span>Storage</span>
-                    <span className={styles['des-text']}>{item?.storage}</span>
-                  </div>
+
                   <div className={styles['des-group']}>
                     <span>Memory</span>
-                    <span className={styles['des-text']}>{item?.memory}</span>
+                    <span className={styles['des-text']}>
+                      {item?.attr.memory}
+                    </span>
                   </div>
                 </article>
                 <section className={styles['config-info']}>
-                  <p className={styles['des-title']}>Internet configuration</p>
+                  <p className={styles['des-title']}>Architechture</p>
                   <div className={styles['des-group']}>
-                    <span className={styles['des-text']}>{item?.internet}</span>
+                    <span className={styles['des-text']}>
+                      {item?.attr.architechture_str}
+                    </span>
                   </div>
+                </section>
+                <section className={styles['config-info']}>
+                  <p className={styles['des-title']}>Operating System</p>
                   <div className={styles['des-group']}>
-                    {item?.connectivity_tier?.map((subItem) => (
-                      <span className={styles['des-text']}>{subItem}</span>
-                    ))}
+                    <span className={styles['des-text']}>
+                      {item?.attr.operating_system_str.toUpperCase()}
+                    </span>
                   </div>
                 </section>
                 <section className={styles['config-info']}>
                   <p className={styles['des-title']}>Location</p>
                   <div className={styles['des-group']}>
-                    <span className={styles['des-text']}>{item?.location}</span>
-                  </div>
-                </section>
-                <section className={styles['config-info']}>
-                  <p className={styles['des-title']}>Processor</p>
-                  <div className={styles['des-group']}>
                     <span className={styles['des-text']}>
-                      {item?.processor}
+                      {item?.attr.location}
                     </span>
                   </div>
                 </section>
-                {/* <span className={styles['text__price']}>$34.669</span> */}
               </Card>
             );
           })
