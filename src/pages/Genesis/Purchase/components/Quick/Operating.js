@@ -3,9 +3,15 @@ import { Checkbox } from 'antd';
 import styles from './index.less';
 import { operating_systems as PROCESSOR } from './constant.json';
 
-export default function Operating({ value = [], onChange }) {
+export default function Operating({ value = [], onChange, getList }) {
   const handleCheckboxChange = (checkedValues) => {
     onChange?.(checkedValues);
+    // after update yhe form , recall list filter
+    const payload = {
+      operating_system: checkedValues,
+    };
+
+    getList(payload);
   };
 
   return (

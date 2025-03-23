@@ -29,7 +29,7 @@ const Quick = (props) => {
     };
 
     getList(payload);
-  }, [formValues]);
+  }, []);
   const getList = async (data) => {
     try {
       let resp = [];
@@ -78,7 +78,7 @@ const Quick = (props) => {
         </section>
         <main className={styles['specification-conf-wrapper']}>
           <Form.Item name="operating_system_str">
-            <Operating />
+            <Operating getList={getList} />
           </Form.Item>
           <Collapse
             className={styles['custom-collapse']}
