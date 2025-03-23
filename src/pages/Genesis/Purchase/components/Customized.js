@@ -72,9 +72,11 @@ const Customized = () => {
     {
       title: 'Duration',
       content: (
-        <Form.Item name="purDuration">
-          <PurDuration formValues={formValues} />
-        </Form.Item>
+        <Card className={styles['processor-conf-wrapper']}>
+          <Form.Item name="purDuration">
+            <PurDuration formValues={formValues} />
+          </Form.Item>
+        </Card>
       ),
       field: 'Purchase Duration',
       description:

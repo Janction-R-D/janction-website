@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import Customized from './components/Customized';
 import Quick from './components/Quick';
 
-function Purchases() {
+function Purchase() {
   const { isQuick } = history.location.state || {};
   const { initialState } = useModel('@@initialState');
   const { isLessee } = initialState || {};
@@ -47,5 +47,5 @@ function Purchases() {
     </main>
   );
 }
-Purchases.wrappers = ['@/wrappers/auth'];
-export default Purchases;
+Purchase.wrappers = ['@/wrappers/auth'];
+export default Purchase;
