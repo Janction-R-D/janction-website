@@ -4,10 +4,11 @@ import defaultContinents from '@/utils/continents.json';
 import { isEmpty } from 'lodash';
 
 // 获取缩放比例
-const useContinents = () => {
+const useContinents = ({ current }) => {
   const [continents, setContinents] = useState(defaultContinents);
 
   useEffect(() => {
+    if (current !== 3) return;
     fetchData();
   }, []);
 

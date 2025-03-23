@@ -106,7 +106,7 @@ function ProductList(props) {
       ellipsis: true,
       render: (text, record) => (
         <div>
-          <p>{text?.name}</p>
+          <p>{text?.name.toLowerCase() == 'unknown' ? '~' : text?.name}</p>
           <p>{text?.model}</p>
         </div>
       ),

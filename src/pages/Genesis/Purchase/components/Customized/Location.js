@@ -5,13 +5,15 @@ import useContinents from '@/hooks/useContinents';
 import { isEmpty } from 'lodash';
 
 export default function Location({ value = [], onChange, current }) {
-  const continents = useContinents();
+  const continents = useContinents({ current });
+
   const [list, setList] = useState([]);
   const [search, setSearch] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 5;
 
   useEffect(() => {
+    if (current !== 2) return;
     if (isEmpty(continents)) return;
     const allItems = Object.values(continents).flatMap(
       (countries) => countries,

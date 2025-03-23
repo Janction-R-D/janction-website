@@ -41,11 +41,9 @@ export function Processors(props) {
   const [keyword, setKeyword] = useState();
 
   useEffect(() => {
-    console.log(formValues);
     if (current !== 4) return;
     setCpuGpu(formValues?.gpu);
     setBrand(formValues?.processor);
-    console.log(brand);
     fetchData();
   }, [formValues]);
   const fetchData = async () => {
