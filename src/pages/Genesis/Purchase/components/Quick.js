@@ -1,17 +1,52 @@
-import { Form } from 'antd';
-import { history } from 'umi';
-import PurchaseCard from './Card';
-import ConnectivityTier from './ConnectivityTier';
-import Footer from './Footer';
+import { Card, Collapse, Divider, Form, Switch } from 'antd';
+
 import styles from './index.less';
-import ProductList from './ProductList';
+import { useEffect, useState } from 'react';
+import Operating from './Quick/Operating';
+
+import AsidePrice from './Quick/AsidePrice/AsidePrice';
+import Instances from './Quick/Instances';
+import Specification from './Quick/Specification';
+import { history } from 'umi';
+import ToggleSwitch from './Quick/ToggelSwitch';
+import FrameworkAi from './Customized/FrameworkAi';
+import QuickTable from './Quick/QuickTable';
+import ProductList from './Quick/ProductList';
+import { fetchListFilter } from '@/services/genesis';
+import { getNodeStatusMatch } from '@/utils/lang';
 import PurDuration from './PurDuration';
-import { useState } from 'react';
 
 const Quick = (props) => {
   const [form] = Form.useForm();
+  const [isGrid, setIsGrid] = useState(false);
+  const [formValues, setFormValues] = useState({});
+  const [list, setList] = useState([]);
+  useEffect(() => {
+    let { operating_system_str: operating_system = [] } = formValues || {};
 
-  const [formValues, setFormValues] = useState();
+    const payload = {
+      operating_system,
+    };
+
+    getList(payload);
+  }, []);
+  const getList = async (data) => {
+    try {
+      let resp = [];
+      const res = await fetchListFilter(data);
+      const newList = (res || []).filter((node) => {
+        const { isListed } = getNodeStatusMatch(node);
+        return isListed;
+      });
+      // check if theres an available node , if not refresh value of node in form
+      if (resp.length <= 0) {
+        form.setFieldsValue({ node: undefined });
+      }
+      setList(newList);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const onValuesChange = async () => {
     const values = form.getFieldsValue();
@@ -26,35 +61,74 @@ const Quick = (props) => {
       console.log('『err』', err);
     }
   };
-
   return (
-    <Form form={form} name="quick" onValuesChange={onValuesChange}>
-      <div
-        className={[styles['config-wrapper'], styles['quick-wrapper']].join(
-          ' ',
-        )}
+    <main className={styles['quick-conf-wrapper']}>
+      <Form
+        form={form}
+        name="customized"
+        onValuesChange={onValuesChange}
+        className={styles['form']}
       >
-        <PurchaseCard title="Connectivity Tier">
-          <Form.Item name="network_down">
-            <ConnectivityTier defaultValue={1} />
+        <section className={styles['header-desc']}>
+          <h1 className={styles['title']}>Quick Purchase</h1>
+          <p>
+            Mobile is convenient, and large users can provide flexible computing
+            power.
+          </p>
+        </section>
+        <main className={styles['specification-conf-wrapper']}>
+          <Form.Item name="operating_system_str">
+            <Operating getList={getList} />
           </Form.Item>
-        </PurchaseCard>
-        <PurchaseCard title="Available Instance">
-          <Form.Item
-            name="node"
-            rules={[{ required: true, message: 'please select instance' }]}
+          <Collapse
+            className={styles['custom-collapse']}
+            bordered={false}
+            defaultActiveKey={1}
           >
-            <ProductList formValues={formValues} />
-          </Form.Item>
-        </PurchaseCard>
-        <PurchaseCard>
-          <Form.Item name="purDuration">
-            <PurDuration />
-          </Form.Item>
-          <Footer isConfirm onConfirm={onConfirm} />
-        </PurchaseCard>
-      </div>
-    </Form>
+            <Collapse.Panel
+              header="Pre-installed application (AI Framework)"
+              key="1"
+              style={{ background: '#000' }}
+            >
+              <Form.Item name="ai_framework">
+                <FrameworkAi formValues={formValues} />
+              </Form.Item>
+            </Collapse.Panel>
+          </Collapse>
+          <p>Instance Specification</p>
+          <Card className={styles['specification-card']}>
+            <section className={styles['specification-card-header']}>
+              <Form.Item name="specification">
+                <Specification />
+              </Form.Item>
+
+              <section className={styles['switch-container']}>
+                <ToggleSwitch isGrid={isGrid} setIsGrid={setIsGrid} />
+              </section>
+            </section>
+
+            <Form.Item
+              name="node"
+              rules={[{ required: true, message: 'Please select an instance' }]}
+            >
+              <ProductList list={list} isGrid={isGrid} styles={styles} />
+            </Form.Item>
+          </Card>
+          <p>Purchase Duration</p>
+          <Card className={styles['duration-card']}>
+            <Form.Item name="purDuration">
+              <PurDuration />
+            </Form.Item>
+          </Card>
+        </main>
+      </Form>
+      <Divider type="vertical" className={styles['divider']} />
+      <AsidePrice
+        formValues={formValues}
+        styles={styles}
+        onConfirm={onConfirm}
+      />
+    </main>
   );
 };
 

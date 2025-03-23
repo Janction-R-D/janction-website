@@ -59,6 +59,7 @@ const Lessees = (props) => {
       dataIndex: 'Name',
       key: 'Name',
       render: (text, record) => {
+        if (!text) return '--';
         const name = text?.split(' ');
         let firstName = name?.[0];
         let model = name?.slice(1)?.join(' ');
@@ -68,7 +69,7 @@ const Lessees = (props) => {
               {brandDetails[record.Brand] && (
                 <i
                   className={`iconfont icon-${
-                    brandDetails[record.Brand.toLowerCase()].icon
+                    brandDetails[record.Brand.toLowerCase().toLowerCase()].icon
                   } ${brandDetails[record.Brand].color}`}
                 ></i>
               )}
@@ -131,9 +132,11 @@ const Lessees = (props) => {
       dataIndex: 'Name',
       key: 'Name',
       render: (text, record) => {
+        if (!text) return '--';
         const name = text?.split(' ');
         let firstName = name?.[0];
         let model = name?.slice(1).join(' ');
+        console.log(record);
 
         return (
           <div className={styles['name-column-2']}>

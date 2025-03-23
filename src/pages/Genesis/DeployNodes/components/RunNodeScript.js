@@ -90,12 +90,13 @@ ${value}
           <a
             className="iconfont icon-copy"
             onClick={() => {
+              console.log(nodesData);
               if (isLinux) {
                 if (!nodesData?.node_id)
                   return message.warning(
                     'Data missing, please click refresh to get and try again!',
                   );
-              } else if (!nodesData?.node_id || !nodesData?.token) {
+              } else if (!nodesData?.node_id && !nodesData?.token) {
                 return message.warning(
                   'Data missing, please click refresh to get and try again!',
                 );

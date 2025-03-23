@@ -11,7 +11,9 @@ import { GenesisProvider } from './Context/GenesisContext';
 import WalletManagement from '@/pages/Genesis/Wallet-Management';
 import MessageCenter from '@/pages/Genesis/Message-center';
 import Nodes from '@/pages/Genesis/DeployNodes';
-import Purchases from '@/pages/Genesis/Purchases';
+import Purchases from '@/pages/Genesis/Purchase';
+import PurchaseLayout from './PurchaseLayout';
+import Settlement from '@/pages/Genesis/Purchase/Settlement';
 
 export const fullWidthRoute = ['/home', '/explore', '/getStarted', '/solution'];
 export const authRoute = [
@@ -79,6 +81,24 @@ export default function Layout(props) {
         <GenesisLayout>
           <Nodes />
         </GenesisLayout>
+      </GenesisProvider>
+    );
+  }
+  if (props.location.pathname == '/genesis/purchase') {
+    return (
+      <GenesisProvider>
+        <PurchaseLayout>
+          <Purchases />
+        </PurchaseLayout>
+      </GenesisProvider>
+    );
+  }
+  if (props.location.pathname == '/genesis/purchase/settlement') {
+    return (
+      <GenesisProvider>
+        <PurchaseLayout>
+          <Settlement />
+        </PurchaseLayout>
       </GenesisProvider>
     );
   }

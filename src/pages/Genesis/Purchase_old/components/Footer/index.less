@@ -1,0 +1,291 @@
+.footer-price {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 16px;
+  width: 100%;
+  height: auto;
+  background: #1c1c1d;
+  border-radius: 16px;
+  flex-wrap: wrap;
+  .confirm-info {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+
+    .agree-tip {
+      font-family: 'Poppins';
+      min-width: 250px;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 20px;
+      color: rgba(255, 255, 255, 0.4);
+
+      a {
+        color: #00bbd4;
+      }
+    }
+  }
+
+  .btn {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+    .price-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      .value {
+        flex-shrink: 0;
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 24px;
+        line-height: 32px;
+        color: #ff8c27;
+      }
+
+      .detail {
+        display: flex;
+        align-items: center;
+        height: 24px;
+        gap: 7px;
+
+        span {
+          white-space: nowrap;
+          font-family: 'Poppins';
+          font-style: normal;
+          font-weight: 400;
+          font-size: 12px;
+          line-height: 20px;
+          color: #ff8c27;
+          cursor: pointer;
+        }
+
+        i {
+          font-size: 10px;
+          display: inline-block;
+        }
+
+        &:hover {
+          color: rgba(255, 140, 39, 0.7);
+        }
+      }
+    }
+    .confirm {
+      :global {
+        .ant-btn {
+          border: none;
+          background: linear-gradient(275.81deg, #72deff 18.68%, #ffebe7 100%);
+          border-radius: 51px;
+          padding: 4px 32px;
+
+          span {
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 600;
+            font-size: 12px;
+            line-height: 20px;
+            color: rgba(0, 0, 0, 0.9);
+          }
+        }
+      }
+    }
+
+    .pre {
+      :global {
+        .ant-btn {
+          border: none;
+          background: #252527;
+          border-radius: 51px;
+          padding: 4px 32px;
+
+          span {
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 600;
+            font-size: 12px;
+            line-height: 20px;
+            color: rgba(255, 255, 255, 0.6);
+          }
+        }
+      }
+    }
+
+    .next {
+      :global {
+        .ant-btn {
+          border: none;
+          background: linear-gradient(275.81deg, #72deff 18.68%, #ffebe7 100%);
+          border-radius: 51px;
+          padding: 4px 32px;
+
+          span {
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 600;
+            font-size: 12px;
+            line-height: 20px;
+            color: rgba(0, 0, 0, 0.9);
+          }
+        }
+      }
+    }
+
+    .pay {
+      :global {
+        .ant-btn {
+          border: none;
+          background: linear-gradient(275.81deg, #72deff 18.68%, #ffebe7 100%);
+          border-radius: 51px;
+          padding: 4px 32px;
+          opacity: 0.6;
+
+          span {
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 600;
+            font-size: 12px;
+            line-height: 20px;
+            color: rgba(0, 0, 0, 0.9);
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .footer-price {
+    padding: 24px;
+  }
+}
+@media (max-width: 930px) {
+  .footer-price {
+    padding: 24px;
+    height: auto;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+    .confirm-info {
+      flex-direction: row;
+      width: 100%;
+
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn {
+      flex: 1;
+      width: 100%;
+      align-items: center;
+      .price-info {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        order: 1;
+        .value {
+          flex-shrink: 0;
+          font-family: 'Poppins';
+          font-style: normal;
+          font-weight: 600;
+          font-size: 24px;
+          line-height: 32px;
+          color: #ff8c27;
+        }
+
+        .detail {
+          display: flex;
+          align-items: center;
+          height: 24px;
+          gap: 7px;
+
+          span {
+            white-space: nowrap;
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 20px;
+            color: #ff8c27;
+            cursor: pointer;
+          }
+
+          i {
+            font-size: 10px;
+            display: inline-block;
+          }
+
+          &:hover {
+            color: rgba(255, 140, 39, 0.7);
+          }
+        }
+      }
+      .pre {
+        width: 100%;
+        :global {
+          .ant-btn {
+            border: none;
+            background: #252527;
+            border-radius: 51px;
+            padding: 4px 32px;
+
+            span {
+              font-family: 'Poppins';
+              font-style: normal;
+              font-weight: 600;
+              font-size: 12px;
+              line-height: 20px;
+              color: rgba(255, 255, 255, 0.6);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+@media (max-width: 540px) {
+  .footer-price {
+    .btn {
+      flex: 1;
+      width: 100%;
+      align-items: start;
+      flex-direction: column;
+      .pre {
+        width: 100%;
+        :global {
+          .ant-btn {
+            border: none;
+            background: #252527;
+            border-radius: 51px;
+            padding: 4px 32px;
+
+            span {
+              font-family: 'Poppins';
+              font-style: normal;
+              font-weight: 600;
+              font-size: 12px;
+              line-height: 20px;
+              color: rgba(255, 255, 255, 0.6);
+            }
+          }
+        }
+      }
+      .price-info {
+        order: 0;
+      }
+    }
+    .confirm {
+      width: 100%;
+      flex: 1;
+      > button {
+        width: 100%;
+      }
+    }
+  }
+}

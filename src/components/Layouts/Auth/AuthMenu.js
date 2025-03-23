@@ -61,7 +61,7 @@ export const AuthMenuAside = ({ menu, active, onMenuChange }) => {
 
   const { isLessee } = initialState || {};
 
-  const [fold, setFold] = useState(false);
+  const [fold, setFold] = useState(true);
 
   const foldHandle = () => {
     setFold(!fold);

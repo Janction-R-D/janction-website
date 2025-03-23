@@ -1,0 +1,121 @@
+{
+  "instance_types": [
+    {
+      "label": "Basic CPU",
+      "value": "basic_cpu"
+    },
+    {
+      "label": "Basic GPU",
+      "value": "basic_gpu"
+    },
+    {
+      "label": "High performance GPU",
+      "value": "high_performance"
+    },
+    {
+      "label": "Others",
+      "value": "other"
+    }
+  ],
+  "instances": [
+    {
+      "id": "ec9a4c77-9b26-4863-9017-720a850394fc",
+      "name": "EC2 g5.12xlarge",
+      "value": "ec2_g5_12xlarge",
+      "operatingSystem": "Android",
+      "architecture": "ARM64",
+      "cpu": "AMD EPYC 7003",
+      "gpu": "4x NVIDIA A10G",
+      "storage": "3.8TB NVMe SSD",
+      "memory": "192GB DDR4",
+      "internet": "NAT",
+      "internet_configuration": ["Elastic IP", "VPC"],
+      "connectivity": "600 Mbps",
+      "connectivity_tier": ["Up to 100 Gbps"],
+      "location": "China",
+      "process": {
+        "name": "INTEL | CPU",
+        "model": "H100 PCIe"
+      },
+      "processor": "AMD EPYC 7003",
+      "price": "¥180,000.00"
+    },
+    {
+      "id": "f8e2a6c5-6d44-4cb0-9348-1a3d59f2b7d9",
+      "name": "EC2 p4.16xlarge",
+      "value": "ec2_p4_16xlarge",
+      "operatingSystem": "Windows",
+      "architecture": "x86_64",
+      "cpu": "Intel Xeon Scalable",
+      "gpu": "8x NVIDIA A100",
+      "storage": "8TB NVMe SSD",
+      "memory": "512GB DDR4",
+      "internet": "NAT",
+      "internet_configuration": ["Elastic IP", "VPC", "VPN Gateway"],
+      "connectivity": "5 Gbps",
+      "connectivity_tier": ["Up to 400 Gbps"],
+      "location": "Germany",
+      "process": {
+        "name": "Intel | CPU",
+        "model": "Xeon Scalable"
+      },
+      "processor": "Intel Xeon Scalable",
+      "price": "€25,000.00"
+    },
+    {
+      "id": "f8e2a6c5-6d44-4cb0-9348-1a3d59f2b7d0",
+      "name": "EC2 p4.16xlarge",
+      "value": "ec2_p4_16xlarge",
+      "operatingSystem": "Windows",
+      "architecture": "x86_64",
+      "cpu": "Intel Xeon Scalable",
+      "gpu": "8x NVIDIA A100",
+      "storage": "8TB NVMe SSD",
+      "memory": "512GB DDR4",
+      "internet": "NAT",
+      "internet_configuration": ["Elastic IP", "VPC", "VPN Gateway"],
+      "connectivity": "5 Gbps",
+      "connectivity_tier": ["Up to 400 Gbps"],
+      "location": "Germany",
+      "process": {
+        "name": "Intel | CPU",
+        "model": "Xeon Scalable"
+      },
+      "processor": "Intel Xeon Scalable",
+      "price": "€25,000.00"
+    }
+  ],
+  "operating_systems": [
+    {
+      "label": "linux",
+      "value": "linux"
+    },
+
+    {
+      "label": "macos",
+      "value": "macos"
+    },
+    {
+      "label": "windows",
+      "value": "windows"
+    },
+    {
+      "label": "android",
+      "value": "android"
+    }
+  ],
+  "pre_installed_applications": [
+    {
+      "label": "No pre-installed application is required",
+      "value": "none"
+    },
+    {
+      "label": "PyTorch",
+      "value": "pytorch"
+    },
+    {
+      "label": "TensorFlow",
+      "value": "tensorflow"
+    }
+  ]
+}

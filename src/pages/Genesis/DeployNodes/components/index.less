@@ -200,15 +200,39 @@
       line-height: normal;
       text-transform: capitalize;
     }
-
-    span {
-      color: #ffffff80;
-      font-family: 'Poppins';
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 300;
-      line-height: normal;
-      text-transform: capitalize;
+    .run-node__box {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .node-desc {
+        color: #ffffff80;
+        font-family: 'Poppins';
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 300;
+        line-height: normal;
+        text-transform: capitalize;
+      }
+      .token-btn {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 12px;
+        height: 40px;
+        background: #fff;
+        color: #000 !important;
+        padding: 12px 14px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-family: 'Poppins';
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+      }
     }
   }
 }
