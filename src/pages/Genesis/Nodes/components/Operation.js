@@ -105,7 +105,7 @@ export default function OperationDelis({ record, error, getList }) {
       <a className={`${'operation-action'}`} onClick={handleReceive}>
         <p>Receive Rewards</p>
       </a>
-      <a onClick={() => onRefresh()}>
+      {/* <a onClick={() => onRefresh()}>
         <RedoOutlined
           rotate={90}
           spin={loading}
@@ -115,7 +115,7 @@ export default function OperationDelis({ record, error, getList }) {
       </a>
       <a onClick={() => onDelete()}>
         <DeleteOutlined className="poi" />
-      </a>
+      </a> */}
     </Space>
   );
 }
