@@ -8,7 +8,7 @@ import contract, {
   getDefaultCurrency,
 } from '@/utils/contracts';
 import { delay, empty, isEmpty } from '@/utils/lang';
-import { Button, message } from 'antd';
+import { message } from 'antd';
 import { useEffect, useState } from 'react';
 import { history } from 'umi';
 import { useAccount } from 'wagmi';
@@ -19,8 +19,9 @@ import styles from './index.less';
 
 const Settlement = (props) => {
   const [deadline, setDeadline] = useState();
+
   const { formValues } = history.location.state || {};
-  console.log(formValues);
+
   const { address } = useAccount();
 
   const [loading, setLoading] = useState(false);
@@ -36,7 +37,6 @@ const Settlement = (props) => {
   const getNodeConfigInfo = async (params) => {
     try {
       const res = await fetchNodesConfigInfo(params);
-      console.log('res :', list);
       if (isEmpty(res)) {
         setList([]);
         return;
@@ -147,14 +147,12 @@ const Settlement = (props) => {
       },
     },
   ];
-  const goBack = () => {
-    history.push('/genesis/purchases');
-  };
+
   return (
     <div className={styles['settlement-wrapper']}>
       <h1>
         <span>Confirm product information</span>
-        <a onClick={goBack}>
+        <a>
           <i className="iconfont icon-pre_page"></i>
           <span>Back to modify configuration</span>
         </a>
@@ -171,7 +169,6 @@ const Settlement = (props) => {
           dataSource={list}
           pagination={false}
           scroll={{ x: 'auto' }}
-          rowKey="id"
         />
       </PurchaseCard>
       <Footer

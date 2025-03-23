@@ -2,8 +2,8 @@ import { empty } from '@/utils/lang';
 import numeral from 'numeral';
 
 export const PURCHASES = [
-  { name: 'Quick purchase', value: 1 },
   { name: 'Customized purchase', value: 0 },
+  { name: 'Quick purchase', value: 1 },
 ];
 
 export const DEFAULT_PURCHASE_TYPE = PURCHASES[0].value;
