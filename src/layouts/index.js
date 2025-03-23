@@ -11,7 +11,7 @@ import { GenesisProvider } from './Context/GenesisContext';
 import WalletManagement from '@/pages/Genesis/Wallet-Management';
 import MessageCenter from '@/pages/Genesis/Message-center';
 import Nodes from '@/pages/Genesis/DeployNodes';
-import Purchases from '@/pages/Genesis/Purchase';
+import Purchase from '@/pages/Genesis/Purchase';
 import PurchaseLayout from './PurchaseLayout';
 import Settlement from '@/pages/Genesis/Purchase/Settlement';
 
@@ -88,7 +88,7 @@ export default function Layout(props) {
     return (
       <GenesisProvider>
         <PurchaseLayout>
-          <Purchases />
+          <Purchase />
         </PurchaseLayout>
       </GenesisProvider>
     );
