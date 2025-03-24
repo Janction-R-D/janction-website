@@ -2,7 +2,7 @@ import Markdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark as dark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import styles from './index.less';
-import { Card, Checkbox, message } from 'antd';
+import { Button, Card, Checkbox, message } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
 import { fetchNodesRegister } from '@/services/genesis';
 import { RedoOutlined } from '@ant-design/icons';
@@ -104,6 +104,15 @@ ${value}
               copy(script.value);
             }}
           ></a>
+          <Button
+            type="primary"
+            className={styles['token-btn']}
+            onClick={() => {
+              copy(nodesData?.node_id);
+            }}
+          >
+            Get an ID token
+          </Button>
         </div>
       }
     >
