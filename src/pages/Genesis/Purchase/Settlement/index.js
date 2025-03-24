@@ -148,7 +148,7 @@ const Settlement = (props) => {
     },
   ];
   const goBack = () => {
-    history.push('/genesis/purchases');
+    history.push('/genesis/purchase');
   };
   return (
     <div className={styles['settlement-wrapper']}>
