@@ -104,7 +104,7 @@ ${value}
               copy(script.value);
             }}
           ></a>
-          <Button
+          {/* <Button
             type="primary"
             className={styles['token-btn']}
             onClick={() => {
@@ -112,7 +112,7 @@ ${value}
             }}
           >
             Get an ID token
-          </Button>
+          </Button> */}
         </div>
       }
     >
