@@ -193,9 +193,6 @@ const RunNode = (props) => {
                 ? 'Running on Android'
                 : 'Run Node'}
             </h1>
-            {/* <Button type="primary" className={styles['token-btn']}>
-              Get an ID token
-            </Button> */}
           </div>
           <span className={styles['node-desc']}>
             You need to execute the following command
