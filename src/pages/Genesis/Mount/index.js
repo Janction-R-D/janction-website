@@ -18,27 +18,33 @@ import { history, Redirect, useModel } from 'umi';
 import Loading from './components/Loading';
 import { NodeInfo } from './components/NodeInfo';
 import styles from './index.less';
+import { max } from 'lodash';
 
 const options = [
   {
     value: 1,
     label: 'Hour',
+    max: 24,
   },
   {
     value: 2,
     label: 'Day',
+    max: 30,
   },
   {
     value: 3,
     label: 'Week',
+    max: 4,
   },
   {
     value: 4,
     label: 'Month',
+    max: 11,
   },
   {
     value: 5,
     label: 'Year',
+    max: 10,
   },
 ];
 export default function Mount() {
@@ -69,6 +75,7 @@ export default function Mount() {
     setMinDuration(option);
   };
   useEffect(() => {
+    console.log(minDuration, maxDuration);
     if (searchId === '') return;
     getConfigInfo();
     getNodeInfo();
@@ -92,9 +99,20 @@ export default function Mount() {
       const [mnlease] = options.filter(
         (item) => item.label.toLowerCase() == res?.minimum_lease_unit,
       );
-      console.log(mxlease, mnlease);
-      setMaxDuration(mxlease || {});
-      setMinDuration(mnlease || {});
+      setMaxDuration(
+        mxlease || {
+          value: 1,
+          label: 'Hour',
+          max: 24,
+        },
+      );
+      setMinDuration(
+        mnlease || {
+          value: 2,
+          label: 'Hour',
+          max: 24,
+        },
+      );
       setError(false);
       setLoading(false);
     } catch (error) {
@@ -117,19 +135,24 @@ export default function Mount() {
       setErrorRange(true);
     } else if (minDuration.value == maxDuration.value && minLease >= maxLease) {
       setErrorRange(true);
+    } else if (minLease < maxLease || minDuration.value < maxDuration.value) {
+      console.log('object');
+      setErrorRange(false);
     } else {
       setErrorRange(false);
     }
   }, [maxDuration, minDuration, maxLease, minLease]);
 
   const onMaxLeaseChange = (e) => {
+    let label = maxDuration.max;
     const value = e.target.value;
-    if (value > 12) return;
+    if (value > label) return;
     setMaxLease(value);
   };
   const onMinLeaseChange = (e) => {
+    let label = minDuration.max;
     const value = e.target.value;
-    if (value > 11) return;
+    if (value > label) return;
     setMinLease(value);
   };
 
@@ -301,9 +324,9 @@ export default function Mount() {
                   className={styles['select']}
                   name="minimum_lease_unit"
                   value={minDuration.value}
+                  defaultValue={minDuration}
                   onChange={onMinDurationValueChange}
                 />
-                <p>(1-11)</p>
               </div>
             </div>
           </div>
@@ -334,8 +357,6 @@ export default function Mount() {
                     className={styles['select']}
                     onChange={onMaxDurationValueChange}
                   />
-
-                  <p>(At least 12)</p>
                 </div>
               </div>
               {errorRange && (
