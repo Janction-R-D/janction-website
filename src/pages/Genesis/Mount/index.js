@@ -101,15 +101,15 @@ export default function Mount() {
       );
       setMaxDuration(
         mxlease || {
-          value: 1,
-          label: 'Hour',
+          value: 2,
+          label: 'Day',
           max: 24,
         },
       );
       setMinDuration(
         mnlease || {
-          value: 2,
-          label: 'Day',
+          value: 1,
+          label: 'Hour',
           max: 24,
         },
       );
