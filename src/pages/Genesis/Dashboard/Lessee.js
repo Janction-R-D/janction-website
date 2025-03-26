@@ -59,6 +59,7 @@ const Lessees = (props) => {
       dataIndex: 'Name',
       key: 'Name',
       render: (text, record) => {
+        if (!text) return '--';
         const name = text.split(' ');
         let firstName = name[0];
         let model = name?.slice(1)?.join(' ');
@@ -131,6 +132,7 @@ const Lessees = (props) => {
       dataIndex: 'Name',
       key: 'Name',
       render: (text, record) => {
+        if (!text) return '--';
         const name = text?.split(' ');
         let firstName = name?.[0];
         let model = name?.slice(1).join(' ');
