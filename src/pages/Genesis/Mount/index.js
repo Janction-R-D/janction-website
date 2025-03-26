@@ -109,7 +109,7 @@ export default function Mount() {
       setMinDuration(
         mnlease || {
           value: 2,
-          label: 'Hour',
+          label: 'Day',
           max: 24,
         },
       );
