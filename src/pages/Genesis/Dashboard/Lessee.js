@@ -136,7 +136,6 @@ const Lessees = (props) => {
         const name = text?.split(' ');
         let firstName = name?.[0];
         let model = name?.slice(1).join(' ');
-        console.log(record);
 
         return (
           <div className={styles['name-column-2']}>
