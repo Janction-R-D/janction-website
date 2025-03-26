@@ -75,7 +75,6 @@ export default function Mount() {
     setMinDuration(option);
   };
   useEffect(() => {
-    console.log(minDuration, maxDuration);
     if (searchId === '') return;
     getConfigInfo();
     getNodeInfo();
@@ -101,14 +100,14 @@ export default function Mount() {
       );
       setMaxDuration(
         mxlease || {
-          value: 1,
-          label: 'Hour',
-          max: 24,
+          value: 2,
+          label: 'Day',
+          max: 30,
         },
       );
       setMinDuration(
         mnlease || {
-          value: 2,
+          value: 1,
           label: 'Hour',
           max: 24,
         },
@@ -136,7 +135,6 @@ export default function Mount() {
     } else if (minDuration.value == maxDuration.value && minLease >= maxLease) {
       setErrorRange(true);
     } else if (minLease < maxLease || minDuration.value < maxDuration.value) {
-      console.log('object');
       setErrorRange(false);
     } else {
       setErrorRange(false);
@@ -187,6 +185,7 @@ export default function Mount() {
       available_period_up: maxPeriod,
       available_period_down: minPeriod,
     };
+
     setConfirmLoading(true);
     try {
       await fetchNodesConfigUpdate(payload);
