@@ -41,7 +41,7 @@ const Home = (props) => {
   return (
     <div className={styles['home-container']}>
       <WelcomeCard />
-      <AttentionCard />
+      {/* <AttentionCard /> */}
       <div
         className={styles['slogan']}
         style={renderBackgroudImg(isPC ? slogan_bg : slogan_android_bg)}
