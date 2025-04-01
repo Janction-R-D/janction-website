@@ -14,6 +14,7 @@ import ProductList from './Quick/ProductList';
 import { fetchListFilter } from '@/services/genesis';
 import { getNodeStatusMatch } from '@/utils/lang';
 import PurDuration from './PurDuration';
+import { set } from 'lodash';
 
 const Quick = (props) => {
   const [form] = Form.useForm();
@@ -31,7 +32,6 @@ const Quick = (props) => {
   }, []);
   const getList = async (data) => {
     setLoading(true);
-
     try {
       let resp = [];
       const res = await fetchListFilter(data);
