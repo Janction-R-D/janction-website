@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { getTableData } from '../utils';
 
 export default function QuickTable(props) {
-  const { onChange, formValues, value, data } = props;
+  const { onChange, formValues, value, data, loading } = props;
   const [selectKey, setSelectKey] = useState(value || null);
   const list = getTableData(data);
   const rowSelection = {
@@ -59,6 +59,7 @@ export default function QuickTable(props) {
       rowSelection={rowSelection}
       columns={columns}
       dataSource={list}
+      loading={loading}
       pagination={{ pageSize: 5 }}
       rowKey={'id'}
       rowClassName={getRowClassName}

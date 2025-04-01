@@ -1,9 +1,8 @@
 import { Card, Collapse, Divider, Form, Switch } from 'antd';
-
 import styles from './index.less';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import Operating from './Quick/Operating';
-
+import debounce from 'lodash/debounce';
 import AsidePrice from './Quick/AsidePrice/AsidePrice';
 import Instances from './Quick/Instances';
 import Specification from './Quick/Specification';
@@ -19,6 +18,7 @@ import PurDuration from './PurDuration';
 const Quick = (props) => {
   const [form] = Form.useForm();
   const [isGrid, setIsGrid] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [formValues, setFormValues] = useState({});
   const [list, setList] = useState([]);
   useEffect(() => {
@@ -27,10 +27,11 @@ const Quick = (props) => {
     const payload = {
       operating_system,
     };
-
     getList(payload);
   }, []);
   const getList = async (data) => {
+    setLoading(true);
+
     try {
       let resp = [];
       const res = await fetchListFilter(data);
@@ -38,13 +39,16 @@ const Quick = (props) => {
         const { isListed } = getNodeStatusMatch(node);
         return isListed;
       });
-      // check if theres an available node , if not refresh value of node in form
+
       if (resp.length <= 0) {
         form.setFieldsValue({ node: undefined });
       }
+
       setList(newList);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -111,7 +115,12 @@ const Quick = (props) => {
               name="node"
               rules={[{ required: true, message: 'Please select an instance' }]}
             >
-              <ProductList list={list} isGrid={isGrid} styles={styles} />
+              <ProductList
+                list={list}
+                isGrid={isGrid}
+                styles={styles}
+                loading={loading}
+              />
             </Form.Item>
           </Card>
           <p>Purchase Duration</p>

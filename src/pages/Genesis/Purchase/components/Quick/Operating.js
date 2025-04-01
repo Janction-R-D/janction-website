@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Checkbox } from 'antd';
 import styles from './index.less';
 import { operating_systems as PROCESSOR } from './constant.json';
+import { debounce } from 'lodash';
 
 export default function Operating({ value = [], onChange, getList }) {
   const handleCheckboxChange = (checkedValues) => {
@@ -11,9 +12,9 @@ export default function Operating({ value = [], onChange, getList }) {
       operating_system: checkedValues,
     };
 
-    getList(payload);
+    debouncedGetList(payload);
   };
-
+  const debouncedGetList = useMemo(() => debounce(getList, 1000), []);
   return (
     <section className={styles['processor-conf']}>
       <p>Operating System</p>
