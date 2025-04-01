@@ -15,12 +15,14 @@ import ProductList from './Quick/ProductList';
 import { fetchListFilter } from '@/services/genesis';
 import { getNodeStatusMatch } from '@/utils/lang';
 import PurDuration from './PurDuration';
+import { set } from 'lodash';
 
 const Quick = (props) => {
   const [form] = Form.useForm();
   const [isGrid, setIsGrid] = useState(false);
   const [formValues, setFormValues] = useState({});
   const [list, setList] = useState([]);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     let { operating_system_str: operating_system = [] } = formValues || {};
 
@@ -31,6 +33,7 @@ const Quick = (props) => {
     getList(payload);
   }, []);
   const getList = async (data) => {
+    setLoading(true);
     try {
       let resp = [];
       const res = await fetchListFilter(data);
@@ -45,6 +48,8 @@ const Quick = (props) => {
       setList(newList);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -111,7 +116,12 @@ const Quick = (props) => {
               name="node"
               rules={[{ required: true, message: 'Please select an instance' }]}
             >
-              <ProductList list={list} isGrid={isGrid} styles={styles} />
+              <ProductList
+                list={list}
+                isGrid={isGrid}
+                styles={styles}
+                loading={loading}
+              />
             </Form.Item>
           </Card>
           <p>Purchase Duration</p>

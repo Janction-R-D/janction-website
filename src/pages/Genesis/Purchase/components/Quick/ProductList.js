@@ -3,7 +3,7 @@ import Instances from './Instances';
 import QuickTable from './QuickTable';
 import { fetchListFilter } from '@/services/genesis';
 export default function ProductList(props) {
-  const { formValues, onChange, isGrid, styles, list, value } = props;
+  const { formValues, onChange, isGrid, styles, list, value, loading } = props;
 
   return (
     <>
@@ -21,6 +21,7 @@ export default function ProductList(props) {
           formValues={formValues}
           onChange={onChange}
           data={list}
+          loading={loading}
         />
       )}
     </>
