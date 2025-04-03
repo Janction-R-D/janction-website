@@ -30,7 +30,6 @@ const Settlement = (props) => {
 
   useEffect(() => {
     if (!formValues?.node?.id) return;
-    console.log(formValues);
     getNodeConfigInfo({ node_id: formValues.node.id });
   }, [formValues]);
 
