@@ -43,10 +43,7 @@ export default function OperatingCard({ value = [], onChange }) {
                 />
               </div>
             </section>
-            <p className={styles['des']}>
-              Mobile is convenient, and large users can provide flexible
-              computing power.
-            </p>
+            <p className={styles['des']}>{item.description}</p>
           </Card>
         ))}
       </section>

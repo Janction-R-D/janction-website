@@ -37,10 +37,33 @@ export const codeTypeJsonArr = [
 ];
 
 export const SYSTEM_LIST = [
-  { label: 'Android', value: 'android', icon: 'android' },
-  { label: 'MAC', value: 'macos', icon: 'macos' },
-  { label: 'Linux', value: 'linux', icon: 'linux' },
-  { label: 'Windows', value: 'windows', icon: 'windows' },
+  {
+    label: 'Android',
+    value: 'android',
+    icon: 'android',
+    description:
+      'Optimizes performance for mobile applications and connected devices.',
+  },
+  {
+    label: 'MAC',
+    value: 'macos',
+    icon: 'macos',
+    description:
+      'provides stability and design for creative and professional servers.',
+  },
+  {
+    label: 'Linux',
+    value: 'linux',
+    icon: 'linux',
+    description: 'Full control and high performance for advanced servers.',
+  },
+  {
+    label: 'Windows',
+    value: 'windows',
+    icon: 'windows',
+    description:
+      'Ensures compatibility and ease of use for enterprise environments.',
+  },
 ];
 
 export const SYSTEM_SELECT_LIST = [

@@ -8,6 +8,7 @@ import useLesses from './Hooks/useLesses';
 import styles from './index.less';
 import News from './components/News';
 import Invitation from './components/Invitation';
+import ModalUpload from './components/UploadCard/ModalUpload';
 
 const brandDetails = {
   apple: { icon: 'macos', color: 'white' },
@@ -20,6 +21,7 @@ const brandDetails = {
 };
 const Lessees = (props) => {
   const [news, setNews] = useState(newsData);
+  const [avModalOpen, setAvModaOpen] = useState(false);
   const { lessesData } = useLesses();
   const { portfolio_balance: balance, details, watchlist } = lessesData || {};
 
@@ -50,8 +52,12 @@ const Lessees = (props) => {
       nodeId: 'd9ede8ea-379b-4d8d-9d4d-c7f21b6400df',
     });
   };
-
-  useEffect(() => {}, []);
+  const handleOk = () => {
+    setAvModaOpen(true);
+  };
+  useEffect(() => {
+    setAvModaOpen(true);
+  }, []);
 
   const detailColumns = [
     {
@@ -211,6 +217,11 @@ const Lessees = (props) => {
     <div className={styles['dashboard-wrapper']}>
       {/* <Invite /> */}
       <Invitation />
+      {/* <ModalUpload
+        avModalOpen={avModalOpen}
+        handleOk={handleOk}
+        setAvModaOpen={setAvModaOpen}
+      /> */}
       <div id="thank-you"></div>
       <div className={styles['dashboard-content']}>
         <div
