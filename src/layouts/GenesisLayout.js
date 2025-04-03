@@ -77,7 +77,11 @@ const GenesisLayout = (props) => {
   }, [history.location.pathname]);
 
   const onMenuChange = (nav) => {
-    history.push(nav.path);
+    if (nav.name === 'Purchase') {
+      history.push(nav.path, { path: location.pathname }); // location.pathname
+    } else {
+      history.push(nav.path);
+    }
   };
 
   const menu = useMemo(() => {

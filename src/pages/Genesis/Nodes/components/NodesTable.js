@@ -125,7 +125,8 @@ function NodesTable({ data, getList }) {
         className={styles['table']}
         columns={columns}
         dataSource={data}
-        pagination={false}
+        // pagination={false}
+        pagination={{ pageSize: 8 }}
         scroll={{ x: 'auto' }}
         emptyDescription={
           <p>

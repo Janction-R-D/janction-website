@@ -24,6 +24,17 @@ export const formatDateYMD = (dateString) => {
 
   return `${year}-${month}-${day}`;
 };
+export function formatISODate(isoString) {
+  const dateObj = new Date(isoString);
+
+  // format YYYY-MM-DD
+  const date = dateObj.toISOString().split('T')[0];
+
+  //  format HH:MM:SS
+  const time = dateObj.toISOString().split('T')[1].split('.')[0];
+
+  return `${date} ${time}`; // return "YYYY-MM-DD HH:MM:SS"
+}
 
 export const formatDateMD = (dateString) => {
   const date = new Date(dateString);

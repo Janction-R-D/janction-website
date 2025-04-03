@@ -7,7 +7,7 @@ import styles from './index.less';
 import OperationModal from './InstanceComponents/OperationModal';
 import { convertMBtoGB } from '../Dashboard/Lessor';
 import { history } from 'umi';
-
+import { formatISODate } from '@/utils/datetime';
 function InstanceTable({ data, getAllNodes }) {
   const [showOverView, setShowOverView] = useState(true);
 
@@ -50,7 +50,7 @@ function InstanceTable({ data, getAllNodes }) {
       dataIndex: 'Cores',
       key: 'Cores',
       ellipsis: true,
-      render: (text) => <p>{text} Cores</p>,
+      render: (text) => <>{text !== '--' ? <p>{text} Cores</p> : '--'}</>,
     },
     {
       title: <div className="memory">Memory</div>,
@@ -166,14 +166,17 @@ function InstanceTable({ data, getAllNodes }) {
   const mappedOrders = data?.map((order) => ({
     ...order,
     key: order?.id,
-    Cores: order?.node.attr.cpu,
-    memory: order?.node.attr.memory,
+    Cores: order?.node?.attr.cpu || '--',
+    memory: order?.node?.attr.memory || '--',
     status: order?.status_str,
-    Location: order?.node.attr.location,
+    Location: order?.node?.attr.location || '--',
     GPUrate: '0.254%',
     MemoryUsage: convertMBtoGB(order?.activity?.memory_usage?.toFixed(2)),
-    downtime: '2024-09-15 10:00:00\r\n2024-09-16 18:00:00',
+    downtime: `${formatISODate(order.created_at)}\r\n${formatISODate(
+      order.expired_at,
+    )}`,
   }));
+
   const handleModal = () => {
     setShowOverView(!showOverView);
   };

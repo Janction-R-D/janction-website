@@ -1,12 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import dayjs from 'dayjs';
 import { Card, Checkbox, Empty } from 'antd';
-import { getTableData } from '../utils';
 
-const formatDate = (isoString, format = 'YYYY-MM-DD HH:mm:ss') => {
-  if (!isoString) return '--';
-  return dayjs(isoString).format(format);
-};
 export default function Instances({ value, onChange, styles, data }) {
   const handleCheckboxChange = (newValue) => {
     if (newValue !== value) {
@@ -73,14 +68,6 @@ export default function Instances({ value, onChange, styles, data }) {
                   <div className={styles['des-group']}>
                     <span className={styles['des-text']}>
                       {item?.attr.operating_system_str.toUpperCase()}
-                    </span>
-                  </div>
-                </section>
-                <section className={styles['config-info']}>
-                  <p className={styles['des-title']}>Location</p>
-                  <div className={styles['des-group']}>
-                    <span className={styles['des-text']}>
-                      {item?.attr.location}
                     </span>
                   </div>
                 </section>

@@ -2,15 +2,15 @@ export function getTableData(data) {
   return data?.map((node) => ({
     user_id: node?.user_id,
     id: node?.id ?? 'unknown',
-    operatingSystem: node?.attr?.operating_system_str ?? 'Unknown',
-    architecture: node?.attr?.architechture_str ?? 'Unknown',
+    operatingSystem: node?.attr?.operating_system_str || 'unknown',
+    architecture: node?.attr?.architechture_str || 'unknown',
     connectivity:
       node?.attr?.network_up !== undefined &&
       node?.attr?.network_down !== undefined
         ? `${node.attr.network_up} / ${node.attr.network_down} Mbps`
         : 'Unknown',
-    internet: node?.status_str ?? 'Unknown',
-    location: node?.attr?.location ?? 'Unknown',
+    internet: node?.status_str ?? 'unknown',
+    location: node?.attr?.location ?? 'unknown',
     process: {
       name:
         node?.attr?.cpu_chip?.length > 0

@@ -22,6 +22,7 @@ const Quick = (props) => {
   const [loading, setLoading] = useState(false);
   const [formValues, setFormValues] = useState({});
   const [list, setList] = useState([]);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     let { operating_system_str: operating_system = [] } = formValues || {};
 
