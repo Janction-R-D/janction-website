@@ -30,6 +30,7 @@ const Settlement = (props) => {
 
   useEffect(() => {
     if (!formValues?.node?.id) return;
+    console.log(formValues);
     getNodeConfigInfo({ node_id: formValues.node.id });
   }, [formValues]);
 
@@ -92,7 +93,7 @@ const Settlement = (props) => {
         purchase_duration: value,
         purchase_duration_unit: goal?.label.toLowerCase(),
         purchase_instance_quantity: 1,
-        template: formValues?.ai_framework,
+        template: formValues?.ai_framework || 'standard',
       });
       history.push('/genesis/instance');
     } catch (error) {
