@@ -136,7 +136,6 @@ export default function Mount() {
     } else if (minDuration.value == maxDuration.value && minLease >= maxLease) {
       setErrorRange(true);
     } else if (minLease < maxLease || minDuration.value < maxDuration.value) {
-      console.log('object');
       setErrorRange(false);
     } else {
       setErrorRange(false);

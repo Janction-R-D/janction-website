@@ -15,7 +15,6 @@ import ProductList from './Quick/ProductList';
 import { fetchListFilter } from '@/services/genesis';
 import { getNodeStatusMatch } from '@/utils/lang';
 import PurDuration from './PurDuration';
-import { set } from 'lodash';
 
 const Quick = (props) => {
   const [form] = Form.useForm();

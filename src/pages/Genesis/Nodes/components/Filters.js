@@ -2,11 +2,9 @@ import React from 'react';
 import { Radio, Input } from 'antd';
 export default function Filters({ styles, setFilter, filters }) {
   const handleFilters = (filter) => {
-    console.log(filters, filter);
     setFilter((prevState) => ({ ...prevState, status: filter.toLowerCase() }));
   };
   const handleSearch = (value) => {
-    console.log(value);
     setFilter((prevState) => ({ ...prevState, word: value }));
   };
   return (

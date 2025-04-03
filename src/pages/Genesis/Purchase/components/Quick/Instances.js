@@ -1,12 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import dayjs from 'dayjs';
 import { Card, Checkbox, Empty } from 'antd';
-import { getTableData } from '../utils';
 
-const formatDate = (isoString, format = 'YYYY-MM-DD HH:mm:ss') => {
-  if (!isoString) return '--';
-  return dayjs(isoString).format(format);
-};
 export default function Instances({ value, onChange, styles, data }) {
   const handleCheckboxChange = (newValue) => {
     if (newValue !== value) {

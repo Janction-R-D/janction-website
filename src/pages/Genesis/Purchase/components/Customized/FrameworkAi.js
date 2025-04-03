@@ -8,7 +8,6 @@ export default function FrameworkAi({ value, onChange }) {
   const [check, setCheck] = useState(true);
 
   const onCheckChange = (checked) => {
-    console.log(`switch to ${checked}`);
     setCheck(checked);
   };
   useEffect(() => {

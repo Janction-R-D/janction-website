@@ -7,10 +7,8 @@ import styles from './index.less';
 const Footer = (props) => {
   const {
     loading,
-    isConfirm,
     isSettlement,
     onPre,
-    onConfirm,
     onPay,
     node,
     formValues,
@@ -45,56 +43,42 @@ const Footer = (props) => {
   return (
     <div className={styles['footer-price']}>
       <div className={styles['confirm-info']}>
-        {isSettlement && (
-          <>
-            <div>
-              <Checkbox checked={agree} onChange={onAgreeChange}>
-                <div className={styles['agree-tip']}>
-                  I have read and agreed to the <a>relevant service terms</a>.
-                </div>
-              </Checkbox>
+        <div>
+          <Checkbox checked={agree} onChange={onAgreeChange}>
+            <div className={styles['agree-tip']}>
+              I have read and agreed to the <a>relevant service terms</a>.
             </div>
-          </>
-        )}
+          </Checkbox>
+        </div>
       </div>
       <div className={styles['btn']}>
-        {isSettlement && (
-          <div className={styles['price-info']}>
-            <span className={styles['value']}>
-              {total || 0} {currency?.label}
-            </span>
-            <div className={styles['detail']}>
-              <span>Bill Details</span>
-              <i className="iconfont icon-next_page"></i>
-            </div>
+        <div className={styles['price-info']}>
+          <span className={styles['value']}>
+            {loading ? '--' : total || 0} {currency?.label}
+          </span>
+          <div className={styles['detail']}>
+            <span>Bill Details</span>
+            <i className="iconfont icon-next_page"></i>
           </div>
-        )}
-        {isConfirm && (
-          <div className={styles['confirm']} onClick={() => onConfirm()}>
-            <Button loading={loading}>Confirm the order</Button>
-          </div>
-        )}
+        </div>
 
-        {isSettlement && (
-          <div className={styles['pre']}>
-            <Button onClick={() => onPre()}>Previous</Button>
-          </div>
-        )}
-        {isSettlement && (
-          <div
-            className={styles['pay']}
-            onClick={() => {
-              try {
-                onPayBefore();
-                onPay();
-              } catch (err) {
-                console.log('『err』', err);
-              }
-            }}
-          >
-            <Button>Check to pay</Button>
-          </div>
-        )}
+        <div className={styles['pre']}>
+          <Button onClick={() => onPre()}>Previous</Button>
+        </div>
+
+        <div
+          className={styles['pay']}
+          onClick={() => {
+            try {
+              onPayBefore();
+              onPay();
+            } catch (err) {
+              console.log('『err』', err);
+            }
+          }}
+        >
+          <Button disabled={loading}>Check to pay</Button>
+        </div>
       </div>
     </div>
   );

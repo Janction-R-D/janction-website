@@ -35,8 +35,9 @@ const Settlement = (props) => {
 
   const getNodeConfigInfo = async (params) => {
     try {
+      setLoading(true);
       const res = await fetchNodesConfigInfo(params);
-      console.log('res :', list);
+
       if (isEmpty(res)) {
         setList([]);
         return;
@@ -45,6 +46,8 @@ const Settlement = (props) => {
       setConfigInfo(res);
     } catch (error) {
       console.log('『error』', error);
+    } finally {
+      setLoading(false);
     }
   };
   useEffect(() => {
@@ -169,6 +172,7 @@ const Settlement = (props) => {
         <JanctionTable
           columns={columns}
           dataSource={list}
+          loading={loading}
           pagination={false}
           scroll={{ x: 'auto' }}
           rowKey="id"
@@ -181,6 +185,7 @@ const Settlement = (props) => {
         formValues={formValues}
         node={list[0]}
         onPay={onPay}
+        loading={loading}
       />
     </div>
   );
