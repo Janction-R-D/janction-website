@@ -13,13 +13,14 @@ const Footer = (props) => {
     node,
     formValues,
     currencyAddress,
+    tableLoading,
   } = props;
 
   const [agree, setAgree] = useState(false);
   const currency = useMemo(() => {
     const goal = getCurrency().find((item) => item.value == currencyAddress);
     return goal;
-  }, [currencyAddress]);
+  }, currencyAddress);
 
   const total = useMemo(() => {
     const { value, unit } = formValues?.purDuration || {};
@@ -54,7 +55,7 @@ const Footer = (props) => {
       <div className={styles['btn']}>
         <div className={styles['price-info']}>
           <span className={styles['value']}>
-            {loading ? '--' : total || 0} {currency?.label}
+            {tableLoading ? '--' : total || 0} {currency?.label}
           </span>
           <div className={styles['detail']}>
             <span>Bill Details</span>
@@ -77,7 +78,7 @@ const Footer = (props) => {
             }
           }}
         >
-          <Button disabled={loading}>Check to pay</Button>
+          <Button disabled={tableLoading}>Check to pay</Button>
         </div>
       </div>
     </div>
@@ -85,3 +86,5 @@ const Footer = (props) => {
 };
 
 export default Footer;
+
+//

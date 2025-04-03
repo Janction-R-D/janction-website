@@ -20,9 +20,9 @@ import styles from './index.less';
 const Settlement = (props) => {
   const [deadline, setDeadline] = useState();
   const { formValues } = history.location.state || {};
-  console.log(formValues);
-  const { address } = useAccount();
 
+  const { address } = useAccount();
+  const [tableLoading, setTableLoading] = useState(false);
   const [loading, setLoading] = useState(false);
   const [currency, setCurrency] = useState(getDefaultCurrency());
   const [list, setList] = useState([]);
@@ -35,7 +35,7 @@ const Settlement = (props) => {
 
   const getNodeConfigInfo = async (params) => {
     try {
-      setLoading(true);
+      setTableLoading(true);
       const res = await fetchNodesConfigInfo(params);
 
       if (isEmpty(res)) {
@@ -47,7 +47,7 @@ const Settlement = (props) => {
     } catch (error) {
       console.log('『error』', error);
     } finally {
-      setLoading(false);
+      setTableLoading(false);
     }
   };
   useEffect(() => {
@@ -91,6 +91,8 @@ const Settlement = (props) => {
         node_id: node.id,
         purchase_duration: value,
         purchase_duration_unit: goal?.label.toLowerCase(),
+        purchase_instance_quantity: 1,
+        template: formValues?.ai_framework,
       });
       history.push('/genesis/instance');
     } catch (error) {
@@ -172,7 +174,7 @@ const Settlement = (props) => {
         <JanctionTable
           columns={columns}
           dataSource={list}
-          loading={loading}
+          loading={tableLoading}
           pagination={false}
           scroll={{ x: 'auto' }}
           rowKey="id"
@@ -186,6 +188,7 @@ const Settlement = (props) => {
         node={list[0]}
         onPay={onPay}
         loading={loading}
+        tableLoading={tableLoading}
       />
     </div>
   );
