@@ -71,14 +71,6 @@ export default function Instances({ value, onChange, styles, data }) {
                     </span>
                   </div>
                 </section>
-                <section className={styles['config-info']}>
-                  <p className={styles['des-title']}>Location</p>
-                  <div className={styles['des-group']}>
-                    <span className={styles['des-text']}>
-                      {item?.attr.location}
-                    </span>
-                  </div>
-                </section>
               </Card>
             );
           })

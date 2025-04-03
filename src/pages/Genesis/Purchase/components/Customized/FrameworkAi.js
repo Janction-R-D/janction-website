@@ -5,7 +5,7 @@ import tensorflow from '@/assets/images/genesis/tensorflow.png';
 import { FRAMEWORK } from './constant';
 import styles from './index.less';
 export default function FrameworkAi({ value, onChange }) {
-  const [check, setCheck] = useState(true);
+  const [check, setCheck] = useState(false);
 
   const onCheckChange = (checked) => {
     setCheck(checked);
@@ -23,7 +23,8 @@ export default function FrameworkAi({ value, onChange }) {
   return (
     <main className={styles['framework-conf-wrapper']}>
       <div className={styles['framework-check']}>
-        <p>AI Framework</p> <Switch defaultChecked onChange={onCheckChange} />
+        <p>AI Framework</p>{' '}
+        <Switch defaultChecked={false} onChange={onCheckChange} />
       </div>
       <section className={styles['framework-conf-cards']}>
         {FRAMEWORK.map((item) => (
