@@ -1,0 +1,119 @@
+.modal__avatar__footer {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 12px;
+  .create-btn {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 12px;
+    padding-inline: 18px;
+    background: linear-gradient(275.81deg, #72deff 18.68%, #ffebe7 100%);
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 24px;
+    text-align: center;
+    color: #000;
+    border-radius: 20px;
+    text-wrap: nowrap;
+    i {
+      width: 12px;
+      height: 12px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+    }
+  }
+  .cancel-btn {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 4px 24px;
+    background: #252527;
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 24px;
+    text-align: center;
+    color: #a8a8a9;
+    border-radius: 20px;
+    text-wrap: nowrap;
+  }
+}
+.modal__avatar__images {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  column-gap: 18px;
+  gap: 22px;
+  padding-inline: 12px;
+  .modal__avatar__img {
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
+    transition: all 300ms ease;
+    position: relative;
+    display: inline-block;
+    &:hover {
+      scale: 1.15;
+    }
+    &::after {
+      content: attr(aria-label);
+      position: absolute;
+      bottom: -30px; /* Ajusta según necesites */
+      left: 50%;
+      z-index: 15;
+      transform: translateX(-50%);
+      background-color: rgba(0, 0, 0, 0.8);
+      color: #fff;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 0.8rem;
+      white-space: nowrap;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s ease-in-out;
+    }
+    &:hover::after {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}
+.modal__avatar {
+  border-radius: 22px;
+
+  .modal__avatar__header {
+    p {
+      font-size: 1.8rem;
+      color: #fff;
+      font-weight: 500;
+    }
+
+    span {
+      font-size: 0.8rem;
+      color: #d6d7d7;
+    }
+  }
+
+  :global {
+    backdrop-filter: blur(50px);
+    .ant-modal-content {
+      border-radius: 22px;
+
+      background: #242426;
+
+      padding-top: 24px;
+      overflow: hidden;
+    }
+    .ant-modal-body {
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+  }
+}

@@ -6,6 +6,7 @@ import AvatarUpload from './AvatarUpload';
 import styles from './modal.less';
 import { useState } from 'react';
 import { AvatarModal } from './AvatarModal';
+import UploadModal from './UploadImage/UploadModal';
 
 export default function PorifilePicture() {
   const { avatarSnapUrl, setAvatarSnapUrl } = useModel('common');
@@ -38,6 +39,13 @@ export default function PorifilePicture() {
           handleClick={handleClick}
           address={address}
         />
+        {/* <UploadModal
+          avModalOpen={showModal}
+          handleOk={handleClick}
+          setAvModaOpen={setShowModal}
+          address={address}
+          avatar={avatar}
+        /> */}
         <span className={styles['check-float']}>
           <i className="iconfont icon-certified"></i>
         </span>

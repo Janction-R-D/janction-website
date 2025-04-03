@@ -154,6 +154,13 @@ const Customized = () => {
         className={styles['form']}
       >
         <section className={styles['form-content']}>
+          <section className={styles['header-section']}>
+            <h1 className={styles['title']}>Customized purchase</h1>
+            <p className={styles['description']}>
+              Tailor your server with custom hardware, network, and software
+              configurations for optimal performance and scalability.
+            </p>
+          </section>
           <CustomizedSteps
             current={current}
             steps={steps}
@@ -164,7 +171,6 @@ const Customized = () => {
           <header className={styles['header']}>
             <section className={styles['header-desc']}>
               <h2 className={styles['title']}>{steps[current].field}</h2>
-              <p>{steps[current].description}</p>
             </section>
 
             {current < steps.length - 1 && (

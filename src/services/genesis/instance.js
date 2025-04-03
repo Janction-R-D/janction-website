@@ -165,6 +165,20 @@ export const fetchUserCenter = async () => {
     return null;
   }
 };
+
+//fetch all avatar
+export const fetchUserAvatars = async () => {
+  try {
+    const response = await request(`${baseUrl}/user/avatars`, {
+      loginAuth: true,
+    });
+    return response;
+  } catch (error) {
+    console.log('『error』', error);
+    return null;
+  }
+};
+
 export const fetchUserKeys = async () => {
   try {
     const response = await request(`${baseUrl}/user/securities`, {
@@ -294,6 +308,23 @@ export const changeUserConfig = async (data) => {
     return null;
   }
 };
+
+export const userConfig = async (data) => {
+  try {
+    const response = await request(`${baseUrl}/user/config`, {
+      method: 'POST',
+      loginAuth: true,
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    return response;
+  } catch (error) {
+    console.log('『error』', error);
+    return null;
+  }
+};
 //fetch ConfigInfo
 export const fetchNodesConfigInfo = async (params) => {
   try {
@@ -307,6 +338,7 @@ export const fetchNodesConfigInfo = async (params) => {
     return null;
   }
 };
+
 // fetchPost ConfigInfo
 export const fetchNodesConfigUpdate = async (data) => {
   try {

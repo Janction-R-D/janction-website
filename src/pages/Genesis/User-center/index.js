@@ -8,6 +8,7 @@ import PorifilePicture from './components/PorifilePicture';
 import SocialLink from './components/SocialLink';
 import UserAssets from './components/UserAssets';
 import styles from './index.less';
+import UploadModal from './components/UploadImage/UploadModal';
 
 export default function UserAccount() {
   const { userName, setUserName, userInfo } = useModel('common');
@@ -41,6 +42,7 @@ export default function UserAccount() {
         <div className={styles['banner-img']}>
           <img src="/account.png" className={styles['img']} />
         </div>
+
         <PorifilePicture />
       </section>
       <article className={styles['user-info']}>
