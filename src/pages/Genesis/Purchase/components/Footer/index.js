@@ -13,6 +13,7 @@ const Footer = (props) => {
     node,
     formValues,
     currencyAddress,
+    tableLoading,
   } = props;
 
   const [agree, setAgree] = useState(false);
@@ -54,7 +55,7 @@ const Footer = (props) => {
       <div className={styles['btn']}>
         <div className={styles['price-info']}>
           <span className={styles['value']}>
-            {loading ? '--' : total || 0} {currency?.label}
+            {tableLoading ? '--' : total || 0} {currency?.label}
           </span>
           <div className={styles['detail']}>
             <span>Bill Details</span>
@@ -77,7 +78,7 @@ const Footer = (props) => {
             }
           }}
         >
-          <Button disabled={loading}>Check to pay</Button>
+          <Button disabled={tableLoading}>Check to pay</Button>
         </div>
       </div>
     </div>

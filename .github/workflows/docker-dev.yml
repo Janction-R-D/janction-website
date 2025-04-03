@@ -5,13 +5,13 @@ on:
     branches:
       - production
     paths-ignore:
-      - "**.md"
-      - "**.txt"
+      - '**.md'
+      - '**.txt'
   pull_request:
 
 env:
   CONTAINER: janction/frontend-dev
-
+  K8S_DEPLOYMENT: frontend-dev
 permissions:
   id-token: write # This is required for requesting the JWT
   contents: read # This is required for actions/checkout
