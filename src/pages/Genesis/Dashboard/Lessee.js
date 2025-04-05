@@ -43,13 +43,14 @@ const Lessees = (props) => {
     Change: item?.change,
     Brand: item?.brand.toLowerCase(),
     Description: item?.description,
+    nodeId: item?.id,
   }));
 
   const onBuy = (rowData) => {
     if (!rowData.MarketCap) return;
     history.push('/genesis/purchase', {
       isQuick: true,
-      nodeId: 'd9ede8ea-379b-4d8d-9d4d-c7f21b6400df',
+      nodeId: nodeId,
     });
   };
   const handleOk = () => {
