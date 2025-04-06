@@ -93,6 +93,7 @@ export default function ModalUpload(props) {
       message.success('Avatar updated successfully!');
       setAvatarSnapUrl(selectedAvatar.path);
       await fetchUserConfig();
+      await onSkip();
       setAvModaOpen(false);
     } catch (error) {
       message.error('Failed to update avatar.');
