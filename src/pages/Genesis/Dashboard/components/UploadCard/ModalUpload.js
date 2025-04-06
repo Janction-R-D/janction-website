@@ -8,9 +8,10 @@ import avatar7 from '@/assets/images/genesis/avatars/avatar-7.png';
 import avatar8 from '@/assets/images/genesis/avatars/avatar-8.png';
 import { Button, Modal, message } from 'antd';
 import styles from './index.less';
-import { changeUserConfig } from '@/services/genesis';
+import { changeUserConfig, fetchUserConfig } from '@/services/genesis';
 import { useState } from 'react';
 import storage from '@/utils/storage';
+import { useModel } from 'umi';
 
 const images = [
   { path: avatar1, name: 'Symphony star', alt: 'default one icon', id: 1 },
@@ -28,7 +29,7 @@ async function uploadAvatarToServer(imageUrl, fileName) {
   try {
     // Intentar obtener el archivo como un Blob
     const res = await fetch(imageUrl);
-    console.log(res);
+
     if (!res.ok) {
       throw new Error('No se pudo obtener la imagen');
     }
@@ -43,8 +44,10 @@ async function uploadAvatarToServer(imageUrl, fileName) {
     }
 
     // Crea un archivo File con el blob recibido
-    const file = new File([blob], file, { type: mimeType });
-
+    const file = new File([blob], `${fileName.split(' ').join('_')}.png`, {
+      type: mimeType,
+    });
+    console.log(file);
     const formData = new FormData();
     formData.append('avatar', file);
 
@@ -72,6 +75,7 @@ async function uploadAvatarToServer(imageUrl, fileName) {
 export default function ModalUpload(props) {
   const { avModalOpen, handleOk, setAvModaOpen, userConf, setUserConf } = props;
   const [selectedAvatarId, setSelectedAvatarId] = useState(null);
+  const { avatarSnapUrl, setAvatarSnapUrl } = useModel('common');
   const [selectedAvatar, setSelectedAvatar] = useState(null);
   const [loading, setLoading] = useState(false);
   const handleAvatarClick = (id) => {
@@ -86,21 +90,22 @@ export default function ModalUpload(props) {
     }
 
     try {
-      console.log(selectedAvatar);
-      await uploadAvatarToServer(selectedAvatar.path);
+      await uploadAvatarToServer(selectedAvatar.path, selectedAvatar.name);
       message.success('Avatar updated successfully!');
-      // setAvModaOpen(false);
+      setAvatarSnapUrl(selectedAvatar.path);
+      await fetchUserConfig();
+      setAvModaOpen(false);
     } catch (error) {
       message.error('Failed to update avatar.');
       console.error(error);
     }
   };
 
-  const handleCancel = async () => {
+  const onSkip = async () => {
     try {
       const payload = {
         ...userConf,
-        default_avatar_status: false,
+        default_avatar_status: true,
       };
       const res = await changeUserConfig(payload);
 
@@ -109,7 +114,9 @@ export default function ModalUpload(props) {
       console.log(err);
     }
   };
-
+  const handleCancel = () => {
+    setAvModaOpen(false);
+  };
   return (
     <Modal
       onCancel={handleCancel}
@@ -140,7 +147,7 @@ export default function ModalUpload(props) {
               className={styles['modal__avatar__img']}
               aria-label={item.name}
             />
-            {selectedAvatar === item.name && (
+            {selectedAvatar?.name === item.name && (
               <span className={styles['modal__avatar__label']}>
                 {item.name}
               </span>
@@ -150,7 +157,7 @@ export default function ModalUpload(props) {
       </section>
 
       <footer className={styles['modal__avatar__footer']}>
-        <Button className={styles['cancel-btn']} onClick={handleCancel}>
+        <Button className={styles['cancel-btn']} onClick={onSkip}>
           Skip
         </Button>
         <Button

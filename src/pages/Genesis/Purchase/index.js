@@ -31,7 +31,7 @@ function Purchase() {
                   styles['nav-item'],
                   activePurType == item.value && styles['nav-active-item'],
                 ].join(' ')}
-                onClick={() => onPurTypeChange(item.value)}
+                onClick={() => setActivePurType(item.value)}
               >
                 {item.name}
               </div>

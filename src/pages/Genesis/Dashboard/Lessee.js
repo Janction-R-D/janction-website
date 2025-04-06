@@ -68,8 +68,8 @@ const Lessees = (props) => {
       const res = await fetchUserConfig();
       setUserConf(res);
 
-      if (!res?.default_avatar_status) {
-        setAvModaOpen(true);
+      setAvModaOpen(true);
+      if (!res?.default_avatar_status && res?.pass_newbie_guide) {
       }
     } catch (err) {
       console.log(err);
@@ -237,7 +237,7 @@ const Lessees = (props) => {
         avModalOpen={avModalOpen}
         handleOk={handleOk}
         setAvModaOpen={setAvModaOpen}
-        serConf={userConf}
+        userConf={userConf}
         setUserConf={setUserConf}
       />
       <div id="thank-you"></div>
