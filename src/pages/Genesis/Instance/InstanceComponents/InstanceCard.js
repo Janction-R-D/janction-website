@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import styles from './instanceCard.less';
 import InstanceEchart from './InstanceEchart';
 import { fetchNodeOperation } from '../../../../services/genesis/instance';
-// import { convertMBtoGB } from '../../Dashboard/Lessors';
+import { message } from 'antd';
 import TerminalModal from './TerminalModal';
 import { convertMBtoGB } from '../../Dashboard/Lessor';
+import { formatISODate } from '@/utils/datetime';
 export default function InstanceCard({ instance, getAllNodes }) {
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -20,12 +21,14 @@ export default function InstanceCard({ instance, getAllNodes }) {
       operation,
       id,
     });
-    // This one doesn't work .. because the api send an error response
+    console.log(id, resource, operation);
     fetchNodeOperation(payload)
       .then((res) => {
-        console.log(res);
-        setSuccess(true);
+        if (res.error) {
+          return message.error(res.error);
+        }
         getAllNodes();
+        setSuccess(true);
       })
       .catch((err) => {
         setError(true);
@@ -37,7 +40,7 @@ export default function InstanceCard({ instance, getAllNodes }) {
           setSuccess(false);
         }, 5000);
 
-        window.location.reload();
+        // window.location.reload();
       });
   };
   const formatDate = (dateString) => {
@@ -53,17 +56,20 @@ export default function InstanceCard({ instance, getAllNodes }) {
   };
 
   const instanceData = {
-    key: instance?.id,
+    resource_id: instance?.id,
+    node_id: instance?.node_id,
     name: instance?.name,
-    Cores: instance?.node.attr.cpu,
-    memory: instance?.node.attr.memory,
+    Cores: instance?.node?.attr.cpu,
+    memory: instance?.node?.attr.memory,
     status: instance?.status_str,
     expired: formatDate(instance?.expired_at),
     created: formatDate(instance?.created_at),
-    Location: instance?.node.attr.location,
+    Location: instance?.node?.attr.location,
     GPUrate: '0.254%',
     MemoryUsage: convertMBtoGB(instance?.activity?.memory_usage?.toFixed(2)),
-    downtime: '2024-09-15 10:00:00\r\n2024-09-16 18:00:00',
+    downtime: `${formatISODate(instance.created_at)}\r\n${formatISODate(
+      instance.expired_at,
+    )}`,
     activity: instance.activity,
     resource: instance.activity?.resource_id,
   };
@@ -77,7 +83,7 @@ export default function InstanceCard({ instance, getAllNodes }) {
               <span className={styles['text-title']}>Instance ID/Name</span>
             </div>
             <div>
-              <h1>{instanceData.name}</h1>
+              <h1 className={styles['node_id']}>{instanceData.id}</h1>
               <span>
                 <Status status={instanceData.status} />
               </span>
@@ -88,7 +94,13 @@ export default function InstanceCard({ instance, getAllNodes }) {
             <div>
               <a onClick={handleConnect}>Remote connection</a>
               <a
-                onClick={() => handleOperation('stop', instanceData.resource)}
+                onClick={() =>
+                  handleOperation(
+                    'stop',
+                    instanceData.resource_id,
+                    instanceData.node_id,
+                  )
+                }
                 className={`${styles['operation-action']}  ${
                   instanceData.status === 'stopped' ||
                   instanceData.status === 'expired'
@@ -106,7 +118,13 @@ export default function InstanceCard({ instance, getAllNodes }) {
                     ? styles['selected-status']
                     : ''
                 }`}
-                onClick={() => handleOperation('start', instanceData.resource)}
+                onClick={() =>
+                  handleOperation(
+                    'start',
+                    instanceData.resource_id,
+                    instanceData.node_id,
+                  )
+                }
               >
                 Start
               </a>

@@ -50,7 +50,7 @@
       }
       .text__content {
         display: flex;
-        justify-content: space-between;
+        gap: 4px;
 
         .description {
           display: flex;
@@ -71,10 +71,13 @@
           }
           .text__description {
             color: #fff;
-            display: flex;
-            width: 100%;
+            width: 280px;
             flex-direction: column;
             text-transform: uppercase;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
           }
         }
         .price {
@@ -82,7 +85,41 @@
           font-weight: 700;
         }
       }
+      .text__content_op {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        .description {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+
+          i {
+            font-size: 1.15rem;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+            color: rgba(0, 225, 149, 1);
+            background: rgba(52, 52, 52, 1);
+            padding: 3px;
+          }
+          .text__description {
+            color: #fff;
+            width: min-content;
+            flex-direction: column;
+            text-transform: uppercase;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+          }
+        }
+      }
     }
+
     .instance-empty {
       display: flex;
       justify-content: center;

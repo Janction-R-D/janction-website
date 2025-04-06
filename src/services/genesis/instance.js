@@ -39,7 +39,6 @@ export const fetchNodeList = async () => {
  *operation POST
  */
 export const fetchNodeOperation = async (params) => {
-  console.log(params);
   try {
     const response = await request(`${baseUrl}/resource/operate`, {
       method: 'POST',

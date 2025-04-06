@@ -1,8 +1,7 @@
-import { Card, Collapse, Divider, Form, Switch } from 'antd';
+import { Card, Collapse, Divider, Form } from 'antd';
 import styles from './index.less';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import Operating from './Quick/Operating';
-import debounce from 'lodash/debounce';
 import AsidePrice from './Quick/AsidePrice/AsidePrice';
 import Instances from './Quick/Instances';
 import Specification from './Quick/Specification';
@@ -23,6 +22,9 @@ const Quick = (props) => {
   const [formValues, setFormValues] = useState({});
   const [list, setList] = useState([]);
 
+  const [loading, setLoading] = useState(false);
+  const { node_id } = location.state || {};
+  console.log(history.location.state);
   useEffect(() => {
     let { operating_system_str: operating_system = [] } = formValues || {};
 
