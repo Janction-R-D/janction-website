@@ -61,13 +61,12 @@ async function uploadAvatarToServer(imageUrl, fileName) {
     });
 
     if (!uploadRes.ok) {
-      throw new Error('Falló la subida del avatar');
+      throw new Error('Error Uploading new avatar');
     }
 
-    message.success('Avatar actualizado correctamente');
     return await uploadRes.json();
   } catch (error) {
-    message.error('Falló la subida del avatar');
+    message.error('Error Uploading new avatar');
     console.error(error);
   }
 }

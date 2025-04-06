@@ -32,20 +32,20 @@ export default function PorifilePicture() {
             className={styles['user-profile-img']}
           />
         </Tooltip>
-        <AvatarModal
+        {/* <AvatarModal
           setShowModal={setShowModal}
           showModal={showModal}
           avatar={avatar}
           handleClick={handleClick}
           address={address}
-        />
-        {/* <UploadModal
+        /> */}
+        <UploadModal
           avModalOpen={showModal}
           handleOk={handleClick}
           setAvModaOpen={setShowModal}
           address={address}
           avatar={avatar}
-        /> */}
+        />
         <span className={styles['check-float']}>
           <i className="iconfont icon-certified"></i>
         </span>
