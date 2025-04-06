@@ -10,6 +10,7 @@ import AndroidAuthMenu from './AuthMenu';
 import styles from './index.less';
 import Guide from '@/pages/Genesis/Dashboard/components/Guide/Guide';
 import { fetchUserConfig } from '@/services/genesis';
+import { set } from 'lodash';
 
 export const Logo = () => {
   return (
@@ -35,6 +36,7 @@ export default function AuthHeader(props) {
   const [isNotifyModalOpen, setIsNotifyModalOpen] = useState(false);
   const { avatarSnapUrl, getUserInfo, setUserName } = useModel('common');
   const [run, setRun] = useState(false);
+  const [userConf, setUserConf] = useState({});
   const { address } = useAccount();
 
   useEffect(() => {
@@ -55,6 +57,7 @@ export default function AuthHeader(props) {
     if (!location.pathname.includes('dashboard')) return; // Modal guide  will pop up only in dahsboard page
     try {
       const res = await fetchUserConfig();
+      setUserConf(res);
       if (!res?.pass_newbie_guide) {
         setRun(true); //If the users haven't passed the new user guidance yet
         return;
@@ -82,6 +85,8 @@ export default function AuthHeader(props) {
       <Guide
         run={run}
         setRun={setRun}
+        userConf={userConf}
+        setUserConf={setUserConf}
         setIsModalOpen={setIsModalOpen}
         setIsNotifyModalOpen={setIsNotifyModalOpen}
       />

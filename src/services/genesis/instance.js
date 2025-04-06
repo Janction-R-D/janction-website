@@ -308,22 +308,6 @@ export const changeUserConfig = async (data) => {
   }
 };
 
-export const userConfig = async (data) => {
-  try {
-    const response = await request(`${baseUrl}/user/config`, {
-      method: 'POST',
-      loginAuth: true,
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    return null;
-  }
-};
 //fetch ConfigInfo
 export const fetchNodesConfigInfo = async (params) => {
   try {

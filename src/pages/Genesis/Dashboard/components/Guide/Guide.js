@@ -14,11 +14,14 @@ import styles from './guide.less';
 import { changeUserConfig } from '@/services/genesis';
 import useScale from '@/hooks/useScale';
 import storage from '@/utils/storage';
+import { set } from 'lodash';
 export default function Guide({
   run,
   setRun,
   setIsModalOpen,
+  setUserConf,
   setIsNotifyModalOpen,
+  userConf,
 }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [steps, setSteps] = useState(stepsLesse);
@@ -43,8 +46,10 @@ export default function Guide({
   const updateConfig = async () => {
     try {
       const data = {
+        ...userConf,
         pass_newbie_guide: true,
       };
+      setUserConf(data);
       await changeUserConfig(data);
       showModal();
     } catch (err) {
