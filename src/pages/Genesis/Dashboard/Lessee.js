@@ -27,21 +27,21 @@ const Lessees = (props) => {
 
   const detailsData = details?.map((item, index) => ({
     key: index,
-    Name: item?.Name,
-    Balance: item?.Balance,
-    Price: item?.Price,
-    Allocation: item?.Allocation,
-    Brand: item?.Brand.toLowerCase(),
-    Description: item?.Description,
-    PriceChanges: item?.PriceChanges,
+    Name: item?.name,
+    Balance: item?.balance,
+    Price: item?.price,
+    Allocation: item?.allocation,
+    Brand: item?.brand?.toLowerCase(),
+    Description: item?.description,
+    PriceChanges: item?.price_changes,
   }));
   const watchlistData = watchlist?.map((item, index) => ({
     key: index,
     Name: item?.name,
     Balance: item?.balance,
-    MarketCap: item?.marketCap,
+    MarketCap: item?.market_cap,
     Change: item?.change,
-    Brand: item?.brand.toLowerCase(),
+    Brand: item?.brand?.toLowerCase(),
     Description: item?.description,
     nodeId: item?.id,
   }));
@@ -50,7 +50,8 @@ const Lessees = (props) => {
     if (!rowData.MarketCap) return;
     history.push('/genesis/purchase', {
       isQuick: true,
-      nodeId: nodeId,
+      nodeId: rowData.nodeId,
+      path: history.location.pathname,
     });
   };
   const handleOk = () => {

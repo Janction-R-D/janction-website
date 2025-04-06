@@ -6,14 +6,15 @@ import Customized from './components/Customized';
 import Quick from './components/Quick';
 import { Button } from 'antd';
 function Purchase() {
-  const { path } = history.location.state || {};
+  const { path, isQuick } = history.location.state || {};
   const { initialState } = useModel('@@initialState');
   const { isLessee } = initialState || {};
   const [activePurType, setActivePurType] = useState(DEFAULT_PURCHASE_TYPE);
-
-  const onPurTypeChange = (type) => {
-    setActivePurType(type);
-  };
+  useEffect(() => {
+    if (isQuick) {
+      setActivePurType(PURCHASES[1].value);
+    }
+  }, [isQuick]);
 
   if (!isLessee) return <Redirect to="/genesis/dashboard"></Redirect>;
 
