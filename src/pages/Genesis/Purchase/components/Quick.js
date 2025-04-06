@@ -21,8 +21,6 @@ const Quick = (props) => {
   const [loading, setLoading] = useState(false);
   const [formValues, setFormValues] = useState({});
   const [list, setList] = useState([]);
-
-  const [loading, setLoading] = useState(false);
   const { node_id } = location.state || {};
   console.log(history.location.state);
   useEffect(() => {
