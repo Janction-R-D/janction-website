@@ -9,6 +9,7 @@ import styles from './index.less';
 import News from './components/News';
 import Invitation from './components/Invitation';
 import ModalUpload from './components/UploadCard/ModalUpload';
+import { fetchUserConfig } from '@/services/genesis';
 
 const brandDetails = {
   apple: { icon: 'macos', color: 'white' },
@@ -22,6 +23,7 @@ const brandDetails = {
 const Lessees = (props) => {
   const [news, setNews] = useState(newsData);
   const [avModalOpen, setAvModaOpen] = useState(false);
+  const [userConf, setUserConf] = useState({});
   const { lessesData } = useLesses();
   const { portfolio_balance: balance, details, watchlist } = lessesData || {};
 
@@ -54,13 +56,25 @@ const Lessees = (props) => {
       path: history.location.pathname,
     });
   };
+
   const handleOk = () => {
     setAvModaOpen(true);
   };
   useEffect(() => {
-    setAvModaOpen(true);
+    getUserConfig();
   }, []);
+  const getUserConfig = async () => {
+    try {
+      const res = await fetchUserConfig();
 
+      setUserConf(res);
+      if (!res?.default_avatar_status && res?.pass_newbie_guide) {
+        setAvModaOpen(true);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const detailColumns = [
     {
       title: 'Name',
@@ -219,11 +233,13 @@ const Lessees = (props) => {
     <div className={styles['dashboard-wrapper']}>
       {/* <Invite /> */}
       <Invitation />
-      {/* <ModalUpload
+      <ModalUpload
         avModalOpen={avModalOpen}
         handleOk={handleOk}
         setAvModaOpen={setAvModaOpen}
-      /> */}
+        userConf={userConf}
+        setUserConf={setUserConf}
+      />
       <div id="thank-you"></div>
       <div className={styles['dashboard-content']}>
         <div
