@@ -1,6 +1,7 @@
 import { fetchUserCenter } from '@/services/genesis';
 import { fetchMineInviteCode } from '@/services/genesis/distribution';
 import { useState } from 'react';
+import { message } from 'antd';
 
 export default () => {
   const [avatarSnapUrl, setAvatarSnapUrl] = useState();
@@ -27,8 +28,12 @@ export default () => {
     let result = null;
     fetchUserCenter()
       .then((res) => {
-        result = res;
-        setUserInfo(res);
+        if (!res?.success) {
+          message.warning('Operation failed, please try again later!');
+          return;
+        }
+        result = res?.data;
+        setUserInfo(res?.data);
       })
       .catch((err) => {
         console.log('『get-user-info-err』', err);

@@ -1,4 +1,4 @@
-import { Card, Collapse, Divider, Form } from 'antd';
+import { Card, Collapse, Divider, Form, message } from 'antd';
 import styles from './index.less';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import Operating from './Quick/Operating';
@@ -22,7 +22,7 @@ const Quick = (props) => {
   const [formValues, setFormValues] = useState({});
   const [list, setList] = useState([]);
   const { node_id } = location.state || {};
-  console.log(history.location.state);
+
   useEffect(() => {
     let { operating_system_str: operating_system = [] } = formValues || {};
 
@@ -34,17 +34,20 @@ const Quick = (props) => {
   const getList = async (data) => {
     setLoading(true);
     try {
-      let resp = [];
-      const res = await fetchListFilter(data);
+      const response = await fetchListFilter(data);
+      if (!response.success) {
+        message.error('Operation failed, please try again!');
+        return;
+      }
+      const res = response.data || [];
       const newList = (res || []).filter((node) => {
         const { isListed } = getNodeStatusMatch(node);
         return isListed;
       });
 
-      if (resp.length <= 0) {
+      if (res.length <= 0) {
         form.setFieldsValue({ node: undefined });
       }
-
       setList(newList);
     } catch (error) {
       console.log(error);

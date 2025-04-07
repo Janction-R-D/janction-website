@@ -1,5 +1,5 @@
 import JanctionTable from '@/components/JanctionTable';
-import { message, Space } from 'antd';
+import { Space } from 'antd';
 import { useState } from 'react';
 import { fetchNodeOperation } from '@/services/genesis/instance';
 // import { convertMBtoGB } from '../Dashboard/Lessors';
@@ -22,9 +22,6 @@ function InstanceTable({ data, getAllNodes }) {
     });
     fetchNodeOperation(payload)
       .then((res) => {
-        if (res.error) {
-          return message.error(res.error);
-        }
         getAllNodes();
         setSuccess(true);
       })

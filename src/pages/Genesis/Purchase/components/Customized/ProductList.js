@@ -33,7 +33,12 @@ function ProductList(props) {
   }, []);
   const getList = async (input) => {
     try {
-      const res = await fetchListFilter(input);
+      const response = await fetchListFilter(data);
+      if (!response.success) {
+        message.error('Operation failed, please try again!');
+        return;
+      }
+      const res = response.data || [];
 
       const data = (res || []).filter((node) => {
         const { isListed } = getNodeStatusMatch(node);
