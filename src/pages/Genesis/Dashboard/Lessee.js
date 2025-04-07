@@ -66,9 +66,9 @@ const Lessees = (props) => {
   const getUserConfig = async () => {
     try {
       const res = await fetchUserConfig();
-
-      setUserConf(res);
-      if (!res?.default_avatar_status && res?.pass_newbie_guide) {
+      if (!res?.success) return;
+      setUserConf(res?.data);
+      if (!res?.data?.default_avatar_status && res?.data?.pass_newbie_guide) {
         setAvModaOpen(true);
       }
     } catch (err) {

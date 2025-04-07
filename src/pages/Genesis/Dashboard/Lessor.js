@@ -1,7 +1,7 @@
 import JanctionTable from '@/components/JanctionTable';
 import { fetchLessor } from '@/services/genesis/dashboard';
 import { empty } from '@/utils/lang';
-import { Input, Radio } from 'antd';
+import { Input, message, Radio } from 'antd';
 import numeral from 'numeral';
 import { useEffect, useMemo, useState } from 'react';
 import HorizontalBar from './components/HorizontalBar';
@@ -39,7 +39,12 @@ const Lessors = (props) => {
     getLessors();
   }, []);
   const getLessors = async () => {
-    const res = await fetchLessor();
+    const response = await fetchLessor();
+    if (!response?.success) {
+      message.error('Operation failed, please try again later!');
+      return;
+    }
+    const res = response?.data;
     setLessorsData(res);
     setMonitorList(res?.activites || []);
   };

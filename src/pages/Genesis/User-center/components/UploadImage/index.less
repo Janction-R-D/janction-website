@@ -140,6 +140,7 @@
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       column-gap: 18px;
+
       .avatar {
         width: 70px;
         height: 70px;
@@ -148,11 +149,17 @@
         border: 1.5px solid #ff7e5f;
         transition: ease-in 200ms all;
         cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         &:hover {
           scale: 1.15;
         }
         img {
           max-width: 100%;
+          width: 100px;
+          height: 100px;
+          object-fit: contain;
         }
       }
       .button-box {

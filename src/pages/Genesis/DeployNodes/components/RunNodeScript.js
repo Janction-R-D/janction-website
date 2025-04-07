@@ -22,7 +22,7 @@ const RunNodeScript = (props) => {
     try {
       setLoading(true);
       const res = await fetchNodesRegister();
-      setNodesData(res);
+      setNodesData(res?.data);
       setLoading(false);
     } catch (error) {
       setLoading(false);

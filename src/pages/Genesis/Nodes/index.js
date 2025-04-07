@@ -1,5 +1,5 @@
 import { fetchNodesList } from '@/services/genesis';
-import { Card, Pagination } from 'antd';
+import { Card, message, Pagination } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
 import { Redirect, useModel } from 'umi';
 import Filters from './components/Filters';
@@ -23,8 +23,12 @@ export default function Nodes() {
   const getList = async () => {
     try {
       const res = await fetchNodesList({ mine: true });
-      setList(res || []);
-      setFilteredData(res || []);
+      if (!res?.success) {
+        message.error('Operation failed, please try again later!');
+        return;
+      }
+      setList(res?.data || []);
+      setFilteredData(res?.data || []);
       setFilter(initQuery);
     } catch (error) {
       console.log('『error』', error);

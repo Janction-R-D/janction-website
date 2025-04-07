@@ -75,6 +75,7 @@ export default function UploadModal(props) {
   const [avaters, setAvaters] = useState([]);
   const [selectedAvatar, setSelectedAvatar] = useState(null);
   const [selectedAvatarId, setSelectedAvatarId] = useState(null);
+  const [loading, setLoading] = useState(false);
   const { avatarSnapUrl, setAvatarSnapUrl } = useModel('common');
   const handleCancel = () => {
     setAvModaOpen(false);
@@ -103,6 +104,7 @@ export default function UploadModal(props) {
     }
 
     try {
+      setLoading(true);
       await uploadAvatarToServer(selectedAvatar.path, selectedAvatar.name);
       message.success('Avatar updated successfully!');
       setAvatarSnapUrl(selectedAvatar.path);
@@ -111,6 +113,8 @@ export default function UploadModal(props) {
     } catch (error) {
       message.error('Failed to update avatar.');
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -178,6 +182,7 @@ export default function UploadModal(props) {
           type="primary"
           className={styles['create-btn']}
           onClick={handleConfirm}
+          loading={loading}
         >
           Confirm
         </Button>
