@@ -51,8 +51,7 @@ const Settlement = (props) => {
     }
   };
   useEffect(() => {
-    // setDeadline(Date.now() + 20 * 60 * 1000);
-    setDeadline(Date.now() + 4 * 1000); // ⏱ 4 segundos
+    setDeadline(Date.now() + 20 * 60 * 1000);
   }, []);
 
   const onFinish = () => {
