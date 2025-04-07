@@ -82,10 +82,11 @@ export const fetchResouceList = async () => {
   }
 };
 
-export const fetchMarketOrders = async () => {
+export const fetchMarketOrders = async (data) => {
   try {
     const response = await request(`${baseUrl}/market/orders`, {
       loginAuth: true,
+      params: data,
     });
     return response;
   } catch (error) {
