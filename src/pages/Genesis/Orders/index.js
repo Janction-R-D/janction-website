@@ -14,7 +14,7 @@ function Orders() {
   useEffect(() => {
     const payload = {
       page: 1,
-      page_size: 15,
+      page_size: 25,
     };
     fetchMarketOrders(payload)
       .then((res) => {
