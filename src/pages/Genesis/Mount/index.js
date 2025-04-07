@@ -51,7 +51,7 @@ export default function Mount() {
   const { initialState } = useModel('@@initialState');
   const { isLessee } = initialState || {};
   const { node } = history.location.state || {};
-  const [searchId, setSearchId] = useState(node.id || '');
+  const [searchId, setSearchId] = useState(node?.id || '');
   const [loading, setLoading] = useState(false);
   const [minDuration, setMinDuration] = useState(options[0]);
   const [maxDuration, setMaxDuration] = useState(options[4]);
@@ -86,13 +86,9 @@ export default function Mount() {
       setError(false);
       setLoading(true);
       const response = await fetchNodesConfigInfo({ node_id: searchId });
-      if (response?.code == 'database_error') {
-        message.error(
-          response?.message || 'Operation failed, please try again!',
-        );
-        return;
-      }
+
       const res = response?.data;
+      console.log(res);
       setUserInfo(res || {});
       setTags(res?.tags || []);
       setPrice(res?.price || 0);
