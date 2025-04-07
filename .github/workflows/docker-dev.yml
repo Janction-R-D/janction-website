@@ -64,3 +64,22 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+  rollout-dev:
+    needs:
+      - build
+    name: Rollout Dev version
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
+    steps:
+      - uses: azure/setup-kubectl@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::288761755851:role/GitHubAction
+          aws-region: ap-northeast-1
+
+      - name: rollout update app
+        run: |
+          aws eks update-kubeconfig --region ap-northeast-1 --name backend
+          kubectl -n janction-dev rollout restart deployment ${{ env.K8S_DEPLOYMENT }}
