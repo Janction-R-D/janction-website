@@ -12,10 +12,14 @@ function Orders() {
   const { isLessee } = initialState || {};
 
   useEffect(() => {
-    fetchMarketOrders()
-      .then((data) => {
-        if (Array.isArray(data)) {
-          setOrders(data);
+    const payload = {
+      page: 1,
+      page_size: 15,
+    };
+    fetchMarketOrders(payload)
+      .then((res) => {
+        if (Array.isArray(res?.data)) {
+          setOrders(res?.data);
         }
       })
       .catch((error) => console.log(error));
