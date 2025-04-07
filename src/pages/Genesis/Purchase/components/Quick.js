@@ -34,7 +34,6 @@ const Quick = (props) => {
   const getList = async (data) => {
     setLoading(true);
     try {
-      let resp = [];
       const response = await fetchListFilter(data);
       if (!response.success) {
         message.error('Operation failed, please try again!');
@@ -46,7 +45,7 @@ const Quick = (props) => {
         return isListed;
       });
       // check if theres an available node , if not refresh value of node in form
-      if (resp.length <= 0) {
+      if (res.length <= 0) {
         form.setFieldsValue({ node: undefined });
       }
       setList(newList);
