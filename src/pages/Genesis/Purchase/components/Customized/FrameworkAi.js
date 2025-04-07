@@ -43,7 +43,12 @@ export default function FrameworkAi({ value, onChange }) {
           >
             <div className={styles['content']}>
               <div>
-                {<img height={35} src={item.value == 'pytorch' ? pytorch : tensorflow} />}
+                {
+                  <img
+                    height={35}
+                    src={item.value == 'pytorch' ? pytorch : tensorflow}
+                  />
+                }
               </div>
 
               <Checkbox

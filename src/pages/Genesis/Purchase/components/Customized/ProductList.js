@@ -21,14 +21,16 @@ function ProductList(props) {
       processor: gpu_name,
       conectivity_tier: memory,
       operating_system_str: operating_system,
+      ai_framework,
     } = formValues || {};
     const payload = {
       region: region || [],
       cpu_name: cpu_name || [],
       gpu_name: gpu_name || [],
       operating_system: operating_system || [],
+      framework: ai_framework ? [ai_framework] : [],
     };
-    console.log(payload);
+
     getList(payload);
   }, []);
   const getList = async (input) => {

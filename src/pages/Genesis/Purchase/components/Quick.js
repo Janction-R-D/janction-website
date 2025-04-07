@@ -1,6 +1,6 @@
 import { Card, Collapse, Divider, Form, message } from 'antd';
 import styles from './index.less';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import Operating from './Quick/Operating';
 import AsidePrice from './Quick/AsidePrice/AsidePrice';
 import Instances from './Quick/Instances';
@@ -13,24 +13,29 @@ import ProductList from './Quick/ProductList';
 import { fetchListFilter } from '@/services/genesis';
 import { getNodeStatusMatch } from '@/utils/lang';
 import PurDuration from './PurDuration';
+import { debounce, set } from 'lodash';
 
 const Quick = (props) => {
   const [form] = Form.useForm();
   const [isGrid, setIsGrid] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [formValues, setFormValues] = useState({});
   const [list, setList] = useState([]);
-  const [loading, setLoading] = useState(false);
   const { node_id } = location.state || {};
 
   useEffect(() => {
-    let { operating_system_str: operating_system = [] } = formValues || {};
+    let { operating_system_str: operating_system = [], ai_framework } =
+      formValues || {};
 
-    const payload = {
+    let payload = {
       operating_system,
+      framework: ai_framework ? [ai_framework] : [],
     };
 
-    getList(payload);
-  }, []);
+    // getList(payload);
+    debouncedGetList(payload);
+  }, [formValues?.operating_system_str, formValues?.ai_framework]);
+
   const getList = async (data) => {
     setLoading(true);
     try {
@@ -48,6 +53,7 @@ const Quick = (props) => {
       if (res.length <= 0) {
         form.setFieldsValue({ node: undefined });
       }
+      console.log(newList);
       setList(newList);
     } catch (error) {
       console.log(error);
@@ -55,7 +61,7 @@ const Quick = (props) => {
       setLoading(false);
     }
   };
-
+  const debouncedGetList = useMemo(() => debounce(getList, 1000), []);
   const onValuesChange = async () => {
     const values = form.getFieldsValue();
     setFormValues(values);
