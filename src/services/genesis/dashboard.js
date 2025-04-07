@@ -33,7 +33,9 @@ export const fetchInviters = async (params) => {
       params,
       loginAuth: true,
     });
-    return response;
+    if (response?.success) {
+      return response?.data;
+    }
   } catch (error) {
     console.log('『error』', error);
     return null;

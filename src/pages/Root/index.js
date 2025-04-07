@@ -106,7 +106,6 @@ const Root = (props) => {
       const _query = { ...inviterQuery, ...params };
       const res = await fetchInviterList(_query);
       const { items, ...extra } = res || {};
-
       setInviterList(items || []);
       setInviterPage({ ...(extra || {}), page: (_query?.offset || 0) / 10 });
       setInviterQuery(_query);
