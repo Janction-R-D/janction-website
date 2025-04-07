@@ -41,9 +41,12 @@ const Lessors = (props) => {
   const getLessors = async () => {
     const response = await fetchLessor();
     if (!response?.success) {
-      message.error('Operation failed, please try again later!');
+      message.error(
+        response.message || 'Operation failed, please try again later!',
+      );
       return;
     }
+    console.log(response);
     const res = response?.data;
     setLessorsData(res);
     setMonitorList(res?.activites || []);
@@ -90,6 +93,7 @@ const Lessors = (props) => {
       },
     ];
   }, [lessorsData]);
+
   const nft_sumary = useMemo(() => {
     const { ammount, detail } = lessorsData?.nft_summary || {};
     return {

@@ -1,7 +1,7 @@
 import JanctionTable from '@/components/JanctionTable';
 import SearchInput from '@/components/SeachInput';
 import { fetchNodeList } from '@/services/genesis/instance';
-import { Card, Space } from 'antd';
+import { Card, message, Space } from 'antd';
 import { useEffect, useState } from 'react';
 import { Redirect, useModel } from 'umi';
 import styles from './index.less';
@@ -17,7 +17,14 @@ function Staking() {
 
   useEffect(() => {
     fetchNodeList()
-      .then((data) => {
+      .then((res) => {
+        if (!res?.success) {
+          message.error(
+            res?.message || 'Operation failed, please try again later',
+          );
+          return;
+        }
+        const { data } = res;
         setSummary(data?.summary || null);
         setFilteredData(data?.resource || []);
       })

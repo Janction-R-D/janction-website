@@ -9,12 +9,12 @@ import { getTableData } from '../utils';
 function ProductList(props) {
   const { onChange, formValues, current } = props;
   const [selectKey, setSelectKey] = useState();
-
+  const [loading, setLoading] = useState(false);
   const [list, setList] = useState([]);
   useEffect(() => {
     // getOpt();
     if (current !== 5) return;
-    console.log(formValues);
+
     const {
       location: region,
       gpu: cpu_name,
@@ -33,7 +33,8 @@ function ProductList(props) {
   }, []);
   const getList = async (input) => {
     try {
-      const response = await fetchListFilter(data);
+      setLoading(true);
+      const response = await fetchListFilter(input);
       if (!response.success) {
         message.error('Operation failed, please try again!');
         return;
@@ -48,6 +49,8 @@ function ProductList(props) {
       setList(tableData);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
   const getOpt = async () => {
@@ -125,6 +128,7 @@ function ProductList(props) {
       dataSource={list}
       pagination={false}
       rowKey={'id'}
+      loading={loading}
       rowClassName={getRowClassName}
       className={styles['table']}
       scroll={{ x: 'auto' }}

@@ -1,7 +1,7 @@
 import JanctionRangePicker from '@/components/JanctionRangePicker';
 import JanctionTable from '@/components/JanctionTable';
 import SearchInput from '@/components/SeachInput';
-import { Col, Drawer, List, Row, Space } from 'antd';
+import { Col, Drawer, List, message, Row, Space } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
 import styles from './BillDetails.less';
 import { fetchBillingList } from '@/services/genesis/billings';
@@ -23,9 +23,16 @@ function BillDetails() {
 
   const getList = async () => {
     try {
-      const res = await fetchBillingList({
+      const response = await fetchBillingList({
         role: isLessee ? 'tenant' : 'lessor',
       });
+      if (!response?.success) {
+        message.error(
+          response?.message || 'Operation failed, please try again later',
+        );
+        return;
+      }
+      const res = response?.data;
       setList(res || []);
       const newData = res.map((item) => ({
         ...item,
