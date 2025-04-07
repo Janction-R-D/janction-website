@@ -44,7 +44,7 @@ const Quick = (props) => {
         const { isListed } = getNodeStatusMatch(node);
         return isListed;
       });
-
+      // check if theres an available node , if not refresh value of node in form
       if (res.length <= 0) {
         form.setFieldsValue({ node: undefined });
       }

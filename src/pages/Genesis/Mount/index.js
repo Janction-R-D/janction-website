@@ -84,9 +84,15 @@ export default function Mount() {
       if (!searchId) return;
       setError(false);
       setLoading(true);
-      const res = await fetchNodesConfigInfo({ node_id: searchId });
+      const response = await fetchNodesConfigInfo({ node_id: searchId });
+      if (response?.code == 'database_error') {
+        message.error(
+          response?.message || 'Operation failed, please try again!',
+        );
+        return;
+      }
+      const res = response?.data;
       setUserInfo(res || {});
-
       setTags(res?.tags || []);
       setPrice(res?.price || 0);
       setMaxLease(res?.maximum_lease_duration || 1);
@@ -122,7 +128,14 @@ export default function Mount() {
   };
   const getNodeInfo = async () => {
     try {
-      const res = await fetchNodesInfo({ node_id: searchId });
+      const response = await fetchNodesInfo({ node_id: searchId });
+      if (!response.success) {
+        message.error(
+          response.message || 'Operation failed, please try again!',
+        );
+        return;
+      }
+      const res = response?.data;
       setNodeInfo(res);
     } catch (error) {
       console.log('『error』', error);

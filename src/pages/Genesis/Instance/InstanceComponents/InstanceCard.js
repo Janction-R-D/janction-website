@@ -21,12 +21,17 @@ export default function InstanceCard({ instance, getAllNodes }) {
       operation,
       id,
     });
-    console.log(id, resource, operation);
+
     fetchNodeOperation(payload)
       .then((res) => {
-        if (res.error) {
-          return message.error(res.error);
+        if (!res?.success) {
+          setError(true);
+          message.error(
+            res?.message || 'Operation failed, please try again later',
+          );
+          return;
         }
+        message.success(res?.data?.message || 'Operation successful');
         getAllNodes();
         setSuccess(true);
       })

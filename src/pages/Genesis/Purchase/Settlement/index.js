@@ -36,8 +36,8 @@ const Settlement = (props) => {
   const getNodeConfigInfo = async (params) => {
     try {
       setTableLoading(true);
-      const res = await fetchNodesConfigInfo(params);
-
+      const response = await fetchNodesConfigInfo(params);
+      const res = response?.data;
       if (isEmpty(res)) {
         setList([]);
         return;
@@ -51,11 +51,16 @@ const Settlement = (props) => {
     }
   };
   useEffect(() => {
-    setDeadline(Date.now() + 20 * 60 * 1000);
+    // setDeadline(Date.now() + 20 * 60 * 1000);
+    setDeadline(Date.now() + 4 * 1000); // ⏱ 4 segundos
   }, []);
 
   const onFinish = () => {
-    console.log('『onFinish』', onFinish);
+    console.log('『onFinish』');
+    message.info('Purchase Cancelled');
+    setTimeout(() => {
+      history.push('/genesis/purchase');
+    }, 3000);
   };
 
   const onRent = async (values) => {

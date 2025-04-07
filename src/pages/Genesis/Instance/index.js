@@ -21,7 +21,15 @@ function Instance() {
   const [filteredData, setFilteredData] = useState([]);
   const getAllNodes = () => {
     fetchNodeList()
-      .then((data) => {
+      .then((res) => {
+        const { data, success } = res || {};
+        if (!success) {
+          console.log(
+            res?.message || 'Operation failed, please try again later',
+          );
+          return;
+        }
+
         setSummary(data?.summary || null);
         setResource(data?.resource || []);
         setFilteredData(data?.resource || []);
