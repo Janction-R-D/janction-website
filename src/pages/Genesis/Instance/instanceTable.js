@@ -100,12 +100,12 @@ function InstanceTable({ data, getAllNodes }) {
       key: 'Location',
       ellipsis: true,
     },
-    {
-      title: 'GPU Rate',
-      dataIndex: 'GPUrate',
-      key: 'GPUrate',
-      ellipsis: 'true',
-    },
+    // {
+    //   title: 'GPU Rate',
+    //   dataIndex: 'GPUrate',
+    //   key: 'GPUrate',
+    //   ellipsis: 'true',
+    // },
 
     {
       title: 'Memory Usage Rates',
