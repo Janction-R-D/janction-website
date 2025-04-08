@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Card } from 'antd';
+import { Card, message } from 'antd';
 import styles from './resources.less';
 import { fetchLessor } from '@/services/genesis';
 
-export default function Resources({ statisticData }) {
+export default function Resources({ statisticData, getList }) {
   const [nftAmount, setNftAmmount] = useState(0);
+
   useEffect(() => {
     getLessors();
   }, []);
@@ -17,7 +18,10 @@ export default function Resources({ statisticData }) {
       console.log('『error』', error);
     }
   };
-
+  const handleRefresh = async () => {
+    await getList();
+    message.success('Refresh complete');
+  };
   const data = [
     {
       name: 'Running nodes',
@@ -40,6 +44,10 @@ export default function Resources({ statisticData }) {
     <Card className={styles['card']}>
       <div className={styles['card-header']}>
         <h2>My nodes</h2>
+        <span className={styles['refresh']} onClick={handleRefresh}>
+          <i className={`iconfont icon-refresh `}></i>
+          Refresh
+        </span>
       </div>
       <div>
         <ul>

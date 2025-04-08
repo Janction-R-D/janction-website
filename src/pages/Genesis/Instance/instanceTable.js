@@ -46,6 +46,12 @@ function InstanceTable({ data, getAllNodes }) {
       ellipsis: true,
     },
     {
+      title: <div className="name">Node ID / Name</div>,
+      dataIndex: 'node_id',
+      key: 'node_id',
+      ellipsis: true,
+    },
+    {
       title: <div className="name">Cores</div>,
       dataIndex: 'Cores',
       key: 'Cores',
