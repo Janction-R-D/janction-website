@@ -63,8 +63,14 @@ const Settlement = (props) => {
 
   const onRent = async (values) => {
     try {
-      await fetchMarketRent(values);
+      const res = await fetchMarketRent(values);
+      console.log(res);
+      if (res?.code) {
+        message.error(res?.message);
+        return;
+      }
       message.success('Successful hire!');
+      history.push('/genesis/instance');
     } catch (err) {
       console.log('『err』', err);
       throw new Error(err);
@@ -97,7 +103,7 @@ const Settlement = (props) => {
         purchase_instance_quantity: 1,
         template: formValues?.ai_framework,
       });
-      history.push('/genesis/instance');
+      // history.push('/genesis/instance');
     } catch (error) {
       console.error(error);
       message.error('Operation contract failed, please try again!');

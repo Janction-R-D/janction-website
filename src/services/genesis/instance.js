@@ -45,11 +45,11 @@ export const fetchNodeOperation = async (params) => {
       body: params,
       loginAuth: true,
     });
-    console.log(response);
+
     return response;
   } catch (error) {
     console.log('『error』', error);
-    return error;
+    return null;
   }
 };
 
