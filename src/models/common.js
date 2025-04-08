@@ -31,7 +31,7 @@ export default () => {
         setUserInfo(res);
       })
       .catch((err) => {
-        console.log('『err』', err)
+        console.log('『err』', err);
       })
       .finally(() => {
         callback && callback(result);
