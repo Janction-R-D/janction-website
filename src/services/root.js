@@ -2,56 +2,68 @@ import { request } from 'umi';
 
 const baseUrl = `${process.env.JANCTION_V0_API}/affv2/root`;
 
-export const fetchNFTData = (params) => {
+export const fetchNFTData = async (params) => {
   try {
-    return request(`${baseUrl}/dashboard`, {
+    const response = await request(`${baseUrl}/dashboard`, {
       params,
       basicLoginAuth: true,
       credentials: 'include',
       withCredentials: true,
     });
+    if (response?.success) {
+      return response?.data;
+    }
   } catch (err) {
     console.log('『err』', err);
     return null;
   }
 };
 
-export const fetchPaymentHistory = (params) => {
+export const fetchPaymentHistory = async (params) => {
   try {
-    return request(`${baseUrl}/payment_histry`, {
+    const response = await request(`${baseUrl}/payment_histry`, {
       params,
       basicLoginAuth: true,
       credentials: 'include',
       withCredentials: true,
     });
+    if (response?.success) {
+      return response?.data;
+    }
   } catch (err) {
     console.log('『err』', err);
     return null;
   }
 };
 
-export const fetchInviterList = (params) => {
+export const fetchInviterList = async (params) => {
   try {
-    return request(`${baseUrl}/l1inviters`, {
+    const response = await request(`${baseUrl}/l1inviters`, {
       params,
       basicLoginAuth: true,
       credentials: 'include',
       withCredentials: true,
     });
+    if (response?.success) {
+      return response?.data;
+    }
   } catch (err) {
     console.log('『err』', err);
     return null;
   }
 };
 
-export const fetchNFTSetting = (params) => {
+export const fetchNFTSetting = async (params) => {
   try {
-    return request(`${baseUrl}/config`, {
+    const response = await request(`${baseUrl}/config`, {
       params,
       basicLoginAuth: true,
       credentials: 'include',
       withCredentials: true,
     });
+    if (response?.success) {
+      return response?.data;
+    }
   } catch (err) {
     console.log('『err』', err);
     return null;
