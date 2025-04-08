@@ -90,7 +90,6 @@ export default function UploadModal(props) {
   const getAvaters = async () => {
     try {
       const res = fetchUserAvatars();
-      console.log(res);
       setAvaters(res);
     } catch (error) {
       console.log(error);

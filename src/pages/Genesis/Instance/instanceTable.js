@@ -22,20 +22,16 @@ function InstanceTable({ data, getAllNodes }) {
     });
     fetchNodeOperation(payload)
       .then((res) => {
-        if (!res?.success) {
-          setError(true);
-          message.error(
-            res?.message || 'Operation failed, please try again later',
-          );
+        if (res.code) {
+          message.error(res.message);
           return;
         }
-        message.success(res?.data?.message || 'Operation successful');
         getAllNodes();
         setSuccess(true);
       })
       .catch((err) => {
         setError(true);
-        console.log(err);
+        console.log('💥 Error capturado:', err);
       })
       .finally(() => {
         setTimeout(() => {

@@ -36,12 +36,7 @@ function ProductList(props) {
   const getList = async (input) => {
     try {
       setLoading(true);
-      const response = await fetchListFilter(input);
-      if (!response.success) {
-        message.error('Operation failed, please try again!');
-        return;
-      }
-      const res = response.data || [];
+      const res = await fetchListFilter(input);
 
       const data = (res || []).filter((node) => {
         const { isListed } = getNodeStatusMatch(node);

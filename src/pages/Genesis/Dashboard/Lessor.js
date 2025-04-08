@@ -39,15 +39,7 @@ const Lessors = (props) => {
     getLessors();
   }, []);
   const getLessors = async () => {
-    const response = await fetchLessor();
-    if (!response?.success) {
-      message.error(
-        response.message || 'Operation failed, please try again later!',
-      );
-      return;
-    }
-    console.log(response);
-    const res = response?.data;
+    const res = await fetchLessor();
     setLessorsData(res);
     setMonitorList(res?.activites || []);
   };

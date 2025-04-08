@@ -45,10 +45,11 @@ export const fetchNodeOperation = async (params) => {
       body: params,
       loginAuth: true,
     });
+    console.log(response);
     return response;
   } catch (error) {
     console.log('『error』', error);
-    return null;
+    return error;
   }
 };
 
@@ -88,9 +89,7 @@ export const fetchMarketOrders = async (data) => {
       loginAuth: true,
       params: data,
     });
-    if (response?.data) {
-      return response.data;
-    }
+    return response;
   } catch (error) {
     console.log('『error』', error);
     return null;

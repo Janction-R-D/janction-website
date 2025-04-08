@@ -125,14 +125,7 @@ export default function Mount() {
   };
   const getNodeInfo = async () => {
     try {
-      const response = await fetchNodesInfo({ node_id: searchId });
-      if (!response.success) {
-        message.error(
-          response.message || 'Operation failed, please try again!',
-        );
-        return;
-      }
-      const res = response?.data;
+      const res = await fetchNodesInfo({ node_id: searchId });
       setNodeInfo(res);
     } catch (error) {
       console.log('『error』', error);

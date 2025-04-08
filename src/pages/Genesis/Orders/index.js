@@ -17,7 +17,8 @@ function Orders() {
       page_size: 25,
     };
     fetchMarketOrders(payload)
-      .then((data) => {
+      .then((res) => {
+        const { data } = res || {};
         if (Array.isArray(data)) {
           setOrders(data);
         }

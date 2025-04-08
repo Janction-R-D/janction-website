@@ -23,12 +23,9 @@ export default function Nodes() {
   const getList = async () => {
     try {
       const res = await fetchNodesList({ mine: true });
-      if (!res?.success) {
-        message.error('Operation failed, please try again later!');
-        return;
-      }
-      setList(res?.data || []);
-      setFilteredData(res?.data || []);
+
+      setList(res || []);
+      setFilteredData(res || []);
       setFilter(initQuery);
     } catch (error) {
       console.log('『error』', error);

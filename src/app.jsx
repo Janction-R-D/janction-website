@@ -42,10 +42,31 @@ const errorHandler = (error) => {
   }
   throw new Error(response?.statusText);
 };
+const responseData = async (response, options) => {
+  try {
+    const url = options.url;
+    const res = await response.clone().json();
+    if (url.includes('/v0') && !res?.success && res?.code && res?.message) {
+      const error = {
+        code: res.code,
+        message: res.message,
+      };
 
+      return error;
+    }
+    if (url.includes('/v0') && res?.success) {
+      return res?.data;
+    }
+    return res;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
 export const request = {
   errorHandler,
   requestInterceptors: [authHeaderInterceptor],
+  responseInterceptors: [responseData],
 };
 
 export async function getInitialState() {

@@ -36,8 +36,7 @@ const Settlement = (props) => {
   const getNodeConfigInfo = async (params) => {
     try {
       setTableLoading(true);
-      const response = await fetchNodesConfigInfo(params);
-      const res = response?.data;
+      const res = await fetchNodesConfigInfo(params);
       if (isEmpty(res)) {
         setList([]);
         return;
@@ -177,11 +176,11 @@ const Settlement = (props) => {
         <PayType value={currency} onChange={(e) => setCurrency(e)} />
         <JanctionTable
           columns={columns}
+          rowKey={'deviceId'}
           dataSource={list}
           loading={tableLoading}
           pagination={false}
           scroll={{ x: 'auto' }}
-          rowKey="id"
         />
       </PurchaseCard>
       <Footer

@@ -13,10 +13,10 @@ export default () => {
   const getMineCode = async () => {
     try {
       const res = await fetchMineInviteCode();
-      if (res?.code == 40410) {
-        // message.warning(res?.msg);
-        return;
-      }
+      // if (res?.code == 40410) {
+      // // message.warning(res?.msg);
+      //   return;
+      // }
       setMyInviteData(res);
       setCode(res.code);
     } catch (err) {
@@ -28,12 +28,7 @@ export default () => {
     let result = null;
     fetchUserCenter()
       .then((res) => {
-        if (!res?.success) {
-          message.warning('Operation failed, please try again later!');
-          return;
-        }
-        result = res?.data;
-        setUserInfo(res?.data);
+        setUserInfo(res);
       })
       .catch((err) => {
         console.log('『get-user-info-err』', err);

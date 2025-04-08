@@ -24,8 +24,7 @@ export function Processors(props) {
   }, [formValues]);
   const fetchData = async () => {
     try {
-      const response = await fetchNodeProcessers();
-      const res = response?.data;
+      const res = await fetchNodeProcessers();
       setData(res);
     } catch (error) {
       console.log('『error』', error);
@@ -44,7 +43,6 @@ export function Processors(props) {
         brand.some((b) => b.toLowerCase() === item.brand.toLowerCase());
       return _keyword && _brand;
     });
-    console.log(list);
     return _list;
   }, [data, brand, cpu_gpu, keyword]);
 

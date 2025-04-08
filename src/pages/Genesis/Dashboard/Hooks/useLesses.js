@@ -6,9 +6,7 @@ export default function useLesses() {
   useEffect(() => {
     fetchLessesData()
       .then((res) => {
-        if (!res?.success) return;
-        const data = res?.data || {};
-        setLessesData(data);
+        setLessesData(res);
       })
       .catch((err) => console.log(err));
   }, []);
