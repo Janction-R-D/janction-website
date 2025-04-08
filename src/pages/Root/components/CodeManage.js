@@ -35,7 +35,6 @@ const CodeManage = (props) => {
       await fetchInviterEnable();
       message.success('updated!');
     } catch (error) {
-      message.error('fail to update!');
       console.log('『error』', error);
     }
   };

@@ -30,7 +30,6 @@ function Instance() {
   };
   useEffect(() => {
     getAllNodes();
-    console.log(resource);
   }, []);
 
   const handleModal = () => {

@@ -2,106 +2,71 @@ import { request } from 'umi';
 
 const baseUrl = `${process.env.JANCTION_V0_API}/affv2/root`;
 
-export const fetchNFTData = async (params) => {
-  try {
-    return request(`${baseUrl}/dashboard`, {
-      params,
-      basicLoginAuth: true,
-      credentials: 'include',
-      withCredentials: true,
-    });
-  } catch (err) {
-    console.log('『err』', err);
-    return null;
-  }
+export const fetchNFTData = (params) => {
+  return request(`${baseUrl}/dashboard`, {
+    params,
+    basicLoginAuth: true,
+    credentials: 'include',
+    withCredentials: true,
+  });
 };
 
-export const fetchPaymentHistory = async (params) => {
-  try {
-    return request(`${baseUrl}/payment_histry`, {
-      params,
-      basicLoginAuth: true,
-      credentials: 'include',
-      withCredentials: true,
-    });
-  } catch (err) {
-    console.log('『err』', err);
-    return null;
-  }
+export const fetchPaymentHistory = (params) => {
+  return request(`${baseUrl}/payment_histry`, {
+    params,
+    basicLoginAuth: true,
+    credentials: 'include',
+    withCredentials: true,
+  });
 };
 
-export const fetchInviterList = async (params) => {
-  try {
-    return request(`${baseUrl}/l1inviters`, {
-      params,
-      basicLoginAuth: true,
-      credentials: 'include',
-      withCredentials: true,
-    });
-  } catch (err) {
-    console.log('『err』', err);
-    return null;
-  }
+export const fetchInviterList = (params) => {
+  return request(`${baseUrl}/l1inviters`, {
+    params,
+    basicLoginAuth: true,
+    credentials: 'include',
+    withCredentials: true,
+  });
 };
 
-export const fetchNFTSetting = async (params) => {
-  try {
-    return request(`${baseUrl}/config`, {
-      params,
-      basicLoginAuth: true,
-      credentials: 'include',
-      withCredentials: true,
-    });
-  } catch (err) {
-    console.log('『err』', err);
-    return null;
-  }
+export const fetchNFTSetting = (params) => {
+  return request(`${baseUrl}/config`, {
+    params,
+    basicLoginAuth: true,
+    credentials: 'include',
+    withCredentials: true,
+  });
 };
 
 export const fetchNFTSettingUpdate = (data, params) => {
-  try {
-    return request(`${baseUrl}/config`, {
-      method: 'POST',
-      params,
-      data,
-      basicLoginAuth: true,
-      credentials: 'include',
-      withCredentials: true,
-    });
-  } catch (err) {
-    console.log('『err』', err);
-    return null;
-  }
+  return request(`${baseUrl}/config`, {
+    method: 'POST',
+    params,
+    data,
+    basicLoginAuth: true,
+    credentials: 'include',
+    withCredentials: true,
+  });
 };
 
 export const fetchInviterCode = (params) => {
-  try {
-    return request(`${baseUrl}/invitation`, {
-      method: 'POST',
-      data: params,
-      basicLoginAuth: true,
-      credentials: 'include',
-      withCredentials: true,
-    });
-  } catch (err) {
-    console.log('『err』', err);
-    return null;
-  }
+  return request(`${baseUrl}/invitation`, {
+    method: 'POST',
+    data: params,
+    basicLoginAuth: true,
+    credentials: 'include',
+    withCredentials: true,
+  });
 };
 
 export const fetchInviterNameUpdate = (params) => {
-  try {
-    return request(`${baseUrl}/invitation`, {
-      method: 'PUT',
-      data: params,
-      basicLoginAuth: true,
-      credentials: 'include',
-      withCredentials: true,
-    });
-  } catch (err) {
-    console.log('『err』', err);
-    return null;
-  }
+  return request(`${baseUrl}/invitation`, {
+    method: 'PUT',
+    data: params,
+    basicLoginAuth: true,
+    credentials: 'include',
+    withCredentials: true,
+  });
 };
 
 export const fetchRootUserPsdUpdate = (params) => {

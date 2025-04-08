@@ -93,7 +93,6 @@ const Login = (props) => {
 
           onSuccess(signature, message);
         } catch (err) {
-          message.warning('Network timeout, please refresh and try again!', 1);
           await disconnect();
           console.log('『err』', err);
         }

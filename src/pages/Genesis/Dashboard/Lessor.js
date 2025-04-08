@@ -39,9 +39,13 @@ const Lessors = (props) => {
     getLessors();
   }, []);
   const getLessors = async () => {
-    const res = await fetchLessor();
-    setLessorsData(res);
-    setMonitorList(res?.activites || []);
+    try {
+      const res = await fetchLessor();
+      setLessorsData(res);
+      setMonitorList(res?.activites || []);
+    } catch (error) {
+      console.log('『error』', error);
+    }
   };
 
   const sales_by_rep = useMemo(() => {

@@ -261,8 +261,6 @@ const contract = {
       );
       signatures.push(signature);
 
-      console.log('『signatures』', signatures);
-
       // 初始化合约
       const payment = new ethers.Contract(
         getAddresses().PaymentProxy,

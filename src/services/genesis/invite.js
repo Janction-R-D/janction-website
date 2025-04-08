@@ -5,7 +5,7 @@ const baseUrl = process.env.JANCTION_V0_API;
 /**
  *Generate invite link
  */
-export const fetchInviteLink = async (body) => {
+export const fetchInviteLink = (body) => {
   return request(`${baseUrl}/aff/generate`, {
     method: 'POST',
     body,
@@ -29,27 +29,15 @@ export const fetchInviteSend = (data) => {
  *accept invite link
  * @property {string} Query email
  */
-export const fetchInviteAccept = async (data) => {
-  try {
-    const response = await request(`${baseUrl}/affv2/invitation/accept`, {
-      method: 'POST',
-      body: JSON.stringify(data),
-      loginAuth: true,
-    });
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    throw Error('error');
-  }
+export const fetchInviteAccept = (data) => {
+  return request(`${baseUrl}/affv2/invitation/accept`, {
+    method: 'POST',
+    body: JSON.stringify(data),
+    loginAuth: true,
+  });
 };
-export const fetchInviteVerify = async (code) => {
-  try {
-    const response = await request(`${baseUrl}/affv2/invitation?code=${code}`);
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    throw Error('error');
-  }
+export const fetchInviteVerify = (code) => {
+  return request(`${baseUrl}/affv2/invitation?code=${code}`);
 };
 
 export const fetchPaymentUpdate = (data) => {

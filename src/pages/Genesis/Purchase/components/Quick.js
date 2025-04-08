@@ -48,7 +48,6 @@ const Quick = (props) => {
       if (res.length <= 0) {
         form.setFieldsValue({ node: undefined });
       }
-      console.log(newList);
       setList(newList);
     } catch (error) {
       console.log(error);

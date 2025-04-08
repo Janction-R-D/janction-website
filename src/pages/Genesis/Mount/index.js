@@ -75,7 +75,6 @@ export default function Mount() {
     setMinDuration(option);
   };
   useEffect(() => {
-    console.log(minDuration, maxDuration);
     if (searchId === '') return;
     getConfigInfo();
     getNodeInfo();
@@ -85,10 +84,7 @@ export default function Mount() {
       if (!searchId) return;
       setError(false);
       setLoading(true);
-      const response = await fetchNodesConfigInfo({ node_id: searchId });
-
-      const res = response?.data;
-      console.log(res);
+      const res = await fetchNodesConfigInfo({ node_id: searchId });
       setUserInfo(res || {});
       setTags(res?.tags || []);
       setPrice(res?.price || 0);
@@ -121,6 +117,8 @@ export default function Mount() {
       console.log('『error』', error);
       setError(true);
       setUserInfo({});
+    } finally {
+      setLoading(false);
     }
   };
   const getNodeInfo = async () => {
@@ -196,7 +194,6 @@ export default function Mount() {
       history.push('/genesis/instance');
     } catch (error) {
       setConfirmLoading(false);
-      message.error('Operation contract failed, please try again!');
     }
   };
   function formatTime(date) {

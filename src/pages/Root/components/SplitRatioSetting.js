@@ -21,7 +21,6 @@ const SplitRatioSetting = (props) => {
       const res = await fetchNFTSetting({ inviter: record.inviter_address });
       form.setFieldsValue(res || {});
     } catch (err) {
-      message.warning('Except for some issues, please refresh and try again!');
       console.log('『err』', err);
     }
   };
@@ -43,7 +42,6 @@ const SplitRatioSetting = (props) => {
       onCancel(); // Close the modal
       onSuccess(); // Execute success callback
     } catch (err) {
-      message.warning('Except for some issues, please try again!');
       console.log('『err』', err);
     }
   };

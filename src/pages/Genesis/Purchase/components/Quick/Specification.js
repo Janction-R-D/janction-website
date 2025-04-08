@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { Card, Checkbox, Radio } from 'antd';
-import { instance_types } from './constant.json';
 import JanctionRadio from '@/components/JanctionRadio';
+import { INSTANCE_TYPES } from '@/constant';
+import { useState } from 'react';
 export default function Specification({ value, onChange }) {
-  const [specification, setSpecification] = useState(instance_types[0].value);
+  const [specification, setSpecification] = useState(INSTANCE_TYPES[0].value);
 
   return (
     <JanctionRadio
       value={specification}
       onChange={(val) => onChange?.(val)}
-      options={instance_types}
+      options={INSTANCE_TYPES}
     />
   );
 }

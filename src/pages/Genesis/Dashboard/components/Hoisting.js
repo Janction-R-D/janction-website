@@ -22,7 +22,9 @@ export default function Hoisting({ nft, showModal, handleOk, setShowModal }) {
     try {
       const res = await fetchNftStatus();
       setList(res.Data || []);
-    } catch (error) {}
+    } catch (error) {
+      console.log('『error』', error)
+    }
   };
 
   const handleCancel = () => {

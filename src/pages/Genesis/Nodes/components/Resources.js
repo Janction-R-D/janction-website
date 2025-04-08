@@ -9,9 +9,13 @@ export default function Resources({ statisticData }) {
     getLessors();
   }, []);
   const getLessors = async () => {
-    const res = await fetchLessor();
-    const { ammount = 0, detail } = res?.nft_summary || {};
-    setNftAmmount(ammount);
+    try {
+      const res = await fetchLessor();
+      const { ammount = 0, detail } = res?.nft_summary || {};
+      setNftAmmount(ammount);
+    } catch (error) {
+      console.log('『error』', error);
+    }
   };
 
   const data = [
