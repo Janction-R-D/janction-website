@@ -88,7 +88,9 @@ export const fetchMarketOrders = async (data) => {
       loginAuth: true,
       params: data,
     });
-    return response;
+    if (response?.data) {
+      return response.data;
+    }
   } catch (error) {
     console.log('『error』', error);
     return null;
