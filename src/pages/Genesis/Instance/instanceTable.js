@@ -22,10 +22,6 @@ function InstanceTable({ data, getAllNodes }) {
     });
     fetchNodeOperation(payload)
       .then((res) => {
-        if (res.code) {
-          message.error(res.message);
-          return;
-        }
         getAllNodes();
         setSuccess(true);
       })
