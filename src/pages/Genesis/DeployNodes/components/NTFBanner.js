@@ -36,9 +36,6 @@ const NTFBanner = (props) => {
   const getMineCode = async () => {
     try {
       const res = await fetchMineInviteCode();
-      if (res?.code == 40410) {
-        return;
-      }
       setCode(res.code);
     } catch (err) {
       console.log('『err』', err);

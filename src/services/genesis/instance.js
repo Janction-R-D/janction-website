@@ -6,533 +6,305 @@ const baseUrl = process.env.JANCTION_V0_API;
  * Webshell demo，websockt
  * @property {string} Query resource_id
  */
-export const fetchTerminal = async (params) => {
-  try {
-    const response = await request(`${baseUrl}/webshell/terminal.html`, {
-      params,
-      loginAuth: true,
-    });
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    return null;
-  }
+export const fetchTerminal = (params) => {
+  return request(`${baseUrl}/webshell/terminal.html`, {
+    params,
+    loginAuth: true,
+  });
 };
 
 /**
  * List rentable nodes
  */
-export const fetchNodeList = async () => {
-  try {
-    const response = await request(`${baseUrl}/resource/dashboard`, {
-      loginAuth: true,
-    });
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    return null;
-  }
+export const fetchNodeList = () => {
+  return request(`${baseUrl}/resource/dashboard`, {
+    loginAuth: true,
+  });
 };
 
 /**
  *
  *operation POST
  */
-export const fetchNodeOperation = async (params) => {
-  try {
-    const response = await request(`${baseUrl}/resource/operate`, {
-      method: 'POST',
-      body: params,
-      loginAuth: true,
-    });
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    return null;
-  }
+export const fetchNodeOperation = (params) => {
+  return request(`${baseUrl}/resource/operate`, {
+    method: 'POST',
+    body: params,
+    loginAuth: true,
+  });
 };
 
 /**
  * Buyers */
 
-export const fetchLessesData = async () => {
-  try {
-    const response = await request(`${baseUrl}/dashboard/tenant`, {
-      loginAuth: true,
-    });
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    return null;
-  }
+export const fetchLessesData = () => {
+  return request(`${baseUrl}/dashboard/tenant`, {
+    loginAuth: true,
+  });
 };
 
 /**
  * List the resources that have been rented.
  */
-export const fetchResouceList = async () => {
-  try {
-    const response = await request(`${baseUrl}/resource/list`, {
-      loginAuth: true,
-    });
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    return null;
-  }
+export const fetchResouceList = () => {
+  return request(`${baseUrl}/resource/list`, {
+    loginAuth: true,
+  });
 };
 
-export const fetchMarketOrders = async (data) => {
-  try {
-    const response = await request(`${baseUrl}/market/orders`, {
-      loginAuth: true,
-      params: data,
-    });
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    return null;
-  }
+export const fetchMarketOrders = (data) => {
+  return request(`${baseUrl}/market/orders`, {
+    loginAuth: true,
+    params: data,
+  });
 };
 
-export const fetchMarketOrder = async (params) => {
-  try {
-    const response = await request(`${baseUrl}/market/orders`, {
-      loginAuth: true,
-      params: params,
-    });
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    return null;
-  }
+export const fetchMarketOrder = (params) => {
+  return request(`${baseUrl}/market/orders`, {
+    loginAuth: true,
+    params: params,
+  });
 };
 /**
  * @property {string} Query resource_id
  */
-export const fetchResouceLogs = async (params) => {
-  try {
-    const response = await request(`${baseUrl}/resource/logs`, {
-      loginAuth: true,
-    });
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    return null;
-  }
+export const fetchResouceLogs = (params) => {
+  return request(`${baseUrl}/resource/logs`, {
+    loginAuth: true,
+  });
 };
 
 /**
  * Listen to real-time logs
  * @property {string} Query resource_id
  */
-export const fetchResouceLogWatch = async (params) => {
-  try {
-    const response = await request(`${baseUrl}/resource/logwatch`, {
-      loginAuth: true,
-    });
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    return null;
-  }
+export const fetchResouceLogWatch = (params) => {
+  return request(`${baseUrl}/resource/logwatch`, {
+    loginAuth: true,
+  });
 };
 
 /**
  * Get detail in Terminal Demo
  * @property {string} Query resource_id
  */
-export const fetchResouceShell = async (params) => {
-  try {
-    const response = await request(`${baseUrl}/resource/shell`, {
-      loginAuth: true,
-    });
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    return null;
-  }
+export const fetchResouceShell = (params) => {
+  return request(`${baseUrl}/resource/shell`, {
+    loginAuth: true,
+  });
 };
 //user center data
-export const fetchUserCenter = async () => {
-  try {
-    const response = await request(`${baseUrl}/user/center`, {
-      loginAuth: true,
-    });
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    return null;
-  }
+export const fetchUserCenter = () => {
+  return request(`${baseUrl}/user/center`, {
+    loginAuth: true,
+  });
 };
 
 //fetch all avatar
-export const fetchUserAvatars = async () => {
-  try {
-    const response = await request(`${baseUrl}/user/avatars`, {
-      loginAuth: true,
-    });
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    return null;
-  }
+export const fetchUserAvatars = () => {
+  return request(`${baseUrl}/user/avatars`, {
+    loginAuth: true,
+  });
 };
 
-export const fetchUserKeys = async () => {
-  try {
-    const response = await request(`${baseUrl}/user/securities`, {
-      loginAuth: true,
-    });
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    throw new Error(`failed, ${error.message}`);
-  }
+export const fetchUserKeys = () => {
+  return request(`${baseUrl}/user/securities`, {
+    loginAuth: true,
+  });
 };
-export const deleteKeysUserCenter = async (data) => {
+export const deleteKeysUserCenter = (data) => {
   const { id } = data;
-  try {
-    const response = await request(`${baseUrl}/user/security?id=${id}`, {
-      method: 'DELETE',
-      loginAuth: true,
-      body: JSON.stringify(data),
-    });
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    return null;
-  }
-};
-export const sendImageToServer = async (params) => {
-  try {
-    const response = await request(`${baseUrl}/user/update`, {
-      loginAuth: true,
-      method: 'POST',
-      data: params,
-    });
 
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    return null;
-  }
+  return request(`${baseUrl}/user/security?id=${id}`, {
+    method: 'DELETE',
+    loginAuth: true,
+    body: JSON.stringify(data),
+  });
 };
-export const postImageToServer = async (formData) => {
-  try {
-    const response = await request(`${baseUrl}/user/upload/avatar`, {
-      loginAuth: true,
-      method: 'POST',
-      body: formData,
-    });
-
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    return null;
-  }
+export const sendImageToServer = (params) => {
+  return request(`${baseUrl}/user/update`, {
+    loginAuth: true,
+    method: 'POST',
+    data: params,
+  });
 };
-export const fetchImageToServer = async (address) => {
-  try {
-    const response = await request(`${baseUrl}/user/avatar/${address}`, {
-      loginAuth: true,
-    });
-
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    return null;
-  }
+export const postImageToServer = (formData) => {
+  return request(`${baseUrl}/user/upload/avatar`, {
+    loginAuth: true,
+    method: 'POST',
+    body: formData,
+  });
+};
+export const fetchImageToServer = (address) => {
+  return request(`${baseUrl}/user/avatar/${address}`, {
+    loginAuth: true,
+  });
 };
 // Function to post data to user center
-export const postKeyUserData = async (data) => {
-  try {
-    const response = await request(`${baseUrl}/user/security`, {
-      method: 'POST',
-      loginAuth: true,
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    return null;
-  }
+export const postKeyUserData = (data) => {
+  return request(`${baseUrl}/user/security`, {
+    method: 'POST',
+    loginAuth: true,
+    body: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
 };
 
 // Function to set monthly goal
-export const MonthlyGoal = async (data) => {
-  try {
-    const response = await request(`${baseUrl}/user/config`, {
-      method: 'PUT',
-      loginAuth: true,
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    return null;
-  }
+export const MonthlyGoal = (data) => {
+  return request(`${baseUrl}/user/config`, {
+    method: 'PUT',
+    loginAuth: true,
+    body: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
 };
 // Fetch user config
-export const fetchUserConfig = async (params) => {
-  try {
-    const response = await request(`${baseUrl}/user/config`, {
-      loginAuth: true,
-      params,
-    });
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    return null;
-  }
+export const fetchUserConfig = (params) => {
+  return request(`${baseUrl}/user/config`, {
+    loginAuth: true,
+    params,
+  });
 };
-export const changeUserConfig = async (data) => {
-  try {
-    const response = await request(`${baseUrl}/user/config`, {
-      method: 'PUT',
-      loginAuth: true,
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    return null;
-  }
+export const changeUserConfig = (data) => {
+  return request(`${baseUrl}/user/config`, {
+    method: 'PUT',
+    loginAuth: true,
+    body: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
 };
 
 //fetch ConfigInfo
-export const fetchNodesConfigInfo = async (params) => {
-  try {
-    const response = await request(`${baseUrl}/node/config`, {
-      loginAuth: true,
-      params,
-    });
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    return null;
-  }
+export const fetchNodesConfigInfo = (params) => {
+  return request(`${baseUrl}/node/config`, {
+    loginAuth: true,
+    params,
+  });
 };
 
 // fetchPost ConfigInfo
-export const fetchNodesConfigUpdate = async (data) => {
-  try {
-    const response = await request(`${baseUrl}/node/config`, {
-      loginAuth: true,
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    throw new Error(`failed, ${error.message}`);
-  }
+export const fetchNodesConfigUpdate = (data) => {
+  return request(`${baseUrl}/node/config`, {
+    loginAuth: true,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
 };
-export const fetchNodesConfigDelete = async (params) => {
-  try {
-    const response = await request(`${baseUrl}/node/config`, {
-      method: 'DELETE',
-      data: params,
-      loginAuth: true,
-    });
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    throw new Error(`failed, ${error.message}`);
-  }
+export const fetchNodesConfigDelete = (params) => {
+  return request(`${baseUrl}/node/config`, {
+    method: 'DELETE',
+    data: params,
+    loginAuth: true,
+  });
 };
 // List rent records
-export const fetchMarketList = async () => {
-  try {
-    const response = await request(`${baseUrl}/market/list`, {
-      loginAuth: true,
-    });
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    return null;
-  }
+export const fetchMarketList = () => {
+  return request(`${baseUrl}/market/list`, {
+    loginAuth: true,
+  });
 };
 
 /**
  * @property {string} node_id example: 984e1423-c41e-4761-9723-eea678416d1e
  */
-export const fetchMarketRent = async (params) => {
-  try {
-    const response = await request(`${baseUrl}/market/rent`, {
-      method: 'POST',
-      data: params,
-      loginAuth: true,
-    });
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    return null;
-  }
+export const fetchMarketRent = (params) => {
+  return request(`${baseUrl}/market/rent`, {
+    method: 'POST',
+    data: params,
+    loginAuth: true,
+  });
 };
 
 /**
  * @property {string} node_id example: 984e1423-c41e-4761-9723-eea678416d1e
  */
-export const fetchMarketRelease = async (params) => {
-  try {
-    const response = await request(`${baseUrl}/market/release`, {
-      method: 'DELETE',
-      body: params,
-      loginAuth: true,
-    });
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    return null;
-  }
+export const fetchMarketRelease = (params) => {
+  return request(`${baseUrl}/market/release`, {
+    method: 'DELETE',
+    body: params,
+    loginAuth: true,
+  });
 };
 
 // Create Payment
-export const fetchBillingPayment = async (params) => {
-  try {
-    const response = await request(`${baseUrl}/billing/payment`, {
-      method: 'POST',
-      body: params,
-      loginAuth: true,
-    });
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    return null;
-  }
+export const fetchBillingPayment = (params) => {
+  return request(`${baseUrl}/billing/payment`, {
+    method: 'POST',
+    body: params,
+    loginAuth: true,
+  });
 };
 
 // List bills
-export const fetchBillingList = async (params) => {
-  try {
-    const response = await request(`${baseUrl}/billing/list`, {
-      params,
-      loginAuth: true,
-    });
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    return null;
-  }
+export const fetchBillingList = (params) => {
+  return request(`${baseUrl}/billing/list`, {
+    params,
+    loginAuth: true,
+  });
 };
 
-export const fetchNodesRegister = async (data) => {
-  try {
-    const response = await request(`${baseUrl}/node/register`, {
-      method: 'POST',
-      data,
-      loginAuth: true,
-    });
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    throw new Error(`failed, ${error.message}`);
-  }
+export const fetchNodesRegister = (data) => {
+  return request(`${baseUrl}/node/register`, {
+    method: 'POST',
+    data,
+    loginAuth: true,
+  });
 };
 
-export const fetchNodesInfo = async (params) => {
-  try {
-    const response = await request(`${baseUrl}/node/info`, {
-      params,
-      loginAuth: true,
-    });
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    throw new Error(`failed, ${error.message}`);
-  }
+export const fetchNodesInfo = (params) => {
+  return request(`${baseUrl}/node/info`, {
+    params,
+    loginAuth: true,
+  });
 };
 // market info , my wallet
-export const fetchMarketInfo = async (params) => {
-  try {
-    const response = await request(`${baseUrl}/market/income`, {
-      loginAuth: true,
-    });
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    throw new Error(`failed, ${error.message}`);
-  }
+export const fetchMarketInfo = (params) => {
+  return request(`${baseUrl}/market/income`, {
+    loginAuth: true,
+  });
 };
 
-export const fetchNodesList = async (params) => {
-  try {
-    const response = await request(`${baseUrl}/node/list`, {
-      params,
-      loginAuth: true,
-    });
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    throw new Error(`failed, ${error.message}`);
-  }
+export const fetchNodesList = (params) => {
+  return request(`${baseUrl}/node/list`, {
+    params,
+    loginAuth: true,
+  });
 };
 
-export const fetchNodesRefresh = async (data) => {
-  try {
-    const response = await request(`${baseUrl}/node/refresh`, {
-      method: 'POST',
-      data,
-      loginAuth: true,
-    });
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    throw new Error(`failed, ${error.message}`);
-  }
+export const fetchNodesRefresh = (data) => {
+  return request(`${baseUrl}/node/refresh`, {
+    method: 'POST',
+    data,
+    loginAuth: true,
+  });
 };
 
-export const fetchNodesDelete = async (data) => {
-  try {
-    const response = await request(`${baseUrl}/node/detach`, {
-      method: 'DELETE',
-      data,
-      loginAuth: true,
-    });
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    throw new Error(`failed, ${error.message}`);
-  }
+export const fetchNodesDelete = (data) => {
+  return request(`${baseUrl}/node/detach`, {
+    method: 'DELETE',
+    data,
+    loginAuth: true,
+  });
 };
 
-export const fetchNodeProcessers = async (params) => {
-  try {
-    const response = await request(`${baseUrl}/node/processers`, {
-      params,
-      loginAuth: true,
-    });
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    throw new Error(`failed, ${error.message}`);
-  }
+export const fetchNodeProcessers = (params) => {
+  return request(`${baseUrl}/node/processers`, {
+    params,
+    loginAuth: true,
+  });
 };
-export const fetchNft = async (id) => {
-  console.log(id);
-  try {
-    const response = await request(
-      `https://pub-da89859eb37b4af0ab4fbec6b5247ec5.r2.dev/${id}`,
-    );
-
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    throw new Error(`failed, ${error.message}`);
-  }
+export const fetchNft = (id) => {
+  return request(`https://pub-da89859eb37b4af0ab4fbec6b5247ec5.r2.dev/${id}`);
 };
 
 export const fetchStopRentParams = (data) => {

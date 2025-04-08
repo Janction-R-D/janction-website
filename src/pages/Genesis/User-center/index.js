@@ -31,7 +31,7 @@ export default function UserAccount() {
       setUserName(name);
       setIsNameModalOpen(false);
     } catch (error) {
-      message.error('Update failed, please try again!');
+      console.log('『error』', error);
     }
   };
 

@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { Switch, Card, Checkbox } from 'antd';
 import pytorch from '@/assets/images/genesis/pytorch.png';
 import tensorflow from '@/assets/images/genesis/tensorflow.png';
-import { pre_installed_applications as FRAMEWORK } from './constant.json';
+import { FRAMEWORK } from '@/constant';
+import { Card, Checkbox } from 'antd';
 import styles from './index.less';
 export default function FrameworkAi({ value, onChange }) {
   const handleCheckboxChange = (newValue) => {

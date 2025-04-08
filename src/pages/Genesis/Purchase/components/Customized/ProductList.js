@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { Table, Input, message } from 'antd';
-import { SearchOutlined } from '@ant-design/icons';
-import styles from './index.less';
-import { fetchListFilter, fetchListOptions } from '@/services/genesis';
+import { fetchListFilter } from '@/services/genesis';
 import { getNodeStatusMatch } from '@/utils/lang';
+import { SearchOutlined } from '@ant-design/icons';
+import { Input, Table } from 'antd';
+import { useEffect, useState } from 'react';
 import { getTableData } from '../utils';
+import styles from './index.less';
 
 function ProductList(props) {
   const { onChange, formValues, current } = props;
@@ -12,7 +12,6 @@ function ProductList(props) {
   const [loading, setLoading] = useState(false);
   const [list, setList] = useState([]);
   useEffect(() => {
-    // getOpt();
     if (current !== 5) return;
 
     const {
@@ -36,12 +35,7 @@ function ProductList(props) {
   const getList = async (input) => {
     try {
       setLoading(true);
-      const response = await fetchListFilter(input);
-      if (!response.success) {
-        message.error('Operation failed, please try again!');
-        return;
-      }
-      const res = response.data || [];
+      const res = await fetchListFilter(input);
 
       const data = (res || []).filter((node) => {
         const { isListed } = getNodeStatusMatch(node);
@@ -55,10 +49,7 @@ function ProductList(props) {
       setLoading(false);
     }
   };
-  const getOpt = async () => {
-    const data = await fetchListOptions();
-    return data;
-  };
+
   const rowSelection = {
     selectedRowKeys: [selectKey],
     onChange: (selectedRowKeys, selectedRows) => {

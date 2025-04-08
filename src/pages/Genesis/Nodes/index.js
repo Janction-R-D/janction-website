@@ -13,7 +13,6 @@ export default function Nodes() {
   const [list, setList] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [filters, setFilter] = useState(initQuery);
-
   const { initialState } = useModel('@@initialState');
   const { isLessee } = initialState || {};
 
@@ -23,12 +22,9 @@ export default function Nodes() {
   const getList = async () => {
     try {
       const res = await fetchNodesList({ mine: true });
-      if (!res?.success) {
-        message.error('Operation failed, please try again later!');
-        return;
-      }
-      setList(res?.data || []);
-      setFilteredData(res?.data || []);
+
+      setList(res || []);
+      setFilteredData(res || []);
       setFilter(initQuery);
     } catch (error) {
       console.log('『error』', error);
@@ -89,7 +85,7 @@ export default function Nodes() {
       <div className={styles['title']}>
         <h1>My Nodes</h1>
       </div>
-      <Resources statisticData={statisticData} />
+      <Resources statisticData={statisticData} getList={getList} />
       <Card className={styles['card']}>
         <div className={styles['card-header']}>
           <h2>Node status monitoring</h2>

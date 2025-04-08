@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Checkbox } from 'antd';
 import styles from './index.less';
-import { operating_systems as PROCESSOR } from './constant.json';
 import { debounce } from 'lodash';
+import { PROCESSOR } from '@/constant';
 
 export default function Operating({ value = [], onChange, getList }) {
   const handleCheckboxChange = (checkedValues) => {

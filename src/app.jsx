@@ -34,18 +34,38 @@ const authHeaderInterceptor = (url, options) => {
  * exception handler
  */
 const errorHandler = (error) => {
+  if (!error?.response) throw error;
   const { response } = error;
   const errorText =
     'An error occurred on the server. Please check the server！';
   if (response?.status == 504) {
     message.error(errorText);
   }
-  throw new Error(response?.statusText);
+  throw response?.statusText;
 };
-
+const responseData = async (response, options) => {
+  const url = options.url;
+  let res;
+  try {
+    res = await response.clone().json();
+  } catch (error) {
+    // Handle non-JSON formatted response data
+    res = await response.clone().text();
+  }
+  console.log('『res』', res);
+  if (!url.includes('/v0')) return res;
+  if (res?.success) return res?.data;
+  if (res?.code && res?.message) {
+    let error = `${res.code}:${res.message}`;
+    message.error(error);
+    throw new Error(error);
+  }
+  return res;
+};
 export const request = {
   errorHandler,
   requestInterceptors: [authHeaderInterceptor],
+  responseInterceptors: [responseData],
 };
 
 export async function getInitialState() {

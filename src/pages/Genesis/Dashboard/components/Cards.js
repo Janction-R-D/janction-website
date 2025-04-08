@@ -77,7 +77,6 @@ function MyNtf({ handleOk, handleCancel, data }) {
       .then((res) => setNft(res))
       .catch((err) => console.log(err));
   }, []);
-  console.log(data);
   return (
     <Modal
       open={true} // El modal siempre está abierto cuando hay un NFT seleccionado

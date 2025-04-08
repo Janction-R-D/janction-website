@@ -141,7 +141,6 @@ const Root = (props) => {
 
   const updateInviterName = async (params, rowData) => {
     try {
-      console.log('『rowData』', rowData);
       await fetchInviterNameUpdate({
         ...params,
         inviter: rowData.inviter,
@@ -149,7 +148,6 @@ const Root = (props) => {
       message.success('Update success!');
       getInviterList();
     } catch (err) {
-      message.error('Update failed!');
       console.log('『err』', err);
       throw Error(err);
     }

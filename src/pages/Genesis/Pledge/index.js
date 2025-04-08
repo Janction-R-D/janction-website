@@ -18,15 +18,8 @@ function Staking() {
   useEffect(() => {
     fetchNodeList()
       .then((res) => {
-        if (!res?.success) {
-          message.error(
-            res?.message || 'Operation failed, please try again later',
-          );
-          return;
-        }
-        const { data } = res;
-        setSummary(data?.summary || null);
-        setFilteredData(data?.resource || []);
+        setSummary(res?.summary || null);
+        setFilteredData(res?.resource || []);
       })
       .catch((err) => console.log(err));
   }, []);

@@ -7,7 +7,6 @@ const DevicePie = (props) => {
   const { scale, isPC } = useScale();
 
   const series = useMemo(() => {
-    console.log('『data』', data);
     return [
       {
         name: '',

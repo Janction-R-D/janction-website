@@ -22,17 +22,9 @@ function Instance() {
   const getAllNodes = () => {
     fetchNodeList()
       .then((res) => {
-        const { data, success } = res || {};
-        if (!success) {
-          console.log(
-            res?.message || 'Operation failed, please try again later',
-          );
-          return;
-        }
-
-        setSummary(data?.summary || null);
-        setResource(data?.resource || []);
-        setFilteredData(data?.resource || []);
+        setSummary(res?.summary || null);
+        setResource(res?.resource || []);
+        setFilteredData(res?.resource || []);
       })
       .catch((err) => console.log(err));
   };

@@ -73,8 +73,8 @@ const Login = (props) => {
 
       const signAndLogin = async () => {
         try {
-          const nonce = await fetchUserNonce();
-
+          const { nonce } = (await fetchUserNonce()) || {};
+          const newNoce = nonce.split('-').join('');
           const siweMessage = new SiweMessage({
             domain: window.location.host,
             address,
@@ -82,7 +82,7 @@ const Login = (props) => {
             uri: 'https://janction.io',
             version: '1',
             chainId,
-            nonce,
+            nonce: newNoce,
           });
 
           const message = siweMessage.prepareMessage();
@@ -93,7 +93,6 @@ const Login = (props) => {
 
           onSuccess(signature, message);
         } catch (err) {
-          message.warning('Network timeout, please refresh and try again!', 1);
           await disconnect();
           console.log('『err』', err);
         }

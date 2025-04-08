@@ -43,7 +43,6 @@ const Login = (props) => {
       onAuth();
     } catch (err) {
       setLoading(false);
-      message.error('fail to register!');
       console.error('fail to register:', err);
     }
   };
@@ -72,7 +71,6 @@ const Login = (props) => {
       setLoading(false);
     } catch (err) {
       setLoading(false);
-      message.error('login failure!');
       console.error('login failure:', err);
     }
   };

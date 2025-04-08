@@ -190,8 +190,7 @@ const contract = {
       ).connect(signer);
 
       // 获取需要支付的总金额
-      const discountTotalDays =
-        durationNum * durationMultiplier(duration, true);
+      const discountTotalDays = durationNum * durationMultiplier(duration);
       const totalAmount = ethers.utils.parseUnits(
         `${discountTotalDays * price}`,
         6,
@@ -212,7 +211,7 @@ const contract = {
       }
 
       // 调起支付
-      const totalDays = durationNum * durationMultiplier(duration, true);
+      const totalDays = durationNum * durationMultiplier(duration);
       const tx = await payment.createPaymentPlan(
         payerAddress,
         ownerAddress,
@@ -260,8 +259,6 @@ const contract = {
         ethers.utils.arrayify(messageHash),
       );
       signatures.push(signature);
-
-      console.log('『signatures』', signatures);
 
       // 初始化合约
       const payment = new ethers.Contract(

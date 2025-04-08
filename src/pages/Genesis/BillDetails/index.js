@@ -23,16 +23,10 @@ function BillDetails() {
 
   const getList = async () => {
     try {
-      const response = await fetchBillingList({
+      const res = await fetchBillingList({
         role: isLessee ? 'tenant' : 'lessor',
       });
-      if (!response?.success) {
-        message.error(
-          response?.message || 'Operation failed, please try again later',
-        );
-        return;
-      }
-      const res = response?.data;
+
       setList(res || []);
       const newData = res.map((item) => ({
         ...item,
@@ -102,9 +96,6 @@ function BillDetails() {
     },
   ];
 
-  const onOk = (value) => {
-    console.log('onOk: ', value);
-  };
   const showDrawer = (record) => {
     if (record) {
       setSelectedBill(record);
@@ -148,20 +139,7 @@ function BillDetails() {
     <>
       <div className={styles['title']}>Billings</div>
       <Row justify="end" align="middle">
-        <Col>
-          {/* <Space>
-            <span className={styles['time-period']}>Time period</span>
-            <JanctionRangePicker
-              showTime={{ format: 'HH:mm' }}
-              format="YYYY-MM-DD HH:mm"
-              onChange={(value, dateString) => {
-                console.log('Selected Time: ', value);
-                console.log('Formatted Selected Time: ', dateString);
-              }}
-              onOk={onOk}
-            />
-          </Space> */}
-        </Col>
+        <Col></Col>
         <Col>
           <SearchInput onChange={(e) => handleSearch(e.target.value)} />
         </Col>

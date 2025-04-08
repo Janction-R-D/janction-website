@@ -21,7 +21,6 @@ const SplitRatioSetting = (props) => {
       const res = await fetchNFTSetting({ inviter: record.inviter_address });
       form.setFieldsValue(res || {});
     } catch (err) {
-      message.warning('Except for some issues, please refresh and try again!');
       console.log('『err』', err);
     }
   };
@@ -29,21 +28,15 @@ const SplitRatioSetting = (props) => {
   const onOk = async () => {
     try {
       const values = await form.validateFields();
-      const res = await fetchNFTSettingUpdate(
+      await fetchNFTSettingUpdate(
         { split_rate: values },
         { inviter: record?.inviter_address },
       );
 
-      // Check if the response indicates success
-      if (res?.code == 40011) {
-        message.warning(res?.error);
-        return;
-      }
       message.success('Settings updated successfully!');
       onCancel(); // Close the modal
       onSuccess(); // Execute success callback
     } catch (err) {
-      message.warning('Except for some issues, please try again!');
       console.log('『err』', err);
     }
   };

@@ -39,12 +39,7 @@ const Quick = (props) => {
   const getList = async (data) => {
     setLoading(true);
     try {
-      const response = await fetchListFilter(data);
-      if (!response.success) {
-        message.error('Operation failed, please try again!');
-        return;
-      }
-      const res = response.data || [];
+      const res = await fetchListFilter(data);
       const newList = (res || []).filter((node) => {
         const { isListed } = getNodeStatusMatch(node);
         return isListed;
@@ -53,7 +48,6 @@ const Quick = (props) => {
       if (res.length <= 0) {
         form.setFieldsValue({ node: undefined });
       }
-      console.log(newList);
       setList(newList);
     } catch (error) {
       console.log(error);

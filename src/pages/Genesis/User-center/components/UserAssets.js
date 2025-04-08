@@ -20,7 +20,6 @@ export default function UserAssets({ data, duration, setDuration }) {
       message.success('Update success!');
     } catch (err) {
       console.log('『err』', err);
-      message.error('Update failed, please try again!');
     }
   };
 

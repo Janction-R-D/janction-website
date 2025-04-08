@@ -26,21 +26,12 @@ export default function OperationModal({ record, getAllNodes }) {
       console.log(err);
     }
   };
-  const getRentParams = async () => {
-    try {
-      const res = await fetchStopRentParams({
-        resource_id: record.id,
-      });
-      console.log('『res』', res);
-      return res;
-    } catch (error) {
-      throw Error(error);
-    }
-  };
 
   const handleStop = async () => {
     try {
-      const { signatures } = await getRentParams();
+      const { signatures } = await fetchStopRentParams({
+        resource_id: record.id,
+      });
       await getOrderInfo();
       if (!paymentId) return;
       await contract.stopRent(paymentId, signatures);

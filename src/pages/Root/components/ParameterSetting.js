@@ -23,7 +23,6 @@ const ParameterSetting = (props) => {
       message.success('update success!');
       onUpdate();
     } catch (err) {
-      message.error('update failed!');
       console.log('『err』', err);
     }
   };

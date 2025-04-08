@@ -22,20 +22,12 @@ function InstanceTable({ data, getAllNodes }) {
     });
     fetchNodeOperation(payload)
       .then((res) => {
-        if (!res?.success) {
-          setError(true);
-          message.error(
-            res?.message || 'Operation failed, please try again later',
-          );
-          return;
-        }
-        message.success(res?.data?.message || 'Operation successful');
         getAllNodes();
         setSuccess(true);
       })
       .catch((err) => {
         setError(true);
-        console.log(err);
+        console.log('💥 Error capturado:', err);
       })
       .finally(() => {
         setTimeout(() => {
@@ -51,6 +43,12 @@ function InstanceTable({ data, getAllNodes }) {
       title: <div className="name">Instance ID / Name</div>,
       dataIndex: 'key',
       key: 'name',
+      ellipsis: true,
+    },
+    {
+      title: <div className="name">Node ID / Name</div>,
+      dataIndex: 'node_id',
+      key: 'node_id',
       ellipsis: true,
     },
     {

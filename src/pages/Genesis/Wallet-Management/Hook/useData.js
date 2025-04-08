@@ -9,7 +9,6 @@ export default function useData() {
   useEffect(() => {
     getData();
   }, []);
-  console.log(list);
   const getData = async () => {
     try {
       const { statistical_info, transaction_records, ...extra } =

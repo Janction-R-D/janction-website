@@ -29,7 +29,6 @@ const BindEmail = (props) => {
       await getUserInfo();
       closeAll();
     } catch (error) {
-      message.error('Something went wrong, please try again later!');
       console.log('『error』', error);
     }
   };

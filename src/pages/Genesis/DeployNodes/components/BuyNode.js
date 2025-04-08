@@ -35,7 +35,6 @@ export default function BuyNode({ mineCode, inviterCode }) {
   const getPrice = async () => {
     try {
       const res = await fetchBeneficiary();
-      if (res?.code == 40411) return;
       const beneficiaryAddress = (res?.split || []).map(
         (item) => item.receive_address,
       );
@@ -63,7 +62,7 @@ export default function BuyNode({ mineCode, inviterCode }) {
     try {
       // Verify Inviter Code
       const res = await fetchInviteVerify(inviterCode);
-      if (res?.code == 40012 || !res?.inviter) throw Error(res?.error);
+      if (!res?.inviter) throw Error(res?.error);
       await onBind();
     } catch (verifyError) {
       message.warning('Invalid Code', 2);
@@ -79,13 +78,10 @@ export default function BuyNode({ mineCode, inviterCode }) {
     };
     try {
       // Bind invitation code
-      const res = await fetchInviteAccept(data);
-      // 40310: already accept another invitation
-      if (res?.code != 40310) {
-        message.success(
-          'Wallet address invitation relationship bound successfully.',
-        );
-      }
+      await fetchInviteAccept(data);
+      message.success(
+        'Wallet address invitation relationship bound successfully.',
+      );
     } catch (bindError) {
       console.log('『bindError』', bindError);
     }

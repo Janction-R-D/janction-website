@@ -26,7 +26,7 @@ const Footer = (props) => {
   const total = useMemo(() => {
     const { value, unit } = formValues?.purDuration || {};
     if (isEmpty(node) || !value || empty(unit)) return 0;
-    const _total = node?.price * value * durationMultiplier(unit, true);
+    const _total = node?.price * value * durationMultiplier(unit);
     return (Number(_total) / Number(currency?.rate || 1)).toFixed(2);
   }, [node, formValues, currency]);
 

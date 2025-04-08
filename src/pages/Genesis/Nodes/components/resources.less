@@ -14,6 +14,19 @@
   display: flex;
   justify-content: space-between;
   padding-bottom: 15px;
+  .refresh {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    cursor: pointer;
+    transition: all ease 300ms;
+    &:hover {
+      color: #fff;
+    }
+    .spin {
+      animation: spin 1s linear infinite;
+    }
+  }
 }
 .card h2 {
   flex-grow: 1;
@@ -54,4 +67,12 @@
 .blue {
   color: #40b3f4;
   cursor: pointer;
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

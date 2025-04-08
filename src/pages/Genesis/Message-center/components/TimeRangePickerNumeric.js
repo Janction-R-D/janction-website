@@ -9,13 +9,11 @@ const TimeRangePickerNumeric = ({ setTime, setFilter }) => {
   const [endDate, setEndDate] = useState(null);
 
   const handleStartChange = (date) => {
-    console.log(endDate);
     if (endDate == null) {
       setStartDate(date?._d);
       return;
     }
     const newStartDate = formatDate(date._d);
-    console.log(newStartDate);
     const times = [newStartDate, endDate];
 
     setTime(times);
@@ -26,7 +24,6 @@ const TimeRangePickerNumeric = ({ setTime, setFilter }) => {
   };
 
   const handleEndChange = (date) => {
-    console.log(date?._d);
     if (startDate && date && !date.isAfter(startDate)) {
       message.error('End date must be after start date!');
       return;

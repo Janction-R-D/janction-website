@@ -128,3 +128,57 @@ export const CPU_GPU_OPTIONS = [
   { label: 'CPU', value: 'cpu' },
   { label: 'GPU', value: 'gpu' },
 ];
+
+export const PROCESSOR = [
+  {
+    label: 'linux',
+    value: 'linux',
+  },
+
+  {
+    label: 'macos',
+    value: 'macos',
+  },
+  {
+    label: 'windows',
+    value: 'windows',
+  },
+  {
+    label: 'android',
+    value: 'android',
+  },
+];
+
+export const INSTANCE_TYPES = [
+  {
+    label: 'Basic CPU',
+    value: 'basic_cpu',
+  },
+  {
+    label: 'Basic GPU',
+    value: 'basic_gpu',
+  },
+  {
+    label: 'High performance GPU',
+    value: 'high_performance',
+  },
+  {
+    label: 'Others',
+    value: 'other',
+  },
+];
+
+export const FRAMEWORK = [
+  {
+    label: 'No pre-installed application is required',
+    value: 'none',
+  },
+  {
+    label: 'PyTorch',
+    value: 'pytorch',
+  },
+  {
+    label: 'TensorFlow',
+    value: 'tensorflow',
+  },
+];

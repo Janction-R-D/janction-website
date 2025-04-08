@@ -36,8 +36,7 @@ const Settlement = (props) => {
   const getNodeConfigInfo = async (params) => {
     try {
       setTableLoading(true);
-      const response = await fetchNodesConfigInfo(params);
-      const res = response?.data;
+      const res = await fetchNodesConfigInfo(params);
       if (isEmpty(res)) {
         setList([]);
         return;
@@ -64,8 +63,14 @@ const Settlement = (props) => {
 
   const onRent = async (values) => {
     try {
-      await fetchMarketRent(values);
+      const res = await fetchMarketRent(values);
+      console.log(res);
+      if (res?.code) {
+        message.error(res?.message);
+        return;
+      }
       message.success('Successful hire!');
+      history.push('/genesis/instance');
     } catch (err) {
       console.log('『err』', err);
       throw new Error(err);
@@ -98,7 +103,7 @@ const Settlement = (props) => {
         purchase_instance_quantity: 1,
         template: formValues?.ai_framework || 'standard',
       });
-      history.push('/genesis/instance');
+      // history.push('/genesis/instance');
     } catch (error) {
       console.error(error);
       message.error('Operation contract failed, please try again!');
@@ -151,7 +156,7 @@ const Settlement = (props) => {
         const { price } = list[0] || {};
 
         const _currency = getCurrency().find((item) => item.value == currency);
-        const _total = (price || 0) * value * durationMultiplier(unit, true);
+        const _total = (price || 0) * value * durationMultiplier(unit);
         return (Number(_total) / Number(_currency?.rate || 1)).toFixed(2);
       },
     },
@@ -177,11 +182,11 @@ const Settlement = (props) => {
         <PayType value={currency} onChange={(e) => setCurrency(e)} />
         <JanctionTable
           columns={columns}
+          rowKey={'deviceId'}
           dataSource={list}
           loading={tableLoading}
           pagination={false}
           scroll={{ x: 'auto' }}
-          rowKey="id"
         />
       </PurchaseCard>
       <Footer

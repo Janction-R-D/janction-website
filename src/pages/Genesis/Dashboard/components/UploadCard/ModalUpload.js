@@ -96,7 +96,6 @@ export default function ModalUpload(props) {
       await onSkip();
       setAvModaOpen(false);
     } catch (error) {
-      message.error('Failed to update avatar.');
       console.error(error);
     }
   };
@@ -107,7 +106,7 @@ export default function ModalUpload(props) {
         ...userConf,
         default_avatar_status: true,
       };
-      const res = await changeUserConfig(payload);
+      await changeUserConfig(payload);
 
       setAvModaOpen(false);
     } catch (err) {

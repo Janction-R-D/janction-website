@@ -3,7 +3,7 @@ import JanctionTable from '@/components/JanctionTable';
 import JanctionRangePicker from '@/components/JanctionRangePicker';
 import { Col, Row, Space, Drawer, List } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
-import styles from './BillDetails.less'
+import styles from './BillDetails.less';
 import SearchInput from '@/components/SeachInput';
 
 export default function Instance() {
@@ -40,10 +40,10 @@ export default function Instance() {
       key: 'Payment',
     },
     {
-      title: <div className='operation'>Operation</div>,
+      title: <div className="operation">Operation</div>,
       key: 'operation',
       render: (_, record) => (
-        <Space size="middle" >
+        <Space size="middle">
           <a onClick={() => showDrawer(record)}>Billing details</a>
         </Space>
       ),
@@ -74,7 +74,7 @@ export default function Instance() {
   };
   const showDrawer = (record) => {
     if (record) {
-      setSelectedBill(record)
+      setSelectedBill(record);
       setOpen(true);
     }
   };
@@ -114,7 +114,7 @@ export default function Instance() {
           position: ['bottomCenter'],
         }}
       />
-      <Drawer className='drawer' width={510} onClose={onClose} open={open}>
+      <Drawer className="drawer" width={510} onClose={onClose} open={open}>
         <div className={styles['drawer-header']}>
           <img src={require('@/assets/svgs/drawer-header.svg')} />
           <div className={styles['drawer-title']}>{selectedBill.name}</div>

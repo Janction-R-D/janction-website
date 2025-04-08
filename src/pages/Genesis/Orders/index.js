@@ -18,8 +18,9 @@ function Orders() {
     };
     fetchMarketOrders(payload)
       .then((res) => {
-        if (Array.isArray(res?.data)) {
-          setOrders(res?.data);
+        const { data } = res || {};
+        if (Array.isArray(data)) {
+          setOrders(data);
         }
       })
       .catch((error) => console.log(error));

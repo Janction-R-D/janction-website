@@ -2,16 +2,10 @@ import { request } from 'umi';
 
 const baseUrl = process.env.JANCTION_V0_API;
 
-export const fetchLessor = async () => {
-  try {
-    const response = await request(`${baseUrl}/dashboard/lessor`, {
-      loginAuth: true,
-    });
-    return response;
-  } catch (error) {
-    console.log('『error』', error);
-    return null;
-  }
+export const fetchLessor = () => {
+  return request(`${baseUrl}/dashboard/lessor`, {
+    loginAuth: true,
+  });
 };
 
 export const fetchNewsUpdate = () => {
@@ -27,32 +21,19 @@ export const fetchNewsList = () => {
   });
 };
 
-export const fetchInviters = async (params) => {
-  try {
-    const response = await request(`${baseUrl}/affv2/inviters`, {
-      params,
-      loginAuth: true,
-    });
-    if (response?.success) {
-      return response?.data;
-    }
-  } catch (error) {
-    console.log('『error』', error);
-    return null;
-  }
+export const fetchInviters = (params) => {
+  return request(`${baseUrl}/affv2/inviters`, {
+    params,
+    loginAuth: true,
+  });
 };
 
-export const fetchInvitersUpdate = async (data) => {
-  try {
-    const response = await request(`${baseUrl}/affv2/inviters`, {
-      method: 'POST',
-      data,
-      loginAuth: true,
-    });
-    return response;
-  } catch (error) {
-    throw Error(error);
-  }
+export const fetchInvitersUpdate = (data) => {
+  return request(`${baseUrl}/affv2/inviters`, {
+    method: 'POST',
+    data,
+    loginAuth: true,
+  });
 };
 
 export const fetchNftStatus = () => {

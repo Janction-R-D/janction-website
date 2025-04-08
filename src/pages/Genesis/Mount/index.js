@@ -84,10 +84,7 @@ export default function Mount() {
       if (!searchId) return;
       setError(false);
       setLoading(true);
-      const response = await fetchNodesConfigInfo({ node_id: searchId });
-
-      const res = response?.data;
-      console.log(res);
+      const res = await fetchNodesConfigInfo({ node_id: searchId });
       setUserInfo(res || {});
       setTags(res?.tags || []);
       setPrice(res?.price || 0);
@@ -120,18 +117,13 @@ export default function Mount() {
       console.log('『error』', error);
       setError(true);
       setUserInfo({});
+    } finally {
+      setLoading(false);
     }
   };
   const getNodeInfo = async () => {
     try {
-      const response = await fetchNodesInfo({ node_id: searchId });
-      if (!response.success) {
-        message.error(
-          response.message || 'Operation failed, please try again!',
-        );
-        return;
-      }
-      const res = response?.data;
+      const res = await fetchNodesInfo({ node_id: searchId });
       setNodeInfo(res);
     } catch (error) {
       console.log('『error』', error);
@@ -203,7 +195,6 @@ export default function Mount() {
       history.push('/genesis/instance');
     } catch (error) {
       setConfirmLoading(false);
-      message.error('Operation contract failed, please try again!');
     }
   };
   function formatTime(date) {

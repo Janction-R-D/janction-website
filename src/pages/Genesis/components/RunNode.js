@@ -1,7 +1,7 @@
 import { ANDROID_APK_PATH, COMMAND, DOCKER_PATH } from '@/constant';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import { copy } from '../../../utils/lang';
+import { copy } from '../../../../utils/lang';
 import styles from './index.less';
 
 const RunNode = (props) => {
