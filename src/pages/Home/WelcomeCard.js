@@ -34,7 +34,7 @@ export default function WelcomeCard() {
   const handleVerify = (code) => {
     fetchInviteVerify(code)
       .then((res) => {
-        if (res?.code !== 40012 && res?.inviter) {
+        if (res?.inviter) {
           history.push(`/deployNodes?inviterCode=${code}`);
           return;
         }
