@@ -1,5 +1,3 @@
-import { name } from 'dayjs/locale/zh-cn';
-
 // abbreviated month name
 export const MONTH = [
   { value: 1, label: 'Jan' },
@@ -194,4 +192,5 @@ export const notShowErrors = [
   'internal_server_error',
   'invalid_parameter',
   'order_not_found',
+  'payment_validation_error',
 ];
