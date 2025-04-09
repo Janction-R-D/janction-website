@@ -103,7 +103,7 @@ const Settlement = (props) => {
         purchase_instance_quantity: 1,
         template: formValues?.ai_framework,
       });
-      // history.push('/genesis/instance');
+      history.push('/genesis/instance');
     } catch (error) {
       console.error(error);
       message.error('Operation contract failed, please try again!');
