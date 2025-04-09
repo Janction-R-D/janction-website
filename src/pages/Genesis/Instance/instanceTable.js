@@ -132,7 +132,7 @@ function InstanceTable({ data, getAllNodes }) {
             size="middle"
             style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}
           >
-            <a
+            {/* <a
               className={`${'operation-action'}  ${
                 record.status?.toLowerCase() === 'stopped' ||
                 record.status?.toLowerCase() === 'expired'
@@ -157,7 +157,7 @@ function InstanceTable({ data, getAllNodes }) {
               }
             >
               <p>Start</p>
-            </a>
+            </a> */}
 
             <OperationModal
               record={record}

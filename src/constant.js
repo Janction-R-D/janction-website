@@ -1,3 +1,5 @@
+import { name } from 'dayjs/locale/zh-cn';
+
 // abbreviated month name
 export const MONTH = [
   { value: 1, label: 'Jan' },
@@ -181,4 +183,10 @@ export const FRAMEWORK = [
     label: 'TensorFlow',
     value: 'tensorflow',
   },
+];
+
+export const notShowErrors = [
+  'database_error',
+  'node_invalid_state',
+  'invitation_not_found',
 ];
