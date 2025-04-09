@@ -6,35 +6,56 @@ import JanctionPopover from '@/components/JanctionPopover';
 import contract from '@/utils/contracts';
 import { fetchMarketOrder, fetchStopRentParams } from '@/services/genesis';
 
+// function filtrarNodeAndResource(data, nodeId, resourceId) {
+//   return data.find(
+//     (item) =>
+//       item.order?.node_id?.trim() === nodeId.trim() &&
+//       item.order?.resource_id?.trim() === resourceId.trim(),
+//   );
+// }
 export default function OperationModal({ record, getAllNodes }) {
   const [visible, setVisible] = useState(false);
   const [paymentId, setPaymentId] = useState('');
   const handleConnect = () => {
     setVisible(true);
   };
-  const getOrderInfo = async () => {
-    const data = {
-      node_id: record.node_id,
-      resource_id: record.id,
-    };
-    try {
-      const [res] = (await fetchMarketOrder(data)) || [];
-      const code = res?.order?.patment_id;
-      console.log(code);
-      setPaymentId(code);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // const getOrderInfo = async () => {
+  //   const payload = {
+  //     node_id: record.node_id,
+  //     resource_id: record.id,
+  //   };
+  //   const params = {
+  //     page_size: 50,
+  //     page: 1,
+  //   };
+
+  //   try {
+  //     // const [res] = (await fetchMarketOrder(payload)) || [];
+  //     const { data } = (await fetchMarketOrder(params)) || [];
+  //     const filteredNode = filtrarNodeAndResource(
+  //       data,
+  //       record.node_id,
+  //       record.id,
+  //     );
+  //     console.log(filteredNode);
+  //     const code = filteredNode?.order?.payment_id;
+  //     console.log(code);
+  //     setPaymentId(code);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   const handleStop = async () => {
     try {
-      const { signatures } = await fetchStopRentParams({
+      const { signature, payment_id } = await fetchStopRentParams({
         resource_id: record.id,
       });
-      await getOrderInfo();
-      if (!paymentId) return;
-      await contract.stopRent(paymentId, signatures);
+      const signatures = [`0x${signature}`];
+      // await getOrderInfo();
+      if (!payment_id) return;
+      await contract.stopRent(payment_id, signatures);
+      message.success('Success');
       getAllNodes();
     } catch (error) {
       message.warning('Operation failed, please try again later!');
