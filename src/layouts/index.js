@@ -14,6 +14,7 @@ import Nodes from '@/pages/Genesis/DeployNodes';
 import Purchase from '@/pages/Genesis/Purchase';
 import PurchaseLayout from './PurchaseLayout';
 import Settlement from '@/pages/Genesis/Purchase/Settlement';
+import Rol from '@/pages/Genesis/Rol';
 
 export const fullWidthRoute = ['/home', '/explore', '/getStarted', '/solution'];
 export const authRoute = [
@@ -33,6 +34,7 @@ export const authRoute = [
   '/genesis/purchase/settlement',
   '/genesis/wallet-management',
   '/genesis/message-center',
+  '/genesis/rol',
 ];
 
 export default function Layout(props) {
@@ -65,6 +67,9 @@ export default function Layout(props) {
         </GenesisLayout>
       </GenesisProvider>
     );
+  }
+  if (isAuthRoute && props.location.pathname.includes('/rol')) {
+    return <Rol />;
   }
   // message center route
   // if (isAuthRoute && props.location.pathname.includes('/message-center')) {

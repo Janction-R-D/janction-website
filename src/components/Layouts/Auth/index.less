@@ -17,9 +17,10 @@ aside.auth-menu-aside {
   align-items: center;
   flex-shrink: 0;
   transition: all 0.3s;
-  background: #1a1b1d;
+  background: #0e0e0e;
   position: relative;
   z-index: 1;
+  border-right: 1px solid #484848;
 
   header {
     width: 192px;
@@ -121,7 +122,7 @@ aside.auth-menu-aside {
       align-items: center;
       gap: 12px;
       align-self: stretch;
-      border-radius: 20px;
+      border-radius: 8px;
       transition: all 0.3s;
       cursor: pointer;
       color: #fff;
@@ -134,7 +135,7 @@ aside.auth-menu-aside {
         justify-content: center;
         background: #2c2c2f;
         box-shadow: 0px 3.5px 5.5px rgba(0, 0, 0, 0.02);
-        border-radius: 12px;
+        border-radius: 8px;
 
         i {
           color: #73d5f4;
@@ -147,20 +148,24 @@ aside.auth-menu-aside {
         font-weight: 500;
         font-size: 14px;
         line-height: 14px;
-        color: rgba(255, 255, 255, 0.6);
+        color: rgba(255, 255, 255, 0.538);
       }
 
       &.active {
-        background: rgba(94, 94, 94, 0.5);
+        background: rgba(94, 94, 94, 0.315);
         background-blend-mode: color-dodge;
         backdrop-filter: blur(10.05px);
-
+        color: #fff;
         .icon {
           background: #73d5f4;
 
           i {
             color: #2c2c2f;
           }
+        }
+        span {
+          color: #fff;
+          font-weight: 700;
         }
       }
 
@@ -207,6 +212,7 @@ aside.auth-menu-aside {
     height: 36px;
     background: #1a1b1d;
     border-radius: 0px 8px 8px 0px;
+    border-left: 1px solid #575757;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -231,8 +237,7 @@ aside.auth-menu-aside {
     align-items: center;
     justify-content: center;
     cursor: pointer !important;
-    z-index: 40;
-
+    border-left: 1px solid #575757;
     i {
       font-size: 20px;
       color: #d8d8d8;

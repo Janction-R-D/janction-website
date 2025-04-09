@@ -1,0 +1,64 @@
+.install-node-container {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px); // soporte Safari
+  background: rgba(
+    255,
+    255,
+    255,
+    0.05
+  ); // fondo semitransparente para glass effect
+  border: 1px solid rgba(255, 255, 255, 0.2); // borde suave y translúcido
+
+  // ya tienes esto
+  color: #cfcfcf;
+  font-family: Arial, sans-serif;
+  padding: 24px 28px;
+  width: 90% !important;
+  max-width: 900px !important;
+  .install-wizard-steps {
+    .ant-steps-item-active {
+      color: #fff !important;
+    }
+    .ant-steps-item-title {
+      font-size: 2rem;
+      color: inherit !important;
+    }
+    .ant-steps-item-icon {
+      border: 1px solid #ffffffc6 !important;
+      background: transparent !important;
+      border-color: #188fffca !important;
+      .ant-steps-icon {
+        color: #188fffca !important;
+      }
+    }
+    .ant-steps-item-title::after {
+      background-color: rgb(136, 136, 136) !important;
+    }
+  }
+  .install-wizard-footer {
+    margin-top: 40px;
+    padding-top: 24px;
+    display: flex;
+    justify-content: end;
+    border-top: 1px solid #6a6969 !important;
+  }
+  .btn {
+    background: transparent;
+    color: #ffffffe5;
+    padding: 22px;
+    border-color: #ffffff68;
+    display: flex;
+    align-items: center;
+    &:hover {
+      border-color: #ffffff68 !important;
+      background: transparent !important;
+    }
+  }
+  :global {
+    .ant-modal-content {
+      border-radius: 14px !important;
+      background: transparent;
+      box-shadow: unset;
+    }
+  }
+}

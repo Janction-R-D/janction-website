@@ -1,0 +1,49 @@
+.card {
+  background-color: rgb(27, 27, 30);
+  border-bottom: 1px solid #878787b3;
+  padding-inline: 0px;
+
+  .arrow-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    padding: 0;
+    height: 20px;
+    width: 20px;
+    .icon-card {
+      font-size: 0.5rem;
+      transform: rotate(-45deg);
+    }
+    :global {
+      .ant-btn-circle {
+        min-width: unset !important;
+        background: red;
+      }
+    }
+  }
+  section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 18px;
+    margin-inline: auto;
+    padding-bottom: 14px;
+    max-width: 30ch;
+    .icon-card {
+      font-size: 2rem;
+      background: red;
+    }
+  }
+  :global {
+    .ant-card-body {
+      padding: 14px;
+    }
+  }
+}
+.icon-card__2 {
+  font-size: 3rem;
+  color: #73d5f4;
+}

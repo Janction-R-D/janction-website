@@ -1,0 +1,83 @@
+.rent-node-card {
+  background: #181818;
+  border-radius: 8px;
+  color: white;
+  height: 480px;
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 12px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  .header-text {
+    font-size: 1.8rem;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-bottom: 10px;
+    text-align: left;
+    max-width: 12ch;
+  }
+
+  .label {
+    .label-text {
+      color: #fff;
+      font-size: 18px;
+      margin-bottom: 8px;
+      text-transform: capitalize;
+    }
+
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding-bottom: 4px;
+  }
+
+  .illustration-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    .illustration {
+      border-radius: 16px;
+      padding: 30px 40px;
+      font-weight: bold;
+      font-size: 20px;
+      object-fit: cover;
+      transition: all 0.3s;
+      width: 100%;
+      scale: 1.4;
+    }
+  }
+
+  .arrow-container {
+    margin-top: 16px;
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    cursor: pointer;
+    transform: translateX(-50%);
+    .arrow-btn {
+      background: transparent;
+      border: 1px solid orange;
+      color: orange;
+      transition: all 0.3s;
+
+      &:hover {
+        background: orange;
+        color: black;
+      }
+    }
+  }
+  :global {
+    .ant-card-body {
+      flex: 1;
+    }
+  }
+}
