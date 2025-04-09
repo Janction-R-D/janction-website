@@ -189,4 +189,10 @@ export const notShowErrors = [
   'database_error',
   'node_invalid_state',
   'invitation_not_found',
+  'invalid_parameter',
+  'resource_creation_error',
+  'internal_server_error',
+  'invalid_parameter',
+  'order_not_found',
+  'payment_validation_error',
 ];

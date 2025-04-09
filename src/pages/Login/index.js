@@ -74,7 +74,7 @@ const Login = (props) => {
       const signAndLogin = async () => {
         try {
           const { nonce } = (await fetchUserNonce()) || {};
-          const newNoce = nonce.split('-').join('');
+
           const siweMessage = new SiweMessage({
             domain: window.location.host,
             address,
@@ -82,7 +82,7 @@ const Login = (props) => {
             uri: 'https://janction.io',
             version: '1',
             chainId,
-            nonce: newNoce,
+            nonce,
           });
 
           const message = siweMessage.prepareMessage();

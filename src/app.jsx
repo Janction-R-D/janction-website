@@ -53,6 +53,7 @@ const responseData = async (response, options) => {
     // Handle non-JSON formatted response data
     res = await response.clone().text();
   }
+
   if (!url.includes('/v0')) return res;
   if (res?.success) return res?.data;
   if (res?.code && res?.message) {
