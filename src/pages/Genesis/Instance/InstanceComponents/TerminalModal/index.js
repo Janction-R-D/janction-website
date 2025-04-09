@@ -9,7 +9,7 @@ const baseUrl = process.env.JANCTION_SOCKET_API;
 
 const TerminalModal = (props) => {
   const { visible, onCancel, resource_id } = props;
-
+  const pingIntervalRef = useRef(null);
   const xterm = useRef(null); // 终端实例的引用
   const clientRef = useRef(null);
   const terminalRef = useRef(null); // 终端容器的引用
@@ -22,6 +22,7 @@ const TerminalModal = (props) => {
     connectWebSocket();
     return () => {
       conn.close();
+      clearInterval(pingIntervalRef.current);
       xterm.current.dispose();
     };
   }, []);
@@ -69,6 +70,17 @@ const TerminalModal = (props) => {
       conn.send(initMsg);
       fitAddon.current.fit();
       xterm.current.focus();
+
+      // keep connection for 30s
+      pingIntervalRef.current = setInterval(() => {
+        if (conn.readyState === WebSocket.OPEN) {
+          const pingMsg = JSON.stringify({
+            operation: 'stdin',
+            data: 'echo ping\r',
+          });
+          conn.send(pingMsg);
+        }
+      }, 30000);
     };
 
     conn.onmessage = (event) => {
