@@ -53,7 +53,7 @@ export default function OperationModal({ record, getAllNodes }) {
               onConfirm={handleStop}
               okText="Yes"
             >
-              <li>Stop Renting</li>
+              <li>Terminate</li>
             </Popconfirm>
             <li>Renewal</li>
           </ul>

@@ -5,6 +5,7 @@ import { empty, logout } from './utils/lang';
 import React from 'react';
 import RainbowKit from '@/components/RainbowKit';
 import '@xterm/xterm/css/xterm.css';
+import { notShowErrors } from './constant';
 
 /**
  * Request interceptor
@@ -57,6 +58,9 @@ const responseData = async (response, options) => {
   if (res?.success) return res?.data;
   if (res?.code && res?.message) {
     let error = `${res.code}:${res.message}`;
+    if (notShowErrors.includes(res.code)) {
+      throw new Error(error);
+    }
     message.error(error);
     throw new Error(error);
   }
