@@ -194,4 +194,5 @@ export const notShowErrors = [
   'internal_server_error',
   'invalid_parameter',
   'order_not_found',
+  'payment_validation_error',
 ];
