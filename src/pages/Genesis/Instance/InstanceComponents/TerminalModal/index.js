@@ -74,13 +74,10 @@ const TerminalModal = (props) => {
       // keep connection for 30s
       pingIntervalRef.current = setInterval(() => {
         if (conn.readyState === WebSocket.OPEN) {
-          const pingMsg = JSON.stringify({
-            operation: 'stdin',
-            data: 'echo ping\r',
-          });
+          const pingMsg = JSON.stringify({ operation: 'ping' }); // Formato esperado
           conn.send(pingMsg);
         }
-      }, 30000);
+      }, 30000); // each 30 segundos
     };
 
     conn.onmessage = (event) => {
