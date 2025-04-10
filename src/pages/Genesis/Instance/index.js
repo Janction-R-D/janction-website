@@ -79,7 +79,9 @@ function Instance() {
           </p>
         </div>
       </div>
-      {showOverView && <HeaderCard summary={summary} />}
+      {showOverView && (
+        <HeaderCard summary={summary} getAllNodes={getAllNodes} />
+      )}
       <Card className={styles['card-table']}>
         <Row justify="space-between" style={{ gap: '12px' }} align="middle">
           <Col>

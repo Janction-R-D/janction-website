@@ -87,7 +87,9 @@ function InstanceTable({ data, getAllNodes }) {
               <i className="iconfont  icon-questioncircle"></i> Expiring Soon
             </div>
           ) : (
-            <div>other</div>
+            <div className="status status-starting">
+              <i className="iconfont  icon-refresh"></i> Starting
+            </div>
           )}
         </>
       ),

@@ -1,8 +1,8 @@
 import React from 'react';
-import { Card } from 'antd';
+import { Card, message } from 'antd';
 import styles from './headerCard.less';
 
-export default function HeaderCard({ summary }) {
+export default function HeaderCard({ summary, getAllNodes }) {
   const data = [
     {
       name: 'Cloud server',
@@ -25,8 +25,13 @@ export default function HeaderCard({ summary }) {
       color: 'red',
     },
   ];
-  const handleRefresh = () => {
-    window.location.reload();
+  const handleRefresh = async () => {
+    try {
+      await getAllNodes();
+      message.success('Refresh complete');
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <Card className={styles['card']}>
