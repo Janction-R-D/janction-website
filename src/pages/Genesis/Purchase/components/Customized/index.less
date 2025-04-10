@@ -568,7 +568,6 @@
 .customized-steps {
   margin-top: 24px;
 
-  min-width: max-content;
   background-color: rgba(59, 59, 59, 0.615);
   height: 45px;
   display: flex;
@@ -577,7 +576,8 @@
   padding: 0px 8px !important;
   color: #272626c2 !important;
   :global {
-    width: 600px !important;
+    width: 100%;
+    max-width: calc(80vw - 300px);
 
     .ant-steps-item {
       p {
@@ -589,7 +589,7 @@
         width: 20px !important;
         height: 20px !important;
         margin-top: 5px;
-        font-size: 0.65rem;
+        font-size: 0.8rem;
 
         .ant-steps-icon,
         span {
