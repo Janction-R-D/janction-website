@@ -16,8 +16,10 @@ import { fetchMarketOrder, fetchStopRentParams } from '@/services/genesis';
 export default function OperationModal({ record, getAllNodes }) {
   const [visible, setVisible] = useState(false);
   const [paymentId, setPaymentId] = useState('');
+  const isRunning = record.status.toLowerCase() === 'running';
   const handleConnect = () => {
-    setVisible(true);
+    if (!isRunning) return;
+    if (record.status) setVisible(true);
   };
   // const getOrderInfo = async () => {
   //   const payload = {
@@ -68,7 +70,12 @@ export default function OperationModal({ record, getAllNodes }) {
       <JanctionPopover
         content={
           <ul className={styles['more-function']} style={{ padding: '0px' }}>
-            <li onClick={handleConnect}>Remote connection</li>
+            <li
+              onClick={handleConnect}
+              className={!isRunning && styles['forbiden']}
+            >
+              Remote connection
+            </li>
             <Popconfirm
               title="Please confirm whether to stop renting this node!"
               onConfirm={handleStop}
