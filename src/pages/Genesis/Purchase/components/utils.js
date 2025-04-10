@@ -19,7 +19,7 @@ export function getTableData(data) {
       model:
         node?.attr?.cpu !== undefined ? `${node.attr.cpu} Cores` : 'Unknown',
     },
-    price: 'N/A', // Si hay un precio disponible, puedes ajustarlo aquí
+    price: 'N/A', // enter the price here
   }));
 }
 
