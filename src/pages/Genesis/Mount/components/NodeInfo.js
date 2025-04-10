@@ -48,15 +48,27 @@ export function NodeInfo({ nodeInfo, styles, tags, setTags }) {
     <>
       <ul>
         <ol>
-          {renderLabelInfo('identification number', nodeInfo?.id)}
-          {renderLabelInfo('node-names', nodeInfo?.name)}
-          {renderLabelInfo('Cores', nodeInfo?.cores)}
-          {renderLabelInfo('memory', nodeInfo?.attr?.memory)}
+          {renderLabelInfo('identification number ', nodeInfo?.id)}
+          {renderLabelInfo('node-names ', nodeInfo?.name)}
+          {renderLabelInfo('Cores ', nodeInfo?.cores)}
+          {renderLabelInfo('memory ', nodeInfo?.attr?.memory)}
+          {renderLabelInfo(
+            'Gpu Chip',
+            nodeInfo?.attr?.gpu_chip
+              ? `${nodeInfo?.attr?.gpu_chip?.[0]} * ${nodeInfo?.attr?.gpu_chip?.length}`
+              : '~',
+          )}
         </ol>
         <ol>
           {renderLabelInfo('status', nodeInfo?.status_str)}
           {renderLabelInfo('arch', nodeInfo?.attr?.architechture_str)}
           {renderLabelInfo('cpu', nodeInfo?.attr?.cpu)}
+          {renderLabelInfo(
+            'Cpu chip ',
+            nodeInfo?.attr?.cpu_chip
+              ? `${nodeInfo?.attr?.cpu_chip?.[0]} * ${nodeInfo?.attr?.cpu_chip?.length}`
+              : '~',
+          )}
           {renderLabelInfo('location', nodeInfo?.attr?.location)}
         </ol>
         <ol>
