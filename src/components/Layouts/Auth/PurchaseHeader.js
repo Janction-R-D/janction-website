@@ -14,7 +14,7 @@ export const Logo = () => {
     <a
       className={styles['bar-logo']}
       onClick={() => {
-        history.push('/');
+        history.push('/genesis/dashboard');
       }}
     >
       <img src={require('@/assets/images/icons/logo_name.png')} alt="logo" />
