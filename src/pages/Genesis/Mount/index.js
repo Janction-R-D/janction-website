@@ -64,7 +64,7 @@ export default function Mount() {
   const [minLease, setMinLease] = useState(1);
   const [maxLease, setMaxLease] = useState(1);
   const [tags, setTags] = useState([]);
-  const [nodeInfo, setNodeInfo] = useState();
+  const [nodeInfo, setNodeInfo] = useState({});
   const [agreeClause, setAgreeClause] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
 
