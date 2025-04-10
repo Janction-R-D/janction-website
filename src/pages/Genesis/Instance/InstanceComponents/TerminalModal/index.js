@@ -109,7 +109,7 @@ const TerminalModal = (props) => {
           const pingMsg = JSON.stringify({ operation: 'ping' }); // Formato esperado
           conn.send(pingMsg);
         }
-      }, 30000); // each 30 segundos
+      }, 10000); // each 10 segundos
     };
 
     conn.onmessage = (event) => {
