@@ -92,18 +92,18 @@ export default function Layout(props) {
   if (props.location.pathname == '/genesis/purchase') {
     return (
       <GenesisProvider>
-        <PurchaseLayout>
+        <GenesisLayout>
           <Purchase />
-        </PurchaseLayout>
+        </GenesisLayout>
       </GenesisProvider>
     );
   }
   if (props.location.pathname == '/genesis/purchase/settlement') {
     return (
       <GenesisProvider>
-        <PurchaseLayout>
+        <GenesisLayout>
           <Settlement />
-        </PurchaseLayout>
+        </GenesisLayout>
       </GenesisProvider>
     );
   }

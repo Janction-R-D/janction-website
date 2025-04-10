@@ -37,7 +37,7 @@ export default function UserAccount() {
 
   return (
     <form encType="multipart/form-data" className={styles['form']}>
-      <h1 className={styles['title']}>Personal information</h1>
+      <p className={styles['title']}>Personal information</p>
       <section className={styles['banner']}>
         <div className={styles['banner-img']}>
           <img src="/account.png" className={styles['img']} />
@@ -93,12 +93,6 @@ export default function UserAccount() {
             )}
           </div>
         </div>
-        <Button className={styles['create-btn']} type="primary">
-          <span>
-            <i className="iconfont icon-secured"></i>
-          </span>
-          Authentication
-        </Button>
       </article>
       <SocialLink />
       <UserAssets data={userInfo} />

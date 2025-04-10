@@ -1,125 +1,114 @@
-import banner1 from '@/assets/images/genesis/banner1.png';
-import { SYSTEM_LIST } from '@/constant';
-import { message } from 'antd';
-import { useState } from 'react';
-import { Redirect, useModel } from 'umi';
-import NTFBanner from '../DeployNodes/components/NTFBanner';
-import Step3 from '../DeployNodes/components/RunNode';
-import Step1 from '../DeployNodes/components/System';
-import StepChart from '../DeployNodes/components/StepChart';
+import { Button, Card, Timeline, Typography } from 'antd';
+import { useEffect, useState } from 'react';
 import styles from './index.less';
-
-const DEFAULT = {
-  system: SYSTEM_LIST[0].value,
-};
-const stepsList = [
-  {
-    value: 1,
-    name: 'Step 1',
-    info: 'Select operating system',
-    nextstep: 2,
-  },
-  // {
-  //   value: 2,
-  //   name: 'Step 2',
-  //   info: 'Check GPU',
-  //   nextstep: 3,
-  //   prestep: 1,
-  // },
-  {
-    value: 2,
-    name: 'Step 2',
-    info: 'Run Node',
-    prestep: 1,
-  },
-];
-const Nodes = (props) => {
-  const { initialState } = useModel('@@initialState');
-  const [curStep, setCurStep] = useState(stepsList[0]);
-  const [selectedValues, setSelectedValues] = useState(DEFAULT);
-  const { isLessee } = initialState || {};
-  const onBack = () => {
-    const step = stepsList.find((item) => item.value == curStep['prestep']);
-    if (!step) return;
-    setCurStep(step);
-  };
-  const onNext = () => {
-    const step = stepsList.find((item) => item.value == curStep['nextstep']);
-    if (!step) return;
-    if (!selectedValues?.system) {
-      message.warning('Please choose your operating system!');
-      return;
-    }
-    if (selectedValues.system !== 'android' && !selectedValues?.architecture) {
-      message.warning('Please choose Architecture!');
-      return;
-    }
-    setCurStep(step);
-  };
-
-  const renderStepBtn = () => {
-    return (
-      <div className={styles['pre-next-btn']}>
-        {curStep.prestep && (
-          <button onClick={onBack}>
-            <i className="iconfont icon-pre"></i>
-            <span>Pre</span>
-          </button>
-        )}
-        {curStep.nextstep && (
-          <button onClick={onNext}>
-            <span>Next</span>
-            <i className="iconfont icon-next"></i>
-          </button>
-        )}
-      </div>
+import { ARCHITECTURE, SYSTEM_LIST } from '@/constant';
+import { AppstoreAddOutlined } from '@ant-design/icons';
+const { Text } = Typography;
+const DeployNode = () => {
+  const [selectedValues, setSelectedValues] = useState({});
+  const [architecture, setArchitecture] = useState([]);
+  useEffect(() => {
+    if (!selectedValues?.system) return;
+    const _architecture = ARCHITECTURE.filter((item) =>
+      item.sys.includes(selectedValues.system),
     );
+    setArchitecture(_architecture);
+    console.log(selectedValues);
+  }, [selectedValues]);
+  const onSysSelect = (sys) => {
+    console.log(sys);
+    const _architecture = ARCHITECTURE.filter((item) =>
+      item.sys.includes(sys.value),
+    );
+
+    setSelectedValues({
+      architecture: _architecture?.[0]?.value,
+      system: sys.value,
+    });
   };
 
-  if (isLessee) return <Redirect to="/genesis/dashboard"></Redirect>;
   return (
-    <>
-      <div className={styles['steps']}>
-        <div className={styles['step-echart']}>
-          <StepChart data={curStep.value} max={stepsList.length} />
-        </div>
-        <div className={styles['step-info']}>
-          <h1>{curStep.name}</h1>
-          <p>{curStep.info}</p>
-        </div>
-        {renderStepBtn()}
-      </div>
-      <div className={styles['android-steps']}>
-        <div className={styles['info']}>
-          <p className="ell f1">{curStep.info}</p>
-          <div>
-            <span>{curStep.value}</span> of 2
-          </div>
-        </div>
-        <div className={styles['progress-bar']}>
-          <div
-            className={styles['value-bar']}
-            style={{ '--width': `${(curStep.value / 2) * 100}%` }}
-          ></div>
-        </div>
-      </div>
-      <div className={styles['step-content']}>
-        {curStep.value == 1 && (
-          <Step1
-            selectedValues={selectedValues}
-            setSelectedValues={setSelectedValues}
-          />
-        )}
-        {/* {curStep.value == 2 && <Step2 />} */}
-        {curStep.value == 2 && <Step3 selectedValues={selectedValues} />}
-      </div>
-      <div className={styles['android-pre-next-btn']}>
-        {renderStepBtn(banner1)}
-      </div>
-      <NTFBanner />
-    </>
+    <section className={styles['dashboard-wrapper']}>
+      <section className={styles['header-wrapper']}>
+        <header>
+          <h1>Deploy Nodes</h1>
+        </header>
+      </section>
+      <article className={styles['node_steps']}>
+        <Timeline className={styles['timeline']}>
+          <Timeline.Item
+            dot={<span className={styles['timeline-dot']}>1</span>}
+          >
+            <p className={styles['timeline-step']}>Download App</p>
+            <Card className={styles['card']}>
+              <section className={styles['sys-choice']}>
+                <p className={styles['sys-title']}>
+                  Choose your Operating System
+                </p>
+
+                <ul className={styles['sys-list']}>
+                  {SYSTEM_LIST.map((item) => (
+                    <li
+                      key={item.value}
+                      className={
+                        selectedValues?.system == item.value
+                          ? styles['active']
+                          : ''
+                      }
+                      onClick={() => onSysSelect(item)}
+                    >
+                      <span>{item.label}</span>
+                      <i className={`iconfont icon-${item.icon}`} />
+                    </li>
+                  ))}
+                </ul>
+                {selectedValues?.system !== 'android' && (
+                  <>
+                    <p className={styles['sys-title']}>Choose Architecture</p>
+
+                    <ul className={styles['gpu-cpu']}>
+                      {architecture.map((item) => (
+                        <li
+                          className={` ${
+                            selectedValues?.architecture == item.value &&
+                            styles['active']
+                          }
+                  }`}
+                          key={item.value}
+                          onClick={() => {
+                            setSelectedValues({
+                              ...selectedValues,
+                              architecture: item.value,
+                            });
+                          }}
+                        >
+                          <span>{item.name}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                )}
+                <div className={styles['buttons-box']}>
+                  <Button className={styles['button']}>
+                    Download App <AppstoreAddOutlined color="red" />
+                  </Button>
+                </div>
+              </section>
+            </Card>
+          </Timeline.Item>
+          <Timeline.Item
+            dot={<span className={styles['timeline-dot']}>2</span>}
+          >
+            <p className={styles['timeline-step']}>Generate Token ID</p>
+            <Text className={styles['token_id']}>
+              AKGDAIDKJHNAJKLSGI
+              <i className="iconfont icon-copy" />
+            </Text>
+          </Timeline.Item>
+        </Timeline>
+      </article>
+    </section>
   );
 };
 
-Nodes.wrappers = ['@/wrappers/auth'];
-export default Nodes;
+export default DeployNode;

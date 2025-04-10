@@ -1,8 +1,7 @@
 import JanctionTable from '@/components/JanctionTable';
-import { message, Space } from 'antd';
+import { message, Space, Table } from 'antd';
 import { useState } from 'react';
 import { fetchNodeOperation } from '@/services/genesis/instance';
-// import { convertMBtoGB } from '../Dashboard/Lessors';
 import styles from './index.less';
 import OperationModal from './InstanceComponents/OperationModal';
 import { convertMBtoGB } from '../Dashboard/Lessor';
@@ -191,8 +190,8 @@ function InstanceTable({ data, getAllNodes }) {
     : 'iconfont icon-eye';
   return (
     <>
-      <JanctionTable
-        className={styles['table']}
+      <Table
+        className={styles['table-instance']}
         columns={columns}
         dataSource={mappedOrders}
         emptyDescription={

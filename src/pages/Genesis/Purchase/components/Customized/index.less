@@ -229,7 +229,7 @@
   }
   .framework-conf-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 18px;
     margin-top: 12px;
 
@@ -567,6 +567,7 @@
 }
 .customized-steps {
   margin-top: 24px;
+
   min-width: max-content;
   background-color: rgba(59, 59, 59, 0.615);
   height: 45px;
@@ -574,8 +575,33 @@
   align-items: center;
   border-radius: 18px;
   padding: 0px 8px !important;
-  font-size: 0.75rem !important;
   color: #272626c2 !important;
+  :global {
+    width: 600px !important;
+
+    .ant-steps-item {
+      p {
+        max-width: 15ch !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+      }
+      .ant-steps-item-icon {
+        width: 20px !important;
+        height: 20px !important;
+        margin-top: 5px;
+        font-size: 0.65rem;
+
+        .ant-steps-icon,
+        span {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding-top: 2px;
+          height: 100%;
+        }
+      }
+    }
+  }
 }
 .gradient-card {
   --hue-1: 180;

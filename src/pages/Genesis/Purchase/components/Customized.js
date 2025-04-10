@@ -27,7 +27,7 @@ const Customized = () => {
 
   const steps = [
     {
-      title: 'Operating System',
+      title: <p style={{ fontSize: '0.86rem' }}>Operating System</p>,
       content: (
         <>
           <Form.Item name="operating_system_str">
@@ -43,7 +43,7 @@ const Customized = () => {
         'Mobile is convenient, and large users can provide flexible computing power',
     },
     {
-      title: 'Internet',
+      title: <p style={{ fontSize: '0.86rem' }}>Internet</p>,
       content: (
         <>
           <Form.Item name="internet_type">
@@ -59,7 +59,7 @@ const Customized = () => {
         'Mobile is convenient, and large users can provide flexible computing power.',
     },
     {
-      title: 'Location',
+      title: <p style={{ fontSize: '0.86rem' }}>Location</p>,
       content: (
         <Form.Item name="location">
           <Location formValues={formValues} current={current} />
@@ -70,7 +70,7 @@ const Customized = () => {
         'Mobile is convenient, and large users can provide flexible computing power.',
     },
     {
-      title: 'Duration',
+      title: <p style={{ fontSize: '0.86rem' }}>Duration</p>,
       content: (
         <Card className={styles['processor-conf-wrapper']}>
           <Form.Item name="purDuration">
@@ -83,7 +83,7 @@ const Customized = () => {
         'Mobile is convenient, and large users can provide flexible computing power.',
     },
     {
-      title: 'Processor',
+      title: <p style={{ fontSize: '0.86rem' }}>Processor</p>,
       content: (
         <Card className={styles['processor-conf-wrapper']}>
           <Processor
@@ -100,7 +100,7 @@ const Customized = () => {
       description: '',
     },
     {
-      title: 'Available Instance',
+      title: <p style={{ fontSize: '0.86rem' }}>Available Instance</p>,
       content: (
         <Card className={styles['processor-conf-wrapper']}>
           <Form.Item

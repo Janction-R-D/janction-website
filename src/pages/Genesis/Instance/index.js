@@ -1,6 +1,15 @@
 import { fetchNodeList } from '@/services/genesis/instance';
 import { isEmpty } from '@/utils/lang';
-import { Button, Card, Col, Input, Pagination, Row, Space } from 'antd';
+import {
+  Button,
+  Card,
+  Col,
+  Input,
+  Pagination,
+  Row,
+  Segmented,
+  Space,
+} from 'antd';
 import { useEffect, useState } from 'react';
 import { history, useModel, Redirect } from 'umi';
 import JactionEmpty from '../../../components/JactionEmpty';
@@ -8,12 +17,17 @@ import styles from './index.less';
 import HeaderCard from './InstanceComponents/HeaderCard';
 import InstanceCard from './InstanceComponents/InstanceCard';
 import InstanceTable from './instanceTable';
+import {
+  AppstoreOutlined,
+  BarsOutlined,
+  ShoppingCartOutlined,
+} from '@ant-design/icons';
 
 const initQuery = { current: 1, size: 10 };
 function Instance() {
   const { initialState } = useModel('@@initialState');
   const { isLessee } = initialState || {};
-  const [view, setView] = useState('table');
+  const [view, setView] = useState('Kanban');
   const [showOverView, setShowOverView] = useState(true);
   const [query, setQuery] = useState(initQuery);
   const [summary, setSummary] = useState(null);
@@ -44,11 +58,11 @@ function Instance() {
     setFilteredData(filtered);
   };
   const handleSetView = (view) => {
-    if (view === 'table') {
-      setView('graph');
+    if (view === 'Kanban') {
+      setView('List');
       return;
     } else {
-      setView('table');
+      setView('Kanban');
     }
   };
 
@@ -63,41 +77,25 @@ function Instance() {
   if (!isLessee) return <Redirect to="/genesis/nodes"></Redirect>;
   return (
     <>
-      <div className={styles['title']}>
-        <h1>My Instances</h1>
-        <div>
-          <i
-            className={`iconfont ${
-              showOverView ? 'icon-eye-close' : 'icon-eye'
-            }`}
-            onClick={handleModal}
-          ></i>
-          <p>
-            {showOverView
-              ? 'Close Resource Overview'
-              : 'Expand Resource Overview'}
-          </p>
-        </div>
-      </div>
+      <section className={styles['header-wrapper']}>
+        <header>
+          <h1>My Instances</h1>
+        </header>
+      </section>
+
       {showOverView && <HeaderCard summary={summary} />}
       <Card className={styles['card-table']}>
         <Row justify="space-between" style={{ gap: '12px' }} align="middle">
-          <Col>
-            <Space>
-              <Button
-                className={styles['create-btn']}
-                type="primary"
-                onClick={() => history.push('/genesis/purchase')}
-              >
-                Create
-              </Button>
-            </Space>
-          </Col>
           <Col
             span={15}
             sm={24}
             xs={24}
-            style={{ display: 'flex', gap: '16px' }}
+            style={{
+              display: 'flex',
+              gap: '16px',
+              borderBottom: '1px solid #767676',
+              padding: '0px 14px 12px',
+            }}
           >
             <Input
               suffix={
@@ -113,22 +111,25 @@ function Instance() {
             />
             <div className={styles['buttons']}>
               <Button
-                className={styles['button']}
-                onClick={() => handleSetView('graph')}
+                className={styles['connect-btn']}
+                type="primary"
+                onClick={() => history.push('/genesis/purchase')}
               >
-                <i className="iconfont icon-multipleselectlist"></i>
+                To Puchase <ShoppingCartOutlined />
               </Button>
-              <span>|</span>
-              <Button
-                className={styles['button']}
-                onClick={() => handleSetView('table')}
-              >
-                <i className="iconfont icon-listblock"></i>
-              </Button>
+              <Segmented
+                vertical
+                options={[
+                  { value: 'List', icon: <BarsOutlined /> },
+                  { value: 'Kanban', icon: <AppstoreOutlined /> },
+                ]}
+                onChange={handleSetView}
+                style={{ border: '1px solid #ccc' }}
+              />
             </div>
           </Col>
         </Row>
-        {view === 'graph' && (
+        {view === 'List' && (
           <section className={styles['instances']}>
             {!isEmpty(filteredData) && (
               <>
@@ -155,7 +156,7 @@ function Instance() {
             )}
           </section>
         )}
-        {view === 'table' && (
+        {view === 'Kanban' && (
           <InstanceTable data={filteredData} getAllNodes={getAllNodes} />
         )}
       </Card>

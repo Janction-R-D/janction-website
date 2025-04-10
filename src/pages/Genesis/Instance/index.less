@@ -1,7 +1,27 @@
+.header-wrapper {
+  padding-bottom: 22px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid #767676;
+  padding-inline: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  header {
+    display: flex;
+    align-items: center;
+    h1 {
+      font-size: 2.2rem;
+      color: #fff;
+      font-weight: 600;
+    }
+  }
+}
+
 .title {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-left: 35px;
 }
 .title > div {
   display: flex;
@@ -40,10 +60,16 @@
   border-radius: 20px;
 }
 .card-table {
-  background-color: #242426 !important;
-  border-radius: 22px !important;
-  margin-bottom: 22px;
-  padding: 15px;
+  background-color: #0d0d0dad !important;
+  border-radius: 6px !important;
+  margin-block: 22px;
+  padding-block: 15px;
+  margin-inline: 30px;
+  :global {
+    .ant-card-body {
+      padding: 12px 0;
+    }
+  }
 }
 
 .search-input {
@@ -52,12 +78,12 @@
   outline-style: none;
   width: 100%;
 
-  background: #3c3a3d;
-  border-radius: 2.604vw;
+  background: #27272892;
+  border-radius: 8px;
   font-family: 'Montserrat';
   font-style: normal;
   font-weight: 500;
-  font-size: 0.833vw;
+  font-size: 0.85rem;
   line-height: 1.25vw;
   padding-left: 0.833vw;
 
@@ -70,27 +96,63 @@
 .buttons {
   display: flex;
   align-items: center;
-  background: #3c3a3d;
-  border-radius: 2.604vw;
+
   height: 100%;
-  gap: 2px;
+  gap: 8px;
   padding: 4px;
+  .connect-btn {
+    height: 35px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 18px;
+    background: transparent;
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 24px;
+    text-align: center;
+    border: 1px solid #878787;
+    color: #fff;
+    border-radius: 4px;
+    text-wrap: nowrap;
+  }
 }
 .button {
   border: none;
   cursor: pointer;
 }
 
-.table {
-  margin-top: 32px;
+.table-instance {
+  margin: 12px;
 
   :global {
+    .ant-table {
+      background: transparent !important;
+    }
     .ant-table-container table {
+      border-spacing: 0 8px !important;
+      border-collapse: separate !important;
+      .ant-table-thead {
+        tr > th {
+          background: #0f0f0f !important;
+          margin: 0;
+          height: 40px;
+          padding: 12px 10px;
+          border: none;
+        }
+      }
+
       .ant-table-tbody {
         tr {
+          background: #1a1a1a; // añade fondo a cada fila
+          border-radius: 10px;
+          overflow: hidden;
+          border-radius: 12px;
           td {
-            // text-align: start;
-            // padding-left: 0;
+            padding: 12px;
+            border: none;
+            // background: transparent;
 
             &:last-child {
               a {
@@ -102,12 +164,14 @@
               }
             }
           }
+
           .status {
             display: flex;
             align-items: center;
             gap: 8px;
             font-size: 0.7rem;
           }
+
           .status-running {
             color: green;
           }
@@ -123,15 +187,26 @@
           .status-question {
             color: #ebe061;
           }
+
           .ellipsis {
             text-overflow: ellipsis;
             text-wrap: nowrap;
           }
         }
+        tr > td:first-child {
+          border-top-left-radius: 10px;
+          border-bottom-left-radius: 10px;
+        }
+
+        tr > td:last-child {
+          border-top-right-radius: 10px;
+          border-bottom-right-radius: 10px;
+        }
       }
     }
   }
 }
+
 .instances {
   padding-inline: 6px;
   display: flex;
