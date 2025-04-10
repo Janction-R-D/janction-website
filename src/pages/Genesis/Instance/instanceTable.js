@@ -53,10 +53,20 @@ function InstanceTable({ data, getAllNodes }) {
     },
     {
       title: <div className="name">Cores</div>,
-      dataIndex: 'Cores',
+      dataIndex: 'node',
       key: 'Cores',
       ellipsis: true,
-      render: (text) => <>{text !== '--' ? <p>{text} Cores</p> : '--'}</>,
+      render: (node, record) => {
+        if (!node?.attr?.gpu_chip && !node?.attr?.cpu_chip) return '--';
+        const cpu = node?.attr.cpu_chip;
+        const gpu = node?.attr.gpu_chip;
+        return (
+          <>
+            <p>{cpu ? `${cpu[0]} * ${cpu.length}` : '--'}</p>
+            <p>{gpu ? `${gpu[0]} * ${gpu.length}` : '--'}</p>
+          </>
+        );
+      },
     },
     {
       title: <div className="memory">Memory</div>,
@@ -100,12 +110,6 @@ function InstanceTable({ data, getAllNodes }) {
       key: 'Location',
       ellipsis: true,
     },
-    // {
-    //   title: 'GPU Rate',
-    //   dataIndex: 'GPUrate',
-    //   key: 'GPUrate',
-    //   ellipsis: 'true',
-    // },
 
     {
       title: 'Memory Usage Rates',
@@ -178,7 +182,6 @@ function InstanceTable({ data, getAllNodes }) {
     memory: order?.node?.attr.memory || '--',
     status: order?.status_str,
     Location: order?.node?.attr.location || '--',
-    GPUrate: '0.254%',
     MemoryUsage: convertMBtoGB(order?.activity?.memory_usage?.toFixed(2)),
     downtime: `${formatISODate(order.created_at)}\r\n${formatISODate(
       order.expired_at,
