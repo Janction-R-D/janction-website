@@ -107,7 +107,7 @@ function DiscordElement({ icon }) {
       </div>
       <div className={styles['buttons']}>
         <Button
-          className={isConnected ? styles['cancel-btn'] : styles['create-btn']}
+          className={isConnected ? styles['cancel-btn'] : styles['connect-btn']}
           onClick={handleClick}
         >
           {isConnected ? 'Disconnect' : 'Connect'}
@@ -191,7 +191,7 @@ function TwitterElement({ icon }) {
       </div>
       <div className={styles['buttons']}>
         <Button
-          className={isConnected ? styles['cancel-btn'] : styles['create-btn']}
+          className={isConnected ? styles['cancel-btn'] : styles['connect-btn']}
           onClick={handleClick}
         >
           {isConnected ? 'Disconnect' : 'Connect'}

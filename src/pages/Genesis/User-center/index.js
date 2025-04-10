@@ -31,12 +31,12 @@ export default function UserAccount() {
       setUserName(name);
       setIsNameModalOpen(false);
     } catch (error) {
-      console.log('『error』', error)
+      console.log('『error』', error);
     }
   };
 
   return (
-    <form encType="multipart/form-data">
+    <form encType="multipart/form-data" className={styles['form']}>
       <h1 className={styles['title']}>Personal information</h1>
       <section className={styles['banner']}>
         <div className={styles['banner-img']}>
@@ -47,7 +47,7 @@ export default function UserAccount() {
       </section>
       <article className={styles['user-info']}>
         <div className={styles['edit-name']}>
-          <h2>{userName}</h2>
+          <h2 className={styles['user-name']}>{userName}</h2>
           <span onClick={onEditName}>Edit</span>
           {isNameModalOpen && (
             <EditName
@@ -60,9 +60,9 @@ export default function UserAccount() {
             />
           )}
         </div>
-        <div>
+        <div className={styles['info-box']}>
           <p className={styles['address-id']}>
-            ID:{' '}
+            Address:{' '}
             {userInfo?.id ? (
               <span
                 className={styles['address-id-text']}
@@ -78,8 +78,10 @@ export default function UserAccount() {
           <p>Registration date: {userInfo?.registered_at?.split('T')[0]}</p>
 
           <div className={styles['edit-info']}>
-            <p>E-mail: {userInfo?.email || '-'} </p>
-            <span onClick={handleVerify}>
+            <p className={styles['info-text']}>
+              E-mail: {userInfo?.email || '-'}{' '}
+            </p>
+            <span onClick={handleVerify} className={styles['info-text']}>
               {userInfo?.email ? 'Update' : 'Bind'}
             </span>
             {isEmailModalOpen && (
