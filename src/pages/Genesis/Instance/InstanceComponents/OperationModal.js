@@ -18,7 +18,7 @@ export default function OperationModal({ record, getAllNodes }) {
   const [paymentId, setPaymentId] = useState('');
   const isRunning = record.status.toLowerCase() === 'running';
   const handleConnect = () => {
-    // if (!isRunning) return;
+    if (!isRunning) return;
     if (record.status) setVisible(true);
   };
   // const getOrderInfo = async () => {
@@ -72,7 +72,7 @@ export default function OperationModal({ record, getAllNodes }) {
           <ul className={styles['more-function']} style={{ padding: '0px' }}>
             <li
               onClick={handleConnect}
-              // className={!isRunning && styles['forbiden']}
+              className={!isRunning && styles['forbiden']}
             >
               Remote connection
             </li>

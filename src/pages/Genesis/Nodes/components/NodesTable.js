@@ -86,7 +86,7 @@ function NodesTable({ data, getList }) {
       ),
       dataIndex: 'last_start_at',
       width: 200,
-      render: (text) => {
+      render: (text, record) => {
         const { isRunning, isActive, isListed } = getNodeStatusMatch(record);
         if (!text) return '--';
         if (!isActive && !isListed && !isRunning) return '--';
