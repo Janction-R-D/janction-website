@@ -8,6 +8,7 @@ import OperationModal from './InstanceComponents/OperationModal';
 import { convertMBtoGB } from '../Dashboard/Lessor';
 import { history } from 'umi';
 import { formatISODate } from '@/utils/datetime';
+import { convertKB, empty } from '@/utils/lang';
 function InstanceTable({ data, getAllNodes }) {
   const [showOverView, setShowOverView] = useState(true);
 
@@ -73,6 +74,7 @@ function InstanceTable({ data, getAllNodes }) {
       dataIndex: 'memory',
       key: 'memory',
       ellipsis: true,
+      render: (memory, rowData) => <>{!empty(rowData.memory) ? convertKB(rowData.memory) : '--'}</>,
     },
     {
       title: 'Status',
@@ -179,7 +181,7 @@ function InstanceTable({ data, getAllNodes }) {
     ...order,
     key: order?.id,
     Cores: order?.node?.attr.cpu || '--',
-    memory: order?.node?.attr.memory || '--',
+    memory: order?.node?.attr.memory,
     status: order?.status_str,
     Location: order?.node?.attr.location || '--',
     MemoryUsage: convertMBtoGB(order?.activity?.memory_usage?.toFixed(2)),
