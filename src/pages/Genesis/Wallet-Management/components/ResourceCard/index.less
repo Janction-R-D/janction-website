@@ -1,0 +1,62 @@
+.card {
+  border: none;
+  background: #1c1b1b;
+  display: flex;
+  border-radius: 8px;
+  justify-content: space-between;
+  :global {
+    width: 100%;
+    .ant-card-body {
+      display: flex;
+      width: 100%;
+      padding: 12px;
+    }
+  }
+  .col-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    i {
+      padding: 8px;
+      background: #5b5b5b66;
+      border-radius: 8px;
+      font-size: 1.4rem;
+    }
+    .description-box {
+      display: flex;
+      flex-direction: column;
+      .type {
+        color: #fff;
+        font-weight: 700;
+        text-transform: capitalize;
+      }
+      .date {
+        font-size: 0.7rem;
+        color: #fff;
+        .status {
+          font-weight: 700;
+          text-transform: capitalize;
+        }
+        .status-fail {
+          color: red !important;
+        }
+        .status-success {
+          color: #fff !important;
+        }
+      }
+    }
+  }
+  .col-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    .value {
+      font-size: 1.6rem;
+      color: rgb(142, 242, 142);
+    }
+    .currency {
+      font-size: 0.7rem;
+    }
+  }
+}

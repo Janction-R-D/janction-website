@@ -34,7 +34,7 @@ const News = (props) => {
   };
 
   const renderNewsList = () => {
-    return list.slice(0, 20).map((item, index) => {
+    return list?.slice(0, 20).map((item, index) => {
       let banner = textImg;
       const thumbnail = item?.extensions?.media?.thumbnail || [];
       if (!!thumbnail.length) {

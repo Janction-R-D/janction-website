@@ -58,16 +58,7 @@ export default function Layout(props) {
   if (props.location.pathname.includes('/login')) {
     return <LoginLayout>{children}</LoginLayout>;
   }
-  // wallet managment route
-  if (isAuthRoute && props.location.pathname.includes('/wallet-management')) {
-    return (
-      <GenesisProvider>
-        <GenesisLayout aside={false}>
-          <WalletManagement />
-        </GenesisLayout>
-      </GenesisProvider>
-    );
-  }
+
   if (isAuthRoute && props.location.pathname.includes('/rol')) {
     return <Rol />;
   }
@@ -89,24 +80,24 @@ export default function Layout(props) {
       </GenesisProvider>
     );
   }
-  if (props.location.pathname == '/genesis/purchase') {
-    return (
-      <GenesisProvider>
-        <GenesisLayout>
-          <Purchase />
-        </GenesisLayout>
-      </GenesisProvider>
-    );
-  }
-  if (props.location.pathname == '/genesis/purchase/settlement') {
-    return (
-      <GenesisProvider>
-        <GenesisLayout>
-          <Settlement />
-        </GenesisLayout>
-      </GenesisProvider>
-    );
-  }
+  // if (props.location.pathname == '/genesis/purchase') {
+  //   return (
+  //     <GenesisProvider>
+  //       <GenesisLayout>
+  //         <Purchase />
+  //       </GenesisLayout>
+  //     </GenesisProvider>
+  //   );
+  // }
+  // if (props.location.pathname == '/genesis/purchase/settlement') {
+  //   return (
+  //     <GenesisProvider>
+  //       <GenesisLayout>
+  //         <Settlement />
+  //       </GenesisLayout>
+  //     </GenesisProvider>
+  //   );
+  // }
   if (isAuthRoute) {
     return (
       <GenesisProvider>

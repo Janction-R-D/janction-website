@@ -7,35 +7,36 @@ export default function WalletManagement() {
   const [wallet, setIsWallet] = useState(true);
 
   return (
-    <main className={styles['main-container']}>
-      <AuthHeader />
-      <div className={styles['personal-container-wallet']}>
-        <aside className={styles['aside']}>
+    <div className={styles['personal-container-wallet']}>
+      <section className={styles['header-wrapper']}>
+        <header>
           <h1>Wallet Management</h1>
-          <nav className={styles['main-menu']}>
-            <ul className={styles['menu']}>
-              <li
-                className={`${styles['menu-item']} ${
-                  wallet === true ? styles['active'] : ''
-                } `}
-                onClick={() => setIsWallet(true)}
-              >
-                <a>My wallet</a>
-              </li>
-              <li
-                className={`${styles['menu-item']} ${
-                  wallet === false ? styles['active'] : ''
-                } `}
-                onClick={() => setIsWallet(false)}
-              >
-                <a>Record</a>
-              </li>
-            </ul>
-          </nav>
-        </aside>
+        </header>
+        <nav className={styles['main-menu']}>
+          <ul className={styles['menu']}>
+            <li
+              className={`${styles['menu-item']} ${
+                wallet === true ? styles['active'] : ''
+              } `}
+              onClick={() => setIsWallet(true)}
+            >
+              <a>My wallet</a>
+            </li>
+            <li
+              className={`${styles['menu-item']} ${
+                wallet === false ? styles['active'] : ''
+              } `}
+              onClick={() => setIsWallet(false)}
+            >
+              <a>Record</a>
+            </li>
+          </ul>
+        </nav>
+      </section>
+      <main className={styles['container']}>
         {wallet && <MyWallet />}
         {!wallet && <Resources />}
-      </div>
-    </main>
+      </main>
+    </div>
   );
 }
