@@ -139,7 +139,7 @@ const Login = (props) => {
       openConnectModal();
     }
   };
-  console.log(loading);
+
   return (
     <div className={styles['login-container']}>
       {loading && <Loader />}
