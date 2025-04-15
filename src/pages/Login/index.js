@@ -3,7 +3,7 @@ import { fetchUserNonce, fetchUserVerify } from '@/services/login';
 import storage from '@/utils/storage';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { message } from 'antd';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { SiweMessage } from 'siwe';
 import { history, useLocation } from 'umi';
 import {
@@ -13,6 +13,7 @@ import {
   useSignMessage,
 } from 'wagmi';
 import styles from './index.less';
+import Loader from './Loading';
 
 const expires = 60 * 60 * 10 * 1000;
 const Login = (props) => {
@@ -22,7 +23,7 @@ const Login = (props) => {
   const { address } = useAccount();
   const { openConnectModal } = useConnectModal();
   const { signMessageAsync } = useSignMessage();
-
+  const [loading, setLoading] = useState(false);
   const { disconnect } = useDisconnect();
 
   useEffect(() => {
@@ -37,6 +38,7 @@ const Login = (props) => {
 
   useAccountEffect({
     async onConnect({ address, chainId }) {
+      setLoading(true);
       message.info({
         content: 'The operation is in progress, please wait...',
         key: 'loading',
@@ -99,6 +101,7 @@ const Login = (props) => {
       };
 
       await signAndLogin();
+      setLoading(false);
       message.destroy('loading');
     },
   });
@@ -139,6 +142,7 @@ const Login = (props) => {
 
   return (
     <div className={styles['login-container']}>
+      {loading && <Loader />}
       <div className={styles['logo']}>
         <img src={require('@/assets/images/icons/logo.png')} alt="" />
       </div>
