@@ -1,0 +1,79 @@
+@color: #4fc3f7; // celeste brillante
+
+.loader-container {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  .loader-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+    color: @color;
+    font-family: sans-serif;
+  }
+
+  .loader {
+    width: 50px;
+    aspect-ratio: 1;
+    --c: no-repeat radial-gradient(farthest-side, @color 92%, #0000);
+    background: var(--c) 50% 0, var(--c) 50% 100%, var(--c) 100% 50%,
+      var(--c) 0 50%;
+    background-size: 10px 10px;
+    animation: l18 1s infinite;
+    position: relative;
+    margin-bottom: 1rem;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      margin: 3px;
+      background: repeating-conic-gradient(#0000 0 35deg, @color 0 90deg);
+      -webkit-mask: radial-gradient(
+        farthest-side,
+        #0000 calc(100% - 3px),
+        #000 0
+      );
+      border-radius: 50%;
+    }
+  }
+
+  .loading-text {
+    font-size: 1rem;
+    text-align: center;
+    color: #1fb8ff;
+    font-weight: 600;
+    font-size: 1.2rem;
+    .dots::after {
+      content: '';
+      animation: dots 3s steps(3, end) infinite;
+    }
+  }
+
+  @keyframes l18 {
+    100% {
+      transform: rotate(0.5turn);
+    }
+  }
+
+  @keyframes dots {
+    0% {
+      content: '';
+    }
+    33% {
+      content: '.';
+    }
+    66% {
+      content: '..';
+    }
+    100% {
+      content: '...';
+    }
+  }
+}
