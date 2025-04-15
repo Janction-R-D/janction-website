@@ -4,6 +4,7 @@ import { history } from 'umi';
 import is from './is';
 import dayjs from 'dayjs';
 import { DATE_FORMAT_TYPE } from './datetime';
+import { isNaN, isNumber } from 'lodash';
 
 export const isEmpty = (value) => {
   if (empty(value)) return true;
@@ -159,3 +160,19 @@ export function avatar(address) {
 }
 
 export const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+export const convertKB = (kb, decimalPlaces = 2) => {
+  if (!isNumber(kb) || isNaN(kb) || kb < 0) {
+    return '--';
+  }
+  const units = ['KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+  let index = 0;
+  let value = kb;
+
+  while (value >= 1024 && index < units.length - 1) {
+    value /= 1024;
+    index++;
+  }
+
+  return value.toFixed(decimalPlaces) + ' ' + units[index];
+};

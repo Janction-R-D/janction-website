@@ -9,7 +9,7 @@ import styles from './index.less';
 import { fetchRootUserPsdUpdate } from '@/services/root';
 import ModifyModal from './ModifyModal';
 import storage from '@/utils/storage';
-import { useModel } from 'umi';
+import { history, useModel } from 'umi';
 
 const PasswordToggle = ({ initialPassword = '12345678' }) => {
   const [isHidden, setIsHidden] = useState(true); // 控制密码显示/隐藏状态
@@ -28,8 +28,10 @@ const PasswordToggle = ({ initialPassword = '12345678' }) => {
       const decodedString = atob(base64String);
       const [username, _password] = decodedString.split(':');
       setPassword(_password);
+      history.push('root');
     } catch (error) {
       console.log('『error』', error);
+      history.push('root/login');
     }
   };
 

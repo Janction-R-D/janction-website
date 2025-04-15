@@ -49,8 +49,6 @@ export function NodeInfo({ nodeInfo, styles, tags, setTags }) {
       <ul>
         <ol>
           {renderLabelInfo('identification number ', nodeInfo?.id)}
-          {renderLabelInfo('node-names ', nodeInfo?.name)}
-          {renderLabelInfo('Cores ', nodeInfo?.cores)}
           {renderLabelInfo('memory ', nodeInfo?.attr?.memory)}
           {renderLabelInfo(
             'Gpu Chip',

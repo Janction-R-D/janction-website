@@ -43,23 +43,29 @@ const Root = (props) => {
   const [inviterLoading, setInviterLoading] = useState(false);
   const [splitVisible, setSplitVisible] = useState(false);
   const [inviterEdit, setInviterEdit] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     fetchData();
     if (timer.current) {
       clearInterval(timer.current);
     }
     timer.current = setInterval(() => {
+      if (loading) return;
       fetchData();
     }, 1000 * 10);
     return () => {
       clearInterval(timer.current);
     };
   }, []);
-  const fetchData = () => {
-    getNFTData();
-    getPaymentHistory();
-    getInviterList();
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      await Promise.all([getNFTData(), getPaymentHistory(), getInviterList()]);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
   };
   const getNFTData = async () => {
     try {
@@ -298,13 +304,6 @@ const Root = (props) => {
                     onUpdate={getNFTData}
                     configData={configData}
                   />
-                </Col>
-                <Col span={24} className="f1">
-                  <JanctionCard title="Password management" divider>
-                    <LabelValue title="Password：">
-                      <PasswordToggle />
-                    </LabelValue>
-                  </JanctionCard>
                 </Col>
                 <Col span={24} className="f1">
                   <JanctionCard

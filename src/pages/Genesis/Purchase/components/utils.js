@@ -9,6 +9,8 @@ export function getTableData(data) {
       node?.attr?.network_down !== undefined
         ? `${node.attr.network_up} / ${node.attr.network_down} Mbps`
         : 'Unknown',
+    attr: node?.attr,
+    config: node?.config,
     internet: node?.status_str ?? 'unknown',
     location: node?.attr?.location ?? 'unknown',
     process: {

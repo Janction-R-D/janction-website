@@ -16,6 +16,8 @@ export default function Instances({ value, onChange, styles, data }) {
       <section className={styles['image-conf-cards']}>
         {data?.length >= 1 ? (
           data?.map((item) => {
+            const gpu = item?.attr.gpu_chip;
+            const cpu = item?.attr.cpu_chip;
             return (
               <Card
                 key={item?.id}
@@ -44,14 +46,15 @@ export default function Instances({ value, onChange, styles, data }) {
                   <div className={styles['des-group']}>
                     <span>GPU</span>
                     <span className={styles['des-text']}>
-                      {item?.attr.cpu_chip || '~'}
+                      <p>{cpu ? `${cpu[0]} * ${cpu.length}` : '--'}</p>
+                      <p>{gpu ? `${gpu[0]} * ${gpu.length}` : '--'}</p>
                     </span>
                   </div>
 
                   <div className={styles['des-group']}>
                     <span>Memory</span>
                     <span className={styles['des-text']}>
-                      {item?.attr.memory}
+                      {item?.attr.memory} MB
                     </span>
                   </div>
                 </article>
