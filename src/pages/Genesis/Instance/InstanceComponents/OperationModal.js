@@ -83,7 +83,7 @@ export default function OperationModal({ record, getAllNodes }) {
             >
               <li>Terminate</li>
             </Popconfirm>
-            <li>Renewal</li>
+            {/* <li>Renewal</li> */}
           </ul>
         }
       >

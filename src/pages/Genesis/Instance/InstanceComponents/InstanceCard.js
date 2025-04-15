@@ -133,7 +133,7 @@ export default function InstanceCard({ instance, getAllNodes }) {
               >
                 Start
               </a>
-              <a>Renewal</a>
+              {/* <a>Renewal</a> */}
             </div>
           </section>
         </div>
