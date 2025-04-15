@@ -32,7 +32,7 @@ const LoginLayout = (props) => {
               d="M15.75 19.5 8.25 12l7.5-7.5"
             ></path>
           </svg>
-          <span>Return to janction.io/</span>
+          <span>Return to janction.ai/</span>
         </a>
       </div>
       <main>{children}</main>
