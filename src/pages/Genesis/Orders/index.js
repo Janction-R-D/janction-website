@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import OrderCard from './components/OrderCard';
 import styles from './components/orders.less';
 import { fetchMarketOrders } from '../../../services/genesis/instance';
@@ -28,7 +28,11 @@ function Orders() {
   if (!isLessee) return <Redirect to="/genesis/dashboard"></Redirect>;
   return (
     <main className={styles['orders-component']}>
-      <h1>Orders</h1>
+      <section className={styles['header-wrapper']}>
+        <header>
+          <h1>Orders</h1>
+        </header>
+      </section>
       {!isEmpty(orders) && (
         <div className={styles['orders']}>
           {orders?.map((order, index) => (

@@ -22,6 +22,7 @@ import {
   BarsOutlined,
   ShoppingCartOutlined,
 } from '@ant-design/icons';
+import EmptyContent from './Empty/EmptyContent';
 
 const initQuery = { current: 1, size: 10 };
 function Instance() {
@@ -84,82 +85,86 @@ function Instance() {
       </section>
 
       {showOverView && <HeaderCard summary={summary} />}
-      <Card className={styles['card-table']}>
-        <Row justify="space-between" style={{ gap: '12px' }} align="middle">
-          <Col
-            span={15}
-            sm={24}
-            xs={24}
-            style={{
-              display: 'flex',
-              gap: '16px',
-              borderBottom: '1px solid #767676',
-              padding: '0px 14px 12px',
-            }}
-          >
-            <Input
-              suffix={
-                <i
-                  className="iconfont icon-search"
-                  style={{ fontSize: '14px' }}
-                />
-              }
-              placeholder="You can fuzzy search for cloud servers by ID, name, and IP. Multiple keywords are separated by commas"
-              onChange={(e) => handleSearch(e.target.value)}
-              onPressEnter={(e) => handleSearch(e.target.value)}
-              className={styles['search-input']}
-            />
-            <div className={styles['buttons']}>
-              <Button
-                className={styles['connect-btn']}
-                type="primary"
-                onClick={() => history.push('/genesis/purchase')}
-              >
-                To Puchase <ShoppingCartOutlined />
-              </Button>
-              <Segmented
-                vertical
-                options={[
-                  { value: 'List', icon: <BarsOutlined /> },
-                  { value: 'Kanban', icon: <AppstoreOutlined /> },
-                ]}
-                onChange={handleSetView}
-                style={{ border: '1px solid #ccc' }}
+      {filteredData.length >= 1 ? (
+        <Card className={styles['card-table']}>
+          <Row justify="space-between" style={{ gap: '12px' }} align="middle">
+            <Col
+              span={15}
+              sm={24}
+              xs={24}
+              style={{
+                display: 'flex',
+                gap: '16px',
+                borderBottom: '1px solid #767676',
+                padding: '0px 14px 12px',
+              }}
+            >
+              <Input
+                suffix={
+                  <i
+                    className="iconfont icon-search"
+                    style={{ fontSize: '14px' }}
+                  />
+                }
+                placeholder="You can fuzzy search for cloud servers by ID, name, and IP. Multiple keywords are separated by commas"
+                onChange={(e) => handleSearch(e.target.value)}
+                onPressEnter={(e) => handleSearch(e.target.value)}
+                className={styles['search-input']}
               />
-            </div>
-          </Col>
-        </Row>
-        {view === 'List' && (
-          <section className={styles['instances']}>
-            {!isEmpty(filteredData) && (
-              <>
-                {filteredData?.map((instance, index) => (
-                  <InstanceCard
-                    key={index}
-                    instance={instance}
-                    getAllNodes={getAllNodes}
-                  />
-                ))}
-                <div className={styles['pagination-wrapper']}>
-                  <Pagination
-                    current={query?.current}
-                    pageSize={query?.size}
-                    total={resource?.length}
-                    showLessItems
-                    onChange={onPageChange}
-                  />
-                </div>
-              </>
-            )}
-            {isEmpty(filteredData) && (
-              <JactionEmpty description="There are no instances currently, please add an instance." />
-            )}
-          </section>
-        )}
-        {view === 'Kanban' && (
-          <InstanceTable data={filteredData} getAllNodes={getAllNodes} />
-        )}
-      </Card>
+              <div className={styles['buttons']}>
+                <Button
+                  className={styles['connect-btn']}
+                  type="primary"
+                  onClick={() => history.push('/genesis/purchase')}
+                >
+                  To Puchase <ShoppingCartOutlined />
+                </Button>
+                <Segmented
+                  vertical
+                  options={[
+                    { value: 'List', icon: <BarsOutlined /> },
+                    { value: 'Kanban', icon: <AppstoreOutlined /> },
+                  ]}
+                  onChange={handleSetView}
+                  style={{ border: '1px solid #ccc' }}
+                />
+              </div>
+            </Col>
+          </Row>
+          {view === 'List' && (
+            <section className={styles['instances']}>
+              {!isEmpty(filteredData) && (
+                <>
+                  {filteredData?.map((instance, index) => (
+                    <InstanceCard
+                      key={index}
+                      instance={instance}
+                      getAllNodes={getAllNodes}
+                    />
+                  ))}
+                  <div className={styles['pagination-wrapper']}>
+                    <Pagination
+                      current={query?.current}
+                      pageSize={query?.size}
+                      total={resource?.length}
+                      showLessItems
+                      onChange={onPageChange}
+                    />
+                  </div>
+                </>
+              )}
+              {isEmpty(filteredData) && (
+                <JactionEmpty description="There are no instances currently, please add an instance." />
+              )}
+            </section>
+          )}
+          {view === 'Kanban' && (
+            <InstanceTable data={filteredData} getAllNodes={getAllNodes} />
+          )}
+        </Card>
+      ) : (
+        <EmptyContent />
+      )}
     </>
   );
 }

@@ -1,29 +1,61 @@
 .orders-component {
   margin-top: 40px;
+  .header-wrapper {
+    padding-bottom: 22px;
+    border-bottom: 1px solid #767676;
+
+    padding-inline: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    header {
+      display: flex;
+      align-items: center;
+      h1 {
+        font-size: 2.2rem;
+        color: #fff;
+        font-weight: 600;
+      }
+    }
+  }
 }
 
 .orders {
   margin-top: 40px;
-  margin-inline: 12px;
+  margin-inline: 50px;
   display: flex;
   flex-direction: column;
   gap: 34px;
 }
 
 .card {
-  padding: 10px;
+  padding: 4px;
   width: 100%;
-  border: 1px solid #cccccc9a;
-  border-image: linear-gradient(115deg, #cccccc9a 35%, #373738 85%);
-  border-radius: 25px;
-  box-shadow: 1px 1px 3px 0px #ccc;
-  background-image: linear-gradient(15deg, #242426 35%, #2e3134 85%);
+  border-radius: 4px;
+  background-image: linear-gradient(15deg, #242426 75%, #2e3134 95%);
   color: #444444;
 }
 
 .card-title {
   font-size: 1.2rem;
+  border-bottom: 1px solid #7878784c;
+  padding-bottom: 8px;
   margin: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  div {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    i {
+      color: rgb(41, 184, 41);
+    }
+    span {
+      font-size: 0.9rem;
+      color: rgb(41, 184, 41);
+    }
+  }
 }
 
 .card-product-img-container {
