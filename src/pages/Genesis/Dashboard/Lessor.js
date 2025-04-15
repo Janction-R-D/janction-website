@@ -91,9 +91,9 @@ const Lessors = (props) => {
   }, [lessorsData]);
 
   const nft_sumary = useMemo(() => {
-    const { ammount, detail } = lessorsData?.nft_summary || {};
+    const { amount, detail } = lessorsData?.nft_summary || {};
     return {
-      ammount: ammount || 0,
+      ammount: amount || 0,
       detail: detail || [],
     };
   }, [lessorsData]);
