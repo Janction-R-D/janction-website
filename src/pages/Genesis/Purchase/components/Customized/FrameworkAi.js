@@ -5,7 +5,7 @@ import tensorflow from '@/assets/images/genesis/tensorflow.png';
 import { FRAMEWORK } from './constant';
 import styles from './index.less';
 export default function FrameworkAi({ value, onChange }) {
-  const [check, setCheck] = useState(false);
+  const [check, setCheck] = useState(true);
 
   const onCheckChange = (checked) => {
     setCheck(checked);
@@ -18,13 +18,15 @@ export default function FrameworkAi({ value, onChange }) {
   const handleCheckboxChange = (newValue) => {
     if (newValue !== value) {
       onChange?.(newValue);
+    } else {
+      onChange?.(undefined);
     }
   };
   return (
     <main className={styles['framework-conf-wrapper']}>
       <div className={styles['framework-check']}>
         <p>AI Framework</p>{' '}
-        <Switch defaultChecked={false} onChange={onCheckChange} />
+        {/* <Switch defaultChecked={false} onChange={onCheckChange} /> */}
       </div>
       <section className={styles['framework-conf-cards']}>
         {FRAMEWORK.map((item) => (
@@ -33,7 +35,7 @@ export default function FrameworkAi({ value, onChange }) {
             className={[
               styles['item'],
               value === item.value && styles['active-item'],
-              check === true && styles['disabled'],
+              check && styles['disabled'],
             ].join(' ')}
             style={{
               cursor: check ? 'pointer' : 'not-allowed',

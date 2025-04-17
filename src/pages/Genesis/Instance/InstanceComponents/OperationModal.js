@@ -80,8 +80,21 @@ export default function OperationModal({ record, getAllNodes }) {
               title="Please confirm whether to stop renting this node!"
               onConfirm={handleStop}
               okText="Yes"
+              disabled={
+                record.status?.toLowerCase() === 'stopped' ||
+                record.status?.toLowerCase() === 'expired'
+              }
             >
-              <li>Terminate</li>
+              <li
+                className={`${'operation-action'}  ${
+                  record.status?.toLowerCase() === 'stopped' ||
+                  record.status?.toLowerCase() === 'expired'
+                    ? styles['forbiden']
+                    : ''
+                }`}
+              >
+                Terminate
+              </li>
             </Popconfirm>
             {/* <li>Renewal</li> */}
           </ul>
