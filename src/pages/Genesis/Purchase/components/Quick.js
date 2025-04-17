@@ -44,6 +44,7 @@ const Quick = (props) => {
         const { isListed } = getNodeStatusMatch(node);
         return isListed;
       });
+      console.log(newList);
       // check if theres an available node , if not refresh value of node in form
       if (res.length <= 0) {
         form.setFieldsValue({ node: undefined });
@@ -130,7 +131,7 @@ const Quick = (props) => {
           <p>Purchase Duration</p>
           <Card className={styles['duration-card']}>
             <Form.Item name="purDuration">
-              <PurDuration />
+              <PurDuration formValues={formValues} form={form} />
             </Form.Item>
           </Card>
         </main>
