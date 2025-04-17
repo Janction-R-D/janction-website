@@ -380,7 +380,12 @@ export default function Mount() {
       <section className={styles['check-side']}>
         <Checkbox checked={agreeClause} onChange={onAgreeClauseChange}>
           I have read and agreed to the{' '}
-          <span className={styles['blue']}>relevant service terms</span>.
+          <span
+          // className={styles['blue']}
+          >
+            relevant service terms
+          </span>
+          .
         </Checkbox>
         <Button
           loading={confirmLoading}

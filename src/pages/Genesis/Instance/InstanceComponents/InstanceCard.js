@@ -98,7 +98,7 @@ export default function InstanceCard({ instance, getAllNodes }) {
             <span>Operation</span>
             <div>
               <a onClick={handleConnect}>Remote connection</a>
-              <a
+              {/* <a
                 onClick={() =>
                   handleOperation(
                     'stop',
@@ -132,7 +132,7 @@ export default function InstanceCard({ instance, getAllNodes }) {
                 }
               >
                 Start
-              </a>
+              </a> */}
               {/* <a>Renewal</a> */}
             </div>
           </section>
