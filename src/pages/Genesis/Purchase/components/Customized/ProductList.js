@@ -12,7 +12,7 @@ function ProductList(props) {
   const [loading, setLoading] = useState(false);
   const [list, setList] = useState([]);
   useEffect(() => {
-    if (current !== 5) return;
+    if (current !== 4) return;
 
     const {
       location: region,

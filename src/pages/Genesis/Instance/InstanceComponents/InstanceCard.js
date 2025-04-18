@@ -10,9 +10,10 @@ export default function InstanceCard({ instance, getAllNodes }) {
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [visible, setVisible] = useState(false);
-
+  const isRunning = instance?.status_str?.toLowerCase() === 'running';
   const handleConnect = () => {
     // 创建一个 xterm 实例
+    if (!isRunning) return;
     setVisible(true);
   };
   const handleOperation = (operation, resource, id) => {
@@ -69,8 +70,8 @@ export default function InstanceCard({ instance, getAllNodes }) {
     status: instance?.status_str,
     expired: formatDate(instance?.expired_at),
     created: formatDate(instance?.created_at),
-    Location: instance?.node?.attr.location,
-    GPUrate: '0.254%',
+    Location: instance?.node?.attr.location || '~',
+    GPUrate: '~',
     MemoryUsage: convertMBtoGB(instance?.activity?.memory_usage?.toFixed(2)),
     downtime: `${formatISODate(instance.created_at)}\r\n${formatISODate(
       instance.expired_at,
@@ -97,7 +98,12 @@ export default function InstanceCard({ instance, getAllNodes }) {
           <section className={styles['instance-operation']}>
             <span>Operation</span>
             <div>
-              <a onClick={handleConnect}>Remote connection</a>
+              <a
+                onClick={handleConnect}
+                className={!isRunning && styles['forbiden']}
+              >
+                Remote connection
+              </a>
               {/* <a
                 onClick={() =>
                   handleOperation(
@@ -141,7 +147,8 @@ export default function InstanceCard({ instance, getAllNodes }) {
           <ul className={styles['instance-property']}>
             <li>
               <span>Cores & Memory</span>
-              <p>{instanceData.Cores}</p>
+              <p>{instanceData.Cores ? instanceData.Cores + ' Cores' : '~'}</p>
+              <p>{instanceData.memory ? instanceData.memory + ' MB' : '~'}</p>
             </li>
             <li>
               <span>Location</span>
@@ -185,19 +192,24 @@ function Status({ status }) {
       icon: 'icon-play_pause',
       text: 'Stopped',
     },
-    Expired: {
+    expired: {
       className: 'status status-expired',
       icon: 'icon-icforbidden',
       text: 'Expired',
     },
-    'Expiring Soon': {
+    expiring_soon: {
       className: 'status status-expiring-soon',
       icon: 'icon-questioncircle',
       text: 'Expiring Soon',
     },
+    starting: {
+      className: 'status status-starting',
+      icon: 'icon-refresh',
+      text: 'Starting',
+    },
   };
 
-  const currentStatus = statusConfig[status];
+  const currentStatus = statusConfig[status.toLowerCase()];
 
   return (
     <>

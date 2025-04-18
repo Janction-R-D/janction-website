@@ -5,6 +5,7 @@ import styles from './index.less';
 import { useMemo } from 'react';
 
 const DURATION_TO_HOURS = {
+  [-1]: 1,
   [Duration.Day]: 24,
   [Duration.Week]: 24 * 7,
   [Duration.Month]: 24 * 30,
@@ -18,7 +19,7 @@ const getUnitValueFromLabel = (label) => {
 const PurDuration = (props) => {
   const { formValues, form } = props;
   const { node } = formValues;
-  console.log(node);
+
   const limit = useMemo(() => {
     const minUnitVal =
       getUnitValueFromLabel(node?.config?.minimum_lease_unit) ?? Duration.Day;

@@ -60,7 +60,7 @@ export const fetchMarketOrders = (data) => {
 };
 
 export const fetchMarketOrder = (params) => {
-  return request(`${baseUrl}/market/orders`, {
+  return request(`${baseUrl}/market/order`, {
     loginAuth: true,
     params: params,
   });
