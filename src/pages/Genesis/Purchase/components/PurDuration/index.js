@@ -5,7 +5,7 @@ import styles from './index.less';
 import { useMemo } from 'react';
 
 const DURATION_TO_HOURS = {
-  [-1]: 1,
+  // [-1]: 1, --> to implement hour choice...
   [Duration.Day]: 24,
   [Duration.Week]: 24 * 7,
   [Duration.Month]: 24 * 30,
