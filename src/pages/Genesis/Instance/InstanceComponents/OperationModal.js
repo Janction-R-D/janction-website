@@ -53,10 +53,11 @@ export default function OperationModal({ record, getAllNodes }) {
       const { signature, payment_id } = await fetchStopRentParams({
         resource_id: record.id,
       });
-      const signatures = [`0x${signature}`];
+      // const signatures = [`0x${signature}`];
+      const adminSignature = signature;
       // await getOrderInfo();
       if (!payment_id) return;
-      await contract.stopRent(payment_id, signatures);
+      await contract.stopRent(payment_id, adminSignature);
       message.success('Success');
       getAllNodes();
     } catch (error) {
