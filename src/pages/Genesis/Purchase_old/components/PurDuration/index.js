@@ -12,7 +12,9 @@ const PurDuration = (props) => {
             name={['purDuration', 'value']}
             noStyle
             initialValue={1}
-            rules={[{ required: true, message: 'please input duration value' }]}
+            rules={[
+              { required: true, message: 'Please enter the duration value' },
+            ]}
           >
             <InputNumber bordered={false} min={1} style={{ width: '200px' }} />
           </Form.Item>
@@ -20,7 +22,9 @@ const PurDuration = (props) => {
             name={['purDuration', 'unit']}
             noStyle
             initialValue={Duration.Month}
-            rules={[{ required: true, message: 'please select duration type' }]}
+            rules={[
+              { required: true, message: 'Please select a duration type' },
+            ]}
           >
             <Select
               bordered={false}

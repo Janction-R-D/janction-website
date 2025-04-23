@@ -119,11 +119,13 @@ export const Duration = {
   Week: 1,
   Month: 2,
   // Quarter: 3,
+  Year: 4,
 };
 export const DURATION_OPTIONS = [
   { label: 'Day', value: Duration.Day },
   { label: 'Week', value: Duration.Week },
   { label: 'Month', value: Duration.Month },
+  { label: 'Year', value: Duration.Year },
 ];
 
 export const CPU_GPU_OPTIONS = [

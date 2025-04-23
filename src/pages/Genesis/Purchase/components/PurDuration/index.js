@@ -2,20 +2,26 @@ import { Duration, DURATION_OPTIONS } from '@/constant';
 import { Form, InputNumber, Select } from 'antd';
 import LabelVal from '../Card/LabelVal';
 import styles from './index.less';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 
 const DURATION_TO_HOURS = {
-  // [Duration.Houre]: 1/24,
   [Duration.Day]: 24,
   [Duration.Week]: 24 * 7,
   [Duration.Month]: 24 * 30,
-  // [Duration.Year]: 24 * 30 * 12,
+  [Duration.Year]: 24 * 30 * 12,
+};
+
+const UNIT_MAX_VALUES = {
+  [Duration.Day]: 30,
+  [Duration.Week]: 4,
+  [Duration.Month]: 12,
 };
 
 const getUnitValueFromLabel = (label) => {
   const match = Object.entries(Duration).find(([key, val]) => key === label);
   return match?.[1];
 };
+
 const PurDuration = (props) => {
   const { formValues, form } = props;
   const { node } = formValues;
@@ -40,67 +46,97 @@ const PurDuration = (props) => {
     );
   }, [formValues]);
 
+  const selectedUnit =
+    form.getFieldValue(['purDuration', 'unit']) ?? Duration.Day;
+  const maxValue = UNIT_MAX_VALUES[selectedUnit] ?? 30;
+
   return (
     <div className={styles['duration-wrapper']}>
       <LabelVal nameWidthAuto name="Purchase duration">
         <div className={styles['input-group']}>
           <Form.Item
             name={['purDuration', 'value']}
-            noStyle
             initialValue={limit.minValue}
-            rules={[
-              { required: true, message: 'Please input duration value' },
-              ({ getFieldValue }) => ({
-                validator(_, value) {
-                  if (value === undefined || value === null || value === '') {
-                    return Promise.resolve();
-                  }
-                  if (value < limit.minValue || value > limit.maxValue) {
-                    return Promise.reject(
-                      `Value must be between ${limit.minValue} ${node?.config?.minimum_lease_unit} and ${limit.maxValue} ${node?.config?.maximum_lease_unit}`,
-                    );
-                  }
-
-                  return Promise.resolve();
-                },
-              }),
-            ]}
+            noStyle
           >
             <InputNumber
               type="number"
               bordered={false}
               min={1}
+              // max={maxValue}
               style={{ width: '200px' }}
             />
           </Form.Item>
+
           <Form.Item
             name={['purDuration', 'unit']}
-            noStyle
             initialValue={limit.minUnit}
-            rules={[
-              { required: true, message: 'please select duration type' },
-              ({ getFieldValue }) => ({
-                validator(_, value) {
-                  if (value === undefined || value === null || value === '') {
-                    return Promise.resolve();
-                  }
-
-                  if (value < limit.minUnit || value > limit.maxUnit) {
-                    return Promise.reject(
-                      `Value must be between ${limit.minValue} ${node?.config?.minimum_lease_unit} and ${limit.maxValue} ${node?.config?.maximum_lease_unit}`,
-                    );
-                  }
-
-                  return Promise.resolve();
-                },
-              }),
-            ]}
+            noStyle
           >
             <Select
               bordered={false}
               options={allowedUnits}
               style={{ width: '105px' }}
-            ></Select>
+            />
+          </Form.Item>
+
+          {/* Validación conjunta para 'value' y 'unit' */}
+          <Form.Item
+            name="purDuration"
+            noStyle
+            rules={[
+              {
+                validator: (_, purDuration) => {
+                  const val = purDuration?.value;
+                  const unit = purDuration?.unit;
+
+                  if (val === undefined || val === null || val === '') {
+                    return Promise.reject(
+                      new Error('Duration value is required.'),
+                    );
+                  }
+
+                  if (unit === undefined || unit === null || unit === '') {
+                    return Promise.reject(
+                      new Error('Duration unit is required.'),
+                    );
+                  }
+                  // Validar los valores máximos específicos por unidad
+                  if (val > (UNIT_MAX_VALUES[unit] ?? 30)) {
+                    const unitLabel = Object.keys(Duration).find(
+                      (key) => Duration[key] === unit,
+                    );
+                    return Promise.reject(
+                      new Error(
+                        `Exceeded max value of ${
+                          UNIT_MAX_VALUES[unit] ?? 30
+                        } for ${unitLabel}`,
+                      ),
+                    );
+                  }
+
+                  const valueInHours = val * DURATION_TO_HOURS[unit];
+                  const minInHours =
+                    limit.minValue * DURATION_TO_HOURS[limit.minUnit];
+                  const maxInHours =
+                    limit.maxValue * DURATION_TO_HOURS[limit.maxUnit];
+                  console.log(val, valueInHours, minInHours);
+
+                  // Verificar los límites globales de valor
+                  if (valueInHours < minInHours || valueInHours > maxInHours) {
+                    return Promise.reject(
+                      new Error(
+                        `Value must be between ${limit.minValue} ${node?.config?.minimum_lease_unit} and ${limit.maxValue} ${node?.config?.maximum_lease_unit}`,
+                      ),
+                    );
+                  }
+
+                  return Promise.resolve();
+                },
+              },
+            ]}
+          >
+            <div style={{ display: 'none' }} />
           </Form.Item>
         </div>
       </LabelVal>
