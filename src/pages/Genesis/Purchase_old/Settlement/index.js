@@ -3,7 +3,7 @@ import JanctionTable from '@/components/JanctionTable';
 import { DURATION_OPTIONS } from '@/constant';
 import { fetchMarketRent, fetchNodesConfigInfo } from '@/services/genesis';
 import contract, {
-  durationMultiplier,
+  convertDurationToDays,
   getCurrency,
   getDefaultCurrency,
 } from '@/utils/contracts';
@@ -142,7 +142,7 @@ const Settlement = (props) => {
         const { price } = list[0] || {};
 
         const _currency = getCurrency().find((item) => item.value == currency);
-        const _total = (price || 0) * value * durationMultiplier(unit);
+        const _total = (price || 0) * value * convertDurationToDays(unit);
         return (Number(_total) / Number(_currency?.rate || 1)).toFixed(2);
       },
     },

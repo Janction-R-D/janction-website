@@ -1,8 +1,9 @@
-import { durationMultiplier, getCurrency } from '@/utils/contracts';
+import { convertDurationToDays, getCurrency } from '@/utils/contracts';
 import { empty, isEmpty } from '@/utils/lang';
 import { Button, Checkbox, message } from 'antd';
 import { useMemo, useState } from 'react';
 import styles from './index.less';
+import { Duration } from '@/constant';
 
 const Footer = (props) => {
   const {
@@ -25,7 +26,11 @@ const Footer = (props) => {
   const total = useMemo(() => {
     const { value, unit } = formValues?.purDuration || {};
     if (isEmpty(node) || !value || empty(unit)) return 0;
-    const _total = node?.price * value * durationMultiplier(unit);
+    if(unit == Duration.Hour) {
+      // TODO
+      return ''
+    }
+    const _total = node?.price * value * convertDurationToDays(unit);
     return (Number(_total) / Number(currency?.rate || 1)).toFixed(2);
   }, [node, formValues, currency]);
 

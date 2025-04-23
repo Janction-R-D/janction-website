@@ -18,7 +18,6 @@ import { history, Redirect, useModel } from 'umi';
 import Loading from './components/Loading';
 import { NodeInfo } from './components/NodeInfo';
 import styles from './index.less';
-import { max } from 'lodash';
 
 const options = [
   {

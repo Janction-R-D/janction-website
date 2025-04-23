@@ -14,8 +14,8 @@ import Addresses from './Addresses.json';
 const isProduction = process.env.JANCTION_ENV === 'production';
 
 const TimeGranularity = {
-  DAYS,
-  HOURS,
+  HOURS: 1,
+  DAYS: 0,
 };
 
 const NETWORKS = {
@@ -91,6 +91,8 @@ export function convertDurationToDays(duration, discount) {
     return discount ? 25 : 30;
   } else if (duration == Duration.Quarter) {
     return discount ? 70 : 90;
+  } else if (duration == Duration.Year) {
+    return discount ? 300 : 365;
   } else {
     throw Error('invalid duration');
   }
@@ -199,11 +201,12 @@ const contract = {
       let totalPeriods = durationNum;
       if (duration === Duration.Hour) {
         granularity = TimeGranularity.HOURS;
-        ethers.utils.parseUnits(`${totalPeriods * price}`, 6);
+        // TODO
+        totalAmount = ethers.utils.parseUnits(`${totalPeriods * price}`, 6);
       } else {
         granularity = TimeGranularity.DAYS;
         const totalDays = totalPeriods * convertDurationToDays(duration);
-        ethers.utils.parseUnits(`${totalDays * price}`, 6);
+        totalAmount = ethers.utils.parseUnits(`${totalDays * price}`, 6);
       }
 
       // 检查授权额度
@@ -270,19 +273,19 @@ const contract = {
         chainId: (await provider.getNetwork()).chainId,
         verifyingContract: getAddresses().PaymentProxy,
       };
-      
+
       const types = {
         StopPaymentPlan: [
           { name: 'paymentId', type: 'bytes32' },
           { name: 'deadline', type: 'uint256' },
         ],
       };
-      
+
       const value = {
         paymentId: paymentId,
         deadline: deadline,
       };
-      
+
       const signature = await signer._signTypedData(domain, types, value);
 
       // 拆分签名

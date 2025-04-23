@@ -28,7 +28,7 @@ const PurDuration = (props) => {
 
   const limit = useMemo(() => {
     const minUnitVal =
-      getUnitValueFromLabel(node?.config?.minimum_lease_unit) ?? Duration.Day;
+      getUnitValueFromLabel(node?.config?.minimum_lease_unit) ?? Duration.Hour;
     const maxUnitVal =
       getUnitValueFromLabel(node?.config?.maximum_lease_unit) ?? Duration.Month;
 
