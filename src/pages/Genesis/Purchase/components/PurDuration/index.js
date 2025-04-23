@@ -2,15 +2,15 @@ import { Duration, DURATION_OPTIONS } from '@/constant';
 import { Form, InputNumber, Select } from 'antd';
 import LabelVal from '../Card/LabelVal';
 import styles from './index.less';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
 const DURATION_TO_HOURS = {
-  // [-1]: 1, --> to implement hour choice...
+  // [Duration.Houre]: 1/24,
   [Duration.Day]: 24,
   [Duration.Week]: 24 * 7,
   [Duration.Month]: 24 * 30,
+  // [Duration.Year]: 24 * 30 * 12,
 };
-const toHours = (value, unitValue) => value * DURATION_TO_HOURS[unitValue];
 
 const getUnitValueFromLabel = (label) => {
   const match = Object.entries(Duration).find(([key, val]) => key === label);
@@ -28,39 +28,18 @@ const PurDuration = (props) => {
 
     return {
       minValue: node?.config?.minimum_lease_duration ?? 1,
-      maxValue: node?.config?.maximum_lease_duration ?? 12,
+      maxValue: node?.config?.maximum_lease_duration ?? 30,
       minUnit: minUnitVal,
       maxUnit: maxUnitVal,
     };
-  }, [node]);
-
-  const minHours = useMemo(
-    () => toHours(limit.minValue, limit.minUnit),
-    [limit],
-  );
-  const maxHours = useMemo(
-    () => toHours(limit.maxValue, limit.maxUnit),
-    [limit],
-  );
+  }, [formValues]);
 
   const allowedUnits = useMemo(() => {
     return DURATION_OPTIONS.filter(
       (opt) => opt.value >= limit.minUnit && opt.value <= limit.maxUnit,
     );
-  }, [limit]);
-  const handleUnitChange = (unit) => {
-    const value = form.getFieldValue(['purDuration', 'value']);
-    const totalHours = toHours(value, unit);
+  }, [formValues]);
 
-    if (totalHours < minHours || totalHours > maxHours) {
-      // Si se sale del rango, reseteamos a minValue
-      form.setFieldsValue({
-        purDuration: {
-          value: limit.minValue,
-        },
-      });
-    }
-  };
   return (
     <div className={styles['duration-wrapper']}>
       <LabelVal nameWidthAuto name="Purchase duration">
@@ -73,11 +52,10 @@ const PurDuration = (props) => {
               { required: true, message: 'Please input duration value' },
               ({ getFieldValue }) => ({
                 validator(_, value) {
-                  const unit =
-                    getFieldValue(['purDuration', 'unit']) ?? limit.minUnit;
-                  const totalHours = toHours(value, unit);
-
-                  if (totalHours < minHours || totalHours > maxHours) {
+                  if (value === undefined || value === null || value === '') {
+                    return Promise.resolve();
+                  }
+                  if (value < limit.minValue || value > limit.maxValue) {
                     return Promise.reject(
                       `Value must be between ${limit.minValue} ${node?.config?.minimum_lease_unit} and ${limit.maxValue} ${node?.config?.maximum_lease_unit}`,
                     );
@@ -88,19 +66,40 @@ const PurDuration = (props) => {
               }),
             ]}
           >
-            <InputNumber bordered={false} min={1} style={{ width: '200px' }} />
+            <InputNumber
+              type="number"
+              bordered={false}
+              min={1}
+              style={{ width: '200px' }}
+            />
           </Form.Item>
           <Form.Item
             name={['purDuration', 'unit']}
             noStyle
             initialValue={limit.minUnit}
-            rules={[{ required: true, message: 'please select duration type' }]}
+            rules={[
+              { required: true, message: 'please select duration type' },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (value === undefined || value === null || value === '') {
+                    return Promise.resolve();
+                  }
+
+                  if (value < limit.minUnit || value > limit.maxUnit) {
+                    return Promise.reject(
+                      `Value must be between ${limit.minValue} ${node?.config?.minimum_lease_unit} and ${limit.maxValue} ${node?.config?.maximum_lease_unit}`,
+                    );
+                  }
+
+                  return Promise.resolve();
+                },
+              }),
+            ]}
           >
             <Select
               bordered={false}
               options={allowedUnits}
               style={{ width: '105px' }}
-              onChange={handleUnitChange}
             ></Select>
           </Form.Item>
         </div>

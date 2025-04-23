@@ -195,4 +195,6 @@ export const notShowErrors = [
   'invalid_parameter',
   'order_not_found',
   'payment_validation_error',
+  'resource_lookup_error',
+  'node_update_error',
 ];
