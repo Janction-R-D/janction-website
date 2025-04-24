@@ -12,6 +12,7 @@ const DURATION_TO_HOURS = {
 };
 
 const UNIT_MAX_VALUES = {
+  [Duration.Hour]: 24,
   [Duration.Day]: 30,
   [Duration.Week]: 4,
   [Duration.Month]: 12,
@@ -47,7 +48,7 @@ const PurDuration = (props) => {
   }, [formValues]);
 
   const selectedUnit =
-    form.getFieldValue(['purDuration', 'unit']) ?? Duration.Day;
+    form?.getFieldValue(['purDuration', 'unit']) ?? Duration.Day;
   const maxValue = UNIT_MAX_VALUES[selectedUnit] ?? 30;
 
   return (
