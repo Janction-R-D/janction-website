@@ -5,6 +5,7 @@ import { fetchMarketOrders } from '../../../services/genesis/instance';
 import { isEmpty } from '@/utils/lang';
 import JactionEmpty from '@/components/JactionEmpty';
 import { Redirect, useModel } from 'umi';
+import OrderEmpty from './components/OrderEmpty';
 
 function Orders() {
   const [orders, setOrders] = useState([]);
@@ -40,9 +41,7 @@ function Orders() {
           ))}
         </div>
       )}
-      <div className="mt40">
-        {isEmpty(orders) && <JactionEmpty showEmptyIcon />}
-      </div>
+      {isEmpty(orders) && <OrderEmpty />}
     </main>
   );
 }

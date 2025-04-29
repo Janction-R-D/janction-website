@@ -84,7 +84,7 @@ export default function EmptyContent() {
           type="primary"
           onClick={() => history.push('/genesis/purchase')}
         >
-          To Puchase <ShoppingCartOutlined />
+          To Purchase <ShoppingCartOutlined />
         </Button>
       </header>
       <main className={styles['cards-container']}>

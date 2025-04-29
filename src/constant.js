@@ -194,3 +194,12 @@ export const notShowErrors = [
   'order_not_found',
   'payment_validation_error',
 ];
+export const brandDetails = {
+  apple: { icon: 'macos', color: 'white' },
+  linux: { icon: 'linux', color: 'white' },
+  nvidia: { icon: 'nvidia', color: 'green' },
+  windows: { icon: 'windows', color: 'white' },
+  android: { icon: 'android', color: 'green' },
+  intel: { icon: 'intel', color: 'blue' },
+  amd: { icon: 'amd', color: 'green' },
+};

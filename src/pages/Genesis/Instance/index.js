@@ -117,7 +117,7 @@ function Instance() {
                   type="primary"
                   onClick={() => history.push('/genesis/purchase')}
                 >
-                  To Puchase <ShoppingCartOutlined />
+                  To Purchase <ShoppingCartOutlined />
                 </Button>
                 <Segmented
                   vertical
