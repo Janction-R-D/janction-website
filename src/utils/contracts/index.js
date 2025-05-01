@@ -190,8 +190,7 @@ const contract = {
       ).connect(signer);
 
       // 获取需要支付的总金额
-      const discountTotalDays =
-        durationNum * durationMultiplier(duration);
+      const discountTotalDays = durationNum * durationMultiplier(duration);
       const totalAmount = ethers.utils.parseUnits(
         `${discountTotalDays * price}`,
         6,

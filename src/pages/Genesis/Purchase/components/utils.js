@@ -1,3 +1,5 @@
+import { DURATION_OPTIONS } from '@/constant';
+
 export function getTableData(data) {
   return data?.map((node) => ({
     user_id: node?.user_id,
@@ -23,22 +25,8 @@ export function getTableData(data) {
   }));
 }
 
-const units = [
-  {
-    value: 0,
-    unit: 'Day',
-  },
-  {
-    value: 1,
-    unit: 'Week',
-  },
-  {
-    value: 2,
-    unit: 'Month',
-  },
-];
-
 export const getDurationUnit = (number) => {
-  const unitObj = units.find((item) => item.value === number);
-  return unitObj ? unitObj.unit : 'Unknown';
+  const unitObj = DURATION_OPTIONS.find((item) => item.value === number);
+  console.log(unitObj, number);
+  return unitObj ? unitObj.label : 'Unknown';
 };

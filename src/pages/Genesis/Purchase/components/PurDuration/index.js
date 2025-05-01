@@ -35,7 +35,7 @@ const PurDuration = (props) => {
       maxUnit: maxUnitVal,
     };
   }, [formValues]);
-  console.log(limit);
+
   const allowedUnits = useMemo(() => {
     return DURATION_OPTIONS.filter(
       (opt) => opt.value >= limit.minUnit && opt.value <= limit.maxUnit,
@@ -50,6 +50,7 @@ const PurDuration = (props) => {
     const next = Math.max(1, current + delta);
     form.setFieldsValue({ purDuration: { value: next } });
   };
+  console.log(formValues);
 
   return (
     <div className={styles['duration-wrapper']}>
@@ -78,10 +79,10 @@ const PurDuration = (props) => {
           <Form.Item
             name={['purDuration', 'unit']}
             noStyle
+            initialValue={limit.minUnit}
             rules={[{ required: true, message: 'please select duration type' }]}
           >
             <Select
-              initialValue={limit.minUnit}
               bordered={false}
               options={DURATION_OPTIONS}
               style={{ width: '105px' }}
