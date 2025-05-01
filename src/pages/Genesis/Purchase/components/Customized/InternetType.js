@@ -25,7 +25,7 @@ export default function InternetType(props) {
             key={index}
             className={[
               styles['item'],
-              activeValue === item.value && styles['active-item'],
+              value.includes(item.value) && styles['active-item'],
             ].join(' ')}
             onClick={() =>
               handleCheckboxChange(!value.includes(item.value), item.value)

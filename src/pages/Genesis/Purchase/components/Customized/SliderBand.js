@@ -11,7 +11,11 @@ export default function SliderBand({ onChange, value, defaultValue }) {
   return (
     <div className={styles['slider-conf-wrapper']}>
       <h3>Basic configuration</h3>
-      <Card className={styles['item']}>
+      <Card
+        className={[styles['item'], value > 0 && styles['active-item']].join(
+          ' ',
+        )}
+      >
         <div className={styles['content']}>
           <Slider
             min={1}

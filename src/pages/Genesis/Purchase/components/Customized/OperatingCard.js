@@ -30,20 +30,12 @@ export default function OperatingCard({ value = [], onChange }) {
                 <div className={styles['icon']}>
                   <i className={`iconfont icon-${item.icon}`}></i>
                 </div>
-                <span>{item.label}</span>
-              </div>
-              <div className={styles['header-right']}>
-                <Checkbox
-                  className={styles['rounded-check']}
-                  checked={value.includes(item.value)}
-                  onChange={(e) =>
-                    handleCheckboxChange(e.target.checked, item.value)
-                  }
-                  onClick={(e) => e.stopPropagation()} // Evita que el click en el checkbox active el Card
-                />
               </div>
             </section>
-            <p className={styles['des']}>{item.description}</p>
+            <div className={styles['item-desc']}>
+              <span>{item.label}</span>
+              <p className={styles['des']}>{item.description}</p>
+            </div>
           </Card>
         ))}
       </section>

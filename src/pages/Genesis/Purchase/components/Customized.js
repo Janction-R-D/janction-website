@@ -69,19 +69,7 @@ const Customized = () => {
       description:
         'Mobile is convenient, and large users can provide flexible computing power.',
     },
-    {
-      title: <p style={{ fontSize: '1rem' }}>Duration</p>,
-      content: (
-        <Card className={styles['processor-conf-wrapper']}>
-          <Form.Item name="purDuration">
-            <PurDuration formValues={formValues} />
-          </Form.Item>
-        </Card>
-      ),
-      field: 'Purchase Duration',
-      description:
-        'Mobile is convenient, and large users can provide flexible computing power.',
-    },
+
     {
       title: <p style={{ fontSize: '1rem' }}>Processor</p>,
       content: (
@@ -113,6 +101,17 @@ const Customized = () => {
       ),
       field: 'Basic configuration',
       description: '',
+    },
+    {
+      title: <p style={{ fontSize: '1rem' }}>Duration</p>,
+      content: (
+        <Form.Item name="purDuration">
+          <PurDuration formValues={formValues} form={form} />
+        </Form.Item>
+      ),
+      field: 'Purchase Duration',
+      description:
+        'Mobile is convenient, and large users can provide flexible computing power.',
     },
   ];
   const onValidateStep = () => {
@@ -179,7 +178,7 @@ const Customized = () => {
                 className={styles['btn-next']}
                 onClick={next}
               >
-                Next Step
+                Next Step <i className="iconfont icon-next icon" />
               </Button>
             )}
           </header>

@@ -21,28 +21,29 @@
       --hue-2: 100;
       display: flex;
       width: 100%;
-      flex-direction: column;
+      flex-direction: row;
       position: relative;
-      justify-content: space-between;
+      gap: 18px;
       align-items: flex-start;
       height: 140px;
       gap: 12px;
       color: #8c8c8c;
       cursor: pointer;
-      background: linear-gradient(
-            var(--container-color),
-            var(--container-color)
-          )
-          padding-box,
-        linear-gradient(
-            135deg,
-            hsl(var(--hue-1), 85%, 70%) -10%,
-            var(--container-color),
-            var(--container-color),
-            hsl(var(--hue-2), 70%, 85%) 120%
-          )
-          border-box;
-      border-radius: 1.25rem;
+      // background: linear-gradient(
+      //       var(--container-color),
+      //       var(--container-color)
+      //     )
+      //     padding-box,
+      //   linear-gradient(
+      //       135deg,
+      //       hsl(var(--hue-1), 85%, 70%) -10%,
+      //       var(--container-color),
+      //       var(--container-color),
+      //       hsl(var(--hue-2), 70%, 85%) 120%
+      //     )
+      //     border-box;
+
+      border-radius: 10px;
       overflow: hidden;
       border: 1px solid transparent;
       transition: all 0.3s ease;
@@ -59,23 +60,23 @@
           height: 100%;
           width: 100%;
           display: flex;
-          flex-direction: column;
-          justify-content: space-between;
+          flex-direction: row;
+          gap: 18px;
           flex: 1;
         }
       }
       .item-header {
         display: flex;
         align-items: center;
-        width: 100%;
+
         justify-content: space-between;
         gap: 4px;
         margin-bottom: 12px;
         color: #fff;
         .icon {
-          background: #000;
-          width: 30px;
-          height: 30px;
+          background: #020202;
+          width: 50px;
+          height: 50px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -108,7 +109,12 @@
         margin: 0;
         text-wrap: nowrap;
       }
-
+      .item-desc {
+        span {
+          color: #fff;
+          font-weight: 600;
+        }
+      }
       .descrption {
         font-size: 0.8rem;
         text-align: left;
@@ -154,20 +160,20 @@
       gap: 12px;
       color: #8c8c8c;
       cursor: pointer;
-      background: linear-gradient(
-            var(--container-color),
-            var(--container-color)
-          )
-          padding-box,
-        linear-gradient(
-            135deg,
-            hsl(var(--hue-1), 85%, 70%) -10%,
-            var(--container-color),
-            var(--container-color),
-            hsl(var(--hue-2), 70%, 85%) 120%
-          )
-          border-box;
-      border-radius: 1.25rem;
+      // background: linear-gradient(
+      //       var(--container-color),
+      //       var(--container-color)
+      //     )
+      //     padding-box,
+      //   linear-gradient(
+      //       135deg,
+      //       hsl(var(--hue-1), 85%, 70%) -10%,
+      //       var(--container-color),
+      //       var(--container-color),
+      //       hsl(var(--hue-2), 70%, 85%) 120%
+      //     )
+      //     border-box;
+      border-radius: 10px;
       overflow: hidden;
       border: 1px solid transparent;
 
@@ -244,20 +250,20 @@
       gap: 12px;
       color: #8c8c8c;
       cursor: pointer;
-      background: linear-gradient(
-            var(--container-color),
-            var(--container-color)
-          )
-          padding-box,
-        linear-gradient(
-            135deg,
-            hsl(var(--hue-1), 85%, 70%) -10%,
-            var(--container-color),
-            var(--container-color),
-            hsl(var(--hue-2), 70%, 85%) 120%
-          )
-          border-box;
-      border-radius: 1.25rem;
+      // background: linear-gradient(
+      //       var(--container-color),
+      //       var(--container-color)
+      //     )
+      //     padding-box,
+      //   linear-gradient(
+      //       135deg,
+      //       hsl(var(--hue-1), 85%, 70%) -10%,
+      //       var(--container-color),
+      //       var(--container-color),
+      //       hsl(var(--hue-2), 70%, 85%) 120%
+      //     )
+      //     border-box;
+      border-radius: 10px;
       overflow: hidden;
       border: 1px solid transparent;
 
@@ -323,17 +329,17 @@
     gap: 12px;
     color: #8c8c8c;
     cursor: pointer;
-    background: linear-gradient(var(--container-color), var(--container-color))
-        padding-box,
-      linear-gradient(
-          135deg,
-          hsl(var(--hue-1), 85%, 70%) -10%,
-          var(--container-color),
-          var(--container-color),
-          hsl(var(--hue-2), 70%, 85%) 120%
-        )
-        border-box;
-    border-radius: 1.25rem;
+    // background: linear-gradient(var(--container-color), var(--container-color))
+    //     padding-box,
+    //   linear-gradient(
+    //       135deg,
+    //       hsl(var(--hue-1), 85%, 70%) -10%,
+    //       var(--container-color),
+    //       var(--container-color),
+    //       hsl(var(--hue-2), 70%, 85%) 120%
+    //     )
+    //     border-box;
+    border-radius: 10px;
     overflow: hidden;
     border: 1px solid transparent;
 
@@ -392,9 +398,9 @@
   }
 }
 .location-conf-wrapper {
-  border-radius: 18px;
-  background-color: rgba(10, 10, 10, 0.181);
-  border: 1px solid #252525c2;
+  border-radius: 12px;
+  background-color: rgba(2, 2, 2, 0.69);
+  border: 1px solid #575757c2;
   .item {
     --hue-1: 180;
     --hue-2: 100;
@@ -406,20 +412,18 @@
     gap: 12px;
     color: #8c8c8c;
     cursor: pointer;
-    background: linear-gradient(var(--container-color), var(--container-color))
-        padding-box,
-      linear-gradient(
-          135deg,
-          hsl(var(--hue-1), 75%, 50%) -25%,
-          var(--container-color),
-          var(--container-color),
-          hsl(var(--hue-2), 60%, 85%) 130%
-        )
-        border-box;
-    border-radius: 1.25rem;
+    // background: linear-gradient(var(--container-color), var(--container-color))
+    //     padding-box,
+    //   linear-gradient(
+    //       135deg,
+    //       hsl(var(--hue-1), 75%, 50%) -25%,
+    //       var(--container-color),
+    //       var(--container-color),
+    //       hsl(var(--hue-2), 60%, 85%) 130%
+    //     )
+    //     border-box;
+    border-radius: 10px;
     overflow: hidden;
-    border: 1px solid transparent;
-
     transition: all 0.3s ease;
     backdrop-filter: blur(0px); /* Sin desenfoque por defecto */
     padding: 2px;
@@ -432,7 +436,7 @@
     .content {
       display: flex;
       align-items: center;
-      padding-inline: 12px;
+      padding-inline: 8px;
       justify-content: space-between;
       width: 100%;
       .content-flag {
@@ -454,6 +458,8 @@
         width: 100%;
         justify-content: space-between;
         display: flex;
+
+        padding: 4px;
       }
     }
 
@@ -486,18 +492,22 @@
     display: flex;
     align-items: center;
     gap: 12px;
+    background-color: rgb(22, 22, 22);
+    border-radius: 16px;
+    overflow: hidden;
     .search {
       background-color: rgba(19, 19, 19, 1);
       padding: 12px;
-      border-radius: 16px;
+      border: none;
     }
     .btn {
       height: 45px;
-      border-radius: 22px;
+      border-radius: 16px;
       font-weight: 700;
       background-color: rgba(47, 47, 49, 1);
     }
   }
+
   .pagination-wrapper {
     width: 100%;
     margin-top: 2.448vw;
@@ -568,7 +578,7 @@
 .customized-steps {
   margin-top: 24px;
 
-  background-color: rgba(59, 59, 59, 0.615);
+  background-color: transparent;
   height: 45px;
   display: flex;
   align-items: center;
@@ -648,13 +658,15 @@
       gap: 12px;
       margin-top: 18px;
       .processor {
-        height: 40px;
-        width: 100px;
-        border-radius: 18px;
+        height: 50px;
+        width: 102px;
+        border-radius: 10px;
         display: flex;
+        position: relative;
         align-items: center;
         justify-content: center;
         position: relative;
+        background: #1c1b1b;
         color: white !important;
         .processor-label {
           position: relative;
@@ -710,7 +722,7 @@
           hsl(var(--hue-2), 70%, 85%) 120%
         )
         border-box;
-    border-radius: 1.25rem;
+    border-radius: 4px;
     overflow: hidden;
     border: 1px solid transparent;
 
@@ -844,6 +856,7 @@
   width: 100%;
   height: 100%;
   content: '';
+
   background: radial-gradient(
     circle at bottom right,
     hsl(220, 50%, 50%) -100%,
@@ -857,8 +870,37 @@
   position: relative;
   overflow: hidden; /* Asegura que el efecto no desborde */
 }
+.active-process::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  content: '';
 
+  background: radial-gradient(
+    circle at bottom right,
+    hsl(220, 50%, 50%) -100%,
+    hsl(220, 25%, 10%) 40%
+  ) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.active-process {
+  border: 1px solid skyblue;
+  position: relative;
+  overflow: hidden;
+}
 .active-item > * {
   position: relative;
+  border: 1px solid skyblue;
+  border-radius: 8px;
+  z-index: 1; /* Asegura que el texto quede arriba */
+}
+.active-process > * {
+  position: relative;
+  border-radius: 8px;
+
   z-index: 1; /* Asegura que el texto quede arriba */
 }
