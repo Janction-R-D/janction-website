@@ -113,15 +113,19 @@ export const DOCKER_PATH = {
 export const ANDROID_APK_PATH = 'https://github.com/termux/termux-app';
 
 export const Duration = {
+  Hour: -1,
   Day: 0,
   Week: 1,
   Month: 2,
+  Year: 4,
   // Quarter: 3,
 };
 export const DURATION_OPTIONS = [
+  { label: 'Hour', value: Duration.Hour },
   { label: 'Day', value: Duration.Day },
   { label: 'Week', value: Duration.Week },
   { label: 'Month', value: Duration.Month },
+  { label: 'Year', value: Duration.Year },
 ];
 
 export const CPU_GPU_OPTIONS = [
