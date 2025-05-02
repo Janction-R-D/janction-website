@@ -89,10 +89,10 @@ const Quick = (props) => {
           <Form.Item name="purposes">
             <Purpose />
           </Form.Item>
-          <Form.Item name="operating_system_str">
+          {/* <Form.Item name="operating_system_str">
             <Operating getList={getList} />
-          </Form.Item>
-          <Collapse
+          </Form.Item> */}
+          {/* <Collapse
             className={styles['custom-collapse']}
             bordered={false}
             defaultActiveKey={1}
@@ -106,7 +106,7 @@ const Quick = (props) => {
                 <FrameworkAi formValues={formValues} />
               </Form.Item>
             </Collapse.Panel>
-          </Collapse>
+          </Collapse> */}
           <p>Instance Specification</p>
           <Card className={styles['specification-card']}>
             <section className={styles['specification-card-header']}>

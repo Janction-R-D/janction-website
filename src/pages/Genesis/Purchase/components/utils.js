@@ -21,12 +21,14 @@ export function getTableData(data) {
       model:
         node?.attr?.cpu !== undefined ? `${node.attr.cpu} Cores` : 'Unknown',
     },
-    price: 'N/A', // Si hay un precio disponible, puedes ajustarlo aquí
+    price: 'N/A',
+    config: node?.node_config,
+    memory:
+      node?.attr?.memory !== undefined ? `${node.attr.memory} GB` : 'Unknown',
   }));
 }
 
 export const getDurationUnit = (number) => {
   const unitObj = DURATION_OPTIONS.find((item) => item.value === number);
-  console.log(unitObj, number);
   return unitObj ? unitObj.label : 'Unknown';
 };

@@ -47,7 +47,6 @@ export default function QuickTable(props) {
       dataIndex: 'process',
       ellipsis: true,
       render: (text, record) => {
-        console.log(text);
         return (
           <div>
             <p>{text?.name}</p>

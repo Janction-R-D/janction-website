@@ -1,11 +1,9 @@
 .settlement-wrapper {
-  padding: 68px 40px 40px;
   width: 100%;
   max-width: 1440px;
   margin-inline: auto;
   display: flex;
   flex-direction: column;
-  gap: 16px;
 
   > h1 {
     font-family: 'Poppins';
@@ -38,6 +36,46 @@
       }
     }
   }
+  .header-wrapper {
+    padding-bottom: 22px;
+    border-bottom: 1px solid #767676;
+
+    padding-inline: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    header {
+      display: flex;
+      align-items: center;
+      h1 {
+        font-size: 2.2rem;
+        color: #fff;
+        font-weight: 600;
+      }
+    }
+  }
+  .header-desc {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-inline: 40px;
+    height: 60px;
+    border-bottom: 1px solid #767676;
+    p {
+      margin: 0;
+    }
+    div {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 20px;
+      color: rgba(255, 255, 255, 0.9);
+    }
+  }
 }
 @media (max-width: 1024px) {
   .settlement-wrapper {
@@ -58,4 +96,58 @@
       align-items: start;
     }
   }
+}
+.node-wrapper {
+  background: #191919;
+  padding: 24px;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  .node-id {
+    font-size: 1.2rem;
+    margin-left: 22px;
+  }
+  .container {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    div {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+  .total-price {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #fff;
+    padding-block: 12px;
+    border-top: #393939 1px solid;
+    .total-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #fff;
+    }
+    .blue-item {
+      font-size: 2.1rem;
+    }
+    .currency {
+      font-size: 0.8rem;
+      color: #949494;
+      margin-left: 4px;
+      margin-bottom: 4px;
+    }
+  }
+}
+.blue-item {
+  color: aqua;
+}
+.dur {
+  display: flex;
+  gap: 8px;
+  color: #fff;
+  font-weight: 600;
 }

@@ -41,7 +41,7 @@ const Settlement = (props) => {
         setList([]);
         return;
       }
-      setList([res]);
+      setList(res);
       setConfigInfo(res);
     } catch (error) {
       console.log('『error』', error);
@@ -112,89 +112,95 @@ const Settlement = (props) => {
     }
   };
 
-  const columns = [
-    {
-      title: 'Device ID',
-      dataIndex: 'node_id',
-      key: 'deviceId',
-      width: 'auto',
-      ellipsis: true,
-    },
-    {
-      title: 'Price',
-      dataIndex: 'price',
-      ellipsis: true,
-      width: 'auto',
-      render: (text) => {
-        if (!text) return '--';
-        return `${text} USDT / Day`;
-      },
-    },
-    {
-      title: 'Quantity',
-      dataIndex: 'quantity',
-      render: () => '*1',
-    },
-    {
-      title: 'Duration',
-      dataIndex: 'duration',
-      width: 'auto',
-      render: (text) => {
-        const { value, unit } = formValues?.purDuration || {};
-        if (!value && empty(unit)) return '--';
-        const goal = DURATION_OPTIONS.find((item) => item.value == unit);
-        return `${value || 0}${goal?.label}`;
-      },
-    },
-    {
-      title: 'Total Price',
-      dataIndex: 'duration',
-      width: 'auto',
-      render: (text) => {
-        const { value, unit } = formValues?.purDuration || {};
-        if (!value && empty(unit)) return '--';
-        const { price } = list[0] || {};
-
-        const _currency = getCurrency().find((item) => item.value == currency);
-        const _total = (price || 0) * value * durationMultiplier(unit);
-        return (Number(_total) / Number(_currency?.rate || 1)).toFixed(2);
-      },
-    },
-  ];
   const goBack = () => {
     history.push('/genesis/purchase');
   };
   return (
     <div className={styles['settlement-wrapper']}>
-      <h1>
-        <span>Confirm product information</span>
+      <section className={styles['header-wrapper']}>
+        <header>
+          <h1>Confirm product information</h1>
+        </header>
+      </section>
+      <div className={styles['header-desc']}>
         <a onClick={goBack}>
           <i className="iconfont icon-pre_page"></i>
           <span>Back to modify configuration</span>
         </a>
-      </h1>
-      <JanctionCountDown
-        deadline={deadline}
-        onFinish={onFinish}
-        format="mm:ss"
-      />
+        <div>
+          <p>Remaining time paid</p>
+          <JanctionCountDown
+            deadline={deadline}
+            onFinish={onFinish}
+            format="mm:ss"
+          />
+        </div>
+      </div>
+
       <PurchaseCard title="Price detail">
         <PayType value={currency} onChange={(e) => setCurrency(e)} />
-        <JanctionTable
-          columns={columns}
-          rowKey={'deviceId'}
-          dataSource={list}
-          loading={tableLoading}
-          pagination={false}
-          scroll={{ x: 'auto' }}
-        />
+        <p>Price detail</p>
+        <div className={styles['node-wrapper']}>
+          <p className={styles['node-id']}>Device ID:{list?.node_id}</p>
+          <section className={styles['container']}>
+            <div className={styles['price-item']}>
+              <span>Price</span>
+              <span className={styles['blue-item']}>
+                {!list?.price ? '--' : `${list?.price} USDT / Day`}
+              </span>
+            </div>
+            <div className={styles['duration-item']}>
+              <span>Quantity</span>
+              <span>*1</span>
+            </div>
+            <div className={styles['table-header-item']}>
+              <span>Duration</span>
+              <span className={styles['dur']}>
+                {(() => {
+                  const { value, unit } = formValues?.purDuration || {};
+                  if (!value && !unit) return '--';
+
+                  const goal = DURATION_OPTIONS.find(
+                    (item) => item.value === unit,
+                  );
+                  const label = goal?.label || '';
+
+                  return `${value || 0} ${label}`;
+                })()}
+              </span>
+            </div>
+          </section>
+          <section className={styles['total-price']}>
+            <span className={styles['total-title']}>Total Price</span>
+            <div>
+              <span className={styles['blue-item']}>
+                {(() => {
+                  const { value, unit } = formValues?.purDuration || {};
+                  if (!value && empty(unit)) return '--';
+                  const { price } = list || {};
+
+                  const _currency = getCurrency().find(
+                    (item) => item.value == currency,
+                  );
+                  const _total =
+                    ((price || 0) * value * durationMultiplier(unit)) /
+                    Number(_currency?.rate || 1);
+                  return _total.toFixed(2);
+                })()}
+              </span>
+              <span className={styles['currency']}>
+                {getCurrency().find((item) => item.value == currency)?.label}
+              </span>
+            </div>
+          </section>
+        </div>
       </PurchaseCard>
       <Footer
         isSettlement
         onPre={() => history.goBack()}
         currencyAddress={currency}
         formValues={formValues}
-        node={list[0]}
+        node={list}
         onPay={onPay}
         loading={loading}
         tableLoading={tableLoading}

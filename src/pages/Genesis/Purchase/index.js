@@ -40,12 +40,6 @@ function Purchase() {
             </div>
           ))}
         </div>
-        <Button
-          className={styles['go-back']}
-          onClick={() => history.push(path || '/genesis/dashboard')}
-        >
-          <i className="iconfont icon-pre" /> Go Back
-        </Button>
       </section>
       <section className={styles['purchase-main']}>
         {activePurType == PURCHASES[0].value && <Quick />}

@@ -229,9 +229,11 @@
     }
     .specification-card {
       border-radius: 18px;
+      border: none;
       margin-block: 18px 28px;
       flex-grow: 0;
-      background: rgba(44, 44, 48, 0.25);
+      background: rgba(2, 2, 2, 0.25);
+
       .band-radio {
         margin-right: 8px;
         display: flex;
@@ -468,6 +470,11 @@
               }
             }
           }
+        }
+      }
+      :global {
+        .ant-card-body {
+          padding: 4px;
         }
       }
     }

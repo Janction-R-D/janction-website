@@ -1,21 +1,23 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import dayjs from 'dayjs';
 import { Card, Checkbox, Empty } from 'antd';
+import { getTableData } from '../utils';
+import EmptyInstance from './Empty/EmptyInstance';
 
 export default function Instances({ value, onChange, styles, data }) {
   const handleCheckboxChange = (newValue) => {
     if (newValue !== value) {
-      onChange?.(newValue); // Actualiza el formulario
+      onChange?.(newValue);
     }
   };
-  console.log(data);
+  const list = getTableData(data);
 
   return (
     <div className={styles['image-conf-wrapper']}>
-      <p> Recommended Instances</p>
+      {list?.length >= 1 && <p> Recommended Instances</p>}
       <section className={styles['image-conf-cards']}>
-        {data?.length >= 1 ? (
-          data?.map((item) => {
+        {list?.length >= 1 ? (
+          list?.map((item) => {
             return (
               <Card
                 key={item?.id}
@@ -39,27 +41,27 @@ export default function Instances({ value, onChange, styles, data }) {
                 <article>
                   <div className={styles['des-group']}>
                     <span>CPU</span>
-                    <span className={styles['des-text']}>{item?.attr.cpu}</span>
+                    <span className={styles['des-text']}>
+                      {item?.process?.model}
+                    </span>
                   </div>
                   <div className={styles['des-group']}>
                     <span>GPU</span>
                     <span className={styles['des-text']}>
-                      {item?.attr.cpu_chip || '~'}
+                      {item?.process?.name}
                     </span>
                   </div>
 
                   <div className={styles['des-group']}>
                     <span>Memory</span>
-                    <span className={styles['des-text']}>
-                      {item?.attr.memory}
-                    </span>
+                    <span className={styles['des-text']}>{item?.memory}</span>
                   </div>
                 </article>
                 <section className={styles['config-info']}>
                   <p className={styles['des-title']}>Architechture</p>
                   <div className={styles['des-group']}>
                     <span className={styles['des-text']}>
-                      {item?.attr.architechture_str}
+                      {item?.architecture}
                     </span>
                   </div>
                 </section>
@@ -67,7 +69,7 @@ export default function Instances({ value, onChange, styles, data }) {
                   <p className={styles['des-title']}>Operating System</p>
                   <div className={styles['des-group']}>
                     <span className={styles['des-text']}>
-                      {item?.attr.operating_system_str.toUpperCase()}
+                      {item?.operatingSystem?.toUpperCase()}
                     </span>
                   </div>
                 </section>
@@ -75,7 +77,7 @@ export default function Instances({ value, onChange, styles, data }) {
             );
           })
         ) : (
-          <Empty />
+          <EmptyInstance />
         )}
       </section>
     </div>
