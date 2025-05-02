@@ -9,6 +9,7 @@ export default function QuickTable(props) {
   const { onChange, formValues, value, data, loading } = props;
   const [selectKey, setSelectKey] = useState(value || null);
   const list = getTableData(data);
+
   const rowSelection = {
     selectedRowKeys: [selectKey],
     onChange: (selectedRowKeys, selectedRows) => {
@@ -45,12 +46,15 @@ export default function QuickTable(props) {
       title: 'Processor',
       dataIndex: 'process',
       ellipsis: true,
-      render: (text, record) => (
-        <div>
-          <p>{text?.name}</p>
-          <p>{text?.model}</p>
-        </div>
-      ),
+      render: (text, record) => {
+        console.log(text);
+        return (
+          <div>
+            <p>{text?.name}</p>
+            <p>{text?.model}</p>
+          </div>
+        );
+      },
     },
   ];
 

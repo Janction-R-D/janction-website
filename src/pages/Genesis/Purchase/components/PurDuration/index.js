@@ -50,11 +50,10 @@ const PurDuration = (props) => {
     const next = Math.max(1, current + delta);
     form.setFieldsValue({ purDuration: { value: next } });
   };
-  console.log(formValues);
 
   return (
     <div className={styles['duration-wrapper']}>
-      <LabelVal nameWidthAuto name="Purchase duration">
+      <LabelVal nameWidthAuto>
         <div className={styles['input-group']}>
           <Button className={styles['btn']} onClick={() => handleChange(-1)}>
             -

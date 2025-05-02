@@ -1,0 +1,50 @@
+// TypeSelector.less
+@selected-bg: linear-gradient(90deg, #3a515d, #1e2a2f);
+@selected-text: #ffffff;
+@default-bg: #121212;
+@default-text: #bbbbbb;
+@border-color: #444;
+@border-radius: 6px;
+
+.type-selector {
+  background: @default-bg;
+  border: 1px solid @border-color;
+  border-radius: @border-radius;
+  overflow: hidden;
+
+  :global {
+    .ant-radio-button-wrapper {
+      background: transparent;
+      color: @default-text;
+      border: none;
+      border-right: 1px solid @border-color;
+      padding: 4px 20px;
+      height: 35px;
+      transition: all 0.3s ease;
+      font-weight: 500;
+
+      &:last-child {
+        border-right: none;
+      }
+
+      &:not(.ant-radio-button-wrapper-checked):hover {
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      &.ant-radio-button-wrapper-checked {
+        background: @selected-bg;
+        color: @selected-text;
+        font-weight: 600;
+      }
+
+      // Remove default borders on selected button
+      &.ant-radio-button-wrapper-checked:not(:first-child)::before {
+        display: none;
+      }
+
+      &::before {
+        display: none;
+      }
+    }
+  }
+}

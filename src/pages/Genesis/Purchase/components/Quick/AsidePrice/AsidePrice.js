@@ -50,6 +50,18 @@ export default function AsidePrice({ formValues, styles, onConfirm }) {
                 </div>
               </section>
             )}
+            {formValues?.purposes?.length >= 1 && (
+              <section>
+                <p className={styles['text__type']}>Purposes</p>
+                <div className={styles['text__content']}>
+                  <span className={styles['description']}>
+                    <p className={styles['text__description']}>
+                      {formValues?.purposes.join(' | ')}
+                    </p>
+                  </span>
+                </div>
+              </section>
+            )}
             {formValues?.node && (
               <section>
                 <p className={styles['text__type']}>Instance</p>

@@ -16,7 +16,7 @@ export function getTableData(data) {
     process: {
       name:
         node?.attr?.cpu_chip?.length > 0
-          ? node.attr.cpu_chip.join(', ')
+          ? node.attr.cpu_chip?.[0] + '*' + node.attr.cpu_chip.length
           : 'Unknown',
       model:
         node?.attr?.cpu !== undefined ? `${node.attr.cpu} Cores` : 'Unknown',
