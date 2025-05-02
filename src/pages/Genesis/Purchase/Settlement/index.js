@@ -20,7 +20,8 @@ import styles from './index.less';
 const Settlement = (props) => {
   const [deadline, setDeadline] = useState();
   const { formValues } = history.location.state || {};
-
+  const [modalOpen, setModalOpen] = useState(false);
+  const [paymentStatus, setPaymentStatus] = useState(3);
   const { address } = useAccount();
   const [tableLoading, setTableLoading] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -79,6 +80,8 @@ const Settlement = (props) => {
 
   const onPay = async () => {
     try {
+      setPaymentStatus(3);
+      setModalOpen(true);
       const { node } = formValues || {};
       const { value, unit } = formValues?.purDuration || {};
       const goal = DURATION_OPTIONS.find((item) => item.value == unit);
@@ -107,6 +110,8 @@ const Settlement = (props) => {
     } catch (error) {
       console.error(error);
       message.error('Operation contract failed, please try again!');
+      setPaymentStatus(1);
+      setModalOpen(true);
     } finally {
       setLoading(false);
     }
@@ -115,6 +120,7 @@ const Settlement = (props) => {
   const goBack = () => {
     history.push('/genesis/purchase');
   };
+
   return (
     <div className={styles['settlement-wrapper']}>
       <section className={styles['header-wrapper']}>
@@ -204,6 +210,10 @@ const Settlement = (props) => {
         onPay={onPay}
         loading={loading}
         tableLoading={tableLoading}
+        modalOpen={modalOpen}
+        setModalOpen={setModalOpen}
+        paymentStatus={paymentStatus}
+        setPaymentStatus={setPaymentStatus}
       />
     </div>
   );

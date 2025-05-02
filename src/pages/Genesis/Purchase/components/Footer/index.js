@@ -4,6 +4,7 @@ import { Button, Checkbox, message } from 'antd';
 import { useMemo, useState } from 'react';
 import styles from './index.less';
 import { WalletOutlined } from '@ant-design/icons';
+import PaymentResultModal from '../../Settlement/components/payment_result';
 
 const Footer = (props) => {
   const {
@@ -15,6 +16,9 @@ const Footer = (props) => {
     formValues,
     currencyAddress,
     tableLoading,
+    modalOpen,
+    setModalOpen,
+    paymentStatus,
   } = props;
 
   const [agree, setAgree] = useState(false);
@@ -79,6 +83,11 @@ const Footer = (props) => {
         >
           Check to pay <WalletOutlined className={styles['icon']} />
         </Button>
+        <PaymentResultModal
+          open={modalOpen}
+          status={paymentStatus}
+          onClose={() => setModalOpen(false)}
+        />
       </div>
     </div>
   );

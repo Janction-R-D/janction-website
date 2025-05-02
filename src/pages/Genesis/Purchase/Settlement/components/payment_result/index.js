@@ -11,68 +11,74 @@ const PaymentResultModal = ({ open, status, onClose }) => {
     switch (status) {
       case 1:
         return (
-          <div className={'box__layout'}>
-            <div className="failure-message">Payment Failure</div>
-            <div className="instruction-text">
-              <span className="normal-text">
+          <>
+            <div className={styles['failure-message']}>Payment Failure</div>
+            <div className={styles['instruction-text']}>
+              <span className={styles['normal-text']}>
                 Please complete the payment in{' '}
               </span>
-              <span className="highlight-text"> coinbase wallet</span>
+              <span className={styles['highlight-text']}>coinbase wallet</span>
             </div>
-            <div>
-              <Button onClick={onClick} title="Contact Service"></Button>
-              <Button onClick={onClick} title="try Again"></Button>
+            <div className={styles['button-group']}>
+              <Button className={styles['connect-btn']} onClick={onClick}>
+                Contact Service
+              </Button>
+              <Button className={styles['connect-btn']} onClick={onClick}>
+                Try Again
+              </Button>
             </div>
-          </div>
+          </>
         );
       case 2:
         return (
-          <div className={'box__layout'}>
-            <div className="success-message">Successes</div>
-            <div className="instruction-text">
-              <span className="normal-text">
-                Please complete the payment in
+          <>
+            <div className={styles['success-message']}>Success</div>
+            <div className={styles['instruction-text']}>
+              <span className={styles['normal-text']}>
+                Please complete the payment in{' '}
               </span>
-              <span className="highlight-text"> coinbase wallet</span>
+              <span className={styles['highlight-text']}>coinbase wallet</span>
             </div>
-            <div>
-              <Button onClick={onClick} title="Return to purchase"></Button>
-              <Button onClick={onClick} title="Check instances"></Button>
+            <div className={styles['button-group']}>
+              <Button className={styles['connect-btn']} onClick={onClick}>
+                Return to purchase
+              </Button>
+              <Button className={styles['connect-btn']} onClick={onClick}>
+                Check instances
+              </Button>
             </div>
-          </div>
+          </>
         );
       case 3:
         return (
-          <div className={'box__layout'}>
-            <div className="process-message">Payment in progress</div>
-            <div className="instruction-text">
-              <span className="normal-text">
+          <>
+            <div className={styles['process-message']}>Payment in progress</div>
+            <div className={styles['instruction-text']}>
+              <span className={styles['normal-text']}>
                 Please complete the payment in{' '}
               </span>
-              <span className="highlight-text"> coinbase wallet</span>
+              <span className={styles['highlight-text']}>coinbase wallet</span>
             </div>
-          </div>
+          </>
         );
       default:
         return null;
     }
   };
+
   return (
     <Modal
       open={open}
       onCancel={onClose}
       footer={null}
       centered
-      closable={false}
+      closable={true}
       className={styles['payment-result-modal']}
       width={660}
     >
-      <div className={styles['icon']} onClick={onClose}>
-        <i className="iconfont icon-close " />
-      </div>
-      <div className="payment-result">
-        <div className="outer-box">
-          <div className="box__layout">{renderContent()}</div>
+      <div className={styles['payment-result']}>
+        <div className={styles['outer-box']}>
+          <div className={styles['box__layout']}>{renderContent()}</div>
         </div>
       </div>
     </Modal>
