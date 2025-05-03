@@ -10,6 +10,7 @@ import AndroidAuthMenu from './AuthMenu';
 import styles from './index.less';
 import Guide from '@/pages/Genesis/Dashboard/components/Guide/Guide';
 import { fetchUserConfig } from '@/services/genesis';
+import { LoginOutlined } from '@ant-design/icons';
 
 export const Logo = () => {
   return (
@@ -261,16 +262,18 @@ export function ProfileModal({ isModalOpen, handleOk, handleCancel }) {
                 </li>
               )}
             </ul>
-            {!!account?.address && (
-              <Button className={styles['log-out']} onClick={handleLogOut}>
-                Logout
-              </Button>
-            )}
-            {!account?.address && (
-              <Button className={styles['log-out']} onClick={handleLogin}>
-                Login
-              </Button>
-            )}
+            <div className={styles['btn']}>
+              {!!account?.address && (
+                <Button className={styles['log-out']} onClick={handleLogOut}>
+                  Logout <LoginOutlined className={styles['log-out-icon']} />
+                </Button>
+              )}
+              {!account?.address && (
+                <Button className={styles['log-out']} onClick={handleLogin}>
+                  Login
+                </Button>
+              )}
+            </div>
           </Modal>
         );
       }}

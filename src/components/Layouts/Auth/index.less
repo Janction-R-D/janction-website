@@ -362,10 +362,10 @@ header.auth-header {
   .header-card {
     display: flex;
     gap: 12px;
-    padding: 10px;
+    padding: 20px;
     margin-bottom: 18px;
     border-radius: 10px;
-    background: #252527;
+    background: rgba(52, 88, 96, 0.5);
 
     .modal-profile-img {
       width: 70px;
@@ -397,10 +397,10 @@ header.auth-header {
         display: flex;
         align-items: center;
         gap: 4px;
-        color: #929293;
-
+        color: #c1c1c1;
+        font-weight: 500;
         i {
-          font-size: 0.8rem;
+          font-size: 0.9rem;
         }
       }
 
@@ -421,7 +421,8 @@ header.auth-header {
 
           & > p {
             cursor: pointer;
-            color: #c9c8c8;
+            color: #ffffff;
+            font-weight: 600;
             font-size: 0.8rem;
           }
         }
@@ -437,13 +438,17 @@ header.auth-header {
     display: flex;
     flex-direction: column;
     gap: 6px;
-
+    padding: 4px 16px;
     li {
       display: flex;
       align-items: center;
       gap: 18px;
       cursor: pointer;
-
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      & a:hover {
+        color: #cdcdcd;
+      }
       i {
         font-size: 1.4rem;
         padding: 4px 6px;
@@ -454,14 +459,35 @@ header.auth-header {
   }
 
   .log-out {
-    padding: 6px;
-    margin-top: 12px;
-    border-radius: 15px;
+    padding: 12px;
+    height: 55px;
+    background: transparent;
+    font-family: Poppins;
+    font-size: 1.3rem;
+    font-weight: 600;
+    line-height: 24px;
+    text-align: center;
+    border: 1px solid #c7c7c7;
+    color: #fff;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #252527;
+    flex: 1;
+    transition: all 0.3s ease;
+    &:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      border: 1px solid #fff;
+    }
+  }
+  .btn {
+    display: flex;
     width: 100%;
+    padding: 12px 24px;
+    .log-out-icon {
+      color: orange;
+    }
   }
 
   :global {
@@ -470,7 +496,7 @@ header.auth-header {
 
       .ant-modal-body {
         border-radius: 15px;
-        padding: 14px;
+        padding: 0px;
       }
     }
 
