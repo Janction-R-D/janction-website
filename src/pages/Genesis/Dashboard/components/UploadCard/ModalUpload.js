@@ -161,7 +161,7 @@ export default function ModalUpload(props) {
         </Button>
         <Button
           type="primary"
-          className={styles['create-btn']}
+          className={styles['connect-btn']}
           onClick={handleConfirm}
         >
           Confirm

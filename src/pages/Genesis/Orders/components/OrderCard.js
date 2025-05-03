@@ -183,7 +183,7 @@ export default function OrderCard({ order }) {
               <span>Paid</span>
               <span className={styles['price']}>
                 <span className={styles['bold-price']}>
-                  {data.resource?.price || '~8'}
+                  {data.resource?.price || '~'}
                 </span>
                 <span>USDC</span>
               </span>
