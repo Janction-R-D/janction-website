@@ -8,7 +8,7 @@ import { history, useLocation, useModel } from 'umi';
 import { useAccount, useDisconnect } from 'wagmi';
 import AndroidAuthMenu from './AuthMenu';
 import styles from './index.less';
-import Guide from '@/pages/Genesis/Dashboard/components/Guide/Guide';
+import Guide from '@/pages/Genesis/Dashboard3/components/Guide/Guide';
 import { fetchUserConfig } from '@/services/genesis';
 import { LoginOutlined } from '@ant-design/icons';
 
@@ -34,7 +34,8 @@ export default function AuthHeader(props) {
   } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNotifyModalOpen, setIsNotifyModalOpen] = useState(false);
-  const { avatarSnapUrl, getUserInfo, setUserName } = useModel('common');
+  const { avatarSnapUrl, getUserInfo, setUserName, userName } =
+    useModel('common');
   const [run, setRun] = useState(false);
   const [userConf, setUserConf] = useState({});
   const { address } = useAccount();
@@ -121,6 +122,12 @@ export default function AuthHeader(props) {
               className={styles['profile-img']}
               src={avatarSnapUrl || avatar(address)}
             />
+            <span>
+              <i className="iconfont icon-pre_page"></i>
+              {userName}
+
+              <i className="iconfont icon-next_page"></i>
+            </span>
           </div>
         </div>
         <NotifyModal

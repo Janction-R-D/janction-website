@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { fetchNodeOperation } from '@/services/genesis/instance';
 import styles from './index.less';
 import OperationModal from './InstanceComponents/OperationModal';
-import { convertMBtoGB } from '../Dashboard/Lessor';
+import { convertMBtoGB } from '../Dashboard3/Lessor';
 import { history } from 'umi';
 import { formatISODate } from '@/utils/datetime';
 function InstanceTable({ data, getAllNodes }) {

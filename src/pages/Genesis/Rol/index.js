@@ -6,15 +6,15 @@ import gputImg from '@/assets/images/genesis/gpu.png';
 const cards = [
   {
     name: 'Rent Out Your Node',
-    type: 'lessor',
+    isLessee: false,
     img: gputImg,
-    path: '/genesis/dashboard2',
+    path: '/genesis/dashboard',
   },
   {
     name: 'Find Nodes to Rent',
-    type: 'lessee',
+    isLessee: true,
     img: planetImg,
-    path: '/genesis/dashboard2',
+    path: '/genesis/dashboard',
   },
 ];
 export default function Rol() {

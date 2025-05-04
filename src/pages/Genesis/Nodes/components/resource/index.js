@@ -1,0 +1,80 @@
+import React from 'react';
+import styles from './index.less';
+import { ArrowDownOutlined } from '@ant-design/icons';
+
+const NodeStats = () => {
+  const totalNodes = 6;
+  const running = 4;
+  const listed = 1;
+  const active = 1;
+
+  const totalIncome = 300;
+  const todayIncome = 60;
+  const changePercent = -15;
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.left}>
+        <section className={styles.left_header}>
+          <div className={styles.item}>
+            <div className={styles.label}>Total node</div>
+            <div className={styles.value}>{totalNodes}</div>
+          </div>
+          <div className={styles.item}>
+            <div className={styles.label}>Total income</div>
+            <div className={styles.value}>
+              {totalIncome.toFixed(2)}{' '}
+              <span className={styles.unit}>veJCT</span>
+            </div>
+          </div>
+        </section>
+
+        <div className={styles.usageBox}>
+          <div className={styles.usageBar}>
+            <div
+              className={styles.running}
+              style={{ width: `${(running / totalNodes) * 100}%` }}
+            />
+            <div
+              className={styles.active}
+              style={{ width: `${(active / totalNodes) * 100}%` }}
+            />
+            <div
+              className={styles.listed}
+              style={{ width: `${(listed / totalNodes) * 100}%` }}
+            />
+          </div>
+          <div className={styles.legend}>
+            <span>
+              <i className={styles.runningDot} /> Running nodes: {running}
+            </span>
+            <span>
+              <i className={styles.listedDot} /> Listed nodes: {listed}
+            </span>
+            <span>
+              <i className={styles.activeDot} /> Active instances: {active}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div className={styles.right}>
+        <div className={styles.label}>Node income</div>
+        <div className={styles.date}>2020.09.31</div>
+        <div className={styles.footer}>
+          <div className={styles.todayIncome}>
+            {todayIncome.toFixed(2)} <span className={styles.unit}>veJCT</span>
+          </div>
+          <div className={styles.comparison}>
+            Compared to yesterday{' '}
+            <span className={styles.down}>
+              <ArrowDownOutlined /> {changePercent}%
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default NodeStats;

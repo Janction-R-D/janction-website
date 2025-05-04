@@ -7,6 +7,38 @@ import NodesTable from './components/NodesTable';
 import Resources from './components/Resources';
 import styles from './index.less';
 import { getNodeStatusMatch } from './components/extra';
+import NodeStats from './components/resource';
+import NodeList from './components/nodeList';
+import EmptyNodes from './components/empty';
+const mockData = [
+  {
+    id: 'node-01',
+    gpu: 'NVIDIA A100 x4',
+    status: 'running',
+    yesterdayReward: 12.34,
+    rewarded: 154.7,
+    runningTime: '36h 20m',
+    listTime: '2025-05-01 09:30',
+  },
+  {
+    id: 'node-02',
+    gpu: 'NVIDIA RTX 3090 x2',
+    status: 'stopped',
+    yesterdayReward: 5.67,
+    rewarded: 89.4,
+    runningTime: '12h 10m',
+    listTime: '2025-05-03 15:12',
+  },
+  {
+    id: 'node-03',
+    gpu: 'NVIDIA H100 x1',
+    status: 'running',
+    yesterdayReward: 9.81,
+    rewarded: 103.2,
+    runningTime: '72h 00m',
+    listTime: '2025-04-28 21:00',
+  },
+];
 
 const initQuery = { status: 'all', word: '' };
 export default function Nodes() {
@@ -82,17 +114,35 @@ export default function Nodes() {
 
   return (
     <div className={styles['nodes-wrapper']}>
-      <div className={styles['title']}>
-        <h1>My Nodes</h1>
-      </div>
-      <Resources statisticData={statisticData} getList={getList} />
-      <Card className={styles['card']}>
-        <div className={styles['card-header']}>
-          <h2>Node status monitoring</h2>
-        </div>
-        <Filters styles={styles} setFilter={setFilter} filters={filters} />
-        <NodesTable data={filteredData} getList={getList} />
-      </Card>
+      <section className={styles['header-wrapper']}>
+        <header>
+          <h1>My Nodes</h1>
+        </header>
+      </section>
+      <main className={styles['container']}>
+        {/* <Resources statisticData={statisticData} getList={getList} />
+         */}
+        <NodeStats statisticData={statisticData} getList={getList} />
+
+        {mockData.length > 0 ? (
+          <Card className={styles['card']}>
+            <header>
+              <div className={styles['card-header']}>
+                <h2>Node status monitoring</h2>
+              </div>
+              <Filters
+                styles={styles}
+                setFilter={setFilter}
+                filters={filters}
+              />
+            </header>
+            {/* <NodesTable data={filteredData} getList={getList} /> */}
+            <NodeList data={mockData} />
+          </Card>
+        ) : (
+          <EmptyNodes />
+        )}
+      </main>
     </div>
   );
 }

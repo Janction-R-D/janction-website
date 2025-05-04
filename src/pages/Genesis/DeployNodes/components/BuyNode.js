@@ -16,7 +16,7 @@ import styles from './node.less';
 import dayjs from 'dayjs';
 import { delay, showValue } from '@/utils/lang';
 import { ethers } from 'ethers';
-import { SwiperImg } from '../../Dashboard/components/Cards';
+import { SwiperImg } from '../../Dashboard3/components/Cards';
 
 export default function BuyNode({ mineCode, inviterCode }) {
   const [isOpen, setIsOpen] = useState(false);

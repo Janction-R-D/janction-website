@@ -2,10 +2,22 @@ import React from 'react';
 import { Card, Button, Divider } from 'antd';
 import styles from './index.less';
 import { RightOutlined } from '@ant-design/icons';
-import { history } from 'umi';
+import { history, useModel } from 'umi';
+import storage from '@/utils/storage';
 
 const IdentityCard = ({ card }) => {
+  const { initialState, setInitialState } = useModel('@@initialState');
+  const { isLessee } = initialState || {};
+
+  const onIdentityChange = () => {
+    storage.set({ name: 'isLessee', value: card.isLessee });
+    setInitialState({
+      ...initialState,
+      isLessee: !isLessee,
+    });
+  };
   const handleClick = () => {
+    onIdentityChange();
     history.push(card.path);
   };
   return (

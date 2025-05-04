@@ -43,11 +43,10 @@ export default function Resources({ statisticData, getList }) {
   return (
     <Card className={styles['card']}>
       <div className={styles['card-header']}>
-        <h2>My nodes</h2>
-        <span className={styles['refresh']} onClick={handleRefresh}>
+        {/* <span className={styles['refresh']} onClick={handleRefresh}>
           <i className={`iconfont icon-refresh `}></i>
           Refresh
-        </span>
+        </span> */}
       </div>
       <div>
         <ul>

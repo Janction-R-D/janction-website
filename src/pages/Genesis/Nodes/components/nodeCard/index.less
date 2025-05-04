@@ -1,0 +1,154 @@
+.card {
+  color: white;
+  background: #1f1e1e;
+  border-radius: 12px;
+  overflow: hidden;
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+}
+
+.header {
+  display: flex;
+  background: linear-gradient(105deg, #1c1f26 0%, #0f1115 100%);
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 18px;
+}
+
+.titleBlock {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  i {
+    color: green;
+    background: #353535;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    border-radius: 6px;
+    justify-content: center;
+    font-size: 0.8rem;
+  }
+  .icon {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+  }
+
+  .id {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .gpu {
+    font-size: 14px;
+    color: #9ca3af;
+  }
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  .running {
+    font-size: 14px;
+    color: #f59e0b;
+  }
+
+  .infoIcon {
+    color: #f59e0b;
+  }
+}
+
+.rewards {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 24px;
+
+  .rewardBlock {
+    .label {
+      font-size: 14px;
+      color: #9ca3af;
+    }
+
+    .value {
+      font-size: 22px;
+      font-weight: 600;
+      color: white;
+
+      .unit {
+        font-size: 16px;
+        color: #6b7280;
+        margin-left: 4px;
+      }
+    }
+  }
+}
+
+.footer {
+  border-top: 1px solid #3c3e42;
+  padding-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  .meta {
+    font-size: 0.7rem;
+    border-bottom: 1px solid #3c3e42;
+    padding: 0 12px;
+    padding-bottom: 6px;
+    color: #9ca3af;
+    display: flex;
+    justify-content: space-between;
+
+    b {
+      color: #e5e7eb;
+    }
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    padding: 6px;
+    flex-wrap: wrap;
+    font-size: 14px;
+    gap: 8px;
+
+    span {
+      cursor: pointer;
+      transition: color 0.2s;
+
+      &:hover {
+        color: #facc15;
+      }
+    }
+
+    .divider {
+      color: #6b7280;
+    }
+
+    .receive {
+      color: #44c7ff;
+
+      &:hover {
+        color: #2fbdff;
+      }
+    }
+
+    .iconBtn {
+      font-size: 16px;
+      color: #fbbf24;
+      cursor: pointer;
+      margin-inline: 4px;
+      &:hover {
+        color: #f59e0b;
+      }
+    }
+  }
+}
+.container {
+  padding: 12px;
+}
