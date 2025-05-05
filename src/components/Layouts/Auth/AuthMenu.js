@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { history, useModel } from 'umi';
 import styles from './index.less';
 import { navList } from '@/layouts/GenesisLayout';
+import RoleSwitcher from './SwitchRole';
 export const AndroidAuthMenu = ({ active }) => {
   const [menuShow, setMenuShow] = useState(false);
   const { initialState } = useModel('@@initialState');
@@ -88,7 +89,7 @@ export const AuthMenuAside = ({ menu, active, onMenuChange }) => {
                 isLessee ? styles['buyer-role'] : ''
               }`}
             >
-              {isLessee ? <span>Lessee</span> : <span>Lessor</span>}
+              <RoleSwitcher />
             </div>
           )}
         </section>
