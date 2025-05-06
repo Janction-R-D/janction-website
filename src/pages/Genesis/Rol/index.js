@@ -2,18 +2,23 @@ import React from 'react';
 import IdentityCard from './components/card/Card';
 import styles from './index.less';
 import planetImg from '@/assets/images/genesis/planet.png';
-import gputImg from '@/assets/images/genesis/gpu.png';
+import lessorImg from '@/assets/images/genesis/rol_lessor.png';
+import lesseeImg from '@/assets/images/genesis/rol_lessee.png';
 const cards = [
   {
-    name: 'Rent Out Your Node',
+    title: 'Lessor',
+    name: 'Find Nodes to Rent',
+    description: 'Your Personal Speed Minning Node',
     isLessee: false,
-    img: gputImg,
+    img: lessorImg,
     path: '/genesis/dashboard',
   },
   {
-    name: 'Find Nodes to Rent',
+    title: 'Lessee',
+    name: 'Rent Out Your Node',
+    description: 'Your Personal Speed Minning Node',
     isLessee: true,
-    img: planetImg,
+    img: lesseeImg,
     path: '/genesis/dashboard',
   },
 ];
@@ -23,7 +28,9 @@ export default function Rol() {
       <h1 className={`${styles['text-title']} ${styles['text--blue']}`}>
         Choose your identity
       </h1>
-
+      <div className={styles['banner']}>
+        <img src={planetImg} alt="Lessor" />
+      </div>
       <section className={styles['cards-wrapper']}>
         {cards.map((card, index) => (
           <IdentityCard key={index} card={card} />

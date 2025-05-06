@@ -1,7 +1,5 @@
-import React from 'react';
 import { Card, Button, Divider } from 'antd';
 import styles from './index.less';
-import { RightOutlined } from '@ant-design/icons';
 import { history, useModel } from 'umi';
 import storage from '@/utils/storage';
 
@@ -22,10 +20,11 @@ const IdentityCard = ({ card }) => {
   };
   return (
     <Card className={styles['rent-node-card']} bordered={false}>
+      <p className={styles['type']}>{card.title}</p>
       <div className={styles['header-text']}>{card.name}</div>
       <div className={styles['label']}>
-        <p className={styles['label-text']}>{card.type}</p>
-        <Divider />
+        <Divider className={styles['divider']} />
+        <p className={styles['label-desc']}>{card.description}</p>
       </div>
       <div className={styles['illustration-container']}>
         <img
@@ -37,7 +36,11 @@ const IdentityCard = ({ card }) => {
       <div className={styles['arrow-container']}>
         <Button
           shape="circle"
-          icon={<RightOutlined />}
+          icon={
+            <div className={styles['arrow-icon']}>
+              <i className="iconfont icon-next"></i>
+            </div>
+          }
           className={styles['arrow-btn']}
           onClick={handleClick}
         />
