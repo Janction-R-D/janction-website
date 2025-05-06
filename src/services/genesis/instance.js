@@ -52,6 +52,21 @@ export const fetchResouceList = () => {
   });
 };
 
+export const fetchCreateOrders = (data) => {
+  return request(`${baseUrl}/market/create`, {
+    method: 'POST',
+    loginAuth: true,
+    data: data,
+  });
+};
+export const fetchPaymentOrder = (data) => {
+  return request(`${baseUrl}/market/payment`, {
+    method: 'POST',
+    loginAuth: true,
+    data: data,
+  });
+};
+
 export const fetchMarketOrders = (data) => {
   return request(`${baseUrl}/market/orders`, {
     loginAuth: true,

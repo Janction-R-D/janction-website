@@ -1,7 +1,12 @@
 import JanctionCountDown from '@/components/JanctionCountDown';
 import JanctionTable from '@/components/JanctionTable';
 import { Duration, DURATION_OPTIONS } from '@/constant';
-import { fetchMarketRent, fetchNodesConfigInfo } from '@/services/genesis';
+import {
+  fetchCreateOrders,
+  fetchMarketRent,
+  fetchNodesConfigInfo,
+  fetchPaymentOrder,
+} from '@/services/genesis';
 import contract, {
   convertDurationToDays,
   getCurrency,
@@ -16,6 +21,7 @@ import PurchaseCard from '../components/Card';
 import Footer from '../components/Footer';
 import PayType from '../components/PayType';
 import styles from './index.less';
+import { create } from 'lodash';
 
 const Settlement = (props) => {
   const [deadline, setDeadline] = useState();
@@ -63,7 +69,7 @@ const Settlement = (props) => {
 
   const onRent = async (values) => {
     try {
-      const res = await fetchMarketRent(values);
+      // const res = await fetchMarketRent(values);
       console.log(res);
       if (res?.code) {
         message.error(res?.message);
@@ -76,14 +82,38 @@ const Settlement = (props) => {
       throw new Error(err);
     }
   };
-
+  const onPayment = async (values) => {
+    try {
+      const res = await fetchPaymentOrder(values);
+      if (res?.code) {
+        message.error(res?.message);
+        return;
+      }
+      message.success('Successful hire!');
+      history.push('/genesis/instance');
+    } catch (err) {
+      console.log('『err』', err);
+      throw new Error(err);
+    }
+  };
   const onPay = async () => {
     try {
-      const { node } = formValues || {};
+      const { node, ai_framework } = formValues || {};
       const { value, unit } = formValues?.purDuration || {};
       const goal = DURATION_OPTIONS.find((item) => item.value == unit);
 
+      const payload = {
+        node_id: node?.id,
+        tempalte: ai_framework || 'standard',
+        purchase_instance_quantity: 1,
+        purchase_duration: value,
+        purchase_duration_unit: goal?.label.toLowerCase(),
+      };
+
       setLoading(true);
+      //first  create order
+      const res = await fetchCreateOrders(payload);
+      //second  rent with the contract
       const tx = await contract.rent({
         payerAddress: address,
         ownerAddress: node.user_id,
@@ -95,15 +125,19 @@ const Settlement = (props) => {
       });
 
       await delay(1000);
-
-      await onRent({
-        tx_id: tx.hash,
-        node_id: node.id,
-        purchase_duration: value,
-        purchase_duration_unit: goal?.label.toLowerCase(),
-        purchase_instance_quantity: 1,
-        template: formValues?.ai_framework,
+      //then confirm payment with backend
+      await onPayment({
+        order_id: res?.order.ID,
+        payment_tx_id: tx.hash,
       });
+      // await onRent({
+      //   tx_id: tx.hash,
+      //   node_id: node.id,
+      //   purchase_duration: value,
+      //   purchase_duration_unit: goal?.label.toLowerCase(),
+      //   purchase_instance_quantity: 1,
+      //   template: formValues?.ai_framework,
+      // });
       history.push('/genesis/instance');
     } catch (error) {
       console.error(error);
@@ -156,9 +190,10 @@ const Settlement = (props) => {
         const { value, unit } = formValues?.purDuration || {};
         if (!value && empty(unit)) return '--';
         const { price } = list[0] || {};
-        if(unit == Duration.Hour) {
+        console.log(price);
+        if (unit == Duration.Hour) {
           // TODO
-          return ''
+          return '';
         }
         const _currency = getCurrency().find((item) => item.value == currency);
         const _total = (price || 0) * value * convertDurationToDays(unit);
