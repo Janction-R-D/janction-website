@@ -1,0 +1,118 @@
+.card {
+  padding: 0px 8px;
+  margin-inline: 30px;
+  border: none;
+  background: rgb(0, 0, 0) !important;
+  section {
+    display: flex;
+    flex-wrap: wrap;
+
+    .resource-container {
+      width: 65%;
+      min-width: 200px;
+      .resources {
+        li {
+          display: flex;
+          flex-direction: column;
+          align-items: start;
+          gap: 4px;
+          flex-grow: 1;
+        }
+      }
+    }
+
+    .divider {
+      background: #b9b9b91a;
+      color: #b9b9b91a;
+      margin: 0 10px;
+      height: 100px;
+      margin-right: 20px;
+    }
+    .help {
+      display: flex;
+      gap: 4px;
+      flex-direction: column;
+      list-style: decimal;
+      p {
+        color: #fff;
+        margin-bottom: 6px;
+      }
+      li {
+        color: #dfdfdfc0;
+        text-decoration: underline;
+        list-style: decimal;
+        cursor: pointer;
+      }
+      span {
+        color: rgb(169, 171, 255);
+        display: flex;
+        gap: 4px;
+        cursor: pointer;
+        i {
+          font-size: 0.4rem;
+        }
+        .icon {
+          transform: rotate(90deg);
+        }
+      }
+    }
+  }
+  :global {
+    .ant-card-body {
+      padding: 12px 12px;
+    }
+  }
+}
+.refresh {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  color: #ffffffc0;
+  cursor: pointer;
+  transition: all ease 200ms;
+}
+.refresh:hover {
+  color: #fffffffa;
+}
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 15px;
+}
+.card h2 {
+  flex-grow: 1;
+  font-size: 0.8rem;
+  margin-bottom: 8px;
+  color: #fff;
+  font-weight: 600;
+}
+.card ul {
+  display: flex;
+  justify-content: start;
+  flex-wrap: wrap;
+}
+.card ul > li {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 8px;
+}
+.card ul > li > span {
+  color: #fffffff2;
+  font-size: 0.8rem;
+}
+.card ul > li > p {
+  font-size: 2.2rem;
+}
+
+.red {
+  color: red;
+}
+.yellow {
+  color: yellow;
+}
+@media (max-width: 680px) {
+  .card {
+    padding: 4px;
+  }
+}

@@ -25,6 +25,9 @@
       }
     }
   }
+  .header-resources {
+    border-bottom: 1px solid #ffffff59;
+  }
   .container {
     padding-inline: 50px;
     padding-top: 25px;
@@ -87,4 +90,23 @@
 .text-title {
   font-size: 1.8rem;
   font-weight: 600;
+}
+.cards-container {
+  padding: 30px 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  .title {
+    position: relative;
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+}
+.card-monitor {
+  margin-bottom: 22px;
 }

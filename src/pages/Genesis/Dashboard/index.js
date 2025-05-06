@@ -1,6 +1,6 @@
 import { useModel } from 'umi';
-import Lessee from './Lessor';
-import Lessor from './Lessee';
+import Lessee from './Lessee';
+import Lessor from './Lessor';
 
 const Dashboard = (props) => {
   const { initialState } = useModel('@@initialState');

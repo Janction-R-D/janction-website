@@ -17,15 +17,29 @@
   padding: 18px;
   color: #fff;
 }
-
+.drop {
+  color: red;
+}
+.no-drop {
+  color: rgb(22, 180, 22);
+}
+.no-drop,
+.drop {
+  font-size: 0.8rem;
+  img {
+    width: 15px;
+    height: 15px;
+    margin-right: 8px;
+  }
+}
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.total {
-  font-size: 32px;
+.value_total {
+  font-size: 1.9rem;
   font-weight: 600;
   color: #6cf;
 }
@@ -80,7 +94,12 @@
     border-radius: 4px;
     .title {
       color: #8b9198;
-      margin-bottom: 18px;
+      margin-bottom: 4px;
+    }
+    img {
+      width: 15px;
+      height: 15px;
+      margin-right: 8px;
     }
   }
 }
@@ -93,7 +112,7 @@
   margin-top: 20px;
 }
 .value {
-  color: #6cf;
+  color: rgba(172, 252, 188, 0.644);
   font-size: 1.4rem;
 }
 .compare {

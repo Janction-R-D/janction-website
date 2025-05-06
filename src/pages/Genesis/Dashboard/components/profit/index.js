@@ -1,87 +1,46 @@
-import React, { useEffect, useMemo, useRef } from 'react';
-import { Card, Typography, Row, Col } from 'antd';
-import * as echarts from 'echarts';
+// Profit/index.jsx
+import React, { useMemo } from 'react';
+import { Card } from 'antd';
+import numeral from 'numeral';
 import styles from './index.less';
 import { Graph } from '../Graph';
-
-const { Title, Text } = Typography;
+import drop from '@/assets/images/icons/drop.png';
+import rise from '@/assets/images/icons/rise.png';
+import { empty } from '@/utils/lang';
+import {
+  calculateGrowth,
+  calculateFilteredTotal,
+  extractProfitData,
+} from './utils';
 
 const Profit = ({ lessorsData }) => {
   const profitInfo = lessorsData?.profit || {};
 
-  // Función para calcular el crecimiento
-  function calculateGrowth(current, previous) {
-    if (previous === 0) {
-      return current === 0 ? 0 : 100; // Assume 0% growth if both are 0, or 100% if current is > 0
-    }
-    return ((current - previous) / previous) * 100;
-  }
-
-  // Función para calcular el total de los valores en un objeto, excluyendo node_reward
-  function calculateFilteredTotal(data) {
-    return Object.entries(data)
-      .filter(([key]) => key !== 'node_reward')
-      .reduce((total, [, value]) => total + value, 0);
-  }
-
-  // Calcular los totales filtrados para 'now' y 'yesterday'
-  const totalFilteredNow = useMemo(
+  const totalNow = useMemo(
     () => calculateFilteredTotal(profitInfo.now || {}),
     [profitInfo.now],
   );
-  const totalFilteredYesterday = useMemo(
+  const totalYesterday = useMemo(
     () => calculateFilteredTotal(profitInfo.yesterday || {}),
     [profitInfo.yesterday],
   );
+  const totalGrowth = useMemo(
+    () => calculateGrowth(totalNow, totalYesterday),
+    [totalNow, totalYesterday],
+  );
 
-  // Calcular el crecimiento basado en los totales filtrados
-  const filteredGrowth = useMemo(
-    () => calculateGrowth(totalFilteredNow, totalFilteredYesterday),
-    [totalFilteredNow, totalFilteredYesterday],
+  const profit = useMemo(
+    () => extractProfitData(profitInfo, totalNow, totalYesterday, totalGrowth),
+    [profitInfo, totalNow, totalYesterday, totalGrowth],
   );
 
   const cards = [
-    'Nodes income',
-    'Invite profit',
-    'Staking proceeds',
-    'Invite Reward',
+    { key: 'node_reward', label: 'Node rewards' },
+    { key: 'invite_reward', label: 'Invite Reward' },
+    { key: 'rental_income', label: 'Rental income' },
+    { key: 'staking_proceeds', label: 'Staking proceeds' },
   ];
-  const profit = {
-    total: {
-      now: totalFilteredNow,
-      yesterday: totalFilteredYesterday,
-      growth: filteredGrowth,
-    },
-    invite_reward: {
-      now: profitInfo.now?.invite_reward,
-      growth: calculateGrowth(
-        profitInfo.now?.invite_reward,
-        profitInfo.yesterday?.invite_reward,
-      ),
-    },
-    node_reward: {
-      now: profitInfo.now?.node_reward,
-      growth: calculateGrowth(
-        profitInfo.now?.node_reward,
-        profitInfo.yesterday?.node_reward,
-      ),
-    },
-    rental_income: {
-      now: profitInfo.now?.rental_income,
-      growth: calculateGrowth(
-        profitInfo.now?.rental_income,
-        profitInfo.yesterday?.rental_income,
-      ),
-    },
-    staking_proceeds: {
-      now: profitInfo.now?.staking_proceeds,
-      growth: calculateGrowth(
-        profitInfo.now?.staking_proceeds,
-        profitInfo.yesterday?.staking_proceeds,
-      ),
-    },
-    graph: profitInfo.by_unit_hour?.point || {},
-  };
+
   return (
     <Card className={styles.mainCard}>
       <div className={styles.profitHeader}>
@@ -89,22 +48,59 @@ const Profit = ({ lessorsData }) => {
           <p className={styles.title}>Profit</p>
           <span className={styles.subTitle}>Total</span>
           <div className={styles.profitCard}>
-            <p className={styles.value}>$1,900.00</p>
-            <p className={styles.compare}>+15% Compared to last week</p>
+            <p className={styles.value_total}>{profit.total.now} veJCT</p>
+            <div className={styles.compare}>
+              <p
+                className={
+                  profit.total.isDrop ? styles['drop'] : styles['no-drop']
+                }
+              >
+                <img src={profit.total.isDrop ? drop : rise} alt="change" />
+                {!empty(profit.total.diffValue)
+                  ? profit.total.diffValue
+                    ? '-'
+                    : '+' + numeral(profit.total.diffValue).format('0%')
+                  : profit.total.diffValue}{' '}
+                <span style={{ color: '#ccc' }}>Compared to last week</span>
+              </p>
+            </div>
           </div>
         </div>
         <Graph data={profit.graph} />
       </div>
+
       <div className={styles.sub_profit}>
-        {cards.map((title, index) => (
-          <div className={styles.sub_profit_card} key={index}>
-            <p className={styles['title']}>{title}</p>
-            <Title level={3}>$1,90.00</Title>
-            <Text type="danger">-15% Compared to last week</Text>
-          </div>
+        {cards.map(({ key, label }) => (
+          <ProfitCard
+            key={key}
+            title={label}
+            value={profit[key]?.now}
+            growth={profit[key]?.growth}
+          />
         ))}
       </div>
     </Card>
+  );
+};
+const ProfitCard = ({ title, value, growth }) => {
+  const isDrop = growth < 0;
+
+  return (
+    <div className={styles.sub_profit_card}>
+      <p className={styles.title}>{title}</p>
+      <span className={styles.value}>
+        {!empty(value) ? `${numeral(value).format('0.00')}` : '~'}
+      </span>
+      <p className={isDrop ? styles['drop'] : styles['no-drop']}>
+        <img src={isDrop ? drop : rise} alt="change" />
+        {!empty(growth)
+          ? isDrop
+            ? '-'
+            : '+' + numeral(growth).format('0%')
+          : growth}{' '}
+        <span style={{ color: '#ccc' }}>Compared to last week</span>
+      </p>
+    </div>
   );
 };
 

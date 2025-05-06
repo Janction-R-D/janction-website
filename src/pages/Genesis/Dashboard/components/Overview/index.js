@@ -2,7 +2,8 @@ import React from 'react';
 import styles from './index.less';
 import { Tooltip } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
-
+import drop from '@/assets/images/icons/drop.png';
+import rise from '@/assets/images/icons/rise.png';
 const mockOverviewData = [
   {
     id: 'sacnksbjrs341342dgness',

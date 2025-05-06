@@ -1,6 +1,5 @@
 import ReactECharts from 'echarts-for-react';
 import styles from './index.less';
-
 const MemoryRing = ({ label, used, max }) => {
   const percent = Math.round((used / max) * 100);
 
