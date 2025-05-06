@@ -1,139 +1,144 @@
-import { useEffect, useState } from 'react';
-import ResourcesHeader from './components/ResourcesHeader';
+import React, { useEffect, useMemo, useState } from 'react';
 import styles from './index.less';
 import { Button, Divider } from 'antd';
-import useLesses from '../Dashboard3/Hooks/useLesses';
-import ModalUpload from './components/UploadCard/ModalUpload';
-import { fetchNodeList, fetchUserConfig } from '@/services/genesis';
-import QuickCard from '@/components/QuickCard/QuickCard';
-import InstanceMonitor from './components/InstanceMonitor';
-const cardData = [
-  {
-    id: 1,
-    title: 'NVIDIA TX4090',
-    location: 'Chicago, USA',
-    cores: '8 Cores',
-    memory: '16GiB',
-    bandwidth: '5M',
-    duration: '1 month',
-    price: '9.9',
-    discount: '45%',
-    originalPrice: '50',
-  },
-  {
-    id: 2,
-    title: 'NVIDIA TX4090',
-    location: 'Chicago, USA',
-    cores: '8 Cores',
-    memory: '16GiB',
-    bandwidth: '5M',
-    duration: '1 month',
-    price: '9.9',
-    discount: '45%',
-    originalPrice: '50',
-  },
-  {
-    id: 3,
-    title: 'NVIDIA TX4090',
-    location: 'Chicago, USA',
-    cores: '8 Cores',
-    memory: '16GiB',
-    bandwidth: '5M',
-    duration: '1 month',
-    price: '9.9',
-    discount: '45%',
-    originalPrice: '50',
-  },
-  {
-    id: 4,
-    title: 'NVIDIA TX4090',
-    location: 'Chicago, USA',
-    cores: '8 Cores',
-    memory: '16GiB',
-    bandwidth: '5M',
-    duration: '1 month',
-    price: '9.9',
-    discount: '45%',
-    originalPrice: '50',
-  },
-  {
-    id: 5,
-    title: 'NVIDIA TX4090',
-    location: 'Chicago, USA',
-    cores: '8 Cores',
-    memory: '16GiB',
-    bandwidth: '5M',
-    duration: '1 month',
-    price: '9.9',
-    discount: '45%',
-    originalPrice: '50',
-  },
-];
-export default function Lessee() {
-  const [avModalOpen, setAvModaOpen] = useState(false);
-  const [summary, setSummary] = useState(null);
-  const [userConf, setUserConf] = useState({});
-  const { lessesData } = useLesses();
+import { AppstoreAddOutlined, ArrowUpOutlined } from '@ant-design/icons';
+
+import Guide from './components/Guide/Guide';
+import OverviewTable from './components/Overview';
+import Profit from './components/profit';
+import Arithmetic from './components/artihmetic';
+
+import { fetchLessor } from '@/services/genesis';
+import { useModel } from 'umi';
+import { ARITHMETIC_SITUATION, convertMBtoGB } from './data';
+import NTFcard from './components/NTFcard';
+
+export default function Lessor() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [lessorsData, setLessorsData] = useState();
+  const [monitorList, setMonitorList] = useState([]);
+  const { code } = useModel('common');
+
+  const percent = useMemo(() => {
+    const { monthly_goal = 0, total = 0 } = lessorsData?.profit || {};
+    if (monthly_goal) return (total / monthly_goal) * 100;
+    return 0;
+  }, [lessorsData]);
 
   useEffect(() => {
-    getUserConfig();
-    getAllNodes();
+    getLessors();
   }, []);
-  const getUserConfig = async () => {
+  const getLessors = async () => {
     try {
-      const res = await fetchUserConfig();
-      setUserConf(res);
-      if (!res?.default_avatar_status && res?.pass_newbie_guide) {
-        setAvModaOpen(true);
-      }
-    } catch (err) {
-      console.log(err);
+      const res = await fetchLessor();
+      setLessorsData(res);
+      setMonitorList(res?.activites || []);
+    } catch (error) {
+      console.log('『error』', error);
     }
   };
-  const getAllNodes = () => {
-    fetchNodeList()
-      .then((res) => {
-        setSummary(res?.summary || null);
-      })
-      .catch((err) => console.log(err));
+
+  const sales_by_rep = useMemo(() => {
+    const maxPrice = (lessorsData?.sales_by_rep || []).reduce(
+      (max, item) => (item.price > max ? item.price : max),
+      0,
+    );
+    return (lessorsData?.sales_by_rep || []).map((item) => {
+      let brand = (item.brand || '').toLowerCase();
+      const isNvidia = brand == 'nvdia';
+      return {
+        ...item,
+        icon: brand == 'nvdia' ? 'nvidia' : brand == 'apple' ? 'macos' : brand,
+        color: isNvidia ? '#76b900' : '#fff',
+        percent: maxPrice ? `${(item.price / maxPrice) * 100}%` : 0,
+      };
+    });
+  }, [lessorsData]);
+
+  const arithmetic_situation = useMemo(() => {
+    const {
+      online_memory_footprint = 0,
+      offline_memory_footprint = 0,
+      free_memory = 0,
+    } = lessorsData?.arithmetic_situation || {};
+    return [
+      {
+        name: ARITHMETIC_SITUATION.online_memory_footprint,
+        value: online_memory_footprint,
+        format: convertMBtoGB(online_memory_footprint),
+      },
+      {
+        name: ARITHMETIC_SITUATION.offline_memory_footprint,
+        value: offline_memory_footprint,
+        format: convertMBtoGB(offline_memory_footprint),
+      },
+      {
+        name: ARITHMETIC_SITUATION.free_memory,
+        value: free_memory,
+        format: convertMBtoGB(free_memory),
+      },
+    ];
+  }, [lessorsData]);
+
+  const nft_sumary = useMemo(() => {
+    const { amount, detail } = lessorsData?.nft_summary || {};
+    return {
+      ammount: amount || 0,
+      detail: detail || [],
+    };
+  }, [lessorsData]);
+
+  const onSortChange = (e) => {
+    const sortField = e.target.value;
+    const _monitorList = monitorList.sort(
+      (a, b) => b[sortField] - a[sortField],
+    );
+    setMonitorList([..._monitorList]);
   };
-  const handleOk = () => {
-    setAvModaOpen(true);
+  const onOpen = () => {
+    setIsOpen(true);
   };
+
   return (
     <main className={styles['dashboard-wrapper']}>
-      {/* <ModalUpload
-        avModalOpen={avModalOpen}
-        handleOk={handleOk}
-        setAvModaOpen={setAvModaOpen}
-        userConf={userConf}
-        setUserConf={setUserConf}
-      /> */}
       <section className={styles['header-wrapper']}>
         <header>
           <h1>Dashboard</h1>
           <Divider type="vertical" className={styles['line']} />
           <span>
-            <p>GPU rental service with stable </p>
-            <p>service and reasonable price</p>
+            <p>Your personal speed </p>
+            <p>mining node</p>
           </span>
         </header>
       </section>
-      <section className={styles['header-resources']}>
-        <ResourcesHeader summary={summary} />
+      <section className={styles['container']}>
+        <section className={styles['overview-wrapper']}>
+          {nft_sumary.ammount !== 0 ? (
+            <NTFcard nft={nft_sumary} />
+          ) : (
+            <>
+              <OverviewTable />
+              <section className={styles['buttons-box']}>
+                <Button className={styles['button']} onClick={() => onOpen()}>
+                  Donwload App <AppstoreAddOutlined />
+                </Button>
+                <Guide isOpen={isOpen} setIsOpen={setIsOpen} onOpen={onOpen} />
+                <Button className={styles['button']}>
+                  Generate Token ID <ArrowUpOutlined />
+                </Button>
+              </section>
+            </>
+          )}
+        </section>
+        <section className={styles['container-info']}>
+          <Profit
+            lessorsData={lessorsData}
+            getLessors={getLessors}
+            percent={percent}
+          />
+          <Arithmetic />
+        </section>
       </section>
-      <main className={styles['cards-container']}>
-        <p className={styles['title']}>Last visit</p>
-        <section className={styles['card-monitor']}>
-          <InstanceMonitor />
-        </section>
-        <p className={styles['title']}>Exclusive for New Users</p>
-        <section className={styles['cards']}>
-          {cardData.map((card) => (
-            <QuickCard key={card.id} card={card} />
-          ))}
-        </section>
-      </main>
     </main>
   );
 }
