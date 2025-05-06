@@ -48,6 +48,7 @@ const Settlement = (props) => {
         return;
       }
       setList([res]);
+      console.log(res);
       setConfigInfo(res);
     } catch (error) {
       console.log('『error』', error);
@@ -192,8 +193,11 @@ const Settlement = (props) => {
         const { price } = list[0] || {};
         console.log(price);
         if (unit == Duration.Hour) {
-          // TODO
-          return '';
+          const _currency = getCurrency().find(
+            (item) => item.value == currency,
+          );
+          const _total = (price || 0) * value;
+          return (Number(_total) / Number(_currency?.rate || 1)).toFixed(2);
         }
         const _currency = getCurrency().find((item) => item.value == currency);
         const _total = (price || 0) * value * convertDurationToDays(unit);

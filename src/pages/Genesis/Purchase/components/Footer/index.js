@@ -26,9 +26,11 @@ const Footer = (props) => {
   const total = useMemo(() => {
     const { value, unit } = formValues?.purDuration || {};
     if (isEmpty(node) || !value || empty(unit)) return 0;
-    if(unit == Duration.Hour) {
+    if (unit == Duration.Hour) {
       // TODO
-      return ''
+      const _currency = getCurrency().find((item) => item.value == currency);
+      const _total = (node?.price || 0) * value;
+      return (Number(_total) / Number(_currency?.rate || 1)).toFixed(2);
     }
     const _total = node?.price * value * convertDurationToDays(unit);
     return (Number(_total) / Number(currency?.rate || 1)).toFixed(2);
