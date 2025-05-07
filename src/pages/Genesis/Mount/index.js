@@ -18,7 +18,6 @@ import { history, Redirect, useModel } from 'umi';
 import Loading from './components/Loading';
 import { NodeInfo } from './components/NodeInfo';
 import styles from './index.less';
-import { max } from 'lodash';
 
 const options = [
   {
@@ -381,7 +380,12 @@ export default function Mount() {
       <section className={styles['check-side']}>
         <Checkbox checked={agreeClause} onChange={onAgreeClauseChange}>
           I have read and agreed to the{' '}
-          <span className={styles['blue']}>relevant service terms</span>.
+          <span
+          // className={styles['blue']}
+          >
+            relevant service terms
+          </span>
+          .
         </Checkbox>
         <Button
           loading={confirmLoading}

@@ -142,9 +142,9 @@ const Lessees = (props) => {
       },
     },
     {
-      title: 'Market shares',
+      title: 'Market Shares',
       dataIndex: 'Allocation',
-      render: (text) => <p>{numeral(text || 0).format('0,0')}%</p>,
+      render: (text) => <p>{numeral(text || 0).format('$0,0')}</p>,
     },
   ];
   const watchColumns = [
@@ -202,7 +202,7 @@ const Lessees = (props) => {
       },
     },
     {
-      title: 'market shares',
+      title: 'Market Shares',
       dataIndex: 'MarketCap',
       render: (text) => (
         <p className={styles['white']}>{numeral(text || 0).format('$0,0')}</p>

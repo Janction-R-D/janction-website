@@ -72,15 +72,14 @@ ${value}
       className={styles['run-nodes-wrapper']}
       extra={
         <div className="df ai_c gap10">
-          {isLinux && (
-            <Checkbox
-              className={styles['location-btn']}
-              checked={isCN}
-              onChange={onChange}
-            >
-              CN
-            </Checkbox>
-          )}
+          <Checkbox
+            className={styles['location-btn']}
+            checked={isCN}
+            onChange={onChange}
+          >
+            CN
+          </Checkbox>
+
           <RedoOutlined
             rotate={90}
             spin={loading}

@@ -69,19 +69,7 @@ const Customized = () => {
       description:
         'Mobile is convenient, and large users can provide flexible computing power.',
     },
-    {
-      title: 'Duration',
-      content: (
-        <Card className={styles['processor-conf-wrapper']}>
-          <Form.Item name="purDuration">
-            <PurDuration formValues={formValues} />
-          </Form.Item>
-        </Card>
-      ),
-      field: 'Purchase Duration',
-      description:
-        'Mobile is convenient, and large users can provide flexible computing power.',
-    },
+
     {
       title: 'Processor',
       content: (
@@ -113,6 +101,19 @@ const Customized = () => {
       ),
       field: 'Basic configuration',
       description: '',
+    },
+    {
+      title: 'Duration',
+      content: (
+        <Card className={styles['processor-conf-wrapper']}>
+          <Form.Item name="purDuration">
+            <PurDuration formValues={formValues} />
+          </Form.Item>
+        </Card>
+      ),
+      field: 'Purchase Duration',
+      description:
+        'Mobile is convenient, and large users can provide flexible computing power.',
     },
   ];
   const onValidateStep = () => {

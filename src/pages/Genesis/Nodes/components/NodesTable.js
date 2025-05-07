@@ -133,7 +133,7 @@ function NodesTable({ data, getList }) {
       },
     },
   ];
-  console.log(data[0]);
+
   return (
     <>
       <JanctionTable

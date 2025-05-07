@@ -17,17 +17,19 @@ export default function ModalRefound({ handleCancel, handleOk, isModalOpen }) {
       </section>
       <section className={styles['header-card']}>
         <p>
-          到达预计下架时间后，将自动退出质押状态，并退还押金。若提前下架，将收取违约金。
+          After reaching the expected delisting time, the node will
+          automatically exit the staking state and the deposit will be refunded.
+          If delisted early, a penalty fee will be charged.
         </p>
       </section>
       <section className={styles['stake-info']}>
         <div>
-          <span className={styles['info-label']}>计划下架时间 :</span>
+          <span className={styles['info-label']}>Planned delisting time :</span>
           <p>2020-09-31</p>
         </div>
         <div>
           <span className={styles['info-label']}>
-            仅退还 : <i className="iconfont icon-info"></i>
+            Refund only : <i className="iconfont icon-info"></i>
           </span>
           <b className={styles['stake-info-price--blue']}>60 veJCT</b>
         </div>

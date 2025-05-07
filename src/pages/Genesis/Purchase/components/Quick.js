@@ -130,7 +130,7 @@ const Quick = (props) => {
           <p>Purchase Duration</p>
           <Card className={styles['duration-card']}>
             <Form.Item name="purDuration">
-              <PurDuration />
+              <PurDuration formValues={formValues} form={form} />
             </Form.Item>
           </Card>
         </main>

@@ -53,10 +53,11 @@ export default function OperationModal({ record, getAllNodes }) {
       const { signature, payment_id } = await fetchStopRentParams({
         resource_id: record.id,
       });
-      const signatures = [`0x${signature}`];
+      // const signatures = [`0x${signature}`];
+      const adminSignature = signature;
       // await getOrderInfo();
       if (!payment_id) return;
-      await contract.stopRent(payment_id, signatures);
+      await contract.stopRent(payment_id, adminSignature);
       message.success('Success');
       getAllNodes();
     } catch (error) {
@@ -80,10 +81,23 @@ export default function OperationModal({ record, getAllNodes }) {
               title="Please confirm whether to stop renting this node!"
               onConfirm={handleStop}
               okText="Yes"
+              disabled={
+                record.status?.toLowerCase() === 'stopped' ||
+                record.status?.toLowerCase() === 'expired'
+              }
             >
-              <li>Terminate</li>
+              <li
+                className={`${'operation-action'}  ${
+                  record.status?.toLowerCase() === 'stopped' ||
+                  record.status?.toLowerCase() === 'expired'
+                    ? styles['forbiden']
+                    : ''
+                }`}
+              >
+                Terminate
+              </li>
             </Popconfirm>
-            <li>Renewal</li>
+            {/* <li>Renewal</li> */}
           </ul>
         }
       >

@@ -61,15 +61,15 @@ function MemoryUsage() {
       type: 'category',
       boundaryGap: false,
       data: [
-        '2020-12-01',
-        '2020-12-02',
-        '2020-12-03',
-        '2020-12-04',
-        '2020-12-05',
-        '2020-12-17',
-        '2020-12-18',
-        '2020-12-19',
-        '2020-12-20',
+        // '2020-12-01',
+        // '2020-12-02',
+        // '2020-12-03',
+        // '2020-12-04',
+        // '2020-12-05',
+        // '2020-12-17',
+        // '2020-12-18',
+        // '2020-12-19',
+        // '2020-12-20',
       ],
       axisLine: {
         lineStyle: {
@@ -103,7 +103,9 @@ function MemoryUsage() {
         name: 'Expiration',
         type: 'line',
         stack: 'Total',
-        data: [18, 12, 10, 11, 12, 13, 11, 16, 12, 80],
+        data: [
+          // 18, 12, 10, 11, 12, 13, 11, 16, 12, 80
+        ],
         areaStyle: {
           // Definición del gradiente de azul a transparente
           color: {
@@ -141,7 +143,7 @@ function MemoryUsage() {
         right: '0%', // Centrado horizontalmente
         top: '10%', // Ajusta esta posición según lo que necesites
         style: {
-          text: '10%',
+          // text: '10%',
           fill: '#fff',
           font: 'bolder 14px sans-serif',
         },
@@ -183,26 +185,26 @@ function ExpirationGraph() {
       type: 'category',
       boundaryGap: false,
       data: [
-        '2020-12-01',
-        '2020-12-02',
-        '2020-12-03',
-        '2020-12-04',
-        '2020-12-05',
-        '2020-12-06',
-        '2020-12-07',
-        '2020-12-08',
-        '2020-12-09',
-        '2020-12-10',
-        '2020-12-11',
-        '2020-12-12',
-        '2020-12-13',
-        '2020-12-14',
-        '2020-12-15',
-        '2020-12-16',
-        '2020-12-17',
-        '2020-12-18',
-        '2020-12-19',
-        '2020-12-20',
+        // '2020-12-01',
+        // '2020-12-02',
+        // '2020-12-03',
+        // '2020-12-04',
+        // '2020-12-05',
+        // '2020-12-06',
+        // '2020-12-07',
+        // '2020-12-08',
+        // '2020-12-09',
+        // '2020-12-10',
+        // '2020-12-11',
+        // '2020-12-12',
+        // '2020-12-13',
+        // '2020-12-14',
+        // '2020-12-15',
+        // '2020-12-16',
+        // '2020-12-17',
+        // '2020-12-18',
+        // '2020-12-19',
+        // '2020-12-20',
       ],
       axisLine: {
         lineStyle: {
@@ -237,8 +239,8 @@ function ExpirationGraph() {
         type: 'line',
         stack: 'Total',
         data: [
-          65, 70, 68, 72, 75, 78, 74, 80, 85, 90, 88, 92, 94, 96, 99, 100, 95,
-          93, 97, 98,
+          // 65, 70, 68, 72, 75, 78, 74, 80, 85, 90, 88, 92, 94, 96, 99, 100, 95,
+          // 93, 97, 98,
         ],
         areaStyle: {
           // Definición del gradiente de azul a transparente
@@ -277,7 +279,7 @@ function ExpirationGraph() {
         right: '0%', // Centrado horizontalmente
         top: '10%', // Ajusta esta posición según lo que necesites
         style: {
-          text: '75%',
+          // text: '75%',
           fill: '#fff',
           font: 'bolder 14px sans-serif',
         },
