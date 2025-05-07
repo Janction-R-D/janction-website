@@ -1,0 +1,122 @@
+.main_container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.container {
+  display: flex;
+  gap: 24px;
+  background: #060d0f;
+}
+
+.featured {
+  flex: 1;
+  position: relative;
+
+  .featuredImage {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .overlay {
+      position: absolute;
+      bottom: 0;
+      height: 80px;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      padding: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .videoName {
+      font-size: 16px;
+    }
+
+    .playIcon {
+      font-size: 40px;
+      color: orange;
+      cursor: pointer;
+      transition: all ease 300ms;
+      &:hover {
+        color: #ffd21e;
+        scale: 1.1;
+      }
+    }
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  flex: 1;
+
+  .videoCard {
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .cardImage {
+      height: 100%;
+    }
+    .overlay {
+      position: absolute;
+      bottom: 0;
+      height: 60px;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      padding: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      span {
+        max-width: 30ch;
+        padding-block: 3px;
+      }
+    }
+    .cardIcon {
+      font-size: 16px;
+      color: orange;
+      font-size: 20px;
+      transition: all ease 300ms;
+      cursor: pointer;
+      &:hover {
+        color: #ffd21e;
+        scale: 1.1;
+      }
+    }
+  }
+}
+.fakeBullet {
+  position: relative;
+  padding-left: 20px;
+  font-size: 1.2rem;
+  margin-top: 30px;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0.6em;
+    left: 0;
+    width: 6px;
+    height: 6px;
+    background-color: white;
+    border-radius: 50%;
+  }
+}

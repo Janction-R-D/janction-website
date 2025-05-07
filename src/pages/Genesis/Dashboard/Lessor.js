@@ -12,6 +12,7 @@ import { fetchLessor } from '@/services/genesis';
 import { useModel } from 'umi';
 import { ARITHMETIC_SITUATION, convertMBtoGB } from './data';
 import NTFcard from './components/NTFcard';
+import VideoGrid from './components/VideoGrid';
 
 export default function Lessor() {
   const [isOpen, setIsOpen] = useState(false);
@@ -110,9 +111,19 @@ export default function Lessor() {
             <p>mining node</p>
           </span>
         </header>
+        <p className={styles['join-text']}>Join Janction Network</p>
+        <section className={styles['buttons-box']}>
+          <Button className={styles['button']} onClick={() => onOpen()}>
+            Donwload App <AppstoreAddOutlined />
+          </Button>
+          <Guide isOpen={isOpen} setIsOpen={setIsOpen} onOpen={onOpen} />
+          <Button className={styles['button']}>
+            Generate Token ID <ArrowUpOutlined />
+          </Button>
+        </section>
       </section>
       <section className={styles['container']}>
-        <section className={styles['overview-wrapper']}>
+        {/* <section className={styles['overview-wrapper']}>
           {nft_sumary.ammount !== 0 ? (
             <NTFcard nft={nft_sumary} />
           ) : (
@@ -130,6 +141,7 @@ export default function Lessor() {
             </>
           )}
         </section>
+      
         <section className={styles['container-info']}>
           <Profit
             lessorsData={lessorsData}
@@ -137,7 +149,8 @@ export default function Lessor() {
             percent={percent}
           />
           <Arithmetic />
-        </section>
+        </section> */}
+        <VideoGrid />
       </section>
     </main>
   );
