@@ -23,8 +23,8 @@ function Instance() {
     fetchNodeList()
       .then((res) => {
         setSummary(res?.summary || null);
-        setResource(res?.resource || []);
-        setFilteredData(res?.resource || []);
+        setResource(res?.resources || []);
+        setFilteredData(res?.resources || []);
       })
       .catch((err) => console.log(err));
   };
@@ -58,6 +58,7 @@ function Instance() {
     const endIndex = page * query.size;
     const startINdex = endIndex - query.size;
     const filterData = resource?.slice(startINdex, endIndex);
+
     setFilteredData(filterData);
   };
   if (!isLessee) return <Redirect to="/genesis/nodes"></Redirect>;

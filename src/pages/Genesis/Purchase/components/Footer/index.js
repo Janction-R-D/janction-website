@@ -25,7 +25,6 @@ const Footer = (props) => {
 
   const total = useMemo(() => {
     const { value, unit } = formValues?.purDuration || {};
-    ß;
     if (isEmpty(node) || !value || empty(unit)) return 0;
     if (unit == Duration.Hour) {
       const _currency = getCurrency().find((item) => item.value == currency);
