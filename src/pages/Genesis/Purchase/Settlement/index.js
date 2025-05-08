@@ -5,6 +5,7 @@ import {
   fetchCreateOrders,
   fetchMarketRent,
   fetchNodesConfigInfo,
+  fetchNodesPrice,
   fetchPaymentOrder,
 } from '@/services/genesis';
 import contract, {
@@ -32,6 +33,7 @@ const Settlement = (props) => {
   const [loading, setLoading] = useState(false);
   const [currency, setCurrency] = useState(getDefaultCurrency());
   const [list, setList] = useState([]);
+  const [priceInfo, setPriceInfo] = useState({});
   const [configInfo, setConfigInfo] = useState('');
 
   useEffect(() => {
@@ -40,20 +42,49 @@ const Settlement = (props) => {
   }, [formValues]);
 
   const getNodeConfigInfo = async (params) => {
+    //     {
+    //     "node_id": "uuid",                    // Required: UUID of the node to price
+    //     "purchase_instance_quantity": 1,      // Optional: Number of instances to purchase (default: 1)
+    //     "purchase_duration": 1,               // Required: Duration of the purchase
+    //     "purchase_duration_unit": "hour"      // Required: Unit of duration (hour/day/week/month/quarter)
+    // }
     try {
       setTableLoading(true);
-      const res = await fetchNodesConfigInfo(params);
-      if (isEmpty(res)) {
+      const [priceInfoRes, nodesConfigInfo] = await Promise.all([
+        getPriceInfo(),
+        fetchNodesConfigInfo(params),
+      ]);
+      await getPriceInfo();
+
+      if (isEmpty(nodesConfigInfo)) {
         setList([]);
         return;
       }
-      setList([res]);
-      console.log(res);
-      setConfigInfo(res);
+      setList([nodesConfigInfo]);
+      console.log(nodesConfigInfo);
+      setConfigInfo(nodesConfigInfo);
     } catch (error) {
       console.log('『error』', error);
     } finally {
       setTableLoading(false);
+    }
+  };
+  const getPriceInfo = async () => {
+    const durUnit = DURATION_OPTIONS.find(
+      (item) => item.value == formValues?.purDuration?.unit,
+    );
+    const payload = {
+      node_id: formValues?.node?.id,
+      purchase_instance_quantity: 1,
+      purchase_duration: formValues?.purDuration?.value,
+      purchase_duration_unit: durUnit.label.toLocaleLowerCase() || 'Hour',
+    };
+    console.log(payload);
+    try {
+      const res = await fetchNodesPrice(payload);
+      setPriceInfo(res);
+    } catch (error) {
+      console.log(error);
     }
   };
   useEffect(() => {
@@ -197,9 +228,7 @@ const Settlement = (props) => {
             (item) => item.value == currency,
           );
           const _total = (price || 0) * value;
-          return (Number(_total / 24) / Number(_currency?.rate || 1)).toFixed(
-            2,
-          );
+          return (Number(_total) / Number(_currency?.rate || 1)).toFixed(2);
         }
         const _currency = getCurrency().find((item) => item.value == currency);
         const _total = (price || 0) * value * convertDurationToDays(unit);

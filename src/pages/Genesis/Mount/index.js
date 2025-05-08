@@ -283,7 +283,7 @@ export default function Mount() {
               <p>Billing price</p>
 
               <Input
-                suffix={<p>USDT/Day</p>}
+                suffix={<p>USDT / Hour</p>}
                 type="number"
                 placeholder="Enter a price"
                 value={price}
