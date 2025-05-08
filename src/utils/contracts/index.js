@@ -13,11 +13,6 @@ import Addresses from './Addresses.json';
 
 const isProduction = process.env.JANCTION_ENV === 'production';
 
-const TimeGranularity = {
-  HOURS: 1,
-  DAYS: 0,
-};
-
 const NETWORKS = {
   eth: {
     chainId: 1,
@@ -82,17 +77,19 @@ export const getDefaultCurrency = () => {
   return allCurrency[0].value;
 };
 
-export function convertDurationToDays(duration, discount) {
-  if (duration == Duration.Day) {
+export function convertDurationToHours(duration, discount) {
+  if (duration == Duration.Hour) {
     return 1;
+  } else if (duration == Duration.Day) {
+    return 1 * 24;
   } else if (duration == Duration.Week) {
-    return discount ? 6 : 7;
+    return discount ? 6 * 24 : 7 * 24;
   } else if (duration == Duration.Month) {
-    return discount ? 25 : 30;
+    return discount ? 25 * 24 : 30 * 24;
   } else if (duration == Duration.Quarter) {
-    return discount ? 70 : 90;
+    return discount ? 70 * 24 : 90 * 24;
   } else if (duration == Duration.Year) {
-    return discount ? 300 : 365;
+    return discount ? 300 * 24 : 365 * 24;
   } else {
     throw Error('invalid duration');
   }
@@ -196,18 +193,8 @@ const contract = {
         provider,
       ).connect(signer);
 
-      let granularity;
-      let totalAmount;
-      let totalPeriods = durationNum;
-      if (duration === Duration.Hour) {
-        granularity = TimeGranularity.HOURS;
-        // TODO
-        totalAmount = ethers.utils.parseUnits(`${totalPeriods * price}`, 6);
-      } else {
-        granularity = TimeGranularity.DAYS;
-        const totalDays = totalPeriods * convertDurationToDays(duration);
-        totalAmount = ethers.utils.parseUnits(`${totalDays * price}`, 6);
-      }
+      const totalHours = durationNum * convertDurationToHours(duration);
+      const totalAmount = ethers.utils.parseUnits(`${totalHours * price}`, 6);
 
       // 检查授权额度
       const currentAllowance = await currency.allowance(
@@ -229,8 +216,7 @@ const contract = {
         ownerAddress,
         currencyAddress,
         totalAmount,
-        totalPeriods,
-        granularity,
+        totalHours,
       );
       await tx.wait(); // 等待交易完成
       message.success('Trade successfully!');
@@ -317,7 +303,7 @@ const contract = {
       message.destroy('tx');
     }
   },
-  releaseDailyPayment: async (paymentId) => {
+  releaseHourlyPayment: async (paymentId) => {
     try {
       const provider = new ethers.providers.Web3Provider(
         window.ethereum,
@@ -341,7 +327,7 @@ const contract = {
         provider,
       ).connect(signer);
 
-      const tx = await payment.releaseDailyPayment(paymentId);
+      const tx = await payment.releaseHourlyPayment(paymentId);
       await tx.wait(); // 等待交易完成
       message.success('Release successfully!');
       return tx;

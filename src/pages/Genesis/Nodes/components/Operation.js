@@ -74,7 +74,7 @@ export default function OperationDelis({ record, error, getList }) {
     try {
       await getOrderInfo();
       if (!paymentId) return;
-      await contract.releaseDailyPayment(paymentId);
+      await contract.releaseHourlyPayment(paymentId);
     } catch (error) {
       message.warning('Operation failed, please try again later!');
       console.log('『error』', error);
