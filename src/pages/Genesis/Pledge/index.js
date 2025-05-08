@@ -27,7 +27,7 @@ function Staking() {
     fetchNodeList()
       .then((res) => {
         setSummary(res?.summary ?? null);
-        setFilteredData(res?.resource ?? []);
+        setFilteredData(res?.resources ?? []);
       })
       .catch((err) => console.error('Error fetching node list:', err));
   }, []);

@@ -35,6 +35,7 @@ export const authRoute = [
   '/genesis/wallet-management',
   '/genesis/message-center',
   '/genesis/rol',
+  '/genesis/newbies',
 ];
 
 export default function Layout(props) {
