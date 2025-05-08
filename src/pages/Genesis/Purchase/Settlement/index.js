@@ -197,7 +197,9 @@ const Settlement = (props) => {
             (item) => item.value == currency,
           );
           const _total = (price || 0) * value;
-          return (Number(_total) / Number(_currency?.rate || 1)).toFixed(2);
+          return (Number(_total / 24) / Number(_currency?.rate || 1)).toFixed(
+            2,
+          );
         }
         const _currency = getCurrency().find((item) => item.value == currency);
         const _total = (price || 0) * value * convertDurationToDays(unit);
