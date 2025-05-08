@@ -1,4 +1,4 @@
-import { convertDurationToDays, getCurrency } from '@/utils/contracts';
+import { convertDurationToHours, getCurrency } from '@/utils/contracts';
 import { empty, isEmpty } from '@/utils/lang';
 import { Button, Checkbox, message } from 'antd';
 import { useMemo, useState } from 'react';
@@ -31,7 +31,7 @@ const Footer = (props) => {
       const _total = (node?.price || 0) * value;
       return (Number(_total) / Number(_currency?.rate || 1)).toFixed(2);
     }
-    const _total = node?.price * value * convertDurationToDays(unit);
+    const _total = node?.price * value * convertDurationToHours(unit);
     return (Number(_total) / Number(currency?.rate || 1)).toFixed(2);
   }, [node, formValues, currency]);
 

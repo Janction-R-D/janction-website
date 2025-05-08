@@ -9,7 +9,7 @@ import {
   fetchPaymentOrder,
 } from '@/services/genesis';
 import contract, {
-  convertDurationToDays,
+  convertDurationToHours,
   getCurrency,
   getDefaultCurrency,
 } from '@/utils/contracts';
@@ -195,7 +195,7 @@ const Settlement = (props) => {
       render: (text) => {
         if (!text) return '--';
         // TODO
-        return `${text} USDT / Day`;
+        return `${text} USDT / Hour`;
       },
     },
     {
@@ -222,7 +222,7 @@ const Settlement = (props) => {
         const { value, unit } = formValues?.purDuration || {};
         if (!value && empty(unit)) return '--';
         const { price } = list[0] || {};
-        console.log(price);
+
         if (unit == Duration.Hour) {
           const _currency = getCurrency().find(
             (item) => item.value == currency,
@@ -231,7 +231,7 @@ const Settlement = (props) => {
           return (Number(_total) / Number(_currency?.rate || 1)).toFixed(2);
         }
         const _currency = getCurrency().find((item) => item.value == currency);
-        const _total = (price || 0) * value * convertDurationToDays(unit);
+        const _total = (price || 0) * value * convertDurationToHours(unit);
         return (Number(_total) / Number(_currency?.rate || 1)).toFixed(2);
       },
     },
