@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, Divider } from 'antd';
 import styles from './resources.less';
+import { history } from 'umi';
 
 export default function ResourcesHeader({ summary }) {
   const data = [
@@ -48,7 +49,11 @@ export default function ResourcesHeader({ summary }) {
           <p className={styles['text']}>Help for newbies</p>
           <li>1. Create an instance in a few simple steps</li>
           <li>2. How to choose a GPU</li>
-          <span>
+          <span
+            onClick={() => {
+              history.push('/genesis/newbies');
+            }}
+          >
             More{' '}
             <div className={styles['icon']}>
               <i className="iconfont icon-up" />
