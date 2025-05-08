@@ -77,7 +77,7 @@ const Settlement = (props) => {
       node_id: formValues?.node?.id,
       purchase_instance_quantity: 1,
       purchase_duration: formValues?.purDuration?.value,
-      purchase_duration_unit: durUnit.label.toLocaleLowerCase() || 'Hour',
+      purchase_duration_unit: durUnit?.label.toLocaleLowerCase() || 'hour',
     };
     console.log(payload);
     try {
