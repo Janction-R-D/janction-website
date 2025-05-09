@@ -5,6 +5,7 @@ import styles from './index.less';
 import { useMemo } from 'react';
 
 const DURATION_TO_HOURS = {
+  [Duration.Hour]: 1,
   [Duration.Day]: 24,
   [Duration.Week]: 24 * 7,
   [Duration.Month]: 24 * 30,
@@ -16,22 +17,25 @@ const UNIT_MAX_VALUES = {
   [Duration.Day]: 30,
   [Duration.Week]: 4,
   [Duration.Month]: 12,
+  [Duration.Year]: 10,
 };
 
 const getUnitValueFromLabel = (label) => {
-  const match = Object.entries(Duration).find(([key, val]) => key === label);
+  const match = Object.entries(Duration).find(
+    ([key, val]) => key?.toLowerCase() === label?.toLowerCase(),
+  );
   return match?.[1];
 };
 
 const PurDuration = (props) => {
   const { formValues, form } = props;
-  const { node } = formValues;
+  const { node } = formValues || {};
 
   const limit = useMemo(() => {
     const minUnitVal =
-      getUnitValueFromLabel(node?.config?.minimum_lease_unit) ?? Duration.Hour;
+      getUnitValueFromLabel(node?.config?.minimum_lease_unit) || Duration.Hour;
     const maxUnitVal =
-      getUnitValueFromLabel(node?.config?.maximum_lease_unit) ?? Duration.Month;
+      getUnitValueFromLabel(node?.config?.maximum_lease_unit) || Duration.Month;
 
     return {
       minValue: node?.config?.minimum_lease_duration ?? 1,
@@ -121,7 +125,6 @@ const PurDuration = (props) => {
                     limit.minValue * DURATION_TO_HOURS[limit.minUnit];
                   const maxInHours =
                     limit.maxValue * DURATION_TO_HOURS[limit.maxUnit];
-                  console.log(val, valueInHours, minInHours);
 
                   // Verificar los límites globales de valor
                   if (valueInHours < minInHours || valueInHours > maxInHours) {

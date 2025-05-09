@@ -194,8 +194,9 @@ const contract = {
       ).connect(signer);
 
       const totalHours = durationNum * convertDurationToHours(duration);
-      const totalAmount = ethers.utils.parseUnits(`${totalHours * price}`, 6);
-
+      console.log(totalHours, duration, durationNum);
+      // const totalAmount = ethers.utils.parseUnits(`${totalHours * price}`, 6);
+      const totalAmount = price;
       // 检查授权额度
       const currentAllowance = await currency.allowance(
         payerAddress,

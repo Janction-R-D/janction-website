@@ -11,7 +11,7 @@ export default function AsidePrice({ formValues, styles, onConfirm }) {
     );
     setIsEmpty(!isNotEmpty);
   }, [formValues]);
-  console.log(formValues);
+  // console.log(formValues);
   return (
     <aside className={styles['aside-wrapper']}>
       <header className={styles['aside-header']}>

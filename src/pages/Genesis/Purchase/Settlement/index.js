@@ -42,12 +42,6 @@ const Settlement = (props) => {
   }, [formValues]);
 
   const getNodeConfigInfo = async (params) => {
-    //     {
-    //     "node_id": "uuid",                    // Required: UUID of the node to price
-    //     "purchase_instance_quantity": 1,      // Optional: Number of instances to purchase (default: 1)
-    //     "purchase_duration": 1,               // Required: Duration of the purchase
-    //     "purchase_duration_unit": "hour"      // Required: Unit of duration (hour/day/week/month/quarter)
-    // }
     try {
       setTableLoading(true);
       const [priceInfoRes, nodesConfigInfo] = await Promise.all([
@@ -61,7 +55,7 @@ const Settlement = (props) => {
         return;
       }
       setList([nodesConfigInfo]);
-      console.log(nodesConfigInfo);
+
       setConfigInfo(nodesConfigInfo);
     } catch (error) {
       console.log('『error』', error);
@@ -79,7 +73,7 @@ const Settlement = (props) => {
       purchase_duration: formValues?.purDuration?.value,
       purchase_duration_unit: durUnit?.label.toLocaleLowerCase() || 'hour',
     };
-    console.log(payload);
+
     try {
       const res = await fetchNodesPrice(payload);
       setPriceInfo(res);
@@ -102,7 +96,7 @@ const Settlement = (props) => {
   const onRent = async (values) => {
     try {
       // const res = await fetchMarketRent(values);
-      console.log(res);
+
       if (res?.code) {
         message.error(res?.message);
         return;
@@ -145,6 +139,8 @@ const Settlement = (props) => {
       setLoading(true);
       //first  create order
       const res = await fetchCreateOrders(payload);
+      const price = priceInfo?.price?.price_1e6;
+      if (!price) return;
       //second  rent with the contract
       const tx = await contract.rent({
         payerAddress: address,
@@ -153,7 +149,7 @@ const Settlement = (props) => {
         durationNum: value,
         duration: unit,
         // TODO
-        price: configInfo?.price,
+        price: price,
       });
 
       await delay(1000);
@@ -192,10 +188,11 @@ const Settlement = (props) => {
       dataIndex: 'price',
       ellipsis: true,
       width: 'auto',
-      render: (text) => {
+      render: (text, record) => {
         if (!text) return '--';
         // TODO
-        return `${text} USDT / Hour`;
+
+        return `${text} USDT / ${record?.unit.toUpperCase()}`;
       },
     },
     {
@@ -216,23 +213,16 @@ const Settlement = (props) => {
     },
     {
       title: 'Total Price',
-      dataIndex: 'duration',
+      dataIndex: 'price',
       width: 'auto',
       render: (text) => {
         const { value, unit } = formValues?.purDuration || {};
         if (!value && empty(unit)) return '--';
-        const { price } = list[0] || {};
+        const price = priceInfo?.price?.price_in_currency || '--';
 
-        if (unit == Duration.Hour) {
-          const _currency = getCurrency().find(
-            (item) => item.value == currency,
-          );
-          const _total = (price || 0) * value;
-          return (Number(_total) / Number(_currency?.rate || 1)).toFixed(2);
-        }
         const _currency = getCurrency().find((item) => item.value == currency);
-        const _total = (price || 0) * value * convertDurationToHours(unit);
-        return (Number(_total) / Number(_currency?.rate || 1)).toFixed(2);
+
+        return (Number(price) / Number(_currency?.rate || 1)).toFixed(2);
       },
     },
   ];
@@ -273,6 +263,7 @@ const Settlement = (props) => {
         onPay={onPay}
         loading={loading}
         tableLoading={tableLoading}
+        priceInfo={priceInfo}
       />
     </div>
   );

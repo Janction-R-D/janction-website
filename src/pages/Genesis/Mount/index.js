@@ -21,27 +21,27 @@ import styles from './index.less';
 
 const options = [
   {
-    value: 1,
+    value: 0,
     label: 'Hour',
     max: 24,
   },
   {
-    value: 2,
+    value: 1,
     label: 'Day',
     max: 30,
   },
   {
-    value: 3,
+    value: 2,
     label: 'Week',
     max: 4,
   },
   {
-    value: 4,
+    value: 3,
     label: 'Month',
     max: 11,
   },
   {
-    value: 5,
+    value: 4,
     label: 'Year',
     max: 10,
   },
@@ -130,7 +130,7 @@ export default function Mount() {
   };
 
   useEffect(() => {
-    if (minLease > maxLease || minDuration.value > maxDuration.value) {
+    if (minLease > maxLease && minDuration.value > maxDuration.value) {
       setErrorRange(true);
     } else if (minDuration.value == maxDuration.value && minLease >= maxLease) {
       setErrorRange(true);
@@ -283,7 +283,7 @@ export default function Mount() {
               <p>Billing price</p>
 
               <Input
-                suffix={<p>USDT / Hour</p>}
+                suffix={<p>USDT / Day</p>}
                 type="number"
                 placeholder="Enter a price"
                 value={price}

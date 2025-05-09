@@ -15,6 +15,7 @@ const Footer = (props) => {
     formValues,
     currencyAddress,
     tableLoading,
+    priceInfo,
   } = props;
 
   const [agree, setAgree] = useState(false);
@@ -26,13 +27,8 @@ const Footer = (props) => {
   const total = useMemo(() => {
     const { value, unit } = formValues?.purDuration || {};
     if (isEmpty(node) || !value || empty(unit)) return 0;
-    if (unit == Duration.Hour) {
-      const _currency = getCurrency().find((item) => item.value == currency);
-      const _total = (node?.price || 0) * value;
-      return (Number(_total) / Number(_currency?.rate || 1)).toFixed(2);
-    }
-    const _total = node?.price * value * convertDurationToHours(unit);
-    return (Number(_total) / Number(currency?.rate || 1)).toFixed(2);
+    const price = priceInfo?.price?.price_in_currency || '--';
+    return (Number(price) / Number(currency?.rate || 1)).toFixed(2);
   }, [node, formValues, currency]);
 
   const onAgreeChange = (e) => {
