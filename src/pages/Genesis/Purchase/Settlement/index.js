@@ -164,6 +164,7 @@ const Settlement = (props) => {
         payment_tx_id: tx.hash,
       });
       setPaymentStatus(2);
+      setModalOpen(true);
     } catch (error) {
       console.error(error);
       message.error('Operation contract failed, please try again!');
@@ -320,6 +321,9 @@ const Settlement = (props) => {
         loading={loading}
         tableLoading={tableLoading}
         priceInfo={priceInfo}
+        modalOpen={modalOpen}
+        setModalOpen={setModalOpen}
+        paymentStatus={paymentStatus}
       />
     </div>
   );

@@ -5,7 +5,6 @@ import { useMemo, useState } from 'react';
 import styles from './index.less';
 import { WalletOutlined } from '@ant-design/icons';
 import PaymentResultModal from '../../Settlement/components/payment_result';
-import { Duration } from '@/constant';
 
 const Footer = (props) => {
   const {
