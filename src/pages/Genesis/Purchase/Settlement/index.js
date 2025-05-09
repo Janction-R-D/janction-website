@@ -125,6 +125,8 @@ const Settlement = (props) => {
   };
   const onPay = async () => {
     try {
+      setPaymentStatus(3);
+      setModalOpen(true);
       const { node, ai_framework } = formValues || {};
       const { value, unit } = formValues?.purDuration || {};
       const goal = DURATION_OPTIONS.find((item) => item.value == unit);
@@ -141,7 +143,9 @@ const Settlement = (props) => {
       //first  create order
       const res = await fetchCreateOrders(payload);
       const price = priceInfo?.price?.price_1e6;
-      if (!price) return;
+      if (!price) {
+        throw new Error('Price Not Found');
+      }
       //second  rent with the contract
       const tx = await contract.rent({
         payerAddress: address,
@@ -159,8 +163,7 @@ const Settlement = (props) => {
         order_id: res?.order.ID,
         payment_tx_id: tx.hash,
       });
-
-      history.push('/genesis/instance');
+      setPaymentStatus(2);
     } catch (error) {
       console.error(error);
       message.error('Operation contract failed, please try again!');
