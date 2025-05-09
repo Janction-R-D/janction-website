@@ -20,6 +20,7 @@ const Footer = (props) => {
     modalOpen,
     setModalOpen,
     paymentStatus,
+    priceInfo,
   } = props;
 
   const [agree, setAgree] = useState(false);

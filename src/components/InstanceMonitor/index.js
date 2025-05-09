@@ -12,18 +12,49 @@ import styles from './index.less';
 import ResourceUtilization from './ResourceUtilization';
 import OperationModal from '@/pages/Genesis/Instance/InstanceComponents/OperationModal';
 import { fetchNodeList } from '@/services/genesis';
+import { formatISODate } from '@/utils/datetime';
+import { convertMBtoGB } from '@/utils/lang';
 
 const { TabPane } = Tabs;
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const seconds = String(date.getSeconds()).padStart(2, '0');
 
-const InstanceMonitor = () => {
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+};
+
+const InstanceMonitor = ({ instance }) => {
   const [activeTab, setActiveTab] = useState('cpu');
-  const [instance, setInstance] = useState({});
-  const status = 'running'; // This should be passed as a prop or fetched from an API
+
+  const instanceData = {
+    resource_id: instance?.id,
+    node_id: instance?.node_id,
+    name: instance?.name,
+    Cores: instance?.node?.attr.cpu,
+    memory: instance?.node?.attr.memory,
+    status: instance?.status_str,
+    expired: formatDate(instance?.expired_at),
+    created: formatDate(instance?.created_at),
+    Location: instance?.node?.attr.location || '~',
+    GPUrate: '~',
+    MemoryUsage: convertMBtoGB(instance?.activity?.memory_usage?.toFixed(2)),
+    downtime: `${formatISODate(instance.created_at)}\r\n${formatISODate(
+      instance.expired_at,
+    )}`,
+    activity: instance.activity,
+    resource: instance.activity?.resource_id,
+  };
+
   const dataMap = {
-    cpu: [52, 48, 53, 12, 33, 50, 42, 35, 60, 75, 73, 55, 51],
-    memory: [32, 35, 40, 30, 34, 33, 39, 42, 38, 40, 43, 45, 44],
-    gpu: [15, 20, 18, 25, 30, 28, 22, 18, 17, 20, 25, 27, 24],
-    network: [10, 15, 8, 12, 18, 14, 10, 13, 17, 20, 18, 16, 15],
+    cpu: [],
+    memory: [],
+    gpu: [],
+    network: [],
   };
 
   const unitMap = {
@@ -46,19 +77,20 @@ const InstanceMonitor = () => {
               <span className={styles['status']}>
                 {
                   <>
-                    {status.toLowerCase() === 'running' ? (
+                    {instanceData?.status.toLowerCase() === 'running' ? (
                       <span className="status status-running">
                         <i className="iconfont  icon-check"></i> Running
                       </span>
-                    ) : status.toLowerCase() === 'stopped' ? (
+                    ) : instanceData?.status.toLowerCase() === 'stopped' ? (
                       <span className="status status-stopped">
                         <i className="iconfont  icon-play_pause"></i> Stopped
                       </span>
-                    ) : status.toLowerCase() === 'expired' ? (
+                    ) : instanceData?.status.toLowerCase() === 'expired' ? (
                       <span className="status status-expired">
                         <i className="iconfont  icon-icforbidden"></i> Expired
                       </span>
-                    ) : status.toLowerCase() === 'expiring soon' ? (
+                    ) : instanceData?.status.toLowerCase() ===
+                      'expiring soon' ? (
                       <span className="status status-expiring-soon">
                         <i className="iconfont  icon-questioncircle"></i>{' '}
                         Expiring Soon
@@ -70,7 +102,7 @@ const InstanceMonitor = () => {
                 }
               </span>
             </h3>
-            <p className={styles['gpu-location']}>Chicago, USA</p>
+            <p className={styles['gpu-location']}>{instanceData?.location}</p>
           </div>
         </div>
         <div className={styles['header_right']}>
@@ -87,7 +119,7 @@ const InstanceMonitor = () => {
             </div>
           </Button>
           <span className={styles['more']}>
-            <OperationModal record={instance} getAllNodes={getNode} />
+            <OperationModal record={instanceData} getAllNodes={getNode} />
           </span>
         </div>
       </header>
@@ -122,6 +154,7 @@ const InstanceMonitor = () => {
             disk: 73,
             network: 25,
           }}
+          configInfo={instanceData}
         />
       </div>
     </Card>

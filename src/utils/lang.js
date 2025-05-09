@@ -24,7 +24,15 @@ export const logout = () => {
   storage.clear();
   history.push('/login');
 };
-
+export function convertMBtoGB(mb) {
+  if (empty(mb)) return '~';
+  const gb = mb / 1024; // 1 GB = 1024 MB
+  if (gb >= 1) {
+    return `${gb.toFixed(2)} GB`; // 保留两位小数
+  } else {
+    return `${mb} MB`; // 直接返回MB格式
+  }
+}
 export const showValue = (value, fixed) => {
   if (empty(value)) return '~';
   if (empty(fixed)) {

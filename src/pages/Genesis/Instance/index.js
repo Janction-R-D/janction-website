@@ -23,8 +23,9 @@ import {
   ShoppingCartOutlined,
 } from '@ant-design/icons';
 import EmptyContent from './Empty/EmptyContent';
+import InstanceMonitor from '@/components/InstanceMonitor';
 
-const initQuery = { current: 1, size: 10 };
+const initQuery = { current: 1, size: 5 };
 function Instance() {
   const { initialState } = useModel('@@initialState');
   const { isLessee } = initialState || {};
@@ -85,7 +86,9 @@ function Instance() {
         </header>
       </section>
 
-      {showOverView && <HeaderCard summary={summary} />}
+      {showOverView && (
+        <HeaderCard summary={summary} getAllNodes={getAllNodes} />
+      )}
       {filteredData.length >= 1 ? (
         <Card className={styles['card-table']}>
           <Row justify="space-between" style={{ gap: '12px' }} align="middle">
@@ -137,11 +140,16 @@ function Instance() {
               {!isEmpty(filteredData) && (
                 <>
                   {filteredData?.map((instance, index) => (
-                    <InstanceCard
+                    <InstanceMonitor
                       key={index}
                       instance={instance}
                       getAllNodes={getAllNodes}
                     />
+                    // <InstanceCard
+                    //   key={index}
+                    //   instance={instance}
+                    //   getAllNodes={getAllNodes}
+                    // />
                   ))}
                   <div className={styles['pagination-wrapper']}>
                     <Pagination

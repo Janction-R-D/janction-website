@@ -16,7 +16,7 @@ import contract, {
 import { delay, empty, isEmpty } from '@/utils/lang';
 import { Button, message } from 'antd';
 import { useEffect, useState } from 'react';
-import { history } from 'umi';
+import { history, Redirect, useModel } from 'umi';
 import { useAccount } from 'wagmi';
 import PurchaseCard from '../components/Card';
 import Footer from '../components/Footer';
@@ -36,7 +36,8 @@ const Settlement = (props) => {
   const [list, setList] = useState([]);
   const [priceInfo, setPriceInfo] = useState({});
   const [configInfo, setConfigInfo] = useState('');
-
+  const { initialState } = useModel('@@initialState');
+  const { isLessee } = initialState || {};
   useEffect(() => {
     if (!formValues?.node?.id) return;
     getNodeConfigInfo({ node_id: formValues.node.id });
@@ -49,14 +50,13 @@ const Settlement = (props) => {
         getPriceInfo(),
         fetchNodesConfigInfo(params),
       ]);
-      await getPriceInfo();
 
       if (isEmpty(nodesConfigInfo)) {
         setList([]);
         return;
       }
       setList([nodesConfigInfo]);
-
+      setPriceInfo(priceInfoRes);
       setConfigInfo(nodesConfigInfo);
     } catch (error) {
       console.log('『error』', error);
@@ -77,7 +77,7 @@ const Settlement = (props) => {
 
     try {
       const res = await fetchNodesPrice(payload);
-      setPriceInfo(res);
+      return res;
     } catch (error) {
       console.log(error);
     }
@@ -159,14 +159,7 @@ const Settlement = (props) => {
         order_id: res?.order.ID,
         payment_tx_id: tx.hash,
       });
-      // await onRent({
-      //   tx_id: tx.hash,
-      //   node_id: node.id,
-      //   purchase_duration: value,
-      //   purchase_duration_unit: goal?.label.toLowerCase(),
-      //   purchase_instance_quantity: 1,
-      //   template: formValues?.ai_framework,
-      // });
+
       history.push('/genesis/instance');
     } catch (error) {
       console.error(error);
@@ -232,7 +225,7 @@ const Settlement = (props) => {
   const goBack = () => {
     history.push('/genesis/purchase');
   };
-
+  if (!isLessee) return <Redirect to="/genesis/dashboard"></Redirect>;
   return (
     <div className={styles['settlement-wrapper']}>
       <section className={styles['header-wrapper']}>
@@ -264,7 +257,11 @@ const Settlement = (props) => {
             <div className={styles['price-item']}>
               <span>Price</span>
               <span className={styles['blue-item']}>
-                {!list?.price ? '--' : `${list?.price} USDT / Day`}
+                {!priceInfo?.node_config?.price
+                  ? '--'
+                  : `${
+                      priceInfo?.node_config?.price
+                    } USDT / ${priceInfo?.node_config?.unit.toUpperCase()}`}
               </span>
             </div>
             <div className={styles['duration-item']}>
@@ -292,20 +289,17 @@ const Settlement = (props) => {
             <span className={styles['total-title']}>Total Price</span>
             <div>
               <span className={styles['blue-item']}>
-                {(() => {
-                  const { value, unit } = formValues?.purDuration || {};
-                  if (!value && empty(unit)) return '--';
-                  const { price } = list || {};
-
-                  const _currency = getCurrency().find(
-                    (item) => item.value == currency,
-                  );
-                  const _total =
-                    ((price || 0) * value * durationMultiplier(unit)) /
-                    Number(_currency?.rate || 1);
-                  return _total.toFixed(2);
-                })()}
+                {isNaN(
+                  Number(priceInfo?.price?.price_in_currency) /
+                    Number(currency?.rate || 1),
+                )
+                  ? '~~'
+                  : (
+                      Number(priceInfo?.price?.price_in_currency) /
+                      Number(currency?.rate || 1)
+                    ).toFixed(2)}
               </span>
+
               <span className={styles['currency']}>
                 {getCurrency().find((item) => item.value == currency)?.label}
               </span>

@@ -69,6 +69,7 @@ const cardData = [
     originalPrice: '50',
   },
 ];
+
 export default function Lessee() {
   const [avModalOpen, setAvModaOpen] = useState(false);
   const [summary, setSummary] = useState(null);

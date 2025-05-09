@@ -6,20 +6,14 @@ import JanctionPopover from '@/components/JanctionPopover';
 import contract from '@/utils/contracts';
 import { fetchMarketOrder, fetchStopRentParams } from '@/services/genesis';
 
-// function filtrarNodeAndResource(data, nodeId, resourceId) {
-//   return data.find(
-//     (item) =>
-//       item.order?.node_id?.trim() === nodeId.trim() &&
-//       item.order?.resource_id?.trim() === resourceId.trim(),
-//   );
-// }
-export default function OperationModal({ record, getAllNodes }) {
+export default function OperationModal(props) {
+  const { getAllNodes, record } = props || {};
   const [visible, setVisible] = useState(false);
   const [paymentId, setPaymentId] = useState('');
-  const isRunning = record.status.toLowerCase() === 'running';
+  const isRunning = record?.status?.toLowerCase() === 'running';
   const handleConnect = () => {
     if (!isRunning) return;
-    if (record.status) setVisible(true);
+    if (record?.status) setVisible(true);
   };
   // const getOrderInfo = async () => {
   //   const payload = {
@@ -51,7 +45,7 @@ export default function OperationModal({ record, getAllNodes }) {
   const handleStop = async () => {
     try {
       const { signature, payment_id } = await fetchStopRentParams({
-        resource_id: record.id,
+        resource_id: record?.resource_id,
       });
       // const signatures = [`0x${signature}`];
       const adminSignature = signature;
@@ -82,14 +76,14 @@ export default function OperationModal({ record, getAllNodes }) {
               onConfirm={handleStop}
               okText="Yes"
               disabled={
-                record.status?.toLowerCase() === 'stopped' ||
-                record.status?.toLowerCase() === 'expired'
+                record?.status?.toLowerCase() === 'stopped' ||
+                record?.status?.toLowerCase() === 'expired'
               }
             >
               <li
                 className={`${'operation-action'}  ${
-                  record.status?.toLowerCase() === 'stopped' ||
-                  record.status?.toLowerCase() === 'expired'
+                  record?.status?.toLowerCase() === 'stopped' ||
+                  record?.status?.toLowerCase() === 'expired'
                     ? styles['forbiden']
                     : ''
                 }`}
@@ -101,7 +95,9 @@ export default function OperationModal({ record, getAllNodes }) {
           </ul>
         }
       >
-        <a>More Functions</a>
+        <a>
+          More functions <i className="iconfont icon-down" />
+        </a>
       </JanctionPopover>
 
       {visible && (
