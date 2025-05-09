@@ -5,35 +5,37 @@ import LabelVal from '../Card/LabelVal';
 import styles from './index.less';
 
 const DURATION_TO_HOURS = {
-  // [Duration.Hour]: 1,
+  [Duration.Hour]: 1,
   [Duration.Day]: 24,
   [Duration.Week]: 24 * 7,
   [Duration.Month]: 24 * 30,
-  // [Duration.Year]: 24 * 30 * 12,
+  [Duration.Year]: 24 * 30 * 12,
 };
 
 const UNIT_MAX_VALUES = {
-  // [Duration.Hour]: 24,
+  [Duration.Hour]: 24,
   [Duration.Day]: 30,
   [Duration.Week]: 4,
   [Duration.Month]: 12,
+  [Duration.Year]: 10,
 };
 
-const PurDuration = ({ formValues, form }) => {
+const getUnitValueFromLabel = (label) => {
+  const match = Object.entries(Duration).find(
+    ([key, val]) => key?.toLowerCase() === label?.toLowerCase(),
+  );
+  return match?.[1];
+};
+
+const PurDuration = (props) => {
+  const { formValues, form } = props;
   const { node } = formValues || {};
-  const purDuration = form.getFieldValue('purDuration') || {};
 
-  const [value, setValue] = useState(purDuration.value ?? 1);
-  const [unit, setUnit] = useState(purDuration.unit ?? Duration.Day);
-
-  // Sincronizar con Form cuando cambia el estado local
-
-  console.log(formValues?.purDuration);
   const limit = useMemo(() => {
     const minUnitVal =
-      getUnitValueFromLabel(node?.config?.minimum_lease_unit) ?? Duration.Hour;
+      getUnitValueFromLabel(node?.config?.minimum_lease_unit) || Duration.Hour;
     const maxUnitVal =
-      getUnitValueFromLabel(node?.config?.maximum_lease_unit) ?? Duration.Month;
+      getUnitValueFromLabel(node?.config?.maximum_lease_unit) || Duration.Month;
 
     return {
       minValue: node?.config?.minimum_lease_duration ?? 1,
@@ -49,47 +51,9 @@ const PurDuration = ({ formValues, form }) => {
     );
   }, [formValues]);
 
-  const handleChange = (delta) => {
-    setValue((prev) => {
-      const max = UNIT_MAX_VALUES[unit] ?? 30;
-      let next = delta === 'add' ? prev + 1 : prev - 1;
-      if (next < 1) next = 1;
-      if (next > max) next = max;
-
-      // 🔄 Sincronizar con el formulario
-      form.setFieldsValue({
-        purDuration: { value: next, unit },
-      });
-
-      return next;
-    });
-    console.log(formValues);
-  };
-
-  const handleInputChange = (e) => {
-    const raw = e.target.value;
-    const newValue = Number(raw);
-    const max = UNIT_MAX_VALUES[unit] ?? 30;
-
-    if (!isNaN(newValue)) {
-      const finalValue = Math.min(Math.max(newValue, 1), max);
-      setValue(finalValue);
-
-      // Sincronizar con el formulario
-      form.setFieldsValue({
-        purDuration: { value: finalValue, unit },
-      });
-    }
-  };
-
-  const handleUnitChange = (newUnit) => {
-    setUnit(newUnit);
-
-    // Sincronizar con el formulario
-    form.setFieldsValue({
-      purDuration: { value, unit: newUnit },
-    });
-  };
+  const selectedUnit =
+    form?.getFieldValue(['purDuration', 'unit']) ?? Duration.Day;
+  const maxValue = UNIT_MAX_VALUES[selectedUnit] ?? 30;
 
   return (
     <div className={styles['duration-wrapper']}>
@@ -100,27 +64,22 @@ const PurDuration = ({ formValues, form }) => {
           </div>
           <Form.Item
             name={['purDuration', 'value']}
+            initialValue={limit.minValue}
             noStyle
-            initialValue={purDuration.value ?? 1}
-            rules={[{ required: true, message: 'please input duration value' }]}
           >
-            <Input
+            <InputNumber
               type="number"
               bordered={false}
               min={1}
-              onChange={handleInputChange}
-              style={{ width: '60px' }}
-              className={styles['input']}
+              // max={maxValue}
+              style={{ width: '200px' }}
             />
           </Form.Item>
-          <div className={styles['btn']} onClick={() => handleChange('add')}>
-            <i className="iconfont icon-add" />
-          </div>
+
           <Form.Item
             name={['purDuration', 'unit']}
+            initialValue={limit.minUnit}
             noStyle
-            initialValue={purDuration.unit ?? Duration.Day}
-            rules={[{ required: true, message: 'please select duration type' }]}
           >
             <Select
               value={unit}
@@ -131,7 +90,7 @@ const PurDuration = ({ formValues, form }) => {
             />
           </Form.Item>
 
-          {/* Validación conjunta */}
+          {/* Validación conjunta para 'value' y 'unit' */}
           <Form.Item
             name="purDuration"
             noStyle
@@ -152,7 +111,7 @@ const PurDuration = ({ formValues, form }) => {
                       new Error('Duration unit is required.'),
                     );
                   }
-
+                  // Validar los valores máximos específicos por unidad
                   if (val > (UNIT_MAX_VALUES[unit] ?? 30)) {
                     const unitLabel = Object.keys(Duration).find(
                       (key) => Duration[key] === unit,
@@ -172,6 +131,7 @@ const PurDuration = ({ formValues, form }) => {
                   const maxInHours =
                     limit.maxValue * DURATION_TO_HOURS[limit.maxUnit];
 
+                  // Verificar los límites globales de valor
                   if (valueInHours < minInHours || valueInHours > maxInHours) {
                     return Promise.reject(
                       new Error(
@@ -194,8 +154,3 @@ const PurDuration = ({ formValues, form }) => {
 };
 
 export default PurDuration;
-
-const getUnitValueFromLabel = (label) => {
-  const match = Object.entries(Duration).find(([key]) => key === label);
-  return match?.[1];
-};

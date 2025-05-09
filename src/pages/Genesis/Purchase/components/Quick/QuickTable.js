@@ -44,14 +44,17 @@ export default function QuickTable(props) {
 
     {
       title: 'Processor',
-      dataIndex: 'process',
+      dataIndex: 'attr',
       ellipsis: true,
-      render: (text, record) => {
+      render: (attr, record) => {
+        if (!attr?.gpu_chip && !attr?.cpu_chip) return '--';
+        const cpu = attr.cpu_chip;
+        const gpu = attr.gpu_chip;
         return (
-          <div>
-            <p>{text?.name}</p>
-            <p>{text?.model}</p>
-          </div>
+          <>
+            <p>{cpu ? `${cpu[0]} * ${cpu.length}` : '--'}</p>
+            <p>{gpu ? `${gpu[0]} * ${gpu.length}` : '--'}</p>
+          </>
         );
       },
     },

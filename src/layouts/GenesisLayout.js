@@ -135,7 +135,7 @@ const GenesisLayout = (props) => {
                 <p className={styles['comp-info']}>
                   JANCTION ©2024
                   <br />
-                  janction.io
+                  janction.ai
                 </p>
               </div>
             </footer>

@@ -1,9 +1,15 @@
 import JanctionCountDown from '@/components/JanctionCountDown';
 import JanctionTable from '@/components/JanctionTable';
-import { DURATION_OPTIONS } from '@/constant';
-import { fetchMarketRent, fetchNodesConfigInfo } from '@/services/genesis';
+import { Duration, DURATION_OPTIONS } from '@/constant';
+import {
+  fetchCreateOrders,
+  fetchMarketRent,
+  fetchNodesConfigInfo,
+  fetchNodesPrice,
+  fetchPaymentOrder,
+} from '@/services/genesis';
 import contract, {
-  durationMultiplier,
+  convertDurationToHours,
   getCurrency,
   getDefaultCurrency,
 } from '@/utils/contracts';
@@ -16,6 +22,7 @@ import PurchaseCard from '../components/Card';
 import Footer from '../components/Footer';
 import PayType from '../components/PayType';
 import styles from './index.less';
+import { create } from 'lodash';
 
 const Settlement = (props) => {
   const [deadline, setDeadline] = useState();
@@ -27,6 +34,7 @@ const Settlement = (props) => {
   const [loading, setLoading] = useState(false);
   const [currency, setCurrency] = useState(getDefaultCurrency());
   const [list, setList] = useState([]);
+  const [priceInfo, setPriceInfo] = useState({});
   const [configInfo, setConfigInfo] = useState('');
 
   useEffect(() => {
@@ -37,17 +45,41 @@ const Settlement = (props) => {
   const getNodeConfigInfo = async (params) => {
     try {
       setTableLoading(true);
-      const res = await fetchNodesConfigInfo(params);
-      if (isEmpty(res)) {
+      const [priceInfoRes, nodesConfigInfo] = await Promise.all([
+        getPriceInfo(),
+        fetchNodesConfigInfo(params),
+      ]);
+      await getPriceInfo();
+
+      if (isEmpty(nodesConfigInfo)) {
         setList([]);
         return;
       }
-      setList(res);
-      setConfigInfo(res);
+      setList([nodesConfigInfo]);
+
+      setConfigInfo(nodesConfigInfo);
     } catch (error) {
       console.log('『error』', error);
     } finally {
       setTableLoading(false);
+    }
+  };
+  const getPriceInfo = async () => {
+    const durUnit = DURATION_OPTIONS.find(
+      (item) => item.value == formValues?.purDuration?.unit,
+    );
+    const payload = {
+      node_id: formValues?.node?.id,
+      purchase_instance_quantity: 1,
+      purchase_duration: formValues?.purDuration?.value,
+      purchase_duration_unit: durUnit?.label.toLocaleLowerCase() || 'hour',
+    };
+
+    try {
+      const res = await fetchNodesPrice(payload);
+      setPriceInfo(res);
+    } catch (error) {
+      console.log(error);
     }
   };
   useEffect(() => {
@@ -64,8 +96,8 @@ const Settlement = (props) => {
 
   const onRent = async (values) => {
     try {
-      const res = await fetchMarketRent(values);
-      console.log(res);
+      // const res = await fetchMarketRent(values);
+
       if (res?.code) {
         message.error(res?.message);
         return;
@@ -77,35 +109,64 @@ const Settlement = (props) => {
       throw new Error(err);
     }
   };
-
+  const onPayment = async (values) => {
+    try {
+      const res = await fetchPaymentOrder(values);
+      if (res?.code) {
+        message.error(res?.message);
+        return;
+      }
+      message.success('Successful hire!');
+      history.push('/genesis/instance');
+    } catch (err) {
+      console.log('『err』', err);
+      throw new Error(err);
+    }
+  };
   const onPay = async () => {
     try {
-      setPaymentStatus(3);
-      setModalOpen(true);
-      const { node } = formValues || {};
+      const { node, ai_framework } = formValues || {};
       const { value, unit } = formValues?.purDuration || {};
       const goal = DURATION_OPTIONS.find((item) => item.value == unit);
 
+      const payload = {
+        node_id: node?.id,
+        tempalte: ai_framework || 'standard',
+        purchase_instance_quantity: 1,
+        purchase_duration: value,
+        purchase_duration_unit: goal?.label.toLowerCase(),
+      };
+
       setLoading(true);
+      //first  create order
+      const res = await fetchCreateOrders(payload);
+      const price = priceInfo?.price?.price_1e6;
+      if (!price) return;
+      //second  rent with the contract
       const tx = await contract.rent({
         payerAddress: address,
         ownerAddress: node.user_id,
         currencyAddress: currency,
         durationNum: value,
         duration: unit,
-        price: configInfo?.price,
+        // TODO
+        price: price,
       });
 
       await delay(1000);
-
-      await onRent({
-        tx_id: tx.hash,
-        node_id: node.id,
-        purchase_duration: value,
-        purchase_duration_unit: goal?.label.toLowerCase(),
-        purchase_instance_quantity: 1,
-        template: formValues?.ai_framework,
+      //then confirm payment with backend
+      await onPayment({
+        order_id: res?.order.ID,
+        payment_tx_id: tx.hash,
       });
+      // await onRent({
+      //   tx_id: tx.hash,
+      //   node_id: node.id,
+      //   purchase_duration: value,
+      //   purchase_duration_unit: goal?.label.toLowerCase(),
+      //   purchase_instance_quantity: 1,
+      //   template: formValues?.ai_framework,
+      // });
       history.push('/genesis/instance');
     } catch (error) {
       console.error(error);
@@ -117,6 +178,57 @@ const Settlement = (props) => {
     }
   };
 
+  const columns = [
+    {
+      title: 'Device ID',
+      dataIndex: 'node_id',
+      key: 'deviceId',
+      width: 'auto',
+      ellipsis: true,
+    },
+    {
+      title: 'Price',
+      dataIndex: 'price',
+      ellipsis: true,
+      width: 'auto',
+      render: (text, record) => {
+        if (!text) return '--';
+        // TODO
+
+        return `${text} USDT / ${record?.unit.toUpperCase()}`;
+      },
+    },
+    {
+      title: 'Quantity',
+      dataIndex: 'quantity',
+      render: () => '*1',
+    },
+    {
+      title: 'Duration',
+      dataIndex: 'duration',
+      width: 'auto',
+      render: (text) => {
+        const { value, unit } = formValues?.purDuration || {};
+        if (!value && empty(unit)) return '--';
+        const goal = DURATION_OPTIONS.find((item) => item.value == unit);
+        return `${value || 0}${goal?.label}`;
+      },
+    },
+    {
+      title: 'Total Price',
+      dataIndex: 'price',
+      width: 'auto',
+      render: (text) => {
+        const { value, unit } = formValues?.purDuration || {};
+        if (!value && empty(unit)) return '--';
+        const price = priceInfo?.price?.price_in_currency || '--';
+
+        const _currency = getCurrency().find((item) => item.value == currency);
+
+        return (Number(price) / Number(_currency?.rate || 1)).toFixed(2);
+      },
+    },
+  ];
   const goBack = () => {
     history.push('/genesis/purchase');
   };
@@ -210,10 +322,7 @@ const Settlement = (props) => {
         onPay={onPay}
         loading={loading}
         tableLoading={tableLoading}
-        modalOpen={modalOpen}
-        setModalOpen={setModalOpen}
-        paymentStatus={paymentStatus}
-        setPaymentStatus={setPaymentStatus}
+        priceInfo={priceInfo}
       />
     </div>
   );

@@ -18,31 +18,30 @@ import { history, Redirect, useModel } from 'umi';
 import Loading from './components/Loading';
 import { NodeInfo } from './components/NodeInfo';
 import styles from './index.less';
-import { max } from 'lodash';
 
 const options = [
   {
-    value: 1,
+    value: 0,
     label: 'Hour',
     max: 24,
   },
   {
-    value: 2,
+    value: 1,
     label: 'Day',
     max: 30,
   },
   {
-    value: 3,
+    value: 2,
     label: 'Week',
     max: 4,
   },
   {
-    value: 4,
+    value: 3,
     label: 'Month',
     max: 11,
   },
   {
-    value: 5,
+    value: 4,
     label: 'Year',
     max: 10,
   },
@@ -64,7 +63,7 @@ export default function Mount() {
   const [minLease, setMinLease] = useState(1);
   const [maxLease, setMaxLease] = useState(1);
   const [tags, setTags] = useState([]);
-  const [nodeInfo, setNodeInfo] = useState();
+  const [nodeInfo, setNodeInfo] = useState({});
   const [agreeClause, setAgreeClause] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
 
@@ -131,7 +130,7 @@ export default function Mount() {
   };
 
   useEffect(() => {
-    if (minLease > maxLease || minDuration.value > maxDuration.value) {
+    if (minLease > maxLease && minDuration.value > maxDuration.value) {
       setErrorRange(true);
     } else if (minDuration.value == maxDuration.value && minLease >= maxLease) {
       setErrorRange(true);
@@ -284,7 +283,7 @@ export default function Mount() {
               <p>Billing price</p>
 
               <Input
-                suffix={<p>USDT/Day</p>}
+                suffix={<p>USDT / Day</p>}
                 type="number"
                 placeholder="Enter a price"
                 value={price}
@@ -380,7 +379,12 @@ export default function Mount() {
       <section className={styles['check-side']}>
         <Checkbox checked={agreeClause} onChange={onAgreeClauseChange}>
           I have read and agreed to the{' '}
-          <span className={styles['blue']}>relevant service terms</span>.
+          <span
+          // className={styles['blue']}
+          >
+            relevant service terms
+          </span>
+          .
         </Checkbox>
         <Button
           loading={confirmLoading}

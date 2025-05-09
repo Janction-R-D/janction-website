@@ -88,7 +88,10 @@ function MyNtf({ handleOk, handleCancel, data }) {
       closable={false}
     >
       <div className={styles['modal-img']}>
-        <img src={nft.image} alt={`NFT ${nft.name} Image `} />
+        <img
+          src={`${process.env.ASSETS_URL}/image/${data?.token_id}.jpg`}
+          alt={`NFT Image `}
+        />
         <section>
           <p className={styles['details-text']}>
             <i className="iconfont icon-list"></i> Details

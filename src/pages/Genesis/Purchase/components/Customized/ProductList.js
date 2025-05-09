@@ -41,6 +41,7 @@ function ProductList(props) {
         const { isListed } = getNodeStatusMatch(node);
         return isListed;
       });
+
       const tableData = getTableData(data);
       setList(tableData);
     } catch (error) {
@@ -103,14 +104,19 @@ function ProductList(props) {
     },
     {
       title: 'Processor',
-      dataIndex: 'process',
+      dataIndex: 'attr',
       ellipsis: true,
-      render: (text, record) => (
-        <div>
-          <p>{text?.name.toLowerCase() == 'unknown' ? '~' : text?.name}</p>
-          <p>{text?.model}</p>
-        </div>
-      ),
+      render: (attr, record) => {
+        if (!attr?.gpu_chip && !attr?.cpu_chip) return '--';
+        const cpu = attr.cpu_chip;
+        const gpu = attr.gpu_chip;
+        return (
+          <>
+            <p>{cpu ? `${cpu[0]} * ${cpu.length}` : '--'}</p>
+            <p>{gpu ? `${gpu[0]} * ${gpu.length}` : '--'}</p>
+          </>
+        );
+      },
     },
   ];
 

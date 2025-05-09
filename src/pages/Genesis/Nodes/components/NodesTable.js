@@ -61,42 +61,57 @@ function NodesTable({ data, getList }) {
     },
     {
       title: 'CHIP/GPUS',
-      dataIndex: 'chipGpu',
-      key: 'chipGpu',
+      dataIndex: 'attr',
+      key: 'attr',
       ellipsis: true,
       width: 'auto',
-      render: (text, record) => {
-        if (!record.gpu_chip && !record.cpu_chip) return '--';
-        return `${record.gpu_chip || ''} ${record.cpu_chip || ''}`;
+      render: (attr, record) => {
+        if (!attr?.gpu_chip && !attr?.cpu_chip) return '--';
+        const cpu = attr.cpu_chip;
+        const gpu = attr.gpu_chip;
+        return (
+          <>
+            <p>{cpu ? `${cpu[0]} * ${cpu.length}` : '--'}</p>
+            <p>{gpu ? `${gpu[0]} * ${gpu.length}` : '--'}</p>
+          </>
+        );
       },
     },
     {
       title: (
         <div>
-          <p>Node running time</p>
+          <p style={{ textWrap: 'nowrap' }}>Node running time</p>
           <p>UP FOR </p>
         </div>
       ),
       dataIndex: 'last_start_at',
-      width: 'auto',
-      render: (text) => {
+      width: 200,
+      render: (text, record) => {
+        const { isRunning, isActive, isListed } = getNodeStatusMatch(record);
         if (!text) return '--';
+        if (!isActive && !isListed && !isRunning) return '--';
         return calculateDuration(text, { showSeconds: false });
       },
     },
 
     {
-      title: 'list time',
+      title: <p style={{ textWrap: 'nowrap' }}>List Time</p>,
       dataIndex: 'last_config_at',
-      width: 'auto',
+      width: 180,
       key: 'time',
       render: (text) => {
         if (!text) return '--';
-        return dayjs(text).format('YYYY-MM-DD HH:mm:ss');
+        const time = dayjs(text).format('YYYY-MM-DD HH:mm:ss').split(' ');
+        return (
+          <>
+            <p style={{ textWrap: 'nowrap' }}>{time[0]}</p>
+            <p style={{ textWrap: 'nowrap' }}>{time[1]}</p>
+          </>
+        );
       },
     },
     {
-      title: 'rewarded',
+      title: 'Rewarded',
       key: 'rewarded',
       dataIndex: 'rewarded',
       width: 'auto',

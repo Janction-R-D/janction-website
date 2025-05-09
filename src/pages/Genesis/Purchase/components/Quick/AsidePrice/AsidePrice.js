@@ -12,7 +12,7 @@ export default function AsidePrice({ formValues, styles, onConfirm }) {
     );
     setIsEmpty(!isNotEmpty);
   }, [formValues]);
-
+  // console.log(formValues);
   return (
     <aside className={styles['aside-wrapper']}>
       <header className={styles['aside-header']}>
@@ -38,15 +38,13 @@ export default function AsidePrice({ formValues, styles, onConfirm }) {
             {formValues?.operating_system_str?.length >= 1 && (
               <section>
                 <p className={styles['text__type']}>Operating System</p>
-                <div className={styles['text__content']}>
-                  <span className={styles['description']}>
-                    <i
-                      className={`iconfont icon-${formValues?.operating_system_str[0]}`}
-                    />
-                    <p className={styles['text__description']}>
-                      {formValues?.operating_system_str.join(' | ')}
-                    </p>
-                  </span>
+                <div className={styles['text__content_op']}>
+                  {formValues.operating_system_str?.map((item, index) => (
+                    <span className={styles['description']}>
+                      <i className={`iconfont icon-${item}`} />
+                      <p className={styles['text__description']}>{item}</p>
+                    </span>
+                  ))}
                 </div>
               </section>
             )}

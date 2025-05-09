@@ -7,6 +7,7 @@ import OperationModal from './InstanceComponents/OperationModal';
 import { convertMBtoGB } from '../Dashboard3/Lessor';
 import { history } from 'umi';
 import { formatISODate } from '@/utils/datetime';
+import { convertKB, empty } from '@/utils/lang';
 function InstanceTable({ data, getAllNodes }) {
   const [showOverView, setShowOverView] = useState(true);
 
@@ -52,16 +53,29 @@ function InstanceTable({ data, getAllNodes }) {
     },
     {
       title: <div className="name">Cores</div>,
-      dataIndex: 'Cores',
+      dataIndex: 'node',
       key: 'Cores',
       ellipsis: true,
-      render: (text) => <>{text !== '--' ? <p>{text} Cores</p> : '--'}</>,
+      render: (node, record) => {
+        if (!node?.attr?.gpu_chip && !node?.attr?.cpu_chip) return '--';
+        const cpu = node?.attr.cpu_chip;
+        const gpu = node?.attr.gpu_chip;
+        return (
+          <>
+            <p>{cpu ? `${cpu[0]} * ${cpu.length}` : '--'}</p>
+            <p>{gpu ? `${gpu[0]} * ${gpu.length}` : '--'}</p>
+          </>
+        );
+      },
     },
     {
       title: <div className="memory">Memory</div>,
       dataIndex: 'memory',
       key: 'memory',
       ellipsis: true,
+      render: (memory, rowData) => (
+        <>{!empty(rowData.memory) ? convertKB(rowData.memory) : '--'}</>
+      ),
     },
     {
       title: 'Status',
@@ -86,7 +100,9 @@ function InstanceTable({ data, getAllNodes }) {
               <i className="iconfont  icon-questioncircle"></i> Expiring Soon
             </div>
           ) : (
-            <div>other</div>
+            <div className="status status-starting">
+              <i className="iconfont  icon-refresh"></i> Starting
+            </div>
           )}
         </>
       ),
@@ -97,12 +113,6 @@ function InstanceTable({ data, getAllNodes }) {
       key: 'Location',
       ellipsis: true,
     },
-    // {
-    //   title: 'GPU Rate',
-    //   dataIndex: 'GPUrate',
-    //   key: 'GPUrate',
-    //   ellipsis: 'true',
-    // },
 
     {
       title: 'Memory Usage Rates',
@@ -172,10 +182,9 @@ function InstanceTable({ data, getAllNodes }) {
     ...order,
     key: order?.id,
     Cores: order?.node?.attr.cpu || '--',
-    memory: order?.node?.attr.memory || '--',
+    memory: order?.node?.attr.memory,
     status: order?.status_str,
     Location: order?.node?.attr.location || '--',
-    GPUrate: '0.254%',
     MemoryUsage: convertMBtoGB(order?.activity?.memory_usage?.toFixed(2)),
     downtime: `${formatISODate(order.created_at)}\r\n${formatISODate(
       order.expired_at,

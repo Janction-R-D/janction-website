@@ -3,7 +3,7 @@ import { message } from 'antd';
 import { ethers } from 'ethers';
 import currencyABI from './CurrencyAbi.json';
 import Distribution from './Distribution.json';
-import Payment from './Payment.json';
+import PaymentImpl from './PaymentImpl.json';
 import JasmyRewards from './JasmyRewards.json';
 import NFTEscrowImpl from './NFTEscrowImpl.json';
 import JanctionNFT from './JanctionNFT.json';
@@ -77,15 +77,19 @@ export const getDefaultCurrency = () => {
   return allCurrency[0].value;
 };
 
-export function durationMultiplier(duration, discount) {
-  if (duration == Duration.Day) {
+export function convertDurationToHours(duration, discount) {
+  if (duration == Duration.Hour) {
     return 1;
+  } else if (duration == Duration.Day) {
+    return 1 * 24;
   } else if (duration == Duration.Week) {
-    return discount ? 6 : 7;
+    return discount ? 6 * 24 : 7 * 24;
   } else if (duration == Duration.Month) {
-    return discount ? 25 : 30;
+    return discount ? 25 * 24 : 30 * 24;
   } else if (duration == Duration.Quarter) {
-    return discount ? 70 : 90;
+    return discount ? 70 * 24 : 90 * 24;
+  } else if (duration == Duration.Year) {
+    return discount ? 300 * 24 : 365 * 24;
   } else {
     throw Error('invalid duration');
   }
@@ -179,7 +183,7 @@ const contract = {
       // 初始化合约
       const payment = new ethers.Contract(
         getAddresses().PaymentProxy,
-        Payment.abi,
+        PaymentImpl.abi,
         provider,
       ).connect(signer);
 
@@ -189,13 +193,10 @@ const contract = {
         provider,
       ).connect(signer);
 
-      // 获取需要支付的总金额
-      const discountTotalDays = durationNum * durationMultiplier(duration);
-      const totalAmount = ethers.utils.parseUnits(
-        `${discountTotalDays * price}`,
-        6,
-      );
-
+      const totalHours = durationNum * convertDurationToHours(duration);
+      console.log(totalHours, duration, durationNum);
+      // const totalAmount = ethers.utils.parseUnits(`${totalHours * price}`, 6);
+      const totalAmount = price;
       // 检查授权额度
       const currentAllowance = await currency.allowance(
         payerAddress,
@@ -211,13 +212,12 @@ const contract = {
       }
 
       // 调起支付
-      const totalDays = durationNum * durationMultiplier(duration);
       const tx = await payment.createPaymentPlan(
         payerAddress,
         ownerAddress,
         currencyAddress,
         totalAmount,
-        totalDays,
+        totalHours,
       );
       await tx.wait(); // 等待交易完成
       message.success('Trade successfully!');
@@ -229,7 +229,7 @@ const contract = {
       message.destroy('tx');
     }
   },
-  stopRent: async (paymentId, signatures = []) => {
+  stopRent: async (paymentId, adminSignature) => {
     try {
       const provider = new ethers.providers.Web3Provider(
         window.ethereum,
@@ -237,6 +237,7 @@ const contract = {
       );
       await provider.send('eth_requestAccounts', []);
       const signer = provider.getSigner();
+      const signerAddress = await signer.getAddress();
 
       message.info({
         content: 'Waiting...',
@@ -246,39 +247,64 @@ const contract = {
 
       await switchNetwork(provider);
 
-      const signMessage = ethers.utils.solidityPack(
-        ['bytes32', 'string'],
-        [paymentId, 'STOP'],
-      );
-
-      // 哈希化消息
-      const messageHash = ethers.utils.keccak256(signMessage);
-
-      // 签名
-      const signature = await signer.signMessage(
-        ethers.utils.arrayify(messageHash),
-      );
-      signatures.push(signature);
-
       // 初始化合约
       const payment = new ethers.Contract(
         getAddresses().PaymentProxy,
-        Payment.abi,
+        PaymentImpl.abi,
         provider,
       ).connect(signer);
 
+      const domain = {
+        name: 'PaymentImpl',
+        version: '1',
+        chainId: (await provider.getNetwork()).chainId,
+        verifyingContract: getAddresses().PaymentProxy,
+      };
+
+      const types = {
+        StopPaymentPlan: [
+          { name: 'paymentId', type: 'bytes32' },
+          { name: 'deadline', type: 'uint256' },
+        ],
+      };
+
+      const value = {
+        paymentId: paymentId,
+        deadline: deadline,
+      };
+
+      const signature = await signer._signTypedData(domain, types, value);
+
+      // 拆分签名
+      const sig = ethers.utils.splitSignature(signature);
+
+      // 构造EIP712Signature对象
+      const eip712Signature = {
+        signer: signerAddress,
+        v: sig.v,
+        r: sig.r,
+        s: sig.s,
+        deadline: deadline,
+      };
+
+      // 加上已有的管理员签名
+      const signatures = [adminSignature, eip712Signature];
+
+      console.log('EIP-712 signatures:', signatures);
+
       const tx = await payment.stopPaymentPlan(paymentId, signatures);
-      await tx.wait(); // 等待交易完成
+      await tx.wait();
       message.success('Stop successfully!');
       return tx;
     } catch (error) {
-      console.log('『error』', error);
-      throw new Error(error);
+      console.error('Stop payment error:', error);
+      message.error('Stop payment failed');
+      throw error;
     } finally {
       message.destroy('tx');
     }
   },
-  releaseDailyPayment: async (paymentId) => {
+  releaseHourlyPayment: async (paymentId) => {
     try {
       const provider = new ethers.providers.Web3Provider(
         window.ethereum,
@@ -298,11 +324,11 @@ const contract = {
       // 初始化合约
       const payment = new ethers.Contract(
         getAddresses().PaymentProxy,
-        Payment.abi,
+        PaymentImpl.abi,
         provider,
       ).connect(signer);
 
-      const tx = await payment.releaseDailyPayment(paymentId);
+      const tx = await payment.releaseHourlyPayment(paymentId);
       await tx.wait(); // 等待交易完成
       message.success('Release successfully!');
       return tx;

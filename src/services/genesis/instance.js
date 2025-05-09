@@ -52,6 +52,21 @@ export const fetchResouceList = () => {
   });
 };
 
+export const fetchCreateOrders = (data) => {
+  return request(`${baseUrl}/market/create`, {
+    method: 'POST',
+    loginAuth: true,
+    data: data,
+  });
+};
+export const fetchPaymentOrder = (data) => {
+  return request(`${baseUrl}/market/payment`, {
+    method: 'POST',
+    loginAuth: true,
+    data: data,
+  });
+};
+
 export const fetchMarketOrders = (data) => {
   return request(`${baseUrl}/market/orders`, {
     loginAuth: true,
@@ -60,7 +75,7 @@ export const fetchMarketOrders = (data) => {
 };
 
 export const fetchMarketOrder = (params) => {
-  return request(`${baseUrl}/market/orders`, {
+  return request(`${baseUrl}/market/order`, {
     loginAuth: true,
     params: params,
   });
@@ -186,6 +201,16 @@ export const fetchNodesConfigInfo = (params) => {
   return request(`${baseUrl}/node/config`, {
     loginAuth: true,
     params,
+  });
+};
+export const fetchNodesPrice = (data) => {
+  return request(`${baseUrl}/market/price`, {
+    loginAuth: true,
+    data,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
   });
 };
 

@@ -1,10 +1,11 @@
-import { durationMultiplier, getCurrency } from '@/utils/contracts';
+import { convertDurationToHours, getCurrency } from '@/utils/contracts';
 import { empty, isEmpty } from '@/utils/lang';
 import { Button, Checkbox, message } from 'antd';
 import { useMemo, useState } from 'react';
 import styles from './index.less';
 import { WalletOutlined } from '@ant-design/icons';
 import PaymentResultModal from '../../Settlement/components/payment_result';
+import { Duration } from '@/constant';
 
 const Footer = (props) => {
   const {
@@ -30,8 +31,8 @@ const Footer = (props) => {
   const total = useMemo(() => {
     const { value, unit } = formValues?.purDuration || {};
     if (isEmpty(node) || !value || empty(unit)) return 0;
-    const _total = node?.price * value * durationMultiplier(unit);
-    return (Number(_total) / Number(currency?.rate || 1)).toFixed(2);
+    const price = priceInfo?.price?.price_in_currency || '--';
+    return (Number(price) / Number(currency?.rate || 1)).toFixed(2);
   }, [node, formValues, currency]);
 
   const onAgreeChange = (e) => {

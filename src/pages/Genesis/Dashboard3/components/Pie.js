@@ -4,7 +4,9 @@ import { pieColors } from '../data';
 
 const Pie = (props) => {
   const { data } = props;
-
+  function sumMemoryValues(memoryArray) {
+    return memoryArray.reduce((total, item) => total + item.value, 0);
+  }
   let option = {
     tooltip: {
       show: false,
@@ -13,7 +15,7 @@ const Pie = (props) => {
       show: false,
     },
     title: {
-      text: '$1.56W',
+      text: `${sumMemoryValues(data)} MB`,
       subtext: 'Total',
       left: 'center',
       top: 'middle',

@@ -19,11 +19,11 @@ export default function OperationDelis({ record, error, getList }) {
 
   const getOrderInfo = async () => {
     const data = {
-      node_id: record.id,
+      resource_id: record.id,
     };
     try {
-      const [res] = (await fetchMarketOrder(data)) || [];
-      const code = res?.order?.patment_id;
+      const res = (await fetchMarketOrder(data)) || {};
+      const code = res?.order?.payment_id;
       setPaymentId(code);
     } catch (err) {
       console.log(err);
@@ -74,7 +74,7 @@ export default function OperationDelis({ record, error, getList }) {
     try {
       await getOrderInfo();
       if (!paymentId) return;
-      await contract.releaseDailyPayment(paymentId);
+      await contract.releaseHourlyPayment(paymentId);
     } catch (error) {
       message.warning('Operation failed, please try again later!');
       console.log('『error』', error);

@@ -16,8 +16,10 @@ import { fetchMarketOrder, fetchStopRentParams } from '@/services/genesis';
 export default function OperationModal({ record, getAllNodes }) {
   const [visible, setVisible] = useState(false);
   const [paymentId, setPaymentId] = useState('');
+  const isRunning = record.status.toLowerCase() === 'running';
   const handleConnect = () => {
-    setVisible(true);
+    if (!isRunning) return;
+    if (record.status) setVisible(true);
   };
   // const getOrderInfo = async () => {
   //   const payload = {
@@ -51,10 +53,11 @@ export default function OperationModal({ record, getAllNodes }) {
       const { signature, payment_id } = await fetchStopRentParams({
         resource_id: record.id,
       });
-      const signatures = [`0x${signature}`];
+      // const signatures = [`0x${signature}`];
+      const adminSignature = signature;
       // await getOrderInfo();
       if (!payment_id) return;
-      await contract.stopRent(payment_id, signatures);
+      await contract.stopRent(payment_id, adminSignature);
       message.success('Success');
       getAllNodes();
     } catch (error) {
@@ -68,15 +71,33 @@ export default function OperationModal({ record, getAllNodes }) {
       <JanctionPopover
         content={
           <ul className={styles['more-function']} style={{ padding: '0px' }}>
-            <li onClick={handleConnect}>Remote connection</li>
+            <li
+              onClick={handleConnect}
+              className={!isRunning && styles['forbiden']}
+            >
+              Remote connection
+            </li>
             <Popconfirm
               title="Please confirm whether to stop renting this node!"
               onConfirm={handleStop}
               okText="Yes"
+              disabled={
+                record.status?.toLowerCase() === 'stopped' ||
+                record.status?.toLowerCase() === 'expired'
+              }
             >
-              <li>Terminate</li>
+              <li
+                className={`${'operation-action'}  ${
+                  record.status?.toLowerCase() === 'stopped' ||
+                  record.status?.toLowerCase() === 'expired'
+                    ? styles['forbiden']
+                    : ''
+                }`}
+              >
+                Terminate
+              </li>
             </Popconfirm>
-            <li>Renewal</li>
+            {/* <li>Renewal</li> */}
           </ul>
         }
       >
