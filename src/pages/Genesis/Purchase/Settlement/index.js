@@ -139,7 +139,8 @@ const Settlement = (props) => {
       setLoading(true);
       //first  create order
       const res = await fetchCreateOrders(payload);
-      const price = priceInfo?.price?.price_1e6;
+      const price = priceInfo?.price?.price_1e6; // price amount to contract
+      // const price = priceInfo?.price?.price_in_currency;
       if (!price) return;
       //second  rent with the contract
       const tx = await contract.rent({

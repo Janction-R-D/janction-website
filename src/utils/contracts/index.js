@@ -196,7 +196,7 @@ const contract = {
       const totalHours = durationNum * convertDurationToHours(duration);
       console.log(totalHours, duration, durationNum);
       // const totalAmount = ethers.utils.parseUnits(`${totalHours * price}`, 6);
-      const totalAmount = price;
+      const totalAmount = price; //price comming from the backend
       // 检查授权额度
       const currentAllowance = await currency.allowance(
         payerAddress,
