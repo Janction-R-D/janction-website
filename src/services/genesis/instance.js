@@ -203,6 +203,16 @@ export const fetchNodesConfigInfo = (params) => {
     params,
   });
 };
+export const fetchNodesPrice = (data) => {
+  return request(`${baseUrl}/market/price`, {
+    loginAuth: true,
+    data,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+};
 
 // fetchPost ConfigInfo
 export const fetchNodesConfigUpdate = (data) => {

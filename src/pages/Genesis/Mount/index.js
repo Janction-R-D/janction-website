@@ -20,28 +20,28 @@ import { NodeInfo } from './components/NodeInfo';
 import styles from './index.less';
 
 const options = [
+  // {
+  //   value: 0,
+  //   label: 'Hour',
+  //   max: 24,
+  // },
   {
     value: 1,
-    label: 'Hour',
-    max: 24,
-  },
-  {
-    value: 2,
     label: 'Day',
     max: 30,
   },
   {
-    value: 3,
+    value: 2,
     label: 'Week',
     max: 4,
   },
   {
-    value: 4,
+    value: 3,
     label: 'Month',
     max: 11,
   },
   {
-    value: 5,
+    value: 4,
     label: 'Year',
     max: 10,
   },
@@ -53,7 +53,7 @@ export default function Mount() {
   const [searchId, setSearchId] = useState(node?.id || '');
   const [loading, setLoading] = useState(false);
   const [minDuration, setMinDuration] = useState(options[0]);
-  const [maxDuration, setMaxDuration] = useState(options[4]);
+  const [maxDuration, setMaxDuration] = useState(options[options?.length - 1]);
   const [minPeriod, setMinPeriod] = useState(null);
   const [maxPeriod, setMaxPeriod] = useState(null);
   const [price, setPrice] = useState(null);
@@ -98,16 +98,16 @@ export default function Mount() {
       );
       setMaxDuration(
         mxlease || {
-          value: 2,
-          label: 'Day',
-          max: 30,
+          value: 4,
+          label: 'Year',
+          max: 10,
         },
       );
       setMinDuration(
         mnlease || {
           value: 1,
-          label: 'Hour',
-          max: 24,
+          label: 'Day',
+          max: 30,
         },
       );
       setError(false);
@@ -130,7 +130,7 @@ export default function Mount() {
   };
 
   useEffect(() => {
-    if (minLease > maxLease || minDuration.value > maxDuration.value) {
+    if (minLease > maxLease && minDuration.value > maxDuration.value) {
       setErrorRange(true);
     } else if (minDuration.value == maxDuration.value && minLease >= maxLease) {
       setErrorRange(true);
@@ -284,7 +284,7 @@ export default function Mount() {
               <p>Billing price</p>
 
               <Input
-                suffix={<p>USDT/Day</p>}
+                suffix={<p>USDT / Day</p>}
                 type="number"
                 placeholder="Enter a price"
                 value={price}

@@ -9,7 +9,7 @@ import HeaderCard from './InstanceComponents/HeaderCard';
 import InstanceCard from './InstanceComponents/InstanceCard';
 import InstanceTable from './instanceTable';
 
-const initQuery = { current: 1, size: 10 };
+const initQuery = { current: 1, size: 5 };
 function Instance() {
   const { initialState } = useModel('@@initialState');
   const { isLessee } = initialState || {};

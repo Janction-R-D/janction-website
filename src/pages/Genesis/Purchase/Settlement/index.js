@@ -5,10 +5,11 @@ import {
   fetchCreateOrders,
   fetchMarketRent,
   fetchNodesConfigInfo,
+  fetchNodesPrice,
   fetchPaymentOrder,
 } from '@/services/genesis';
 import contract, {
-  convertDurationToDays,
+  convertDurationToHours,
   getCurrency,
   getDefaultCurrency,
 } from '@/utils/contracts';
@@ -32,6 +33,7 @@ const Settlement = (props) => {
   const [loading, setLoading] = useState(false);
   const [currency, setCurrency] = useState(getDefaultCurrency());
   const [list, setList] = useState([]);
+  const [priceInfo, setPriceInfo] = useState({});
   const [configInfo, setConfigInfo] = useState('');
 
   useEffect(() => {
@@ -42,18 +44,41 @@ const Settlement = (props) => {
   const getNodeConfigInfo = async (params) => {
     try {
       setTableLoading(true);
-      const res = await fetchNodesConfigInfo(params);
-      if (isEmpty(res)) {
+      const [priceInfoRes, nodesConfigInfo] = await Promise.all([
+        getPriceInfo(),
+        fetchNodesConfigInfo(params),
+      ]);
+      await getPriceInfo();
+
+      if (isEmpty(nodesConfigInfo)) {
         setList([]);
         return;
       }
-      setList([res]);
-      console.log(res);
-      setConfigInfo(res);
+      setList([nodesConfigInfo]);
+
+      setConfigInfo(nodesConfigInfo);
     } catch (error) {
       console.log('『error』', error);
     } finally {
       setTableLoading(false);
+    }
+  };
+  const getPriceInfo = async () => {
+    const durUnit = DURATION_OPTIONS.find(
+      (item) => item.value == formValues?.purDuration?.unit,
+    );
+    const payload = {
+      node_id: formValues?.node?.id,
+      purchase_instance_quantity: 1,
+      purchase_duration: formValues?.purDuration?.value,
+      purchase_duration_unit: durUnit?.label.toLocaleLowerCase() || 'hour',
+    };
+
+    try {
+      const res = await fetchNodesPrice(payload);
+      setPriceInfo(res);
+    } catch (error) {
+      console.log(error);
     }
   };
   useEffect(() => {
@@ -71,7 +96,7 @@ const Settlement = (props) => {
   const onRent = async (values) => {
     try {
       // const res = await fetchMarketRent(values);
-      console.log(res);
+
       if (res?.code) {
         message.error(res?.message);
         return;
@@ -114,6 +139,9 @@ const Settlement = (props) => {
       setLoading(true);
       //first  create order
       const res = await fetchCreateOrders(payload);
+      const price = priceInfo?.price?.price_1e6; // price amount to contract
+      // const price = priceInfo?.price?.price_in_currency;
+      if (!price) return;
       //second  rent with the contract
       const tx = await contract.rent({
         payerAddress: address,
@@ -122,7 +150,7 @@ const Settlement = (props) => {
         durationNum: value,
         duration: unit,
         // TODO
-        price: configInfo?.price,
+        price: price,
       });
 
       await delay(1000);
@@ -161,10 +189,11 @@ const Settlement = (props) => {
       dataIndex: 'price',
       ellipsis: true,
       width: 'auto',
-      render: (text) => {
+      render: (text, record) => {
         if (!text) return '--';
         // TODO
-        return `${text} USDT / Day`;
+
+        return `${text} USDT / ${record?.unit.toUpperCase()}`;
       },
     },
     {
@@ -185,23 +214,16 @@ const Settlement = (props) => {
     },
     {
       title: 'Total Price',
-      dataIndex: 'duration',
+      dataIndex: 'price',
       width: 'auto',
       render: (text) => {
         const { value, unit } = formValues?.purDuration || {};
         if (!value && empty(unit)) return '--';
-        const { price } = list[0] || {};
-        console.log(price);
-        if (unit == Duration.Hour) {
-          const _currency = getCurrency().find(
-            (item) => item.value == currency,
-          );
-          const _total = (price || 0) * value;
-          return (Number(_total) / Number(_currency?.rate || 1)).toFixed(2);
-        }
+        const price = priceInfo?.price?.price_in_currency || '--';
+
         const _currency = getCurrency().find((item) => item.value == currency);
-        const _total = (price || 0) * value * convertDurationToDays(unit);
-        return (Number(_total) / Number(_currency?.rate || 1)).toFixed(2);
+
+        return (Number(price) / Number(_currency?.rate || 1)).toFixed(2);
       },
     },
   ];
@@ -242,6 +264,7 @@ const Settlement = (props) => {
         onPay={onPay}
         loading={loading}
         tableLoading={tableLoading}
+        priceInfo={priceInfo}
       />
     </div>
   );

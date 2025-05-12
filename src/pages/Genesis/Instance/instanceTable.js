@@ -74,7 +74,9 @@ function InstanceTable({ data, getAllNodes }) {
       dataIndex: 'memory',
       key: 'memory',
       ellipsis: true,
-      render: (memory, rowData) => <>{!empty(rowData.memory) ? convertKB(rowData.memory) : '--'}</>,
+      render: (memory, rowData) => (
+        <>{!empty(rowData.memory) ? convertKB(rowData.memory) : '--'}</>
+      ),
     },
     {
       title: 'Status',
