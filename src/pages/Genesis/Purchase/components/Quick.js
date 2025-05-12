@@ -58,6 +58,7 @@ const Quick = (props) => {
   const debouncedGetList = useMemo(() => debounce(getList, 1000), []);
   const onValuesChange = async () => {
     const values = form.getFieldsValue();
+    console.log(values);
     setFormValues(values);
   };
 
@@ -132,7 +133,7 @@ const Quick = (props) => {
             </Form.Item>
           </Card>
           <p style={{ marginBottom: '12px' }}>Purchase Duration</p>
-          <Form.Item name="purDuration">
+          <Form.Item name="purDuration" initialValue={{ unit: 1, value: 1 }}>
             <div style={{ width: '280px' }}>
               <PurDuration form={form} formValues={formValues} />
             </div>
