@@ -4,7 +4,11 @@ import styles from './operation.less';
 import TerminalModal from './TerminalModal';
 import JanctionPopover from '@/components/JanctionPopover';
 import contract from '@/utils/contracts';
-import { fetchMarketOrder, fetchStopRentParams } from '@/services/genesis';
+import {
+  fetchMarketOrder,
+  fetchResource,
+  fetchStopRentParams,
+} from '@/services/genesis';
 import SshKeyModal from './SshModal';
 
 // function filtrarNodeAndResource(data, nodeId, resourceId) {
@@ -19,9 +23,19 @@ export default function OperationModal({ record, getAllNodes }) {
   const [sshOpen, setSshOpen] = useState(false);
   const [paymentId, setPaymentId] = useState('');
   const isRunning = record.status.toLowerCase() === 'running';
-  const handleConnect = () => {
+  const handleConnect = async () => {
     if (!isRunning) return;
-    if (record.status) setVisible(true);
+    const params = {
+      resource_id: record?.id,
+    };
+    try {
+      const res = fetchResource(params);
+      const resource = res?.routes[0];
+      window.open(resource.url, '_blank');
+    } catch (error) {
+      console.log(error);
+    }
+    // if (record.status) setVisible(true); // --> old terminal version
   };
   // const getOrderInfo = async () => {
   //   const payload = {
@@ -109,7 +123,7 @@ export default function OperationModal({ record, getAllNodes }) {
                 `}
                 onClick={() => setSshOpen(true)}
               >
-                SSh
+                SSH Settings
               </li>
             </Popconfirm>
             {/* <li>Renewal</li> */}

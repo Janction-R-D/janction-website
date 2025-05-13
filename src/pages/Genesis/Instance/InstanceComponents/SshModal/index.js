@@ -1,16 +1,35 @@
-import { Modal, Form, Input, Typography, message } from 'antd';
+import { Modal, Form, Input, Typography, message, List, Tooltip } from 'antd';
+import { CopyOutlined } from '@ant-design/icons';
 import styles from './index.less';
-import { fetchSshInsert } from '@/services/genesis';
-import { useState } from 'react';
+import { fetchSshInsert, fetchSshList } from '@/services/genesis';
+import { useState, useEffect } from 'react';
 
 const { Text } = Typography;
 
-const SshKeyModal = ({ visible, onCancel, record, setVisible }) => {
+const SshKeyModal = ({ visible, onCancel, record }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+  const [sshKeys, setSshKeys] = useState([]);
+
   const handleOk = () => {
-    form.submit(); // Esto dispara el onFinish
+    form.submit();
   };
+
+  const loadSshKeys = async () => {
+    try {
+      const res = await fetchSshList({ resource_id: record?.id });
+      setSshKeys(res?.keys || []);
+    } catch (error) {
+      console.error('Failed to fetch keys:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (visible && record?.id) {
+      loadSshKeys();
+    }
+  }, [visible, record?.id]);
+
   const onFinish = async (values) => {
     const payload = {
       key: values.key,
@@ -19,6 +38,9 @@ const SshKeyModal = ({ visible, onCancel, record, setVisible }) => {
     try {
       setLoading(true);
       await fetchSshInsert(payload);
+      message.success('SSH key added successfully!');
+      form.resetFields();
+      loadSshKeys();
     } catch (error) {
       console.log(error);
       message.error('Operation failed!!');
@@ -26,10 +48,16 @@ const SshKeyModal = ({ visible, onCancel, record, setVisible }) => {
       setLoading(false);
     }
   };
+
   const handleCancel = () => {
     form.resetFields();
     setLoading(false);
     onCancel();
+  };
+
+  const handleCopy = (key) => {
+    navigator.clipboard.writeText(key);
+    message.success('Copied to clipboard!');
   };
 
   return (
@@ -58,16 +86,6 @@ const SshKeyModal = ({ visible, onCancel, record, setVisible }) => {
           className={styles.form}
           onFinish={onFinish}
         >
-          {/* <Form.Item
-            name="keyName"
-            label="Key name"
-            rules={[
-              { required: true, message: 'Please enter a name for your key' },
-            ]}
-          >
-            <Input placeholder="e.g. My Laptop, Work MacBook..." />
-          </Form.Item> */}
-
           <Form.Item
             name="key"
             label="Public SSH key"
@@ -82,6 +100,25 @@ const SshKeyModal = ({ visible, onCancel, record, setVisible }) => {
             />
           </Form.Item>
         </Form>
+
+        {sshKeys?.length > 0 && (
+          <div className={styles.savedKeys}>
+            <Text strong>Saved SSH keys:</Text>
+            <div className={styles.keysList}>
+              {sshKeys.slice(0, 5).map((key, index) => (
+                <div key={index} className={styles.keyRow}>
+                  <div className={styles.ellipsis}>{key}</div>
+                  <Tooltip title="Copy key">
+                    <CopyOutlined
+                      onClick={() => handleCopy(key)}
+                      className={styles.copyIcon}
+                    />
+                  </Tooltip>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </Modal>
   );

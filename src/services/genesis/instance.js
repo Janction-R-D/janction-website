@@ -363,3 +363,17 @@ export const fetchSshInsert = (data) => {
     loginAuth: true,
   });
 };
+export const fetchSshList = (data) => {
+  return request(`${baseUrl}/resource/ssh`, {
+    method: 'POST',
+    data,
+    loginAuth: true,
+  });
+};
+//ssh fecth api
+export const fetchResource = (params) => {
+  return request(`${baseUrl}/resource/routes`, {
+    params,
+    loginAuth: true,
+  });
+};
