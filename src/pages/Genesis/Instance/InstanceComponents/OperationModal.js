@@ -5,6 +5,7 @@ import TerminalModal from './TerminalModal';
 import JanctionPopover from '@/components/JanctionPopover';
 import contract from '@/utils/contracts';
 import { fetchMarketOrder, fetchStopRentParams } from '@/services/genesis';
+import SshKeyModal from './SshModal';
 
 // function filtrarNodeAndResource(data, nodeId, resourceId) {
 //   return data.find(
@@ -15,6 +16,7 @@ import { fetchMarketOrder, fetchStopRentParams } from '@/services/genesis';
 // }
 export default function OperationModal({ record, getAllNodes }) {
   const [visible, setVisible] = useState(false);
+  const [sshOpen, setSshOpen] = useState(false);
   const [paymentId, setPaymentId] = useState('');
   const isRunning = record.status.toLowerCase() === 'running';
   const handleConnect = () => {
@@ -96,6 +98,19 @@ export default function OperationModal({ record, getAllNodes }) {
               >
                 Terminate
               </li>
+              <li
+                className={`${'operation-action'}  
+                ${
+                  record.status?.toLowerCase() === 'stopped' ||
+                  record.status?.toLowerCase() === 'expired'
+                    ? styles['forbiden-not']
+                    : ''
+                }
+                `}
+                onClick={() => setSshOpen(true)}
+              >
+                SSh
+              </li>
             </Popconfirm>
             {/* <li>Renewal</li> */}
           </ul>
@@ -111,6 +126,12 @@ export default function OperationModal({ record, getAllNodes }) {
           resource_id={record?.id}
         />
       )}
+      <SshKeyModal
+        visible={sshOpen}
+        setVisible={setSshOpen}
+        onCancel={() => setSshOpen(false)}
+        record={record}
+      />
     </div>
   );
 }
