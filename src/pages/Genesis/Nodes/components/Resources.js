@@ -12,7 +12,6 @@ export default function Resources({ statisticData, getList }) {
   const getLessors = async () => {
     try {
       const res = await fetchLessor();
-      console.log(res);
       const { amount = 0, detail } = res?.nft_summary || {};
       setNftAmmount(amount);
     } catch (error) {
@@ -23,7 +22,6 @@ export default function Resources({ statisticData, getList }) {
     await getList();
     message.success('Refresh complete');
   };
-  console.log(nftAmount);
   const data = [
     {
       name: 'Running nodes',
