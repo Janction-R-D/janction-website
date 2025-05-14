@@ -4,6 +4,7 @@ import { history, useModel } from 'umi';
 import styles from './index.less';
 import { navList } from '@/layouts/GenesisLayout';
 import RoleSwitcher from './SwitchRole';
+import ChatBot from '@/components/Chatbot';
 export const AndroidAuthMenu = ({ active }) => {
   const [menuShow, setMenuShow] = useState(false);
   const { initialState } = useModel('@@initialState');
@@ -114,6 +115,7 @@ export const AuthMenuAside = ({ menu, active, onMenuChange }) => {
         ))}
       </nav>
       <div className={styles['footer']}>
+        <ChatBot />
         <div
           className={styles['item']}
           onClick={() => {
@@ -125,6 +127,7 @@ export const AuthMenuAside = ({ menu, active, onMenuChange }) => {
           </div>
           <span>Help</span>
         </div>
+
         {/* <div className={styles['item']}>
     <div className={styles['icon']}>
       <SettingOutlined />

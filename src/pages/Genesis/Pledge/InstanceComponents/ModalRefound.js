@@ -10,7 +10,7 @@ export default function ModalRefound({ handleCancel, handleOk, isModalOpen }) {
       onCancel={handleCancel}
       //   footer={false}
       height={300}
-      width={450}
+      width={650}
     >
       <section className={styles['card-header']}>
         <h3>Refund in advance</h3>
@@ -33,24 +33,29 @@ export default function ModalRefound({ handleCancel, handleOk, isModalOpen }) {
           <span className={styles['info-label']}>
             Filter : <i className="iconfont icon-info"></i>
           </span>
-          <b className={styles['stake-info-price--blue']}>60 veJCT</b>
+          <b className={styles['stake-info-price']}>60 veJCT</b>
         </div>
-        <div>
-          <Checkbox>
-            <div className={styles['stake-check']}>
-              <p>
-                I have read and agreed to the{' '}
-                <span className={styles['blue']}>relevant service terms</span>.
-              </p>
-            </div>
-          </Checkbox>
-        </div>
-        <section className={styles['buttons']}>
-          <Button className={styles['create-btn']}>Withdraw</Button>
-          <div className={styles['pre']}>
-            <Button onClick={handleCancel}>Cancel</Button>
+        <div className={styles['footer']}>
+          <div>
+            <Checkbox>
+              <div className={styles['stake-check']}>
+                <p>
+                  I have read and agreed to the{' '}
+                  <span className={styles['blue']}>relevant service terms</span>
+                  .
+                </p>
+              </div>
+            </Checkbox>
           </div>
-        </section>
+          <section className={styles['buttons']}>
+            <div className={styles['pre']}>
+              <Button onClick={handleCancel}>Cancel</Button>
+            </div>
+            <Button className={styles['connect-btn']}>
+              Withdraw <i className="iconfont icon-next" />
+            </Button>
+          </section>
+        </div>
       </section>
     </Modal>
   );
