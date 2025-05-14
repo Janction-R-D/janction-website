@@ -24,12 +24,12 @@ export default function OperationModal({ record, getAllNodes }) {
   const [paymentId, setPaymentId] = useState('');
   const isRunning = record.status.toLowerCase() === 'running';
   const handleConnect = async () => {
-    if (!isRunning) return;
+    // if (!isRunning) return;
     const params = {
       resource_id: record?.id,
     };
     try {
-      const res = fetchResource(params);
+      const res = fetchResource(params) || [];
       const resource = res?.routes[0];
       window.open(resource.url, '_blank');
     } catch (error) {
@@ -89,7 +89,7 @@ export default function OperationModal({ record, getAllNodes }) {
           <ul className={styles['more-function']} style={{ padding: '0px' }}>
             <li
               onClick={handleConnect}
-              className={!isRunning && styles['forbiden']}
+              // className={!isRunning && styles['forbiden']}
             >
               Remote connection
             </li>
