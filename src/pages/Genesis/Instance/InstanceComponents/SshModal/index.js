@@ -22,7 +22,7 @@ const SshKeyModal = ({ visible, onCancel, record }) => {
     try {
       const res = await fetchSshList({ resource_id: record?.id });
       setSshInfo(res);
-      setCode(`{ ssh ${sshInfo.user}@${sshInfo.host} -p ${sshInfo.port}}`);
+      setCode(`ssh ${sshInfo.user}@${sshInfo.host} -p ${sshInfo.port}`);
       setSshKeys(res?.keys || []);
     } catch (error) {
       console.error('Failed to fetch keys:', error);
@@ -111,7 +111,7 @@ const SshKeyModal = ({ visible, onCancel, record }) => {
             />
           </Form.Item>
         </Form>
-        {!code && (
+        {code && (
           <div>
             SSH CODE
             <p className={styles['code']}>
