@@ -11,13 +11,6 @@ import {
 } from '@/services/genesis';
 import SshKeyModal from './SshModal';
 
-// function filtrarNodeAndResource(data, nodeId, resourceId) {
-//   return data.find(
-//     (item) =>
-//       item.order?.node_id?.trim() === nodeId.trim() &&
-//       item.order?.resource_id?.trim() === resourceId.trim(),
-//   );
-// }
 export default function OperationModal({ record, getAllNodes }) {
   const [visible, setVisible] = useState(false);
   const [sshOpen, setSshOpen] = useState(false);
@@ -94,7 +87,7 @@ export default function OperationModal({ record, getAllNodes }) {
           <ul className={styles['more-function']} style={{ padding: '0px' }}>
             <Popover
               trigger="click"
-              open={selectVisible}
+              open={isRunning && selectVisible}
               onOpenChange={(v) => setSelectVisible(v)}
               placement="right"
               content={
@@ -128,14 +121,12 @@ export default function OperationModal({ record, getAllNodes }) {
 
             <li
               className={`${'operation-action'}  
-                ${
-                  record.status?.toLowerCase() === 'stopped' ||
-                  record.status?.toLowerCase() === 'expired'
-                    ? styles['forbiden-not']
-                    : ''
-                }
+                ${!isRunning ? styles['forbiden'] : ''}
                 `}
-              onClick={() => setSshOpen(true)}
+              onClick={() => {
+                if (!isRunning) return;
+                setSshOpen(true);
+              }}
             >
               SSH Settings
             </li>
