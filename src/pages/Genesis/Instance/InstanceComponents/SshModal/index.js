@@ -23,7 +23,7 @@ const SshKeyModal = ({ visible, onCancel, record }) => {
       const res = (await fetchSshList({ resource_id: record?.id })) || {};
       setSshInfo(res);
 
-      setCode(`ssh ${sshInfo.user}@${sshInfo.host} -p ${sshInfo.port}`);
+      setCode(`ssh ${res?.user}@${res?.host} -p ${res?.port}`);
       setSshKeys(res?.keys || []);
     } catch (error) {
       console.error('Failed to fetch keys:', error);
