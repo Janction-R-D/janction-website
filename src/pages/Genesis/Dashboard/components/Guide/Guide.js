@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { Button, Modal, Steps } from 'antd';
-import { ArrowRightOutlined, ArrowLeftOutlined } from '@ant-design/icons';
+import {
+  ArrowRightOutlined,
+  ArrowLeftOutlined,
+  DownloadOutlined,
+} from '@ant-design/icons';
 import styles from './index.less'; // Importamos los estilos con clases únicas
 import StepOne from '../StepOne/StepOne';
 import { SYSTEM_LIST } from '@/constant';
@@ -29,12 +33,11 @@ const Guide = ({ onOpen, isOpen, setIsOpen }) => {
         setSelectedValues={setSelectedValues}
       />
       <div className={styles['install-wizard-footer']}>
-        <Button
-          type="primary"
-          icon={<ArrowRightOutlined />}
-          className={styles['btn']}
-        >
+        <Button type="primary" className={styles['btn']}>
           Download
+          <span className={styles.icon}>
+            <DownloadOutlined />
+          </span>
         </Button>
       </div>
     </Modal>

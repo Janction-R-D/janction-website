@@ -114,11 +114,17 @@ export default function Lessor() {
         <p className={styles['join-text']}>Join Janction Network</p>
         <section className={styles['buttons-box']}>
           <Button className={styles['button']} onClick={() => onOpen()}>
-            Donwload App <AppstoreAddOutlined />
+            Donwload App{' '}
+            <span className={styles.icon}>
+              <AppstoreAddOutlined />
+            </span>
           </Button>
           <Guide isOpen={isOpen} setIsOpen={setIsOpen} onOpen={onOpen} />
           <Button className={styles['button']}>
-            Generate Token ID <ArrowUpOutlined />
+            Generate Token ID{' '}
+            <span className={styles.icon_rotate}>
+              <ArrowUpOutlined />
+            </span>
           </Button>
         </section>
       </section>
@@ -131,11 +137,17 @@ export default function Lessor() {
               <OverviewTable />
               <section className={styles['buttons-box']}>
                 <Button className={styles['button']} onClick={() => onOpen()}>
-                  Donwload App <AppstoreAddOutlined />
+                  Donwload App{' '}
+                  <span className={styles.icon}>
+                    <AppstoreAddOutlined />
+                  </span>
                 </Button>
                 <Guide isOpen={isOpen} setIsOpen={setIsOpen} onOpen={onOpen} />
                 <Button className={styles['button']}>
-                  Generate Token ID <ArrowUpOutlined />
+                  Generate Token ID{' '}
+                  <span className={styles.icon_rotate}>
+                    <ArrowUpOutlined />
+                  </span>
                 </Button>
               </section>
             </>

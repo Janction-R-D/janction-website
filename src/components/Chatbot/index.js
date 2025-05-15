@@ -7,14 +7,18 @@ import { history } from 'umi';
 
 const defaultResponses = [
   {
-    keywords: ['deploy', 'node'],
+    keywords: ['Hello', 'Hey', 'Good Morning'],
+    response: 'Hello , welcome to Janction ChatBot!! How can i help you?',
+  },
+  {
+    keywords: ['deploy'],
     response: 'You can follow the quick start guide in our documentation.',
     link: '/genesis/deployNode',
   },
   {
     keywords: ['my nodes', 'check', 'info'],
     response: 'You can click on "My Nodes" to view them.',
-    link: '/genesis/my-nodes',
+    link: '/genesis/nodes',
   },
   {
     keywords: ['purchase', 'buy', 'instance'],
@@ -25,6 +29,11 @@ const defaultResponses = [
     keywords: ['resource', 'machine', 'instance'],
     response: 'You can redirect to your Instances by clicking here.',
     link: '/genesis/instance',
+  },
+  {
+    keywords: ['Bill', 'Billing'],
+    response: 'You can redirect to your Billings info by clicking here.',
+    link: '/genesis/billDetails',
   },
 ];
 
@@ -49,7 +58,7 @@ const ChatBot = ({ fold }) => {
     const userMessage = { from: 'user', text: trimmed };
     const lowerInput = trimmed.toLowerCase();
     const matched = defaultResponses.find(({ keywords }) =>
-      keywords.some((kw) => lowerInput.includes(kw)),
+      keywords.some((kw) => lowerInput.includes(kw.toLowerCase())),
     );
 
     const fullResponse = matched
