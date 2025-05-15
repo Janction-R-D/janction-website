@@ -93,6 +93,19 @@ export default function OperationModal({ record, getAllNodes }) {
             >
               Remote connection
             </li>
+            <li
+              className={`${'operation-action'}  
+                ${
+                  record.status?.toLowerCase() === 'stopped' ||
+                  record.status?.toLowerCase() === 'expired'
+                    ? styles['forbiden-not']
+                    : ''
+                }
+                `}
+              onClick={() => setSshOpen(true)}
+            >
+              SSH Settings
+            </li>
             <Popconfirm
               title="Please confirm whether to stop renting this node!"
               onConfirm={handleStop}
@@ -111,19 +124,6 @@ export default function OperationModal({ record, getAllNodes }) {
                 }`}
               >
                 Terminate
-              </li>
-              <li
-                className={`${'operation-action'}  
-                ${
-                  record.status?.toLowerCase() === 'stopped' ||
-                  record.status?.toLowerCase() === 'expired'
-                    ? styles['forbiden-not']
-                    : ''
-                }
-                `}
-                onClick={() => setSshOpen(true)}
-              >
-                SSH Settings
               </li>
             </Popconfirm>
             {/* <li>Renewal</li> */}
