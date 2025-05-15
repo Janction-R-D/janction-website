@@ -3,6 +3,7 @@ import { CopyOutlined } from '@ant-design/icons';
 import styles from './index.less';
 import { fetchSshInsert, fetchSshList } from '@/services/genesis';
 import { useState, useEffect } from 'react';
+import { copy } from '@/utils/lang';
 
 const { Text } = Typography;
 
@@ -10,6 +11,8 @@ const SshKeyModal = ({ visible, onCancel, record }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [sshKeys, setSshKeys] = useState([]);
+  const [sshInfo, setSshInfo] = useState({});
+  const [code, setCode] = useState();
 
   const handleOk = () => {
     form.submit();
@@ -18,6 +21,8 @@ const SshKeyModal = ({ visible, onCancel, record }) => {
   const loadSshKeys = async () => {
     try {
       const res = await fetchSshList({ resource_id: record?.id });
+      setSshInfo(res);
+      setCode(`{ ssh ${sshInfo.user}@${sshInfo.host} -p ${sshInfo.port}}`);
       setSshKeys(res?.keys || []);
     } catch (error) {
       console.error('Failed to fetch keys:', error);
@@ -59,7 +64,13 @@ const SshKeyModal = ({ visible, onCancel, record }) => {
     navigator.clipboard.writeText(key);
     message.success('Copied to clipboard!');
   };
-
+  const onCopy = () => {
+    if (!code) {
+      message.warning('SSH CODE is missing, please refresh and try again');
+      return;
+    }
+    copy(code);
+  };
   return (
     <Modal
       open={visible}
@@ -100,7 +111,15 @@ const SshKeyModal = ({ visible, onCancel, record }) => {
             />
           </Form.Item>
         </Form>
-
+        {!code && (
+          <div>
+            SSH CODE
+            <p className={styles['code']}>
+              <code>{code}</code>
+              <i className="iconfont icon-copy" onClick={onCopy} />
+            </p>
+          </div>
+        )}
         {sshKeys?.length > 0 && (
           <div className={styles.savedKeys}>
             <Text strong>Saved SSH keys:</Text>
