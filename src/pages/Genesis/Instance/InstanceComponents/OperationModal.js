@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, message, Popconfirm } from 'antd';
+import { Card, message, Popconfirm, Popover, Select } from 'antd';
 import styles from './operation.less';
 import TerminalModal from './TerminalModal';
 import JanctionPopover from '@/components/JanctionPopover';
@@ -21,22 +21,27 @@ import SshKeyModal from './SshModal';
 export default function OperationModal({ record, getAllNodes }) {
   const [visible, setVisible] = useState(false);
   const [sshOpen, setSshOpen] = useState(false);
-  const [paymentId, setPaymentId] = useState('');
+  const [options, setOptions] = useState([]);
+  const [selectVisible, setSelectVisible] = useState(false);
+  const [selectLoading, setSelectLoading] = useState(false);
+
   const isRunning = record.status.toLowerCase() === 'running';
   const handleConnect = async () => {
-    // if (!isRunning) return;
-    const params = {
-      resource_id: record?.id,
-    };
+    if (!isRunning) return;
+    setSelectVisible(true); // abrir el popover
+    setSelectLoading(true);
     try {
-      const res = fetchResource(params) || [];
-      const resource = res?.routes[0];
-      window.open(resource.url, '_blank');
+      const res = (await fetchResource({ resource_id: record?.id })) || [];
+      setOptions(res.routes || []);
     } catch (error) {
       console.log(error);
+      message.error('Failed to load remote connections');
+    } finally {
+      // if (record.status) setVisible(true); // --> old terminal version
+      setSelectLoading(false);
     }
-    // if (record.status) setVisible(true); // --> old terminal version
   };
+
   // const getOrderInfo = async () => {
   //   const payload = {
   //     node_id: record.node_id,
@@ -87,12 +92,40 @@ export default function OperationModal({ record, getAllNodes }) {
       <JanctionPopover
         content={
           <ul className={styles['more-function']} style={{ padding: '0px' }}>
-            <li
-              onClick={handleConnect}
-              // className={!isRunning && styles['forbiden']}
+            <Popover
+              trigger="click"
+              open={selectVisible}
+              onOpenChange={(v) => setSelectVisible(v)}
+              placement="right"
+              content={
+                <Select
+                  style={{ width: 200 }}
+                  placeholder="Select connection"
+                  loading={selectLoading}
+                  onChange={(value) => {
+                    const selected = options.find((opt) => opt.url === value);
+                    if (selected) {
+                      window.open(selected.url, '_blank');
+                      setSelectVisible(false);
+                    }
+                  }}
+                >
+                  {options.map((opt, idx) => (
+                    <Select.Option key={idx} value={opt.url}>
+                      {opt.name || opt.url}
+                    </Select.Option>
+                  ))}
+                </Select>
+              }
             >
-              Remote connection
-            </li>
+              <li
+                onClick={handleConnect}
+                className={!isRunning ? styles['forbiden'] : ''}
+              >
+                Remote connection
+              </li>
+            </Popover>
+
             <li
               className={`${'operation-action'}  
                 ${
