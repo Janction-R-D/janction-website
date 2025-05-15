@@ -35,33 +35,6 @@ export default function OperationModal({ record, getAllNodes }) {
     }
   };
 
-  // const getOrderInfo = async () => {
-  //   const payload = {
-  //     node_id: record.node_id,
-  //     resource_id: record.id,
-  //   };
-  //   const params = {
-  //     page_size: 50,
-  //     page: 1,
-  //   };
-
-  //   try {
-  //     // const [res] = (await fetchMarketOrder(payload)) || [];
-  //     const { data } = (await fetchMarketOrder(params)) || [];
-  //     const filteredNode = filtrarNodeAndResource(
-  //       data,
-  //       record.node_id,
-  //       record.id,
-  //     );
-  //     console.log(filteredNode);
-  //     const code = filteredNode?.order?.payment_id;
-  //     console.log(code);
-  //     setPaymentId(code);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
   const handleStop = async () => {
     try {
       const { signature, payment_id } = await fetchStopRentParams({
