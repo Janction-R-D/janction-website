@@ -1,28 +1,64 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './index.less';
 import {
   InfoCircleOutlined,
   ReloadOutlined,
   DeleteOutlined,
+  RedoOutlined,
 } from '@ant-design/icons';
 import { Tooltip } from 'antd';
+import { getNodeStatusMatch } from '../extra';
+import dayjs from 'dayjs';
+import ModalDelist from '../ModalDelist';
+import {
+  fetchMarketOrder,
+  fetchNodesDelete,
+  fetchNodesRefresh,
+} from '@/services/genesis';
+import contract from '@/utils/contracts';
+import { calculateDuration } from '@/utils/datetime';
 
-const NodeCard = ({ item }) => {
-  const {
-    id,
-    gpu,
-    status = 'running',
-    yesterdayReward,
-    rewarded,
-    runningTime,
-    listTime,
-  } = item;
-
-  const onList = () => {};
-  const onDelist = () => {};
-  const onReceive = () => {};
-  const onReload = () => {};
-  const onDelete = () => {};
+const NodeCard = ({ item, getList }) => {
+  const { id, yesterdayReward } = item;
+  const getStatus = (item) => {
+    const { isRunning, isActive, isListed } = getNodeStatusMatch(item);
+    if (isRunning) return 'Running';
+    if (isActive) return 'Active';
+    if (isListed) return 'Listed';
+    return 'offline';
+  };
+  const renderGpu = () => {
+    console.log(item);
+    if (!item.attr?.gpu_chip && !item.attr?.cpu_chip) return '--';
+    const cpu = item.attr.cpu_chip;
+    const gpu = item.attr.gpu_chip;
+    return (
+      <span className={styles.gpu_core}>
+        <p>{cpu ? `${cpu[0]} * ${cpu.length}` : '--'}</p>
+        <p>{gpu ? `${gpu[0]} * ${gpu.length}` : '--'}</p>
+      </span>
+    );
+  };
+  const runningTime = () => {
+    const text = item?.last_start_at;
+    const { isRunning, isActive, isListed } = getNodeStatusMatch(item);
+    if (!text) return '--';
+    if (!isActive && !isListed && !isRunning) return '--';
+    return calculateDuration(text, { showSeconds: false });
+  };
+  const lisTime = () => {
+    const text = item?.last_config_at;
+    if (!text) return '--';
+    const time = dayjs(text).format('YYYY-MM-DD HH:mm:ss').split(' ');
+    return (
+      <>
+        <span style={{ textWrap: 'nowrap' }}>
+          {time[0]} {time[1]}
+        </span>
+      </>
+    );
+  };
+  const status = getStatus(item);
 
   return (
     <div className={styles.card}>
@@ -31,7 +67,7 @@ const NodeCard = ({ item }) => {
           <i className="iconfont icon-nvidia" />
           <div>
             <div className={styles.id}>ID：{id}</div>
-            <div className={styles.gpu}>CHIP/GPUS：{gpu}</div>
+            <div className={styles.gpu}>CHIP/GPUS：{renderGpu()}</div>
           </div>
         </div>
         <div className={styles.status}>
@@ -58,7 +94,8 @@ const NodeCard = ({ item }) => {
           <div className={styles.rewardBlock}>
             <div className={styles.label}>Rewarded</div>
             <div className={styles.value}>
-              {rewarded?.toFixed(2)} <span className={styles.unit}>veJCT</span>
+              {item?.rewarned?.toFixed(2)}{' '}
+              <span className={styles.unit}>veJCT</span>
             </div>
           </div>
         </div>
@@ -66,28 +103,129 @@ const NodeCard = ({ item }) => {
         <div className={styles.footer}>
           <div className={styles.meta}>
             <span>
-              Node running time: <b>{runningTime}</b>
+              Node running time: <b>{runningTime()}</b>
             </span>
             <span>
-              list time: <b>{listTime}</b>
+              list time: <b>{lisTime()}</b>
             </span>
           </div>
-          <div className={styles.actions}>
-            <span onClick={onList}>List</span>
-            <span className={styles.divider}>|</span>
-            <span onClick={onDelist}>Delist</span>
-            <span className={styles.divider}>|</span>
-            <span className={styles.receive} onClick={onReceive}>
-              Receive Rewards
-            </span>
-            <span className={styles.divider}>|</span>
-            <ReloadOutlined onClick={onReload} className={styles.iconBtn} />
-            <DeleteOutlined onClick={onDelete} className={styles.iconBtn} />
-          </div>
+          <Operation item={item} getList={getList} />
         </div>
       </section>
     </div>
   );
 };
+const Operation = ({ item, getList }) => {
+  const [isModalOpenStake, setIsModalOpenStake] = useState(false);
+  const { isRunning, isListed } = getNodeStatusMatch(item);
+  const [loading, setLoading] = useState(false);
+  const [paymentId, setPaymentId] = useState('');
 
+  const getOrderInfo = async () => {
+    const data = {
+      resource_id: item.id,
+    };
+    try {
+      const res = (await fetchMarketOrder(data)) || {};
+      const code = res?.order?.payment_id;
+      setPaymentId(code);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const showModalStake = () => {
+    if (!isListed) return;
+    setIsModalOpenStake(true);
+  };
+  const handleNavigate = () => {
+    if (!isRunning) return;
+    history.push('/genesis/mount', {
+      node: item,
+    });
+  };
+
+  const handleOkStake = () => {
+    setIsModalOpenStake(false);
+  };
+  const handleCancelStake = () => {
+    setIsModalOpenStake(false);
+  };
+
+  const onRefresh = async () => {
+    try {
+      setLoading(true);
+      await fetchNodesRefresh({ node_id: item.id });
+      message.success('refresh success!');
+      getList();
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.log('『error』', error);
+    }
+  };
+
+  const onDelete = async () => {
+    try {
+      await fetchNodesDelete({ node_id: item.id });
+      message.success('delete success!');
+      getList();
+    } catch (error) {
+      console.log('『error』', error);
+    }
+  };
+
+  const handleReceive = async () => {
+    try {
+      await getOrderInfo();
+      if (!paymentId) return;
+      await contract.releaseHourlyPayment(paymentId);
+    } catch (error) {
+      message.warning('Operation failed, please try again later!');
+      console.log('『error』', error);
+    }
+  };
+  return (
+    <div className={styles.actions}>
+      <a
+        className={`${styles['operation-action']}  ${
+          !isRunning ? styles['disabled'] : ''
+        }`}
+        onClick={handleNavigate}
+      >
+        List
+      </a>
+      <span className={styles.divider}>|</span>
+      <a
+        className={`${styles['operation-action']}  ${
+          !isListed ? styles['disabled'] : ''
+        }`}
+      >
+        <p onClick={showModalStake}>Delist</p>
+        <ModalDelist
+          record={item}
+          isModalOpen={isModalOpenStake}
+          handleOk={handleOkStake}
+          handleSuccess={getList}
+          handleCancel={handleCancelStake}
+        />
+      </a>
+      <span className={styles.divider}>|</span>
+      <span className={styles.receive} onClick={handleReceive}>
+        Receive Rewards
+      </span>
+      <span className={styles.divider}>|</span>
+      <a onClick={() => onRefresh()}>
+        <RedoOutlined
+          rotate={90}
+          spin={loading}
+          loading={loading}
+          className={styles.iconBtn}
+        />
+      </a>
+      <a onClick={() => onDelete()}>
+        <DeleteOutlined className={styles.iconBtn} />
+      </a>
+    </div>
+  );
+};
 export default NodeCard;

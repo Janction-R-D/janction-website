@@ -2,14 +2,14 @@ import React from 'react';
 import styles from './index.less';
 import { ArrowDownOutlined } from '@ant-design/icons';
 
-const NodeStats = () => {
+const NodeStats = ({ statisticData }) => {
   const totalNodes = 6;
   const running = 4;
   const listed = 1;
   const active = 1;
 
-  const totalIncome = 300;
-  const todayIncome = 60;
+  const totalIncome = 0;
+  const todayIncome = 0;
   const changePercent = -15;
 
   return (
@@ -18,7 +18,7 @@ const NodeStats = () => {
         <section className={styles.left_header}>
           <div className={styles.item}>
             <div className={styles.label}>Total node</div>
-            <div className={styles.value}>{totalNodes}</div>
+            <div className={styles.value}>{statisticData.total}</div>
           </div>
           <div className={styles.item}>
             <div className={styles.label}>Total income</div>
@@ -46,13 +46,16 @@ const NodeStats = () => {
           </div>
           <div className={styles.legend}>
             <span>
-              <i className={styles.runningDot} /> Running nodes: {running}
+              <i className={styles.runningDot} /> Running nodes:{' '}
+              {statisticData.running}
             </span>
             <span>
-              <i className={styles.listedDot} /> Listed nodes: {listed}
+              <i className={styles.listedDot} /> Listed nodes:{' '}
+              {statisticData.listed}
             </span>
             <span>
-              <i className={styles.activeDot} /> Active instances: {active}
+              <i className={styles.activeDot} /> Active instances:{' '}
+              {statisticData.active}
             </span>
           </div>
         </div>

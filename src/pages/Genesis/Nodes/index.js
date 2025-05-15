@@ -67,6 +67,7 @@ export default function Nodes() {
     let running = 0;
     let listed = 0;
     let active = 0;
+    let total = list.length;
     list?.map((item) => {
       const { isRunning, isListed, isActive } = getNodeStatusMatch(item);
       if (isRunning) running += 1;
@@ -74,7 +75,7 @@ export default function Nodes() {
       if (isActive) active += 1;
       return item;
     });
-    return { running, listed, active };
+    return { running, listed, active, total };
   }, [list]);
 
   useEffect(() => {
@@ -124,7 +125,7 @@ export default function Nodes() {
          */}
         <NodeStats statisticData={statisticData} getList={getList} />
 
-        {mockData.length > 0 ? (
+        {list.length > 0 ? (
           <Card className={styles['card']}>
             <header>
               <div className={styles['card-header']}>
@@ -137,7 +138,7 @@ export default function Nodes() {
               />
             </header>
             {/* <NodesTable data={filteredData} getList={getList} /> */}
-            <NodeList data={mockData} />
+            <NodeList data={filteredData} getList={getList} />
           </Card>
         ) : (
           <EmptyNodes />
