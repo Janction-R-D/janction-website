@@ -34,7 +34,7 @@ const initianMessages = [
   { from: 'bot', text: 'How can i purchase an instance' },
 ];
 
-const ChatBot = () => {
+const ChatBot = ({ fold }) => {
   const [visible, setVisible] = useState(false);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
@@ -106,8 +106,15 @@ const ChatBot = () => {
 
   return (
     <>
-      <div className={styles['item-Ai']} onClick={handleOk}>
-        <span>Janction</span>
+      <div
+        className={`${styles['item-Ai']} ${
+          fold ? styles['item-Ai-folded-box'] : ''
+        } `}
+        onClick={handleOk}
+      >
+        <span className={`  ${fold ? styles['item-Ai-folded'] : ''}`}>
+          Janction
+        </span>
         <div className={styles['icon']}>
           <img src={aiImage} />
         </div>

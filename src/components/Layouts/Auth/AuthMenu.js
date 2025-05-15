@@ -115,7 +115,7 @@ export const AuthMenuAside = ({ menu, active, onMenuChange }) => {
         ))}
       </nav>
       <div className={styles['footer']}>
-        <ChatBot />
+        <ChatBot fold={fold} />
         <div
           className={styles['item']}
           onClick={() => {

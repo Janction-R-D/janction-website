@@ -54,12 +54,12 @@ const Arithmetic = () => {
       <header>
         <div className={styles.title}>Arithmetic situation</div>
         <span className={styles.subtitle}>Total</span>
-        <div className={styles.total}>$1.56W</div>
+        <div className={styles.total}>0</div>
       </header>
       <div className={styles.memorySection}>
-        <MemoryRing label="Online memory" used={4.6} max={10} />
-        <MemoryRing label="Offline memory" used={11.1} max={15} />
-        <MemoryRing label="Free memory" used={0.123} max={0.9} />
+        <MemoryRing label="Online memory" used={0} max={10} />
+        <MemoryRing label="Offline memory" used={0} max={15} />
+        <MemoryRing label="Free memory" used={0} max={0.9} />
       </div>
     </div>
   );

@@ -207,7 +207,17 @@
     }
   }
 }
-
+.item-Ai-folded {
+  display: none;
+}
+.item-Ai-folded-box {
+  padding: 4px;
+  width: 50px;
+  img {
+    width: 20px;
+    height: 20px;
+  }
+}
 .floatingModalWrapper {
   position: fixed;
   bottom: 80px; // espacio por encima del botón
@@ -228,6 +238,7 @@
   transition: all ease 250ms;
   cursor: pointer;
   margin-bottom: 12px;
+  transform: all ease 250ms;
   &:hover {
     color: rgb(160, 160, 255);
     border-color: rgb(194, 194, 255);

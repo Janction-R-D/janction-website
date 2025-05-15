@@ -123,7 +123,7 @@ export default function Lessor() {
         </section>
       </section>
       <section className={styles['container']}>
-        {/* <section className={styles['overview-wrapper']}>
+        <section className={styles['overview-wrapper']}>
           {nft_sumary.ammount !== 0 ? (
             <NTFcard nft={nft_sumary} />
           ) : (
@@ -141,7 +141,7 @@ export default function Lessor() {
             </>
           )}
         </section>
-      
+
         <section className={styles['container-info']}>
           <Profit
             lessorsData={lessorsData}
@@ -149,8 +149,8 @@ export default function Lessor() {
             percent={percent}
           />
           <Arithmetic />
-        </section> */}
-        <VideoGrid />
+        </section>
+        {/* <VideoGrid /> */}
       </section>
     </main>
   );
