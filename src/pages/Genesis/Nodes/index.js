@@ -3,58 +3,30 @@ import { Card, message, Pagination } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
 import { Redirect, useModel } from 'umi';
 import Filters from './components/Filters';
-import NodesTable from './components/NodesTable';
-import Resources from './components/Resources';
-import styles from './index.less';
-import { getNodeStatusMatch } from './components/extra';
 import NodeStats from './components/resource';
 import NodeList from './components/nodeList';
 import EmptyNodes from './components/empty';
-const mockData = [
-  {
-    id: 'node-01',
-    gpu: 'NVIDIA A100 x4',
-    status: 'running',
-    yesterdayReward: 12.34,
-    rewarded: 154.7,
-    runningTime: '36h 20m',
-    listTime: '2025-05-01 09:30',
-  },
-  {
-    id: 'node-02',
-    gpu: 'NVIDIA RTX 3090 x2',
-    status: 'stopped',
-    yesterdayReward: 5.67,
-    rewarded: 89.4,
-    runningTime: '12h 10m',
-    listTime: '2025-05-03 15:12',
-  },
-  {
-    id: 'node-03',
-    gpu: 'NVIDIA H100 x1',
-    status: 'running',
-    yesterdayReward: 9.81,
-    rewarded: 103.2,
-    runningTime: '72h 00m',
-    listTime: '2025-04-28 21:00',
-  },
-];
+import styles from './index.less';
+import { getNodeStatusMatch } from './components/extra';
 
 const initQuery = { status: 'all', word: '' };
+
 export default function Nodes() {
   const [list, setList] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [filters, setFilter] = useState(initQuery);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(6); // Puedes ajustar este valor
   const { initialState } = useModel('@@initialState');
   const { isLessee } = initialState || {};
 
   useEffect(() => {
     getList();
   }, []);
+
   const getList = async () => {
     try {
       const res = await fetchNodesList({ mine: true });
-
       setList(res || []);
       setFilteredData(res || []);
       setFilter(initQuery);
@@ -64,54 +36,59 @@ export default function Nodes() {
   };
 
   const statisticData = useMemo(() => {
-    let running = 0;
-    let listed = 0;
-    let active = 0;
-    let total = list.length;
-    list?.map((item) => {
+    let running = 0,
+      listed = 0,
+      active = 0,
+      total = list.length;
+    list?.forEach((item) => {
       const { isRunning, isListed, isActive } = getNodeStatusMatch(item);
       if (isRunning) running += 1;
       if (isListed) listed += 1;
       if (isActive) active += 1;
-      return item;
     });
     return { running, listed, active, total };
   }, [list]);
 
   useEffect(() => {
-    if (!list.length) {
-      return;
-    }
-    let filterData = list.filter((node) => {
+    if (!list.length) return;
+    const filterData = list.filter((node) => {
       const strFlag = node.id
         .toLowerCase()
         .includes(filters?.word.toLowerCase());
       let statusFlag = false;
-      if (!filters?.status || filters?.status == 'all') statusFlag = true;
-      if (filters?.status == 'listed') {
+      if (!filters?.status || filters?.status === 'all') statusFlag = true;
+      if (filters?.status === 'listed') {
         statusFlag =
           node.status_str === 'online' &&
-          node.operating_status_str == 'leisure';
+          node.operating_status_str === 'leisure';
       }
-      if (filters?.status == 'active') {
+      if (filters?.status === 'active') {
         statusFlag =
-          node.status_str === 'online' && node.operating_status_str == 'leased';
+          node.status_str === 'online' &&
+          node.operating_status_str === 'leased';
       }
-      if (filters?.status == 'running') {
+      if (filters?.status === 'running') {
         statusFlag =
           node.status_str === 'online' &&
           node.operating_status_str !== 'leisure' &&
           node.operating_status_str !== 'leased';
       }
-      if (filters?.status == 'offline') {
+      if (filters?.status === 'offline') {
         statusFlag = node.status_str !== 'online';
       }
       return strFlag && statusFlag;
     });
     setFilteredData(filterData);
+    setCurrentPage(1); // Reiniciar a la primera página si se cambia el filtro
   }, [list, filters]);
 
-  if (isLessee) return <Redirect to="/genesis/instance"></Redirect>;
+  // Datos de la página actual
+  const paginatedData = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return filteredData.slice(start, start + pageSize);
+  }, [filteredData, currentPage, pageSize]);
+
+  if (isLessee) return <Redirect to="/genesis/instance" />;
 
   return (
     <div className={styles['nodes-wrapper']}>
@@ -121,10 +98,7 @@ export default function Nodes() {
         </header>
       </section>
       <main className={styles['container']}>
-        {/* <Resources statisticData={statisticData} getList={getList} />
-         */}
         <NodeStats statisticData={statisticData} getList={getList} />
-
         {list.length > 0 ? (
           <Card className={styles['card']}>
             <header>
@@ -137,8 +111,22 @@ export default function Nodes() {
                 filters={filters}
               />
             </header>
-            {/* <NodesTable data={filteredData} getList={getList} /> */}
-            <NodeList data={filteredData} getList={getList} />
+
+            <NodeList data={paginatedData} getList={getList} />
+
+            <div className={styles.pagination_wrapper}>
+              <Pagination
+                current={currentPage}
+                pageSize={pageSize}
+                total={filteredData.length}
+                onChange={(page, size) => {
+                  setCurrentPage(page);
+                  setPageSize(size);
+                }}
+                showSizeChanger
+                pageSizeOptions={['5', '10', '20', '50']}
+              />
+            </div>
           </Card>
         ) : (
           <EmptyNodes />

@@ -10,12 +10,11 @@ import {
   Segmented,
   Space,
 } from 'antd';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { history, useModel, Redirect } from 'umi';
 import JactionEmpty from '../../../components/JactionEmpty';
 import styles from './index.less';
 import HeaderCard from './InstanceComponents/HeaderCard';
-import InstanceCard from './InstanceComponents/InstanceCard';
 import InstanceTable from './instanceTable';
 import {
   AppstoreOutlined,
@@ -35,6 +34,8 @@ function Instance() {
   const [summary, setSummary] = useState(null);
   const [resource, setResource] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(4);
   const getAllNodes = () => {
     fetchNodeList()
       .then((res) => {
@@ -54,7 +55,7 @@ function Instance() {
 
   const handleSearch = (value) => {
     const filtered = resource?.filter((instance) =>
-      instance.name.toLowerCase().includes(value.toLowerCase()),
+      instance.id.toLowerCase().includes(value.toLowerCase()),
     );
     setQuery({ ...query, current: 1 });
     setFilteredData(filtered);
@@ -67,16 +68,11 @@ function Instance() {
       setView('Kanban');
     }
   };
+  const paginatedData = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return filteredData.slice(start, start + pageSize);
+  }, [filteredData, currentPage, pageSize]);
 
-  const onPageChange = (page) => {
-    setQuery({ ...query, current: page });
-    //Pagination Control
-    const endIndex = page * query.size;
-    const startINdex = endIndex - query.size;
-    const filterData = resource?.slice(startINdex, endIndex);
-
-    setFilteredData(filterData);
-  };
   if (!isLessee) return <Redirect to="/genesis/nodes"></Redirect>;
   return (
     <>
@@ -89,7 +85,7 @@ function Instance() {
       {showOverView && (
         <HeaderCard summary={summary} getAllNodes={getAllNodes} />
       )}
-      {filteredData.length >= 1 ? (
+      {resource.length >= 1 ? (
         <Card className={styles['card-table']}>
           <Row justify="space-between" style={{ gap: '12px' }} align="middle">
             <Col
@@ -139,7 +135,7 @@ function Instance() {
             <section className={styles['instances']}>
               {!isEmpty(filteredData) && (
                 <>
-                  {filteredData?.map((instance, index) => (
+                  {paginatedData?.map((instance, index) => (
                     <InstanceMonitor
                       key={index}
                       instance={instance}
@@ -153,11 +149,14 @@ function Instance() {
                   ))}
                   <div className={styles['pagination-wrapper']}>
                     <Pagination
-                      current={query?.current}
-                      pageSize={query?.size}
-                      total={resource?.length}
+                      current={currentPage}
+                      pageSize={pageSize}
+                      total={filteredData.length}
+                      onChange={(page, size) => {
+                        setCurrentPage(page);
+                        setPageSize(size);
+                      }}
                       showLessItems
-                      onChange={onPageChange}
                     />
                   </div>
                 </>
