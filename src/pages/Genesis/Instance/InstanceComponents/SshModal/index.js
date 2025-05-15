@@ -20,8 +20,9 @@ const SshKeyModal = ({ visible, onCancel, record }) => {
 
   const loadSshKeys = async () => {
     try {
-      const res = await fetchSshList({ resource_id: record?.id });
+      const res = (await fetchSshList({ resource_id: record?.id })) || {};
       setSshInfo(res);
+
       setCode(`ssh ${sshInfo.user}@${sshInfo.host} -p ${sshInfo.port}`);
       setSshKeys(res?.keys || []);
     } catch (error) {
