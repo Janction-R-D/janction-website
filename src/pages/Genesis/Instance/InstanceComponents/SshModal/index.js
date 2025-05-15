@@ -43,13 +43,12 @@ const SshKeyModal = ({ visible, onCancel, record }) => {
     };
     try {
       setLoading(true);
-      await fetchSshInsert(payload);
+      const res = await fetchSshInsert(payload);
       message.success('SSH key added successfully!');
       form.resetFields();
       loadSshKeys();
     } catch (error) {
       console.log(error);
-      message.error('Operation failed!!');
     } finally {
       setLoading(false);
     }
