@@ -213,7 +213,7 @@ export default function Mount() {
     setMinPeriod(newMinPeriod);
   };
 
-  // if (isLessee || !node) return <Redirect to="/genesis/dashboard"></Redirect>;
+  if (isLessee || !node) return <Redirect to="/genesis/dashboard"></Redirect>;
 
   return (
     <form className={styles['main']}>
@@ -243,7 +243,7 @@ export default function Mount() {
                   readOnly={node?.id}
                 />
                 <Button
-                  className={styles['create-btn']}
+                  className={styles['connect']}
                   type="primary"
                   onClick={getConfigInfo}
                   disabled={node?.id}
