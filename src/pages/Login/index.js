@@ -1,4 +1,4 @@
-import { fetchInviteAccept } from '@/services/genesis';
+import { fetchInviteAccept, fetchUserConfig } from '@/services/genesis';
 import { fetchUserNonce, fetchUserVerify } from '@/services/login';
 import storage from '@/utils/storage';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
@@ -19,7 +19,7 @@ const expires = 60 * 60 * 10 * 1000;
 const Login = (props) => {
   const location = useLocation();
   const { inviterCode } = location.query || {};
-
+  const [isNewUser, setIsNewUser] = useState();
   const { address } = useAccount();
   const { openConnectModal } = useConnectModal();
   const { signMessageAsync } = useSignMessage();
@@ -105,8 +105,20 @@ const Login = (props) => {
       message.destroy('loading');
     },
   });
-
+  const checkIsNew = async () => {
+    try {
+      const res = await fetchUserConfig();
+      const check = res?.isNew_user;
+      setIsNewUser(check);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const onRedirect = async (address) => {
+    await checkIsNew();
+    if (!isNewUser) {
+      return window.location.replace(`/genesis/rol`);
+    }
     const from = history.location.query?.from || '/genesis/dashboard';
     if (inviterCode) {
       await bindCode(address);

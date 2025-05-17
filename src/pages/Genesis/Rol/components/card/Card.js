@@ -2,6 +2,7 @@ import { Card, Button, Divider } from 'antd';
 import styles from './index.less';
 import { history, useModel } from 'umi';
 import storage from '@/utils/storage';
+import { updateUserConfig } from '@/services/genesis';
 
 const IdentityCard = ({ card }) => {
   const { initialState, setInitialState } = useModel('@@initialState');
@@ -14,7 +15,18 @@ const IdentityCard = ({ card }) => {
       isLessee: !isLessee,
     });
   };
-  const handleClick = () => {
+  const changeSetting = async () => {
+    const payload = {
+      isNew_user: true,
+    };
+    try {
+      const res = await updateUserConfig(payload);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleClick = async () => {
+    await changeSetting();
     onIdentityChange();
     history.push(card.path);
   };

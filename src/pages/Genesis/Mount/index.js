@@ -213,12 +213,15 @@ export default function Mount() {
     setMinPeriod(newMinPeriod);
   };
 
-  if (isLessee || !node) return <Redirect to="/genesis/dashboard"></Redirect>;
+  // if (isLessee || !node) return <Redirect to="/genesis/dashboard"></Redirect>;
 
   return (
     <form className={styles['main']}>
-      <h1 className={styles['title']}>Device Rental Configuration</h1>
-
+      <section className={styles['header-wrapper']}>
+        <header>
+          <h1 className={styles['title']}>Device Rental Configuration</h1>{' '}
+        </header>
+      </section>
       <Card className={styles['card']}>
         <section className={styles['card-header']}>
           <h3> Device information Upload</h3>
@@ -388,7 +391,7 @@ export default function Mount() {
         </Checkbox>
         <Button
           loading={confirmLoading}
-          className={styles['create-btn']}
+          className={styles['connect-btn']}
           onClick={(e) => handleSubmit(e)}
         >
           Confirm

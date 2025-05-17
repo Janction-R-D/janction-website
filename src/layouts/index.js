@@ -21,7 +21,7 @@ export const authRoute = [
   '/genesis/dashboard',
   '/genesis/deployNode',
   '/genesis/nodes',
-  '/genesis/mount',
+  // '/genesis/mount',
   '/genesis/instance',
   '/genesis/instance/create',
   '/genesis/purchase',

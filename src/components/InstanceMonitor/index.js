@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Card, Divider, Tabs } from 'antd';
 import {
   ClockCircleOutlined,
@@ -11,7 +11,7 @@ import MonitoringChart from './MonitoringChart';
 import styles from './index.less';
 import ResourceUtilization from './ResourceUtilization';
 import OperationModal from '@/pages/Genesis/Instance/InstanceComponents/OperationModal';
-import { fetchNodeList } from '@/services/genesis';
+import { fetchNodeList, fetchStatistic } from '@/services/genesis';
 import { formatISODate } from '@/utils/datetime';
 import { convertMBtoGB } from '@/utils/lang';
 
@@ -30,7 +30,22 @@ const formatDate = (dateString) => {
 
 const InstanceMonitor = ({ instance }) => {
   const [activeTab, setActiveTab] = useState('cpu');
-
+  const [reosurceStat, setResourceStat] = useState({});
+  useEffect(() => {
+    getStatistic();
+  }, []);
+  const getStatistic = async () => {
+    try {
+      const payload = {
+        resource_id: instance?.id,
+      };
+      const { data } = (await fetchStatistic(payload)) || {};
+      const res = (await data[instance.id]?.data) || {};
+      setResourceStat(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const instanceData = {
     resource_id: instance?.id,
     node_id: instance?.node_id,
@@ -50,22 +65,44 @@ const InstanceMonitor = ({ instance }) => {
     resource: instance.activity?.resource_id,
   };
 
+  const cpuData = [];
+  const memoryData = [];
+  const networkData = [];
+  // Recorrer y llenar los arreglos
+  for (const timestamp in reosurceStat) {
+    const entry = reosurceStat[timestamp];
+
+    cpuData.push({
+      date: formatISODate(timestamp).split(' ')?.[0],
+      value: entry.cpu_usage,
+    });
+
+    memoryData.push({
+      date: formatISODate(timestamp).split(' ')?.[0],
+      value: entry.memory_usage,
+    });
+
+    networkData.push({
+      date: formatISODate(timestamp).split(' ')?.[0],
+      value: entry.network_usage,
+    });
+  }
   const dataMap = {
-    cpu: [],
-    memory: [],
-    gpu: [],
-    network: [],
+    cpu: cpuData,
+    memory: memoryData,
+    network: networkData,
   };
 
   const unitMap = {
     cpu: '%',
     memory: ' MB',
-    gpu: '%',
+    // gpu: '%',
     network: ' Mbps',
   };
   const getNode = () => {
     //setear el valor de node
   };
+
   return (
     <Card className={styles.card} bordered={false}>
       <header className={styles.main_header}>
@@ -136,7 +173,7 @@ const InstanceMonitor = ({ instance }) => {
           >
             <TabPane tab="CPU" key="cpu" />
             <TabPane tab="Memory" key="memory" />
-            <TabPane tab="GPU" key="gpu" />
+            {/* <TabPane tab="GPU" key="gpu" /> */}
             <TabPane tab="Network" key="network" />
           </Tabs>
 

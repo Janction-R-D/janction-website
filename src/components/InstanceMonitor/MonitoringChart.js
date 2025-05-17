@@ -8,6 +8,30 @@ const MonitoringChart = ({ data, label, unit }) => {
   useEffect(() => {
     const chart = echarts.init(chartRef.current);
 
+    // for invalid data , display "No data"
+    if (
+      !data ||
+      data.length === 0 ||
+      data.every((item) => item.value == null)
+    ) {
+      chart.clear(); // clear previus config if exist
+      chart.setOption({
+        title: {
+          text: 'No data',
+          left: 'center',
+          top: 'middle',
+          textStyle: {
+            color: '#aaa',
+            fontSize: 14,
+          },
+        },
+      });
+      return () => chart.dispose();
+    }
+
+    const date = data.map((item) => item.date);
+    const value = data.map((item) => item.value);
+
     const option = {
       tooltip: {
         trigger: 'axis',
@@ -19,7 +43,7 @@ const MonitoringChart = ({ data, label, unit }) => {
       xAxis: {
         type: 'category',
         boundaryGap: false,
-        data: data.map((_, i) => i + 1),
+        data: date,
         axisLine: { lineStyle: { color: '#3EC7FF' } },
         axisLabel: { color: '#aaa', fontSize: 10 },
       },
@@ -42,7 +66,7 @@ const MonitoringChart = ({ data, label, unit }) => {
           name: label,
           type: 'line',
           smooth: true,
-          data,
+          data: value,
           symbol: 'circle',
           symbolSize: 6,
           lineStyle: { color: '#3EC7FF' },

@@ -195,6 +195,16 @@ export const changeUserConfig = (data) => {
     },
   });
 };
+export const updateUserConfig = (data) => {
+  return request(`${baseUrl}/user/config`, {
+    method: 'PATCH',
+    loginAuth: true,
+    body: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+};
 
 //fetch ConfigInfo
 export const fetchNodesConfigInfo = (params) => {
@@ -350,6 +360,16 @@ export const fetchListFilter = (data) => {
 export const fetchListOptions = (data) => {
   return request(`${baseUrl}/node/filter/options`, {
     method: 'GET',
+    data,
+    loginAuth: true,
+  });
+};
+
+// resource statistic
+
+export const fetchStatistic = (data) => {
+  return request(`${baseUrl}/resource/statistics`, {
+    method: 'POST',
     data,
     loginAuth: true,
   });

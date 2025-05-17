@@ -4,19 +4,39 @@ import styles from './index.less';
 import { ARCHITECTURE, SYSTEM_LIST } from '@/constant';
 import { AppstoreAddOutlined } from '@ant-design/icons';
 const { Text } = Typography;
+const links = [
+  {
+    operatingSystem: 'windows',
+    appLink:
+      'https://github.com/Janction-R-D/janction-desktop-app/releases/download/untagged-265ce3654e3061615f12/JanctionApp.1.0.0.exe',
+  },
+
+  {
+    operatingSystem: 'macos',
+    appLink:
+      'https://github.com/Janction-R-D/janction-desktop-app/releases/download/untagged-265ce3654e3061615f12/JanctionApp.1.0.0.exe',
+  },
+];
 const DeployNode = () => {
   const [selectedValues, setSelectedValues] = useState({});
   const [architecture, setArchitecture] = useState([]);
+  const [downloadLink, setDownloadLink] = useState();
   useEffect(() => {
     if (!selectedValues?.system) return;
     const _architecture = ARCHITECTURE.filter((item) =>
       item.sys.includes(selectedValues.system),
     );
+    const getLink = links.find(
+      (item) => item.operatingSystem == selectedValues.system,
+    );
+    if (!getLink) {
+      setDownloadLink(null);
+      return;
+    }
+    setDownloadLink(getLink.appLink);
     setArchitecture(_architecture);
-    console.log(selectedValues);
   }, [selectedValues]);
   const onSysSelect = (sys) => {
-    console.log(sys);
     const _architecture = ARCHITECTURE.filter((item) =>
       item.sys.includes(sys.value),
     );
@@ -26,7 +46,7 @@ const DeployNode = () => {
       system: sys.value,
     });
   };
-
+  console.log(downloadLink);
   return (
     <section className={styles['dashboard-wrapper']}>
       <section className={styles['header-wrapper']}>
@@ -88,11 +108,22 @@ const DeployNode = () => {
                     </ul>
                   </>
                 )}
-                <div className={styles['buttons-box']}>
-                  <Button className={styles['button']}>
-                    Download App <AppstoreAddOutlined color="red" />
-                  </Button>
-                </div>
+                {downloadLink && (
+                  <div className={styles['buttons-box']}>
+                    <a
+                      href={downloadLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Button
+                        className={styles['button']}
+                        onClick={() => console.log(downloadLink)}
+                      >
+                        Download App <AppstoreAddOutlined color="red" />
+                      </Button>
+                    </a>
+                  </div>
+                )}
               </section>
             </Card>
           </Timeline.Item>
