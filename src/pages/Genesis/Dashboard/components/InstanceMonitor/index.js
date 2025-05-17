@@ -1,17 +1,10 @@
 import React, { useState } from 'react';
 import { Button, Card, Divider, Tabs } from 'antd';
-import {
-  ClockCircleOutlined,
-  DesktopOutlined,
-  HourglassOutlined,
-  PlayCircleOutlined,
-  StopOutlined,
-} from '@ant-design/icons';
+import { HourglassOutlined, PlayCircleOutlined } from '@ant-design/icons';
 import MonitoringChart from './MonitoringChart';
 import styles from './index.less';
 import ResourceUtilization from './ResourceUtilization';
 import OperationModal from '@/pages/Genesis/Instance/InstanceComponents/OperationModal';
-import { fetchNodeList } from '@/services/genesis';
 
 const { TabPane } = Tabs;
 
@@ -104,7 +97,7 @@ const InstanceMonitor = () => {
           >
             <TabPane tab="CPU" key="cpu" />
             <TabPane tab="Memory" key="memory" />
-            <TabPane tab="GPU" key="gpu" />
+            {/* <TabPane tab="GPU" key="gpu" /> */}
             <TabPane tab="Network" key="network" />
           </Tabs>
 

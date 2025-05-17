@@ -2,8 +2,8 @@ import React from 'react';
 import ReactECharts from 'echarts-for-react';
 import styles from './index.less';
 import { Divider } from 'antd';
-const DiskRing = ({ label, used, max }) => {
-  const percent = Math.round((used / max) * 100);
+const DiskRing = ({ label, used = 0, max = 0 }) => {
+  const percent = Math.round((used / max) * 100) || 0;
 
   const formatValue = (value) => {
     if (value >= 1) return `${value.toFixed(1)} GB`;
@@ -60,8 +60,8 @@ const ResourceUtilization = () => {
         <div className={styles.title}>Resource utilization</div>
       </header>
       <div className={styles.diskSection}>
-        <DiskRing label="System disk" used={46} max={100} />
-        <DiskRing label="Data disk" used={72} max={120} />
+        <DiskRing label="System disk" />
+        <DiskRing label="Data disk" />
       </div>
       <div className={styles.information}>
         <div className={styles.title}>Instance Information</div>

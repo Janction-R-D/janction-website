@@ -42,7 +42,13 @@ const StatusTag = ({ status }) => {
   );
 };
 
-const OverviewTable = () => {
+const OverviewTable = ({ overview }) => {
+  const mappedData = overview?.map((item) => ({
+    id: item.resource_id,
+    status: item.status,
+    cpu: item.cpu_usage,
+  }));
+  console.log(mappedData);
   return (
     <div className={styles.container}>
       <div className={styles.sidebar}>
@@ -57,15 +63,15 @@ const OverviewTable = () => {
         <div className={styles.header}>
           <div>Device ID</div>
           <div>Status</div>
-          <div>rewarded</div>
+          <div>CPU usage</div>
         </div>
-        {mockOverviewData.map((item, index) => (
+        {mappedData?.map((item, index) => (
           <div key={index} className={styles.row}>
             <div className={styles.cell_title}>{item.id}</div>
             <div className={styles.cell}>
               <StatusTag status={item.status} />
             </div>
-            <div className={styles.cell}>{item.reward}</div>
+            <div className={styles.cell}>{item.cpu} %</div>
           </div>
         ))}
       </div>

@@ -82,13 +82,16 @@ export default function Lessor() {
   }, [lessorsData]);
 
   const nft_sumary = useMemo(() => {
-    const { amount, detail } = lessorsData?.nft_summary || {};
+    const { ammount, detail } = lessorsData?.nft_summary || {};
     return {
-      ammount: amount || 0,
+      ammount: ammount || 0,
       detail: detail || [],
     };
   }, [lessorsData]);
-
+  const overview = useMemo(() => {
+    const res = lessorsData?.activities || [];
+    return res;
+  }, [lessorsData]);
   const onSortChange = (e) => {
     const sortField = e.target.value;
     const _monitorList = monitorList.sort(
@@ -134,7 +137,7 @@ export default function Lessor() {
             <NTFcard nft={nft_sumary} />
           ) : (
             <>
-              <OverviewTable />
+              <OverviewTable overview={overview} />
               <section className={styles['buttons-box']}>
                 <Button className={styles['button']} onClick={() => onOpen()}>
                   Donwload App{' '}

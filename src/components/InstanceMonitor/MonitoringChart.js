@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import * as echarts from 'echarts';
 import styles from './index.less';
 
-const MonitoringChart = ({ data, label, unit }) => {
+const MonitoringChart = ({ data = [], label, unit }) => {
   const chartRef = useRef();
 
   useEffect(() => {

@@ -108,7 +108,7 @@ const Login = (props) => {
   const checkIsNew = async () => {
     try {
       const res = await fetchUserConfig();
-      const check = res?.isNew_user;
+      const check = await res?.isNew_user;
       setIsNewUser(check);
     } catch (err) {
       console.log(err);
@@ -116,7 +116,7 @@ const Login = (props) => {
   };
   const onRedirect = async (address) => {
     await checkIsNew();
-    if (!isNewUser) {
+    if (isNewUser) {
       return window.location.replace(`/genesis/rol`);
     }
     const from = history.location.query?.from || '/genesis/dashboard';
