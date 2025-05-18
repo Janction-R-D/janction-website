@@ -37,9 +37,9 @@ const PurDuration = (props) => {
   }, [formValues]);
   const limit = useMemo(() => {
     const minUnitVal =
-      getUnitValueFromLabel(node?.config?.minimum_lease_unit) || Duration.Hour;
+      getUnitValueFromLabel(node?.config?.minimum_lease_unit) || Duration.Day;
     const maxUnitVal =
-      getUnitValueFromLabel(node?.config?.maximum_lease_unit) || Duration.Month;
+      getUnitValueFromLabel(node?.config?.maximum_lease_unit) ?? Duration.Year;
 
     return {
       minValue: node?.config?.minimum_lease_duration ?? 1,
@@ -105,7 +105,11 @@ const PurDuration = (props) => {
                     );
                   }
 
-                  if (unit === undefined || unit === null || unit === '') {
+                  if (
+                    node &&
+                    unit === undefined &&
+                    (unit === null || unit === '')
+                  ) {
                     return Promise.reject(
                       new Error('Duration unit is required.'),
                     );
@@ -129,7 +133,7 @@ const PurDuration = (props) => {
                     limit.minValue * DURATION_TO_HOURS[limit.minUnit];
                   const maxInHours =
                     limit.maxValue * DURATION_TO_HOURS[limit.maxUnit];
-                  console.log('object');
+
                   // Verificar los límites globales de valor
                   if (valueInHours < minInHours || valueInHours > maxInHours) {
                     return Promise.reject(
