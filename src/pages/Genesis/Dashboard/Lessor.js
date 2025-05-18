@@ -8,16 +8,19 @@ import OverviewTable from './components/Overview';
 import Profit from './components/profit';
 import Arithmetic from './components/artihmetic';
 
-import { fetchLessor } from '@/services/genesis';
+import { fetchLessor, fetchNodeList } from '@/services/genesis';
 import { useModel } from 'umi';
 import { ARITHMETIC_SITUATION, convertMBtoGB } from './data';
 import NTFcard from './components/NTFcard';
 import VideoGrid from './components/VideoGrid';
+import SkeletonGrid from './components/SkeletonGrid';
 
 export default function Lessor() {
   const [isOpen, setIsOpen] = useState(false);
   const [lessorsData, setLessorsData] = useState();
   const [monitorList, setMonitorList] = useState([]);
+  const [summary, setSummary] = useState({});
+  const [loading, setLoading] = useState(false);
   const { code } = useModel('common');
 
   const percent = useMemo(() => {
@@ -28,6 +31,7 @@ export default function Lessor() {
 
   useEffect(() => {
     getLessors();
+    getAllNodes();
   }, []);
   const getLessors = async () => {
     try {
@@ -38,7 +42,17 @@ export default function Lessor() {
       console.log('『error』', error);
     }
   };
-
+  const getAllNodes = async () => {
+    try {
+      setLoading(true);
+      const res = await fetchNodeList();
+      setSummary(res?.summary || null);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
   const sales_by_rep = useMemo(() => {
     const maxPrice = (lessorsData?.sales_by_rep || []).reduce(
       (max, item) => (item.price > max ? item.price : max),
@@ -82,9 +96,9 @@ export default function Lessor() {
   }, [lessorsData]);
 
   const nft_sumary = useMemo(() => {
-    const { ammount, detail } = lessorsData?.nft_summary || {};
+    const { amount, detail } = lessorsData?.nft_summary || {};
     return {
-      ammount: ammount || 0,
+      ammount: amount || 0,
       detail: detail || [],
     };
   }, [lessorsData]);
@@ -132,40 +146,53 @@ export default function Lessor() {
         </section>
       </section>
       <section className={styles['container']}>
-        <section className={styles['overview-wrapper']}>
-          {nft_sumary.ammount !== 0 ? (
-            <NTFcard nft={nft_sumary} />
-          ) : (
-            <>
-              <OverviewTable overview={overview} />
-              <section className={styles['buttons-box']}>
-                <Button className={styles['button']} onClick={() => onOpen()}>
-                  Donwload App{' '}
-                  <span className={styles.icon}>
-                    <AppstoreAddOutlined />
-                  </span>
-                </Button>
-                <Guide isOpen={isOpen} setIsOpen={setIsOpen} onOpen={onOpen} />
-                <Button className={styles['button']}>
-                  Generate Token ID{' '}
-                  <span className={styles.icon_rotate}>
-                    <ArrowUpOutlined />
-                  </span>
-                </Button>
-              </section>
-            </>
-          )}
-        </section>
+        {loading && <SkeletonGrid />}
+        {summary?.total > 0 && !loading ? (
+          <>
+            <section className={styles['overview-wrapper']}>
+              {nft_sumary.ammount !== 0 ? (
+                <NTFcard nft={nft_sumary} />
+              ) : (
+                <>
+                  <OverviewTable overview={overview} />
+                  <section className={styles['buttons-box']}>
+                    <Button
+                      className={styles['button']}
+                      onClick={() => onOpen()}
+                    >
+                      Donwload App{' '}
+                      <span className={styles.icon}>
+                        <AppstoreAddOutlined />
+                      </span>
+                    </Button>
+                    <Guide
+                      isOpen={isOpen}
+                      setIsOpen={setIsOpen}
+                      onOpen={onOpen}
+                    />
+                    <Button className={styles['button']}>
+                      Generate Token ID{' '}
+                      <span className={styles.icon_rotate}>
+                        <ArrowUpOutlined />
+                      </span>
+                    </Button>
+                  </section>
+                </>
+              )}
+            </section>
 
-        <section className={styles['container-info']}>
-          <Profit
-            lessorsData={lessorsData}
-            getLessors={getLessors}
-            percent={percent}
-          />
-          <Arithmetic />
-        </section>
-        {/* <VideoGrid /> */}
+            <section className={styles['container-info']}>
+              <Profit
+                lessorsData={lessorsData}
+                getLessors={getLessors}
+                percent={percent}
+              />
+              <Arithmetic />
+            </section>
+          </>
+        ) : (
+          <VideoGrid />
+        )}
       </section>
     </main>
   );
