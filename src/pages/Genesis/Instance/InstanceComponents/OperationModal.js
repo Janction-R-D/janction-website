@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, message, Popconfirm, Popover, Select } from 'antd';
 import styles from './operation.less';
 import TerminalModal from './TerminalModal';
@@ -17,7 +17,7 @@ export default function OperationModal({ record, getAllNodes }) {
   const [options, setOptions] = useState([]);
   const [selectVisible, setSelectVisible] = useState(false);
   const [selectLoading, setSelectLoading] = useState(false);
-
+  const [selectValue, setSelectValue] = useState(undefined);
   const isRunning = record.status.toLowerCase() === 'running';
   const handleConnect = async () => {
     if (!isRunning) return;
@@ -34,7 +34,15 @@ export default function OperationModal({ record, getAllNodes }) {
       setSelectLoading(false);
     }
   };
-
+  useEffect(() => {
+    if (!selectVisible) {
+      setOptions([]);
+      setSelectValue(undefined);
+    }
+    if (selectVisible) {
+      handleConnect();
+    }
+  }, [selectVisible]);
   const handleStop = async () => {
     try {
       const { signature, payment_id } = await fetchStopRentParams({
@@ -59,22 +67,41 @@ export default function OperationModal({ record, getAllNodes }) {
         content={
           <ul className={styles['more-function']} style={{ padding: '0px' }}>
             <Popover
-              trigger="click"
+              trigger="hover"
               open={isRunning && selectVisible}
-              onOpenChange={(v) => setSelectVisible(v)}
+              onOpenChange={(v) => {
+                setSelectVisible(v);
+                if (!v) {
+                  setSelectValue(undefined);
+                }
+              }}
               placement="right"
               content={
                 <Select
-                  style={{ width: 200 }}
-                  placeholder="Select connection"
-                  loading={selectLoading}
+                  value={selectValue}
                   onChange={(value) => {
                     const selected = options.find((opt) => opt.url === value);
                     if (selected) {
                       window.open(selected.url, '_blank');
-                      setSelectVisible(false);
                     }
+                    setSelectValue(value);
                   }}
+                  style={{ width: 200 }}
+                  placeholder="Select connection"
+                  loading={selectLoading}
+                  notFoundContent={
+                    <span
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        flexDirection: 'column',
+                      }}
+                    >
+                      {' '}
+                      <p>Ups, sorry!</p>
+                      <p>Not resource url founded</p>
+                    </span>
+                  }
                 >
                   {options.map((opt, idx) => (
                     <Select.Option key={idx} value={opt.url}>
