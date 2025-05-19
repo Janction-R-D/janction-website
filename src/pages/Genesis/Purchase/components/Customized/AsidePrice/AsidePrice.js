@@ -48,8 +48,6 @@ export default function AsidePrice({ formValues, styles, onConfirm }) {
             {renderSection('AI Framework', formValues?.ai_framework)}
             {renderSection(
               'Purchase Duration',
-              getDurationUnit(formValues?.purDuration?.value) !== undefined &&
-                formValues?.purDuration,
               <span>
                 {formValues?.purDuration?.value}{' '}
                 {getDurationUnit(formValues?.purDuration?.value)}

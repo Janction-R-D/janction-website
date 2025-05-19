@@ -3,6 +3,7 @@ import { Duration, DURATION_OPTIONS } from '@/constant';
 import { Button, Form, Input, InputNumber, Select } from 'antd';
 import LabelVal from '../Card/LabelVal';
 import styles from './index.less';
+import { useEffect, useMemo } from 'react';
 
 const DURATION_TO_HOURS = {
   [Duration.Hour]: 1,
@@ -21,16 +22,16 @@ const UNIT_MAX_VALUES = {
 
 const PurDuration = ({ formValues, form }) => {
   const { node } = formValues || {};
-  const purDuration = form.getFieldValue('purDuration') || {};
-
-  const [value, setValue] = useState(purDuration?.value ?? 1);
-  const [unit, setUnit] = useState(purDuration.unit ?? Duration.Day);
-
+  useEffect(() => {
+    if (form) {
+      form.validateFields(['purDuration']);
+    }
+  }, [formValues]);
   const limit = useMemo(() => {
     const minUnitVal =
-      getUnitValueFromLabel(node?.config?.minimum_lease_unit) ?? Duration.Hour;
+      getUnitValueFromLabel(node?.config?.minimum_lease_unit) || Duration.Day;
     const maxUnitVal =
-      getUnitValueFromLabel(node?.config?.maximum_lease_unit) ?? Duration.Month;
+      getUnitValueFromLabel(node?.config?.maximum_lease_unit) ?? Duration.Year;
 
     return {
       minValue: node?.config?.minimum_lease_duration ?? 1,
@@ -138,12 +139,16 @@ const PurDuration = ({ formValues, form }) => {
                   );
                 }
 
-                if (unit === undefined || unit === null || unit === '') {
+                if (
+                  node &&
+                  unit === undefined &&
+                  (unit === null || unit === '')
+                ) {
                   return Promise.reject(
                     new Error('Duration unit is required.'),
                   );
                 }
-
+                // Validar los valores máximos específicos por unidad
                 if (val > (UNIT_MAX_VALUES[unit] ?? 30)) {
                   const unitLabel = Object.keys(Duration).find(
                     (key) => Duration[key] === unit,
