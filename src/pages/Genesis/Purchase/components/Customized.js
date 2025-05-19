@@ -107,7 +107,7 @@ const Customized = () => {
       content: (
         <Card className={styles['processor-conf-wrapper']}>
           <Form.Item name="purDuration">
-            <PurDuration formValues={formValues} />
+            <PurDuration formValues={formValues} form={form} />
           </Form.Item>
         </Card>
       ),

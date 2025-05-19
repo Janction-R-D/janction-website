@@ -2,7 +2,7 @@ import { Duration, DURATION_OPTIONS } from '@/constant';
 import { Form, InputNumber, Select } from 'antd';
 import LabelVal from '../Card/LabelVal';
 import styles from './index.less';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
 const DURATION_TO_HOURS = {
   [Duration.Hour]: 1,
@@ -30,12 +30,16 @@ const getUnitValueFromLabel = (label) => {
 const PurDuration = (props) => {
   const { formValues, form } = props;
   const { node } = formValues || {};
-
+  useEffect(() => {
+    if (form) {
+      form.validateFields(['purDuration']);
+    }
+  }, [formValues]);
   const limit = useMemo(() => {
     const minUnitVal =
-      getUnitValueFromLabel(node?.config?.minimum_lease_unit) || Duration.Hour;
+      getUnitValueFromLabel(node?.config?.minimum_lease_unit) || Duration.Day;
     const maxUnitVal =
-      getUnitValueFromLabel(node?.config?.maximum_lease_unit) || Duration.Month;
+      getUnitValueFromLabel(node?.config?.maximum_lease_unit) ?? Duration.Year;
 
     return {
       minValue: node?.config?.minimum_lease_duration ?? 1,
@@ -101,7 +105,11 @@ const PurDuration = (props) => {
                     );
                   }
 
-                  if (unit === undefined || unit === null || unit === '') {
+                  if (
+                    node &&
+                    unit === undefined &&
+                    (unit === null || unit === '')
+                  ) {
                     return Promise.reject(
                       new Error('Duration unit is required.'),
                     );
