@@ -2,7 +2,7 @@ import React from 'react';
 import ReactECharts from 'echarts-for-react';
 import styles from './index.less';
 import { Divider } from 'antd';
-const DiskRing = ({ label, used, max }) => {
+const DiskRing = ({ label, used = 0, max = 0 }) => {
   const percent = Math.round((used / max) * 100);
 
   const formatValue = (value) => {

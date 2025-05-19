@@ -3,7 +3,6 @@ import { Duration, DURATION_OPTIONS } from '@/constant';
 import { Button, Form, Input, InputNumber, Select } from 'antd';
 import LabelVal from '../Card/LabelVal';
 import styles from './index.less';
-import { useEffect, useMemo } from 'react';
 
 const DURATION_TO_HOURS = {
   [Duration.Hour]: 1,
@@ -21,7 +20,7 @@ const UNIT_MAX_VALUES = {
 };
 
 const PurDuration = ({ formValues, form }) => {
-  const { node } = formValues || {};
+  const { node, purDuration } = formValues || {};
   useEffect(() => {
     if (form) {
       form.validateFields(['purDuration']);
@@ -97,8 +96,8 @@ const PurDuration = ({ formValues, form }) => {
           <Input
             type="number"
             bordered={false}
-            value={value}
-            defaultValue={value}
+            // value={value}
+            // defaultValue={value}
             min={1}
             onChange={handleInputChange}
             style={{ width: '60px' }}
@@ -111,11 +110,11 @@ const PurDuration = ({ formValues, form }) => {
         <Form.Item
           name={['purDuration', 'unit']}
           noStyle
-          initialValue={purDuration.unit ?? Duration.Day}
+          initialValue={purDuration?.unit ?? Duration.Day}
           rules={[{ required: true, message: 'please select duration type' }]}
         >
           <Select
-            value={unit}
+            // value={unit}
             onChange={handleUnitChange}
             bordered={false}
             options={allowedUnits}

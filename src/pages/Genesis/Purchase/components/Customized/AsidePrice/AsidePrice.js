@@ -46,13 +46,14 @@ export default function AsidePrice({ formValues, styles, onConfirm }) {
               </section>
             )}
             {renderSection('AI Framework', formValues?.ai_framework)}
-            {renderSection(
-              'Purchase Duration',
-              <span>
-                {formValues?.purDuration?.value}{' '}
-                {getDurationUnit(formValues?.purDuration?.value)}
-              </span>,
-            )}
+            {formValues?.node &&
+              renderSection(
+                'Purchase Duration',
+                <span>
+                  {formValues?.purDuration?.value}{' '}
+                  {getDurationUnit(formValues?.purDuration?.value)}
+                </span>,
+              )}
             {renderSection('Internet', formValues?.internet_type?.join(' | '))}
             {renderSection(
               'Connectivity tier',

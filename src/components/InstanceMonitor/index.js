@@ -34,18 +34,19 @@ const InstanceMonitor = ({ instance }) => {
   useEffect(() => {
     getStatistic();
   }, []);
-  const getStatistic = async () => {
+  async function getStatistic() {
+    console.log('holaaaa');
     try {
       const payload = {
         resource_id: instance?.id,
       };
-      const { data } = (await fetchStatistic(payload)) || {};
+      const { data = {} } = await fetchStatistic(payload);
       const res = (await data[instance.id]?.data) || {};
       setResourceStat(res);
     } catch (error) {
       console.log(error);
     }
-  };
+  }
   const instanceData = {
     resource_id: instance?.id,
     node_id: instance?.node_id,
@@ -64,7 +65,7 @@ const InstanceMonitor = ({ instance }) => {
     activity: instance.activity,
     resource: instance.activity?.resource_id,
   };
-
+  console.log('object');
   const cpuData = [];
   const memoryData = [];
   const networkData = [];
@@ -115,15 +116,21 @@ const InstanceMonitor = ({ instance }) => {
                 {
                   <>
                     {instanceData?.status.toLowerCase() === 'running' ? (
-                      <span className="status status-running">
+                      <span
+                        className={`${styles['status']} ${styles['status-running']}`}
+                      >
                         <i className="iconfont  icon-check"></i> Running
                       </span>
                     ) : instanceData?.status.toLowerCase() === 'stopped' ? (
-                      <span className="status status-stopped">
+                      <span
+                        className={`${styles['status']} ${styles['status-stopped']}`}
+                      >
                         <i className="iconfont  icon-play_pause"></i> Stopped
                       </span>
                     ) : instanceData?.status.toLowerCase() === 'expired' ? (
-                      <span className="status status-expired">
+                      <span
+                        className={`${styles['status']} ${styles['status-expired']}`}
+                      >
                         <i className="iconfont  icon-icforbidden"></i> Expired
                       </span>
                     ) : instanceData?.status.toLowerCase() ===

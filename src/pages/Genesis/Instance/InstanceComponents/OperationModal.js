@@ -18,7 +18,8 @@ export default function OperationModal({ record, getAllNodes }) {
   const [selectVisible, setSelectVisible] = useState(false);
   const [selectLoading, setSelectLoading] = useState(false);
   const [selectValue, setSelectValue] = useState(undefined);
-  const isRunning = record.status.toLowerCase() === 'running';
+  const isRunning = record?.status?.toLowerCase() === 'running';
+  console.log(isRunning);
   const handleConnect = async () => {
     if (!isRunning) return;
     setSelectVisible(true); // abrir el popover
