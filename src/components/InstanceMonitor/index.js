@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Divider, Tabs } from 'antd';
+import { Button, Card, Divider, message, Tabs } from 'antd';
 import {
   ClockCircleOutlined,
   DesktopOutlined,
@@ -11,7 +11,11 @@ import MonitoringChart from './MonitoringChart';
 import styles from './index.less';
 import ResourceUtilization from './ResourceUtilization';
 import OperationModal from '@/pages/Genesis/Instance/InstanceComponents/OperationModal';
-import { fetchNodeList, fetchStatistic } from '@/services/genesis';
+import {
+  fetchNodeList,
+  fetchNodeOperation,
+  fetchStatistic,
+} from '@/services/genesis';
 import { formatISODate } from '@/utils/datetime';
 import { convertMBtoGB } from '@/utils/lang';
 
@@ -35,7 +39,6 @@ const InstanceMonitor = ({ instance }) => {
     getStatistic();
   }, []);
   async function getStatistic() {
-    console.log('holaaaa');
     try {
       const payload = {
         resource_id: instance?.id,
@@ -65,7 +68,7 @@ const InstanceMonitor = ({ instance }) => {
     activity: instance.activity,
     resource: instance.activity?.resource_id,
   };
-  console.log('object');
+
   const cpuData = [];
   const memoryData = [];
   const networkData = [];
@@ -103,7 +106,21 @@ const InstanceMonitor = ({ instance }) => {
   const getNode = () => {
     //setear el valor de node
   };
-
+  const handleOperation = (operation, resource, id) => {
+    const payload = JSON.stringify({
+      resource_id: resource,
+      operation,
+      id,
+    });
+    fetchNodeOperation(payload)
+      .then((res) => {
+        getAllNodes();
+        message.success('Operation completed!');
+      })
+      .catch((err) => {
+        console.log('Error capturado:', err);
+      });
+  };
   return (
     <Card className={styles.card} bordered={false}>
       <header className={styles.main_header}>
@@ -111,7 +128,7 @@ const InstanceMonitor = ({ instance }) => {
           <i className="iconfont icon-nvidia gpu-logo green" />
           <div>
             <h3 className={styles['gpu-title']}>
-              NVIDIA TX4090
+              {instance?.id}
               <span className={styles['status']}>
                 {
                   <>
@@ -150,18 +167,28 @@ const InstanceMonitor = ({ instance }) => {
           </div>
         </div>
         <div className={styles['header_right']}>
-          <Button className={styles['connect-btn']}>
+          {/* <Button
+            className={styles['connect-btn']}
+            onClick={() =>
+              handleOperation('start', record?.id, record?.node?.id)
+            }
+          >
             Start
             <div className={styles['icon']}>
               <PlayCircleOutlined />
             </div>
           </Button>
-          <Button className={`${styles['connect-btn']} ${styles['diseabled']}`}>
+          <Button
+            className={`${styles['connect-btn']} ${styles['diseabled']}`}
+            onClick={() =>
+              handleOperation('stop', record?.id, record?.node?.id)
+            }
+          >
             Stop
             <div className={styles['icon']}>
               <HourglassOutlined color="orange" />
             </div>
-          </Button>
+          </Button> */}
           <span className={styles['more']}>
             <OperationModal record={instanceData} getAllNodes={getNode} />
           </span>

@@ -15,6 +15,7 @@ import FrameworkAi from './Customized/FrameworkAi';
 import AsidePrice from './Customized/AsidePrice/AsidePrice';
 import { history } from 'umi';
 import PurDuration from './PurDuration';
+import { Duration } from '@/constant';
 
 const Customized = () => {
   const [form] = Form.useForm();
@@ -22,6 +23,7 @@ const Customized = () => {
   const [current, setCurrent] = useState(0);
 
   const onValuesChange = async (_, allValues) => {
+    console.log(allValues);
     setFormValues(allValues); // Evita llamar a form.getFieldsValue()
   };
 

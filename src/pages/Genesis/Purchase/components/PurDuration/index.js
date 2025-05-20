@@ -19,8 +19,9 @@ const UNIT_MAX_VALUES = {
   [Duration.Month]: 12,
 };
 
-const PurDuration = ({ formValues, form }) => {
+const PurDuration = ({ formValues, form, setFormValues }) => {
   const { node, purDuration } = formValues || {};
+
   useEffect(() => {
     if (form) {
       form.validateFields(['purDuration']);
@@ -45,41 +46,41 @@ const PurDuration = ({ formValues, form }) => {
       (opt) => opt.value >= limit.minUnit && opt.value <= limit.maxUnit,
     );
   }, [formValues]);
-
+  const controlInput = (value) => {
+    setFormValues({
+      ...formValues,
+      purDuration: {
+        unit: purDuration?.unit,
+        value,
+      },
+    });
+  };
   const handleChange = (delta) => {
-    let next = delta === 'add';
-    let newVal;
-
-    if (next) {
-      setValue(Number(value) + 1);
-      newVal = Number(value) + 1;
-    } else {
-      if (Number(value) == 1) return;
-      setValue(Number(value) - 1);
-      newVal = Number(value) - 1;
-    }
-
+    const currentValue = form.getFieldValue(['purDuration', 'value']) || 1;
+    let newVal =
+      delta === 'add' ? Number(currentValue) + 1 : Number(currentValue) - 1;
+    const formData = form.getFieldValue('purDuration');
+    console.log(formData);
+    if (newVal < 1) return;
+    controlInput(newVal);
     form.setFieldsValue({
-      purDuration: { value: newVal, unit },
+      purDuration: { ...formData, value: newVal },
     });
   };
-  console.log(formValues);
-
-  const handleInputChange = (Newvalue) => {
-    setValue(Newvalue);
-    // Sincronizar con el formulario
+  const handleInputChange = (val) => {
+    // const newVal = e.target.value;
+    if (val === null || val === undefined || val === '') return;
+    controlInput(val);
+    return;
+    console.log(form.getFieldValue('purDuration').value);
     form.setFieldsValue({
-      purDuration: { unit, value: Newvalue },
+      purDuration: { unit: form.getFieldValue('purDuration').unit, value: val },
     });
   };
-
   const handleUnitChange = (newUnit) => {
-    setUnit(newUnit);
-
-    // Sincronizar con el formulario
-    // form.setFieldsValue({
-    //   purDuration: { value, unit: newUnit },
-    // });
+    form.setFieldsValue({
+      purDuration: { ...form.getFieldValue('purDuration'), unit: newUnit },
+    });
   };
 
   return (
@@ -90,16 +91,15 @@ const PurDuration = ({ formValues, form }) => {
         </div>
         <Form.Item
           name={['purDuration', 'value']}
+          initialValue={limit.minValue}
           noStyle
-          rules={[{ required: true, message: 'please input duration value' }]}
         >
-          <Input
+          <InputNumber
             type="number"
             bordered={false}
-            // value={value}
-            // defaultValue={value}
+            // value={formValues?.purDuration?.value}
             min={1}
-            onChange={handleInputChange}
+            // onChange={handleInputChange}
             style={{ width: '60px' }}
             className={styles['input']}
           />
@@ -110,12 +110,11 @@ const PurDuration = ({ formValues, form }) => {
         <Form.Item
           name={['purDuration', 'unit']}
           noStyle
-          initialValue={purDuration?.unit ?? Duration.Day}
-          rules={[{ required: true, message: 'please select duration type' }]}
+          initialValue={limit.minUnit}
         >
           <Select
-            // value={unit}
-            onChange={handleUnitChange}
+            value={form.getFieldValue(['purDuration', 'unit'])}
+            // onChange={handleUnitChange}
             bordered={false}
             options={allowedUnits}
             style={{ width: '105px' }}

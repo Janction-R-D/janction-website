@@ -17,6 +17,7 @@ import {
 } from '@/services/genesis';
 import contract from '@/utils/contracts';
 import { calculateDuration } from '@/utils/datetime';
+import { history } from 'umi';
 
 const NodeCard = ({ item, getList }) => {
   const { id, yesterdayReward } = item;

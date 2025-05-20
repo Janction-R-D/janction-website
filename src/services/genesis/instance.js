@@ -387,3 +387,12 @@ export const fetchResource = (params) => {
     loginAuth: true,
   });
 };
+
+//statistic resource data
+export const fetchStatistic = (data) => {
+  return request(`${baseUrl}/resource/statistics`, {
+    method: 'POST',
+    data,
+    loginAuth: true,
+  });
+};

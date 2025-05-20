@@ -8,6 +8,7 @@ import {
   fetchMarketOrder,
   fetchResource,
   fetchStopRentParams,
+  updateUserConfig,
 } from '@/services/genesis';
 import SshKeyModal from './SshModal';
 
@@ -19,7 +20,7 @@ export default function OperationModal({ record, getAllNodes }) {
   const [selectLoading, setSelectLoading] = useState(false);
   const [selectValue, setSelectValue] = useState(undefined);
   const isRunning = record?.status?.toLowerCase() === 'running';
-  console.log(isRunning);
+
   const handleConnect = async () => {
     if (!isRunning) return;
     setSelectVisible(true); // abrir el popover
@@ -61,7 +62,19 @@ export default function OperationModal({ record, getAllNodes }) {
       console.log('『error』', error);
     }
   };
-
+  const handleChange = async (value) => {
+    const selected = options.find((opt) => opt.url === value);
+    try {
+      if (selected) {
+        //llamar a user config
+        await updateUserConfig({ last_resource_visited: record });
+        window.open(selected.url, '_blank');
+      }
+      setSelectValue(value);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="ellipsis operation-modal">
       <JanctionPopover
@@ -80,13 +93,7 @@ export default function OperationModal({ record, getAllNodes }) {
               content={
                 <Select
                   value={selectValue}
-                  onChange={(value) => {
-                    const selected = options.find((opt) => opt.url === value);
-                    if (selected) {
-                      window.open(selected.url, '_blank');
-                    }
-                    setSelectValue(value);
-                  }}
+                  onChange={handleChange}
                   style={{ width: 200 }}
                   placeholder="Select connection"
                   loading={selectLoading}

@@ -14,6 +14,7 @@ import { getNodeStatusMatch } from '@/utils/lang';
 import PurDuration from './PurDuration';
 import { debounce } from 'lodash';
 import Purpose from './Quick/Purpose';
+import { Duration } from '@/constant';
 
 const Quick = (props) => {
   const [form] = Form.useForm();
@@ -58,7 +59,6 @@ const Quick = (props) => {
   const debouncedGetList = useMemo(() => debounce(getList, 1000), []);
   const onValuesChange = async () => {
     const values = form.getFieldsValue();
-    console.log(values);
     setFormValues(values);
   };
 
@@ -133,9 +133,16 @@ const Quick = (props) => {
             </Form.Item>
           </Card>
           <p style={{ marginBottom: '12px' }}>Purchase Duration</p>
-          <Form.Item name="purDuration" initialValue={{ unit: 1, value: 1 }}>
+          <Form.Item
+            name="purDuration"
+            // initialValue={{ value: 1, unit: Duration.Day }}
+          >
             <div style={{ width: '280px' }}>
-              <PurDuration form={form} formValues={formValues} />
+              <PurDuration
+                form={form}
+                formValues={formValues}
+                setFormValues={setFormValues}
+              />
             </div>
           </Form.Item>
         </main>

@@ -6,7 +6,8 @@ import useLesses from '../Dashboard3/Hooks/useLesses';
 import ModalUpload from './components/UploadCard/ModalUpload';
 import { fetchNodeList, fetchUserConfig } from '@/services/genesis';
 import QuickCard from '@/components/QuickCard/QuickCard';
-import InstanceMonitor from './components/InstanceMonitor';
+import InstanceMonitor from '@/components/InstanceMonitor';
+// import InstanceMonitor from './components/InstanceMonitor';
 const cardData = [
   {
     id: 1,
@@ -74,6 +75,7 @@ export default function Lessee() {
   const [avModalOpen, setAvModaOpen] = useState(false);
   const [summary, setSummary] = useState(null);
   const [userConf, setUserConf] = useState({});
+
   const { lessesData } = useLesses();
 
   useEffect(() => {
@@ -124,10 +126,14 @@ export default function Lessee() {
         <ResourcesHeader summary={summary} />
       </section>
       <main className={styles['cards-container']}>
-        <p className={styles['title']}>Last visit</p>
-        <section className={styles['card-monitor']}>
-          <InstanceMonitor />
-        </section>
+        {userConf?.last_resource_visited && (
+          <>
+            <p className={styles['title']}>Last visit</p>
+            <section className={styles['card-monitor']}>
+              <InstanceMonitor last_resource_visited={last_resource_visited} />
+            </section>
+          </>
+        )}
         <p className={styles['title']}>Exclusive for New Users</p>
         <section className={styles['cards']}>
           {cardData.map((card) => (
