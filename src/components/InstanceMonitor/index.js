@@ -38,11 +38,13 @@ const InstanceMonitor = ({ instance }) => {
   useEffect(() => {
     getStatistic();
   }, []);
+  console.log(instance);
   async function getStatistic() {
+    const payload = {
+      resource_id: instance?.id,
+    };
+
     try {
-      const payload = {
-        resource_id: instance?.id,
-      };
       const { data = {} } = await fetchStatistic(payload);
       const res = (await data[instance.id]?.data) || {};
       setResourceStat(res);
@@ -50,23 +52,26 @@ const InstanceMonitor = ({ instance }) => {
       console.log(error);
     }
   }
+
   const instanceData = {
     resource_id: instance?.id,
+    id: instance?.id,
     node_id: instance?.node_id,
     name: instance?.name,
     Cores: instance?.node?.attr.cpu,
-    memory: instance?.node?.attr.memory,
+    memory: convertMBtoGB(instance?.node?.attr.memory.toFixed(2)),
     status: instance?.status_str,
     expired: formatDate(instance?.expired_at),
     created: formatDate(instance?.created_at),
     Location: instance?.node?.attr.location || '~',
-    GPUrate: '~',
+    gpu_chip: instance?.node?.attr?.cpu_chip,
+    cpu_chip: instance?.node?.attr?.cpu,
     MemoryUsage: convertMBtoGB(instance?.activity?.memory_usage?.toFixed(2)),
-    downtime: `${formatISODate(instance.created_at)}\r\n${formatISODate(
-      instance.expired_at,
-    )}`,
-    activity: instance.activity,
-    resource: instance.activity?.resource_id,
+    // downtime: `${formatISODate(instance?.created_at)}\r\n${formatISODate(
+    //   instance?.expired_at,
+    // )}`,
+    activity: instance?.activity,
+    resource: instance?.activity?.resource_id,
   };
 
   const cpuData = [];
@@ -132,25 +137,25 @@ const InstanceMonitor = ({ instance }) => {
               <span className={styles['status']}>
                 {
                   <>
-                    {instanceData?.status.toLowerCase() === 'running' ? (
+                    {instanceData?.status?.toLowerCase() === 'running' ? (
                       <span
                         className={`${styles['status']} ${styles['status-running']}`}
                       >
                         <i className="iconfont  icon-check"></i> Running
                       </span>
-                    ) : instanceData?.status.toLowerCase() === 'stopped' ? (
+                    ) : instanceData?.status?.toLowerCase() === 'stopped' ? (
                       <span
                         className={`${styles['status']} ${styles['status-stopped']}`}
                       >
                         <i className="iconfont  icon-play_pause"></i> Stopped
                       </span>
-                    ) : instanceData?.status.toLowerCase() === 'expired' ? (
+                    ) : instanceData?.status?.toLowerCase() === 'expired' ? (
                       <span
                         className={`${styles['status']} ${styles['status-expired']}`}
                       >
                         <i className="iconfont  icon-icforbidden"></i> Expired
                       </span>
-                    ) : instanceData?.status.toLowerCase() ===
+                    ) : instanceData?.status?.toLowerCase() ===
                       'expiring soon' ? (
                       <span className="status status-expiring-soon">
                         <i className="iconfont  icon-questioncircle"></i>{' '}

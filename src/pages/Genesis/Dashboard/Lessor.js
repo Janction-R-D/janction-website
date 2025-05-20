@@ -9,7 +9,7 @@ import Profit from './components/profit';
 import Arithmetic from './components/artihmetic';
 
 import { fetchLessor, fetchNodeList } from '@/services/genesis';
-import { useModel } from 'umi';
+import { history, useModel } from 'umi';
 import { ARITHMETIC_SITUATION, convertMBtoGB } from './data';
 import NTFcard from './components/NTFcard';
 import VideoGrid from './components/VideoGrid';
@@ -137,7 +137,10 @@ export default function Lessor() {
             </span>
           </Button>
           <Guide isOpen={isOpen} setIsOpen={setIsOpen} onOpen={onOpen} />
-          <Button className={styles['button']}>
+          <Button
+            className={styles['button']}
+            onClick={() => history.push('/genesis/deployNode')}
+          >
             Generate Token ID{' '}
             <span className={styles.icon_rotate}>
               <ArrowUpOutlined />
@@ -147,7 +150,7 @@ export default function Lessor() {
       </section>
       <section className={styles['container']}>
         {loading && <SkeletonGrid />}
-        {summary?.total > 0 && !loading ? (
+        {summary?.total > 0 && !loading && (
           <>
             <section className={styles['overview-wrapper']}>
               {nft_sumary.ammount !== 0 ? (
@@ -190,9 +193,9 @@ export default function Lessor() {
               <Arithmetic />
             </section>
           </>
-        ) : (
-          <VideoGrid />
         )}
+
+        {!loading && !summary?.total && <VideoGrid />}
       </section>
     </main>
   );

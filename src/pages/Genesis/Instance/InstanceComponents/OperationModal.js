@@ -25,6 +25,8 @@ export default function OperationModal({ record, getAllNodes }) {
     if (!isRunning) return;
     setSelectVisible(true); // abrir el popover
     setSelectLoading(true);
+    console.log(record);
+    console.log({ resource_id: record?.id });
     try {
       const res = (await fetchResource({ resource_id: record?.id })) || [];
       setOptions(res.routes || []);

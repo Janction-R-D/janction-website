@@ -130,7 +130,7 @@ export default function Lessee() {
           <>
             <p className={styles['title']}>Last visit</p>
             <section className={styles['card-monitor']}>
-              <InstanceMonitor last_resource_visited={last_resource_visited} />
+              <InstanceMonitor instance={userConf?.last_resource_visited} />
             </section>
           </>
         )}

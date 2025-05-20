@@ -2,7 +2,9 @@ import { Button, Card, Timeline, Typography } from 'antd';
 import { useEffect, useState } from 'react';
 import styles from './index.less';
 import { ARCHITECTURE, SYSTEM_LIST } from '@/constant';
-import { AppstoreAddOutlined } from '@ant-design/icons';
+import { AppstoreAddOutlined, RedoOutlined } from '@ant-design/icons';
+import { copy } from '@/utils/lang';
+import { fetchNodesRegister } from '@/services/genesis';
 const { Text } = Typography;
 const links = [
   {
@@ -21,11 +23,18 @@ const DeployNode = () => {
   const [selectedValues, setSelectedValues] = useState({});
   const [architecture, setArchitecture] = useState([]);
   const [downloadLink, setDownloadLink] = useState();
+  const [loading, setLoading] = useState(false);
+  const [isLinux, setIsLinux] = useState(false);
+  const [nodesData, setNodesData] = useState();
+  useEffect(() => {
+    getNodes();
+  }, []);
   useEffect(() => {
     if (!selectedValues?.system) return;
     const _architecture = ARCHITECTURE.filter((item) =>
       item.sys.includes(selectedValues.system),
     );
+
     const getLink = links.find(
       (item) => item.operatingSystem == selectedValues.system,
     );
@@ -40,13 +49,28 @@ const DeployNode = () => {
     const _architecture = ARCHITECTURE.filter((item) =>
       item.sys.includes(sys.value),
     );
-
+    if (sys == 'linux') {
+      setIsLinux(true);
+    } else {
+      setIsLinux(false);
+    }
     setSelectedValues({
       architecture: _architecture?.[0]?.value,
       system: sys.value,
     });
   };
-  console.log(downloadLink);
+  const getNodes = async () => {
+    try {
+      setLoading(true);
+      const res = await fetchNodesRegister();
+      console.log(res);
+      setNodesData(res);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.log('『error』', error);
+    }
+  };
   return (
     <section className={styles['dashboard-wrapper']}>
       <section className={styles['header-wrapper']}>
@@ -119,7 +143,10 @@ const DeployNode = () => {
                         className={styles['button']}
                         onClick={() => console.log(downloadLink)}
                       >
-                        Download App <AppstoreAddOutlined color="red" />
+                        Download App{' '}
+                        <span className={styles.icon}>
+                          <AppstoreAddOutlined color="red" />
+                        </span>
                       </Button>
                     </a>
                   </div>
@@ -132,8 +159,33 @@ const DeployNode = () => {
           >
             <p className={styles['timeline-step']}>Generate Token ID</p>
             <Text className={styles['token_id']}>
-              AKGDAIDKJHNAJKLSGI
-              <i className="iconfont icon-copy" />
+              {nodesData?.node_id || '--'}
+              <div>
+                <RedoOutlined
+                  rotate={90}
+                  spin={loading}
+                  loading={loading}
+                  className={styles['poi']}
+                  onClick={getNodes}
+                />
+                <i
+                  className="iconfont icon-copy"
+                  onClick={() => {
+                    console.log(nodesData);
+                    if (isLinux) {
+                      if (!nodesData?.node_id)
+                        return message.warning(
+                          'Data missing, please click refresh to get and try again!',
+                        );
+                    } else if (!nodesData?.node_id && !nodesData?.token) {
+                      return message.warning(
+                        'Data missing, please click refresh to get and try again!',
+                      );
+                    }
+                    copy(nodesData?.node_id);
+                  }}
+                />
+              </div>
             </Text>
           </Timeline.Item>
         </Timeline>
