@@ -8,9 +8,6 @@ import PaymentResultModal from '../../Settlement/components/payment_result';
 
 const Footer = (props) => {
   const {
-    loading,
-    isSettlement,
-    onPre,
     onPay,
     node,
     formValues,
@@ -19,6 +16,7 @@ const Footer = (props) => {
     modalOpen,
     setModalOpen,
     paymentStatus,
+    setPaymentStatus,
     priceInfo,
   } = props;
 
@@ -86,8 +84,11 @@ const Footer = (props) => {
         </Button>
         <PaymentResultModal
           open={modalOpen}
+          setOpen={setModalOpen}
           status={paymentStatus}
           onClose={() => setModalOpen(false)}
+          onPay={onPay}
+          setPaymentStatus={setPaymentStatus}
         />
       </div>
     </div>

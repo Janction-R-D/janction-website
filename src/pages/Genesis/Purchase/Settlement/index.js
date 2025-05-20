@@ -116,8 +116,11 @@ const Settlement = (props) => {
         message.error(res?.message);
         return;
       }
-      message.success('Successful hire!');
-      history.push('/genesis/instance');
+      setModalOpen(false);
+      setPaymentStatus(2);
+      setTimeout(() => {
+        setModalOpen(true);
+      }, 1000);
     } catch (err) {
       console.log('『err』', err);
       throw new Error(err);
@@ -312,8 +315,6 @@ const Settlement = (props) => {
         </div>
       </PurchaseCard>
       <Footer
-        isSettlement
-        onPre={() => history.goBack()}
         currencyAddress={currency}
         formValues={formValues}
         node={list}
@@ -324,6 +325,7 @@ const Settlement = (props) => {
         modalOpen={modalOpen}
         setModalOpen={setModalOpen}
         paymentStatus={paymentStatus}
+        setPaymentStatus={setPaymentStatus}
       />
     </div>
   );
