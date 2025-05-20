@@ -116,7 +116,7 @@ export default function OrderCard({ order }) {
   return (
     <Card className={styles['card']}>
       <h1 className={styles['card-title']}>
-        <p>Geforce RTX 4090</p>
+        <p>{data?.order?.ID || '~'}</p>
         <div>
           <i className="iconfont icon-check " />
           <span>Payment Completed</span>
