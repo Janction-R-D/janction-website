@@ -4,15 +4,23 @@ import styles from './index.less';
 import { ARCHITECTURE, SYSTEM_LIST } from '@/constant';
 
 const StepOne = (props, ref) => {
-  const { selectedValues, setSelectedValues } = props;
+  const { selectedValues, setSelectedValues, links, setDownloadLink } = props;
   const [architecture, setArchitecture] = useState([]);
   useEffect(() => {
     if (!selectedValues?.system) return;
     const _architecture = ARCHITECTURE.filter((item) =>
       item.sys.includes(selectedValues.system),
     );
+
+    const getLink = links.find(
+      (item) => item.operatingSystem == selectedValues.system,
+    );
+    if (!getLink) {
+      setDownloadLink(null);
+      return;
+    }
+    setDownloadLink(getLink.appLink);
     setArchitecture(_architecture);
-    console.log(selectedValues);
   }, [selectedValues]);
   const onSysSelect = (sys) => {
     console.log(sys);

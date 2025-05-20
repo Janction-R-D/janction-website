@@ -134,11 +134,7 @@ const DeployNode = () => {
                 )}
                 {downloadLink && (
                   <div className={styles['buttons-box']}>
-                    <a
-                      href={downloadLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
+                    <a href={downloadLink} download>
                       <Button
                         className={styles['button']}
                         onClick={() => console.log(downloadLink)}
