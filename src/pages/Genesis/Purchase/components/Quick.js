@@ -1,20 +1,16 @@
-import { Card, Collapse, Divider, Form } from 'antd';
+import { Card, Divider, Form } from 'antd';
 import styles from './index.less';
 import { useEffect, useMemo, useState } from 'react';
-import Operating from './Quick/Operating';
 import AsidePrice from './Quick/AsidePrice/AsidePrice';
-import Specification from './Quick/Specification';
 import TypeSelector from './Quick/TypeSelector';
 import { history } from 'umi';
 import ToggleSwitch from './Quick/ToggelSwitch';
-import FrameworkAi from './Customized/FrameworkAi';
 import ProductList from './Quick/ProductList';
 import { fetchListFilter } from '@/services/genesis';
 import { getNodeStatusMatch } from '@/utils/lang';
 import PurDuration from './PurDuration';
 import { debounce } from 'lodash';
 import Purpose from './Quick/Purpose';
-import { Duration } from '@/constant';
 
 const Quick = (props) => {
   const [form] = Form.useForm();
@@ -133,17 +129,12 @@ const Quick = (props) => {
             </Form.Item>
           </Card>
           <p style={{ marginBottom: '12px' }}>Purchase Duration</p>
-          <Form.Item
-            name="purDuration"
-            // initialValue={{ value: 1, unit: Duration.Day }}
-          >
-            <div style={{ width: '280px' }}>
-              <PurDuration
-                form={form}
-                formValues={formValues}
-                setFormValues={setFormValues}
-              />
-            </div>
+          <Form.Item name="purDuration">
+            <PurDuration
+              form={form}
+              formValues={formValues}
+              setFormValues={setFormValues}
+            />
           </Form.Item>
         </main>
       </Form>

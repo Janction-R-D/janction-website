@@ -109,7 +109,11 @@ const Customized = () => {
       content: (
         <Card className={styles['processor-conf-wrapper']}>
           <Form.Item name="purDuration">
-            <PurDuration formValues={formValues} form={form} />
+            <PurDuration
+              formValues={formValues}
+              form={form}
+              setFormValues={setFormValues}
+            />
           </Form.Item>
         </Card>
       ),

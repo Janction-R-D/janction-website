@@ -1,7 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Duration, DURATION_OPTIONS } from '@/constant';
-import { Button, Form, Input, InputNumber, Select } from 'antd';
-import LabelVal from '../Card/LabelVal';
+import { Form, InputNumber, Select } from 'antd';
 import styles from './index.less';
 
 const DURATION_TO_HOURS = {
@@ -17,6 +16,10 @@ const UNIT_MAX_VALUES = {
   [Duration.Day]: 30,
   [Duration.Week]: 4,
   [Duration.Month]: 12,
+};
+const getUnitValueFromLabel = (label) => {
+  const match = Object.entries(Duration).find(([key]) => key === label);
+  return match?.[1];
 };
 
 const PurDuration = ({ formValues, form, setFormValues }) => {
@@ -68,11 +71,8 @@ const PurDuration = ({ formValues, form, setFormValues }) => {
     });
   };
   const handleInputChange = (val) => {
-    // const newVal = e.target.value;
     if (val === null || val === undefined || val === '') return;
     controlInput(val);
-    return;
-    console.log(form.getFieldValue('purDuration').value);
     form.setFieldsValue({
       purDuration: { unit: form.getFieldValue('purDuration').unit, value: val },
     });
@@ -84,111 +84,107 @@ const PurDuration = ({ formValues, form, setFormValues }) => {
   };
 
   return (
-    <div className={styles['duration-wrapper']}>
-      <div className={styles['input-group']}>
-        <div className={styles['btn']} onClick={() => handleChange('sub')}>
-          -
-        </div>
-        <Form.Item
-          name={['purDuration', 'value']}
-          initialValue={limit.minValue}
-          noStyle
-        >
-          <InputNumber
-            type="number"
-            bordered={false}
-            // value={formValues?.purDuration?.value}
-            min={1}
-            // onChange={handleInputChange}
-            style={{ width: '60px' }}
-            className={styles['input']}
-          />
-        </Form.Item>
-        <div className={styles['btn']} onClick={() => handleChange('add')}>
-          <i className="iconfont icon-add" />
-        </div>
-        <Form.Item
-          name={['purDuration', 'unit']}
-          noStyle
-          initialValue={limit.minUnit}
-        >
-          <Select
-            value={form.getFieldValue(['purDuration', 'unit'])}
-            // onChange={handleUnitChange}
-            bordered={false}
-            options={allowedUnits}
-            style={{ width: '105px' }}
-          />
-        </Form.Item>
+    <div style={{ width: '280px' }}>
+      <div className={styles['duration-wrapper']}>
+        <div className={styles['input-group']}>
+          <div className={styles['btn']} onClick={() => handleChange('sub')}>
+            -
+          </div>
+          <Form.Item
+            name={['purDuration', 'value']}
+            initialValue={limit.minValue}
+            noStyle
+          >
+            <InputNumber
+              type="number"
+              bordered={false}
+              min={1}
+              onChange={handleInputChange}
+              style={{ width: '60px' }}
+              className={styles['input']}
+            />
+          </Form.Item>
+          <div className={styles['btn']} onClick={() => handleChange('add')}>
+            <i className="iconfont icon-add" />
+          </div>
+          <Form.Item
+            name={['purDuration', 'unit']}
+            noStyle
+            initialValue={limit.minUnit}
+          >
+            <Select
+              value={form.getFieldValue(['purDuration', 'unit'])}
+              onChange={handleUnitChange}
+              bordered={false}
+              options={allowedUnits}
+              style={{ width: '105px' }}
+            />
+          </Form.Item>
 
-        {/* Validación conjunta */}
-        <Form.Item
-          name="purDuration"
-          noStyle
-          rules={[
-            {
-              validator: (_, purDuration) => {
-                const val = purDuration?.value;
-                const unit = purDuration?.unit;
+          {/* Validación conjunta */}
+          <Form.Item
+            name="purDuration"
+            noStyle
+            rules={[
+              {
+                validator: (_, purDuration) => {
+                  const val = purDuration?.value;
+                  const unit = purDuration?.unit;
 
-                if (val === undefined || val === null || val === '') {
-                  return Promise.reject(
-                    new Error('Duration value is required.'),
-                  );
-                }
+                  if (val === undefined || val === null || val === '') {
+                    return Promise.reject(
+                      new Error('Duration value is required.'),
+                    );
+                  }
 
-                if (
-                  node &&
-                  unit === undefined &&
-                  (unit === null || unit === '')
-                ) {
-                  return Promise.reject(
-                    new Error('Duration unit is required.'),
-                  );
-                }
-                // Validar los valores máximos específicos por unidad
-                if (val > (UNIT_MAX_VALUES[unit] ?? 30)) {
-                  const unitLabel = Object.keys(Duration).find(
-                    (key) => Duration[key] === unit,
-                  );
-                  return Promise.reject(
-                    new Error(
-                      `Exceeded max value of ${
-                        UNIT_MAX_VALUES[unit] ?? 30
-                      } for ${unitLabel}`,
-                    ),
-                  );
-                }
+                  if (
+                    node &&
+                    unit === undefined &&
+                    (unit === null || unit === '')
+                  ) {
+                    return Promise.reject(
+                      new Error('Duration unit is required.'),
+                    );
+                  }
+                  // Validar los valores máximos específicos por unidad
+                  if (val > (UNIT_MAX_VALUES[unit] ?? 30)) {
+                    const unitLabel = Object.keys(Duration).find(
+                      (key) => Duration[key] === unit,
+                    );
+                    return Promise.reject(
+                      new Error(
+                        `Exceeded max value of ${
+                          UNIT_MAX_VALUES[unit] ?? 30
+                        } for ${unitLabel}`,
+                      ),
+                    );
+                  }
 
-                const valueInHours = val * DURATION_TO_HOURS[unit];
-                const minInHours =
-                  limit.minValue * DURATION_TO_HOURS[limit.minUnit];
-                const maxInHours =
-                  limit.maxValue * DURATION_TO_HOURS[limit.maxUnit];
+                  const valueInHours = val * DURATION_TO_HOURS[unit];
+                  const minInHours =
+                    limit.minValue * DURATION_TO_HOURS[limit.minUnit];
+                  const maxInHours =
+                    limit.maxValue * DURATION_TO_HOURS[limit.maxUnit];
 
-                if (valueInHours < minInHours || valueInHours > maxInHours) {
-                  return Promise.reject(
-                    new Error(
-                      `Value must be between ${limit.minValue} ${node?.config?.minimum_lease_unit} and ${limit.maxValue} ${node?.config?.maximum_lease_unit}`,
-                    ),
-                  );
-                }
+                  if (valueInHours < minInHours || valueInHours > maxInHours) {
+                    return Promise.reject(
+                      new Error(
+                        `Value must be between ${limit.minValue} ${node?.config?.minimum_lease_unit} and ${limit.maxValue} ${node?.config?.maximum_lease_unit}`,
+                      ),
+                    );
+                  }
 
-                return Promise.resolve();
+                  return Promise.resolve();
+                },
               },
-            },
-          ]}
-        >
-          <div style={{ display: 'none' }} />
-        </Form.Item>
+            ]}
+          >
+            <div style={{ display: 'none' }} />
+          </Form.Item>
+        </div>
       </div>
     </div>
   );
 };
 
 export default PurDuration;
-
-const getUnitValueFromLabel = (label) => {
-  const match = Object.entries(Duration).find(([key]) => key === label);
-  return match?.[1];
-};
