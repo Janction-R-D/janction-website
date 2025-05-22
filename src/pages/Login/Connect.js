@@ -58,7 +58,7 @@ export default function Connect() {
       domain: window.location.host,
       address,
       statement: 'Sign in Janction with your wallet.',
-      uri: 'https://janction.io',
+      uri: 'https://janction.ai',
       version: '1',
       chainId,
       nonce,

@@ -59,10 +59,10 @@ const Faq = (props) => {
           />
           <section>
             <p>
-              Our Telegram @Janction ,  email need_help@janction.io. Our
-              Telegram @Janction ,  email need_help@janction.io. Our Telegram
-              @Janction ,  email need_help@janction.io. Our Our Telegram
-              @Janction ,  email need_help@janction.io. Our
+              Our Telegram @Janction ,  email need_help@janction.ai. Our
+              Telegram @Janction ,  email need_help@janction.ai. Our Telegram
+              @Janction ,  email need_help@janction.ai. Our Our Telegram
+              @Janction ,  email need_help@janction.ai. Our
             </p>
           </section>
         </div>
