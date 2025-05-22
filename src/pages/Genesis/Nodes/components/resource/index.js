@@ -10,7 +10,7 @@ const NodeStats = ({ statisticData }) => {
 
   const totalIncome = 0;
   const todayIncome = 0;
-  const changePercent = -15;
+  const changePercent = 0;
 
   return (
     <div className={styles.container}>
@@ -63,7 +63,7 @@ const NodeStats = ({ statisticData }) => {
 
       <div className={styles.right}>
         <div className={styles.label}>Node income</div>
-        <div className={styles.date}>2020.09.31</div>
+        <div className={styles.date}>--</div>
         <div className={styles.footer}>
           <div className={styles.todayIncome}>
             {todayIncome.toFixed(2)} <span className={styles.unit}>veJCT</span>

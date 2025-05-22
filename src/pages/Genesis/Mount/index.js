@@ -10,6 +10,7 @@ import {
   Checkbox,
   Input,
   message,
+  notification,
   Select,
   TimePicker,
 } from 'antd';
@@ -169,7 +170,14 @@ export default function Mount() {
       return;
     }
     if (!agreeClause) {
-      message.warning('Please read the terms first and agree!');
+      // message.warning('Please read the terms first and agree!');
+      notification.info({
+        message: `Notification Info`,
+        description: 'Please read the terms first and agree!',
+        placement: 'bottomLeft',
+        duration: 5,
+      });
+      // notification.info('bottomLeft', 'Please read the terms first and agree!');
       return;
     }
     if (!node?.id && !userInfo?.id) return;
@@ -229,11 +237,7 @@ export default function Mount() {
         <main className={styles['main-card']}>
           <section className={styles['input-box-container']}>
             <div className={styles['input-box']}>
-              <div
-                className={`${styles['device-box']} ${
-                  error ? styles['search-input-error'] : ''
-                }`}
-              >
+              <div className={`${styles['device-box']}`}>
                 <Input
                   type="text"
                   placeholder="Please enter the device identification number"

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './index.less';
 import {
   InfoCircleOutlined,
@@ -21,11 +21,16 @@ import { history } from 'umi';
 
 const NodeCard = ({ item, getList }) => {
   const { id, yesterdayReward } = item;
-  const getStatus = (item) => {
+  const [status, setStatus] = useState('offline');
+  useEffect(() => {
+    const state = getStatus();
+    setStatus(state);
+  }, [item]);
+  const getStatus = () => {
     const { isRunning, isActive, isListed } = getNodeStatusMatch(item);
-    if (isRunning) return 'Running';
-    if (isActive) return 'Active';
-    if (isListed) return 'Listed';
+    if (isRunning) return 'running';
+    if (isActive) return 'active';
+    if (isListed) return 'listed';
     return 'offline';
   };
   const renderGpu = () => {
@@ -59,7 +64,6 @@ const NodeCard = ({ item, getList }) => {
       </>
     );
   };
-  const status = getStatus(item);
 
   return (
     <div className={styles.card}>
@@ -72,11 +76,7 @@ const NodeCard = ({ item, getList }) => {
           </div>
         </div>
         <div className={styles.status}>
-          <span
-            className={status === 'running' ? styles.running : styles.stopped}
-          >
-            {status}
-          </span>
+          <span className={`${styles[`${status}`]}`}>{status}</span>
           <Tooltip title="Node is active">
             <InfoCircleOutlined className={styles.infoIcon} />
           </Tooltip>

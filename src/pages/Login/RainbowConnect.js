@@ -54,9 +54,7 @@ const RainbowConnect = (props) => {
           message,
           signature: sig,
         };
-        console.log(message);
-        console.log(sig);
-        return;
+
         await fetchUserVerify(param);
 
         const msg = btoa(message);
