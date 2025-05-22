@@ -37,7 +37,7 @@ function Orders() {
       const { data = [], total } = await fetchMarketOrders(payload);
       setOrders(
         data.map((item) => ({
-          order_id: item.order?.ID,
+          order_id: item.order?.id,
           ...item,
         })),
       );

@@ -156,7 +156,7 @@ const Settlement = (props) => {
       await delay(1000);
       //then confirm payment with backend
       await onPayment({
-        order_id: res?.order.ID,
+        order_id: res?.order.id,
         payment_tx_id: tx.hash,
       });
       // await onRent({
