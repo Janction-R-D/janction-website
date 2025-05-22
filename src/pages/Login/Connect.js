@@ -13,11 +13,11 @@ import storage from '@/utils/storage';
 
 const expires = 60 * 60 * 10 * 1000;
 
-export default function ThirdConnectButton(props) {
-  const { setLoading } = props;
+export default function Connect() {
   const location = useLocation();
   const { inviterCode } = location.query || {};
   const [isNewUser, setIsNewUser] = useState();
+  const [loading, setLoading] = useState(false);
 
   const { signMessageAsync } = useSignMessage();
   const { address, chainId } = useAccount();

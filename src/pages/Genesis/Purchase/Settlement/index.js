@@ -110,6 +110,7 @@ const Settlement = (props) => {
     }
   };
   const onPayment = async (values) => {
+    console.log(values);
     try {
       const res = await fetchPaymentOrder(values);
       if (res?.code) {
@@ -163,7 +164,7 @@ const Settlement = (props) => {
       await delay(1000);
       //then confirm payment with backend
       await onPayment({
-        order_id: res?.order.ID,
+        order_id: res?.order.id,
         payment_tx_id: tx.hash,
       });
       setPaymentStatus(2);

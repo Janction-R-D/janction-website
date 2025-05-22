@@ -34,7 +34,7 @@ export default function OrderModal({ handleCancel, isModalOpen, data }) {
             ></i>
           )}
         </div>
-        <span>{data?.resource?.id}</span>
+        <span>{data?.order?.id}</span>
       </div>
       <div>
         {renderInfo(

@@ -144,7 +144,7 @@ export default function OrderCard({ order }) {
               )}
             </div>
 
-            <p className={styles['id']}>Device ID : {data.resource?.id}</p>
+            <p className={styles['id']}>Order ID : {data.order?.id}</p>
           </div>
           <Button className={styles['connect-btn']} onClick={onOk}>
             Details <i className="iconfont icon-next" />
@@ -159,7 +159,7 @@ export default function OrderCard({ order }) {
           <section>
             <p>
               <span> Price:</span>
-              <span>{data.resource?.price || `~`}</span>
+              <span>{data.order?.price || `~`}</span>
             </p>
             <p>
               <span>Quantity:</span>
@@ -183,7 +183,7 @@ export default function OrderCard({ order }) {
               <span>Paid</span>
               <span className={styles['price']}>
                 <span className={styles['bold-price']}>
-                  {data.resource?.price || '~'}
+                  {data.order?.price || '~'}
                 </span>
                 <span>USDC</span>
               </span>
