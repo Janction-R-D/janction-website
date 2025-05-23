@@ -15,7 +15,7 @@ export default function UserAccount() {
 
   const [isNameModalOpen, setIsNameModalOpen] = useState(false);
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
-
+  console.log(userName);
   const onEditName = () => {
     setIsNameModalOpen(true);
   };

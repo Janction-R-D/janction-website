@@ -29,6 +29,9 @@ export default () => {
     fetchUserCenter()
       .then((res) => {
         setUserInfo(res);
+        if (res?.name) {
+          setUserName(res?.name);
+        }
       })
       .catch((err) => {
         console.log('『err』', err);

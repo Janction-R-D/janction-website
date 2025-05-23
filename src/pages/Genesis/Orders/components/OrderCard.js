@@ -116,7 +116,7 @@ export default function OrderCard({ order }) {
   return (
     <Card className={styles['card']}>
       <h1 className={styles['card-title']}>
-        <p>{data?.order?.ID || '~'}</p>
+        <p>{data?.order?.id || '~'}</p>
         <div>
           <i className="iconfont icon-check " />
           <span>Payment Completed</span>
