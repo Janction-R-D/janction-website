@@ -43,7 +43,7 @@ function Orders() {
         // order_id: item.order?.id,
         // ...item,
       }));
-      console.log(newOrders);
+
       setOrders(newOrders);
       setQuery(payload);
       setTotal(total);

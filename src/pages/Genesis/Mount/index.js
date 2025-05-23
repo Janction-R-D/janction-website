@@ -67,6 +67,7 @@ export default function Mount() {
   const [nodeInfo, setNodeInfo] = useState({});
   const [agreeClause, setAgreeClause] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
+  const [errorInput, setErrorInput] = useState(false);
 
   const onMaxDurationValueChange = (value, option) => {
     setMaxDuration(option);
@@ -163,6 +164,15 @@ export default function Mount() {
     // e.preventDefault();
     if (!price) {
       message.warning('Please enter price!');
+      return;
+    }
+    if (price < 1) {
+      message.warning('Please enter a valid price value!');
+      setErrorInput(true);
+      setTimeout(() => {
+        setErrorInput(false);
+      }, 4000);
+
       return;
     }
     if (errorRange) {
@@ -283,17 +293,24 @@ export default function Mount() {
           </section>
           <section className={styles['card-prices']}>
             <div className={styles['duration-item']}>
-              <p>Billing price</p>
-
-              <Input
-                suffix={<p>USDT / Day</p>}
-                type="number"
-                placeholder="Enter a price"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-                name="price"
-                className={styles['price-input']}
-              />
+              <p className={styles['bill-text']}>Billing price</p>
+              <div className={styles['bill-price']}>
+                <Input
+                  suffix={<p>USDT / Day</p>}
+                  type="number"
+                  placeholder="Enter a price"
+                  value={price}
+                  min={1}
+                  onChange={(e) => setPrice(e.target.value)}
+                  name="price"
+                  className={styles['price-input']}
+                />
+                {errorInput && (
+                  <p className={styles['red']}>
+                    Please enter a valid price value!
+                  </p>
+                )}
+              </div>
             </div>
           </section>
         </Card>
@@ -400,3 +417,5 @@ export default function Mount() {
     </form>
   );
 }
+
+Mount.wrappers = ['@/wrappers/auth'];
