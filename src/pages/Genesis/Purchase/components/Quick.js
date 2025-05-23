@@ -24,12 +24,12 @@ const Quick = (props) => {
   const { node_id } = location.state || {};
 
   useEffect(() => {
-    let { operating_system_str: operating_system = [], ai_framework } =
+    let { operating_system_str: operating_system = [], ai_framework = [] } =
       formValues || {};
 
     let payload = {
       operating_system,
-      framework: ai_framework ? [ai_framework] : [],
+      framework: ai_framework,
     };
 
     // getList(payload);
@@ -40,7 +40,7 @@ const Quick = (props) => {
     setLoading(true);
     try {
       const res = await fetchListFilter(data);
-      const newList = (res || []).filter((node) => {
+      const newList = (res || [])?.filter((node) => {
         const { isListed } = getNodeStatusMatch(node);
         return isListed;
       });
