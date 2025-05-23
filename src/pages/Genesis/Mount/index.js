@@ -10,6 +10,7 @@ import {
   Checkbox,
   Input,
   message,
+  notification,
   Select,
   TimePicker,
 } from 'antd';
@@ -66,6 +67,7 @@ export default function Mount() {
   const [nodeInfo, setNodeInfo] = useState({});
   const [agreeClause, setAgreeClause] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
+  const [errorInput, setErrorInput] = useState(false);
 
   const onMaxDurationValueChange = (value, option) => {
     setMaxDuration(option);
@@ -164,12 +166,27 @@ export default function Mount() {
       message.warning('Please enter price!');
       return;
     }
+    if (price < 1) {
+      message.warning('Please enter a valid price value!');
+      setErrorInput(true);
+      setTimeout(() => {
+        setErrorInput(false);
+      }, 4000);
+
+      return;
+    }
     if (errorRange) {
       message.warning('Please fill in a time greater than the minimum period.');
       return;
     }
     if (!agreeClause) {
-      message.warning('Please read the terms first and agree!');
+      // message.warning('Please read the terms first and agree!');
+      notification.info({
+        message: 'Notification Info',
+        description: 'Please read the terms first and agree!',
+        placement: 'bottomLeft',
+        duration: 6,
+      });
       return;
     }
     if (!node?.id && !userInfo?.id) return;
@@ -227,11 +244,7 @@ export default function Mount() {
         <main className={styles['main-card']}>
           <section className={styles['input-box-container']}>
             <div className={styles['input-box']}>
-              <div
-                className={`${styles['device-box']} ${
-                  error ? styles['search-input-error'] : ''
-                }`}
-              >
+              <div className={`${styles['device-box']} `}>
                 <Input
                   type="text"
                   placeholder="Please enter the device identification number"
@@ -281,17 +294,24 @@ export default function Mount() {
           </section>
           <section className={styles['card-prices']}>
             <div className={styles['duration-item']}>
-              <p>Billing price</p>
-
-              <Input
-                suffix={<p>USDT / Day</p>}
-                type="number"
-                placeholder="Enter a price"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-                name="price"
-                className={styles['price-input']}
-              />
+              <p className={styles['bill-text']}>Billing price</p>
+              <div className={styles['bill-price']}>
+                <Input
+                  suffix={<p>USDT / Day</p>}
+                  type="number"
+                  placeholder="Enter a price"
+                  value={price}
+                  min={1}
+                  onChange={(e) => setPrice(e.target.value)}
+                  name="price"
+                  className={styles['price-input']}
+                />
+                {errorInput && (
+                  <p className={styles['red']}>
+                    Please enter a valid price value!
+                  </p>
+                )}
+              </div>
             </div>
           </section>
         </Card>
@@ -398,3 +418,5 @@ export default function Mount() {
     </form>
   );
 }
+
+Mount.wrappers = ['@/wrappers/auth'];

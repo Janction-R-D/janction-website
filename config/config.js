@@ -3,6 +3,7 @@ import proxy from './proxy';
 import metas from './metas';
 
 export default defineConfig({
+  favicon: '/favicon.ico',
   proxy,
   nodeModulesTransform: {
     type: 'none',

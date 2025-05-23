@@ -4,22 +4,16 @@ import pytorch from '@/assets/images/genesis/pytorch.png';
 import tensorflow from '@/assets/images/genesis/tensorflow.png';
 import { FRAMEWORK } from './constant';
 import styles from './index.less';
-export default function FrameworkAi({ value, onChange }) {
-  const [check, setCheck] = useState(true);
-
-  const onCheckChange = (checked) => {
-    setCheck(checked);
-  };
-  useEffect(() => {
-    if (!check) {
-      onChange();
-    }
-  }, [check]);
+export default function FrameworkAi({ value = [], onChange }) {
   const handleCheckboxChange = (newValue) => {
-    if (newValue !== value) {
-      onChange?.(newValue);
+    let val = value;
+    const checkIsInValue = value?.filter((item) => item === newValue);
+    const isnotInValue = value?.filter((item) => item !== newValue);
+    if (checkIsInValue?.length > 0) {
+      onChange?.(isnotInValue);
     } else {
-      onChange?.(undefined);
+      val.push(newValue);
+      onChange?.(val);
     }
   };
   return (
@@ -34,13 +28,13 @@ export default function FrameworkAi({ value, onChange }) {
             key={item.value}
             className={[
               styles['item'],
-              value === item.value && styles['active-item'],
-              check && styles['disabled'],
+              value?.includes(item?.value) && styles['active-item'],
+              // check && styles['disabled'],
             ].join(' ')}
-            style={{
-              cursor: check ? 'pointer' : 'not-allowed',
-              pointerEvents: check ? '' : 'none',
-            }}
+            // style={{
+            //   cursor: check ? 'pointer' : 'not-allowed',
+            //   pointerEvents: check ? '' : 'none',
+            // }}
             onClick={() => handleCheckboxChange(item.value)}
           >
             <div className={styles['content']}>
@@ -55,7 +49,7 @@ export default function FrameworkAi({ value, onChange }) {
 
               <Checkbox
                 className={styles['rounded-check']}
-                checked={value === item.value}
+                checked={value?.includes(item?.value)}
                 style={{ visibility: 'hidden' }}
                 onChange={() => handleCheckboxChange(item.value)}
               />

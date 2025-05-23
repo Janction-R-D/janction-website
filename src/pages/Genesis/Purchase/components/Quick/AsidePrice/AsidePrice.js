@@ -84,13 +84,13 @@ export default function AsidePrice({ formValues, styles, onConfirm }) {
                 </div>
               </section>
             )}
-            {formValues?.ai_framework && (
+            {formValues?.ai_framework?.length > 0 && (
               <section>
                 <p className={styles['text__type']}>Framework </p>
                 <div className={styles['text__content']}>
                   <span className={styles['description']}>
                     <p className={styles['text__description']}>
-                      {formValues?.ai_framework}
+                      {formValues?.ai_framework?.join(' | ')}
                     </p>
                   </span>
                 </div>
