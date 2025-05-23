@@ -68,7 +68,6 @@ export default function QuickTable(props) {
       loading={loading}
       pagination={{ pageSize: 5 }}
       rowKey={'id'}
-      loading={loading}
       rowClassName={getRowClassName}
       className={styles['table']}
       scroll={{ x: 'auto' }}
