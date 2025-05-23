@@ -240,6 +240,16 @@ function Orders() {
       ellipsis: true,
     },
     {
+      title: 'Price',
+      dataIndex: 'price',
+      key: 'price',
+      ellipsis: true,
+      render: (text) => {
+        if (!text?.price_in_currency) return '--';
+        return `${text?.price_in_currency} USDT`;
+      },
+    },
+    {
       title: 'Created At',
       dataIndex: 'created_at',
       key: 'created_at',
