@@ -85,7 +85,7 @@ const Settlement = (props) => {
   useEffect(() => {
     setDeadline(Date.now() + 20 * 60 * 1000);
   }, []);
-
+  console.log(list);
   const onFinish = () => {
     console.log('『onFinish』');
     message.info('Purchase Cancelled');
@@ -260,7 +260,7 @@ const Settlement = (props) => {
         <PayType value={currency} onChange={(e) => setCurrency(e)} />
         <p>Price detail</p>
         <div className={styles['node-wrapper']}>
-          <p className={styles['node-id']}>Device ID:{list?.node_id}</p>
+          <p className={styles['node-id']}>Device ID:{list?.[0]?.node_id}</p>
           <section className={styles['container']}>
             <div className={styles['price-item']}>
               <span>Price</span>

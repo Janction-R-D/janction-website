@@ -159,7 +159,7 @@ export default function OrderCard({ order }) {
           <section>
             <p>
               <span> Price:</span>
-              <span>{data.order?.price || `~`}</span>
+              <span>{data.order?.price?.price_in_currency || `~`}</span>
             </p>
             <p>
               <span>Quantity:</span>
@@ -183,7 +183,7 @@ export default function OrderCard({ order }) {
               <span>Paid</span>
               <span className={styles['price']}>
                 <span className={styles['bold-price']}>
-                  {data.order?.price || '~'}
+                  {data.order?.price?.price_in_currency || `~`}
                 </span>
                 <span>USDC</span>
               </span>
