@@ -109,7 +109,8 @@ const RainbowConnect = (props) => {
   const checkIsNew = async () => {
     try {
       const res = await fetchUserConfig();
-      const check = await res?.isNew_user;
+      const data = await res?.isNew_user;
+      const check = data ? true : false;
       setIsNewUser(check);
     } catch (err) {
       console.log(err);

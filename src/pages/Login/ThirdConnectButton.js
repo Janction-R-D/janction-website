@@ -17,7 +17,7 @@ export default function ThirdConnectButton(props) {
   const { setLoading } = props;
   const location = useLocation();
   const { inviterCode } = location.query || {};
-  const [isNewUser, setIsNewUser] = useState();
+  const [isOldUser, setIsOldUser] = useState();
 
   const { signMessageAsync } = useSignMessage();
   const { address, chainId } = useAccount();
@@ -103,22 +103,7 @@ export default function ThirdConnectButton(props) {
         expires,
       });
 
-      await checkIsNew();
-
-      if (isNewUser) {
-        return window.location.replace(`/genesis/rol`);
-      }
-
-      const from = location.query?.from || '/genesis/dashboard';
-
-      if (inviterCode) {
-        await bindCode(address);
-        return window.location.replace(
-          `/genesis/deployNodes?inviterCode=${inviterCode}&root='lessor'`,
-        );
-      }
-
-      window.location.replace(from);
+      onRedirect(address);
     } catch (err) {
       console.error('Login error:', err);
       message.error('Login failed.');
@@ -134,12 +119,28 @@ export default function ThirdConnectButton(props) {
     storage.set({ name: 'refresh', value: true });
     window.location.reload();
   };
-
-  const checkIsNew = async () => {
+  const onRedirect = async (address) => {
+    await checkIsOld();
+    if (!isOldUser) {
+      return window.location.replace(`/genesis/rol`);
+    }
+    const from = history.location.query?.from || '/genesis/dashboard';
+    if (inviterCode) {
+      await bindCode(address);
+      return window.location.replace(
+        `/genesis/deployNodes?inviterCode=${inviterCode}&root='lessor'`,
+      );
+    }
+    window.location.replace(from);
+  };
+  const checkIsOld = async () => {
     try {
       const res = await fetchUserConfig();
-      const check = res?.isNew_user;
-      setIsNewUser(check);
+      const data = res?.isNew_user;
+
+      const check = data ? true : false;
+
+      setIsOldUser(!check);
     } catch (err) {
       console.log(err);
     }
