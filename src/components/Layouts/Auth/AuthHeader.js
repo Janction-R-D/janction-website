@@ -56,7 +56,9 @@ export default function AuthHeader(props) {
     if (!location.pathname.includes('dashboard')) return; // Modal guide  will pop up only in dahsboard page
     try {
       const res = await fetchUserConfig();
-
+      if (res?.name) {
+        setUserName(res.name);
+      }
       setUserConf(res);
 
       if (!res?.pass_newbie_guide) {

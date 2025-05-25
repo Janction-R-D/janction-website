@@ -17,7 +17,7 @@ const IdentityCard = ({ card }) => {
   };
   const changeSetting = async () => {
     const payload = {
-      isNew_user: true,
+      is_old_user: true,
     };
     try {
       const res = await updateUserConfig(payload);

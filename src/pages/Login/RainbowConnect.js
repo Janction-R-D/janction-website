@@ -19,7 +19,7 @@ const RainbowConnect = (props) => {
   const { setLoading } = props;
   const location = useLocation();
   const { inviterCode } = location.query || {};
-  const [isNewUser, setIsNewUser] = useState();
+  const [isOldUser, setIsOldUser] = useState();
   const { address } = useAccount();
   const { openConnectModal } = useConnectModal();
   const { signMessageAsync } = useSignMessage();
@@ -70,7 +70,7 @@ const RainbowConnect = (props) => {
           expires,
         });
 
-        // onRedirect(address);
+        onRedirect(address);
       };
 
       const signAndLogin = async () => {
@@ -105,20 +105,18 @@ const RainbowConnect = (props) => {
       message.destroy('loading');
     },
   });
-
-  const checkIsNew = async () => {
+  const checkIsOld = async () => {
     try {
       const res = await fetchUserConfig();
-      const data = await res?.isNew_user;
-      const check = data ? true : false;
-      setIsNewUser(check);
+      const data = res?.is_old_user || false;
+      setIsOldUser(data);
     } catch (err) {
       console.log(err);
     }
   };
   const onRedirect = async (address) => {
-    await checkIsNew();
-    if (isNewUser) {
+    await checkIsOld();
+    if (!isOldUser) {
       return window.location.replace(`/genesis/rol`);
     }
     const from = history.location.query?.from || '/genesis/dashboard';

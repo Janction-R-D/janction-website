@@ -20,23 +20,25 @@ export default function ThirdConnectButton(props) {
   const [isOldUser, setIsOldUser] = useState();
 
   const { signMessageAsync } = useSignMessage();
-  const { address, chainId } = useAccount();
+  // const { address, chainId } = useAccount();
 
   const wallets = [
     inAppWallet({
       auth: {
         options: [
           'google',
-          'discord',
-          'telegram',
-          'farcaster',
-          'email',
           'x',
-          'passkey',
-          'phone',
-          'github',
-          'coinbase',
           'apple',
+          'discord',
+          'facebook',
+          'farcaster',
+          'telegram',
+          'coinbase',
+          'line',
+          'email',
+          'phone',
+          'passkey',
+          'guest',
         ],
       },
     }),
@@ -51,10 +53,12 @@ export default function ThirdConnectButton(props) {
     return !!storage.get('AUTH_HEADERS');
   };
 
-  const getLoginPayload = async () => {
+  const getLoginPayload = async ({ address, chainId }) => {
     const { nonce } = (await fetchUserNonce()) || {};
-
-    const siweMessage = new SiweMessage({
+    const now = new Date();
+    const issuedAt = now.toISOString();
+    const expirationTime = new Date(now.getTime() + expires).toISOString();
+    const payload = {
       domain: window.location.host,
       address,
       statement: 'Sign in Janction with your wallet.',
@@ -62,26 +66,31 @@ export default function ThirdConnectButton(props) {
       version: '1',
       chainId,
       nonce,
-      issuedAt: new Date().toISOString(),
-    });
+    };
+    const siweMessage = new SiweMessage(payload);
 
     const messageToSign = siweMessage.prepareMessage();
-    const payload = { siweMessage, sms: messageToSign };
-    return payload;
+
+    return {
+      ...payload,
+      issued_at: issuedAt,
+      // expiration_time: expirationTime,
+      message: messageToSign,
+    };
   };
 
-  const doLogin = async ({ payload }) => {
-    const { siweMessage, sms } = payload;
+  const doLogin = async ({ payload, signature: sign }) => {
+    const { message: sms, address, chainId } = payload;
     setLoading(true);
     message.info({
       content: 'Signing in, please wait...',
       key: 'loading',
       duration: 0,
     });
-
     try {
       // Firma con la dirección activa
       const signature = await signMessageAsync({ message: sms });
+      // console.log(sign, sms);
 
       const param = {
         message: sms,
@@ -120,11 +129,11 @@ export default function ThirdConnectButton(props) {
     window.location.reload();
   };
   const onRedirect = async (address) => {
-    await checkIsOld();
-    if (!isOldUser) {
+    const { is_old_user } = (await fetchUserConfig()) || {};
+    if (!is_old_user) {
       return window.location.replace(`/genesis/rol`);
     }
-    const from = history.location.query?.from || '/genesis/dashboard';
+    const from = history.location?.query?.from || '/genesis/dashboard';
     if (inviterCode) {
       await bindCode(address);
       return window.location.replace(
@@ -136,16 +145,12 @@ export default function ThirdConnectButton(props) {
   const checkIsOld = async () => {
     try {
       const res = await fetchUserConfig();
-      const data = res?.isNew_user;
-
-      const check = data ? true : false;
-
-      setIsOldUser(!check);
+      const data = res?.is_old_user || false;
+      setIsOldUser(data);
     } catch (err) {
       console.log(err);
     }
   };
-
   const bindCode = async (address) => {
     try {
       const data = {

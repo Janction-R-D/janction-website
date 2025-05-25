@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { useLocation } from 'umi';
 import { message } from 'antd';
 import { SiweMessage } from 'siwe';
-import { ConnectButton } from 'thirdweb/react';
-import { useSignMessage, useAccount } from 'wagmi';
+import { ConnectButton, useWalletInfo } from 'thirdweb/react';
+import { getWallet, getAccount } from 'thirdweb/wallets';
+import { useSignMessage } from 'wagmi';
 import { client } from '@/components/ThirdClient';
 import styles from './index.less';
 import { inAppWallet, createWallet } from 'thirdweb/wallets';
@@ -11,50 +12,56 @@ import { fetchInviteAccept, fetchUserConfig } from '@/services/genesis';
 import { fetchUserNonce, fetchUserVerify } from '@/services/login';
 import storage from '@/utils/storage';
 
+const isProduction = process.env.JANCTION_ENV === 'production';
 const expires = 60 * 60 * 10 * 1000;
 
-export default function Connect() {
+export default function Connect(props) {
+  const { setLoading } = props;
   const location = useLocation();
   const { inviterCode } = location.query || {};
-  const [isNewUser, setIsNewUser] = useState();
-  const [loading, setLoading] = useState(false);
+  const [isOldUser, setIsOldUser] = useState();
 
   const { signMessageAsync } = useSignMessage();
-  const { address, chainId } = useAccount();
 
   const wallets = [
     inAppWallet({
       auth: {
         options: [
           'google',
-          'discord',
-          'telegram',
-          'farcaster',
-          'email',
-          'x',
-          'passkey',
-          'phone',
-          'github',
-          'coinbase',
+          // 'x',
           'apple',
+          'discord',
+          // 'facebook',
+          // 'farcaster',
+          'telegram',
+          'coinbase',
+          'github',
+          // 'line',
+          'email',
+          'phone',
+          // 'passkey',
+          // 'guest',
         ],
       },
     }),
     createWallet('io.metamask'),
-    createWallet('com.coinbase.wallet'),
-    createWallet('me.rainbow'),
-    createWallet('io.rabby'),
-    createWallet('io.zerion.wallet'),
+    // createWallet('com.coinbase.wallet'),
+    // createWallet('me.rainbow'),
+    // createWallet('io.rabby'),
+    // createWallet('io.zerion.wallet'),
   ];
 
   const isLoggedIn = async () => {
     return !!storage.get('AUTH_HEADERS');
   };
 
-  const getLoginPayload = async () => {
+  const getLoginPayload = async ({ address, chainId }) => {
     const { nonce } = (await fetchUserNonce()) || {};
-
-    const siweMessage = new SiweMessage({
+    const now = new Date();
+    const issuedAt = now.toISOString();
+    const chain = isProduction ? 11155111 : 11155420;
+    const expirationTime = new Date(now.getTime() + expires).toISOString();
+    const payload = {
       domain: window.location.host,
       address,
       statement: 'Sign in Janction with your wallet.',
@@ -62,36 +69,41 @@ export default function Connect() {
       version: '1',
       chainId,
       nonce,
-      issuedAt: new Date().toISOString(),
-    });
+    };
+    const siweMessage = new SiweMessage(payload);
+    const sms = siweMessage.prepareMessage();
 
-    const messageToSign = siweMessage.prepareMessage();
-    const payload = { siweMessage, sms: messageToSign };
-    return payload;
+    return {
+      ...payload,
+      sms,
+      issued_at: issuedAt,
+      expiration_time: expirationTime,
+    };
   };
 
-  const doLogin = async ({ payload }) => {
-    const { siweMessage, sms } = payload;
+  const doLogin = async ({ payload, signature }) => {
+    const { address, chainId, sms } = payload || {};
+
     setLoading(true);
     message.info({
       content: 'Signing in, please wait...',
       key: 'loading',
       duration: 0,
     });
-
+    console.log(payload);
+    // Signature
     try {
-      // Firma con la dirección activa
-      const signature = await signMessageAsync({ message: sms });
-
+      const signedMessage = await signMessageAsync({ message: sms });
+      // console.log('wagmi signature', signedMessage);
+      // console.log('thirdweb signature', signature);
+      // console.log('is equal : ', signature === signedMessage);
       const param = {
+        signature: signedMessage,
         message: sms,
-        signature,
       };
-
+      console.log(param);
       await fetchUserVerify(param);
-
       const msg = btoa(sms);
-
       storage.set({
         name: 'userAccount',
         value: { address, chainId },
@@ -99,26 +111,10 @@ export default function Connect() {
       });
       storage.set({
         name: 'AUTH_HEADERS',
-        value: { 'x-siwe-sig': signature, 'x-siwe-msg': msg },
+        value: { 'x-siwe-sig': signedMessage, 'x-siwe-msg': msg },
         expires,
       });
-
-      await checkIsNew();
-
-      if (isNewUser) {
-        return window.location.replace(`/genesis/rol`);
-      }
-
-      const from = location.query?.from || '/genesis/dashboard';
-
-      if (inviterCode) {
-        await bindCode(address);
-        return window.location.replace(
-          `/genesis/deployNodes?inviterCode=${inviterCode}&root='lessor'`,
-        );
-      }
-
-      window.location.replace(from);
+      onRedirect(address);
     } catch (err) {
       console.error('Login error:', err);
       message.error('Login failed.');
@@ -134,17 +130,29 @@ export default function Connect() {
     storage.set({ name: 'refresh', value: true });
     window.location.reload();
   };
-
-  const checkIsNew = async () => {
+  const onRedirect = async (address) => {
+    const { is_old_user } = (await fetchUserConfig()) || {};
+    if (!is_old_user) {
+      return window.location.replace(`/genesis/rol`);
+    }
+    const from = history.location?.query?.from || '/genesis/dashboard';
+    if (inviterCode) {
+      await bindCode(address);
+      return window.location.replace(
+        `/genesis/deployNodes?inviterCode=${inviterCode}&root='lessor'`,
+      );
+    }
+    window.location.replace(from);
+  };
+  const checkIsOld = async () => {
     try {
       const res = await fetchUserConfig();
-      const check = res?.isNew_user;
-      setIsNewUser(check);
+      const data = res?.is_old_user || false;
+      setIsOldUser(data);
     } catch (err) {
       console.log(err);
     }
   };
-
   const bindCode = async (address) => {
     try {
       const data = {
