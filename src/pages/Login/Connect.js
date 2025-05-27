@@ -91,7 +91,7 @@ export default function Connect(props) {
 
     return {
       ...payload,
-      sms: message,
+      sms: message, // todo: 签名  检查传参 是 sms 还是 message
       signature: signature,
       issued_at: issuedAt,
       expiration_time: expirationTime,
