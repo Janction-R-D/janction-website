@@ -1,16 +1,17 @@
 import { useState } from 'react';
 import { useLocation } from 'umi';
 import { message } from 'antd';
-import { SiweMessage } from 'siwe';
-import { ConnectButton, useWalletInfo } from 'thirdweb/react';
-import { getWallet, getAccount } from 'thirdweb/wallets';
+// import {SiweMessage} from 'siwe';
+import { ConnectButton } from 'thirdweb/react';
+import { createWallet, inAppWallet } from 'thirdweb/wallets';
 import { useSignMessage } from 'wagmi';
 import { client } from '@/components/ThirdClient';
 import styles from './index.less';
-import { inAppWallet, createWallet } from 'thirdweb/wallets';
 import { fetchInviteAccept, fetchUserConfig } from '@/services/genesis';
 import { fetchUserNonce, fetchUserVerify } from '@/services/login';
 import storage from '@/utils/storage';
+import { createSwMessage } from '@/utils/siwe/siwe';
+import { signMessage } from 'thirdweb/utils';
 
 const isProduction = process.env.JANCTION_ENV === 'production';
 const expires = 60 * 60 * 10 * 1000;
@@ -70,12 +71,28 @@ export default function Connect(props) {
       chainId,
       nonce,
     };
-    const siweMessage = new SiweMessage(payload);
-    const sms = siweMessage.prepareMessage();
+
+    // todo: message
+    const swm = createSwMessage({
+      domain: 'localhost:8000',
+      address: address,
+      chainId: 1,
+      statement: 'Sign in with Ethereum to the app.',
+      uri: window.location.host,
+      version: '1',
+      nonce: '9f8d3a5e29b34a1f',
+      issuedAt: new Date().toISOString(),
+    });
+
+    // todo: 签名
+    const signature = signMessage({
+      message: swm,
+    });
 
     return {
       ...payload,
-      sms,
+      sms: message,
+      signature: signature,
       issued_at: issuedAt,
       expiration_time: expirationTime,
     };
