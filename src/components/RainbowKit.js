@@ -15,7 +15,6 @@ import {
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider } from 'wagmi';
 import { optimism, optimismSepolia } from 'wagmi/chains';
-import ThirdWeb from './ThirdWeb';
 
 const projectId = '23cf742fb52fc761a81ebe69526d0b82';
 const chains = [optimismSepolia, optimism, janctionTestnet];
@@ -51,15 +50,13 @@ const queryClient = new QueryClient();
 
 const RainbowKit = (props) => {
   return (
-    <ThirdWeb>
-      <WagmiProvider config={config}>
-        <QueryClientProvider client={queryClient}>
-          <RainbowKitProvider theme={darkTheme()} locale="en">
-            {props.children}
-          </RainbowKitProvider>
-        </QueryClientProvider>
-      </WagmiProvider>
-    </ThirdWeb>
+    <WagmiProvider config={config}>
+      <QueryClientProvider client={queryClient}>
+        <RainbowKitProvider theme={darkTheme()} locale="en">
+          {props.children}
+        </RainbowKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
   );
 };
 

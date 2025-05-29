@@ -105,18 +105,10 @@ const RainbowConnect = (props) => {
       message.destroy('loading');
     },
   });
-  const checkIsOld = async () => {
-    try {
-      const res = await fetchUserConfig();
-      const data = res?.is_old_user || false;
-      setIsOldUser(data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+
   const onRedirect = async (address) => {
-    await checkIsOld();
-    if (!isOldUser) {
+    const { is_old_user } = (await fetchUserConfig()) || {};
+    if (!is_old_user) {
       return window.location.replace(`/genesis/rol`);
     }
     const from = history.location.query?.from || '/genesis/dashboard';

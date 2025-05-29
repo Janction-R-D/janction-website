@@ -42,23 +42,22 @@ export default function AuthHeader(props) {
 
   useEffect(() => {
     getUserConfig();
-    getUserInfo((res) => {
-      if (!userName) {
-        defaultNameHandle();
-      }
-    });
-  }, [run]);
+    getUserInfo();
+    if (!userName) {
+      defaultNameHandle();
+    }
+  }, []);
   const defaultNameHandle = () => {
-    const addStr = address?.slice(0, 16);
-    setUserName(`user_${addStr}`);
+    if (!userName) {
+      const addStr = address?.slice(0, 16);
+      setUserName(`user_${addStr}`);
+    }
   };
   const getUserConfig = async () => {
     if (!location.pathname.includes('dashboard')) return; // Modal guide  will pop up only in dahsboard page
     try {
       const res = await fetchUserConfig();
-      if (res?.name) {
-        setUserName(res.name);
-      }
+
       setUserConf(res);
 
       if (!res?.pass_newbie_guide) {
