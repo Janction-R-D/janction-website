@@ -3,22 +3,10 @@ import { useEffect, useState } from 'react';
 import styles from './index.less';
 import { ARCHITECTURE, SYSTEM_LIST } from '@/constant';
 import { AppstoreAddOutlined, RedoOutlined } from '@ant-design/icons';
-import { copy } from '@/utils/lang';
+import { copy, links } from '@/utils/lang';
 import { fetchNodesRegister } from '@/services/genesis';
 const { Text } = Typography;
-const links = [
-  {
-    operatingSystem: 'windows',
-    appLink:
-      'https://github.com/Janction-R-D/janction-desktop-app/releases/download/untagged-265ce3654e3061615f12/JanctionApp.1.0.0.exe',
-  },
 
-  {
-    operatingSystem: 'macos',
-    appLink:
-      'https://github.com/Janction-R-D/janction-desktop-app/releases/download/v1.0.2/JanctionApp-1.0.0-arm64.dmg',
-  },
-];
 const DeployNode = () => {
   const [selectedValues, setSelectedValues] = useState({});
   const [architecture, setArchitecture] = useState([]);

@@ -8,28 +8,11 @@ import {
 import styles from './index.less'; // Importamos los estilos con clases únicas
 import StepOne from '../StepOne/StepOne';
 import { SYSTEM_LIST } from '@/constant';
-
+import { links } from '@/utils/lang';
 const DEFAULT = {
   system: SYSTEM_LIST[0].value,
 };
-const links = [
-  {
-    operatingSystem: 'windows',
-    appLink:
-      'https://github.com/Janction-R-D/janction-desktop-app/releases/download/untagged-265ce3654e3061615f12/JanctionApp.1.0.0.exe',
-  },
 
-  {
-    operatingSystem: 'macos',
-    appLink:
-      'https://github.com/Janction-R-D/janction-desktop-app/releases/download/untagged-7b2b59b7d158e462730f/JanctionApp-1.0.0-arm64.dmg',
-  },
-  {
-    operatingSystem: 'linux',
-    appLink:
-      'https://github.com/Janction-R-D/janction-desktop-app/releases/download/untagged-7b2b59b7d158e462730f/JanctionApp-1.0.0.AppImage',
-  },
-];
 const Guide = ({ onOpen, isOpen, setIsOpen }) => {
   const [selectedValues, setSelectedValues] = useState(DEFAULT);
   const [downloadLink, setDownloadLink] = useState();

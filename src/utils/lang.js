@@ -184,3 +184,22 @@ export const convertKB = (kb, decimalPlaces = 2) => {
 
   return value.toFixed(decimalPlaces) + ' ' + units[index];
 };
+
+export const links = [
+  {
+    operatingSystem: 'windows',
+    appLink:
+      'https://github.com/Janction-R-D/janction-desktop-app/releases/download/untagged-7b2b59b7d158e462730f/JanctionApp-1.0.0.msi',
+  },
+
+  {
+    operatingSystem: 'macos',
+    appLink:
+      'https://github.com/Janction-R-D/janction-desktop-app/releases/download/untagged-7b2b59b7d158e462730f/JanctionApp-1.0.0-arm64.dmg',
+  },
+  {
+    operatingSystem: 'linux',
+    appLink:
+      'https://github.com/Janction-R-D/janction-desktop-app/releases/download/untagged-7b2b59b7d158e462730f/JanctionApp-1.0.0.AppImage',
+  },
+];
