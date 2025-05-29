@@ -22,7 +22,12 @@ const links = [
   {
     operatingSystem: 'macos',
     appLink:
-      'https://github.com/Janction-R-D/janction-desktop-app/releases/download/v1.0.2/JanctionApp-1.0.0-arm64.dmg',
+      'https://github.com/Janction-R-D/janction-desktop-app/releases/download/untagged-7b2b59b7d158e462730f/JanctionApp-1.0.0-arm64.dmg',
+  },
+  {
+    operatingSystem: 'linux',
+    appLink:
+      'https://github.com/Janction-R-D/janction-desktop-app/releases/download/untagged-7b2b59b7d158e462730f/JanctionApp-1.0.0.AppImage',
   },
 ];
 const Guide = ({ onOpen, isOpen, setIsOpen }) => {

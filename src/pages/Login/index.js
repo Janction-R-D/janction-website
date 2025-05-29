@@ -1,9 +1,7 @@
 import Connect from './Connect';
 import styles from './index.less';
 import Loader from './Loading';
-import TestConnect from './TestConnect';
-import ThirdConnectButton from './ThirdConnectButton';
-// import RainbowConnect from './RainbowConnect';
+import RainbowConnect from './RainbowConnect';
 import { useState } from 'react';
 
 const Login = (props) => {
@@ -22,10 +20,7 @@ const Login = (props) => {
         </h2>
         <p>One account for everything Janction</p>
       </div>
-      {/* <RainbowConnect setLoading={setLoading} /> */}
-      {/* <ThirdConnectButton setLoading={setLoading} /> */}
-      <Connect setLoading={setLoading} />
-      {/* <TestConnect setLoading={setLoading} /> */}
+      <RainbowConnect setLoading={setLoading} />
     </div>
   );
 };
