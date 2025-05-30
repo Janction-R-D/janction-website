@@ -1,12 +1,9 @@
-import { useState } from 'react';
-
 import { Card, Checkbox } from 'antd';
 import styles from './index.less';
 import { INTERNET } from '../../extra';
 
 export default function InternetType(props) {
   const { value = [], onChange, formValues, setCurrent } = props;
-  const [activeValue, setActiveValue] = useState();
 
   const handleCheckboxChange = (checked, newVal) => {
     let newValues = checked

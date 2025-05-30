@@ -9,7 +9,6 @@ import { isEmpty } from 'lodash';
 export function Processors(props) {
   const { onChange, formValues, value = [], current } = props;
   const [activeValue, setActiveValue] = useState(formValues?.processor_model);
-
   const [data, setData] = useState();
   const [cpu_gpu, setCpuGpu] = useState(CPU_GPU_OPTIONS[0].value);
   const [brand, setBrand] = useState([PROCESSOR[0].value]);

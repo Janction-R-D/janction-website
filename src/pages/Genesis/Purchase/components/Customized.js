@@ -1,5 +1,5 @@
-import { Button, Card, Divider, Form } from 'antd';
-import React, { useState } from 'react';
+import { Button, Card, Divider, Form, message } from 'antd';
+import React, { useEffect, useState } from 'react';
 import OperatingCard from './Customized/OperatingCard';
 import InternetType from './Customized/InternetType';
 import Location from './Customized/Location';
@@ -16,12 +16,16 @@ import AsidePrice from './Customized/AsidePrice/AsidePrice';
 import { history } from 'umi';
 import PurDuration from './PurDuration';
 import { Duration } from '@/constant';
+import ImagesAi from './Customized/ImagesAi';
 
 const Customized = () => {
   const [form] = Form.useForm();
   const [formValues, setFormValues] = useState({});
   const [current, setCurrent] = useState(0);
-
+  const [completedSteps, setCompletedSteps] = useState(new Set());
+  useEffect(() => {
+    form.setFieldsValue(formValues);
+  }, [current, formValues]);
   const onValuesChange = async (_, allValues) => {
     console.log(allValues);
     setFormValues(allValues); // Evita llamar a form.getFieldsValue()
@@ -105,6 +109,19 @@ const Customized = () => {
       description: '',
     },
     {
+      title: <p style={{ fontSize: '1rem' }}> Image</p>,
+      content: (
+        <Card className={styles['processor-conf-wrapper']}>
+          <p style={{ fontSize: '1rem' }}>Choose an Image</p>
+          <Form.Item name="template">
+            <ImagesAi formValues={formValues} current={current} />
+          </Form.Item>
+        </Card>
+      ),
+      field: 'Basic configuration',
+      description: '',
+    },
+    {
       title: <p style={{ fontSize: '1rem' }}>Duration</p>,
       content: (
         <Card className={styles['processor-conf-wrapper']}>
@@ -132,18 +149,30 @@ const Customized = () => {
   };
   const next = async () => {
     try {
-      // Obtiene los nombres de los campos del paso actual
       const fieldsToValidate = onValidateStep();
-      await form.validateFields(fieldsToValidate); // Valida solo los campos del paso actual
+      await form.validateFields(fieldsToValidate);
+      console.log(completedSteps);
+      if (current > 4 && !completedSteps.has(4)) {
+        message.error('Please complete steps 5 before proceeding.');
+        return; // No avanzar al siguiente paso
+      }
 
+      setCompletedSteps(new Set(completedSteps).add(current));
+
+      // Avanzar al siguiente paso si no estamos en el último
       if (current < steps.length - 1) {
         setCurrent(current + 1);
       }
     } catch (error) {
-      console.log('Error during validation:', error);
+      console.error('Error during validation:', error);
     }
   };
 
+  const prev = () => {
+    if (current >= 1) {
+      setCurrent(current - 1);
+    }
+  };
   const onConfirm = async () => {
     try {
       await form.validateFields();
@@ -174,21 +203,36 @@ const Customized = () => {
             setCurrent={setCurrent}
             onValidateStep={onValidateStep}
             form={form}
+            completedSteps={completedSteps}
+            formValues={formValues}
           />
           <header className={styles['header']}>
             <section className={styles['header-desc']}>
               <h2 className={styles['title']}>{steps[current].field}</h2>
             </section>
-
-            {current < steps.length - 1 && (
-              <Button
-                type="primary"
-                className={styles['btn-next']}
-                onClick={next}
-              >
-                Next Step <i className="iconfont icon-next icon" />
-              </Button>
-            )}
+            <div className={styles['btns']}>
+              {current >= 1 && (
+                <Button
+                  type="primary"
+                  className={styles['btn-next']}
+                  onClick={prev}
+                >
+                  <div className={styles['prev']}>
+                    <i className="iconfont icon-next icon " />
+                  </div>
+                  Prev Step{' '}
+                </Button>
+              )}
+              {current < steps.length - 1 && (
+                <Button
+                  type="primary"
+                  className={styles['btn-next']}
+                  onClick={next}
+                >
+                  Next Step <i className="iconfont icon-next icon" />
+                </Button>
+              )}
+            </div>
           </header>
           <motion.div
             key={current}

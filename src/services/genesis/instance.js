@@ -396,3 +396,11 @@ export const fetchStatistic = (data) => {
     loginAuth: true,
   });
 };
+//get templates
+
+export const fetchTemplates = (params) => {
+  return request(`${baseUrl}/resource/template/list`, {
+    params,
+    loginAuth: true,
+  });
+};

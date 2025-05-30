@@ -1,0 +1,30 @@
+.checkbox-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 8px;
+
+  .checkbox-item {
+    flex: 1 1 22%;
+    max-width: 22%;
+    box-sizing: border-box;
+  }
+}
+
+@media (max-width: 992px) {
+  .checkbox-grid {
+    .checkbox-item {
+      flex: 1 1 45%;
+      max-width: 45%;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .checkbox-grid {
+    .checkbox-item {
+      flex: 1 1 48%;
+      max-width: 48%;
+    }
+  }
+}

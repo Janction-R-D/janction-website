@@ -11,6 +11,8 @@ import { getNodeStatusMatch } from '@/utils/lang';
 import PurDuration from './PurDuration';
 import { debounce } from 'lodash';
 import Purpose from './Quick/Purpose';
+import FrameworkAi from './Customized/FrameworkAi';
+import ImagesAi from './Customized/ImagesAi';
 
 const Quick = (props) => {
   const [form] = Form.useForm();
@@ -21,15 +23,14 @@ const Quick = (props) => {
   const { node_id } = location.state || {};
 
   useEffect(() => {
-    let { operating_system_str: operating_system = [], ai_framework } =
+    let { operating_system_str: operating_system = [], ai_framework = [] } =
       formValues || {};
 
     let payload = {
       operating_system,
-      framework: ai_framework ? [ai_framework] : [],
+      framework: ai_framework,
     };
 
-    // getList(payload);
     debouncedGetList(payload);
   }, [formValues?.operating_system_str, formValues?.ai_framework]);
 
@@ -41,8 +42,9 @@ const Quick = (props) => {
         const { isListed } = getNodeStatusMatch(node);
         return isListed;
       });
-      // check if theres an available node , if not refresh value of node in form
+
       if (res.length <= 0) {
+        setFormValues((prevState) => ({ ...prevState, node: undefined }));
         form.setFieldsValue({ node: undefined });
       }
       setList(newList);
@@ -53,8 +55,7 @@ const Quick = (props) => {
     }
   };
   const debouncedGetList = useMemo(() => debounce(getList, 1000), []);
-  const onValuesChange = async () => {
-    const values = form.getFieldsValue();
+  const onValuesChange = async (_, values) => {
     setFormValues(values);
   };
 
@@ -89,21 +90,11 @@ const Quick = (props) => {
           {/* <Form.Item name="operating_system_str">
             <Operating getList={getList} />
           </Form.Item> */}
-          {/* <Collapse
-            className={styles['custom-collapse']}
-            bordered={false}
-            defaultActiveKey={1}
-          >
-            <Collapse.Panel
-              header="Pre-installed application (AI Framework)"
-              key="1"
-              style={{ background: '#000' }}
-            >
-              <Form.Item name="ai_framework">
-                <FrameworkAi formValues={formValues} />
-              </Form.Item>
-            </Collapse.Panel>
-          </Collapse> */}
+
+          <Form.Item name="ai_framework">
+            <FrameworkAi formValues={formValues} />
+          </Form.Item>
+
           <p>Instance Specification</p>
           <Card className={styles['specification-card']}>
             <section className={styles['specification-card-header']}>
@@ -128,6 +119,14 @@ const Quick = (props) => {
               />
             </Form.Item>
           </Card>
+          {
+            <>
+              <p style={{ marginBottom: '12px' }}>Image</p>
+              <Form.Item name="template">
+                <ImagesAi formValues={formValues} form={form} />
+              </Form.Item>
+            </>
+          }
           <p style={{ marginBottom: '12px' }}>Purchase Duration</p>
           <Form.Item name="purDuration">
             <PurDuration
@@ -143,6 +142,7 @@ const Quick = (props) => {
         formValues={formValues}
         styles={styles}
         onConfirm={onConfirm}
+        loading={loading}
       />
     </main>
   );

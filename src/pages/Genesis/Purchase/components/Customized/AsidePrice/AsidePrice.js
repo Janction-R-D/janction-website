@@ -45,7 +45,11 @@ export default function AsidePrice({ formValues, styles, onConfirm }) {
                 </div>
               </section>
             )}
-            {renderSection('AI Framework', formValues?.ai_framework)}
+            {renderSection(
+              'AI Framework',
+              formValues?.ai_framework?.join(' | '),
+            )}
+            {renderSection('Image', formValues?.template)}
             {formValues?.node && (
               <section>
                 <p className={styles['text__type']}>Duration</p>

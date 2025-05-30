@@ -1,4 +1,4 @@
-import { Input, Steps } from 'antd';
+import { Input, message, Steps } from 'antd';
 import OperatingCard from './OperatingCard';
 import styles from './index.less';
 const { Step } = Steps;
@@ -9,8 +9,18 @@ export default function CustomizedSteps({
   steps,
   onValidateStep,
   form,
+  completedSteps,
+  formValues,
 }) {
   const onNavSteps = async (index) => {
+    // if (index >= 5 && !completedSteps.has(4)) {
+    //   message.warning('Please complete steps 5 before proceeding.');
+    //   return;
+    // }
+    if (!formValues?.node && index >= 5 && !completedSteps.has(4)) {
+      message.warning('Please complete steps 5 before proceeding.');
+      return;
+    }
     if (index > current) {
       try {
         const validation = onValidateStep?.();

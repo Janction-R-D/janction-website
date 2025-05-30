@@ -131,13 +131,13 @@ const Settlement = (props) => {
     try {
       setPaymentStatus(3);
       setModalOpen(true);
-      const { node, ai_framework } = formValues || {};
+      const { node, ai_framework, template } = formValues || {};
       const { value, unit } = formValues?.purDuration || {};
       const goal = DURATION_OPTIONS.find((item) => item.value == unit);
 
       const payload = {
         node_id: node?.id,
-        tempalte: ai_framework || 'standard',
+        tempalte: template || 'base',
         purchase_instance_quantity: 1,
         purchase_duration: value,
         purchase_duration_unit: goal?.label.toLowerCase(),
