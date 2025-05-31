@@ -13,6 +13,7 @@ import {
   useSignMessage,
 } from 'wagmi';
 import styles from './index.less';
+import { WalletOutlined } from '@ant-design/icons';
 
 const expires = 60 * 60 * 10 * 1000;
 const RainbowConnect = (props) => {
@@ -146,7 +147,7 @@ const RainbowConnect = (props) => {
 
   return (
     <a className={styles['login-btn']} onClick={onConnect}>
-      Sign in
+      <WalletOutlined />
     </a>
   );
 };
