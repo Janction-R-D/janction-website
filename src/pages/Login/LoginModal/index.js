@@ -40,6 +40,7 @@ const LoginModal = ({ open, onCancel, setLoading }) => {
               icon={<ChromeOutlined />}
               size="large"
               className={styles.btn_icon}
+              disabled
             />
           </div>
           <div className={styles.divider_box}>
@@ -51,8 +52,15 @@ const LoginModal = ({ open, onCancel, setLoading }) => {
             layout="vertical"
             className={styles.form}
           >
-            <Form.Item name="email" rules={[{ required: true }]}>
-              <Input className={styles['input-search']} placeholder="Email" />
+            <Form.Item
+              name="email"
+              rules={[{ required: true, message: 'email is required' }]}
+            >
+              <Input
+                className={styles['input-search']}
+                placeholder="Email"
+                disabled
+              />
             </Form.Item>
             <Form.Item
               name="password"
@@ -61,6 +69,7 @@ const LoginModal = ({ open, onCancel, setLoading }) => {
               <Input.Password
                 className={styles['input-search']}
                 placeholder="Password"
+                disabled
               />
             </Form.Item>
 
@@ -70,6 +79,7 @@ const LoginModal = ({ open, onCancel, setLoading }) => {
                 htmlType="submit"
                 block
                 className={styles.button}
+                disabled
               >
                 Login{' '}
                 <div className={styles['icon']}>
