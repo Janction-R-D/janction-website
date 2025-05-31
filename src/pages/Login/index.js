@@ -1,15 +1,22 @@
-import Connect from './Connect';
 import styles from './index.less';
 import Loader from './Loading';
-import LoginModal from './LoginModal';
-import { Button } from 'antd';
-import RainbowConnect from './RainbowConnect';
 import { useState } from 'react';
+import FlippedModal from './Modals/FlippedCard';
+import SuccessModal from './Modals/SuccessModal';
 
 const Login = (props) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isFlipped, setIsFlipped] = useState(false);
   const onCancel = () => setOpen(false);
+  const onSuccessConfirm = () => {
+    setIsSuccess(false);
+    setTimeout(() => {
+      setIsFlipped(false);
+      setOpen(true);
+    }, 500);
+  };
   return (
     <div className={styles['login-container']}>
       {loading && <Loader />}
@@ -27,7 +34,20 @@ const Login = (props) => {
       <a className={styles['login-btn']} onClick={() => setOpen(true)}>
         Sign in
       </a>
-      <LoginModal open={open} onCancel={onCancel} setLoading={setLoading} />
+      <FlippedModal
+        open={open}
+        onCancel={onCancel}
+        setLoading={setLoading}
+        setIsSuccess={setIsSuccess}
+        isFlipped={isFlipped}
+        setIsFlipped={setIsFlipped}
+      />
+      <SuccessModal
+        visible={isSuccess}
+        onClose={() => setIsSuccess(false)}
+        onConfirm={onSuccessConfirm}
+      />
+
       {/* <RainbowConnect setLoading={setLoading} /> */}
     </div>
   );
