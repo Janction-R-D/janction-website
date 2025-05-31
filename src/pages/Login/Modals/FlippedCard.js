@@ -3,6 +3,7 @@ import { Modal } from 'antd';
 import styles from './index.less';
 import LogIn from './LogIn';
 import SignUp from './SignUp';
+import Recover from './Recover';
 
 const FlippedModal = ({
   open,
@@ -11,6 +12,8 @@ const FlippedModal = ({
   setIsSuccess,
   isFlipped,
   setIsFlipped,
+  mode,
+  setMode,
 }) => {
   const [email, setEmail] = useState('');
   const [sended, setSended] = useState(false);
@@ -35,15 +38,36 @@ const FlippedModal = ({
             setIsFlipped={setIsFlipped}
             onCancel={onCancel}
             setLoading={setLoading}
+            mode={mode}
+            setMode={setMode}
           />
         </div>
 
         <div
           className={`${styles.cardBack} ${
-            isFlipped ? styles.visible : styles.hidden
+            isFlipped && mode === 'signup' ? styles.visible : styles.hidden
           }`}
         >
           <SignUp
+            email={email}
+            setEmail={setEmail}
+            sended={sended}
+            setSended={setSended}
+            confirmed={confirmed}
+            setConfirmed={setConfirmed}
+            setIsFlipped={setIsFlipped}
+            onCancel={onCancel}
+            setSuccessModalVisible={setIsSuccess}
+            mode={mode}
+            setMode={setMode}
+          />
+        </div>
+        <div
+          className={`${styles.cardBack} ${
+            isFlipped && mode === 'recover' ? styles.visible : styles.hidden
+          }`}
+        >
+          <Recover
             email={email}
             setEmail={setEmail}
             sended={sended}

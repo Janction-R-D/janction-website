@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Form, Input, Button, message } from 'antd';
 import styles from './index.less';
 
-const SignUp = ({
+const Recover = ({
   onCancel,
   email,
   setEmail,
@@ -13,8 +13,6 @@ const SignUp = ({
   setIsFlipped,
   isFlipped,
   setSuccessModalVisible,
-  mode,
-  setMode,
 }) => {
   const [countdown, setCountdown] = useState(0);
   const [form] = Form.useForm();
@@ -34,6 +32,7 @@ const SignUp = ({
     } else if (sended) {
       setSended(false);
     } else {
+      resetAll();
       setIsFlipped(false);
     }
   };
@@ -65,12 +64,14 @@ const SignUp = ({
   //  Función para enviar código
   const sendVerificationCode = () => {
     console.log('Sending verification code to:', email);
+    setCountdown(60);
     //TODO
   };
 
   //  Función  para verificar código
   const verifyCode = (code) => {
     console.log('Verifying code:', code);
+
     //TODO
   };
 
@@ -112,7 +113,7 @@ const SignUp = ({
         code: form.getFieldValue('code'),
         password: values.password,
       });
-      setIsFlipped(false); // Volver a login si todo va bien
+      setIsFlipped('login'); // Volver a login si todo va bien
     }
   };
 
@@ -129,11 +130,14 @@ const SignUp = ({
       </span>
       <div className={styles.left}>
         <div className={styles.header}>
-          {!sended && <h2>Sign up</h2>}
+          {!sended && <h2>Retrieve password</h2>}
           {sended && !confirmed && <h2>Authentication</h2>}
-          {sended && confirmed && <h2>Set password</h2>}
+          {sended && confirmed && <h2>New password</h2>}
           {!sended && (
-            <p>Please enter your email account to register password</p>
+            <p>
+              Please enter your registered email account to retrieve your
+              password
+            </p>
           )}
           {sended && !confirmed && (
             <p>
@@ -187,7 +191,7 @@ const SignUp = ({
                 <Button
                   type="link"
                   disabled={countdown > 0}
-                  onClick={handleSignUp} // reutilizamos el submit
+                  onClick={sendVerificationCode} // reutilizamos el submit
                   style={{ marginLeft: 8, padding: 0 }}
                 >
                   {countdown > 0 ? `Resend in ${countdown}s` : 'Resend code'}
@@ -230,4 +234,4 @@ const SignUp = ({
   );
 };
 
-export default SignUp;
+export default Recover;

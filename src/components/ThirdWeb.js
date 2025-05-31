@@ -1,8 +1,8 @@
-import { ThirdwebProvider } from 'thirdweb/react';
+// import { ThirdwebProvider } from 'thirdweb/react';
 
-function ThirdWeb(props) {
-  const { children } = props;
-  return <ThirdwebProvider>{children}</ThirdwebProvider>;
-}
+// function ThirdWeb(props) {
+//   const { children } = props;
+//   return <ThirdwebProvider>{children}</ThirdwebProvider>;
+// }
 
-export default ThirdWeb;
+// export default ThirdWeb;

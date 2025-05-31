@@ -5,8 +5,7 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Button, Modal } from 'antd';
 import { useEffect, useState } from 'react';
 import { history, useLocation, useModel } from 'umi';
-import { useAccount } from 'wagmi';
-import { useDisconnect, useActiveWallet } from 'thirdweb/react';
+import { useAccount, useDisconnect } from 'wagmi';
 import AndroidAuthMenu from './AuthMenu';
 import styles from './index.less';
 
@@ -119,7 +118,6 @@ export function ProfileModal({ isModalOpen, handleOk, handleCancel }) {
         const { initialState, setInitialState } = useModel('@@initialState');
         const { isLessee } = initialState || {};
         const { disconnect } = useDisconnect();
-        const wallet = useActiveWallet();
         const onIdentityChange = () => {
           storage.set({ name: 'isLessee', value: !isLessee });
           setInitialState({
@@ -129,7 +127,7 @@ export function ProfileModal({ isModalOpen, handleOk, handleCancel }) {
           handleCancel();
         };
         const handleLogOut = () => {
-          disconnect(wallet);
+          disconnect();
           storage.clear();
           setInitialState({
             ...initialState,

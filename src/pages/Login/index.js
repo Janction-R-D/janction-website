@@ -9,6 +9,7 @@ const Login = (props) => {
   const [open, setOpen] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isFlipped, setIsFlipped] = useState(false);
+  const [mode, setMode] = useState('signup');
   const onCancel = () => setOpen(false);
   const onSuccessConfirm = () => {
     setIsSuccess(false);
@@ -41,6 +42,8 @@ const Login = (props) => {
         setIsSuccess={setIsSuccess}
         isFlipped={isFlipped}
         setIsFlipped={setIsFlipped}
+        mode={mode}
+        setMode={setMode}
       />
       <SuccessModal
         visible={isSuccess}

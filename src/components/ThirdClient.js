@@ -1,5 +1,5 @@
-import { createThirdwebClient } from 'thirdweb';
+// import { createThirdwebClient } from 'thirdweb';
 
-export const client = createThirdwebClient({
-  clientId: 'd613993852aee264cee39ff93368ee10',
-});
+// export const client = createThirdwebClient({
+//   clientId: 'd613993852aee264cee39ff93368ee10',
+// });

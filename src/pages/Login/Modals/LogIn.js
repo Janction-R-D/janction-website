@@ -1,15 +1,24 @@
-// LoginCard.jsx
 import React from 'react';
 import { Form, Input, Button, Divider } from 'antd';
 import styles from './index.less';
 import RainbowConnect from '../RainbowConnect';
 import { ChromeOutlined } from '@ant-design/icons';
 
-const Login = ({ onCancel, setIsFlipped, setLoading }) => {
+const Login = ({ onCancel, setIsFlipped, setLoading, mode, setMode }) => {
   const [form] = Form.useForm();
 
   const handleLogin = (values) => {
     console.log('Logging in with:', values);
+  };
+  const onSign = () => {
+    setIsFlipped(true);
+    setMode('signup');
+    console.log('signup');
+  };
+  const onRecover = () => {
+    setIsFlipped(true);
+    setMode('recover');
+    console.log('recover');
   };
 
   return (
@@ -77,8 +86,8 @@ const Login = ({ onCancel, setIsFlipped, setLoading }) => {
           </div>
         </Form>
         <div className={styles.footerLinks}>
-          <a onClick={() => setIsFlipped(true)}>Sign up</a> |{' '}
-          <a>Forgot Password?</a>
+          <a onClick={onSign}>Sign up</a> |{' '}
+          <a onClick={onRecover}>Forgot Password?</a>
         </div>
       </div>
       <div className={styles.right}>
