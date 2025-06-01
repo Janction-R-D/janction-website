@@ -35,6 +35,7 @@ const SignUp = ({
       setSended(false);
     } else {
       setIsFlipped(false);
+      resetAll();
     }
   };
 
@@ -115,7 +116,10 @@ const SignUp = ({
       setIsFlipped(false); // Volver a login si todo va bien
     }
   };
-
+  const onClose = () => {
+    form.resetFields();
+    onCancel();
+  };
   return (
     <div className={`${styles.cardBack} ${styles.visible}`}>
       <div className={styles.closeIcon_right}>
@@ -124,7 +128,7 @@ const SignUp = ({
         </div>
         <div onClick={onBack}>Back</div>
       </div>
-      <span className={styles.closeIcon_left} onClick={onCancel}>
+      <span className={styles.closeIcon_left} onClick={onClose}>
         ✕
       </span>
       <div className={styles.left}>

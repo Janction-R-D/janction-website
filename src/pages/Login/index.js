@@ -10,7 +10,11 @@ const Login = (props) => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [isFlipped, setIsFlipped] = useState(false);
   const [mode, setMode] = useState('signup');
-  const onCancel = () => setOpen(false);
+  const onCancel = () => {
+    setOpen(false);
+    setIsFlipped(false);
+    setMode('signup');
+  };
   const onSuccessConfirm = () => {
     setIsSuccess(false);
     setTimeout(() => {
