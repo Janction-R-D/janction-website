@@ -6,8 +6,9 @@ import usdcImg from '@/assets/images/genesis/usdc.png';
 import OrderCard from './OrderCard';
 
 import PaymentResultModal from './PorcessModal';
-import { useIntl, useLocation } from 'umi';
+import { useLocation } from 'umi';
 import { onNavigate } from '../../utils';
+
 export default function PurchaseAi() {
   const [paymentType, setPaymentType] = useState('USDC');
   const [agreed, setAgreed] = useState(false);
@@ -48,7 +49,7 @@ export default function PurchaseAi() {
         <div className={styles.paymentCard}>
           <div className={styles.paymentType}>
             <div
-              className={`${styles.paymentButton} ${
+              className={`${styles['pay-type-item']} ${
                 paymentType === 'USDT' ? styles.active : ''
               }`}
               onClick={() => setPaymentType('USDT')}
@@ -59,7 +60,7 @@ export default function PurchaseAi() {
               USDT
             </div>
             <div
-              className={`${styles.paymentButton} ${
+              className={`${styles['pay-type-item']} ${
                 paymentType === 'USDC' ? styles.active : ''
               }`}
               onClick={() => setPaymentType('USDC')}
@@ -71,11 +72,10 @@ export default function PurchaseAi() {
               USDC
             </div>
           </div>
-
+          {/* <PayType /> */}
           <div className={styles.cardContent}>
             <OrderCard />
           </div>
-
           <div className={styles.paymentFooter}>
             <div className={styles.terms}>
               <Checkbox

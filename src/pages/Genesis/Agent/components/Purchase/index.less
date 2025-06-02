@@ -50,28 +50,28 @@
     margin-bottom: 24px;
   }
 
-  .paymentButton {
-    padding: 8px 24px;
-    border: 1px solid #444;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.3s;
-    font-weight: 600;
+  // .paymentButton {
+  //   padding: 8px 24px;
+  //   border: 1px solid #444;
+  //   border-radius: 12px;
+  //   cursor: pointer;
+  //   transition: all 0.3s;
+  //   font-weight: 600;
 
-    .icon {
-      margin-right: 8px;
-    }
+  //   .icon {
+  //     margin-right: 8px;
+  //   }
 
-    &:hover {
-      border-color: #fff;
-    }
+  //   &:hover {
+  //     border-color: #fff;
+  //   }
 
-    &.active {
-      background: linear-gradient(90deg, #d670ff 0%, #66a2f7 40%, #6feecb 100%);
-      box-shadow: 0 0 20px rgba(150, 100, 255, 0.4);
-      color: #fff;
-    }
-  }
+  //   &.active {
+  //     background: linear-gradient(90deg, #d670ff 0%, #66a2f7 40%, #6feecb 100%);
+  //     box-shadow: 0 0 20px rgba(150, 100, 255, 0.4);
+  //     color: #fff;
+  //   }
+  // }
 
   .cardContent {
     display: flex;
@@ -207,5 +207,38 @@
       opacity: 0.85;
       color: #000 !important;
     }
+  }
+}
+.pay-type-item {
+  height: 70px;
+  display: flex;
+
+  align-items: center;
+  gap: 8px;
+  padding: 0 40px;
+  background: #2f2f31;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  cursor: pointer;
+
+  &.active {
+    border: 1px solid #73d5f4;
+  }
+
+  > span {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 20px;
+    color: #fff;
+  }
+
+  .desc {
+    font-weight: 500;
+    white-space: nowrap;
+    color: rgba(255, 255, 255, 0.25);
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
