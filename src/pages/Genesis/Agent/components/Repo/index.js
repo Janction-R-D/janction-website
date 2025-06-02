@@ -32,7 +32,7 @@ export default function Repo() {
       <AgentFilterNav onChange={handleFilterChange} />
       <div className={styles['agent-cards']}>
         {filteredAgents.map((agent) => (
-          <AgentCard key={agent.id} {...agent} path={'/try_chat'} />
+          <AgentCard key={agent.id} {...agent} path={'agent/try_chat'} />
         ))}
       </div>
     </main>
