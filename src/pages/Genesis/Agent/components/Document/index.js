@@ -11,7 +11,7 @@ export default function Document() {
       </p>
       <div className={styles['agent-cards']}>
         {mockAgents.map((agent) => (
-          <AgentCard key={agent.id} {...agent} path={'/try_chat'} />
+          <AgentCard key={agent.id} {...agent} path={'agent/try_chat'} />
         ))}
       </div>
     </main>
