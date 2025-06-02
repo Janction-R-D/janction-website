@@ -8,13 +8,15 @@ import styles from './index.less';
 import { useEffect, useMemo } from 'react';
 import { history } from 'umi';
 import { GenesisProvider } from './Context/GenesisContext';
-import WalletManagement from '@/pages/Genesis/Wallet-Management';
-import MessageCenter from '@/pages/Genesis/Message-center';
+// import WalletManagement from '@/pages/Genesis/Wallet-Management';
+// import MessageCenter from '@/pages/Genesis/Message-center';
 import Nodes from '@/pages/Genesis/DeployNodes';
-import Purchase from '@/pages/Genesis/Purchase';
-import PurchaseLayout from './PurchaseLayout';
-import Settlement from '@/pages/Genesis/Purchase/Settlement';
+// import Purchase from '@/pages/Genesis/Purchase';
+// import PurchaseLayout from './PurchaseLayout';
+// import Settlement from '@/pages/Genesis/Purchase/Settlement';
 import Rol from '@/pages/Genesis/Rol';
+import TryChat from '@/pages/Genesis/Agent/components/TryChat';
+import PurchaseAi from '@/pages/Genesis/Agent/components/Purchase';
 
 export const fullWidthRoute = ['/home', '/explore', '/getStarted', '/solution'];
 export const authRoute = [
@@ -36,6 +38,12 @@ export const authRoute = [
   '/genesis/message-center',
   '/genesis/rol',
   '/genesis/newbies',
+  '/genesis/agent',
+  '/genesis/agent/document',
+  '/genesis/agent/my_repo',
+  '/genesis/agent/about',
+  '/genesis/agent/try_chat',
+  '/genesis/agent/purchase',
 ];
 
 export default function Layout(props) {
@@ -63,6 +71,21 @@ export default function Layout(props) {
   if (isAuthRoute && props.location.pathname.includes('/rol')) {
     return <Rol />;
   }
+  if (isAuthRoute && props.location.pathname.includes('/try_chat')) {
+    return (
+      <GenesisLayout>
+        <TryChat />
+      </GenesisLayout>
+    );
+  }
+  if (isAuthRoute && props.location.pathname.includes('/agent/purchase')) {
+    return (
+      <GenesisLayout>
+        <PurchaseAi />
+      </GenesisLayout>
+    );
+  }
+
   // message center route
   // if (isAuthRoute && props.location.pathname.includes('/message-center')) {
   //   return (

@@ -29,6 +29,7 @@ const Recover = ({
   const onBack = () => {
     if (confirmed) {
       setConfirmed(false);
+      return;
     } else if (sended) {
       setSended(false);
     } else {
@@ -43,8 +44,8 @@ const Recover = ({
       resetAll();
     }
   }, [isFlipped]);
-  const resetAll = () => {
-    form.resetFields();
+  const resetAll = async () => {
+    await form.resetFields();
     setSended(false);
     setConfirmed(false);
     setEmail('');
@@ -113,7 +114,7 @@ const Recover = ({
         code: form.getFieldValue('code'),
         password: values.password,
       });
-      setIsFlipped('login'); // Volver a login si todo va bien
+      setIsFlipped(false); // Volver a login si todo va bien
     }
   };
   const onClose = () => {

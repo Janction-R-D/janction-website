@@ -1,0 +1,224 @@
+.title {
+  padding: 0;
+  margin: 0;
+}
+.backdrop-modal {
+  color: #fff;
+  margin-top: 50px;
+  max-width: 100% !important;
+  width: 750px !important;
+  .icon {
+    position: absolute;
+    border: 1px solid #fff;
+    top: -30px;
+    right: -30px;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all ease 250ms;
+    i {
+      font-size: 0.7rem;
+    }
+    &:hover {
+      border-color: #bcbcbc;
+      i {
+        color: #bcbcbc;
+      }
+    }
+  }
+  .title {
+    color: #fff;
+    padding: 0;
+    margin: 0;
+    background: unset;
+  }
+  .income__list {
+    list-style: none;
+    padding: 8px 0;
+
+    .income__item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 0;
+      .income__detail {
+        display: flex;
+        flex-direction: column;
+        .income__time {
+          font-size: 0.7rem;
+          color: #ccc;
+        }
+      }
+      &:not(:first-child) {
+        border-top: 1px solid #cccccc52;
+      }
+    }
+  }
+  :global {
+    .ant-modal-header {
+      background: transparent;
+    }
+    .ant-modal-content {
+      background: #3e3e3e6c;
+      border: 1px solid #cccccc52;
+      border-radius: 12px;
+      height: 430px;
+      display: flex;
+      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(8px);
+    }
+    .ant-modal-body {
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+  }
+}
+.card {
+  position: relative;
+
+  border-radius: 16px 16px 0 0;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  background-color: #111;
+
+  .image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .overlay {
+    position: absolute;
+    bottom: 0;
+    color: #fff;
+    width: 100%;
+    background: linear-gradient(to top, rgba(0, 0, 0), transparent 105%);
+    height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    gap: 6px;
+  }
+
+  .description {
+    display: flex;
+    width: 95%;
+    margin-inline: auto;
+    padding-bottom: 8px;
+    justify-content: space-between;
+    .description_left {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+    .title {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .score {
+      font-size: 14px;
+      opacity: 0.8;
+    }
+  }
+
+  .icon {
+    font-size: 16px;
+  }
+}
+.left-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px;
+
+  border-radius: 12px;
+  width: 300px;
+
+  .title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 32px;
+  }
+
+  .price-options {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 40px;
+    flex: 1;
+    .price-option {
+      flex: 1;
+      padding: 4px;
+      height: 80px;
+      border-radius: 12px;
+      background: #1a1b1e;
+      color: #fff;
+      text-align: center;
+      cursor: pointer;
+      border: 1px solid #333;
+
+      .amount {
+        font-size: 20px;
+        font-weight: 600;
+        margin-block: 8px;
+      }
+
+      .duration {
+        font-size: 14px;
+        color: #999;
+      }
+
+      &.active {
+        background: #1a1b1e;
+        border: 1px solid transparent;
+        background-image: linear-gradient(#1a1b1e, #1a1b1e),
+          linear-gradient(90deg, #8e2de2 0%, #4a00e0 100%);
+        background-origin: border-box;
+        background-clip: content-box, border-box;
+      }
+    }
+  }
+  .button-box {
+    flex: 1;
+    display: flex;
+    align-items: end;
+    .submit-button {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(90deg, #d670ff 0%, #66a2f7 40%, #6feecb 100%);
+      transform: skewX(15deg);
+      box-shadow: 0 0 20px 10px rgba(150, 100, 255, 0.8);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+      width: 150px;
+      height: 50px;
+      transition: all ease 250ms;
+      &:hover {
+        box-shadow: 0 0 50px 10px rgba(150, 100, 255, 0.8);
+
+        background: linear-gradient(
+          90deg,
+          #d670ff 0%,
+          #66a2f7 40%,
+          #6feecb 100%
+        );
+        color: #fff;
+      }
+      span {
+        transform: skewX(-15deg);
+      }
+    }
+  }
+}
