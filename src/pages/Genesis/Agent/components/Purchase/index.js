@@ -43,10 +43,11 @@ export default function PurchaseAi() {
           Back
         </div>
         <Divider type="vertical" className={styles['divider']} />
-        <div>Confirm</div>{' '}
+        <div>Confirm product information</div>{' '}
       </header>
       <main>
         <div className={styles.paymentCard}>
+          <p className={styles.title_p}>Payment Type</p>
           <div className={styles.paymentType}>
             <div
               className={`${styles['pay-type-item']} ${

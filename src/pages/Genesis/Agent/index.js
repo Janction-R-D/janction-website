@@ -4,6 +4,8 @@ import { useState } from 'react';
 import Repo from './components/Repo';
 import Document from './components/Document';
 import About from './components/About';
+import { Divider } from 'antd';
+
 export default function Agent() {
   const [currNav, setCurrNav] = useState('agent');
   const nav = [
@@ -18,6 +20,11 @@ export default function Agent() {
       <section className={styles['header-wrapper']}>
         <header>
           <h1>Agent AI</h1>
+          <Divider type="vertical" className={styles['line']} />
+          <span>
+            <p>Easily create your </p>
+            <p>Own AI agent </p>
+          </span>
         </header>
       </section>{' '}
       <section className={styles['header-resources']}>
