@@ -119,14 +119,12 @@ const Quick = (props) => {
               />
             </Form.Item>
           </Card>
-          {formValues?.ai_framework?.length > 0 && (
-            <>
-              <p style={{ marginBottom: '12px' }}>Image</p>
-              <Form.Item name="template">
-                <ImagesAi formValues={formValues} form={form} />
-              </Form.Item>
-            </>
-          )}
+
+          <p style={{ marginBottom: '12px' }}>Image</p>
+          <Form.Item name="template">
+            <ImagesAi formValues={formValues} form={form} />
+          </Form.Item>
+
           <p style={{ marginBottom: '12px' }}>Purchase Duration</p>
           <Form.Item name="purDuration">
             <PurDuration
