@@ -2,6 +2,7 @@ import { Button, Card } from 'antd';
 import styles from './index.less';
 import { mockAgents } from '../../mock';
 import AgentCard from '../AgentCard/AgentCard';
+import { onNavigate } from '../../utils';
 export default function MyAgent() {
   return (
     <main>
@@ -15,7 +16,12 @@ export default function MyAgent() {
           </span>
         </div>
         <div>
-          <Button className={styles['connect-btn']}>Create My Agent</Button>
+          <Button
+            className={styles['connect-btn']}
+            onClick={() => onNavigate('agent/create')}
+          >
+            Create My Agent
+          </Button>
         </div>
       </section>
       <main className={styles['content']}>

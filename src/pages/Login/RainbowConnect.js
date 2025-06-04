@@ -59,7 +59,11 @@ const RainbowConnect = (props) => {
         await fetchUserVerify(param);
 
         const msg = btoa(message);
-
+        const dataStorage = {
+          signature: sig,
+          message: msg,
+          address: address,
+        };
         storage.set({
           name: 'userAccount',
           value: userAccount,
@@ -71,7 +75,7 @@ const RainbowConnect = (props) => {
           expires,
         });
 
-        onRedirect(address);
+        onRedirect(address, dataStorage);
       };
 
       const signAndLogin = async () => {
@@ -107,8 +111,21 @@ const RainbowConnect = (props) => {
     },
   });
 
-  const onRedirect = async (address) => {
+  const onRedirect = async (address, dataStorage) => {
     const { is_old_user } = (await fetchUserConfig()) || {};
+    const params = new URLSearchParams(location.search);
+    const redirectUri = params.get('redirect_uri');
+    const isElectron = redirectUri?.startsWith('janctionapp://');
+    if (isElectron && redirectUri) {
+      const params = new URLSearchParams({
+        signature: dataStorage?.signature ?? '',
+        message: dataStorage?.message ?? '',
+        address: dataStorage?.address ?? '',
+      });
+
+      window.location.href = `${redirectUri}?${params.toString()}`;
+      return;
+    }
     if (!is_old_user) {
       return window.location.replace(`/genesis/rol`);
     }

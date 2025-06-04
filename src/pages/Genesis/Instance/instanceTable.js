@@ -13,7 +13,7 @@ function InstanceTable({ data, getAllNodes }) {
 
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
-
+  console.log(data);
   const handleOperation = (operation, resource, id) => {
     const payload = JSON.stringify({
       resource_id: resource,
@@ -74,7 +74,7 @@ function InstanceTable({ data, getAllNodes }) {
       key: 'memory',
       ellipsis: true,
       render: (memory, rowData) => (
-        <>{!empty(rowData.memory) ? convertKB(rowData.memory) : '--'}</>
+        <>{!empty(rowData.memory) ? convertMBtoGB(rowData.memory) : '--'}</>
       ),
     },
     {

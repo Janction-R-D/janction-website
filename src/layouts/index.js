@@ -17,6 +17,7 @@ import Nodes from '@/pages/Genesis/DeployNodes';
 import Rol from '@/pages/Genesis/Rol';
 import TryChat from '@/pages/Genesis/Agent/components/TryChat';
 import PurchaseAi from '@/pages/Genesis/Agent/components/Purchase';
+import Create from '@/pages/Genesis/Agent/components/Create';
 
 export const fullWidthRoute = ['/home', '/explore', '/getStarted', '/solution'];
 export const authRoute = [
@@ -44,6 +45,7 @@ export const authRoute = [
   '/genesis/agent/about',
   '/genesis/agent/try_chat',
   '/genesis/agent/purchase',
+  '/genesis/agent/create',
 ];
 
 export default function Layout(props) {
@@ -82,6 +84,13 @@ export default function Layout(props) {
     return (
       <GenesisLayout>
         <PurchaseAi />
+      </GenesisLayout>
+    );
+  }
+  if (isAuthRoute && props.location.pathname.includes('/agent/create')) {
+    return (
+      <GenesisLayout>
+        <Create />
       </GenesisLayout>
     );
   }

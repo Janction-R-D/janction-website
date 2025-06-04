@@ -1,6 +1,6 @@
 import { Card } from 'antd';
 import styles from './index.less';
-import { Typography, Divider } from 'antd';
+import { Typography } from 'antd';
 const { Text, Title } = Typography;
 
 export default function OrderCard() {

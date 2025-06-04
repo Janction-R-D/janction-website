@@ -1,11 +1,21 @@
 .create-wrapper {
-  padding-inline: 60px;
-  //   padding-bottom: 20px;
-  border-top-right-radius: 40px;
-  border-top-left-radius: 40px;
-  background: rgb(18, 18, 18);
-  height: 100%;
+  padding-inline: 70px;
+  padding-top: 40px;
+  padding-bottom: 20px;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+  background: rgb(30, 30, 30);
+  height: calc(100vh - 60px);
+  margin-top: auto;
   display: flex;
+  flex-direction: column;
+  overflow: scroll;
+  position: fixed;
+  width: 100%;
+  z-index: 50;
+  top: 60px;
+  left: 0;
+
   flex-direction: column;
   .orders-header {
     display: flex;
@@ -48,6 +58,9 @@
     .config {
     }
     .logs {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
     }
   }
   .buttons {

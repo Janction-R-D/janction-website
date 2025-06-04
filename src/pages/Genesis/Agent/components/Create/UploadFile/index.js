@@ -1,19 +1,16 @@
 import { Tabs } from 'antd';
 import styles from './index.less';
-import { useIntl } from 'umi';
-import UploadDoc from '@/pages/Create_agent/UploadFile/upload_doc';
-import UploadUrl from '@/pages/Create_agent/UploadFile/upload_url';
-import UploadApi from '@/pages/Create_agent/UploadFile/upload_api';
+import UploadUrl from './upload_url';
+import UploadApi from './upload_api';
+import UploadDoc from './upload_doc';
 
 const { TabPane } = Tabs;
 
 export default function UploadFiles() {
-  const { formatMessage } = useIntl();
-
   return (
     <div className={styles.container}>
       <Tabs defaultActiveKey="doc" type="card" className={styles.tabs}>
-        <TabPane tab={formatMessage({ id: 'create.upload_doc' })} key="doc">
+        <TabPane tab={'Doc'} key="doc">
           <UploadDoc style={{ height: '100%' }} />
 
           {/*<Upload className={styles.upload}>*/}
@@ -30,10 +27,10 @@ export default function UploadFiles() {
           {/*  </div>*/}
           {/*</Upload>*/}
         </TabPane>
-        <TabPane tab={formatMessage({ id: 'create.upload_url' })} key="url">
+        <TabPane tab={'URL'} key="url">
           <UploadUrl />
         </TabPane>
-        <TabPane tab={formatMessage({ id: 'create.upload_api' })} key="api">
+        <TabPane tab={'API'} key="api">
           <UploadApi />
         </TabPane>
       </Tabs>
