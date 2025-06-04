@@ -37,8 +37,8 @@ export default function Create() {
         <section className={styles['logs']}>
           <Logs />
           <div className={styles['buttons']}>
-            <StepButton text="Share" onClick={onOpen} />
-            <StepButton text="Create Agent" />
+            <StepButton text="Share" label="share" onClick={onOpen} />
+            <StepButton label="chat" text="Chat" />
           </div>
 
           {shareOpen && <ShareCard onClose={onCloseShare} />}

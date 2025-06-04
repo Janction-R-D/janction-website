@@ -203,15 +203,27 @@
 }
 
 .submitButton {
-  padding: 8px 20px;
-  border: 1px solid #434343;
-  border-radius: 8px;
-  background-color: transparent;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-
+  padding: 22px;
+  width: 190px;
+  display: flex;
+  height: 50px;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 4px;
+  border-color: #797979;
+  color: #fff;
+  font-size: 1rem;
+  box-shadow: 0px 0px 2px 1px #ffffff39;
+  transition: all ease 350ms;
   &:hover {
-    border-color: #949494;
+    border-color: #a3a3a3;
+    color: #c1c0c0;
+  }
+  .icon {
+    color: orange;
+  }
+  .icon_rotate {
+    transform: rotate(45deg);
+    color: orange;
   }
 }

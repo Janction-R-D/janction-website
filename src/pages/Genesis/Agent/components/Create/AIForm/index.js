@@ -1,10 +1,11 @@
 import React from 'react';
 import styles from './index.less';
-import { Avatar, Input, Switch, Upload } from 'antd';
+import { Avatar, Button, Input, Switch, Upload } from 'antd';
 import TagsInputGroup from './components/Tags';
 import TextArea from 'antd/es/input/TextArea';
 
 import {
+  ArrowUpOutlined,
   DeleteOutlined,
   PlusOutlined,
   UploadOutlined,
@@ -157,9 +158,12 @@ export default function AIForm() {
         <span></span>
         <div>
           {loading === 0 && (
-            <button onClick={handleSubmit} className={styles.submitButton}>
+            <Button onClick={handleSubmit} className={styles.submitButton}>
               Start creating
-            </button>
+              <span className={styles.icon_rotate}>
+                <ArrowUpOutlined />
+              </span>
+            </Button>
           )}
           {loading === 1 && <LoadingButton text="Creating" />}
           {loading === 2 && <LoadingFinish text="Success" />}

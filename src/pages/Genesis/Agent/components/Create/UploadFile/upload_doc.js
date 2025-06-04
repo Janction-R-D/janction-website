@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   DeleteOutlined,
+  FileAddOutlined,
   FileExcelOutlined,
   FileImageOutlined,
   FileOutlined,
@@ -101,7 +102,11 @@ const UploadDoc = ({ onChange }) => {
 
       <div className={styles.textDesc} onClick={triggerUpload}>
         <div className={styles.descTitle}>
-          <UploadOutlined />
+          <FileAddOutlined
+            style={{
+              fontSize: '24px',
+            }}
+          />
           <div style={{ marginLeft: 12 }}>Drg and drop</div>
         </div>
         <div className={styles.descContent}>Support Word/pdf/markdown</div>

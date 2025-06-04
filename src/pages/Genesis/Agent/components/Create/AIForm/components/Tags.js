@@ -27,14 +27,14 @@ export default function TagsInputGroup() {
     <div className={styles.container}>
       {tags.map((tag, index) => (
         <div key={index} className={styles.inputWrapper}>
-          <div>
+          <div className={styles.inputG}>
             <input
               type="text"
               className={styles.tagInput}
               value={tag}
               onChange={(e) => handleTagChange(index, e.target.value)}
               onDoubleClick={() => handleRemoveTag(index)}
-              // placeholder={formatMessage({ id: 'create.tags_holder' })}
+              placeholder={'Add tag'}
             />
             <span className={styles.charCount}>{tag.length}/4</span>
           </div>

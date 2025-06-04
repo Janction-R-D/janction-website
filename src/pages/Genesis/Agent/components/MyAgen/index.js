@@ -3,7 +3,15 @@ import styles from './index.less';
 import { mockAgents } from '../../mock';
 import AgentCard from '../AgentCard/AgentCard';
 import { onNavigate } from '../../utils';
+import { ArrowUpOutlined } from '@ant-design/icons';
+import { useState } from 'react';
+import IconmeModal from '../IncomeModal';
+import PurchaseModal from '../PurchaseModal';
 export default function MyAgent() {
+  const [open, setOpen] = useState(true);
+  const onOk = () => {
+    setOpen(false);
+  };
   return (
     <main>
       <section className={styles['header-container']}>
@@ -17,10 +25,13 @@ export default function MyAgent() {
         </div>
         <div>
           <Button
-            className={styles['connect-btn']}
+            className={styles['submitButton']}
             onClick={() => onNavigate('agent/create')}
           >
             Create My Agent
+            <span className={styles.icon_rotate}>
+              <ArrowUpOutlined />
+            </span>
           </Button>
         </div>
       </section>
@@ -41,6 +52,7 @@ export default function MyAgent() {
           </div>
         </Card>
       </main>
+      <PurchaseModal onOpen={onOk} setIsOpen={setOpen} isOpen={open} />
     </main>
   );
 }

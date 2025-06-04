@@ -177,12 +177,8 @@
       }
 
       &.active {
-        background: #1a1b1e;
-        border: 1px solid transparent;
-        background-image: linear-gradient(#1a1b1e, #1a1b1e),
-          linear-gradient(90deg, #8e2de2 0%, #4a00e0 100%);
-        background-origin: border-box;
-        background-clip: content-box, border-box;
+        background: #3f4045;
+        border: 1px solid #ccc;
       }
     }
   }
@@ -190,32 +186,36 @@
     flex: 1;
     display: flex;
     align-items: end;
-    .submit-button {
-      padding: 12px 24px;
-      border-radius: 8px;
-      border: 1px solid #cccccc7a;
-      color: #fff;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.3s;
-      width: 150px;
-      height: 50px;
-      transition: all ease 250ms;
-      &:hover {
-        box-shadow: 0 0 50px 10px rgba(150, 100, 255, 0.8);
-
-        background: linear-gradient(
-          90deg,
-          #d670ff 0%,
-          #66a2f7 40%,
-          #6feecb 100%
-        );
-        color: #fff;
-      }
-      span {
-        transform: skewX(-15deg);
-      }
-    }
+  }
+}
+.submit-button {
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: 1px solid #cccccc7a;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+  width: 150px;
+  height: 50px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  transition: all ease 250ms;
+  &:hover {
+    color: #fff;
+  }
+  .icon-2 {
+    color: orange;
+    border: 1px solid orange;
+    border-radius: 50%;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
   }
 }

@@ -8,6 +8,7 @@ import OrderCard from './OrderCard';
 import PaymentResultModal from './PorcessModal';
 import { useLocation } from 'umi';
 import { onNavigate } from '../../utils';
+import { WalletFilled } from '@ant-design/icons';
 
 export default function PurchaseAi() {
   const [paymentType, setPaymentType] = useState('USDC');
@@ -91,11 +92,14 @@ export default function PurchaseAi() {
             <div className={styles.footerPrice}>
               <span className={styles.price}> 9.9 {paymentType}</span>
               <Button
-                className={styles['payButton']}
+                className={styles['payButton_2']}
                 onClick={handlePay}
                 loading={loading}
               >
                 Check to Pay
+                <span className={styles.icon_orange}>
+                  <WalletFilled />
+                </span>
               </Button>
               <PaymentResultModal
                 open={modalOpen}

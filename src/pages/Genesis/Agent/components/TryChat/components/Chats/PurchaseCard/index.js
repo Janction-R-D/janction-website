@@ -16,7 +16,6 @@ export default function PurchaseCard({ onOpen, isOpen, setIsOpen }) {
       closable={false}
       className={styles['backdrop-modal']}
       footer={false}
-      //   width={600}
     >
       <section>
         <div className={styles['left-column']}>
@@ -49,7 +48,10 @@ export default function PurchaseCard({ onOpen, isOpen, setIsOpen }) {
               className={styles['submit-button']}
               onClick={() => onNavigate('purchase', location.pathname)}
             >
-              Submit
+              Submit{' '}
+              <span className={styles['icon-2']}>
+                <i className="iconfont icon-next" />
+              </span>
             </Button>
           </div>
         </div>
