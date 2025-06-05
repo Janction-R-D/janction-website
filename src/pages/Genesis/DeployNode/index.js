@@ -5,6 +5,7 @@ import { ARCHITECTURE, SYSTEM_LIST } from '@/constant';
 import { AppstoreAddOutlined, RedoOutlined } from '@ant-design/icons';
 import { copy, links } from '@/utils/lang';
 import { fetchNodesRegister } from '@/services/genesis';
+import RunNode from './components/RunNode';
 const { Text } = Typography;
 
 const DeployNode = () => {
@@ -14,6 +15,16 @@ const DeployNode = () => {
   const [loading, setLoading] = useState(false);
   const [isLinux, setIsLinux] = useState(false);
   const [nodesData, setNodesData] = useState();
+  function detectSystem() {
+    const ua = navigator.userAgent.toLowerCase();
+
+    if (ua.includes('windows')) return 'windows';
+    if (ua.includes('mac os') || ua.includes('macintosh')) return 'macos';
+    if (ua.includes('linux')) return 'linux';
+
+    return 'unkown';
+  }
+
   useEffect(() => {
     getNodes();
   }, []);
@@ -48,10 +59,21 @@ const DeployNode = () => {
     });
   };
   const getNodes = async () => {
+    const system = detectSystem();
+    if (system !== 'unkown') {
+      const _architecture = ARCHITECTURE.filter((item) =>
+        item.sys.includes(system),
+      );
+      setSelectedValues({
+        system,
+        architecture: _architecture?.[0]?.value,
+      });
+      setIsLinux(system === 'linux');
+    }
+
     try {
       setLoading(true);
       const res = await fetchNodesRegister();
-      console.log(res);
       setNodesData(res);
       setLoading(false);
     } catch (error) {
@@ -59,6 +81,7 @@ const DeployNode = () => {
       console.log('『error』', error);
     }
   };
+
   return (
     <section className={styles['dashboard-wrapper']}>
       <section className={styles['header-wrapper']}>
@@ -71,13 +94,9 @@ const DeployNode = () => {
           <Timeline.Item
             dot={<span className={styles['timeline-dot']}>1</span>}
           >
-            <p className={styles['timeline-step']}>Download App</p>
+            <p className={styles['timeline-step']}>Select operating system</p>
             <Card className={styles['card']}>
               <section className={styles['sys-choice']}>
-                <p className={styles['sys-title']}>
-                  Choose your Operating System
-                </p>
-
                 <ul className={styles['sys-list']}>
                   {SYSTEM_LIST.map((item) => (
                     <li
@@ -94,7 +113,7 @@ const DeployNode = () => {
                     </li>
                   ))}
                 </ul>
-                {selectedValues?.system !== 'android' && (
+                {/* {selectedValues?.system !== 'android' && (
                   <>
                     <p className={styles['sys-title']}>Choose Architecture</p>
 
@@ -119,8 +138,8 @@ const DeployNode = () => {
                       ))}
                     </ul>
                   </>
-                )}
-                {downloadLink && (
+                )} */}
+                {/* {downloadLink && (
                   <div className={styles['buttons-box']}>
                     <a href={downloadLink} download>
                       <Button
@@ -134,43 +153,20 @@ const DeployNode = () => {
                       </Button>
                     </a>
                   </div>
-                )}
+                )} */}
               </section>
             </Card>
           </Timeline.Item>
           <Timeline.Item
             dot={<span className={styles['timeline-dot']}>2</span>}
           >
-            <p className={styles['timeline-step']}>Generate Token ID</p>
-            <Text className={styles['token_id']}>
-              {nodesData?.node_id || '--'}
-              <div>
-                <RedoOutlined
-                  rotate={90}
-                  spin={loading}
-                  loading={loading}
-                  className={styles['poi']}
-                  onClick={getNodes}
-                />
-                <i
-                  className="iconfont icon-copy"
-                  onClick={() => {
-                    console.log(nodesData);
-                    if (isLinux) {
-                      if (!nodesData?.node_id)
-                        return message.warning(
-                          'Data missing, please click refresh to get and try again!',
-                        );
-                    } else if (!nodesData?.node_id && !nodesData?.token) {
-                      return message.warning(
-                        'Data missing, please click refresh to get and try again!',
-                      );
-                    }
-                    copy(nodesData?.node_id);
-                  }}
-                />
-              </div>
-            </Text>
+            <p className={styles['timeline-step']}>
+              {selectedValues?.system == 'android'
+                ? 'Running on Android'
+                : 'Run Node'}
+            </p>
+
+            <RunNode selectedValues={selectedValues} />
           </Timeline.Item>
         </Timeline>
       </article>
