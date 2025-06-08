@@ -251,12 +251,7 @@ export function ProfileModal({ isModalOpen, handleOk, handleCancel }) {
                   Personal information
                 </a>
               </li>
-              {/* <li>
-                <i className="iconfont icon-search_doc"></i>{' '}
-                <a onClick={() => handleNavigate('/genesis/access-control')}>
-                  Access control
-                </a>
-              </li> */}
+
               {!isLessee && (
                 <li>
                   <i className="iconfont icon-pledge"></i>

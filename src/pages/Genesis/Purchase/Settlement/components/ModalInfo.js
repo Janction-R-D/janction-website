@@ -17,10 +17,10 @@ export default function ModalInfo({ open, onClose, onOk }) {
           <div className={styles['success-message']}>Warning</div>
           <div className={styles['instruction-text']}>
             <span className={styles['normal-text']}>
-              Payment in fiat currency is not supported at this time.
+              Currently, fiat payment is not supported.
             </span>
             <span className={styles['normal-text']}>
-              Please go to the personal information page to link your wallet
+              Please go to the personal information page to bind your wallet.
             </span>
           </div>
         </div>
