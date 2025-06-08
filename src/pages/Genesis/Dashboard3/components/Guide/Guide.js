@@ -12,9 +12,9 @@ import { history, useModel } from 'umi';
 import { Button, Modal } from 'antd';
 import styles from './guide.less';
 import { changeUserConfig } from '@/services/genesis';
-import useScale from '@/hooks/useScale';
 import storage from '@/utils/storage';
-import { set } from 'lodash';
+import useScale from '@/hooks/useScale';
+
 export default function Guide({
   run,
   setRun,
@@ -28,7 +28,11 @@ export default function Guide({
   const { isPC } = useScale();
   const { initialState, setInitialState } = useModel('@@initialState');
   const { isLessee } = initialState || {};
+  const [acc, setAcc] = useState('');
+
   useEffect(() => {
+    const AccountType = storage.get('SESSION_TYPE');
+    setAcc(AccountType);
     setTimeout(() => {
       if (!run && !isLessee) {
         setSteps(setpsLessor); // change the steps : if current mode isn't islessee
@@ -84,7 +88,12 @@ export default function Guide({
     }
 
     // Tour completion
+
     if (status == 'finished') {
+      if (acc == 'google') {
+        updateConfig();
+        return;
+      }
       if (isLessee && isPC) {
         setRun(false);
         onIdentityChange();
@@ -103,6 +112,7 @@ export default function Guide({
   const handleOk = () => {
     setIsModalVisible(false);
 
+    if (acc == 'google') return;
     history.push('/genesis/dashboard'); // redirect to dashboard after finsih the guide
     onIdentityChange();
   };

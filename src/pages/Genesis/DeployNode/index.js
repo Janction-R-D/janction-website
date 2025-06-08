@@ -1,12 +1,11 @@
-import { Button, Card, Timeline, Typography } from 'antd';
+import { Card, Timeline } from 'antd';
 import { useEffect, useState } from 'react';
 import styles from './index.less';
 import { ARCHITECTURE, SYSTEM_LIST } from '@/constant';
-import { AppstoreAddOutlined, RedoOutlined } from '@ant-design/icons';
-import { copy, links } from '@/utils/lang';
+import { links } from '@/utils/lang';
 import { fetchNodesRegister } from '@/services/genesis';
 import RunNode from './components/RunNode';
-const { Text } = Typography;
+import { useModel } from 'umi';
 
 const DeployNode = () => {
   const [selectedValues, setSelectedValues] = useState({});
@@ -15,6 +14,9 @@ const DeployNode = () => {
   const [loading, setLoading] = useState(false);
   const [isLinux, setIsLinux] = useState(false);
   const [nodesData, setNodesData] = useState();
+  const { initialState } = useModel('@@initialState');
+
+  const { isLessee } = initialState || {};
   function detectSystem() {
     const ua = navigator.userAgent.toLowerCase();
 
@@ -81,7 +83,7 @@ const DeployNode = () => {
       console.log('『error』', error);
     }
   };
-
+  if (isLessee) return <Redirect to="/genesis/nodes"></Redirect>;
   return (
     <section className={styles['dashboard-wrapper']}>
       <section className={styles['header-wrapper']}>

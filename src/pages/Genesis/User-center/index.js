@@ -1,6 +1,6 @@
 import { fetchUserCenter, sendImageToServer } from '@/services/genesis';
 import { Button, message } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useModel } from 'umi';
 import EditName from './components/EditName';
 import EmailVerify from './components/EmailVerify';
@@ -9,13 +9,14 @@ import SocialLink from './components/SocialLink';
 import UserAssets from './components/UserAssets';
 import styles from './index.less';
 import UploadModal from './components/UploadImage/UploadModal';
+import storage from '@/utils/storage';
 
 export default function UserAccount() {
   const { userName, setUserName, userInfo } = useModel('common');
 
   const [isNameModalOpen, setIsNameModalOpen] = useState(false);
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
-  console.log(userName);
+
   const onEditName = () => {
     setIsNameModalOpen(true);
   };
@@ -34,6 +35,15 @@ export default function UserAccount() {
       console.log('『error』', error);
     }
   };
+
+  useEffect(() => {
+    const type = storage.get('SESSION_TYPE');
+    if (type == 'wallet') {
+      if (!userInfo.email) {
+        message.info('Email address not linked.');
+      }
+    }
+  }, []);
 
   return (
     <form encType="multipart/form-data" className={styles['form']}>

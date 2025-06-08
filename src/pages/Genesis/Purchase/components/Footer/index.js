@@ -5,6 +5,7 @@ import { useMemo, useState } from 'react';
 import styles from './index.less';
 import { WalletOutlined } from '@ant-design/icons';
 import PaymentResultModal from '../../Settlement/components/payment_result';
+import ModalInfo from '../../Settlement/components/ModalInfo';
 
 const Footer = (props) => {
   const {
@@ -18,6 +19,8 @@ const Footer = (props) => {
     paymentStatus,
     setPaymentStatus,
     priceInfo,
+    isWarning,
+    onWarningCancel,
   } = props;
 
   const [agree, setAgree] = useState(false);
@@ -90,6 +93,7 @@ const Footer = (props) => {
           onPay={onPay}
           setPaymentStatus={setPaymentStatus}
         />
+        <ModalInfo open={isWarning} onClose={onWarningCancel} />
       </div>
     </div>
   );

@@ -3,8 +3,16 @@ import { Form, Input, Button, Divider } from 'antd';
 import styles from './index.less';
 import RainbowConnect from '../RainbowConnect';
 import { ChromeOutlined } from '@ant-design/icons';
+import GoogleConnect from '../GoogleConnect';
 
-const Login = ({ onCancel, setIsFlipped, setLoading, mode, setMode }) => {
+const Login = ({
+  onCancel,
+  setIsFlipped,
+  setLoading,
+  mode,
+  setMode,
+  loading,
+}) => {
   const [form] = Form.useForm();
 
   const handleLogin = (values) => {
@@ -31,12 +39,9 @@ const Login = ({ onCancel, setIsFlipped, setLoading, mode, setMode }) => {
             <RainbowConnect setLoading={setLoading} />
           </Button>
 
-          <Button
-            icon={<ChromeOutlined />}
-            size="large"
-            className={styles.btn_icon}
-            disabled
-          />
+          <Button size="large" className={styles.btn_icon} loading={loading}>
+            <GoogleConnect setLoading={setLoading} />
+          </Button>
         </div>
         <div className={styles.divider_box}>
           <Divider plain>Or use your email</Divider>

@@ -34,6 +34,7 @@ export default function AuthHeader(props) {
   } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNotifyModalOpen, setIsNotifyModalOpen] = useState(false);
+  const [isLoged, setIsLoged] = useState(false);
   const { avatarSnapUrl, getUserInfo, setUserName, userName } =
     useModel('common');
   const [run, setRun] = useState(false);
@@ -149,8 +150,14 @@ export default function AuthHeader(props) {
 export function ProfileModal({ isModalOpen, handleOk, handleCancel }) {
   const location = useLocation();
   const { avatarSnapUrl, userName } = useModel('common');
-
+  const [isLoged, setIsLoged] = useState(false);
   const { inviterCode } = location.query || {};
+  useEffect(() => {
+    const credentials = storage.get('TOKEN');
+    if (credentials || !!account?.address) {
+      setIsLoged(true);
+    }
+  }, []);
   return (
     <ConnectButton.Custom>
       {({ account, chain }) => {
@@ -269,12 +276,12 @@ export function ProfileModal({ isModalOpen, handleOk, handleCancel }) {
               )}
             </ul>
             <div className={styles['btn']}>
-              {!!account?.address && (
+              {isLoged && (
                 <Button className={styles['log-out']} onClick={handleLogOut}>
                   Logout <LoginOutlined className={styles['log-out-icon']} />
                 </Button>
               )}
-              {!account?.address && (
+              {!isLoged && (
                 <Button className={styles['log-out']} onClick={handleLogin}>
                   Login
                 </Button>

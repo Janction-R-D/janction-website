@@ -6,7 +6,7 @@ import {
   DeleteOutlined,
   RedoOutlined,
 } from '@ant-design/icons';
-import { Tooltip } from 'antd';
+import { message, Tooltip } from 'antd';
 import { getNodeStatusMatch } from '../extra';
 import dayjs from 'dayjs';
 import ModalDelist from '../ModalDelist';

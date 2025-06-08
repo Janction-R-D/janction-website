@@ -33,7 +33,7 @@ const ImagesAi = ({ value, onChange, formValues, current = 5 }) => {
   const obtenerOpciones = async (params) => {
     try {
       setloading(true);
-      const respuesta = await fetchTemplates(params);
+      const respuesta = (await fetchTemplates(params)) || [];
       setOpciones(respuesta);
     } catch (error) {
       console.error('Error :', error);
@@ -60,7 +60,7 @@ const ImagesAi = ({ value, onChange, formValues, current = 5 }) => {
 
   return (
     <div className={styles['checkbox-grid']}>
-      {opciones.map((item) => (
+      {opciones?.map((item) => (
         <div className={styles['checkbox-item']} key={item.name}>
           <Checkbox
             checked={value === item.name}

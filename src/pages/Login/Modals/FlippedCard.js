@@ -14,6 +14,7 @@ const FlippedModal = ({
   setIsFlipped,
   mode,
   setMode,
+  loading,
 }) => {
   const [email, setEmail] = useState('');
   const [sended, setSended] = useState(false);
@@ -40,6 +41,7 @@ const FlippedModal = ({
             setLoading={setLoading}
             mode={mode}
             setMode={setMode}
+            loading={loading}
           />
         </div>
 

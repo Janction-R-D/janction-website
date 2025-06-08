@@ -12,17 +12,23 @@ import { notShowErrors } from './constant';
  */
 const authHeaderInterceptor = (url, options) => {
   const AUTH_HEADERS = storage.get('AUTH_HEADERS');
+  const TOKEN = storage.get('TOKEN');
+
   let authHeader = {};
   if (options?.loginAuth) {
-    if (!AUTH_HEADERS) {
+    if (!AUTH_HEADERS && !TOKEN) {
       logout();
     } else {
-      authHeader = AUTH_HEADERS;
+      authHeader = {
+        ...AUTH_HEADERS,
+        ...(TOKEN && { Authorization: `Bearer ${TOKEN}` }),
+      };
     }
   }
   options.headers = {
     ...options.headers,
     ...authHeader,
+
     // withCredentials: true,
   };
   return {

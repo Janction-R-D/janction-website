@@ -23,6 +23,7 @@ import Footer from '../components/Footer';
 import PayType from '../components/PayType';
 import styles from './index.less';
 import { create } from 'lodash';
+import storage from '@/utils/storage';
 
 const Settlement = (props) => {
   const [deadline, setDeadline] = useState();
@@ -38,6 +39,14 @@ const Settlement = (props) => {
   const [configInfo, setConfigInfo] = useState('');
   const { initialState } = useModel('@@initialState');
   const { isLessee } = initialState || {};
+  const [isWarning, setIsWarning] = useState(false);
+  const onWarningCancel = () => {
+    setIsWarning(false);
+  };
+  const onWarningOk = () => {
+    setIsWarning(false);
+  };
+
   useEffect(() => {
     if (!formValues?.node?.id) return;
     getNodeConfigInfo({ node_id: formValues.node.id });
@@ -85,7 +94,7 @@ const Settlement = (props) => {
   useEffect(() => {
     setDeadline(Date.now() + 20 * 60 * 1000);
   }, []);
-  console.log(list);
+
   const onFinish = () => {
     console.log('『onFinish』');
     message.info('Purchase Cancelled');
@@ -110,7 +119,11 @@ const Settlement = (props) => {
     }
   };
   const onPayment = async (values) => {
-    console.log(values);
+    const checkAccount = storage.get('SESSION_TYPE');
+    if (checkAccount == 'google') {
+      onWarningOk();
+      return;
+    }
     try {
       const res = await fetchPaymentOrder(values);
       if (res?.code) {
@@ -327,6 +340,8 @@ const Settlement = (props) => {
         setModalOpen={setModalOpen}
         paymentStatus={paymentStatus}
         setPaymentStatus={setPaymentStatus}
+        onWarningCancel={onWarningCancel}
+        isWarning={isWarning}
       />
     </div>
   );

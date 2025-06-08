@@ -74,6 +74,11 @@ const RainbowConnect = (props) => {
           value: { 'x-siwe-sig': sig, 'x-siwe-msg': msg },
           expires,
         });
+        storage.set({
+          name: 'SESSION_TYPE',
+          value: 'wallet',
+          expires,
+        });
 
         onRedirect(address, dataStorage);
       };
@@ -127,7 +132,7 @@ const RainbowConnect = (props) => {
       return;
     }
     if (!is_old_user) {
-      return window.location.replace(`/genesis/rol`);
+      return window.location.replace(`/genesis/rol`, { type: 'wallet' });
     }
     const from = history.location.query?.from || '/genesis/dashboard';
     if (inviterCode) {

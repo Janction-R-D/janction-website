@@ -1,11 +1,12 @@
+import storage from '@/utils/storage';
 import { Redirect, useAccess, useModel, history } from 'umi';
 import { useAccountEffect } from 'wagmi';
-import storage from '@/utils/storage';
 
 export default (props) => {
   const { history } = props;
   const { initialState, setInitialState } = useModel('@@initialState');
   const { isLogin } = useAccess();
+  const TOKEN = storage.get('TOKEN');
 
   // Monitor active exit
   useAccountEffect({
@@ -20,7 +21,7 @@ export default (props) => {
   });
 
   // Enter the permission judgment before the page
-  if (isLogin) {
+  if (isLogin || TOKEN) {
     return props.children;
   } else {
     let url = `/login?from=${history.location.pathname}`;

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import IdentityCard from './components/card/Card';
 import styles from './index.less';
 import planetImg from '@/assets/images/genesis/planet.png';
 import lessorImg from '@/assets/images/genesis/rol_lessor.png';
 import lesseeImg from '@/assets/images/genesis/rol_lessee.png';
+import { useLocation } from 'umi';
 const cards = [
   {
     title: 'Lessor',
@@ -23,6 +24,17 @@ const cards = [
   },
 ];
 export default function Rol() {
+  const [cardsType, setCardType] = useState(cards);
+  const location = useLocation();
+  const { type } = location.state || {};
+
+  useEffect(() => {
+    if (type && type === 'google') {
+      console.log(type);
+      const showedCards = cardsType.filter((item) => item.title !== 'Lessor');
+      setCardType(showedCards);
+    }
+  }, []);
   return (
     <main className={styles['identity-wrapper']}>
       <h1 className={`${styles['text-title']} ${styles['text--blue']}`}>
@@ -32,10 +44,11 @@ export default function Rol() {
         <img src={planetImg} alt="Lessor" />
       </div>
       <section className={styles['cards-wrapper']}>
-        {cards.map((card, index) => (
+        {cardsType.map((card, index) => (
           <IdentityCard key={index} card={card} />
         ))}
       </section>
     </main>
   );
 }
+Rol.wrappers = ['@/wrappers/auth'];
