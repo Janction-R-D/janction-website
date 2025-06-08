@@ -2,7 +2,7 @@ import storage from '@/utils/storage';
 import { fetchUserNonce, fetchUserVerify } from '@/services/login';
 import { SiweMessage } from 'siwe';
 import { message } from 'antd';
-import { useSignMessage } from 'wagmi';
+import { getAddress } from 'ethers/lib/utils';
 
 const expires = 60 * 60 * 10 * 1000;
 
@@ -12,8 +12,9 @@ export async function handleIdentityChange({
   initialState,
   handleCancel,
   setLoading,
+  signMessageAsync,
+  disconnect,
 }) {
-  const { signMessageAsync } = useSignMessage();
   const sessionType = storage.get('SESSION_TYPE');
 
   if (sessionType === 'google') {
@@ -34,7 +35,7 @@ export async function handleIdentityChange({
       const accounts = await window.ethereum.request({
         method: 'eth_requestAccounts',
       });
-      const account = accounts[0];
+      const account = getAddress(accounts[0]);
 
       // Obtener chainId
       const chainIdHex = await window.ethereum.request({
@@ -74,7 +75,7 @@ export async function handleIdentityChange({
       });
       storage.set({
         name: 'SESSION_TYPE',
-        value: 'google',
+        value: 'wallet',
         expires,
       });
       message.success({ content: 'Inicio de sesión exitoso', key: 'login' });
@@ -86,12 +87,18 @@ export async function handleIdentityChange({
         isLessee: !isLessee,
       });
       handleCancel();
+      window.location.reload();
     } catch (error) {
+      if (disconnect) {
+        disconnect();
+      }
+
       console.error('Error en login con MetaMask:', error);
       message.error({
         content: 'Falló el inicio de sesión con MetaMask',
         key: 'login',
       });
+      return error;
     } finally {
       setLoading?.(false);
       message.destroy('login');

@@ -7,10 +7,12 @@ export default (props) => {
   const { initialState, setInitialState } = useModel('@@initialState');
   const { isLogin } = useAccess();
   const TOKEN = storage.get('TOKEN');
+  const SESSION_TYPE = storage.get('SESSION_TYPE');
 
   // Monitor active exit
   useAccountEffect({
     onDisconnect() {
+      if (SESSION_TYPE == 'google') return;
       storage.clear();
       setInitialState({
         ...initialState,

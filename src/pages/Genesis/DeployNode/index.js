@@ -5,7 +5,7 @@ import { ARCHITECTURE, SYSTEM_LIST } from '@/constant';
 import { links } from '@/utils/lang';
 import { fetchNodesRegister } from '@/services/genesis';
 import RunNode from './components/RunNode';
-import { useModel } from 'umi';
+import { Redirect, useModel } from 'umi';
 
 const DeployNode = () => {
   const [selectedValues, setSelectedValues] = useState({});

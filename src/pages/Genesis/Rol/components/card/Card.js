@@ -12,7 +12,7 @@ const IdentityCard = ({ card }) => {
     storage.set({ name: 'isLessee', value: card.isLessee });
     setInitialState({
       ...initialState,
-      isLessee: !isLessee,
+      isLessee: card.isLessee,
     });
   };
   const changeSetting = async () => {

@@ -5,12 +5,13 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Button, Modal } from 'antd';
 import { useEffect, useState } from 'react';
 import { history, useLocation, useModel } from 'umi';
-import { useAccount, useDisconnect } from 'wagmi';
+import { useAccount, useDisconnect, useSignMessage } from 'wagmi';
 import AndroidAuthMenu from './AuthMenu';
 import styles from './index.less';
 import Guide from '@/pages/Genesis/Dashboard3/components/Guide/Guide';
 import { fetchUserConfig } from '@/services/genesis';
 import { LoginOutlined } from '@ant-design/icons';
+import { handleIdentityChange } from '@/utils/metamaskLogin';
 
 export const Logo = () => {
   return (
@@ -151,10 +152,11 @@ export function ProfileModal({ isModalOpen, handleOk, handleCancel }) {
   const location = useLocation();
   const { avatarSnapUrl, userName } = useModel('common');
   const [isLoged, setIsLoged] = useState(false);
+  const { signMessageAsync } = useSignMessage();
   const { inviterCode } = location.query || {};
   useEffect(() => {
     const credentials = storage.get('TOKEN');
-    if (credentials || !!account?.address) {
+    if (credentials) {
       setIsLoged(true);
     }
   }, []);
@@ -165,14 +167,18 @@ export function ProfileModal({ isModalOpen, handleOk, handleCancel }) {
         const { isLessee } = initialState || {};
         const { disconnect } = useDisconnect();
 
-        const onIdentityChange = () => {
-          storage.set({ name: 'isLessee', value: !isLessee });
-          setInitialState({
-            ...initialState,
-            isLessee: !isLessee,
+        const onChangeIdentity = async () => {
+          const resConnect = await handleIdentityChange({
+            isLessee,
+            setInitialState,
+            initialState,
+            handleCancel,
+            setLoading: () => {},
+            signMessageAsync,
+            disconnect,
           });
-          handleCancel();
         };
+
         const handleLogOut = () => {
           disconnect();
           storage.clear();
@@ -193,6 +199,7 @@ export function ProfileModal({ isModalOpen, handleOk, handleCancel }) {
           history.push(path);
           handleCancel();
         };
+        const isLoggedIn = isLoged || !!account?.address;
         return (
           <Modal
             className={styles['card-modal']}
@@ -224,12 +231,12 @@ export function ProfileModal({ isModalOpen, handleOk, handleCancel }) {
                 </span>
                 <div className={styles['type-account']} id="user-mode">
                   {isLessee ? (
-                    <div onClick={onIdentityChange}>
+                    <div onClick={onChangeIdentity}>
                       <p>Switch to Lessor Role</p>
                       <i className="iconfont icon-next"></i>
                     </div>
                   ) : (
-                    <div onClick={onIdentityChange}>
+                    <div onClick={onChangeIdentity}>
                       <p>Switch to Lessee Role</p>
                       <i className="iconfont icon-next"></i>
                     </div>
@@ -276,12 +283,12 @@ export function ProfileModal({ isModalOpen, handleOk, handleCancel }) {
               )}
             </ul>
             <div className={styles['btn']}>
-              {isLoged && (
+              {isLoggedIn && (
                 <Button className={styles['log-out']} onClick={handleLogOut}>
                   Logout <LoginOutlined className={styles['log-out-icon']} />
                 </Button>
               )}
-              {!isLoged && (
+              {!isLoggedIn && (
                 <Button className={styles['log-out']} onClick={handleLogin}>
                   Login
                 </Button>
