@@ -103,27 +103,7 @@ const Settlement = (props) => {
     }, 3000);
   };
 
-  const onRent = async (values) => {
-    try {
-      // const res = await fetchMarketRent(values);
-
-      if (res?.code) {
-        message.error(res?.message);
-        return;
-      }
-      message.success('Successful hire!');
-      history.push('/genesis/instance');
-    } catch (err) {
-      console.log('『err』', err);
-      throw new Error(err);
-    }
-  };
   const onPayment = async (values) => {
-    const checkAccount = storage.get('SESSION_TYPE');
-    if (checkAccount == 'google') {
-      onWarningOk();
-      return;
-    }
     try {
       const res = await fetchPaymentOrder(values);
       if (res?.code) {
@@ -141,10 +121,16 @@ const Settlement = (props) => {
     }
   };
   const onPay = async () => {
+    const checkAccount = storage.get('SESSION_TYPE');
+    if (checkAccount == 'google') {
+      setIsWarning(true);
+
+      return;
+    }
     try {
       setPaymentStatus(3);
       setModalOpen(true);
-      const { node, ai_framework, template } = formValues || {};
+      const { node, template } = formValues || {};
       const { value, unit } = formValues?.purDuration || {};
       const goal = DURATION_OPTIONS.find((item) => item.value == unit);
 
@@ -342,6 +328,7 @@ const Settlement = (props) => {
         setPaymentStatus={setPaymentStatus}
         onWarningCancel={onWarningCancel}
         isWarning={isWarning}
+        onOk={onWarningOk}
       />
     </div>
   );

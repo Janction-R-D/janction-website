@@ -1,6 +1,6 @@
 import { Modal } from 'antd';
 import styles from './index.less';
-export default function ModalInfo({ open, onClose }) {
+export default function ModalInfo({ open, onClose, onOk }) {
   return (
     <Modal
       open={open}
@@ -14,8 +14,15 @@ export default function ModalInfo({ open, onClose }) {
     >
       <div className={styles['payment-result']}>
         <div className={styles['outer-box']}>
-          Payment in fiat currency is not supported at this time. Please go to
-          the personal information page to link your wallet
+          <div className={styles['success-message']}>Warning</div>
+          <div className={styles['instruction-text']}>
+            <span className={styles['normal-text']}>
+              Payment in fiat currency is not supported at this time.
+            </span>
+            <span className={styles['normal-text']}>
+              Please go to the personal information page to link your wallet
+            </span>
+          </div>
         </div>
       </div>
     </Modal>

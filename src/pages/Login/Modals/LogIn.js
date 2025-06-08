@@ -35,11 +35,11 @@ const Login = ({
         <h2>Welcome back to Janction</h2>
         <p>Sign in to continue your journey</p>
         <div className={styles.socialButtons}>
-          <Button size="large" className={styles.btn_icon}>
+          <Button size="large" className={styles.btn_icon} disabled={loading}>
             <RainbowConnect setLoading={setLoading} />
           </Button>
 
-          <Button size="large" className={styles.btn_icon} loading={loading}>
+          <Button size="large" className={styles.btn_icon} disabled={loading}>
             <GoogleConnect setLoading={setLoading} />
           </Button>
         </div>

@@ -21,6 +21,7 @@ const Footer = (props) => {
     priceInfo,
     isWarning,
     onWarningCancel,
+    onOk,
   } = props;
 
   const [agree, setAgree] = useState(false);
@@ -93,7 +94,7 @@ const Footer = (props) => {
           onPay={onPay}
           setPaymentStatus={setPaymentStatus}
         />
-        <ModalInfo open={isWarning} onClose={onWarningCancel} />
+        <ModalInfo open={isWarning} onClose={onWarningCancel} onOk={onOk} />
       </div>
     </div>
   );
