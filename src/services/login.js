@@ -33,9 +33,8 @@ export const fetchOauthCallback = (data) => {
     data,
   });
 };
-export const fetchToken = (data) => {
+export const fetchToken = () => {
   return request(`${baseUrl}/user/oauth2/binding`, {
-    method: 'POST',
-    data,
+    loginAuth: true,
   });
 };

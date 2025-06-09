@@ -10,13 +10,22 @@ import UserAssets from './components/UserAssets';
 import styles from './index.less';
 import UploadModal from './components/UploadImage/UploadModal';
 import storage from '@/utils/storage';
+import WalletLink from './components/WalletLink/WalletLink';
+import BindWarning from './components/BindWarning/BindWarning';
 
 export default function UserAccount() {
   const { userName, setUserName, userInfo } = useModel('common');
 
   const [isNameModalOpen, setIsNameModalOpen] = useState(false);
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
+  const [bindOpen, setBindOpen] = useState(false);
 
+  const onBinOpen = () => {
+    setBindOpen(true);
+  };
+  const onBinClose = () => {
+    setBindOpen(false);
+  };
   const onEditName = () => {
     setIsNameModalOpen(true);
   };
@@ -40,13 +49,14 @@ export default function UserAccount() {
     const type = storage.get('SESSION_TYPE');
     if (type == 'wallet') {
       if (!userInfo.email) {
-        message.info('Email address not linked.');
+        onBinOpen();
       }
     }
   }, []);
 
   return (
     <form encType="multipart/form-data" className={styles['form']}>
+      <BindWarning onClose={onBinClose} onOk={onBinClose} open={bindOpen} />
       <p className={styles['title']}>Personal information</p>
       <section className={styles['banner']}>
         <div className={styles['banner-img']}>
@@ -104,8 +114,11 @@ export default function UserAccount() {
           </div>
         </div>
       </article>
+      <WalletLink />
       <SocialLink />
       <UserAssets data={userInfo} />
     </form>
   );
 }
+
+UserAccount.wrappers = ['@/wrappers/auth'];

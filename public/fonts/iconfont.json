@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "135538",
+      "name": "clock",
+      "font_class": "clock",
+      "unicode": "e6bb",
+      "unicode_decimal": 59067
+    },
+    {
+      "icon_id": "22830534",
+      "name": "FIXED",
+      "font_class": "FIXED",
+      "unicode": "e9fd",
+      "unicode_decimal": 59901
+    },
+    {
+      "icon_id": "25532247",
+      "name": "Remove fixed-outlined",
+      "font_class": "a-Removefixed-outlined",
+      "unicode": "e6f6",
+      "unicode_decimal": 59126
+    },
+    {
+      "icon_id": "43976513",
+      "name": "m",
+      "font_class": "m",
+      "unicode": "e665",
+      "unicode_decimal": 58981
+    },
+    {
       "icon_id": "704908",
       "name": "ubuntu",
       "font_class": "ubuntu",

@@ -38,7 +38,7 @@ const InstanceMonitor = ({ instance }) => {
   useEffect(() => {
     getStatistic();
   }, []);
-  console.log(instance);
+
   async function getStatistic() {
     const payload = {
       resource_id: instance?.id,

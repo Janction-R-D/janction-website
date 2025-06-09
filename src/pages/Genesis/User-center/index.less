@@ -282,11 +282,11 @@
       align-items: center;
 
       .connect-btn {
-        height: 35px;
+        height: 40px;
         display: flex;
         align-items: center;
         gap: 12px;
-        padding: 4px 18px;
+        padding: 6px 18px;
         background: transparent;
         font-family: Poppins;
         font-size: 14px;
@@ -295,8 +295,28 @@
         text-align: center;
         border: 1px solid #878787;
         color: #fff;
-        border-radius: 4px;
+        border-radius: 6px;
         text-wrap: nowrap;
+        .icon {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 50%;
+          width: 20px;
+          height: 20px;
+          i {
+            color: orange;
+            font-size: 0.8rem;
+          }
+        }
+        &:hover {
+          border: 1px solid #dfdfdf;
+          color: #dfdfdf;
+        }
+      }
+      i {
+        color: orange;
+        font-size: 0.8rem;
       }
     }
 
@@ -350,11 +370,11 @@
   }
 }
 .connect-btn {
-  height: 35px;
+  height: 40px;
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 4px 18px;
+  padding: 6px 18px;
   background: transparent;
   font-family: Poppins;
   font-size: 14px;
@@ -363,8 +383,25 @@
   text-align: center;
   border: 1px solid #878787;
   color: #fff;
-  border-radius: 4px;
+  border-radius: 6px;
   text-wrap: nowrap;
+  .icon {
+    border: 1px solid orange;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    i {
+      color: orange;
+      font-size: 0.8rem;
+    }
+  }
+  &:hover {
+    border: 1px solid #dfdfdf;
+    color: #dfdfdf;
+  }
 }
 @media (max-width: 768px) {
   .address-id {

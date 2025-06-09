@@ -177,3 +177,4 @@ const DeployNode = () => {
 };
 
 export default DeployNode;
+DeployNode.wrappers = ['@/wrappers/auth'];

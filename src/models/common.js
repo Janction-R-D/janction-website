@@ -2,6 +2,8 @@ import { fetchUserCenter } from '@/services/genesis';
 import { fetchMineInviteCode } from '@/services/genesis/distribution';
 import { useState } from 'react';
 import { message } from 'antd';
+import storage from '@/utils/storage';
+import { fetchToken } from '@/services/login';
 
 export default () => {
   const [avatarSnapUrl, setAvatarSnapUrl] = useState();
@@ -26,19 +28,39 @@ export default () => {
 
   const getUserInfo = (callback) => {
     let result = null;
-    fetchUserCenter()
-      .then((res) => {
-        setUserInfo(res);
-        if (res?.name) {
-          setUserName(res?.name);
-        }
-      })
-      .catch((err) => {
-        console.log('『err』', err);
-      })
-      .finally(() => {
-        callback && callback(result);
-      });
+    const type = storage.get('SESSION_TYPE');
+    if (type == 'wallet') {
+      fetchUserCenter()
+        .then((res) => {
+          setUserInfo(res);
+          if (res?.name) {
+            setUserName(res?.name);
+          }
+        })
+        .catch((err) => {
+          console.log('『err』', err);
+        })
+        .finally(() => {
+          callback && callback(result);
+        });
+    }
+    if (type == 'google') {
+      fetchToken()
+        .then((res) => {
+          const userData = res?.user_info;
+          setUserInfo(userData);
+          if (userData?.email) {
+            setUserName(userData?.email);
+            setAvatarSnapUrl(userData?.picture);
+          }
+        })
+        .catch((err) => {
+          console.log('『err』', err);
+        })
+        .finally(() => {
+          callback && callback(result);
+        });
+    }
   };
 
   return {

@@ -335,3 +335,4 @@ const Settlement = (props) => {
 };
 
 export default Settlement;
+Settlement.wrappers = ['@/wrappers/auth'];

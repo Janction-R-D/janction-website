@@ -4,6 +4,7 @@ import { useModel } from 'umi';
 import { useAccount } from 'wagmi';
 import AvatarUpload from './AvatarUpload';
 import styles from './modal.less';
+import imgEdid from '@/assets/images/genesis/edit-image.png';
 import { useState } from 'react';
 import { AvatarModal } from './AvatarModal';
 import UploadModal from './UploadImage/UploadModal';
@@ -27,6 +28,7 @@ export default function PorifilePicture() {
           <i
             className={['iconfont icon-edit', styles['edit-float']].join(' ')}
           ></i>
+
           <img
             src={avatarSnapUrl || avatar(address)}
             className={styles['user-profile-img']}
@@ -47,7 +49,9 @@ export default function PorifilePicture() {
           avatar={avatar}
         />
         <span className={styles['check-float']}>
-          <i className="iconfont icon-certified"></i>
+          <div className={[styles['edit-float-img']].join(' ')}>
+            <img src={imgEdid} className={styles['float']} />
+          </div>
         </span>
       </div>
       {/* </AvatarUpload> */}

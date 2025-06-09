@@ -40,3 +40,4 @@ export default function WalletManagement() {
     </div>
   );
 }
+WalletManagement.wrappers = ['@/wrappers/auth'];

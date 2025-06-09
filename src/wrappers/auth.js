@@ -12,7 +12,13 @@ export default (props) => {
   // Monitor active exit
   useAccountEffect({
     onDisconnect() {
-      if (SESSION_TYPE == 'google') return;
+      console.log('sdsdsds');
+      if (SESSION_TYPE !== 'wallet') {
+        console.log('sdsdsds');
+        storage.remove('AUTH_HEADERS');
+        storage.remove('userAccount');
+        window.location.reload();
+      }
       storage.clear();
       setInitialState({
         ...initialState,

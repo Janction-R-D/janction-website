@@ -73,11 +73,13 @@ export async function handleIdentityChange({
         value: { 'x-siwe-sig': signature, 'x-siwe-msg': msgEncoded },
         expires,
       });
-      storage.set({
-        name: 'SESSION_TYPE',
-        value: 'wallet',
-        expires,
-      });
+      //after bind wallet --> session type have to change ?
+      // storage.set({
+      //   name: 'SESSION_TYPE',
+      //   value: 'wallet',
+      //   expires,
+      // });
+
       message.success({ content: 'Inicio de sesión exitoso', key: 'login' });
 
       // Cambiar identidad
@@ -87,7 +89,8 @@ export async function handleIdentityChange({
         isLessee: !isLessee,
       });
       handleCancel();
-      window.location.reload();
+      //refresh after login with metamask
+      // window.location.reload();
     } catch (error) {
       if (disconnect) {
         disconnect();
