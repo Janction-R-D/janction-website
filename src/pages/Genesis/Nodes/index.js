@@ -11,7 +11,7 @@ import { getNodeStatusMatch } from './components/extra';
 
 const initQuery = { status: 'all', word: '' };
 
-export default function Nodes() {
+function Nodes() {
   const [list, setList] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [filters, setFilter] = useState(initQuery);
@@ -135,3 +135,6 @@ export default function Nodes() {
     </div>
   );
 }
+
+Nodes.wrappers = ['@/wrappers/auth'];
+export default Nodes;

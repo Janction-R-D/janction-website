@@ -5,7 +5,7 @@ import FlippedModal from './Modals/FlippedCard';
 import SuccessModal from './Modals/SuccessModal';
 import storage from '@/utils/storage';
 import { message } from 'antd';
-import { history, useLocation } from 'umi';
+import { history, useLocation, useModel } from 'umi';
 import { fetchOauthCallback, fetchToken } from '@/services/login';
 const expires = 60 * 60 * 10 * 1000;
 const origin = location.origin;
@@ -17,6 +17,7 @@ const Login = (props) => {
   const [isFlipped, setIsFlipped] = useState(false);
   const [mode, setMode] = useState('signup');
   const location = useLocation();
+  const { initialState, setInitialState } = useModel('@@initialState');
   const onCancel = () => {
     setOpen(false);
     setIsFlipped(false);
@@ -44,6 +45,10 @@ const Login = (props) => {
     try {
       getToken(param);
       message.success('User logged successfully!');
+      setInitialState({
+        ...initialState,
+        sessionType: 'google',
+      });
       setTimeout(() => {
         history.push('/genesis/rol', {
           type: 'google',

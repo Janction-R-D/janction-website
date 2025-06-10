@@ -70,6 +70,9 @@ export default function UserAssets({ data, duration, setDuration }) {
         onClick={onSubmit}
       >
         Save
+        <div className={styles['icon']}>
+          <i className="iconfont icon-next" />
+        </div>
       </Button>
     </Card>
   );

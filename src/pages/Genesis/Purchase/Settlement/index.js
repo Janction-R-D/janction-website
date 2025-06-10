@@ -38,7 +38,7 @@ const Settlement = (props) => {
   const [priceInfo, setPriceInfo] = useState({});
   const [configInfo, setConfigInfo] = useState('');
   const { initialState } = useModel('@@initialState');
-  const { isLessee } = initialState || {};
+  const { isLessee, sessionType } = initialState || {};
   const [isWarning, setIsWarning] = useState(false);
   const onWarningCancel = () => {
     setIsWarning(false);
@@ -121,8 +121,7 @@ const Settlement = (props) => {
     }
   };
   const onPay = async () => {
-    const checkAccount = storage.get('SESSION_TYPE');
-    if (checkAccount == 'google') {
+    if (sessionType == 'google') {
       setIsWarning(true);
 
       return;

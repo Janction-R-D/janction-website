@@ -5,6 +5,7 @@ import styles from './index.less';
 import { handleIdentityChange } from '@/utils/metamaskLogin';
 import { useModel } from 'umi';
 import { useState } from 'react';
+import { copy } from '@/utils/lang';
 
 export default function WalletLink() {
   const [loading, setLoading] = useState(false);
@@ -32,6 +33,7 @@ export default function WalletLink() {
                 setLoading,
                 signMessageAsync,
                 disconnect,
+                fromCenter: true,
               })
             }
             loading={loading}
@@ -50,7 +52,7 @@ function BindedWallet({ address }) {
         <p className={styles['bin-title']}>MetaMask</p>
         <p className={styles['binded']}>
           Address: {address}
-          <div className={styles['icon']}>
+          <div className={styles['icon']} onClick={() => copy(address)}>
             <i className="iconfont icon-copy" />
           </div>
         </p>

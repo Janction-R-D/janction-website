@@ -27,12 +27,9 @@ export default function Guide({
   const [steps, setSteps] = useState(stepsLesse);
   const { isPC } = useScale();
   const { initialState, setInitialState } = useModel('@@initialState');
-  const { isLessee } = initialState || {};
-  const [acc, setAcc] = useState('');
+  const { isLessee, sessionType } = initialState || {};
 
   useEffect(() => {
-    const AccountType = storage.get('SESSION_TYPE');
-    setAcc(AccountType);
     setTimeout(() => {
       if (!run && !isLessee) {
         setSteps(setpsLessor); // change the steps : if current mode isn't islessee
@@ -90,7 +87,7 @@ export default function Guide({
     // Tour completion
 
     if (status == 'finished') {
-      if (acc == 'google') {
+      if (sessionType == 'google') {
         updateConfig();
         return;
       }
@@ -112,7 +109,7 @@ export default function Guide({
   const handleOk = () => {
     setIsModalVisible(false);
 
-    if (acc == 'google') return;
+    if (sessionType == 'google') return;
     history.push('/genesis/dashboard'); // redirect to dashboard after finsih the guide
     onIdentityChange();
   };

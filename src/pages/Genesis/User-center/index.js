@@ -13,9 +13,8 @@ import storage from '@/utils/storage';
 import WalletLink from './components/WalletLink/WalletLink';
 import BindWarning from './components/BindWarning/BindWarning';
 
-export default function UserAccount() {
+function UserAccount() {
   const { userName, setUserName, userInfo } = useModel('common');
-
   const [isNameModalOpen, setIsNameModalOpen] = useState(false);
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
   const [bindOpen, setBindOpen] = useState(false);
@@ -47,12 +46,11 @@ export default function UserAccount() {
 
   useEffect(() => {
     const type = storage.get('SESSION_TYPE');
-    if (type == 'wallet') {
-      if (!userInfo.email) {
-        onBinOpen();
-      }
+
+    if (type === 'wallet' && userInfo && !userInfo.email) {
+      onBinOpen();
     }
-  }, []);
+  }, [userInfo]);
 
   return (
     <form encType="multipart/form-data" className={styles['form']}>
@@ -122,3 +120,4 @@ export default function UserAccount() {
 }
 
 UserAccount.wrappers = ['@/wrappers/auth'];
+export default UserAccount;

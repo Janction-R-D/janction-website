@@ -14,6 +14,7 @@ export async function handleIdentityChange({
   setLoading,
   signMessageAsync,
   disconnect,
+  fromCenter = false,
 }) {
   const sessionType = storage.get('SESSION_TYPE');
 
@@ -74,11 +75,11 @@ export async function handleIdentityChange({
         expires,
       });
       //after bind wallet --> session type have to change ?
-      // storage.set({
-      //   name: 'SESSION_TYPE',
-      //   value: 'wallet',
-      //   expires,
-      // });
+      storage.set({
+        name: 'SESSION_TYPE',
+        value: 'wallet',
+        expires,
+      });
 
       message.success({ content: 'Inicio de sesión exitoso', key: 'login' });
 
@@ -87,6 +88,7 @@ export async function handleIdentityChange({
       setInitialState({
         ...initialState,
         isLessee: !isLessee,
+        sessionType: 'wallet',
       });
       handleCancel();
       //refresh after login with metamask
@@ -110,7 +112,7 @@ export async function handleIdentityChange({
     storage.set({ name: 'isLessee', value: !isLessee });
     setInitialState({
       ...initialState,
-      isLessee: !isLessee,
+      isLessee: fromCenter ? isLessee : !isLessee,
     });
     handleCancel();
   }

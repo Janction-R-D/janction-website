@@ -47,7 +47,7 @@ const options = [
     max: 10,
   },
 ];
-export default function Mount() {
+function Mount() {
   const { initialState } = useModel('@@initialState');
   const { isLessee } = initialState || {};
   const { node } = history.location.state || {};
@@ -404,3 +404,6 @@ export default function Mount() {
     </form>
   );
 }
+
+Mount.wrappers = ['@/wrappers/auth'];
+export default Mount;

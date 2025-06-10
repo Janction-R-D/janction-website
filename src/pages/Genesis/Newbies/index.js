@@ -37,7 +37,7 @@ On the instance rental page: select the billing method, region, GPU model, and n
   },
 };
 
-export default function Newbies() {
+function Newbies() {
   const [selectedKey, setSelectedKey] = useState('Quick start');
   const current = sections[selectedKey];
 
@@ -79,3 +79,6 @@ export default function Newbies() {
     </main>
   );
 }
+
+Newbies.wrappers = ['@/wrappers/auth'];
+export default Newbies;

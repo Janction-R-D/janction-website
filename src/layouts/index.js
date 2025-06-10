@@ -8,12 +8,8 @@ import styles from './index.less';
 import { useEffect, useMemo } from 'react';
 import { history } from 'umi';
 import { GenesisProvider } from './Context/GenesisContext';
-// import WalletManagement from '@/pages/Genesis/Wallet-Management';
 // import MessageCenter from '@/pages/Genesis/Message-center';
 import Nodes from '@/pages/Genesis/DeployNodes';
-// import Purchase from '@/pages/Genesis/Purchase';
-// import PurchaseLayout from './PurchaseLayout';
-// import Settlement from '@/pages/Genesis/Purchase/Settlement';
 import Rol from '@/pages/Genesis/Rol';
 import TryChat from '@/pages/Genesis/Agent/components/TryChat';
 import PurchaseAi from '@/pages/Genesis/Agent/components/Purchase';
@@ -113,24 +109,7 @@ export default function Layout(props) {
       </GenesisProvider>
     );
   }
-  // if (props.location.pathname == '/genesis/purchase') {
-  //   return (
-  //     <GenesisProvider>
-  //       <GenesisLayout>
-  //         <Purchase />
-  //       </GenesisLayout>
-  //     </GenesisProvider>
-  //   );
-  // }
-  // if (props.location.pathname == '/genesis/purchase/settlement') {
-  //   return (
-  //     <GenesisProvider>
-  //       <GenesisLayout>
-  //         <Settlement />
-  //       </GenesisLayout>
-  //     </GenesisProvider>
-  //   );
-  // }
+
   if (isAuthRoute) {
     return (
       <GenesisProvider>

@@ -1,9 +1,8 @@
 import { fetchUserCenter } from '@/services/genesis';
 import { fetchMineInviteCode } from '@/services/genesis/distribution';
-import { useState } from 'react';
-import { message } from 'antd';
-import storage from '@/utils/storage';
+import { useEffect, useState } from 'react';
 import { fetchToken } from '@/services/login';
+import { useModel } from 'umi';
 
 export default () => {
   const [avatarSnapUrl, setAvatarSnapUrl] = useState();
@@ -11,7 +10,11 @@ export default () => {
   const [mineInviteData, setMyInviteData] = useState();
   const [userName, setUserName] = useState();
   const [userInfo, setUserInfo] = useState();
-
+  const { initialState } = useModel('@@initialState');
+  const { sessionType } = initialState || {};
+  useEffect(() => {
+    getUserInfo();
+  }, [sessionType]);
   const getMineCode = async () => {
     try {
       const res = await fetchMineInviteCode();
@@ -28,8 +31,7 @@ export default () => {
 
   const getUserInfo = (callback) => {
     let result = null;
-    const type = storage.get('SESSION_TYPE');
-    if (type == 'wallet') {
+    if (sessionType == 'wallet') {
       fetchUserCenter()
         .then((res) => {
           setUserInfo(res);
@@ -44,10 +46,11 @@ export default () => {
           callback && callback(result);
         });
     }
-    if (type == 'google') {
+    if (sessionType == 'google') {
       fetchToken()
         .then((res) => {
           const userData = res?.user_info;
+          console.log(res);
           setUserInfo(userData);
           if (userData?.email) {
             setUserName(userData?.email);

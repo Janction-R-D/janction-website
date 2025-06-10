@@ -5,19 +5,21 @@ import { useAccountEffect } from 'wagmi';
 export default (props) => {
   const { history } = props;
   const { initialState, setInitialState } = useModel('@@initialState');
+  const { sessionType } = initialState || {};
   const { isLogin } = useAccess();
   const TOKEN = storage.get('TOKEN');
-  const SESSION_TYPE = storage.get('SESSION_TYPE');
 
   // Monitor active exit
   useAccountEffect({
     onDisconnect() {
-      console.log('sdsdsds');
-      if (SESSION_TYPE !== 'wallet') {
-        console.log('sdsdsds');
+      if (sessionType !== 'wallet') {
         storage.remove('AUTH_HEADERS');
         storage.remove('userAccount');
-        window.location.reload();
+        setInitialState({
+          ...initialState,
+          userAccount: null,
+        });
+        return;
       }
       storage.clear();
       setInitialState({

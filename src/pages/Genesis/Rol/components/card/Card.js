@@ -1,12 +1,12 @@
-import { Card, Button, Divider } from 'antd';
+import { Card, Button, Divider, message } from 'antd';
 import styles from './index.less';
 import { history, useModel } from 'umi';
 import storage from '@/utils/storage';
 import { updateUserConfig } from '@/services/genesis';
+import { useState } from 'react';
 
 const IdentityCard = ({ card }) => {
   const { initialState, setInitialState } = useModel('@@initialState');
-  const { isLessee } = initialState || {};
 
   const onIdentityChange = () => {
     storage.set({ name: 'isLessee', value: card.isLessee });
@@ -20,9 +20,17 @@ const IdentityCard = ({ card }) => {
       is_old_user: true,
     };
     try {
+      message.info({
+        content: 'The operation is in progress, please wait...',
+        key: 'loading',
+        duration: 0,
+      });
+
       const res = await updateUserConfig(payload);
     } catch (error) {
       console.log(error);
+    } finally {
+      message.destroy('loading');
     }
   };
   const handleClick = async () => {

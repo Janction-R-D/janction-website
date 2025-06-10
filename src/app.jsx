@@ -81,9 +81,12 @@ export const request = {
 export async function getInitialState() {
   const isLessee = storage.get('isLessee');
   const userAccount = storage.get('userAccount');
+  const sessionType = storage.get('SESSION_TYPE');
+
   return {
     isLessee: empty(isLessee) ? true : isLessee,
     userAccount,
+    sessionType,
   };
 }
 

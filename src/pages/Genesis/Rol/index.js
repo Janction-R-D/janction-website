@@ -4,7 +4,7 @@ import styles from './index.less';
 import planetImg from '@/assets/images/genesis/planet.png';
 import lessorImg from '@/assets/images/genesis/rol_lessor.png';
 import lesseeImg from '@/assets/images/genesis/rol_lessee.png';
-import { useLocation } from 'umi';
+import { useLocation, useModel } from 'umi';
 const cards = [
   {
     title: 'Lessor',
@@ -24,16 +24,20 @@ const cards = [
   },
 ];
 export default function Rol() {
-  const [cardsType, setCardType] = useState(cards);
+  const { initialState } = useModel('@@initialState');
+  const { sessionType } = initialState || {};
+  const [cardsType, setCardType] = useState([]);
   const location = useLocation();
   const { type } = location.state || {};
 
   useEffect(() => {
-    if (type && type === 'google') {
-      console.log(type);
-      const showedCards = cardsType.filter((item) => item.title !== 'Lessor');
+    if (sessionType && sessionType === 'google') {
+      const showedCards = cards.filter((item) => item.title !== 'Lessor');
       setCardType(showedCards);
+
+      return;
     }
+    setCardType(cards);
   }, []);
   return (
     <main className={styles['identity-wrapper']}>
