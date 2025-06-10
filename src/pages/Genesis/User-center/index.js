@@ -12,21 +12,32 @@ import UploadModal from './components/UploadImage/UploadModal';
 import storage from '@/utils/storage';
 import WalletLink from './components/WalletLink/WalletLink';
 import BindWarning from './components/BindWarning/BindWarning';
+import ReminderModal from './components/ReminderEmail';
+import Bind from './components/Bind';
 
 function UserAccount() {
   const { userName, setUserName, userInfo } = useModel('common');
   const [isNameModalOpen, setIsNameModalOpen] = useState(false);
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
+  const [isEmailConfigOpen, setIsEmailConfigOpen] = useState(false);
   const [bindOpen, setBindOpen] = useState(false);
-
+  const [isRemindOpen, setIsRemindOpen] = useState(false);
   const onBinOpen = () => {
     setBindOpen(true);
+  };
+  const onSuccess = () => {
+    setIsRemindOpen(false);
+    setIsEmailConfigOpen(false);
+    onCancel();
   };
   const onBinClose = () => {
     setBindOpen(false);
   };
   const onEditName = () => {
     setIsNameModalOpen(true);
+  };
+  const closeEmailConf = () => {
+    setIsEmailConfigOpen(false);
   };
 
   const handleVerify = () => {
@@ -54,7 +65,23 @@ function UserAccount() {
 
   return (
     <form encType="multipart/form-data" className={styles['form']}>
-      <BindWarning onClose={onBinClose} onOk={onBinClose} open={bindOpen} />
+      <BindWarning
+        onClose={onBinClose}
+        onOk={onBinClose}
+        open={bindOpen}
+        setIsEmailModalOpen={setIsEmailModalOpen}
+      />
+      <ReminderModal
+        open={isRemindOpen}
+        onCancel={() => setIsRemindOpen(false)}
+        closeAll={onSuccess}
+        setIsEmailConfigOpen={setIsEmailConfigOpen}
+      />
+      <Bind
+        open={isEmailConfigOpen}
+        onCancel={closeEmailConf}
+        closeAll={onSuccess}
+      />
       <p className={styles['title']}>Personal information</p>
       <section className={styles['banner']}>
         <div className={styles['banner-img']}>
@@ -107,6 +134,7 @@ function UserAccount() {
                 open={isEmailModalOpen}
                 data={userInfo}
                 onCancel={() => setIsEmailModalOpen(false)}
+                setIsRemindOpen={setIsRemindOpen}
               />
             )}
           </div>

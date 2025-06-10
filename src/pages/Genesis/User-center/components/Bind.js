@@ -4,7 +4,7 @@ import { Button, Form, Input, message, Modal } from 'antd';
 import styles from './modal.less';
 import { useModel } from 'umi';
 
-const BindEmail = (props) => {
+const Bind = (props) => {
   const { open, onCancel, userInfo, closeAll } = props;
   const [form] = Form.useForm();
 
@@ -84,4 +84,4 @@ const BindEmail = (props) => {
   );
 };
 
-export default BindEmail;
+export default Bind;

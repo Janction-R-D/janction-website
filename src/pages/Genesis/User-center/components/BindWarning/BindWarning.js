@@ -1,8 +1,17 @@
 import { Button, Modal } from 'antd';
 import styles from './index.less';
-export default function BindWarning({ open, onClose, onOk }) {
-  const onClick = () => {};
-  const onContinue = () => {};
+export default function BindWarning({
+  open,
+  onClose,
+  onOk,
+  setIsEmailModalOpen,
+}) {
+  const onContinue = () => {
+    onClose();
+    setTimeout(() => {
+      setIsEmailModalOpen(true);
+    }, 1000);
+  };
   return (
     <Modal
       open={open}
@@ -23,7 +32,7 @@ export default function BindWarning({ open, onClose, onOk }) {
             </span>
           </div>
           <div className={styles['button-group']}>
-            <Button className={styles['connect-btn']} onClick={onClick}>
+            <Button className={styles['connect-btn']} onClick={onClose}>
               Add later <i className="iconfont icon-clock" />
             </Button>
             <Button className={styles['connect-btn']} onClick={onContinue}>
