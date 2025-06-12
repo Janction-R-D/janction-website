@@ -25,8 +25,7 @@ export default function OperationModal({ record, getAllNodes }) {
     if (!isRunning) return;
     setSelectVisible(true); // abrir el popover
     setSelectLoading(true);
-    console.log(record);
-    console.log({ resource_id: record?.id });
+
     try {
       const res = (await fetchResource({ resource_id: record?.id })) || [];
       setOptions(res.routes || []);
@@ -50,13 +49,15 @@ export default function OperationModal({ record, getAllNodes }) {
   const handleStop = async () => {
     try {
       const { signature, payment_id } = await fetchStopRentParams({
-        resource_id: record?.resource_id,
+        resource_id: record?.id,
       });
+
       // const signatures = [`0x${signature}`];
       const adminSignature = signature;
+      const { deadline } = signature;
       // await getOrderInfo();
-      if (!payment_id) return;
-      await contract.stopRent(payment_id, adminSignature);
+      if (!payment_id && !adminSignature) return;
+      await contract.stopRent(payment_id, adminSignature, deadline);
       message.success('Success');
       getAllNodes();
     } catch (error) {

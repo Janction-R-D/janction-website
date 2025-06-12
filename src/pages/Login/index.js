@@ -6,8 +6,9 @@ import SuccessModal from './Modals/SuccessModal';
 import storage from '@/utils/storage';
 import { message } from 'antd';
 import { history, useLocation, useModel } from 'umi';
-import { fetchOauthCallback, fetchToken } from '@/services/login';
-const expires = 60 * 60 * 10 * 1000;
+import { fetchOauthCallback } from '@/services/login';
+import { expires } from '@/utils/lang';
+
 const origin = location.origin;
 const CALLBACK_URL = `${origin}/login`;
 const Login = (props) => {

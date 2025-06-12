@@ -65,7 +65,7 @@ function copyTextFallback(text) {
   }
   document.body.removeChild(textarea);
 }
-
+export const expires = 60 * 60 * 10 * 1000;
 // copy text
 export const copy = (text) => {
   if (!navigator?.clipboard?.writeText) {

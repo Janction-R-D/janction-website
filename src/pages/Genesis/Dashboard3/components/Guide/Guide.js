@@ -87,7 +87,7 @@ export default function Guide({
     // Tour completion
 
     if (status == 'finished') {
-      if (sessionType == 'google') {
+      if (sessionType !== 'wallet') {
         updateConfig();
         return;
       }
@@ -109,7 +109,7 @@ export default function Guide({
   const handleOk = () => {
     setIsModalVisible(false);
 
-    if (sessionType == 'google') return;
+    if (sessionType !== 'wallet') return;
     history.push('/genesis/dashboard'); // redirect to dashboard after finsih the guide
     onIdentityChange();
   };

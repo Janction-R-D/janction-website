@@ -40,8 +40,8 @@ const NodeCard = ({ item, getList }) => {
     const gpu = item.attr.gpu_chip;
     return (
       <span className={styles.gpu_core}>
-        <p>{cpu ? `${cpu[0]} * ${cpu.length}` : '--'}</p>
-        <p>{gpu ? `${gpu[0]} * ${gpu.length}` : '--'}</p>
+        <span>CHIP/GPUS: {cpu ? `${cpu[0]} * ${cpu.length}` : '--'}</span>
+        {/* <p>{gpu ? `${gpu[0]} * ${gpu.length}` : '--'}</p> */}
       </span>
     );
   };
@@ -71,8 +71,8 @@ const NodeCard = ({ item, getList }) => {
         <div className={styles.titleBlock}>
           <i className="iconfont icon-nvidia" />
           <div>
-            <div className={styles.id}>ID：{id}</div>
-            <div className={styles.gpu}>CHIP/GPUS：{renderGpu()}</div>
+            <div className={styles.id}>ID: {id}</div>
+            <div className={styles.gpu}>{renderGpu()}</div>
           </div>
         </div>
         <div className={styles.status}>
@@ -195,7 +195,7 @@ const Operation = ({ item, getList }) => {
       >
         List
       </a>
-      <span className={styles.divider}>|</span>
+
       <a
         className={`${styles['operation-action']}  ${
           !isListed ? styles['disabled'] : ''
@@ -210,11 +210,11 @@ const Operation = ({ item, getList }) => {
           handleCancel={handleCancelStake}
         />
       </a>
-      <span className={styles.divider}>|</span>
+
       <span className={styles.receive} onClick={handleReceive}>
         Receive Rewards
       </span>
-      <span className={styles.divider}>|</span>
+
       <a onClick={() => onRefresh()}>
         <RedoOutlined
           rotate={90}

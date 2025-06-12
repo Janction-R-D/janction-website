@@ -3,8 +3,7 @@ import { fetchUserNonce, fetchUserVerify } from '@/services/login';
 import { SiweMessage } from 'siwe';
 import { message } from 'antd';
 import { getAddress } from 'ethers/lib/utils';
-
-const expires = 60 * 60 * 10 * 1000;
+import { expires } from './lang';
 
 export async function handleIdentityChange({
   isLessee,
@@ -18,7 +17,7 @@ export async function handleIdentityChange({
 }) {
   const sessionType = storage.get('SESSION_TYPE');
 
-  if (sessionType === 'google') {
+  if (sessionType !== 'wallet') {
     if (!window.ethereum) {
       message.error('MetaMask no está disponible');
       return;
@@ -81,7 +80,7 @@ export async function handleIdentityChange({
         expires,
       });
 
-      message.success({ content: 'Inicio de sesión exitoso', key: 'login' });
+      message.success({ content: 'Login successfull', key: 'login' });
 
       // Cambiar identidad
       storage.set({ name: 'isLessee', value: !isLessee });

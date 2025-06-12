@@ -1,7 +1,5 @@
 import { Button, Modal } from 'antd';
-import { useState } from 'react';
 import styles from './modal.less';
-import Bind from './Bind';
 
 export default function ReminderModal({
   open,

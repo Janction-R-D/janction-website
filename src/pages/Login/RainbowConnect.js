@@ -14,8 +14,8 @@ import {
 } from 'wagmi';
 import styles from './index.less';
 import { WalletOutlined } from '@ant-design/icons';
+import { expires } from '@/utils/lang';
 
-const expires = 60 * 60 * 10 * 1000;
 const RainbowConnect = (props) => {
   const { setLoading } = props;
   const location = useLocation();

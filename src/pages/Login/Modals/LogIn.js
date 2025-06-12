@@ -1,9 +1,21 @@
-import React from 'react';
-import { Form, Input, Button, Divider } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Form, Input, Button, Divider, message, Statistic } from 'antd';
 import styles from './index.less';
 import RainbowConnect from '../RainbowConnect';
-import { ChromeOutlined } from '@ant-design/icons';
 import GoogleConnect from '../GoogleConnect';
+import GithubConnect from '../GithubConnect';
+import {
+  fetchEmailLogin,
+  fetchProviderLog,
+  fetchVerifyCode,
+} from '@/services/login';
+import LoginButton from './LoginButton';
+import storage from '@/utils/storage';
+import { history, useModel } from 'umi';
+import { expires } from '@/utils/lang';
+const origin = location.origin;
+const CALLBACK_URL = `${origin}/login`;
+const { Countdown } = Statistic;
 
 const Login = ({
   onCancel,
@@ -13,22 +25,95 @@ const Login = ({
   setMode,
   loading,
 }) => {
+  const { setInitialState, initialState } = useModel('@@initialState');
   const [form] = Form.useForm();
+  const [deadline, setDeadline] = useState(null);
+  const [ldng, setLdng] = useState(false);
+  const [methods, setMethods] = useState([]);
 
-  const handleLogin = (values) => {
-    console.log('Logging in with:', values);
-  };
-  const onSign = () => {
-    setIsFlipped(true);
-    setMode('signup');
-    console.log('signup');
-  };
-  const onRecover = () => {
-    setIsFlipped(true);
-    setMode('recover');
-    console.log('recover');
+  // useEffect(() => {
+  //   getProviders();
+  // }, []);
+  // const getProviders = async () => {
+  //   try {
+  //     const { platforms } = await fetchProviderLog();
+  //     setMethods(platforms);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  const handleLogin = async (values) => {
+    setLdng(true);
+    try {
+      console.log('Logging in with:', values);
+      const loginReq = await fetchVerifyCode(values);
+      saveToken(loginReq);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLdng(false);
+    }
   };
 
+  // const onSign = () => {
+  //   setIsFlipped(true);
+  //   setMode('signup');
+  // };
+
+  // const onRecover = () => {
+  //   setIsFlipped(true);
+  //   setMode('recover');
+  // };
+
+  const handleSendCode = async () => {
+    const email = form.getFieldValue('email');
+    if (!email) {
+      message.warning('Please enter your email first');
+      return;
+    }
+    const payload = {
+      email,
+      callback: CALLBACK_URL,
+    };
+    const getCode = await fetchEmailLogin(payload);
+    console.log(getCode);
+    console.log('Sending verification code to:', email);
+    message.success('Verification code sent!');
+    setDeadline(Date.now() + 120 * 1000); // 60 segundos
+  };
+  const saveToken = async (params) => {
+    try {
+      const { session, user } = params || {};
+      storage.set({
+        name: 'TOKEN',
+        value: session.token,
+        expires,
+      });
+      storage.set({
+        name: 'USER_ACCOUNT',
+        value: user,
+        expires,
+      });
+      storage.set({
+        name: 'SESSION_TYPE',
+        value: 'email',
+        expires,
+      });
+
+      message.success('User logged successfully!');
+      setInitialState({
+        ...initialState,
+        sessionType: 'email',
+      });
+      setTimeout(() => {
+        history.push('/genesis/rol', {
+          type: 'google',
+        });
+      }, 1200);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className={`${styles.cardFront} ${styles.visible}`}>
       <div className={styles.left}>
@@ -42,10 +127,16 @@ const Login = ({
           <Button size="large" className={styles.btn_icon} disabled={loading}>
             <GoogleConnect setLoading={setLoading} />
           </Button>
+
+          <Button size="large" className={styles.btn_icon} disabled={loading}>
+            <GithubConnect setLoading={setLoading} />
+          </Button>
         </div>
+
         <div className={styles.divider_box}>
           <Divider plain>Or use your email</Divider>
         </div>
+
         <Form
           form={form}
           onFinish={handleLogin}
@@ -54,31 +145,54 @@ const Login = ({
         >
           <Form.Item
             name="email"
-            rules={[{ required: true, message: 'email is required' }]}
+            rules={[{ required: true, message: 'Email is required' }]}
           >
             <Input
               className={styles['input-search']}
               placeholder="Email"
-              disabled
+              disabled={loading}
+              autoComplete="false"
             />
           </Form.Item>
+
           <Form.Item
-            name="password"
-            rules={[{ required: true, message: 'password is required' }]}
+            name="code"
+            rules={[
+              { required: true, message: 'Verification code is required' },
+            ]}
           >
-            <Input.Password
+            <Input
               className={styles['input-search']}
-              placeholder="Password"
-              disabled
+              placeholder="Verification Code"
+              suffix={
+                deadline && deadline > Date.now() ? (
+                  <Countdown
+                    value={deadline}
+                    format="s"
+                    onFinish={() => setDeadline(null)}
+                    valueStyle={{ fontSize: 12 }}
+                  />
+                ) : (
+                  <Button
+                    size="small"
+                    type="link"
+                    onClick={handleSendCode}
+                    disabled={loading}
+                  >
+                    Get Code
+                  </Button>
+                )
+              }
             />
           </Form.Item>
+
           <div className={styles.button_box}>
             <Button
               type="primary"
               htmlType="submit"
               block
               className={styles.button}
-              disabled
+              loading={ldng}
             >
               Login{' '}
               <div className={styles['icon']}>
@@ -88,13 +202,16 @@ const Login = ({
                 />
               </div>
             </Button>
+            {/* <LoginButton ldng={ldng} /> */}
           </div>
         </Form>
-        <div className={styles.footerLinks}>
+
+        {/* <div className={styles.footerLinks}>
           <a onClick={onSign}>Sign up</a> |{' '}
           <a onClick={onRecover}>Forgot Password?</a>
-        </div>
+        </div> */}
       </div>
+
       <div className={styles.right}>
         <span className={styles.closeIcon} onClick={onCancel}>
           ✕

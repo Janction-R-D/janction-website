@@ -44,7 +44,7 @@ export default function AuthHeader(props) {
 
   useEffect(() => {
     getUserConfig();
-    // getUserInfo();
+    getUserInfo();
 
     if (!userName) {
       defaultNameHandle();

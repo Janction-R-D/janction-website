@@ -126,6 +126,15 @@
     padding: 10px;
     border-radius: 8px;
     width: 300px;
+    background-color: transparent !important;
+    :global {
+      input:-webkit-autofill {
+        background-color: transparent !important; // azul clarito de ejemplo
+        transition: background-color 5000s ease-in-out 0s;
+        -webkit-box-shadow: 0 0 0px 1000px #e6f7ff inset !important;
+        color: #e1e1e1 !important;
+      }
+    }
   }
 
   .button_box {

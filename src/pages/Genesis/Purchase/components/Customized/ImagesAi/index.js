@@ -61,13 +61,20 @@ const ImagesAi = ({ value, onChange, formValues, current = 5 }) => {
   return (
     <div className={styles['checkbox-grid']}>
       {opciones?.map((item) => (
-        <div className={styles['checkbox-item']} key={item.name}>
+        <div
+          key={item.name}
+          className={[
+            styles['checkbox-item'],
+            value === item.name && styles['active-item'],
+          ].join(' ')}
+          onClick={() => handleCheckboxChange(item.name)}
+        >
+          <div className={styles['content']}>{item.name}</div>
           <Checkbox
             checked={value === item.name}
+            style={{ visibility: 'hidden' }}
             onChange={() => handleCheckboxChange(item.name)}
-          >
-            {item.name}
-          </Checkbox>
+          />
         </div>
       ))}
     </div>

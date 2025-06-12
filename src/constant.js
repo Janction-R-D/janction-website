@@ -200,6 +200,7 @@ export const notShowErrors = [
   'payment_validation_error',
   'resource_lookup_error',
   'node_update_error',
+  'email_send_error',
 ];
 export const brandDetails = {
   apple: { icon: 'macos', color: 'white' },

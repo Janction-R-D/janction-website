@@ -54,7 +54,7 @@ const RunNode = (props) => {
               </p>
               <a
                 className={styles['icon-orange']}
-                onClick={() => copy(`brew install lima;limactl start`)}
+                onClick={() => copy(`brew install lima`)}
               >
                 <i className="iconfont icon-copy" />
               </a>
@@ -65,7 +65,7 @@ const RunNode = (props) => {
               </p>
               <a
                 className={styles['icon-orange']}
-                onClick={() => copy(`brew install lima;limactl start`)}
+                onClick={() => copy(`limactl start`)}
               >
                 <i className="iconfont icon-copy" />
               </a>

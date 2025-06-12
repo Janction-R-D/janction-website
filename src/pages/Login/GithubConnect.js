@@ -1,15 +1,15 @@
 import { message } from 'antd';
-import { ChromeOutlined } from '@ant-design/icons';
+import { GithubOutlined } from '@ant-design/icons';
 import styles from './index.less';
 import { fetchOauth } from '@/services/login';
 const origin = location.origin;
 const CALLBACK_URL = `${origin}/login`;
 
-export default function GoogleConnect({ setLoading }) {
+export default function GithubConnect({ setLoading }) {
   const handleGoogleLogin = async () => {
     setLoading(true);
     const payload = {
-      platform: 'google',
+      platform: 'github',
       callback: CALLBACK_URL,
     };
     try {
@@ -18,7 +18,7 @@ export default function GoogleConnect({ setLoading }) {
         window.location.href = auth_url;
       }
     } catch (err) {
-      message.error('No se pudo iniciar el flujo de login');
+      message.error('Operation failed, please try again later!');
       console.error(err);
     } finally {
       setLoading(false);
@@ -27,7 +27,7 @@ export default function GoogleConnect({ setLoading }) {
 
   return (
     <a className={styles['login-btn']} onClick={handleGoogleLogin}>
-      <ChromeOutlined />
+      <GithubOutlined />
     </a>
   );
 }

@@ -31,7 +31,7 @@ export default function Rol() {
   const { type } = location.state || {};
 
   useEffect(() => {
-    if (sessionType && sessionType === 'google') {
+    if (sessionType && sessionType !== 'wallet') {
       const showedCards = cards.filter((item) => item.title !== 'Lessor');
       setCardType(showedCards);
 

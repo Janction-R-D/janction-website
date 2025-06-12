@@ -50,11 +50,27 @@ export default () => {
       fetchToken()
         .then((res) => {
           const userData = res?.user_info;
-          console.log(res);
           setUserInfo(userData);
           if (userData?.email) {
             setUserName(userData?.email);
             setAvatarSnapUrl(userData?.picture);
+          }
+        })
+        .catch((err) => {
+          console.log('『err』', err);
+        })
+        .finally(() => {
+          callback && callback(result);
+        });
+    }
+    if (sessionType == 'email') {
+      fetchToken()
+        .then((res) => {
+          const emailData = res;
+          setUserInfo(emailData);
+          if (emailData?.platform_user_id) {
+            setUserInfo(emailData);
+            setUserName(emailData?.platform_user_id);
           }
         })
         .catch((err) => {

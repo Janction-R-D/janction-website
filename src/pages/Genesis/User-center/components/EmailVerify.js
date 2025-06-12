@@ -1,7 +1,6 @@
 import { Modal } from 'antd';
 import { useState } from 'react';
 import styles from './modal.less';
-import ReminderModal from './ReminderEmail';
 
 export default function EmailVerify({ open, onCancel, data, setIsRemindOpen }) {
   const openVerify = () => {
