@@ -1,26 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CloseOutlined, PlusOutlined } from '@ant-design/icons';
-
 import styles from './index.less';
 
-export default function TagsInputGroup() {
-  const [tags, setTags] = useState(['', '']);
+export default function TagsInputGroup({ value = [], onChange }) {
+  const [tags, setTags] = useState(value.length ? value : ['']);
 
-  const handleTagChange = (index, value) => {
-    if (value.length <= 4) {
+  const handleTagChange = (index, val) => {
+    if (val.length <= 9) {
       const newTags = [...tags];
-      newTags[index] = value;
+      newTags[index] = val;
       setTags(newTags);
+      onChange?.(newTags);
     }
   };
 
   const handleAddTag = () => {
-    setTags([...tags, '']);
+    const newTags = [...tags, ''];
+    setTags(newTags);
+    onChange?.(newTags);
   };
 
   const handleRemoveTag = (index) => {
     const newTags = tags.filter((_, i) => i !== index);
     setTags(newTags);
+    onChange?.(newTags);
   };
 
   return (
@@ -34,9 +37,9 @@ export default function TagsInputGroup() {
               value={tag}
               onChange={(e) => handleTagChange(index, e.target.value)}
               onDoubleClick={() => handleRemoveTag(index)}
-              placeholder={'Add tag'}
+              placeholder="Add tag"
             />
-            <span className={styles.charCount}>{tag.length}/4</span>
+            <span className={styles.charCount}>{tag.length}/9</span>
           </div>
           <button
             className={styles.closeButton}

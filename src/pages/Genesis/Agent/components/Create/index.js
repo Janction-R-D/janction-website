@@ -34,7 +34,7 @@ export default function Create() {
         <section className={styles['config']}>
           <AIForm />
         </section>
-        <section className={styles['logs']}>
+        {/* <section className={styles['logs']}>
           <Logs />
           <div className={styles['buttons']}>
             <StepButton text="Share" label="share" onClick={onOpen} />
@@ -42,7 +42,7 @@ export default function Create() {
           </div>
 
           {shareOpen && <ShareCard onClose={onCloseShare} />}
-        </section>
+        </section> */}
       </main>
     </main>
   );

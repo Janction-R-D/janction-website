@@ -4,14 +4,30 @@ import { mockAgents } from '../../mock';
 import AgentCard from '../AgentCard/AgentCard';
 import { onNavigate } from '../../utils';
 import { ArrowUpOutlined } from '@ant-design/icons';
-import { useState } from 'react';
-import IconmeModal from '../IncomeModal';
-import PurchaseModal from '../PurchaseModal';
+import { useEffect, useState } from 'react';
+import { fetchAgent } from '@/services/genesis/agents';
+// import IconmeModal from '../IncomeModal';
+// import PurchaseModal from '../PurchaseModal';
+
 export default function MyAgent() {
-  const [open, setOpen] = useState(true);
-  const onOk = () => {
-    setOpen(false);
+  // const [open, setOpen] = useState(true);
+  // const onOk = () => {
+  //   setOpen(false);
+  // };
+  const [list, setList] = useState([]);
+  useEffect(() => {
+    getAgents();
+  }, []);
+  const getAgents = async () => {
+    try {
+      const res = (await fetchAgent()) || [];
+      setList(res);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
   };
+
   return (
     <main>
       <section className={styles['header-container']}>
@@ -42,6 +58,13 @@ export default function MyAgent() {
             created by the community
           </header>
           <div className={styles['agent-cards']}>
+            {list.map((agent) => (
+              <AgentCard
+                key={agent.id}
+                {...agent}
+                path={'/genesis/agent/try_chat'}
+              />
+            ))}
             {mockAgents.map((agent) => (
               <AgentCard
                 key={agent.id}
@@ -52,7 +75,7 @@ export default function MyAgent() {
           </div>
         </Card>
       </main>
-      <PurchaseModal onOpen={onOk} setIsOpen={setOpen} isOpen={open} />
+      {/* <PurchaseModal onOpen={onOk} setIsOpen={setOpen} isOpen={open} /> */}
     </main>
   );
 }

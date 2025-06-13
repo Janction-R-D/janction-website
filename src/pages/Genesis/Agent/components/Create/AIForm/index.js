@@ -1,58 +1,114 @@
 import React from 'react';
-import styles from './index.less';
-import { Avatar, Button, Input, Switch, Upload } from 'antd';
-import TagsInputGroup from './components/Tags';
+import { Form, Input, Upload, Avatar, Button, message } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
-
 import {
-  ArrowUpOutlined,
-  DeleteOutlined,
-  PlusOutlined,
   UploadOutlined,
+  DeleteOutlined,
+  ArrowUpOutlined,
 } from '@ant-design/icons';
+import styles from './index.less';
+import TagsInputGroup from './components/Tags';
 import { LoadingButton, LoadingFinish } from '../Buttons';
 import UploadFiles from '../UploadFile';
+import {
+  fetchBaseRoutes,
+  fetchCreateAgent,
+  fetchUploadFiles,
+  fetchUploadImg,
+} from '@/services/genesis/agents';
 
 export default function AIForm() {
   const [avatarUrl, setAvatarUrl] = React.useState(null);
   const [hovered, setHovered] = React.useState(false);
   const [loading, setLoading] = React.useState(0);
+  const [form] = Form.useForm();
 
-  const handleUpload = (info) => {
+  const handleAvatarUpload = (info) => {
     if (info.file.status === 'done') {
       const url = URL.createObjectURL(info.file.originFileObj);
       setAvatarUrl(url);
+      // Puedes almacenar en form si deseas enviar luego
+      form.setFieldsValue({ cover: info.file.originFileObj });
     }
   };
 
-  const handleDelete = (e) => {
-    e.stopPropagation();
+  const handleDeleteAvatar = () => {
     setAvatarUrl(null);
+    form.setFieldsValue({ cover: null });
   };
 
-  const handleSubmit = () => {
+  // const handleDeleteAvatar = (e) => {
+  //   e.stopPropagation();
+  //   setAvatarUrl(null);
+  //   form.setFieldsValue({ cover: null });
+  // };
+
+  const handleSubmit = async (values) => {
+    const params = {
+      name: values.filename,
+      description: values.file_description,
+    };
+    const uploadParams = {};
+    console.log(params);
+    console.log('values : ', values);
     setLoading(1);
-    setTimeout(() => {
+    try {
+      const realFile = values.cover?.originFileObj || values.cover;
+      const { data: uploadImg } = (await fetchUploadImg(realFile)) || {};
+      const { id: knowleageId } = (await fetchBaseRoutes(params)) || {};
+      if (!knowleageId) return;
+      console.log('📝 Form values:', values);
+      const knowleageFiles = values.files[0].originFileObj;
+      await fetchUploadFiles(knowleageId, knowleageFiles);
+
+      const createParams = {
+        name: values.name,
+        description: values.description,
+        cover: uploadImg,
+        tags: values.tags,
+        knowledge_base_id: knowleageId,
+      };
+      const createAgent = await fetchCreateAgent(createParams);
+      console.log(createAgent);
+      message.info('Agent Created Successfully');
       setLoading(2);
-    }, 2000);
+      setTimeout(() => {
+        setLoading(0);
+      }, 10000);
+    } catch (err) {
+      console.error('❌ Error al enviar:', err);
+      message.error('Error submitting form');
+      setLoading(0);
+    }
   };
 
   return (
-    <main className={styles.wrapper}>
-      <div className={styles.section}>
-        <span>Cover</span>
+    <Form
+      form={form}
+      layout="vertical"
+      onFinish={handleSubmit}
+      className={styles.wrapper}
+    >
+      <Form.Item name="cover" label="Cover">
         <Upload
           showUploadList={false}
           beforeUpload={(file) => {
             const isImage = file.type.startsWith('image/');
             if (!isImage) {
-              message.error('error');
+              message.error('Only image files are allowed');
+              return Upload.LIST_IGNORE;
             }
-            return isImage;
+
+            // Guardar en el form y mostrar preview
+            const previewUrl = URL.createObjectURL(file);
+            setAvatarUrl(previewUrl);
+            form.setFieldsValue({ cover: file });
+
+            // Evitar que Ant Upload haga la subida automática
+            return Upload.LIST_IGNORE;
           }}
-          onChange={handleUpload}
         >
-          <div
+          <span
             className={styles.avatarContainer}
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
@@ -73,102 +129,59 @@ export default function AIForm() {
               }
             />
             {avatarUrl && hovered && (
-              <div className={styles.deleteButton} onClick={handleDelete}>
+              <div className={styles.deleteButton} onClick={handleDeleteAvatar}>
                 <DeleteOutlined />
               </div>
             )}
-          </div>
+          </span>
         </Upload>
-      </div>
+      </Form.Item>
 
-      <div className={styles.section}>
-        <span>Name</span>
-        <Input placeholder={'Enter a name'} className={styles.input} />
-      </div>
-
-      <div className={styles.section}>
-        <span>Tags</span>
+      <Form.Item
+        name="name"
+        label="Name"
+        rules={[{ required: true, message: 'Please enter a name' }]}
+      >
+        <Input placeholder="Enter a name" className={styles.input} />
+      </Form.Item>
+      <Form.Item name="tags" label="Tags">
         <TagsInputGroup />
-      </div>
-
-      <div className={styles.section}>
-        <span>Upload</span>
-        <UploadFiles />
-      </div>
-
-      <div className={styles.section}>
-        <span>Description</span>
+      </Form.Item>
+      <span style={{ paddingBottom: '12px', color: '#ffffffd9' }}>Upload</span>
+      <UploadFiles />
+      <Form.Item
+        name="filename"
+        label="Knowleage Filename"
+        rules={[{ required: true, message: 'Please enter a name' }]}
+      >
+        <Input placeholder="Enter a filename" className={styles.input} />
+      </Form.Item>
+      <Form.Item name="file_description" label="Knowleage description">
         <TextArea
           autoSize={{ minRows: 5 }}
-          placeholder={'Describe the functions and purposes of the agent'}
+          placeholder="Describe the content of the files"
           className={styles.textArea}
         />
-      </div>
-      <div className={styles.section}>
-        <span>Setting</span>
-        <div>
-          {[
-            {
-              label:
-                ' Collect user feedback and suggestions on Agent responses',
-              title: 'Allow user feedback',
-            },
-            {
-              label: 'Display the source of referenced knowledge in the answer',
-              title: 'Enable knowledge citation',
-            },
-            {
-              label: 'Record the conversation history between users and agents',
-              title: 'Enable dialogue history',
-            },
-          ].map((item) => (
-            <div className={styles.settingItem} key={item.label}>
-              <Switch className={styles.customSwitch} />
-              <div className={styles.settingText}>
-                <div>{item?.title}</div>
-                <div className={styles.settingDescription}>{item?.label}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className={styles.section}>
-        <span>Prompt</span>
-        <div>
-          <span>
-            Configure system prompt words and contextual queries for Agent
-          </span>
-          <TextArea
-            autoSize={{ minRows: 5 }}
-            placeholder={'System prompt words'}
-            className={styles.textArea}
-          />
-          <TextArea
-            autoSize={{ minRows: 5 }}
-            placeholder={
-              'Input context query for retrieving relevant knowledge'
-            }
-            className={styles.textArea}
-          />
-        </div>
-      </div>
-
-      <div className={styles.section}>
-        <span></span>
-        <div>
-          {loading === 0 && (
-            <Button onClick={handleSubmit} className={styles.submitButton}>
-              Start creating
-              <span className={styles.icon_rotate}>
-                <ArrowUpOutlined />
-              </span>
-            </Button>
-          )}
-          {loading === 1 && <LoadingButton text="Creating" />}
-          {loading === 2 && <LoadingFinish text="Success" />}
-        </div>
-      </div>
-    </main>
+      </Form.Item>
+      <Form.Item name="description" label="Description">
+        <TextArea
+          autoSize={{ minRows: 5 }}
+          placeholder="Describe the functions and purposes of the agent"
+          className={styles.textArea}
+        />
+      </Form.Item>
+      <Form.Item>
+        {loading === 0 && (
+          <Button htmlType="submit" className={styles.submitButton}>
+            Start creating
+            <span className={styles.icon_rotate}>
+              <ArrowUpOutlined />
+            </span>
+          </Button>
+        )}
+        {loading === 1 && <LoadingButton text="Creating" />}
+        {loading === 2 && <LoadingFinish text="Success" />}
+      </Form.Item>
+    </Form>
   );
 }

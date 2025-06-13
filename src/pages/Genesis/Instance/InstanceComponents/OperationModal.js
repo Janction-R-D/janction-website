@@ -73,6 +73,11 @@ export default function OperationModal({ record, getAllNodes }) {
     const selected = options.find((opt) => opt.url === value);
     try {
       if (selected) {
+        message.info({
+          content: 'Waiting...',
+          key: 'code-server',
+          duration: 0,
+        });
         //llamar a user config
         await PostResourceTunnel({ resource_id: record?.id });
         await updateUserConfig({ last_resource_visited: record });
@@ -81,6 +86,8 @@ export default function OperationModal({ record, getAllNodes }) {
       setSelectValue(value);
     } catch (error) {
       console.log(error);
+    } finally {
+      message.destroy('code-server');
     }
   };
   return (

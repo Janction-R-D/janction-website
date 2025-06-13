@@ -21,7 +21,7 @@
     flex-direction: column;
     gap: 12px;
     padding-right: 10px;
-
+    padding-bottom: 55px;
     .messageWrapper {
       display: flex;
       align-items: start;
@@ -64,7 +64,12 @@
     display: flex;
     gap: 12px;
     padding-top: 12px;
-
+    padding: 20px;
+    position: fixed;
+    bottom: 0;
+    background: #1e1e1e;
+    width: 100%;
+    left: 0;
     .input-box {
       flex: 1;
       height: 50px;
@@ -101,8 +106,12 @@
       transition: background-color 0.3s ease;
       border: 1px solid @border-color;
       transition: all ease 250ms;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: center;
       &:hover {
-        color: #fff;
+        color: #a3a3a3;
       }
       .divider {
         background: #fff;

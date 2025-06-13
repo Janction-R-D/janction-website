@@ -11,7 +11,7 @@ import { mockAgents } from '../../mock';
 export default function TryChat() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-  const { from } = location.state || {};
+  const { from, id } = location.state || {};
   const onOpen = () => {
     setIsOpen(true);
   };
@@ -32,7 +32,7 @@ export default function TryChat() {
         </div>
         <Divider type="vertical" className={styles['divider']} />
         <div className={styles['box']}>
-          <Avatar icon={<img src={mockAgents[1].icon} />} />
+          <Avatar icon={<img src={mockAgents[1]?.icon} />} />
           <div className={styles['icon']} onClick={onNewsOpen}>
             <i className="iconfont icon-menu">&#xe63f;</i>
           </div>
@@ -52,7 +52,7 @@ export default function TryChat() {
           setIsOpen={setIsNewsOpen}
         />
       </header>
-      <Chat />
+      <Chat id={id} />
     </main>
   );
 }

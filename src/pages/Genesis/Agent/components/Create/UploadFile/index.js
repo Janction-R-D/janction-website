@@ -1,4 +1,4 @@
-import { Tabs } from 'antd';
+import { Form, Tabs } from 'antd';
 import styles from './index.less';
 import UploadUrl from './upload_url';
 import UploadApi from './upload_api';
@@ -11,7 +11,14 @@ export default function UploadFiles() {
     <div className={styles.container}>
       <Tabs defaultActiveKey="doc" type="card" className={styles.tabs}>
         <TabPane tab={'Doc'} key="doc">
-          <UploadDoc style={{ height: '100%' }} />
+          <Form.Item
+            name="files"
+            rules={[
+              { required: true, message: 'Please upload at least one file' },
+            ]}
+          >
+            <UploadDoc style={{ height: '100%' }} />
+          </Form.Item>
 
           {/*<Upload className={styles.upload}>*/}
           {/*  <div className={styles['uploadIcon']}>*/}
@@ -27,12 +34,12 @@ export default function UploadFiles() {
           {/*  </div>*/}
           {/*</Upload>*/}
         </TabPane>
-        <TabPane tab={'URL'} key="url">
+        {/* <TabPane tab={'URL'} key="url">
           <UploadUrl />
         </TabPane>
         <TabPane tab={'API'} key="api">
           <UploadApi />
-        </TabPane>
+        </TabPane> */}
       </Tabs>
     </div>
   );

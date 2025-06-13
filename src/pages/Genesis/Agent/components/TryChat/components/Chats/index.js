@@ -3,8 +3,9 @@ import styles from './index.less';
 import { Button, Divider, Input } from 'antd';
 import imgAi from '@/assets/images/genesis/agent/agent_1.png';
 import PurchaseCard from './PurchaseCard';
+import { fetchChat } from '@/services/genesis/agents';
 
-const Chat = () => {
+const Chat = ({ id }) => {
   const [messages, setMessages] = useState([
     {
       text: `Hello, I am your exclusive web3 knowledge base\n1. Can you ask me what web3 is?\n2. What can web3 do?\n3. How to quickly understand web3?`,
@@ -13,28 +14,29 @@ const Chat = () => {
   ]);
 
   const [input, setInput] = useState('');
-  const [limit, setLimit] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const onOpen = () => {
     setIsOpen(true);
   };
-  const sendMessage = () => {
+  const sendMessage = async () => {
     const trimmed = input.trim();
-    if (limit >= 2) return;
+
     if (!trimmed) return;
 
     const userMessage = { text: trimmed, sender: 'user' };
     setMessages((prev) => [...prev, userMessage]);
+    const payload = { message: trimmed };
+    const sendSms = await fetchChat(id, payload);
+    console.log(sendSms);
     setInput('');
 
-    setTimeout(() => {
-      const botResponse = {
-        text: `You said: "${trimmed}"`,
-        sender: 'bot',
-      };
-      setMessages((prev) => [...prev, botResponse]);
-    }, 800);
-    setLimit(limit + 1);
+    // setTimeout(() => {
+    //   const botResponse = {
+    //     text: `You said: "${trimmed}"`,
+    //     sender: 'bot',
+    //   };
+    //   setMessages((prev) => [...prev, botResponse]);
+    // }, 800);
   };
 
   return (
@@ -74,20 +76,13 @@ const Chat = () => {
           onPressEnter={sendMessage}
           onChange={(e) => setInput(e.target.value)}
           suffix={
-            <Button className={styles['send-button']} onClick={onOpen}>
-              {limit < 2 && (
-                <>
-                  Free ({limit}/2){' '}
-                  <Divider type="vertical" className={styles.divider} />{' '}
-                </>
-              )}
-              Buy
-              <i className="iconfont icon-purchase" />
+            <Button className={styles['send-button']} onClick={sendMessage}>
+              Send <i className="iconfont icon-telegram" />
             </Button>
           }
         />
       </div>
-      <PurchaseCard onOpen={onOpen} isOpen={isOpen} setIsOpen={setIsOpen} />
+      {/* <PurchaseCard onOpen={onOpen} isOpen={isOpen} setIsOpen={setIsOpen} /> */}
     </main>
   );
 };

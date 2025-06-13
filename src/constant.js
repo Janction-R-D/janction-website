@@ -195,7 +195,7 @@ export const notShowErrors = [
   'invalid_parameter',
   'resource_creation_error',
   'internal_server_error',
-  'invalid_parameter',
+  'invalid_payload',
   'order_not_found',
   'payment_validation_error',
   'resource_lookup_error',

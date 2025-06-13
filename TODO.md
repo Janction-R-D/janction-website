@@ -10,3 +10,10 @@
 
 
 10. proyecto daoshi fotos
+
+
+--------
+
+Agent
+1. create knowloage files and receive the id
+2. 
