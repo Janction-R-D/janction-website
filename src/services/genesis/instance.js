@@ -387,6 +387,19 @@ export const fetchResource = (params) => {
     loginAuth: true,
   });
 };
+export const fetchResourceTunnel = (params) => {
+  return request(`${baseUrl}/resource/tunnel/status`, {
+    params,
+    loginAuth: true,
+  });
+};
+export const PostResourceTunnel = (data) => {
+  return request(`${baseUrl}/resource/tunnel/update`, {
+    method: 'POST',
+    data,
+    loginAuth: true,
+  });
+};
 
 //statistic resource data
 export const fetchStatistic = (data) => {

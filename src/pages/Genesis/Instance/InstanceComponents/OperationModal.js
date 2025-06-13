@@ -7,7 +7,9 @@ import contract from '@/utils/contracts';
 import {
   fetchMarketOrder,
   fetchResource,
+  fetchResourceTunnel,
   fetchStopRentParams,
+  PostResourceTunnel,
   updateUserConfig,
 } from '@/services/genesis';
 import SshKeyModal from './SshModal';
@@ -27,7 +29,8 @@ export default function OperationModal({ record, getAllNodes }) {
     setSelectLoading(true);
 
     try {
-      const res = (await fetchResource({ resource_id: record?.id })) || [];
+      const res =
+        (await fetchResourceTunnel({ resource_id: record?.id })) || [];
       setOptions(res.routes || []);
     } catch (error) {
       console.log(error);
@@ -66,10 +69,12 @@ export default function OperationModal({ record, getAllNodes }) {
     }
   };
   const handleChange = async (value) => {
+    console.log(value);
     const selected = options.find((opt) => opt.url === value);
     try {
       if (selected) {
         //llamar a user config
+        await PostResourceTunnel({ resource_id: record?.id });
         await updateUserConfig({ last_resource_visited: record });
         window.open(selected.url, '_blank');
       }
