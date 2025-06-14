@@ -3,7 +3,7 @@ import { Modal, Rate } from 'antd';
 import image from '@/assets/images/genesis/agent/agent_1.png';
 import styles from './index.less';
 
-export default function DetailModal({ onOpen, isOpen, setIsOpen }) {
+export default function DetailModal({ onOpen, isOpen, setIsOpen, agent }) {
   const handleCancel = () => {
     setIsOpen(false);
   };
@@ -28,12 +28,12 @@ export default function DetailModal({ onOpen, isOpen, setIsOpen }) {
       }}
     >
       <div className={styles.card}>
-        <img className={styles.image} src={image} alt="FinChat AI" />
+        <img className={styles.image} src={agent.icon} alt="FinChat AI" />
         <div className={styles.overlay}>
           <div className={styles.description}>
             <div className={styles.description_left}>
-              <div className={styles.title}> FinChat AI</div>
-              <div className={styles.score}>Score: 9.9</div>
+              <div className={styles.title}>{agent.title}</div>
+              {/* <div className={styles.score}>Score: 9.9</div> */}
             </div>
           </div>
         </div>
@@ -41,22 +41,16 @@ export default function DetailModal({ onOpen, isOpen, setIsOpen }) {
       <main className={styles.content}>
         <div className={styles.desc}>
           <p className={styles.desc_title}>Description</p>
-          <p className={styles.desc_text}>
-            Elevate your brand identity with Logo AI's precision-crafted model.
-            It's not just about creating logos; it's about bringing your unique
-            brand story to life with designs that resonate. 🌟 Unveil the full
-            potential of your vision and let your business shine. Dive into the
-            world of AI-driven creativity with us!
-          </p>
+          <p className={styles.desc_text}>{agent.description}</p>
         </div>
         <div className={styles.buttons}>
-          {tags.map((btn, i) => (
+          {agent?.tags.map((btn, i) => (
             <div key={i} className={styles.btn}>
               {btn}
             </div>
           ))}
         </div>
-        <div className={styles['rate-container']}>
+        {/* <div className={styles['rate-container']}>
           <p> Score:</p>
           <div>
             <Rate
@@ -66,7 +60,7 @@ export default function DetailModal({ onOpen, isOpen, setIsOpen }) {
               style={{ fontSize: 30 }}
             />
           </div>
-        </div>
+        </div> */}
       </main>
     </Modal>
   );

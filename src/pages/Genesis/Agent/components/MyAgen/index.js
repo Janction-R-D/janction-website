@@ -28,26 +28,36 @@ export default function MyAgent() {
       console.log(error);
     }
   };
-  // const mappedAgents = list?.map((agent) => ({
-  //   id: agent.id,
-  //   title: agent.name,
-  //   icon: agent.cover,
-  //   tags: agent.tags,
-  //   file_id: agent.knowledge_base_id,
-  //   description: agent.description,
-  // }));
-  const mappedAgents = [];
+  const mappedAgents = list?.map((agent) => ({
+    id: agent.id,
+    title: agent.name,
+    icon: agent.cover,
+    tags: agent.tags,
+    file_id: agent.knowledge_base_id,
+    description: agent.description,
+  }));
+
   return (
     <main>
       <section className={styles['header-container']}>
-        <div>
-          <p className={styles['title__text']}>
-            Apologies, you haven't created your own AI agent yet.
-          </p>
-          <span className={styles['title__desc']}>
-            Simply upload your knowledge base to create your own AI agent.
-          </span>
-        </div>
+        {!mappedAgents.length && (
+          <div>
+            <p className={styles['title__text']}>
+              Apologies, you haven't created your own AI agent yet.
+            </p>
+
+            <span className={styles['title__desc']}>
+              Simply upload your knowledge base to create your own AI agent.
+            </span>
+          </div>
+        )}
+        {!!mappedAgents.length && (
+          <div>
+            <p className={styles['title__text']}>
+              Created Agents ({mappedAgents?.length})
+            </p>
+          </div>
+        )}
         <div>
           <Button
             className={styles['submitButton']}

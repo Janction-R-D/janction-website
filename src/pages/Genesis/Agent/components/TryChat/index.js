@@ -47,7 +47,12 @@ export default function TryChat() {
           Detail
           <i className="iconfont icon-down" />
         </span>
-        <DetailModal onOpen={onOpen} isOpen={isOpen} setIsOpen={setIsOpen} />
+        <DetailModal
+          onOpen={onOpen}
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          agent={agent}
+        />
         <NewInfo
           onOpen={onNewsOpen}
           isOpen={isNewsOpen}
