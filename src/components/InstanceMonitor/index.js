@@ -63,7 +63,7 @@ const InstanceMonitor = ({ instance }) => {
     status: instance?.status_str,
     expired: formatDate(instance?.expired_at),
     created: formatDate(instance?.created_at),
-    Location: instance?.node?.attr.location || '~',
+    Location: instance?.node?.attr?.location || '~',
     gpu_chip: instance?.node?.attr?.cpu_chip,
     cpu_chip: instance?.node?.attr?.cpu,
     MemoryUsage: convertMBtoGB(instance?.activity?.memory_usage?.toFixed(2)),
