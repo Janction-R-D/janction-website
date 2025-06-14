@@ -4,19 +4,21 @@ import { Avatar, Divider } from 'antd';
 import Chat from './components/Chats';
 import DetailModal from './components/Chats/DetailModal';
 import NewInfo from './components/Chats/NewInfo';
-import { useLocation } from 'umi';
+import { history, Redirect, useLocation } from 'umi';
 import { onNavigate } from '../../utils';
-import { mockAgents } from '../../mock';
 
 export default function TryChat() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const [isNewsOpen, setIsNewsOpen] = useState(false);
   const { from, agent } = location.state || {};
+  if (!agent) {
+    return <Redirect to="/genesis/agent" />;
+  }
   const onOpen = () => {
     setIsOpen(true);
   };
-  console.log(agent);
-  const [isNewsOpen, setIsNewsOpen] = useState(false);
+
   const onNewsOpen = () => {
     setIsNewsOpen(true);
   };
@@ -32,7 +34,7 @@ export default function TryChat() {
         </div>
         <Divider type="vertical" className={styles['divider']} />
         <div className={styles['box']}>
-          <Avatar icon={<img src={agent.icon} />} />
+          <Avatar icon={<img src={agent?.icon} />} />
           <div className={styles['icon']} onClick={onNewsOpen}>
             <i className="iconfont icon-menu">&#xe63f;</i>
           </div>

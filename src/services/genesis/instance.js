@@ -411,9 +411,13 @@ export const fetchStatistic = (data) => {
 };
 //get templates
 
-export const fetchTemplates = (params) => {
-  return request(`${baseUrl}/resource/template/list`, {
-    params,
-    loginAuth: true,
-  });
+export const fetchTemplates = async (params) => {
+  try {
+    return await request(`${baseUrl}/resource/template/list`, {
+      params,
+      loginAuth: true,
+    });
+  } catch (error) {
+    return error;
+  }
 };

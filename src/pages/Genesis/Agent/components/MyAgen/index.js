@@ -21,22 +21,22 @@ export default function MyAgent() {
   }, []);
   const getAgents = async () => {
     try {
-      const res = (await fetchAgent()) || [];
-      setList(res);
+      const res = await fetchAgent();
       console.log(res);
+      setList(res || []);
     } catch (error) {
       console.log(error);
     }
   };
-  const mappedAgents = list.map((agent) => ({
-    id: agent.id,
-    title: agent.name,
-    icon: agent.cover,
-    tags: agent.tags,
-    file_id: agent.knowledge_base_id,
-    description: agent.description,
-  }));
-
+  // const mappedAgents = list?.map((agent) => ({
+  //   id: agent.id,
+  //   title: agent.name,
+  //   icon: agent.cover,
+  //   tags: agent.tags,
+  //   file_id: agent.knowledge_base_id,
+  //   description: agent.description,
+  // }));
+  const mappedAgents = [];
   return (
     <main>
       <section className={styles['header-container']}>

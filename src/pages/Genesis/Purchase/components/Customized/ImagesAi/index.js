@@ -33,8 +33,8 @@ const ImagesAi = ({ value, onChange, formValues, current = 5 }) => {
   const obtenerOpciones = async (params) => {
     try {
       setloading(true);
-      const respuesta = (await fetchTemplates(params)) || [];
-      setOpciones(respuesta);
+      const respuesta = await fetchTemplates(params);
+      setOpciones(respuesta || []);
     } catch (error) {
       console.error('Error :', error);
     } finally {

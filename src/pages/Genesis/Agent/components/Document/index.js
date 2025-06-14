@@ -5,6 +5,9 @@ import AgentCard from '../AgentCard/AgentCard';
 export default function Document() {
   return (
     <main className={styles['doc-wrapper']}>
+      <p className={styles['gradient-text']}>
+        AI agents created by the community
+      </p>
       <EmptyCard />
       {/* <p className={styles['gradient-text']}>
         Or explore AI agents created by the community

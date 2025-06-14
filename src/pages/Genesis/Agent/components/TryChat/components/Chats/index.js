@@ -93,6 +93,7 @@ const Chat = ({ agent }) => {
       const botMessage = { text: newMessage, sender: 'bot' };
       setMessages((prev) => prev.filter((m) => !m.waiting));
       allMessages.push(userMessage);
+      if (!newMessage) return;
       allMessages.push(botMessage);
       saveMessagesToStorage(agent.id, allMessages);
       typeMessage(newMessage);
