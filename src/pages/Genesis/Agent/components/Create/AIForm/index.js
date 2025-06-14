@@ -179,14 +179,26 @@ export default function AIForm() {
           autoComplete="off"
         />
       </Form.Item>
-      <Form.Item name="file_description" label="Knowleage description">
+      <Form.Item
+        name="file_description"
+        label="Knowleage description"
+        rules={[
+          { required: true, message: 'Please enter the knowleage description' },
+        ]}
+      >
         <TextArea
           autoSize={{ minRows: 5 }}
           placeholder="Describe the content of the files"
           className={styles.textArea}
         />
       </Form.Item>
-      <Form.Item name="description" label="Description">
+      <Form.Item
+        name="description"
+        label="Description"
+        rules={[
+          { required: true, message: 'Please enter the Agent description' },
+        ]}
+      >
         <TextArea
           autoSize={{ minRows: 5 }}
           placeholder="Describe the functions and purposes of the agent"
