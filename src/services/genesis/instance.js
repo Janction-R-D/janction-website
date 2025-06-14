@@ -421,3 +421,10 @@ export const fetchTemplates = async (params) => {
     return error;
   }
 };
+
+export const fetchSingleResource = (params) => {
+  return request(`${baseUrl}/resource/detail`, {
+    params,
+    loginAuth: true,
+  });
+};

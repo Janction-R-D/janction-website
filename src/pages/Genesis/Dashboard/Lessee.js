@@ -1,12 +1,17 @@
 import { useEffect, useState } from 'react';
 import ResourcesHeader from './components/ResourcesHeader';
 import styles from './index.less';
-import { Button, Divider } from 'antd';
+import { Button, Divider, Skeleton } from 'antd';
 import useLesses from '../Dashboard3/Hooks/useLesses';
 import ModalUpload from './components/UploadCard/ModalUpload';
-import { fetchNodeList, fetchUserConfig } from '@/services/genesis';
+import {
+  fetchNodeList,
+  fetchSingleResource,
+  fetchUserConfig,
+} from '@/services/genesis';
 import QuickCard from '@/components/QuickCard/QuickCard';
 import InstanceMonitor from '@/components/InstanceMonitor';
+import InstanceTable from './components/Table/instanceTable';
 // import InstanceMonitor from './components/InstanceMonitor';
 const cardData = [
   {
@@ -74,6 +79,10 @@ const cardData = [
 export default function Lessee() {
   const [avModalOpen, setAvModaOpen] = useState(false);
   const [summary, setSummary] = useState(null);
+  const [resource, setResource] = useState([]);
+  const [last, setLast] = useState({});
+  const [loading, setLoading] = useState(false);
+
   const [userConf, setUserConf] = useState({});
 
   const { lessesData } = useLesses();
@@ -84,24 +93,36 @@ export default function Lessee() {
   }, []);
   const getUserConfig = async () => {
     try {
+      setLoading(true);
       const res = await fetchUserConfig();
       setUserConf(res);
+      await getLastVisit(res?.last_resource_visited);
       if (!res?.default_avatar_status && res?.pass_newbie_guide) {
         setAvModaOpen(true);
       }
     } catch (err) {
       console.log(err);
+    } finally {
+      setLoading(false);
     }
   };
   const getAllNodes = () => {
     fetchNodeList()
       .then((res) => {
         setSummary(res?.summary || null);
+        setResource(res?.resources || []);
       })
       .catch((err) => console.log(err));
   };
-  const handleOk = () => {
-    setAvModaOpen(true);
+  const getLastVisit = async (id) => {
+    try {
+      const { resource } =
+        (await fetchSingleResource({ resource_id: id })) || {};
+      console.log(resource);
+      setLast(resource || {});
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <main className={styles['dashboard-wrapper']}>
@@ -126,20 +147,29 @@ export default function Lessee() {
         <ResourcesHeader summary={summary} />
       </section>
       <main className={styles['cards-container']}>
-        {userConf?.last_resource_visited && (
+        {loading && (
+          <>
+            <p className={styles['title']}>Last visit</p>
+            <div className={styles['video-col']}>
+              <Skeleton.Avatar className={styles['custom-skeleton-1']} active />
+            </div>
+          </>
+        )}
+
+        {!loading && last && (
           <>
             <p className={styles['title']}>Last visit</p>
             <section className={styles['card-monitor']}>
-              <InstanceMonitor instance={userConf?.last_resource_visited} />
+              <InstanceMonitor instance={last} />
             </section>
           </>
         )}
-        <p className={styles['title']}>Exclusive for New Users</p>
-        <section className={styles['cards']}>
-          {cardData.map((card) => (
-            <QuickCard key={card.id} card={card} />
-          ))}
-        </section>
+        <p className={styles['title']}>Last purchased instances</p>
+        <InstanceTable
+          data={resource}
+          getAllNodes={getAllNodes}
+          loading={loading}
+        />
       </main>
     </main>
   );

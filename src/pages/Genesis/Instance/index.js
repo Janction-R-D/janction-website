@@ -85,94 +85,91 @@ function Instance() {
       {showOverView && (
         <HeaderCard summary={summary} getAllNodes={getAllNodes} />
       )}
-      {resource.length >= 1 ? (
-        <Card className={styles['card-table']}>
-          <Row justify="space-between" style={{ gap: '12px' }} align="middle">
-            <Col
-              span={15}
-              sm={24}
-              xs={24}
-              style={{
-                display: 'flex',
-                gap: '16px',
-                borderBottom: '1px solid #767676',
-                padding: '0px 14px 12px',
-              }}
-            >
-              <Input
-                suffix={
-                  <i
-                    className="iconfont icon-search"
-                    style={{ fontSize: '14px' }}
-                  />
-                }
-                placeholder="You can fuzzy search for cloud servers by ID, name, and IP. Multiple keywords are separated by commas"
-                onChange={(e) => handleSearch(e.target.value)}
-                onPressEnter={(e) => handleSearch(e.target.value)}
-                className={styles['search-input']}
-              />
-              <div className={styles['buttons']}>
-                <Button
-                  className={styles['connect-btn']}
-                  type="primary"
-                  onClick={() => history.push('/genesis/purchase')}
-                >
-                  To Purchase <ShoppingCartOutlined />
-                </Button>
-                <Segmented
-                  vertical
-                  options={[
-                    { value: 'List', icon: <BarsOutlined /> },
-                    { value: 'Kanban', icon: <AppstoreOutlined /> },
-                  ]}
-                  onChange={handleSetView}
-                  style={{ border: '1px solid #ccc' }}
+
+      <Card className={styles['card-table']}>
+        <Row justify="space-between" style={{ gap: '12px' }} align="middle">
+          <Col
+            span={15}
+            sm={24}
+            xs={24}
+            style={{
+              display: 'flex',
+              gap: '16px',
+              borderBottom: '1px solid #767676',
+              padding: '0px 14px 12px',
+            }}
+          >
+            <Input
+              suffix={
+                <i
+                  className="iconfont icon-search"
+                  style={{ fontSize: '14px' }}
                 />
-              </div>
-            </Col>
-          </Row>
-          {view === 'List' && (
-            <section className={styles['instances']}>
-              {!isEmpty(filteredData) && (
-                <>
-                  {paginatedData?.map((instance, index) => (
-                    <InstanceMonitor
-                      key={index}
-                      instance={instance}
-                      getAllNodes={getAllNodes}
-                    />
-                    // <InstanceCard
-                    //   key={index}
-                    //   instance={instance}
-                    //   getAllNodes={getAllNodes}
-                    // />
-                  ))}
-                  <div className={styles['pagination-wrapper']}>
-                    <Pagination
-                      current={currentPage}
-                      pageSize={pageSize}
-                      total={filteredData.length}
-                      onChange={(page, size) => {
-                        setCurrentPage(page);
-                        setPageSize(size);
-                      }}
-                      showLessItems
-                    />
-                  </div>
-                </>
-              )}
-              {isEmpty(filteredData) && (
-                <JactionEmpty description="There are no instances currently, please add an instance." />
-              )}
-            </section>
-          )}
-          {view === 'Kanban' && (
-            <InstanceTable data={filteredData} getAllNodes={getAllNodes} />
-          )}
-        </Card>
-      ) : (
-        <EmptyContent />
-      )}
+              }
+              placeholder="You can fuzzy search for cloud servers by ID, name, and IP. Multiple keywords are separated by commas"
+              onChange={(e) => handleSearch(e.target.value)}
+              onPressEnter={(e) => handleSearch(e.target.value)}
+              className={styles['search-input']}
+            />
+            <div className={styles['buttons']}>
+              <Button
+                className={styles['connect-btn']}
+                type="primary"
+                onClick={() => history.push('/genesis/purchase')}
+              >
+                To Purchase <ShoppingCartOutlined />
+              </Button>
+              <Segmented
+                vertical
+                options={[
+                  { value: 'List', icon: <BarsOutlined /> },
+                  { value: 'Kanban', icon: <AppstoreOutlined /> },
+                ]}
+                onChange={handleSetView}
+                style={{ border: '1px solid #ccc' }}
+              />
+            </div>
+          </Col>
+        </Row>
+        {view === 'List' && (
+          <section className={styles['instances']}>
+            {!isEmpty(filteredData) && (
+              <>
+                {paginatedData?.map((instance, index) => (
+                  <InstanceMonitor
+                    key={index}
+                    instance={instance}
+                    getAllNodes={getAllNodes}
+                  />
+                  // <InstanceCard
+                  //   key={index}
+                  //   instance={instance}
+                  //   getAllNodes={getAllNodes}
+                  // />
+                ))}
+                <div className={styles['pagination-wrapper']}>
+                  <Pagination
+                    current={currentPage}
+                    pageSize={pageSize}
+                    total={filteredData.length}
+                    onChange={(page, size) => {
+                      setCurrentPage(page);
+                      setPageSize(size);
+                    }}
+                    showLessItems
+                  />
+                </div>
+              </>
+            )}
+            {isEmpty(filteredData) && (
+              <JactionEmpty description="There are no instances currently, please add an instance." />
+            )}
+          </section>
+        )}
+        {view === 'Kanban' && (
+          <InstanceTable data={filteredData} getAllNodes={getAllNodes} />
+        )}
+      </Card>
     </>
   );
 }

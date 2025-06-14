@@ -9,20 +9,18 @@ const Graph = () => {
       backgroundColor: 'transparent',
     });
 
+    // Datos reales con fechas y valores
+    const data = [
+      // { date: 'april 12', value: 10 },
+      // { date: 'april 13', value: 25 },
+    ];
+
     const options = {
       xAxis: {
         type: 'category',
-        data: [
-          'April 1st',
-          'April 2nd',
-          'April 3rd',
-          'April 4th',
-          'April 5th',
-          'April 6th',
-          'April 7th',
-        ],
+        data: data.map((item) => item.date),
         axisLine: {
-          show: false,
+          show: true,
           lineStyle: { color: 'rgba(255, 255, 255, 0.3)' },
         },
         axisTick: { show: false },
@@ -31,7 +29,7 @@ const Graph = () => {
       yAxis: {
         type: 'value',
         axisLine: {
-          show: false,
+          show: true,
           lineStyle: { color: 'rgba(255, 255, 255, 0.2)' },
         },
         axisTick: { show: false },
@@ -45,21 +43,35 @@ const Graph = () => {
           verticalAlign: 'bottom',
         },
       },
-      series: [
-        {
-          data: [0, 100, 800, 1400, 1100, 880, 1100, 1200],
-          type: 'line',
-          smooth: true,
-          lineStyle: { color: '#fff' },
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              { offset: 0, color: 'rgba(255, 255, 255, 0.3)' },
-              { offset: 1, color: 'rgba(255, 255, 255, 0)' },
-            ]),
-          },
-          symbol: 'none', // Elimina los puntos sobre la línea
-        },
-      ],
+      series: data.length
+        ? [
+            {
+              data: data.map((item) => item.value),
+              type: 'line',
+              smooth: true,
+              lineStyle: { color: '#fff' },
+              areaStyle: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  { offset: 0, color: 'rgba(255, 255, 255, 0.3)' },
+                  { offset: 1, color: 'rgba(255, 255, 255, 0)' },
+                ]),
+              },
+              symbol: 'none',
+            },
+          ]
+        : [],
+      graphic: !data.length
+        ? {
+            type: 'text',
+            left: 'center',
+            top: 'middle',
+            style: {
+              text: 'No data',
+              fill: '#aaa',
+              font: '16px sans-serif',
+            },
+          }
+        : undefined,
       grid: {
         left: '0%',
         right: '0%',
@@ -72,16 +84,12 @@ const Graph = () => {
 
     chartInstance.setOption(options);
 
-    // Función para redimensionar el gráfico al cambiar el tamaño del contenedor
     const resizeChart = () => {
       chartInstance.resize();
     };
-
-    // Agregar event listener para redimensionar el gráfico cuando el tamaño del contenedor cambia
     window.addEventListener('resize', resizeChart);
 
     return () => {
-      // Limpiar el event listener cuando el componente se desmonte
       window.removeEventListener('resize', resizeChart);
       chartInstance.dispose();
     };

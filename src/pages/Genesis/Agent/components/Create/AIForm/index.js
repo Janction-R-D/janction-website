@@ -53,14 +53,14 @@ export default function AIForm() {
       const { id: knowleageId } = req || {};
       console.log('knowleageId', knowleageId);
       if (!knowleageId) {
-        throw new Error('Something went wrong');
+        throw new Error('Something went wrong creating knowleage info ');
       }
       //then upload image
       const realFile = values.cover?.originFileObj || values.cover;
       const uploadImg = (await fetchUploadImg(realFile)) || {};
       console.log('uploadImg', uploadImg);
       if (!uploadImg) {
-        throw new Error('Something went wrong');
+        throw new Error('Something went wrong uploading Agent Image');
       }
       //then upload base file knowloage
       const knowleageFiles = values.files[0].originFileObj;
@@ -151,7 +151,11 @@ export default function AIForm() {
         label="Name"
         rules={[{ required: true, message: 'Please enter a name' }]}
       >
-        <Input placeholder="Enter a name" className={styles.input} />
+        <Input
+          placeholder="Enter a name"
+          className={styles.input}
+          autoComplete="off"
+        />
       </Form.Item>
       <Form.Item name="tags" label="Tags">
         <TagsInputGroup />
@@ -163,7 +167,11 @@ export default function AIForm() {
         label="Knowleage Filename"
         rules={[{ required: true, message: 'Please enter a name' }]}
       >
-        <Input placeholder="Enter a filename" className={styles.input} />
+        <Input
+          placeholder="Enter a filename"
+          className={styles.input}
+          autoComplete="off"
+        />
       </Form.Item>
       <Form.Item name="file_description" label="Knowleage description">
         <TextArea

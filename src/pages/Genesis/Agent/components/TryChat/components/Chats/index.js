@@ -45,7 +45,9 @@ function saveMessagesToStorage(agentId, newMessages) {
     console.error('Error saving messages:', e);
   }
 }
-
+function chineseChar(sms) {
+  return /[\u4E00-\u9FFF]/.test(sms);
+}
 const Chat = ({ agent }) => {
   const [isTyping, setIsTyping] = useState(false);
   const [input, setInput] = useState('');
@@ -151,7 +153,11 @@ const Chat = ({ agent }) => {
               <div
                 className={`${styles.message} ${
                   msg.sender === 'user' ? styles.end : styles.start
-                } ${msg.typing ? styles.typing : ''}`}
+                } ${msg.typing ? styles.typing : ''} ${
+                  msg.text && chineseChar(msg.text) && msg.sender !== 'user'
+                    ? styles.chinese
+                    : ''
+                }`}
               >
                 {msg.text?.split('\n').map((line, i) => (
                   <div key={i} className={styles.sms}>

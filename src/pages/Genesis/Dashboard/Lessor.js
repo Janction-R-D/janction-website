@@ -53,6 +53,7 @@ export default function Lessor() {
       setLoading(false);
     }
   };
+
   const sales_by_rep = useMemo(() => {
     const maxPrice = (lessorsData?.sales_by_rep || []).reduce(
       (max, item) => (item.price > max ? item.price : max),

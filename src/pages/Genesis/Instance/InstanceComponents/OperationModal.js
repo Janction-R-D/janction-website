@@ -29,6 +29,7 @@ export default function OperationModal({ record, getAllNodes }) {
     setSelectLoading(true);
 
     try {
+      await PostResourceTunnel({ resource_id: record?.id });
       const res =
         (await fetchResourceTunnel({ resource_id: record?.id })) || [];
       setOptions(res.routes || []);
@@ -79,8 +80,7 @@ export default function OperationModal({ record, getAllNodes }) {
           duration: 0,
         });
         //llamar a user config
-        await PostResourceTunnel({ resource_id: record?.id });
-        await updateUserConfig({ last_resource_visited: record });
+        await updateUserConfig({ last_resource_visited: record?.id });
         window.open(selected.url, '_blank');
       }
       setSelectValue(value);

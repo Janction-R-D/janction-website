@@ -1,43 +1,13 @@
 import JanctionTable from '@/components/JanctionTable';
-import { message, Space, Table } from 'antd';
-import { useState } from 'react';
-import { fetchNodeOperation } from '@/services/genesis/instance';
+import { Table } from 'antd';
+
 import styles from './index.less';
-import OperationModal from './InstanceComponents/OperationModal';
-import { convertMBtoGB } from '../Dashboard3/Lessor';
+
 import { history } from 'umi';
 import { formatISODate } from '@/utils/datetime';
-import { convertKB, empty } from '@/utils/lang';
-function InstanceTable({ data, getAllNodes }) {
-  const [showOverView, setShowOverView] = useState(true);
-
-  const [error, setError] = useState(false);
-  const [success, setSuccess] = useState(false);
-
-  const handleOperation = (operation, resource, id) => {
-    const payload = JSON.stringify({
-      resource_id: resource,
-      operation,
-      id,
-    });
-    fetchNodeOperation(payload)
-      .then((res) => {
-        getAllNodes();
-        setSuccess(true);
-      })
-      .catch((err) => {
-        setError(true);
-        console.log('💥 Error capturado:', err);
-      })
-      .finally(() => {
-        setTimeout(() => {
-          setError(false);
-          setSuccess(false);
-        }, 5000);
-
-        // window.location.reload();
-      });
-  };
+import { convertMBtoGB, empty } from '@/utils/lang';
+import { RedoOutlined } from '@ant-design/icons';
+function InstanceTable({ data, getAllNodes, loading }) {
   const columns = [
     {
       title: <div className="name">Instance ID / Name</div>,
@@ -129,56 +99,26 @@ function InstanceTable({ data, getAllNodes }) {
         <div style={{ whiteSpace: 'pre' }}>{record.downtime}</div>
       ),
     },
-
-    {
-      title: <div className="operation">Operation</div>,
-      key: 'action',
-      width: 'auto',
-      fixed: 'right',
-      render: (error, record) => {
-        return (
-          <Space
-            size="middle"
-            style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}
-          >
-            {/* <a
-              className={`${'operation-action'}  ${
-                record.status?.toLowerCase() === 'stopped' ||
-                record.status?.toLowerCase() === 'expired'
-                  ? 'recent-status'
-                  : ''
-              }`}
-              onClick={() =>
-                handleOperation('stop', record?.id, record?.node?.id)
-              }
-            >
-              <p>Stop</p>
-            </a>
-            <a
-              className={`${'operation-action'}  ${
-                record.status?.toLowerCase() === 'running' ||
-                record.status?.toLowerCase() === 'expired'
-                  ? 'recent-status'
-                  : ''
-              }`}
-              onClick={() =>
-                handleOperation('start', record?.id, record?.node?.id)
-              }
-            >
-              <p>Start</p>
-            </a> */}
-
-            <OperationModal
-              record={record}
-              styles={styles}
-              getAllNodes={getAllNodes}
-            />
-          </Space>
-        );
-      },
-    },
+    // {
+    //   title: 'Operation',
+    //   key: 'operation',
+    //   dataIndex: 'operation',
+    //   ellipsis: 'true',
+    //   render: (_, record) => (
+    //     <div style={{ whiteSpace: 'pre' }}>
+    //       Refresh{' '}
+    //       <RedoOutlined
+    //         rotate={90}
+    //         spin={loading}
+    //         loading={loading}
+    //         className={styles['icon-orange']}
+    //         onClick={getAllNodes}
+    //       />
+    //     </div>
+    //   ),
+    // },
   ];
-  const mappedOrders = data?.map((order) => ({
+  const mappedOrders = data?.slice(0, 5).map((order) => ({
     ...order,
     key: order?.id,
     Cores: order?.node?.attr.cpu || '--',
@@ -191,12 +131,6 @@ function InstanceTable({ data, getAllNodes }) {
     )}`,
   }));
 
-  const handleModal = () => {
-    setShowOverView(!showOverView);
-  };
-  const classname = showOverView
-    ? 'iconfont icon-eye-close'
-    : 'iconfont icon-eye';
   return (
     <>
       <Table
@@ -212,11 +146,7 @@ function InstanceTable({ data, getAllNodes }) {
             .
           </p>
         }
-        pagination={{
-          pageSize: 5,
-          position: ['bottomCenter'],
-        }}
-        scroll={{ x: 'auto' }}
+        pagination={false}
       />
     </>
   );

@@ -6,7 +6,6 @@ import { useId } from 'react';
 import { formatISODate } from '@/utils/datetime';
 
 export default function OrderModal({ handleCancel, isModalOpen, data }) {
-  console.log(data);
   return (
     <Modal
       open={isModalOpen}

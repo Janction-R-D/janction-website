@@ -25,7 +25,7 @@ function Orders() {
       .then((res) => {
         const { data } = res || {};
         if (Array.isArray(data)) {
-          setOrders(data);
+          setOrders([...data].reverse());
         }
         if (Array.isArray(data)) {
           setFilteredData(data);
