@@ -14,6 +14,7 @@ import { ARITHMETIC_SITUATION, convertMBtoGB } from './data';
 import NTFcard from './components/NTFcard';
 import VideoGrid from './components/VideoGrid';
 import SkeletonGrid from './components/SkeletonGrid';
+import GenerateButton from './components/GenerateButton';
 
 export default function Lessor() {
   const [isOpen, setIsOpen] = useState(false);
@@ -138,15 +139,7 @@ export default function Lessor() {
             </span>
           </Button>
           <Guide isOpen={isOpen} setIsOpen={setIsOpen} onOpen={onOpen} />
-          <Button
-            className={styles['button']}
-            onClick={() => history.push('/genesis/deployNode')}
-          >
-            Generate Token ID{' '}
-            <span className={styles.icon_rotate}>
-              <ArrowUpOutlined />
-            </span>
-          </Button>
+          <GenerateButton />
         </section>
       </section>
       <section className={styles['container']}>
@@ -174,12 +167,7 @@ export default function Lessor() {
                       setIsOpen={setIsOpen}
                       onOpen={onOpen}
                     />
-                    <Button className={styles['button']}>
-                      Generate Token ID{' '}
-                      <span className={styles.icon_rotate}>
-                        <ArrowUpOutlined />
-                      </span>
-                    </Button>
+                    <GenerateButton />
                   </section>
                 </>
               )}

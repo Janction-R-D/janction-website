@@ -12,6 +12,8 @@ import {
 import QuickCard from '@/components/QuickCard/QuickCard';
 import InstanceMonitor from '@/components/InstanceMonitor';
 import InstanceTable from './components/Table/instanceTable';
+import { empty } from '@/utils/lang';
+import { isEmpty } from 'lodash';
 // import InstanceMonitor from './components/InstanceMonitor';
 const cardData = [
   {
@@ -96,7 +98,9 @@ export default function Lessee() {
       setLoading(true);
       const res = await fetchUserConfig();
       setUserConf(res);
-      await getLastVisit(res?.last_resource_visited);
+      if (res?.last_resource_visited) {
+        await getLastVisit(res?.last_resource_visited);
+      }
       if (!res?.default_avatar_status && res?.pass_newbie_guide) {
         setAvModaOpen(true);
       }
@@ -124,6 +128,7 @@ export default function Lessee() {
       console.log(error);
     }
   };
+
   return (
     <main className={styles['dashboard-wrapper']}>
       {/* <ModalUpload
@@ -156,7 +161,7 @@ export default function Lessee() {
           </>
         )}
 
-        {!loading && last && (
+        {!loading && !isEmpty(last) && (
           <>
             <p className={styles['title']}>Last visit</p>
             <section className={styles['card-monitor']}>

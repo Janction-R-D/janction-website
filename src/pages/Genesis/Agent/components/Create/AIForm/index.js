@@ -53,7 +53,9 @@ export default function AIForm() {
       const { id: knowleageId } = req || {};
       console.log('knowleageId', knowleageId);
       if (!knowleageId) {
-        throw new Error('Something went wrong creating knowleage info ');
+        throw new Error(
+          'Something went wrong creating knowleage info, maybe id already exist',
+        );
       }
       //then upload image
       const realFile = values.cover?.originFileObj || values.cover;
@@ -98,7 +100,11 @@ export default function AIForm() {
       onFinish={handleSubmit}
       className={styles.wrapper}
     >
-      <Form.Item name="cover" label="Cover">
+      <Form.Item
+        name="cover"
+        label="Cover"
+        rules={[{ required: true, message: 'Please upload the Agent Picture' }]}
+      >
         <Upload
           showUploadList={false}
           beforeUpload={(file) => {
