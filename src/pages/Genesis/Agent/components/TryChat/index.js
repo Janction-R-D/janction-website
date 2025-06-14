@@ -35,11 +35,14 @@ export default function TryChat() {
         <Divider type="vertical" className={styles['divider']} />
         <div className={styles['box']}>
           <Avatar icon={<img src={agent?.icon} />} />
-          <div className={styles['icon']} onClick={onNewsOpen}>
+          <div
+            className={styles['icon']}
+            // onClick={onNewsOpen}
+          >
             <i className="iconfont icon-menu">&#xe63f;</i>
           </div>
           <div>
-            <span className={styles['title']}>FinChat AI</span>
+            <span className={styles['title']}>{agent.title}</span>
             <span className={styles['title-sm']}>New Chat</span>
           </div>{' '}
         </div>
