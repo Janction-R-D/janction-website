@@ -16,6 +16,7 @@ import {
   fetchUploadFiles,
   fetchUploadImg,
 } from '@/services/genesis/agents';
+import { history } from 'umi';
 
 export default function AIForm() {
   const [avatarUrl, setAvatarUrl] = React.useState(null);
@@ -48,17 +49,18 @@ export default function AIForm() {
       name: values.filename,
       description: values.file_description,
     };
-    const uploadParams = {};
+
     console.log(params);
     console.log('values : ', values);
     setLoading(1);
     try {
       const realFile = values.cover?.originFileObj || values.cover;
-      const { data: uploadImg } = (await fetchUploadImg(realFile)) || {};
+      const uploadImg = (await fetchUploadImg(realFile)) || {};
       const { id: knowleageId } = (await fetchBaseRoutes(params)) || {};
       if (!knowleageId) return;
       console.log('📝 Form values:', values);
       const knowleageFiles = values.files[0].originFileObj;
+
       await fetchUploadFiles(knowleageId, knowleageFiles);
 
       const createParams = {
@@ -68,13 +70,14 @@ export default function AIForm() {
         tags: values.tags,
         knowledge_base_id: knowleageId,
       };
+      console.log(createParams);
       const createAgent = await fetchCreateAgent(createParams);
       console.log(createAgent);
-      message.info('Agent Created Successfully');
+      message.success('Agent Created Successfully');
       setLoading(2);
       setTimeout(() => {
-        setLoading(0);
-      }, 10000);
+        history.push('/genesis/agent');
+      }, 2000);
     } catch (err) {
       console.error('❌ Error al enviar:', err);
       message.error('Error submitting form');

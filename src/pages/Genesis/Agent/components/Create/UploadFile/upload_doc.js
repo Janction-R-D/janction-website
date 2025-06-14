@@ -6,8 +6,10 @@ import {
   FileImageOutlined,
   FileOutlined,
   FilePdfOutlined,
+  FileTextOutlined,
   FileWordOutlined,
 } from '@ant-design/icons';
+import { message } from 'antd';
 import styles from './index.less';
 
 const getFileIcon = (fileName) => {
@@ -23,6 +25,9 @@ const getFileIcon = (fileName) => {
     case 'doc':
     case 'docx':
       return <FileWordOutlined />;
+    case 'text':
+    case 'txt':
+      return <FileTextOutlined />;
     case 'xls':
     case 'xlsx':
       return <FileExcelOutlined />;
@@ -44,7 +49,29 @@ const UploadDoc = ({ value = [], onChange }) => {
   };
 
   const handleChange = (e) => {
-    const newFiles = Array.from(e.target.files).map((file, index) => {
+    const MAX_SIZE = 1024 * 1024 * 10; // 10MB en bytes
+    const files = Array.from(e.target.files);
+
+    const validFiles = [];
+    const oversizedFiles = [];
+
+    files.forEach((file) => {
+      if (file.size <= MAX_SIZE) {
+        validFiles.push(file);
+      } else {
+        oversizedFiles.push(file.name);
+      }
+    });
+
+    if (oversizedFiles.length) {
+      message.error(
+        `Los siguientes archivos exceden el tamaño máximo de 1MB: ${oversizedFiles.join(
+          ', ',
+        )}`,
+      );
+    }
+
+    const newFiles = validFiles.map((file, index) => {
       const fileName = file.name;
       const extMatch = fileName.match(/(\.[^.]+)$/);
       const extension = extMatch ? extMatch[1] : '';
@@ -70,6 +97,33 @@ const UploadDoc = ({ value = [], onChange }) => {
     e.target.value = '';
   };
 
+  // const handleChange = (e) => {
+  //   const newFiles = Array.from(e.target.files).map((file, index) => {
+  //     const fileName = file.name;
+  //     const extMatch = fileName.match(/(\.[^.]+)$/);
+  //     const extension = extMatch ? extMatch[1] : '';
+  //     const nameNoExt = fileName.replace(extension, '');
+
+  //     let displayName = fileName;
+  //     if (nameNoExt.length >= 20) {
+  //       const first = nameNoExt.slice(0, 15);
+  //       const last = nameNoExt.slice(-5);
+  //       displayName = `${first}...${last}${extension}`;
+  //     }
+
+  //     return {
+  //       uid: `${Date.now()}-${index}`,
+  //       name: displayName,
+  //       status: 'done',
+  //       originFileObj: file,
+  //     };
+  //   });
+
+  //   const allFiles = [...value, ...newFiles];
+  //   onChange?.(allFiles);
+  //   e.target.value = '';
+  // };
+
   return (
     <div className={styles.uploadDoc}>
       <input
@@ -77,7 +131,7 @@ const UploadDoc = ({ value = [], onChange }) => {
         className={styles.hiddenUpload}
         type="file"
         multiple
-        accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg,.gif"
+        accept=".pdf,.doc,.docx,.txt"
         onChange={handleChange}
       />
 

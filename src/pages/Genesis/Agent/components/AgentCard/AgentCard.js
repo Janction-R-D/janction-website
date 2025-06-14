@@ -1,7 +1,15 @@
 import styles from './index.less';
 import { onNavigate } from '../../utils';
 
-export default function AgentCard({ title, icon, tags, path, id }) {
+export default function AgentCard({
+  title,
+  icon,
+  tags,
+  path,
+  id,
+  description,
+}) {
+  const agent = { title, icon, tags, id, description };
   return (
     <div className={styles.card}>
       <img className={styles.image} src={icon} alt="FinChat AI" />
@@ -12,7 +20,7 @@ export default function AgentCard({ title, icon, tags, path, id }) {
           </div>
           <div
             className={styles.try}
-            onClick={() => onNavigate(path, location.pathname, id)}
+            onClick={() => onNavigate(path, location.pathname, agent)}
           >
             Chat
             <span className={styles.icon}>

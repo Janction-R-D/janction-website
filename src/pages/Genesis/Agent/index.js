@@ -14,9 +14,9 @@ export default function Agent() {
   const { isLessee } = initialState || {};
   const nav = [
     { name: 'My AI Agent', path: '/genesis/agent', label: 'agent' },
-    { name: 'Repo', path: '/genesis/agent/my_repo', label: 'repo' },
+    // { name: 'Repo', path: '/genesis/agent/my_repo', label: 'repo' },
     { name: 'Document', path: '/genesis/agent/my_document', label: 'doc' },
-    { name: 'About', path: '/genesis/agent/about_ai', label: 'about' },
+    // { name: 'About', path: '/genesis/agent/about_ai', label: 'about' },
   ];
   if (!isLessee) return <Redirect to="/genesis/dashboard"></Redirect>;
   return (
@@ -44,9 +44,9 @@ export default function Agent() {
       </section>
       <main className={styles['container']}>
         {currNav === 'agent' && <MyAgent />}
-        {currNav === 'repo' && <Repo />}
+        {/* {currNav === 'repo' && <Repo />} */}
         {currNav === 'doc' && <Document />}
-        {currNav === 'about' && <About />}
+        {/* {currNav === 'about' && <About />} */}
       </main>
     </main>
   );

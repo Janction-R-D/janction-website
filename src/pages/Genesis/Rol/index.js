@@ -8,7 +8,8 @@ import { useLocation, useModel } from 'umi';
 const cards = [
   {
     title: 'Lessor',
-    name: 'Find Nodes to Rent',
+
+    name: 'Rent Out Your Node',
     description: 'Your Personal Speed Minning Node',
     isLessee: false,
     img: lessorImg,
@@ -16,7 +17,7 @@ const cards = [
   },
   {
     title: 'Lessee',
-    name: 'Rent Out Your Node',
+    name: 'Find Nodes to Rent',
     description: 'Your Personal Speed Minning Node',
     isLessee: true,
     img: lesseeImg,

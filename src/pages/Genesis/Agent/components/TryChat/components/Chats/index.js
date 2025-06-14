@@ -1,42 +1,132 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './index.less';
-import { Button, Divider, Input } from 'antd';
-import imgAi from '@/assets/images/genesis/agent/agent_1.png';
-import PurchaseCard from './PurchaseCard';
+import { Button, Input } from 'antd';
 import { fetchChat } from '@/services/genesis/agents';
+import storage from '@/utils/storage';
+const STORAGE_KEY = 'web3_chat_messages';
+function extractDataLines(rawText) {
+  return rawText
+    .split('\n')
+    .filter((line) => line.startsWith('data:'))
+    .map((line) => line.replace('data:', '').trim())
+    .join(' ');
+}
 
-const Chat = ({ id }) => {
-  const [messages, setMessages] = useState([
-    {
-      text: `Hello, I am your exclusive web3 knowledge base\n1. Can you ask me what web3 is?\n2. What can web3 do?\n3. How to quickly understand web3?`,
-      sender: 'bot',
-    },
-  ]);
+function loadMessagesFromStorage(agentId) {
+  try {
+    const saved = storage.get(STORAGE_KEY);
+    if (!saved) return [];
 
+    const allChats = Array.isArray(saved) ? saved : [];
+    const found = allChats.find((chat) => chat.agent_id === agentId);
+    return found?.messages || [];
+  } catch (error) {
+    console.error('Error parsing stored messages:', error);
+    return [];
+  }
+}
+
+function saveMessagesToStorage(agentId, newMessages) {
+  try {
+    const saved = storage.get(STORAGE_KEY);
+    const allChats = Array.isArray(saved) ? saved : [];
+
+    const updated = allChats.filter((chat) => chat.agent_id !== agentId);
+    updated.push({
+      agent_id: agentId,
+      messages: newMessages,
+    });
+
+    storage.set({
+      name: STORAGE_KEY,
+      value: updated,
+    });
+  } catch (e) {
+    console.error('Error saving messages:', e);
+  }
+}
+
+const Chat = ({ agent }) => {
+  const [isTyping, setIsTyping] = useState(false);
   const [input, setInput] = useState('');
-  const [isOpen, setIsOpen] = useState(false);
-  const onOpen = () => {
-    setIsOpen(true);
-  };
+  const [loading, setLoading] = useState(false);
+  const messagesEndRef = useRef(null);
+
+  const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+  useEffect(() => {
+    const savedMessages = loadMessagesFromStorage(agent.id);
+
+    if (savedMessages?.length === 0) {
+      setMessages([
+        {
+          text: `Hello, I am your exclusive web3 knowledge base\n1. How can I help you?`,
+          sender: 'bot',
+        },
+      ]);
+    } else {
+      setMessages(savedMessages);
+    }
+  }, []);
+
   const sendMessage = async () => {
     const trimmed = input.trim();
-
+    if (isTyping || loading) return;
     if (!trimmed) return;
-
-    const userMessage = { text: trimmed, sender: 'user' };
-    setMessages((prev) => [...prev, userMessage]);
-    const payload = { message: trimmed };
-    const sendSms = await fetchChat(id, payload);
-    console.log(sendSms);
     setInput('');
+    const allMessages = [...messages];
+    try {
+      setLoading(true);
+      const userMessage = { text: trimmed, sender: 'user' };
+      setMessages((prev) => [
+        ...prev,
+        userMessage,
+        { sender: 'bot', waiting: true },
+      ]);
 
-    // setTimeout(() => {
-    //   const botResponse = {
-    //     text: `You said: "${trimmed}"`,
-    //     sender: 'bot',
-    //   };
-    //   setMessages((prev) => [...prev, botResponse]);
-    // }, 800);
+      const payload = { message: trimmed };
+      const sendSms = await fetchChat(agent.id, payload);
+      const newMessage = extractDataLines(sendSms);
+      const botMessage = { text: newMessage, sender: 'bot' };
+      setMessages((prev) => prev.filter((m) => !m.waiting));
+      allMessages.push(userMessage);
+      allMessages.push(botMessage);
+      saveMessagesToStorage(agent.id, allMessages);
+      typeMessage(newMessage);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const typeMessage = (text) => {
+    setIsTyping(true);
+    let i = 0;
+    let currentText = '';
+    const interval = setInterval(() => {
+      currentText += text[i];
+      i++;
+      if (i === text.length) {
+        clearInterval(interval);
+        setMessages((prev) => {
+          const withoutTyping = prev.filter((m) => !m.typing);
+          return [...withoutTyping, { text, sender: 'bot' }];
+        });
+        setIsTyping(false);
+      } else {
+        setMessages((prev) => {
+          const withoutTyping = prev.filter((m) => !m.typing);
+          return [
+            ...withoutTyping,
+            { text: currentText, sender: 'bot', typing: true },
+          ];
+        });
+      }
+    }, 10);
   };
 
   return (
@@ -49,29 +139,36 @@ const Chat = ({ id }) => {
               msg.sender === 'user' ? styles.end : styles.start
             }`}
           >
-            {msg.sender === 'bot' && (
-              <img className={styles.avatar} src={imgAi} alt="ai" />
+            {msg.sender === 'bot' && !msg.waiting && (
+              <img className={styles.avatar} src={agent.icon} alt="ai" />
             )}
-            <div
-              className={`${styles.message} ${
-                msg.sender === 'user' ? styles.end : styles.start
-              }`}
-            >
-              {msg.text.split('\n').map((line, i) => (
-                <div key={i} className={styles.sms}>
-                  <div>{line}</div>
-                </div>
-              ))}
-            </div>
+            {msg.waiting ? (
+              <div className={` ${styles.start}`}>
+                <div className={styles.pulseDot}></div>
+              </div>
+            ) : (
+              <div
+                className={`${styles.message} ${
+                  msg.sender === 'user' ? styles.end : styles.start
+                } ${msg.typing ? styles.typing : ''}`}
+              >
+                {msg.text?.split('\n').map((line, i) => (
+                  <div key={i} className={styles.sms}>
+                    <div>{line}</div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         ))}
+        <div ref={messagesEndRef} />
       </div>
 
       <div className={styles['input-bar']}>
         <Input
           className={styles['input-box']}
           type="text"
-          placeholder={'Send a message to FinChjat AI'}
+          placeholder={'Send a message to FinChat AI'}
           value={input}
           onPressEnter={sendMessage}
           onChange={(e) => setInput(e.target.value)}
@@ -82,7 +179,6 @@ const Chat = ({ id }) => {
           }
         />
       </div>
-      {/* <PurchaseCard onOpen={onOpen} isOpen={isOpen} setIsOpen={setIsOpen} /> */}
     </main>
   );
 };

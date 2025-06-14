@@ -129,7 +129,44 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  margin-top: 35px;
+  margin-top: 20px;
   margin-right: 8px;
   object-fit: cover;
+}
+.typing {
+  font-style: italic;
+  color: #999;
+}
+
+.typingBubble {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  padding: 8px 12px;
+  background: #f0f0f0;
+  border-radius: 16px;
+  width: fit-content;
+}
+.pulseDot {
+  width: 10px;
+  height: 10px;
+  background-color: #1890ff;
+  border-radius: 50%;
+  animation: pulse 1.2s infinite ease-in-out;
+  margin: 8px auto;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.9);
+    opacity: 0.7;
+  }
 }

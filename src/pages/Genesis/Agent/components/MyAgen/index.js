@@ -6,6 +6,7 @@ import { onNavigate } from '../../utils';
 import { ArrowUpOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import { fetchAgent } from '@/services/genesis/agents';
+import EmptyCard from './EmptyCard';
 // import IconmeModal from '../IncomeModal';
 // import PurchaseModal from '../PurchaseModal';
 
@@ -27,6 +28,14 @@ export default function MyAgent() {
       console.log(error);
     }
   };
+  const mappedAgents = list.map((agent) => ({
+    id: agent.id,
+    title: agent.name,
+    icon: agent.cover,
+    tags: agent.tags,
+    file_id: agent.knowledge_base_id,
+    description: agent.description,
+  }));
 
   return (
     <main>
@@ -52,28 +61,24 @@ export default function MyAgent() {
         </div>
       </section>
       <main className={styles['content']}>
-        <Card className={styles['agents']}>
-          <header className={styles['head']}>
-            <i className="iconfont icon-next_page" /> Or explore AI agents
-            created by the community
-          </header>
-          <div className={styles['agent-cards']}>
-            {list.map((agent) => (
-              <AgentCard
-                key={agent.id}
-                {...agent}
-                path={'/genesis/agent/try_chat'}
-              />
-            ))}
-            {mockAgents.map((agent) => (
-              <AgentCard
-                key={agent.id}
-                {...agent}
-                path={'/genesis/agent/try_chat'}
-              />
-            ))}
-          </div>
-        </Card>
+        {!!mappedAgents.length && (
+          <Card className={styles['agents']}>
+            <header className={styles['head']}>
+              <i className="iconfont icon-next_page" /> Or explore AI agents
+              created by the community
+            </header>
+            <div className={styles['agent-cards']}>
+              {mappedAgents.map((agent) => (
+                <AgentCard
+                  key={agent.id}
+                  {...agent}
+                  path={'/genesis/agent/try_chat'}
+                />
+              ))}
+            </div>
+          </Card>
+        )}
+        {!mappedAgents.length && <EmptyCard />}
       </main>
       {/* <PurchaseModal onOpen={onOk} setIsOpen={setOpen} isOpen={open} /> */}
     </main>

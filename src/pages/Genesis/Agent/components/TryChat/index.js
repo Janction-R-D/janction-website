@@ -11,11 +11,11 @@ import { mockAgents } from '../../mock';
 export default function TryChat() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-  const { from, id } = location.state || {};
+  const { from, agent } = location.state || {};
   const onOpen = () => {
     setIsOpen(true);
   };
-
+  console.log(agent);
   const [isNewsOpen, setIsNewsOpen] = useState(false);
   const onNewsOpen = () => {
     setIsNewsOpen(true);
@@ -32,7 +32,7 @@ export default function TryChat() {
         </div>
         <Divider type="vertical" className={styles['divider']} />
         <div className={styles['box']}>
-          <Avatar icon={<img src={mockAgents[1]?.icon} />} />
+          <Avatar icon={<img src={agent.icon} />} />
           <div className={styles['icon']} onClick={onNewsOpen}>
             <i className="iconfont icon-menu">&#xe63f;</i>
           </div>
@@ -52,7 +52,7 @@ export default function TryChat() {
           setIsOpen={setIsNewsOpen}
         />
       </header>
-      <Chat id={id} />
+      <Chat agent={agent} />
     </main>
   );
 }
