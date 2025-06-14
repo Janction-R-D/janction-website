@@ -38,12 +38,6 @@ export default function AIForm() {
     form.setFieldsValue({ cover: null });
   };
 
-  // const handleDeleteAvatar = (e) => {
-  //   e.stopPropagation();
-  //   setAvatarUrl(null);
-  //   form.setFieldsValue({ cover: null });
-  // };
-
   const handleSubmit = async (values) => {
     const params = {
       name: values.filename,
@@ -54,15 +48,27 @@ export default function AIForm() {
     console.log('values : ', values);
     setLoading(1);
     try {
+      //first create a base file route
+      const req = await fetchBaseRoutes(params);
+      const { id: knowleageId } = req || {};
+      console.log('knowleageId', knowleageId);
+      if (!knowleageId) {
+        throw new Error('Something went wrong');
+      }
+      //then upload image
       const realFile = values.cover?.originFileObj || values.cover;
       const uploadImg = (await fetchUploadImg(realFile)) || {};
-      const { id: knowleageId } = (await fetchBaseRoutes(params)) || {};
-      if (!knowleageId) return;
-      console.log('📝 Form values:', values);
+      console.log('uploadImg', uploadImg);
+      if (!uploadImg) {
+        throw new Error('Something went wrong');
+      }
+      //then upload base file knowloage
       const knowleageFiles = values.files[0].originFileObj;
 
-      await fetchUploadFiles(knowleageId, knowleageFiles);
+      const reqBaseUld = await fetchUploadFiles(knowleageId, knowleageFiles);
+      console.log('reqBaseUld', reqBaseUld);
 
+      //finaly create the agent
       const createParams = {
         name: values.name,
         description: values.description,
@@ -70,17 +76,17 @@ export default function AIForm() {
         tags: values.tags,
         knowledge_base_id: knowleageId,
       };
-      console.log(createParams);
+
       const createAgent = await fetchCreateAgent(createParams);
-      console.log(createAgent);
+      console.log('createAgent', createAgent);
       message.success('Agent Created Successfully');
       setLoading(2);
       setTimeout(() => {
         history.push('/genesis/agent');
       }, 2000);
     } catch (err) {
-      console.error('❌ Error al enviar:', err);
-      message.error('Error submitting form');
+      console.error('Error:', err);
+      message.error('Error submitting form!');
       setLoading(0);
     }
   };
