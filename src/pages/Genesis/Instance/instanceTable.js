@@ -198,12 +198,13 @@ function InstanceTable({ data, getAllNodes }) {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const hasStarting = data?.some(
+      const hasStarting = mappedOrders?.some(
         (order) => order.status_str?.toLowerCase() === 'starting',
       );
+      // console.log(hasStarting);
       if (hasStarting) {
         console.log('[Interval] Some instance is still starting...');
-        getAllNodes(); // solo si hay alguna en starting
+        getAllNodes(); // if theres a starting machine
       } else {
         console.log('[Interval] No instance is starting. Clearing interval.');
         clearInterval(interval);
@@ -213,7 +214,7 @@ function InstanceTable({ data, getAllNodes }) {
     return () => {
       clearInterval(interval);
     };
-  }, []); // se ejecuta solo una vez al montar
+  }, []);
 
   const handleModal = () => {
     setShowOverView(!showOverView);

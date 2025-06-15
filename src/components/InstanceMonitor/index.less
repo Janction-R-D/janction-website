@@ -57,7 +57,7 @@
       padding: 12px 4px;
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 22px;
       i {
         color: rgb(29, 159, 29);
         background-color: #9e9e9e2b;
@@ -66,7 +66,7 @@
       }
       .status {
         i {
-          margin-left: 14px;
+          margin-left: 12px;
           background-color: unset;
           color: inherit;
         }
@@ -232,6 +232,41 @@
 .status-question {
   color: #ebe061;
 }
+
 .status {
   font-weight: 500;
+}
+.status-starting {
+  color: #ebe061;
+
+  animation: pulse 1.2s infinite ease-in-out;
+  span {
+    width: 80px;
+  }
+}
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.icon-loading {
+  i {
+    display: inline-block;
+    animation: spin 1s linear infinite;
+  }
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
