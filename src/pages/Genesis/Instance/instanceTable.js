@@ -1,6 +1,6 @@
 import JanctionTable from '@/components/JanctionTable';
 import { message, Space, Table } from 'antd';
-import { useState } from 'react';
+import { useEffect, useRef, useState, useMemo } from 'react';
 import { fetchNodeOperation } from '@/services/genesis/instance';
 import styles from './index.less';
 import OperationModal from './InstanceComponents/OperationModal';
@@ -10,9 +10,9 @@ import { formatISODate } from '@/utils/datetime';
 import { convertKB, empty } from '@/utils/lang';
 function InstanceTable({ data, getAllNodes }) {
   const [showOverView, setShowOverView] = useState(true);
-
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
+  const intervalRef = useRef(null);
 
   const handleOperation = (operation, resource, id) => {
     const payload = JSON.stringify({
@@ -101,7 +101,10 @@ function InstanceTable({ data, getAllNodes }) {
             </div>
           ) : (
             <div className="status status-starting">
-              <i className="iconfont  icon-refresh"></i> Starting
+              <span className={styles['icon-loading']}>
+                <i className="iconfont icon-refresh "></i>
+              </span>{' '}
+              Starting
             </div>
           )}
         </>
@@ -178,18 +181,39 @@ function InstanceTable({ data, getAllNodes }) {
       },
     },
   ];
-  const mappedOrders = data?.map((order) => ({
-    ...order,
-    key: order?.id,
-    Cores: order?.node?.attr.cpu || '--',
-    memory: order?.node?.attr.memory,
-    status: order?.status_str,
-    Location: order?.node?.attr.location || '--',
-    MemoryUsage: convertMBtoGB(order?.activity?.memory_usage?.toFixed(2)),
-    downtime: `${formatISODate(order.created_at)}\r\n${formatISODate(
-      order.expired_at,
-    )}`,
-  }));
+  const mappedOrders = useMemo(() => {
+    return data?.map((order) => ({
+      ...order,
+      key: order?.id,
+      Cores: order?.node?.attr.cpu || '--',
+      memory: order?.node?.attr.memory,
+      status: order?.status_str,
+      Location: order?.node?.attr.location || '--',
+      MemoryUsage: convertMBtoGB(order?.activity?.memory_usage?.toFixed(2)),
+      downtime: `${formatISODate(order.created_at)}\r\n${formatISODate(
+        order.expired_at,
+      )}`,
+    }));
+  }, [data]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const hasStarting = data?.some(
+        (order) => order.status_str?.toLowerCase() === 'starting',
+      );
+      if (hasStarting) {
+        console.log('[Interval] Some instance is still starting...');
+        getAllNodes(); // solo si hay alguna en starting
+      } else {
+        console.log('[Interval] No instance is starting. Clearing interval.');
+        clearInterval(interval);
+      }
+    }, 10000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []); // se ejecuta solo una vez al montar
 
   const handleModal = () => {
     setShowOverView(!showOverView);

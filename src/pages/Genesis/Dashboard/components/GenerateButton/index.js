@@ -21,6 +21,7 @@ export default function GenerateButton() {
         console.log(res);
         throw new Error('Error: Sommething went wrong!');
       }
+      copy(res?.node_id);
       setNodeId(res?.node_id);
       setLoading(false);
     } catch (error) {
@@ -34,13 +35,12 @@ export default function GenerateButton() {
   const generate = async () => {
     try {
       await getNodes();
-      copy(nodeId);
     } catch (error) {
       console.log(error);
     }
   };
   return (
-    <Button className={styles['button']} onClick={generate}>
+    <Button className={styles['button']} onClick={getNodes}>
       Generate Token ID{' '}
       <span className={styles.icon_rotate}>
         <ArrowUpOutlined />

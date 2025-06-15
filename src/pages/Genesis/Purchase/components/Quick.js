@@ -120,7 +120,6 @@ const Quick = (props) => {
             </Form.Item>
           </Card>
 
-          <p style={{ marginBottom: '12px' }}>Image</p>
           <Form.Item name="template">
             <ImagesAi formValues={formValues} form={form} />
           </Form.Item>

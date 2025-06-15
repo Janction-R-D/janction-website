@@ -48,8 +48,11 @@ const ImagesAi = ({ value, onChange, formValues, current = 5 }) => {
   if (loading) {
     return (
       <>
-        <p>Loading...</p>
-        <Spin tip="Loading options..." />
+        <p style={{ marginBottom: '12px' }}>Image</p>
+        <div className={styles['load-box']}>
+          <p>Loading...</p>
+          <Spin tip="Loading options..." />
+        </div>
       </>
     );
   }
@@ -59,25 +62,28 @@ const ImagesAi = ({ value, onChange, formValues, current = 5 }) => {
   };
 
   return (
-    <div className={styles['checkbox-grid']}>
-      {opciones?.map((item) => (
-        <div
-          key={item.name}
-          className={[
-            styles['checkbox-item'],
-            value === item.name && styles['active-item'],
-          ].join(' ')}
-          onClick={() => handleCheckboxChange(item.name)}
-        >
-          <div className={styles['content']}>{item.name}</div>
-          <Checkbox
-            checked={value === item.name}
-            style={{ visibility: 'hidden' }}
-            onChange={() => handleCheckboxChange(item.name)}
-          />
-        </div>
-      ))}
-    </div>
+    <>
+      <p style={{ marginBottom: '12px' }}>Image</p>
+      <div className={styles['checkbox-grid']}>
+        {opciones?.map((item) => (
+          <div
+            key={item.name}
+            className={[
+              styles['checkbox-item'],
+              value === item.name && styles['active-item'],
+            ].join(' ')}
+            onClick={() => handleCheckboxChange(item.name)}
+          >
+            <div className={styles['content']}>{item.name}</div>
+            <Checkbox
+              checked={value === item.name}
+              style={{ visibility: 'hidden' }}
+              onChange={() => handleCheckboxChange(item.name)}
+            />
+          </div>
+        ))}
+      </div>
+    </>
   );
 };
 

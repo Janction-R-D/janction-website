@@ -39,6 +39,7 @@ export default function AIForm() {
   };
 
   const handleSubmit = async (values) => {
+    console.log('hola');
     const params = {
       name: values.filename,
       description: values.file_description,
@@ -46,7 +47,7 @@ export default function AIForm() {
 
     console.log(params);
     console.log('values : ', values);
-    // setLoading(1);
+    setLoading(1);
     try {
       //first create a base file route
       const req = await fetchBaseRoutes(params);

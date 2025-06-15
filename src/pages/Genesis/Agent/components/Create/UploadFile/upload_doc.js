@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   DeleteOutlined,
   FileAddOutlined,
@@ -11,6 +10,7 @@ import {
 } from '@ant-design/icons';
 import { message } from 'antd';
 import styles from './index.less';
+import { useRef, useState } from 'react';
 
 const getFileIcon = (fileName) => {
   const extension = fileName.split('.').pop().toLowerCase();
@@ -37,10 +37,11 @@ const getFileIcon = (fileName) => {
 };
 
 const UploadDoc = ({ value = [], onChange }) => {
-  const uploadRef = React.useRef();
-
+  const uploadRef = useRef();
+  const [files, setFiles] = useState([]);
   const handleRemove = (file) => {
     const newFiles = value.filter((f) => f.uid !== file.uid);
+    setFiles(newFiles);
     onChange?.(newFiles);
   };
 
@@ -93,6 +94,7 @@ const UploadDoc = ({ value = [], onChange }) => {
     });
 
     const allFiles = [...value, ...newFiles];
+    setFiles(allFiles);
     onChange?.(allFiles);
     e.target.value = '';
   };
@@ -149,13 +151,15 @@ const UploadDoc = ({ value = [], onChange }) => {
         ))}
       </div>
 
-      <div className={styles.textDesc} onClick={triggerUpload}>
-        <div className={styles.descTitle}>
-          <FileAddOutlined style={{ fontSize: '24px' }} />
-          <div style={{ marginLeft: 12 }}>Drag and drop</div>
+      {files.length == 0 && (
+        <div className={styles.textDesc} onClick={triggerUpload}>
+          <div className={styles.descTitle}>
+            <FileAddOutlined style={{ fontSize: '24px' }} />
+            <div style={{ marginLeft: 12 }}>Drag and drop</div>
+          </div>
+          <div className={styles.descContent}>Support Word/pdf/markdown</div>
         </div>
-        <div className={styles.descContent}>Support Word/pdf/markdown</div>
-      </div>
+      )}
     </div>
   );
 };
