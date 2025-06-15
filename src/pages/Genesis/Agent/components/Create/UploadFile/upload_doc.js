@@ -65,7 +65,7 @@ const UploadDoc = ({ value = [], onChange }) => {
 
     if (oversizedFiles.length) {
       message.error(
-        `Los siguientes archivos exceden el tamaño máximo de 1MB: ${oversizedFiles.join(
+        `The following files exceed the maximum size of 10MB: ${oversizedFiles.join(
           ', ',
         )}`,
       );

@@ -44,7 +44,7 @@ export default function DetailModal({ onOpen, isOpen, setIsOpen, agent }) {
           <p className={styles.desc_text}>{agent.description}</p>
         </div>
         <div className={styles.buttons}>
-          {agent?.tags.map((btn, i) => (
+          {agent?.tags?.map((btn, i) => (
             <div key={i} className={styles.btn}>
               {btn}
             </div>

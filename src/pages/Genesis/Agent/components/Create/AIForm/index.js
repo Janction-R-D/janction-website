@@ -46,7 +46,7 @@ export default function AIForm() {
 
     console.log(params);
     console.log('values : ', values);
-    setLoading(1);
+    // setLoading(1);
     try {
       //first create a base file route
       const req = await fetchBaseRoutes(params);
@@ -69,7 +69,6 @@ export default function AIForm() {
 
       const reqBaseUld = await fetchUploadFiles(knowleageId, knowleageFiles);
       console.log('reqBaseUld', reqBaseUld);
-
       //finaly create the agent
       const createParams = {
         name: values.name,
