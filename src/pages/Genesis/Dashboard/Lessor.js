@@ -15,6 +15,7 @@ import NTFcard from './components/NTFcard';
 import VideoGrid from './components/VideoGrid';
 import SkeletonGrid from './components/SkeletonGrid';
 import GenerateButton from './components/GenerateButton';
+import ContributorReward from './components/ContributorReward';
 
 export default function Lessor() {
   const [isOpen, setIsOpen] = useState(false);
@@ -144,6 +145,9 @@ export default function Lessor() {
       </section>
       <section className={styles['container']}>
         {loading && <SkeletonGrid />}
+        {!!nft_sumary?.ammount && (
+          <ContributorReward nft={nft_sumary.ammount} />
+        )}
         {summary?.total > 0 && !loading && (
           <>
             <section className={styles['overview-wrapper']}>

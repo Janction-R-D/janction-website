@@ -4,7 +4,7 @@
   position: relative;
   margin: 0 auto;
   margin-top: 20px;
-
+  padding-inline: 40px;
   &::before {
     position: absolute;
     top: 0;
@@ -85,10 +85,15 @@
       transform: translateX(-50%);
       width: 398px;
       height: 363px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .claim-container {
-      width: 100%;
+      // min-width: 300px;
+      width: min-content;
+      padding-inline: 20px;
       height: 100%;
       background: radial-gradient(
             75.07% 75.07% at 50% 75.07%,
@@ -238,5 +243,36 @@
         }
       }
     }
+  }
+}
+.connect-button {
+  height: 40px;
+  min-width: 120px;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 4px;
+  justify-content: center;
+  padding: 4px 14px;
+  background: transparent;
+  font-family: Poppins;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 24px;
+  text-align: center;
+  border: 1px solid #a1a1a1;
+  color: #fff;
+  border-radius: 4px;
+  text-wrap: nowrap;
+  cursor: pointer;
+  .icon {
+    width: 18px;
+    height: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1rem;
+    color: orange !important;
+    margin-inline: 4px;
   }
 }

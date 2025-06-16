@@ -5,6 +5,30 @@
   overflow: hidden;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
   background-color: #111;
+  .onDelete {
+    display: none;
+  }
+  &:hover .onDelete {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 25px;
+    height: 25px;
+    color: red;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all ease 300ms;
+    background: #787878a7;
+    padding: 3px;
+    border-radius: 50%;
+    backdrop-filter: blur(4px);
+    &:hover {
+      color: orange;
+    }
+  }
 }
 
 .image {
@@ -18,25 +42,29 @@
   bottom: 0;
   color: #fff;
   width: 100%;
-  background: linear-gradient(to top, rgba(0, 0, 0, 1), transparent 105%);
+  background: linear-gradient(to top, rgb(0, 0, 0), transparent 95%);
   display: flex;
   flex-direction: column;
   gap: 6px;
+  padding-top: 50px;
 }
 
 .description {
   display: flex;
   width: 95%;
   margin-inline: auto;
-
+  align-items: center;
   justify-content: space-between;
   .description_left {
     display: flex;
     flex-direction: column;
   }
   .title {
-    font-size: 18px;
+    font-size: 14px;
     font-weight: bold;
+    white-space: wrap;
+    text-wrap: wrap;
+    max-width: 14ch;
   }
 
   .score {
