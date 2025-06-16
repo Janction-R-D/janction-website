@@ -115,47 +115,6 @@ const DeployNode = () => {
                     </li>
                   ))}
                 </ul>
-                {/* {selectedValues?.system !== 'android' && (
-                  <>
-                    <p className={styles['sys-title']}>Choose Architecture</p>
-
-                    <ul className={styles['gpu-cpu']}>
-                      {architecture.map((item) => (
-                        <li
-                          className={` ${
-                            selectedValues?.architecture == item.value &&
-                            styles['active']
-                          }
-                  }`}
-                          key={item.value}
-                          onClick={() => {
-                            setSelectedValues({
-                              ...selectedValues,
-                              architecture: item.value,
-                            });
-                          }}
-                        >
-                          <span>{item.name}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </>
-                )} */}
-                {/* {downloadLink && (
-                  <div className={styles['buttons-box']}>
-                    <a href={downloadLink} download>
-                      <Button
-                        className={styles['button']}
-                        onClick={() => console.log(downloadLink)}
-                      >
-                        Download App{' '}
-                        <span className={styles.icon}>
-                          <AppstoreAddOutlined color="red" />
-                        </span>
-                      </Button>
-                    </a>
-                  </div>
-                )} */}
               </section>
             </Card>
           </Timeline.Item>
@@ -168,7 +127,12 @@ const DeployNode = () => {
                 : 'Run Node'}
             </p>
 
-            <RunNode selectedValues={selectedValues} />
+            <RunNode
+              selectedValues={selectedValues}
+              nodesData={nodesData}
+              getNodes={getNodes}
+              loading={loading}
+            />
           </Timeline.Item>
         </Timeline>
       </article>

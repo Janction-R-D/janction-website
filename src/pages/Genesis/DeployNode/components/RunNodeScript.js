@@ -10,26 +10,9 @@ import { copy } from '@/utils/lang';
 
 const { Text } = Typography;
 const RunNodeScript = (props) => {
-  const { isLinux } = props;
+  const { isLinux, getNodes, nodesData, loading } = props;
 
-  const [nodesData, setNodesData] = useState();
-  const [loading, setLoading] = useState(false);
   const [isCN, setIsCn] = useState(false);
-
-  useEffect(() => {
-    getNodes();
-  }, []);
-  const getNodes = async () => {
-    try {
-      setLoading(true);
-      const res = await fetchNodesRegister();
-      setNodesData(res);
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-      console.log('『error』', error);
-    }
-  };
 
   const script = useMemo(() => {
     if (isLinux) {
@@ -90,7 +73,6 @@ ${value}
           <a
             className={styles['icon-orange']}
             onClick={() => {
-              console.log(nodesData);
               if (isLinux) {
                 if (!nodesData?.node_id)
                   return message.warning(
@@ -106,15 +88,6 @@ ${value}
           >
             <i className="iconfont icon-copy" />
           </a>
-          {/* <Button
-            type="primary"
-            className={styles['token-btn']}
-            onClick={() => {
-              copy(nodesData?.node_id);
-            }}
-          >
-            Get an ID token
-          </Button> */}
         </div>
       }
     >

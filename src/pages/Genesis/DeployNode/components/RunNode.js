@@ -1,5 +1,4 @@
 import { ANDROID_APK_PATH, COMMAND, DOCKER_PATH } from '@/constant';
-import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { copy } from '@/utils/lang';
 import styles from './index.less';
@@ -7,7 +6,8 @@ import { Typography } from 'antd';
 import RunNodeScript from './RunNodeScript';
 const { Text } = Typography;
 const RunNode = (props) => {
-  const { selectedValues } = props;
+  const { selectedValues, nodesData, getNodes, loading } = props;
+
   const [nodeData, setNodaData] = useState();
   useEffect(() => {
     let nodeData = {
@@ -83,12 +83,23 @@ const RunNode = (props) => {
               </a>
             </Text>
           </section>
-          <RunNodeScript />
+          <RunNodeScript
+            nodesData={nodesData}
+            getNodes={getNodes}
+            loading={loading}
+          />
         </>
       );
     }
     if (selectedValues?.system == 'linux') {
-      return <RunNodeScript isLinux />;
+      return (
+        <RunNodeScript
+          isLinux
+          nodesData={nodesData}
+          getNodes={getNodes}
+          loading={loading}
+        />
+      );
     }
     return (
       <>
@@ -118,7 +129,11 @@ const RunNode = (props) => {
             </a>
           </Text>
         </section>
-        <RunNodeScript />
+        <RunNodeScript
+          nodesData={nodesData}
+          getNodes={getNodes}
+          loading={loading}
+        />
       </>
     );
   };
