@@ -19,13 +19,13 @@ export async function handleIdentityChange({
 
   if (sessionType !== 'wallet') {
     if (!window.ethereum) {
-      message.error('MetaMask no está disponible');
+      message.error('MetaMask not available');
       return;
     }
 
     setLoading?.(true);
     message.loading({
-      content: 'Conectando con MetaMask...',
+      content: 'Connecting with MetaMask...',
       key: 'login',
       duration: 0,
     });
@@ -97,9 +97,9 @@ export async function handleIdentityChange({
         disconnect();
       }
 
-      console.error('Error en login con MetaMask:', error);
+      console.error('Login with MetaMask failed:', error);
       message.error({
-        content: 'Falló el inicio de sesión con MetaMask',
+        content: 'Login with MetaMask failed',
         key: 'login',
       });
       return error;

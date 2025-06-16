@@ -161,6 +161,10 @@ function Mount() {
 
   const handleSubmit = async (e) => {
     // e.preventDefault();
+    if (price < 1) {
+      message.warning('Please enter a valid price!');
+      return;
+    }
     if (!price) {
       message.warning('Please enter price!');
       return;

@@ -141,11 +141,6 @@ function Instance() {
                     instance={instance}
                     getAllNodes={getAllNodes}
                   />
-                  // <InstanceCard
-                  //   key={index}
-                  //   instance={instance}
-                  //   getAllNodes={getAllNodes}
-                  // />
                 ))}
                 <div className={styles['pagination-wrapper']}>
                   <Pagination

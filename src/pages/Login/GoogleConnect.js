@@ -18,7 +18,7 @@ export default function GoogleConnect({ setLoading }) {
         window.location.href = auth_url;
       }
     } catch (err) {
-      message.error('No se pudo iniciar el flujo de login');
+      message.error('Could not start the login flow');
       console.error(err);
     } finally {
       setLoading(false);

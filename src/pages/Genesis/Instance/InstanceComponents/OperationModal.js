@@ -29,10 +29,10 @@ export default function OperationModal({ record, getAllNodes }) {
     setSelectLoading(true);
 
     try {
-      await PostResourceTunnel({ resource_id: record?.id });
       const res =
         (await fetchResourceTunnel({ resource_id: record?.id })) || [];
       setOptions(res.routes || []);
+      await PostResourceTunnel({ resource_id: record?.id });
     } catch (error) {
       console.log(error);
       message.error('Failed to load remote connections');
@@ -82,6 +82,7 @@ export default function OperationModal({ record, getAllNodes }) {
         //llamar a user config
         await updateUserConfig({ last_resource_visited: record?.id });
         window.open(selected.url, '_blank');
+        window.location.reload();
       }
       setSelectValue(value);
     } catch (error) {
