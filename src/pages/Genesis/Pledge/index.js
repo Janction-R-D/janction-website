@@ -1,7 +1,7 @@
 import JanctionTable from '@/components/JanctionTable';
 import SearchInput from '@/components/SeachInput';
 import { fetchNodeList } from '@/services/genesis/instance';
-import { Card, message, Space } from 'antd';
+import { Card, Input, Pagination, Table } from 'antd';
 import { useEffect, useState } from 'react';
 import { Redirect, useModel } from 'umi';
 import styles from './index.less';
@@ -12,27 +12,35 @@ import Operation from './InstanceComponents/Operation';
 function Staking() {
   const { initialState } = useModel('@@initialState');
   const { isLessee } = initialState || {};
-  const [summary, setSummary] = useState();
+
+  const [summary, setSummary] = useState(null);
   const [filteredData, setFilteredData] = useState([]);
+  const [current, setCurrent] = useState(1);
+  const pageSize = 8;
+
+  const paginatedData = filteredData.slice(
+    (current - 1) * pageSize,
+    current * pageSize,
+  );
 
   useEffect(() => {
     fetchNodeList()
       .then((res) => {
-        setSummary(res?.summary || null);
-        setFilteredData(res?.resources || []);
+        setSummary(res?.summary ?? null);
+        setFilteredData(res?.resources ?? []);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.error('Error fetching node list:', err));
   }, []);
 
   const columns = [
     {
       title: 'Device ID',
       dataIndex: 'id',
-      key: 'name',
+      key: 'id',
       ellipsis: true,
     },
     {
-      title: 'Statu',
+      title: 'Status',
       dataIndex: 'Cores',
       key: 'Cores',
       ellipsis: true,
@@ -46,8 +54,8 @@ function Staking() {
     },
     {
       title: 'Stake in cooling',
-      key: 'status',
       dataIndex: 'status',
+      key: 'status',
     },
     {
       title: 'Withdrawable',
@@ -68,7 +76,6 @@ function Staking() {
       dataIndex: 'GPUrate',
       key: 'GPUrate',
     },
-
     {
       title: 'Memory Usage Rates',
       dataIndex: 'MemoryUsage',
@@ -76,53 +83,70 @@ function Staking() {
     },
     {
       title: 'Release time / Downtime',
-      key: 'downtime',
       dataIndex: 'downtime',
+      key: 'downtime',
       render: (_, record) => (
         <div style={{ whiteSpace: 'pre' }}>{record.downtime}</div>
       ),
     },
-
     {
       title: 'Operation',
       key: 'action',
-      render: (text, record) => {
-        return <Operation record={record} />;
-      },
+      render: (_, record) => <Operation record={record} />,
     },
   ];
 
-  if (isLessee) return <Redirect to="/genesis/dashboard"></Redirect>;
+  if (isLessee) return <Redirect to="/genesis/dashboard" />;
 
   return (
-    <>
+    <main className={styles['stake-wrapper']}>
       <div className={styles['title']}>
         <h1>Stake</h1>
       </div>
+
       <HeaderCard summary={summary} />
+
       <Card className={styles['card-table']}>
         <div className={styles['card-header']}>
-          <span>Manage Stake</span>
-          <JanctionTip
-            placement="topLeft"
-            title='The pledge status is divided into three states: "paid, not paid, and refunded", and the pledge information after refund can be viewed in the "Bill"'
+          <div>
+            <span>Manage Stake</span>
+            <JanctionTip
+              placement="topLeft"
+              title='The pledge status is divided into three states: "paid, not paid, and refunded", and the pledge information after refund can be viewed in the "Bill".'
+            />
+          </div>
+          <Input
+            suffix={
+              <i
+                className="iconfont icon-search"
+                style={{ fontSize: '0.8rem' }}
+              />
+            }
+            placeholder="Search"
+            className={styles['search-input']}
           />
         </div>
-        <SearchInput />
-        <JanctionTable
+
+        <Table
           className={styles['table']}
           columns={columns}
-          dataSource={filteredData}
-          showEmptyIcon={false}
-          emptyDescription="No instance is currently available. Please create an instance."
-          pagination={{
-            pageSize: 5,
-            position: ['bottomCenter'],
-          }}
+          dataSource={paginatedData}
           scroll={{ x: 'auto' }}
+          pagination={false}
+          rowKey="id" // importante para performance
         />
+
+        <div className={styles['pagination-wrapper']}>
+          <Pagination
+            current={current}
+            total={filteredData.length}
+            pageSize={pageSize}
+            onChange={setCurrent}
+            showSizeChanger={false}
+          />
+        </div>
       </Card>
-    </>
+    </main>
   );
 }
 

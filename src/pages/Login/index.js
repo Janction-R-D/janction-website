@@ -1,145 +1,87 @@
-import { fetchInviteAccept } from '@/services/genesis';
-import { fetchUserNonce, fetchUserVerify } from '@/services/login';
-import storage from '@/utils/storage';
-import { useConnectModal } from '@rainbow-me/rainbowkit';
-import { message } from 'antd';
-import { useEffect, useState } from 'react';
-import { SiweMessage } from 'siwe';
-import { history, useLocation } from 'umi';
-import {
-  useAccount,
-  useAccountEffect,
-  useDisconnect,
-  useSignMessage,
-} from 'wagmi';
 import styles from './index.less';
 import Loader from './Loading';
+import { useEffect, useState } from 'react';
+import FlippedModal from './Modals/FlippedCard';
+import SuccessModal from './Modals/SuccessModal';
+import storage from '@/utils/storage';
+import { message } from 'antd';
+import { history, useLocation, useModel } from 'umi';
+import { fetchOauthCallback } from '@/services/login';
+import { expires } from '@/utils/lang';
 
-const expires = 60 * 60 * 10 * 1000;
+const origin = location.origin;
+const CALLBACK_URL = `${origin}/login`;
 const Login = (props) => {
-  const location = useLocation();
-  const { inviterCode } = location.query || {};
-
-  const { address } = useAccount();
-  const { openConnectModal } = useConnectModal();
-  const { signMessageAsync } = useSignMessage();
   const [loading, setLoading] = useState(false);
-  const { disconnect } = useDisconnect();
+  const [open, setOpen] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isFlipped, setIsFlipped] = useState(false);
+  const [mode, setMode] = useState('signup');
+  const location = useLocation();
+  const { initialState, setInitialState } = useModel('@@initialState');
+  const onCancel = () => {
+    setOpen(false);
+    setIsFlipped(false);
+    setMode('signup');
+  };
+  const onSuccessConfirm = () => {
+    setIsSuccess(false);
+    setTimeout(() => {
+      setIsFlipped(false);
+      setOpen(true);
+    }, 500);
+  };
 
   useEffect(() => {
-    const refresh = storage.get('refresh');
-    if (refresh) {
-      setTimeout(() => {
-        openConnectModal && openConnectModal();
-        storage.remove('refresh');
-      }, 1000);
+    const searchParams = new URLSearchParams(location.search);
+    const code = searchParams.get('code');
+    const stateEncoded = searchParams.get('state');
+    const state = stateEncoded ? decodeURIComponent(stateEncoded) : null;
+
+    if (code && state) {
+      logIn({ code, state });
     }
-  }, []);
-
-  useAccountEffect({
-    async onConnect({ address, chainId }) {
-      setLoading(true);
-      message.info({
-        content: 'The operation is in progress, please wait...',
-        key: 'loading',
-        duration: 0,
-      });
-      const userAccount = {
-        address,
-        chainId,
-      };
-
-      const onSuccess = async (sig, message) => {
-        const param = {
-          message,
-          signature: sig,
-        };
-
-        await fetchUserVerify(param);
-
-        const msg = btoa(message);
-
-        storage.set({
-          name: 'userAccount',
-          value: userAccount,
-          expires,
-        });
-        storage.set({
-          name: 'AUTH_HEADERS',
-          value: { 'x-siwe-sig': sig, 'x-siwe-msg': msg },
-          expires,
-        });
-
-        onRedirect(address);
-      };
-
-      const signAndLogin = async () => {
-        try {
-          const { nonce } = (await fetchUserNonce()) || {};
-
-          const siweMessage = new SiweMessage({
-            domain: window.location.host,
-            address,
-            statement: 'Sign in Janction with your wallet.',
-            uri: 'https://janction.io',
-            version: '1',
-            chainId,
-            nonce,
-          });
-
-          const message = siweMessage.prepareMessage();
-
-          const signature = await signMessageAsync({
-            message,
-          });
-
-          onSuccess(signature, message);
-        } catch (err) {
-          await disconnect();
-          console.log('『err』', err);
-        }
-      };
-
-      await signAndLogin();
-      setLoading(false);
-      message.destroy('loading');
-    },
-  });
-
-  const onRedirect = async (address) => {
-    const from = history.location.query?.from || '/genesis/dashboard';
-    if (inviterCode) {
-      await bindCode(address);
-      return window.location.replace(
-        `/genesis/deployNodes?inviterCode=${inviterCode}&root='lessor'`,
-      );
-    }
-    window.location.replace(from);
-  };
-  const bindCode = async (address) => {
+  }, [location.search]);
+  const logIn = async (param) => {
     try {
-      const data = {
-        receive_address: address,
-        code: inviterCode,
-      };
-      await fetchInviteAccept(data);
+      getToken(param);
+      message.success('User logged successfully!');
+      setInitialState({
+        ...initialState,
+        sessionType: 'google',
+      });
+      setTimeout(() => {
+        history.push('/genesis/rol', {
+          type: 'google',
+        });
+      }, 1200);
     } catch (err) {
-      console.log('『err』', err);
+      console.log(err);
     }
   };
-
-  const onConnect = async () => {
-    if (address) {
-      await disconnect();
-      // Triggered when the user clears local data
-      storage.set({ name: 'refresh', value: true });
-      window.location.reload();
-      // openConnectModal();
-    } else {
-      openConnectModal();
+  const getToken = async (params) => {
+    try {
+      const tkn = await fetchOauthCallback(params);
+      const { session, user } = tkn || {};
+      storage.set({
+        name: 'TOKEN',
+        value: session.token,
+        expires,
+      });
+      storage.set({
+        name: 'USER_ACCOUNT',
+        value: user,
+        expires,
+      });
+      storage.set({
+        name: 'SESSION_TYPE',
+        value: 'google',
+        expires,
+      });
+    } catch (error) {
+      console.log(error);
     }
   };
-
   return (
     <div className={styles['login-container']}>
       {loading && <Loader />}
@@ -154,9 +96,27 @@ const Login = (props) => {
         </h2>
         <p>One account for everything Janction</p>
       </div>
-      <a className={styles['login-btn']} onClick={onConnect}>
+      <a className={styles['login-btn']} onClick={() => setOpen(true)}>
         Sign in
       </a>
+      <FlippedModal
+        open={open}
+        onCancel={onCancel}
+        setLoading={setLoading}
+        setIsSuccess={setIsSuccess}
+        isFlipped={isFlipped}
+        setIsFlipped={setIsFlipped}
+        mode={mode}
+        setMode={setMode}
+        loading={loading}
+      />
+      <SuccessModal
+        visible={isSuccess}
+        onClose={() => setIsSuccess(false)}
+        onConfirm={onSuccessConfirm}
+      />
+
+      {/* <RainbowConnect setLoading={setLoading} /> */}
     </div>
   );
 };

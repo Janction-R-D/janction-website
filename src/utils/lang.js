@@ -24,7 +24,15 @@ export const logout = () => {
   storage.clear();
   history.push('/login');
 };
-
+export function convertMBtoGB(mb) {
+  if (empty(mb)) return '~';
+  const gb = mb / 1024; // 1 GB = 1024 MB
+  if (gb >= 1) {
+    return `${gb.toFixed(2)} GB`; // 保留两位小数
+  } else {
+    return `${mb} MB`; // 直接返回MB格式
+  }
+}
 export const showValue = (value, fixed) => {
   if (empty(value)) return '~';
   if (empty(fixed)) {
@@ -57,7 +65,7 @@ function copyTextFallback(text) {
   }
   document.body.removeChild(textarea);
 }
-
+export const expires = 60 * 60 * 10 * 1000;
 // copy text
 export const copy = (text) => {
   if (!navigator?.clipboard?.writeText) {
@@ -176,3 +184,22 @@ export const convertKB = (kb, decimalPlaces = 2) => {
 
   return value.toFixed(decimalPlaces) + ' ' + units[index];
 };
+
+export const links = [
+  {
+    operatingSystem: 'windows',
+    appLink:
+      'https://github.com/Janction-R-D/janction-desktop-app/releases/download/untagged-7b2b59b7d158e462730f/JanctionApp-1.0.0.msi',
+  },
+
+  {
+    operatingSystem: 'macos',
+    appLink:
+      'https://github.com/Janction-R-D/janction-desktop-app/releases/download/untagged-7b2b59b7d158e462730f/JanctionApp-1.0.0-arm64.dmg',
+  },
+  {
+    operatingSystem: 'linux',
+    appLink:
+      'https://github.com/Janction-R-D/janction-desktop-app/releases/download/untagged-7b2b59b7d158e462730f/JanctionApp-1.0.0.AppImage',
+  },
+];

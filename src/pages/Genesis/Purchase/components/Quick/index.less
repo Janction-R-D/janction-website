@@ -236,7 +236,7 @@
     gap: 12px;
   }
   .framework-conf-cards {
-    display: grid;
+    display: flex;
 
     gap: 18px;
     margin-top: 12px;
@@ -248,7 +248,7 @@
       position: relative;
 
       height: 80px;
-      width: 100%;
+      width: 45%;
       gap: 12px;
       color: #8c8c8c;
       cursor: pointer;
@@ -429,72 +429,157 @@
   }
 }
 .table {
+  width: 100%;
+  max-width: calc(70vw - 200px);
+  // :global {
+  //   .ant-table {
+  //     .price {
+  //       span {
+  //         color: rgba(255, 140, 39, 1);
+  //       }
+  //     }
+  //     .ant-table-container {
+  //       .ant-table-thead {
+  //         margin-bottom: 12px;
+
+  //         tr {
+  //           font-size: 0.75rem;
+  //           th {
+  //             padding: 18px;
+  //             background: rgba(36, 36, 36, 0.581);
+  //           }
+  //           th:first-child {
+  //             display: none;
+  //           }
+  //           th:nth-child(2) {
+  //             border-top-left-radius: 16px;
+  //           }
+  //           th:last-child {
+  //             border-top-right-radius: 16px;
+  //           }
+  //         }
+  //         .ant-form {
+  //           label {
+  //             display: none;
+  //           }
+  //         }
+  //       }
+  //       .ant-table-tbody {
+  //         background: rgba(19, 19, 19, 1);
+  //         margin-top: 12px;
+  //         padding-top: 12px;
+
+  //         .ant-table-selection-column {
+  //           display: none;
+  //         }
+
+  //         .ant-table-row {
+  //           font-size: 0.7rem;
+  //           cursor: pointer;
+  //           transition: background-color 0.3s ease;
+
+  //           td {
+  //             padding: 10px 16px !important;
+  //           }
+
+  //           &:hover {
+  //             background-color: rgba(
+  //               90,
+  //               145,
+  //               161,
+  //               0.5
+  //             ); // Color más suave al pasar el cursor
+  //           }
+  //         }
+  //       }
+
+  //       .selected-row {
+  //         td {
+  //           background-color: rgba(90, 145, 161, 0.809) !important;
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
   :global {
     .ant-table {
-      .price {
-        span {
-          color: rgba(255, 140, 39, 1);
+      background: transparent !important;
+    }
+    .ant-table-measure-row {
+      display: none;
+    }
+    .selected-row {
+      td {
+        background-color: rgba(90, 145, 161, 0.809) !important;
+      }
+    }
+    .ant-table-container table {
+      border-spacing: 0 8px !important;
+      border-collapse: separate !important;
+      .ant-table-thead {
+        tr > th {
+          background: #0f0f0f !important;
+          margin: 0;
+          height: 40px;
+          padding: 12px 10px;
+          border: none;
+        }
+        th:first-child {
+          display: none;
+        }
+        th:nth-child(2) {
+          border-top-left-radius: 16px;
+        }
+        th:last-child {
+          border-top-right-radius: 16px;
+        }
+        .ant-form {
+          label {
+            display: none;
+          }
         }
       }
-      .ant-table-container {
-        .ant-table-thead {
-          margin-bottom: 12px;
 
-          tr {
-            font-size: 0.75rem;
-            th {
-              padding: 18px;
-              background: rgba(36, 36, 36, 0.581);
-            }
-            th:first-child {
-              display: none;
-            }
-            th:nth-child(2) {
-              border-top-left-radius: 16px;
-            }
-            th:last-child {
-              border-top-right-radius: 16px;
+      .ant-table-tbody {
+        tr {
+          cursor: pointer;
+          background: #1a1a1a; // añade fondo a cada fila
+          border-radius: 10px;
+          overflow: hidden;
+          border-radius: 12px;
+          td {
+            padding: 6px;
+            height: 50px !important;
+            color: #fff !important;
+            border: none;
+            // background: transparent;
+
+            &:last-child {
+              a {
+                color: #73d5f4;
+              }
+              .recent-status {
+                color: #828283;
+                cursor: not-allowed;
+              }
             }
           }
-          .ant-form {
-            label {
-              display: none;
-            }
-          }
-        }
-        .ant-table-tbody {
-          background: rgba(19, 19, 19, 1);
-          margin-top: 12px;
-          padding-top: 12px;
-
           .ant-table-selection-column {
             display: none;
           }
-
-          .ant-table-row {
-            font-size: 0.7rem;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-
-            td {
-              padding: 10px 16px !important;
-            }
-
-            &:hover {
-              background-color: rgba(
-                90,
-                145,
-                161,
-                0.5
-              ); // Color más suave al pasar el cursor
-            }
+          .ellipsis {
+            text-overflow: ellipsis;
+            text-wrap: nowrap;
           }
         }
+        tr > td:first-child {
+          border-top-left-radius: 10px;
+          border-bottom-left-radius: 10px;
+        }
 
-        .selected-row {
-          td {
-            background-color: rgba(90, 145, 161, 0.809) !important;
-          }
+        tr > td:last-child {
+          border-top-right-radius: 10px;
+          border-bottom-right-radius: 10px;
         }
       }
     }

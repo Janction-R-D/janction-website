@@ -1,22 +1,18 @@
 import { Button, Modal } from 'antd';
-import { useState } from 'react';
-import BindEmail from './BindEmail';
 import styles from './modal.less';
 
-export default function ReminderModal({ open, onCancel, closeAll }) {
-  const [isEmailConfigOpen, setIsEmailConfigOpen] = useState(false);
-
-  const onSuccess = async () => {
-    closeEmailConf();
-    closeAll();
-  };
-
-  const closeEmailConf = () => {
-    setIsEmailConfigOpen(false);
-  };
-
+export default function ReminderModal({
+  open,
+  onCancel,
+  closeAll,
+  setIsEmailConfigOpen,
+}) {
   const showEmailConf = () => {
-    setIsEmailConfigOpen(true);
+    onCancel();
+
+    setTimeout(() => {
+      setIsEmailConfigOpen(true);
+    }, 1000);
   };
 
   return (
@@ -45,11 +41,6 @@ export default function ReminderModal({ open, onCancel, closeAll }) {
         <Button className={styles['create-btn']} onClick={showEmailConf}>
           Confirm
         </Button>
-        <BindEmail
-          open={isEmailConfigOpen}
-          onCancel={closeEmailConf}
-          closeAll={onSuccess}
-        />
       </footer>
     </Modal>
   );

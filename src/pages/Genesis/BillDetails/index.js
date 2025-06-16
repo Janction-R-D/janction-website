@@ -1,12 +1,22 @@
 import JanctionRangePicker from '@/components/JanctionRangePicker';
 import JanctionTable from '@/components/JanctionTable';
 import SearchInput from '@/components/SeachInput';
-import { Col, Drawer, List, message, Row, Space } from 'antd';
+import {
+  Col,
+  Drawer,
+  Input,
+  List,
+  message,
+  Row,
+  Space,
+  TimePicker,
+} from 'antd';
 import { useEffect, useMemo, useState } from 'react';
 import styles from './BillDetails.less';
 import { fetchBillingList } from '@/services/genesis/billings';
 import { Redirect, useModel } from 'umi';
 import numeral from 'numeral';
+import CardBill from './components/BillCard/Card';
 
 function BillDetails() {
   const { initialState } = useModel('@@initialState');
@@ -136,16 +146,33 @@ function BillDetails() {
   };
   if (isLessee) return <Redirect to="/genesis/dashboard"></Redirect>;
   return (
-    <>
-      <div className={styles['title']}>Billings</div>
-      <Row justify="end" align="middle">
-        <Col></Col>
-        <Col>
-          <SearchInput onChange={(e) => handleSearch(e.target.value)} />
-        </Col>
-      </Row>
+    <main className={styles['billings-wrapper']}>
+      <section className={styles['header-wrapper']}>
+        <header>
+          <h1>Billings</h1>
+        </header>
+      </section>
+      <CardBill total={total} />
+
       <div className={styles['table-wrapper']}>
-        {renderTotal()}
+        <Row
+          justify="space-between"
+          align="middle"
+          className={styles['card-header']}
+        >
+          <div className={styles['row']}>
+            <p>Time Period</p>
+            <TimePicker placeholder="All CPU" className={styles['picker']} />
+          </div>
+          <Col>
+            <Input
+              className={styles['input-search']}
+              placeholder="Search"
+              onChange={(e) => handleSearch(e.target.value)}
+              suffix={<i className="iconfont icon-search" />}
+            />
+          </Col>
+        </Row>
         <JanctionTable
           className={styles['billings-table']}
           columns={columns}
@@ -234,7 +261,7 @@ function BillDetails() {
           )}
         />
       </Drawer>
-    </>
+    </main>
   );
 }
 

@@ -1,1 +1,6 @@
+1. login with email [done]
+1.1. login with github [almost]
+2. api oauth methods  [done]
+3. purchase UI changes [done]
+6. Terminate Function [almost]
 1. Before Merge with dev-v3

@@ -1,0 +1,229 @@
+.wrapper {
+  margin-right: 20px;
+
+  .section {
+    display: grid;
+    grid-template-columns: 100px auto;
+    gap: 12px;
+    padding-block: 6px;
+
+    .input {
+      background: #141414;
+      border-color: #434343;
+      color: #fff;
+      min-height: 40px;
+
+      &::placeholder {
+        color: #aaa !important;
+      }
+
+      &:focus {
+        background: #141414 !important;
+        border-color: #949494 !important;
+      }
+
+      &:hover {
+        background: #141414 !important;
+      }
+
+      :global {
+        .ant-input {
+          background: transparent;
+          color: #fff;
+
+          &::placeholder {
+            color: #fff !important;
+          }
+        }
+      }
+    }
+
+    .avatar {
+      border: 1px solid #555555ba;
+      cursor: pointer;
+      background: #141414;
+    }
+  }
+}
+
+.setting-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+
+  .ant-switch {
+    margin-right: 12px;
+  }
+
+  .setting-text {
+    flex: 1;
+    margin-left: 13px;
+  }
+
+  .setting-description {
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 13px;
+  }
+}
+
+// avatar hovered
+.avatar-container {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+
+  .delete-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.5);
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    transition: opacity 0.3s;
+
+    &:hover {
+      background: rgba(255, 0, 0, 0.5);
+      border-radius: 6px;
+    }
+  }
+}
+
+//
+.wrapper {
+  width: 100%;
+  padding: 24px;
+  color: white;
+}
+
+.section {
+  margin-bottom: 24px;
+
+  > span {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 16px;
+  }
+}
+
+.input {
+  width: 100%;
+  border-radius: 8px;
+  padding: 8px;
+  background-color: transparent;
+  color: white;
+  border: 1px solid #434343;
+
+  &:hover,
+  &:focus {
+    border-color: #949494;
+    outline: none;
+  }
+
+  &::placeholder {
+    color: #aaaaaa;
+  }
+}
+
+.avatarContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.avatar {
+  border: 1px dashed #aaaaaa;
+  background-color: transparent;
+}
+
+.deleteButton {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: #434343;
+  border-radius: 50%;
+  padding: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background: #949494;
+    svg {
+      color: white;
+    }
+  }
+}
+
+.settingItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.customSwitch.ant-switch-checked {
+  background: linear-gradient(
+    90deg,
+    #d670ff 0%,
+    #66a2f7 40%,
+    #6feecb 100%
+  ) !important;
+}
+
+.settingText {
+  margin-left: 12px;
+  color: white;
+}
+
+.settingDescription {
+  font-size: 12px;
+  color: #aaa;
+}
+
+.textArea {
+  width: 100%;
+  margin-top: 12px;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: transparent;
+  color: #fff;
+  border: 1px solid #434343;
+
+  &:hover,
+  &:focus {
+    border-color: #949494;
+    outline: none;
+  }
+
+  &::placeholder {
+    color: #949494;
+  }
+}
+
+.submitButton {
+  padding: 22px;
+  width: 190px;
+  display: flex;
+  height: 50px;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 4px;
+  border-color: #797979;
+  color: #fff;
+  font-size: 1rem;
+  box-shadow: 0px 0px 2px 1px #ffffff39;
+  transition: all ease 350ms;
+  &:hover {
+    border-color: #a3a3a3;
+    color: #c1c0c0;
+  }
+  .icon {
+    color: orange;
+  }
+  .icon_rotate {
+    transform: rotate(45deg);
+    color: orange;
+  }
+}

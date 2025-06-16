@@ -207,3 +207,5 @@ export default function Income() {
     </div>
   );
 }
+
+Income.wrappers = ['@/wrappers/auth'];

@@ -1,0 +1,41 @@
+.container {
+  display: grid;
+  grid-template-columns: 50% 30%;
+  gap: 20px;
+  margin-top: 15px;
+  .cols {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .custom-skeleton {
+    :global {
+      .ant-skeleton-avatar {
+        background-color: #00000000; // o el color que prefieras
+      }
+    }
+  }
+  .custom-skeleton-1 {
+    width: 100%;
+    :global {
+      .ant-skeleton-avatar {
+        width: 100%;
+        height: 415px;
+        border-radius: 4px;
+        background-color: #00000000; // o el color que prefieras
+      }
+    }
+  }
+  .custom-skeleton-2 {
+    width: 250px;
+    :global {
+      .ant-skeleton-avatar {
+        width: 100%;
+        height: 200px;
+        border-radius: 4px;
+        background-color: #00000000; // o el color que prefieras
+      }
+    }
+  }
+}

@@ -7,10 +7,11 @@ import styles from './wallet.less';
 import { fetchIncomeInfo, fetchMarketInfo } from '@/services/genesis';
 import { formatDate } from '../Income/utils';
 import useData from './Hook/useData';
+import Graph from './components/Graph/Graph';
 
 export default function MyWallet() {
   const { revenue, compared_yesterday, list, statisticData } = useData() || {};
-  console.log(revenue);
+
   return (
     <div className={styles['income-wrapper']}>
       <Row>
@@ -70,6 +71,9 @@ const RenderIncomeCard = ({ title, value, unit, diffValue, date }) => {
         </div>
         <span className={styles['update-time']}>Last Updated: {date}</span>
       </div>
+      <section className={styles['graph']}>
+        <Graph />
+      </section>
     </Card>
   );
 };

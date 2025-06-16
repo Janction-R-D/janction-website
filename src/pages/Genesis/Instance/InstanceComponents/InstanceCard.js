@@ -4,7 +4,7 @@ import InstanceEchart from './InstanceEchart';
 import { fetchNodeOperation } from '../../../../services/genesis/instance';
 import { message } from 'antd';
 import TerminalModal from './TerminalModal';
-import { convertMBtoGB } from '../../Dashboard/Lessor';
+import { convertMBtoGB } from '../../Dashboard3/Lessor';
 import { formatISODate } from '@/utils/datetime';
 export default function InstanceCard({ instance, getAllNodes }) {
   const [error, setError] = useState(false);

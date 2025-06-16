@@ -5,11 +5,13 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Button, Modal } from 'antd';
 import { useEffect, useState } from 'react';
 import { history, useLocation, useModel } from 'umi';
-import { useAccount, useDisconnect } from 'wagmi';
+import { useAccount, useDisconnect, useSignMessage } from 'wagmi';
 import AndroidAuthMenu from './AuthMenu';
 import styles from './index.less';
-import Guide from '@/pages/Genesis/Dashboard/components/Guide/Guide';
+import Guide from '@/pages/Genesis/Dashboard3/components/Guide/Guide';
 import { fetchUserConfig } from '@/services/genesis';
+import { LoginOutlined } from '@ant-design/icons';
+import { handleIdentityChange } from '@/utils/metamaskLogin';
 
 export const Logo = () => {
   return (
@@ -33,24 +35,26 @@ export default function AuthHeader(props) {
   } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNotifyModalOpen, setIsNotifyModalOpen] = useState(false);
-  const { avatarSnapUrl, getUserInfo, setUserName } = useModel('common');
+  const [isLoged, setIsLoged] = useState(false);
+  const { avatarSnapUrl, getUserInfo, setUserName, userName } =
+    useModel('common');
   const [run, setRun] = useState(false);
   const [userConf, setUserConf] = useState({});
   const { address } = useAccount();
 
   useEffect(() => {
     getUserConfig();
-    getUserInfo((res) => {
-      if (res?.name) {
-        setUserName(res.name);
-      } else {
-        defaultNameHandle();
-      }
-    });
-  }, [run]);
+    getUserInfo();
+
+    if (!userName) {
+      defaultNameHandle();
+    }
+  }, []);
   const defaultNameHandle = () => {
-    const addStr = address?.slice(0, 16);
-    setUserName(`user_${addStr}`);
+    if (!userName) {
+      const addStr = address?.slice(0, 16);
+      setUserName(`user_${addStr}`);
+    }
   };
   const getUserConfig = async () => {
     if (!location.pathname.includes('dashboard')) return; // Modal guide  will pop up only in dahsboard page
@@ -120,6 +124,12 @@ export default function AuthHeader(props) {
               className={styles['profile-img']}
               src={avatarSnapUrl || avatar(address)}
             />
+            <span>
+              <i className="iconfont icon-pre_page"></i>
+              {userName}
+
+              <i className="iconfont icon-next_page"></i>
+            </span>
           </div>
         </div>
         <NotifyModal
@@ -142,8 +152,15 @@ export default function AuthHeader(props) {
 export function ProfileModal({ isModalOpen, handleOk, handleCancel }) {
   const location = useLocation();
   const { avatarSnapUrl, userName } = useModel('common');
-
+  const [isLoged, setIsLoged] = useState(false);
+  const { signMessageAsync } = useSignMessage();
   const { inviterCode } = location.query || {};
+  useEffect(() => {
+    const credentials = storage.get('TOKEN');
+    if (credentials) {
+      setIsLoged(true);
+    }
+  }, []);
   return (
     <ConnectButton.Custom>
       {({ account, chain }) => {
@@ -151,14 +168,18 @@ export function ProfileModal({ isModalOpen, handleOk, handleCancel }) {
         const { isLessee } = initialState || {};
         const { disconnect } = useDisconnect();
 
-        const onIdentityChange = () => {
-          storage.set({ name: 'isLessee', value: !isLessee });
-          setInitialState({
-            ...initialState,
-            isLessee: !isLessee,
+        const onChangeIdentity = async () => {
+          const resConnect = await handleIdentityChange({
+            isLessee,
+            setInitialState,
+            initialState,
+            handleCancel,
+            setLoading: () => {},
+            signMessageAsync,
+            disconnect,
           });
-          handleCancel();
         };
+
         const handleLogOut = () => {
           disconnect();
           storage.clear();
@@ -179,6 +200,7 @@ export function ProfileModal({ isModalOpen, handleOk, handleCancel }) {
           history.push(path);
           handleCancel();
         };
+        const isLoggedIn = isLoged || !!account?.address;
         return (
           <Modal
             className={styles['card-modal']}
@@ -210,12 +232,12 @@ export function ProfileModal({ isModalOpen, handleOk, handleCancel }) {
                 </span>
                 <div className={styles['type-account']} id="user-mode">
                   {isLessee ? (
-                    <div onClick={onIdentityChange}>
+                    <div onClick={onChangeIdentity}>
                       <p>Switch to Lessor Role</p>
                       <i className="iconfont icon-next"></i>
                     </div>
                   ) : (
-                    <div onClick={onIdentityChange}>
+                    <div onClick={onChangeIdentity}>
                       <p>Switch to Lessee Role</p>
                       <i className="iconfont icon-next"></i>
                     </div>
@@ -230,12 +252,7 @@ export function ProfileModal({ isModalOpen, handleOk, handleCancel }) {
                   Personal information
                 </a>
               </li>
-              {/* <li>
-                <i className="iconfont icon-search_doc"></i>{' '}
-                <a onClick={() => handleNavigate('/genesis/access-control')}>
-                  Access control
-                </a>
-              </li> */}
+
               {!isLessee && (
                 <li>
                   <i className="iconfont icon-pledge"></i>
@@ -261,16 +278,18 @@ export function ProfileModal({ isModalOpen, handleOk, handleCancel }) {
                 </li>
               )}
             </ul>
-            {!!account?.address && (
-              <Button className={styles['log-out']} onClick={handleLogOut}>
-                Logout
-              </Button>
-            )}
-            {!account?.address && (
-              <Button className={styles['log-out']} onClick={handleLogin}>
-                Login
-              </Button>
-            )}
+            <div className={styles['btn']}>
+              {isLoggedIn && (
+                <Button className={styles['log-out']} onClick={handleLogOut}>
+                  Logout <LoginOutlined className={styles['log-out-icon']} />
+                </Button>
+              )}
+              {!isLoggedIn && (
+                <Button className={styles['log-out']} onClick={handleLogin}>
+                  Login
+                </Button>
+              )}
+            </div>
           </Modal>
         );
       }}

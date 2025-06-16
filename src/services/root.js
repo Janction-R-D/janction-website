@@ -7,7 +7,7 @@ export const fetchNFTData = (params) => {
     params,
     basicLoginAuth: true,
     credentials: 'include',
-    withCredentials: true,
+    // withCredentials: true,
   });
 };
 
@@ -16,7 +16,7 @@ export const fetchPaymentHistory = (params) => {
     params,
     basicLoginAuth: true,
     credentials: 'include',
-    withCredentials: true,
+    // withCredentials: true,
   });
 };
 
@@ -25,7 +25,7 @@ export const fetchInviterList = (params) => {
     params,
     basicLoginAuth: true,
     credentials: 'include',
-    withCredentials: true,
+    // withCredentials: true,
   });
 };
 
@@ -34,7 +34,7 @@ export const fetchNFTSetting = (params) => {
     params,
     basicLoginAuth: true,
     credentials: 'include',
-    withCredentials: true,
+    // withCredentials: true,
   });
 };
 
@@ -45,7 +45,7 @@ export const fetchNFTSettingUpdate = (data, params) => {
     data,
     basicLoginAuth: true,
     credentials: 'include',
-    withCredentials: true,
+    // withCredentials: true,
   });
 };
 
@@ -55,7 +55,7 @@ export const fetchInviterCode = (params) => {
     data: params,
     basicLoginAuth: true,
     credentials: 'include',
-    withCredentials: true,
+    // withCredentials: true,
   });
 };
 
@@ -65,7 +65,7 @@ export const fetchInviterNameUpdate = (params) => {
     data: params,
     basicLoginAuth: true,
     credentials: 'include',
-    withCredentials: true,
+    // withCredentials: true,
   });
 };
 
@@ -75,7 +75,7 @@ export const fetchRootUserPsdUpdate = (params) => {
     data: params,
     basicLoginAuth: true,
     credentials: 'include',
-    withCredentials: true,
+    // withCredentials: true,
   });
 };
 
@@ -83,7 +83,7 @@ export const fetchRootRegisterChallenge = (userId) => {
   return request(`${baseUrl}/registration/options`, {
     method: 'POST',
     credentials: 'include',
-    withCredentials: true,
+    // withCredentials: true,
     headers: { 'x-user-id': userId },
   });
 };
@@ -92,7 +92,7 @@ export const fetchRootRegisterVerify = (userId, data) => {
     method: 'POST',
     data,
     credentials: 'include',
-    withCredentials: true,
+    // withCredentials: true,
     headers: { 'x-user-id': userId },
   });
 };
@@ -102,7 +102,7 @@ export const fetchRootAuthChallenge = (data) => {
     method: 'POST',
     data,
     credentials: 'include',
-    withCredentials: true,
+    // withCredentials: true,
   });
 };
 
@@ -111,13 +111,13 @@ export const fetchRootAuthVerify = (data) => {
     method: 'POST',
     data,
     credentials: 'include',
-    withCredentials: true,
+    // withCredentials: true,
   });
 };
 
 export const fetchRootAuthStatus = () => {
   return request(`${baseUrl}/authentication/status`, {
     credentials: 'include',
-    withCredentials: true,
+    // withCredentials: true,
   });
 };

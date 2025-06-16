@@ -62,6 +62,14 @@ export const navList = [
     id: 'billDetails',
     role: (isLessee) => !isLessee,
   },
+  {
+    name: 'Agent',
+    path: '/genesis/agent',
+    key: 5,
+    icon: 'coin',
+    id: 'agent',
+    role: (isLessee) => isLessee,
+  },
 ];
 const GenesisLayout = (props) => {
   const { children, noPadding, aside = true, rewards } = props;

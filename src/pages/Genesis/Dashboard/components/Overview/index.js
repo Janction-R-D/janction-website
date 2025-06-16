@@ -1,0 +1,82 @@
+import React from 'react';
+import styles from './index.less';
+import { Tooltip } from 'antd';
+import { InfoCircleOutlined } from '@ant-design/icons';
+import drop from '@/assets/images/icons/drop.png';
+import rise from '@/assets/images/icons/rise.png';
+const mockOverviewData = [
+  {
+    id: 'sacnksbjrs341342dgness',
+    status: 'Running',
+    reward: '100 JTT',
+  },
+  {
+    id: 'sacnksbjrs341342dgness',
+    status: 'Listed',
+    reward: '100 JTT',
+  },
+  {
+    id: 'sacnksbjrs341342dgness',
+    status: 'Running',
+    reward: '100 JTT',
+  },
+  {
+    id: 'sacnksbjrs341342dgness',
+    status: 'Running',
+    reward: '100 JTT',
+  },
+];
+
+const StatusTag = ({ status }) => {
+  const isRunning = status === 'Running';
+  const isListed = status === 'Listed';
+  const color = isRunning ? '#FFA94D' : isListed ? '#aaa' : '#ccc';
+
+  return (
+    <span style={{ color }}>
+      {status}{' '}
+      <Tooltip title={status}>
+        <InfoCircleOutlined style={{ fontSize: 12 }} />
+      </Tooltip>
+    </span>
+  );
+};
+
+const OverviewTable = ({ overview }) => {
+  const mappedData = overview?.map((item) => ({
+    id: item.resource_id,
+    status: item.status,
+    cpu: item.cpu_usage,
+  }));
+  console.log(mappedData);
+  return (
+    <div className={styles.container}>
+      <div className={styles.sidebar}>
+        <div className={styles.title}>Overview</div>
+        <div className={styles.desc}>
+          Your personal
+          <br />
+          speed mining node
+        </div>
+      </div>
+      <div className={styles.table}>
+        <div className={styles.header}>
+          <div>Device ID</div>
+          <div>Status</div>
+          <div>CPU usage</div>
+        </div>
+        {mappedData?.map((item, index) => (
+          <div key={index} className={styles.row}>
+            <div className={styles.cell_title}>{item.id}</div>
+            <div className={styles.cell}>
+              <StatusTag status={item.status} />
+            </div>
+            <div className={styles.cell}>{item.cpu} %</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default OverviewTable;

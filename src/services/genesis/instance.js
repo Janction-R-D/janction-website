@@ -195,6 +195,16 @@ export const changeUserConfig = (data) => {
     },
   });
 };
+export const updateUserConfig = (data) => {
+  return request(`${baseUrl}/user/config`, {
+    method: 'PATCH',
+    loginAuth: true,
+    body: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+};
 
 //fetch ConfigInfo
 export const fetchNodesConfigInfo = (params) => {
@@ -373,6 +383,47 @@ export const fetchSshList = (data) => {
 //ssh fecth api
 export const fetchResource = (params) => {
   return request(`${baseUrl}/resource/routes`, {
+    params,
+    loginAuth: true,
+  });
+};
+export const fetchResourceTunnel = (params) => {
+  return request(`${baseUrl}/resource/tunnel/status`, {
+    params,
+    loginAuth: true,
+  });
+};
+export const PostResourceTunnel = (data) => {
+  return request(`${baseUrl}/resource/tunnel/update`, {
+    method: 'POST',
+    data,
+    loginAuth: true,
+  });
+};
+
+//statistic resource data
+export const fetchStatistic = (data) => {
+  return request(`${baseUrl}/resource/statistics`, {
+    method: 'POST',
+    data,
+    loginAuth: true,
+  });
+};
+//get templates
+
+export const fetchTemplates = async (params) => {
+  try {
+    return await request(`${baseUrl}/resource/template/list`, {
+      params,
+      loginAuth: true,
+    });
+  } catch (error) {
+    return error;
+  }
+};
+
+export const fetchSingleResource = (params) => {
+  return request(`${baseUrl}/resource/detail`, {
     params,
     loginAuth: true,
   });

@@ -1,5 +1,3 @@
-import { name } from 'dayjs/locale/zh-cn';
-
 // abbreviated month name
 export const MONTH = [
   { value: 1, label: 'Jan' },
@@ -197,9 +195,19 @@ export const notShowErrors = [
   'invalid_parameter',
   'resource_creation_error',
   'internal_server_error',
-  'invalid_parameter',
+  'invalid_payload',
   'order_not_found',
   'payment_validation_error',
   'resource_lookup_error',
   'node_update_error',
+  'email_send_error',
 ];
+export const brandDetails = {
+  apple: { icon: 'macos', color: 'white' },
+  linux: { icon: 'linux', color: 'white' },
+  nvidia: { icon: 'nvidia', color: 'green' },
+  windows: { icon: 'windows', color: 'white' },
+  android: { icon: 'android', color: 'green' },
+  intel: { icon: 'intel', color: 'blue' },
+  amd: { icon: 'amd', color: 'green' },
+};

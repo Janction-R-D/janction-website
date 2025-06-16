@@ -47,7 +47,7 @@ const options = [
     max: 10,
   },
 ];
-export default function Mount() {
+function Mount() {
   const { initialState } = useModel('@@initialState');
   const { isLessee } = initialState || {};
   const { node } = history.location.state || {};
@@ -162,6 +162,10 @@ export default function Mount() {
 
   const handleSubmit = async (e) => {
     // e.preventDefault();
+    if (price < 1) {
+      message.warning('Please enter a valid price!');
+      return;
+    }
     if (!price) {
       message.warning('Please enter price!');
       return;
@@ -182,11 +186,12 @@ export default function Mount() {
     if (!agreeClause) {
       // message.warning('Please read the terms first and agree!');
       notification.info({
-        message: 'Notification Info',
+        message: `Notification Info`,
         description: 'Please read the terms first and agree!',
         placement: 'bottomLeft',
-        duration: 6,
+        duration: 5,
       });
+      // notification.info('bottomLeft', 'Please read the terms first and agree!');
       return;
     }
     if (!node?.id && !userInfo?.id) return;
@@ -235,8 +240,11 @@ export default function Mount() {
 
   return (
     <form className={styles['main']}>
-      <h1 className={styles['title']}>Device Rental Configuration</h1>
-
+      <section className={styles['header-wrapper']}>
+        <header>
+          <h1 className={styles['title']}>Device Rental Configuration</h1>{' '}
+        </header>
+      </section>
       <Card className={styles['card']}>
         <section className={styles['card-header']}>
           <h3> Device information Upload</h3>
@@ -244,7 +252,7 @@ export default function Mount() {
         <main className={styles['main-card']}>
           <section className={styles['input-box-container']}>
             <div className={styles['input-box']}>
-              <div className={`${styles['device-box']} `}>
+              <div className={`${styles['device-box']}`}>
                 <Input
                   type="text"
                   placeholder="Please enter the device identification number"
@@ -254,7 +262,7 @@ export default function Mount() {
                   readOnly={node?.id}
                 />
                 <Button
-                  className={styles['create-btn']}
+                  className={styles['connect']}
                   type="primary"
                   onClick={getConfigInfo}
                   disabled={node?.id}
@@ -409,7 +417,7 @@ export default function Mount() {
         </Checkbox>
         <Button
           loading={confirmLoading}
-          className={styles['create-btn']}
+          className={styles['connect-btn']}
           onClick={(e) => handleSubmit(e)}
         >
           Confirm
@@ -420,3 +428,4 @@ export default function Mount() {
 }
 
 Mount.wrappers = ['@/wrappers/auth'];
+export default Mount;

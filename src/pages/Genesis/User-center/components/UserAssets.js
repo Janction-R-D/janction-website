@@ -37,6 +37,7 @@ export default function UserAssets({ data, duration, setDuration }) {
               <InputNumber
                 min={0}
                 className={styles['card-assets-input']}
+                placeholder="Please enter the amount pledged"
                 addonAfter="USDT"
               />
             </Form.Item>
@@ -64,11 +65,14 @@ export default function UserAssets({ data, duration, setDuration }) {
         </section>
       </Form>
       <Button
-        className={styles['create-btn']}
+        className={styles['connect-btn']}
         style={{ paddingInline: '28px', marginTop: '12px' }}
         onClick={onSubmit}
       >
         Save
+        <div className={styles['icon']}>
+          <i className="iconfont icon-next" />
+        </div>
       </Button>
     </Card>
   );

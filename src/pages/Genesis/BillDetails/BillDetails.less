@@ -1,3 +1,33 @@
+.billings-wrapper {
+  margin-bottom: 25px;
+  .header-wrapper {
+    padding-bottom: 22px;
+    border-bottom: 1px solid #767676;
+
+    padding-inline: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    header {
+      display: flex;
+      align-items: center;
+      h1 {
+        font-size: 2.2rem;
+        color: #fff;
+        font-weight: 600;
+      }
+    }
+  }
+}
+.input-search {
+  border: #8b8b8bdc 1px solid;
+  padding: 10px;
+  border-radius: 4px;
+  width: 300px;
+  i {
+    color: orange;
+  }
+}
 .title {
   font-family: Poppins;
   font-size: 40px;
@@ -14,14 +44,104 @@
 }
 
 .table-wrapper {
-  background: #80808026;
-  border-radius: 32px;
-  padding: 16px;
+  background: #1b1b1b1b;
+  border-radius: 4px;
+  border: #8b8b8bdc 1px solid;
+  padding-block: 16px;
   margin-top: 26px;
+  margin-inline: 50px;
+  .card-header {
+    border-bottom: #8b8b8bdc 1px solid;
+    padding: 16px;
+    padding-top: 0;
+    .row {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      p {
+        color: #8b8b8bdc;
+      }
+      .picker {
+        border: 1px solid #8b8b8bdc;
+        width: 150px;
+        border-radius: 5px;
+        padding: 8px;
+        input::placeholder {
+          color: #fff;
+        }
+        :global {
+          .ant-picker-input {
+            span {
+              color: orange;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 .billings-table {
-  margin-top: 32px;
+  margin: 12px;
+
+  :global {
+    .ant-table {
+      background: transparent !important;
+    }
+    .ant-table-container table {
+      border-spacing: 0 8px !important;
+      border-collapse: separate !important;
+      .ant-table-thead {
+        tr > th {
+          background: #0f0f0f !important;
+          margin: 0;
+          height: 40px;
+          padding: 12px 10px;
+          border: none;
+        }
+      }
+
+      .ant-table-tbody {
+        tr {
+          background: #1a1a1a; // añade fondo a cada fila
+          border-radius: 10px;
+          overflow: hidden;
+          border-radius: 12px;
+          td {
+            padding: 6px;
+            height: 50px !important;
+            color: #fff !important;
+            border: none;
+            // background: transparent;
+
+            &:last-child {
+              a {
+                color: #73d5f4;
+              }
+              .recent-status {
+                color: #828283;
+                cursor: not-allowed;
+              }
+            }
+          }
+
+          .ellipsis {
+            text-overflow: ellipsis;
+            text-wrap: nowrap;
+          }
+        }
+        tr > td:first-child {
+          border-top-left-radius: 10px;
+          border-bottom-left-radius: 10px;
+        }
+
+        tr > td:last-child {
+          border-top-right-radius: 10px;
+          border-bottom-right-radius: 10px;
+        }
+      }
+    }
+  }
 }
 
 :global {

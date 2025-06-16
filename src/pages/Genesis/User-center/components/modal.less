@@ -582,7 +582,25 @@
     object-fit: cover;
     cursor: pointer;
   }
-
+  .edit-float-img {
+    color: #fff;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-10%, -50%);
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 15;
+    background: linear-gradient(275.81deg, #72deff 18.68%, #ffebe7 100%);
+    i {
+      font-weight: bold;
+      cursor: pointer;
+    }
+  }
   .edit-float {
     color: #fff;
     position: absolute;
@@ -623,7 +641,7 @@
   width: 90px;
   height: 90px;
   position: absolute;
-  top: 100%;
+  top: 400px;
   left: 50%;
   transform: translate(-50%, -50%);
   display: flex;

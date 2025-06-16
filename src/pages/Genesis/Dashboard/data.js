@@ -1,3 +1,5 @@
+import { empty } from '@/utils/lang';
+
 export const balanceData = [
   [12, 23, 3, 4, 5, 65, 67, 7, 8, 9, 23],
   [2, 3, 33, 44, 55, 5, 7, 77, 88, 99, 3],
@@ -62,3 +64,13 @@ export const ARITHMETIC_SITUATION = {
   offline_memory_footprint: 'Offline memory',
   free_memory: 'Free memory',
 };
+
+export function convertMBtoGB(mb) {
+  if (empty(mb)) return '~';
+  const gb = mb / 1024; // 1 GB = 1024 MB
+  if (gb >= 1) {
+    return `${gb.toFixed(2)} GB`; // 保留两位小数
+  } else {
+    return `${mb} MB`; // 直接返回MB格式
+  }
+}

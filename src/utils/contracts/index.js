@@ -229,7 +229,7 @@ const contract = {
       message.destroy('tx');
     }
   },
-  stopRent: async (paymentId, adminSignature) => {
+  stopRent: async (paymentId, adminSignature, deadline) => {
     try {
       const provider = new ethers.providers.Web3Provider(
         window.ethereum,

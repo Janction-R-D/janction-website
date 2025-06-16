@@ -9,11 +9,11 @@ import avatar8 from '@/assets/images/genesis/avatars/avatar-8.png';
 import { Avatar, Button, message, Modal } from 'antd';
 import styles from './index.less';
 import AvatarUpload from '../AvatarUpload';
-import { useModel } from 'umi';
+import { request, useModel } from 'umi';
 import { useEffect, useState } from 'react';
 import { fetchUserAvatars, fetchUserConfig } from '@/services/genesis';
 import storage from '@/utils/storage';
-
+const baseUrl = process.env.JANCTION_V0_API;
 const images = [
   { path: avatar1, name: 'Symphony star', alt: 'default one icon' },
   { path: avatar2, name: 'Symphony violet', alt: 'default two icon' },
@@ -25,7 +25,7 @@ const images = [
   { path: avatar8, name: 'Symphony meta', alt: 'default eight icon' },
 ];
 async function uploadAvatarToServer(imageUrl, fileName) {
-  const UPLOAD_BASE_URL = '/v0/user/upload/avatar';
+  const UPLOAD_BASE_URL = `${baseUrl}/user/upload/avatar`;
 
   try {
     // Intentar obtener el archivo como un Blob
@@ -53,18 +53,18 @@ async function uploadAvatarToServer(imageUrl, fileName) {
     formData.append('avatar', file);
 
     // Subir el archivo
-    const uploadRes = await fetch(UPLOAD_BASE_URL, {
+    const uploadRes = await request(UPLOAD_BASE_URL, {
       method: 'POST',
-      body: formData,
+      data: formData,
       headers: {
         ...(storage.get('AUTH_HEADERS') || {}),
       },
     });
-
-    if (!uploadRes.ok) {
-      throw new Error('Error Uploading new avatar');
-    }
-    return await uploadRes.json();
+    // only if we use fetch
+    // if (!uploadRes.ok) {
+    //   throw new Error('Error Uploading new avatar');
+    // }
+    // return await uploadRes.json();
   } catch (error) {
     message.error('Error Uploading new avatar');
     console.error(error);

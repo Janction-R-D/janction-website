@@ -1,0 +1,81 @@
+@bg-dark: #0f1114;
+@bg-dropdown: linear-gradient(135deg, #273e4e, #161d25);
+@text-color: #ffffff;
+@accent-color: #ff8c1a;
+
+.roleButton {
+  background: #383d42aa;
+  color: @text-color;
+  border-radius: 8px;
+  padding: 3px 16px;
+  margin-top: 18px;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  font-size: 0.8rem;
+  &:hover,
+  &:focus {
+    background: #24272d;
+    color: @text-color;
+  }
+
+  i {
+    font-size: 18px;
+    margin-left: 4px;
+    color: @accent-color;
+  }
+}
+
+.dropdownBox {
+  background: @bg-dropdown;
+  padding: 12px;
+  border-radius: 12px 8px;
+  width: 190px;
+  text-align: left;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.switchTitle {
+  color: @text-color;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.optionBox {
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: border 0.3s;
+
+  &:hover {
+    border-color: @accent-color;
+  }
+  i {
+    border: 1px solid orange;
+    color: orange;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.optionText {
+  color: @text-color;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.arrowIcon {
+  color: @accent-color;
+  font-size: 16px;
+}

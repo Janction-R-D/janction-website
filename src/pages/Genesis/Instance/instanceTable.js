@@ -1,19 +1,18 @@
 import JanctionTable from '@/components/JanctionTable';
-import { message, Space } from 'antd';
-import { useState } from 'react';
+import { message, Space, Table } from 'antd';
+import { useEffect, useRef, useState, useMemo } from 'react';
 import { fetchNodeOperation } from '@/services/genesis/instance';
-// import { convertMBtoGB } from '../Dashboard/Lessors';
 import styles from './index.less';
 import OperationModal from './InstanceComponents/OperationModal';
-import { convertMBtoGB } from '../Dashboard/Lessor';
+import { convertMBtoGB } from '../Dashboard3/Lessor';
 import { history } from 'umi';
 import { formatISODate } from '@/utils/datetime';
 import { convertKB, empty } from '@/utils/lang';
 function InstanceTable({ data, getAllNodes }) {
   const [showOverView, setShowOverView] = useState(true);
-
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
+  const intervalRef = useRef(null);
 
   const handleOperation = (operation, resource, id) => {
     const payload = JSON.stringify({
@@ -59,12 +58,12 @@ function InstanceTable({ data, getAllNodes }) {
       ellipsis: true,
       render: (node, record) => {
         if (!node?.attr?.gpu_chip && !node?.attr?.cpu_chip) return '--';
-        const cpu = node?.attr.cpu_chip;
-        const gpu = node?.attr.gpu_chip;
+        const cpu = node?.attr?.cpu_chip;
+        const gpu = node?.attr?.gpu_chip;
         return (
           <>
-            <p>{cpu ? `${cpu[0]} * ${cpu.length}` : '--'}</p>
-            <p>{gpu ? `${gpu[0]} * ${gpu.length}` : '--'}</p>
+            <p>{!!cpu?.length ? `${cpu[0]} * ${cpu.length}` : '--'}</p>
+            <p>{!!gpu?.length ? `${gpu[0]} * ${gpu.length}` : '--'}</p>
           </>
         );
       },
@@ -75,7 +74,7 @@ function InstanceTable({ data, getAllNodes }) {
       key: 'memory',
       ellipsis: true,
       render: (memory, rowData) => (
-        <>{!empty(rowData.memory) ? convertKB(rowData.memory) : '--'}</>
+        <>{!empty(rowData.memory) ? convertMBtoGB(rowData.memory) : '--'}</>
       ),
     },
     {
@@ -102,7 +101,10 @@ function InstanceTable({ data, getAllNodes }) {
             </div>
           ) : (
             <div className="status status-starting">
-              <i className="iconfont  icon-refresh"></i> Starting
+              <span className={styles['icon-loading']}>
+                <i className="iconfont icon-refresh "></i>
+              </span>{' '}
+              Starting
             </div>
           )}
         </>
@@ -179,18 +181,40 @@ function InstanceTable({ data, getAllNodes }) {
       },
     },
   ];
-  const mappedOrders = data?.map((order) => ({
-    ...order,
-    key: order?.id,
-    Cores: order?.node?.attr.cpu || '--',
-    memory: order?.node?.attr.memory,
-    status: order?.status_str,
-    Location: order?.node?.attr.location || '--',
-    MemoryUsage: convertMBtoGB(order?.activity?.memory_usage?.toFixed(2)),
-    downtime: `${formatISODate(order.created_at)}\r\n${formatISODate(
-      order.expired_at,
-    )}`,
-  }));
+  const mappedOrders = useMemo(() => {
+    return data?.map((order) => ({
+      ...order,
+      key: order?.id,
+      Cores: order?.node?.attr.cpu || '--',
+      memory: order?.node?.attr.memory,
+      status: order?.status_str,
+      Location: order?.node?.attr.location || '--',
+      MemoryUsage: convertMBtoGB(order?.activity?.memory_usage?.toFixed(2)),
+      downtime: `${formatISODate(order.created_at)}\r\n${formatISODate(
+        order.expired_at,
+      )}`,
+    }));
+  }, [data]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const hasStarting = mappedOrders?.some(
+        (order) => order.status_str?.toLowerCase() === 'starting',
+      );
+      // console.log(hasStarting);
+      if (hasStarting) {
+        console.log('[Interval] Some instance is still starting...');
+        getAllNodes(); // if theres a starting machine
+      } else {
+        console.log('[Interval] No instance is starting. Clearing interval.');
+        clearInterval(interval);
+      }
+    }, 10000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   const handleModal = () => {
     setShowOverView(!showOverView);
@@ -200,8 +224,8 @@ function InstanceTable({ data, getAllNodes }) {
     : 'iconfont icon-eye';
   return (
     <>
-      <JanctionTable
-        className={styles['table']}
+      <Table
+        className={styles['table-instance']}
         columns={columns}
         dataSource={mappedOrders}
         emptyDescription={

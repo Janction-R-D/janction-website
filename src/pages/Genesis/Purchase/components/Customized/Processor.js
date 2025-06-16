@@ -67,8 +67,7 @@ function Processors(props) {
           key={processor.value}
           className={[
             styles['processor'],
-            styles['gradient-card'],
-            value.includes(processor.value) && styles['active-item'],
+            value.includes(processor.value) && styles['active-process'],
           ].join(' ')}
           onClick={() => handleCheckboxChange(processor.value)}
         >
@@ -101,8 +100,7 @@ function Gpu(props) {
           key={option.value}
           className={[
             styles['processor'],
-            styles['gradient-card'],
-            value.includes(option.value) && styles['active-item'],
+            value.includes(option.value) && styles['active-process'],
           ].join(' ')}
           onClick={() => {
             const newValues = value.includes(option.value)

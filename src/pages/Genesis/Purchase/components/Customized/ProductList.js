@@ -27,7 +27,7 @@ function ProductList(props) {
       cpu_name: cpu_name || [],
       gpu_name: gpu_name || [],
       operating_system: operating_system || [],
-      framework: ai_framework ? [ai_framework] : [],
+      framework: ai_framework || [],
     };
 
     getList(payload);

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import instacePng from '@/assets/images/genesis/instance.png';
 import { Avatar, Button, Divider } from 'antd';
 import { getDurationUnit } from '../../utils';
+import { ShoppingCartOutlined } from '@ant-design/icons';
 
 export default function AsidePrice({ formValues, styles, onConfirm }) {
   const [isFormEmpty, setIsEmpty] = useState(true);
@@ -46,23 +47,21 @@ export default function AsidePrice({ formValues, styles, onConfirm }) {
             )}
             {renderSection(
               'AI Framework',
-              formValues?.ai_framework.length > 0,
-
-              <div className={styles['text__content']}>
-                <span className={styles['description']}>
-                  <p className={styles['text__description']}>
-                    {formValues?.ai_framework?.join(' | ')}
-                  </p>
-                </span>
-              </div>,
+              formValues?.ai_framework?.join(' | '),
             )}
-            {renderSection(
-              'Purchase Duration',
-              <span>
-                {' '}
-                {formValues?.purDuration?.value}{' '}
-                {getDurationUnit(formValues?.purDuration?.unit)}
-              </span>,
+            {renderSection('Image', formValues?.template)}
+            {formValues?.node && (
+              <section>
+                <p className={styles['text__type']}>Duration</p>
+                <div className={styles['text__content']}>
+                  <span className={styles['description']}>
+                    <p className={styles['text__description']}>
+                      {formValues?.purDuration?.value}{' '}
+                      {getDurationUnit(formValues?.purDuration?.unit)}
+                    </p>
+                  </span>
+                </div>
+              </section>
             )}
             {renderSection('Internet', formValues?.internet_type?.join(' | '))}
             {renderSection(
@@ -100,7 +99,7 @@ export default function AsidePrice({ formValues, styles, onConfirm }) {
         {/* <span className={styles['text__price']}>$34.669</span> */}
         {Object.values(formValues).some((item) => item !== undefined) && (
           <Button className={styles['btn-confirm']} onClick={onConfirm}>
-            Confirm the order
+            Confirm the order <ShoppingCartOutlined />
           </Button>
         )}
       </footer>

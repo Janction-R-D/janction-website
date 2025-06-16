@@ -1,7 +1,8 @@
 import { fetchUserCenter } from '@/services/genesis';
 import { fetchMineInviteCode } from '@/services/genesis/distribution';
-import { useState } from 'react';
-import { message } from 'antd';
+import { useEffect, useState } from 'react';
+import { fetchToken } from '@/services/login';
+import { useModel } from 'umi';
 
 export default () => {
   const [avatarSnapUrl, setAvatarSnapUrl] = useState();
@@ -9,7 +10,11 @@ export default () => {
   const [mineInviteData, setMyInviteData] = useState();
   const [userName, setUserName] = useState();
   const [userInfo, setUserInfo] = useState();
-
+  const { initialState } = useModel('@@initialState');
+  const { sessionType } = initialState || {};
+  useEffect(() => {
+    getUserInfo();
+  }, [sessionType]);
   const getMineCode = async () => {
     try {
       const res = await fetchMineInviteCode();
@@ -26,16 +31,55 @@ export default () => {
 
   const getUserInfo = (callback) => {
     let result = null;
-    fetchUserCenter()
-      .then((res) => {
-        setUserInfo(res);
-      })
-      .catch((err) => {
-        console.log('『err』', err);
-      })
-      .finally(() => {
-        callback && callback(result);
-      });
+    if (sessionType == 'wallet') {
+      fetchUserCenter()
+        .then((res) => {
+          setUserInfo(res);
+          if (res?.name) {
+            setUserName(res?.name);
+          }
+        })
+        .catch((err) => {
+          console.log('『err』', err);
+        })
+        .finally(() => {
+          callback && callback(result);
+        });
+    }
+    if (sessionType == 'google') {
+      fetchToken()
+        .then((res) => {
+          const userData = res?.user_info;
+          setUserInfo(userData);
+          if (userData?.email) {
+            setUserName(userData?.email);
+            setAvatarSnapUrl(userData?.picture);
+          }
+        })
+        .catch((err) => {
+          console.log('『err』', err);
+        })
+        .finally(() => {
+          callback && callback(result);
+        });
+    }
+    if (sessionType == 'email') {
+      fetchToken()
+        .then((res) => {
+          const emailData = res;
+          setUserInfo(emailData);
+          if (emailData?.platform_user_id) {
+            setUserInfo(emailData);
+            setUserName(emailData?.platform_user_id);
+          }
+        })
+        .catch((err) => {
+          console.log('『err』', err);
+        })
+        .finally(() => {
+          callback && callback(result);
+        });
+    }
   };
 
   return {

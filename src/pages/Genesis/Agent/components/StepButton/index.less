@@ -1,0 +1,47 @@
+.step-button {
+  font-weight: bold;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+
+  cursor: pointer;
+  transition: all 350ms ease;
+  white-space: nowrap;
+  background: transparent;
+  box-shadow: 0 0 5px 5px rgba(2, 1, 5, 0.115);
+  border: 1px solid #cccccc98;
+  transition: all ease 300ms;
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  span {
+    transform: skewX(-15deg);
+    color: white;
+    transition: color 200ms ease;
+  }
+
+  &:hover span {
+    background: linear-gradient(90deg, #d670ff 0%, #66a2f7 40%, #6feecb 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+.step-button {
+  display: flex;
+  gap: 8px;
+  &:hover {
+    border-color: #a3a3a3;
+    color: #c1c0c0;
+  }
+  .icon {
+    color: orange;
+  }
+  .icon_rotate {
+    transform: rotate(45deg);
+    color: orange;
+  }
+}

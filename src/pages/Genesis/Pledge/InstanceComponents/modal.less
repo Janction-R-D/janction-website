@@ -21,6 +21,7 @@
     }
   }
 }
+
 .create-btn {
   height: 45px;
   display: flex;
@@ -68,8 +69,8 @@
   padding: 10px;
   margin-bottom: 28px;
   border-radius: 10px;
-  background: #333335;
-  color: #858586;
+  background: #28282a;
+  color: #a3a3a3;
 }
 
 .card-header {
@@ -89,21 +90,21 @@
 
 .card-header > h3 {
   position: relative;
-  padding-left: 12px;
+  padding-left: 4px;
   margin-bottom: 6px;
   font-size: 0.8rem;
 }
 
-.card-header > h3::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 3px;
-  border-radius: 5px;
-  background-color: #73d5f4;
-}
+// .card-header > h3::before {
+//   content: '';
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   height: 100%;
+//   width: 3px;
+//   border-radius: 5px;
+//   background-color: #73d5f4;
+// }
 
 .blue {
   color: #47c2e8;
@@ -118,7 +119,7 @@
     gap: 8px;
     align-items: center;
     .info-label {
-      width: min-content;
+      width: 120px;
       white-space: nowrap;
       color: #777778;
     }
@@ -136,4 +137,61 @@
 .stake-info-price--blue {
   font-size: 1.2rem;
   color: #73d5f4;
+}
+.connect-btn {
+  height: 35px;
+  display: flex;
+  flex-wrap: nowrap;
+  width: min-content;
+  align-items: center;
+  gap: 4px;
+  justify-content: center;
+  padding: 4px 14px;
+  background: transparent;
+  font-family: Poppins;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 24px;
+  text-align: center;
+  border: 1px solid #a1a1a1;
+  color: #fff;
+  border-radius: 4px;
+  text-wrap: nowrap;
+  transition: all ease 250ms;
+  &:hover {
+    background: #fff;
+    color: #000;
+  }
+  i {
+    width: 18px;
+    height: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.6rem;
+    color: orange !important;
+    margin-inline: 4px;
+    border-radius: 50%;
+    border: 1px solid orange;
+  }
+}
+.footer {
+  display: flex;
+  justify-content: space-between;
+}
+.action-stake {
+  color: rgb(158, 255, 163);
+  transition: all ease 300ms;
+  &:hover {
+    color: rgb(101, 255, 109);
+    scale: 1.02;
+  }
+}
+.action-refund {
+  color: rgb(255, 238, 0);
+  transition: all ease 300ms;
+  &:hover {
+    color: rrgb(33, 255, 44);
+    scale: 1.02;
+  }
 }

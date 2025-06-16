@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Space } from 'antd';
 import ModalRefound from './ModalRefound';
 import ModalStake from './ModalStake';
+import styles from './modal.less';
 export default function Operation({ record }) {
   const [isModalOpenRefound, setIsModalOpenRefound] = useState(false);
   const [isModalOpenStake, setIsModalOpenStake] = useState(false);
@@ -30,7 +31,7 @@ export default function Operation({ record }) {
       style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}
     >
       <a onClick={showModalStake}>
-        <p>Stake</p>
+        <p className={styles['action-stake']}>Stake</p>
       </a>
       <ModalStake
         isModalOpen={isModalOpenStake}
@@ -38,7 +39,7 @@ export default function Operation({ record }) {
         handleCancel={handleCancelStake}
       />
       <a onClick={showModalRefound}>
-        <p>Refund</p>
+        <p className={styles['action-refund']}>Refund</p>
       </a>
       <ModalRefound
         isModalOpen={isModalOpenRefound}

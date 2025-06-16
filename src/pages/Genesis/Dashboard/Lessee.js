@@ -1,308 +1,181 @@
-import JanctionTable from '@/components/JanctionTable';
-import numeral from 'numeral';
 import { useEffect, useState } from 'react';
-import { history } from 'umi';
-import Line from './components/Line';
-import { newsData } from './data';
-import useLesses from './Hooks/useLesses';
+import ResourcesHeader from './components/ResourcesHeader';
 import styles from './index.less';
-import News from './components/News';
-import Invitation from './components/Invitation';
+import { Button, Divider, Skeleton } from 'antd';
+import useLesses from '../Dashboard3/Hooks/useLesses';
 import ModalUpload from './components/UploadCard/ModalUpload';
-import { fetchUserConfig } from '@/services/genesis';
+import {
+  fetchNodeList,
+  fetchSingleResource,
+  fetchUserConfig,
+} from '@/services/genesis';
+import QuickCard from '@/components/QuickCard/QuickCard';
+import InstanceMonitor from '@/components/InstanceMonitor';
+import InstanceTable from './components/Table/instanceTable';
+import { empty } from '@/utils/lang';
+import { isEmpty } from 'lodash';
+// import InstanceMonitor from './components/InstanceMonitor';
+const cardData = [
+  {
+    id: 1,
+    title: 'NVIDIA TX4090',
+    location: 'Chicago, USA',
+    cores: '8 Cores',
+    memory: '16GiB',
+    bandwidth: '5M',
+    duration: '1 month',
+    price: '9.9',
+    discount: '45%',
+    originalPrice: '50',
+  },
+  {
+    id: 2,
+    title: 'NVIDIA TX4090',
+    location: 'Chicago, USA',
+    cores: '8 Cores',
+    memory: '16GiB',
+    bandwidth: '5M',
+    duration: '1 month',
+    price: '9.9',
+    discount: '45%',
+    originalPrice: '50',
+  },
+  {
+    id: 3,
+    title: 'NVIDIA TX4090',
+    location: 'Chicago, USA',
+    cores: '8 Cores',
+    memory: '16GiB',
+    bandwidth: '5M',
+    duration: '1 month',
+    price: '9.9',
+    discount: '45%',
+    originalPrice: '50',
+  },
+  {
+    id: 4,
+    title: 'NVIDIA TX4090',
+    location: 'Chicago, USA',
+    cores: '8 Cores',
+    memory: '16GiB',
+    bandwidth: '5M',
+    duration: '1 month',
+    price: '9.9',
+    discount: '45%',
+    originalPrice: '50',
+  },
+  {
+    id: 5,
+    title: 'NVIDIA TX4090',
+    location: 'Chicago, USA',
+    cores: '8 Cores',
+    memory: '16GiB',
+    bandwidth: '5M',
+    duration: '1 month',
+    price: '9.9',
+    discount: '45%',
+    originalPrice: '50',
+  },
+];
 
-const brandDetails = {
-  apple: { icon: 'macos', color: 'white' },
-  linux: { icon: 'linux', color: 'white' },
-  nvidia: { icon: 'nvidia', color: 'green' },
-  windows: { icon: 'windows', color: 'white' },
-  android: { icon: 'android', color: 'green' },
-  intel: { icon: 'intel', color: 'blue' },
-  amd: { icon: 'amd', color: 'green' },
-};
-const Lessees = (props) => {
-  const [news, setNews] = useState(newsData);
+export default function Lessee() {
   const [avModalOpen, setAvModaOpen] = useState(false);
+  const [summary, setSummary] = useState(null);
+  const [resource, setResource] = useState([]);
+  const [last, setLast] = useState({});
+  const [loading, setLoading] = useState(false);
+
   const [userConf, setUserConf] = useState({});
+
   const { lessesData } = useLesses();
-  const { portfolio_balance: balance, details, watchlist } = lessesData || {};
 
-  const detailsData = details?.map((item, index) => ({
-    key: index,
-    Name: item?.name,
-    Balance: item?.balance,
-    Price: item?.price,
-    Allocation: item?.allocation,
-    Brand: item?.brand?.toLowerCase(),
-    Description: item?.description,
-    PriceChanges: item?.price_changes,
-  }));
-  const watchlistData = watchlist?.map((item, index) => ({
-    key: index,
-    Name: item?.name,
-    Balance: item?.balance,
-    MarketCap: item?.market_cap,
-    Change: item?.change,
-    Brand: item?.brand?.toLowerCase(),
-    Description: item?.description,
-    nodeId: item?.id,
-  }));
-
-  const onBuy = (rowData) => {
-    if (!rowData.MarketCap) return;
-    history.push('/genesis/purchase', {
-      isQuick: true,
-      nodeId: rowData.nodeId,
-      path: history.location.pathname,
-    });
-  };
-
-  const handleOk = () => {
-    setAvModaOpen(true);
-  };
   useEffect(() => {
     getUserConfig();
+    getAllNodes();
   }, []);
   const getUserConfig = async () => {
     try {
+      setLoading(true);
       const res = await fetchUserConfig();
       setUserConf(res);
+      if (res?.last_resource_visited) {
+        await getLastVisit(res?.last_resource_visited);
+      }
       if (!res?.default_avatar_status && res?.pass_newbie_guide) {
         setAvModaOpen(true);
       }
     } catch (err) {
       console.log(err);
+    } finally {
+      setLoading(false);
     }
   };
-  const detailColumns = [
-    {
-      title: 'Name',
-      dataIndex: 'Name',
-      key: 'Name',
-      render: (text, record) => {
-        if (!text) return '--';
-        const name = text?.split(' ');
-        let firstName = name?.[0];
-        let model = name?.slice(1)?.join(' ');
-        return (
-          <div className={styles['name-column']}>
-            <div className={styles['icon']}>
-              {brandDetails[record.Brand] && (
-                <i
-                  className={`iconfont icon-${
-                    brandDetails[record.Brand.toLowerCase().toLowerCase()].icon
-                  } ${brandDetails[record.Brand].color}`}
-                ></i>
-              )}
-            </div>
-            <div className={styles['info']}>
-              <span className={styles['name']}>{firstName.toUpperCase()}</span>
-              <span className={styles['value']}>{model.toUpperCase()}</span>
-            </div>
-          </div>
-        );
-      },
-    },
-    {
-      title: 'Purchase price',
-      dataIndex: 'Balance',
-      key: 'Balance',
-      render: (text, record) => {
-        return (
-          <div className={styles['info']}>
-            {/* <span className={styles['name']}>{record.Balance}</span> */}
-            <span className={(styles['value'], styles['white'])}>
-              ${`${record.Allocation}${record.unit || ''}`}
-            </span>
-          </div>
-        );
-      },
-    },
-    {
-      title: 'Rental price',
-      dataIndex: 'Price',
-      render: (text, record) => {
-        return (
-          <div className={styles['info']}>
-            <span className={styles['name']}>
-              {numeral(text || 0).format('$0.00')}
-            </span>
-            <span
-              className={
-                record.PriceChanges > 0 ? styles['up'] : styles['down']
-              }
-            >
-              {`${record.PriceChanges > 0 ? '+' : ''}${numeral(
-                record.PriceChanges || 0,
-              ).format('0,0')}`}
-              %
-            </span>
-          </div>
-        );
-      },
-    },
-    {
-      title: 'Market Shares',
-      dataIndex: 'Allocation',
-      render: (text) => <p>{numeral(text || 0).format('$0,0')}</p>,
-    },
-  ];
-  const watchColumns = [
-    {
-      title: 'Name',
-      dataIndex: 'Name',
-      key: 'Name',
-      render: (text, record) => {
-        if (!text) return '--';
-        const name = text?.split(' ');
-        let firstName = name?.[0];
-        let model = name?.slice(1).join(' ');
-
-        return (
-          <div className={styles['name-column-2']}>
-            <div className={styles['icon-2']}>
-              {brandDetails[record.Brand] && (
-                <i
-                  className={`iconfont icon-${
-                    brandDetails[record.Brand].icon
-                  } ${brandDetails[record.Brand].color}`}
-                ></i>
-              )}
-            </div>
-            <div className={styles['info']}>
-              <span className={styles['name']}>{firstName}</span>
-              <span className={styles['value']}>{model?.toUpperCase()}</span>
-            </div>
-          </div>
-        );
-      },
-    },
-    {
-      title: 'Rental price',
-      dataIndex: 'Balance',
-      render: (text) => (
-        <p className={styles['white']}>{numeral(text || 0).format('$0,0')}</p>
-      ),
-    },
-    {
-      title: 'Change',
-      dataIndex: 'Change',
-      key: 'Change',
-      render: (text) => {
-        if (text < 0) {
-          return (
-            <p className={styles['red']}>{numeral(text || 0).format('0,0')}%</p>
-          );
-        }
-        return (
-          <p className={styles['green']}>
-            +{numeral(text || 0).format('0,0')}%
-          </p>
-        );
-      },
-    },
-    {
-      title: 'Market Shares',
-      dataIndex: 'MarketCap',
-      render: (text) => (
-        <p className={styles['white']}>{numeral(text || 0).format('$0,0')}</p>
-      ),
-    },
-    {
-      title: 'operation',
-      dataIndex: 'Watch',
-      key: 'Watch',
-      render: (text, rowData, index) => (
-        <div
-          className={[
-            styles['action'],
-            !rowData.MarketCap && styles['disabled'],
-            ,
-          ].join(' ')}
-          onClick={() => onBuy(rowData)}
-        >
-          <span>Buy</span>
-          <i className="iconfont icon-next_page"></i>
-        </div>
-      ),
-    },
-  ];
+  const getAllNodes = () => {
+    fetchNodeList()
+      .then((res) => {
+        setSummary(res?.summary || null);
+        setResource(res?.resources || []);
+      })
+      .catch((err) => console.log(err));
+  };
+  const getLastVisit = async (id) => {
+    try {
+      const { resource } =
+        (await fetchSingleResource({ resource_id: id })) || {};
+      console.log(resource);
+      setLast(resource || {});
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
-    <div className={styles['dashboard-wrapper']}>
-      {/* <Invite /> */}
-      <Invitation />
-      <ModalUpload
+    <main className={styles['dashboard-wrapper']}>
+      {/* <ModalUpload
         avModalOpen={avModalOpen}
         handleOk={handleOk}
         setAvModaOpen={setAvModaOpen}
         userConf={userConf}
         setUserConf={setUserConf}
-      />
-      <div id="thank-you"></div>
-      <div className={styles['dashboard-content']}>
-        <div
-          className={[styles['content-item'], styles['balance-wrapper']].join(
-            ' ',
-          )}
-        >
-          <div className={styles['title']}>
-            <span>Running time</span>
-          </div>
-          <div className={styles['content']}>
-            <Line balance={balance} />
-          </div>
-        </div>
-        <News />
-        <div
-          className={[styles['content-item'], styles['recommend-wrapper']].join(
-            ' ',
-          )}
-        >
-          <div className={styles['title']}>
-            <span>Details</span>
-            {/* <div className={styles['extra']}>
-              <span>See All</span>
-              <i className="iconfont icon-next_page"></i>
-            </div> */}
-          </div>
-          <div className={styles['content']}>
-            <JanctionTable
-              bordered={false}
-              className={styles['table']}
-              columns={detailColumns}
-              dataSource={detailsData}
-              pagination={false}
-              scroll={{ x: 'auto' }}
-            />
-          </div>
-        </div>
-        <div
-          className={[styles['content-item'], styles['collect-wrapper']].join(
-            ' ',
-          )}
-        >
-          <div className={styles['title']}>
-            <span>Recommendation list</span>
-            {/* <div className={styles['extra']}>
-              <span>See All</span>
-              <i className="iconfont icon-next_page"></i>
-            </div> */}
-          </div>
-          <div className={styles['content']}>
-            <JanctionTable
-              bordered={false}
-              className={styles['table-2']}
-              columns={watchColumns}
-              dataSource={watchlistData}
-              pagination={false}
-              scroll={{ x: 'auto' }}
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
+      /> */}
+      <section className={styles['header-wrapper']}>
+        <header>
+          <h1>Dashboard</h1>
+          <Divider type="vertical" className={styles['line']} />
+          <span>
+            <p>GPU rental service with stable </p>
+            <p>service and reasonable price</p>
+          </span>
+        </header>
+      </section>
+      <section className={styles['header-resources']}>
+        <ResourcesHeader summary={summary} />
+      </section>
+      <main className={styles['cards-container']}>
+        {loading && (
+          <>
+            <p className={styles['title']}>Last visit</p>
+            <div className={styles['video-col']}>
+              <Skeleton.Avatar className={styles['custom-skeleton-1']} active />
+            </div>
+          </>
+        )}
 
-export default Lessees;
+        {!loading && !isEmpty(last) && (
+          <>
+            <p className={styles['title']}>Last visit</p>
+            <section className={styles['card-monitor']}>
+              <InstanceMonitor instance={last} />
+            </section>
+          </>
+        )}
+        <p className={styles['title']}>Last purchased instances</p>
+        <InstanceTable
+          data={resource}
+          getAllNodes={getAllNodes}
+          loading={loading}
+        />
+      </main>
+    </main>
+  );
+}

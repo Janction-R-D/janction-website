@@ -3,26 +3,32 @@ import { empty, isEmpty } from '@/utils/lang';
 import { Button, Checkbox, message } from 'antd';
 import { useMemo, useState } from 'react';
 import styles from './index.less';
-import { Duration } from '@/constant';
+import { WalletOutlined } from '@ant-design/icons';
+import PaymentResultModal from '../../Settlement/components/payment_result';
+import ModalInfo from '../../Settlement/components/ModalInfo';
 
 const Footer = (props) => {
   const {
-    loading,
-    isSettlement,
-    onPre,
     onPay,
     node,
     formValues,
     currencyAddress,
     tableLoading,
+    modalOpen,
+    setModalOpen,
+    paymentStatus,
+    setPaymentStatus,
     priceInfo,
+    isWarning,
+    onWarningCancel,
+    onOk,
   } = props;
 
   const [agree, setAgree] = useState(false);
   const currency = useMemo(() => {
     const goal = getCurrency().find((item) => item.value == currencyAddress);
     return goal;
-  }, currencyAddress);
+  }, [currencyAddress]);
 
   const total = useMemo(() => {
     const { value, unit } = formValues?.purDuration || {};
@@ -65,12 +71,8 @@ const Footer = (props) => {
           </div>
         </div>
 
-        <div className={styles['pre']}>
-          <Button onClick={() => onPre()}>Previous</Button>
-        </div>
-
-        <div
-          className={styles['pay']}
+        <Button
+          className={styles['connect-btn']}
           onClick={() => {
             try {
               onPayBefore();
@@ -79,9 +81,20 @@ const Footer = (props) => {
               console.log('『err』', err);
             }
           }}
+          type="primary"
+          disabled={tableLoading}
         >
-          <Button disabled={tableLoading}>Check to pay</Button>
-        </div>
+          Check to pay <WalletOutlined className={styles['icon']} />
+        </Button>
+        <PaymentResultModal
+          open={modalOpen}
+          setOpen={setModalOpen}
+          status={paymentStatus}
+          onClose={() => setModalOpen(false)}
+          onPay={onPay}
+          setPaymentStatus={setPaymentStatus}
+        />
+        <ModalInfo open={isWarning} onClose={onWarningCancel} onOk={onOk} />
       </div>
     </div>
   );

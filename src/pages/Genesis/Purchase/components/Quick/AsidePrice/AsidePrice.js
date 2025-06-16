@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import instacePng from '@/assets/images/genesis/instance.png';
 import { Avatar, Button, Divider } from 'antd';
 import { getDurationUnit } from '../../utils';
+import { ShoppingCartOutlined } from '@ant-design/icons';
 
-export default function AsidePrice({ formValues, styles, onConfirm }) {
+export default function AsidePrice({ formValues, styles, onConfirm, loading }) {
   const [isFormEmpty, setIsEmpty] = useState(true);
   useEffect(() => {
     let isNotEmpty = Object.values(formValues)?.some(
@@ -11,7 +12,7 @@ export default function AsidePrice({ formValues, styles, onConfirm }) {
     );
     setIsEmpty(!isNotEmpty);
   }, [formValues]);
-  // console.log(formValues);
+
   return (
     <aside className={styles['aside-wrapper']}>
       <header className={styles['aside-header']}>
@@ -47,6 +48,18 @@ export default function AsidePrice({ formValues, styles, onConfirm }) {
                 </div>
               </section>
             )}
+            {formValues?.purposes?.length >= 1 && (
+              <section>
+                <p className={styles['text__type']}>Purposes</p>
+                <div className={styles['text__content']}>
+                  <span className={styles['description']}>
+                    <p className={styles['text__description']}>
+                      {formValues?.purposes.join(' | ')}
+                    </p>
+                  </span>
+                </div>
+              </section>
+            )}
             {formValues?.node && (
               <section>
                 <p className={styles['text__type']}>Instance</p>
@@ -54,6 +67,18 @@ export default function AsidePrice({ formValues, styles, onConfirm }) {
                   <span className={styles['description']}>
                     <p className={styles['text__description']}>
                       {formValues?.node.id}
+                    </p>
+                  </span>
+                </div>
+              </section>
+            )}
+            {formValues?.template && (
+              <section>
+                <p className={styles['text__type']}>Image</p>
+                <div className={styles['text__content']}>
+                  <span className={styles['description']}>
+                    <p className={styles['text__description']}>
+                      {formValues?.template}
                     </p>
                   </span>
                 </div>
@@ -108,8 +133,12 @@ export default function AsidePrice({ formValues, styles, onConfirm }) {
       <footer className={styles['aside-footer']}>
         {/* <span className={styles['text__price']}>$34.669</span> */}
         {Object.values(formValues).some((item) => item !== undefined) && (
-          <Button className={styles['btn-confirm']} onClick={onConfirm}>
-            Confirm the order
+          <Button
+            className={styles['btn-confirm']}
+            onClick={onConfirm}
+            disabled={loading}
+          >
+            Confirm the order <ShoppingCartOutlined />
           </Button>
         )}
       </footer>

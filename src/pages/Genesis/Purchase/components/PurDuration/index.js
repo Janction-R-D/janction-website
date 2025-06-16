@@ -1,8 +1,7 @@
+import { useEffect, useMemo } from 'react';
 import { Duration, DURATION_OPTIONS } from '@/constant';
 import { Form, InputNumber, Select } from 'antd';
-import LabelVal from '../Card/LabelVal';
 import styles from './index.less';
-import { useEffect, useMemo } from 'react';
 
 const DURATION_TO_HOURS = {
   [Duration.Hour]: 1,
@@ -17,19 +16,15 @@ const UNIT_MAX_VALUES = {
   [Duration.Day]: 30,
   [Duration.Week]: 4,
   [Duration.Month]: 12,
-  [Duration.Year]: 10,
 };
-
 const getUnitValueFromLabel = (label) => {
-  const match = Object.entries(Duration).find(
-    ([key, val]) => key?.toLowerCase() === label?.toLowerCase(),
-  );
+  const match = Object.entries(Duration).find(([key]) => key === label);
   return match?.[1];
 };
 
-const PurDuration = (props) => {
-  const { formValues, form } = props;
-  const { node } = formValues || {};
+const PurDuration = ({ formValues, form, setFormValues }) => {
+  const { node, purDuration } = formValues || {};
+
   useEffect(() => {
     if (form) {
       form.validateFields(['purDuration']);
@@ -54,15 +49,47 @@ const PurDuration = (props) => {
       (opt) => opt.value >= limit.minUnit && opt.value <= limit.maxUnit,
     );
   }, [formValues]);
-
-  const selectedUnit =
-    form?.getFieldValue(['purDuration', 'unit']) ?? Duration.Day;
-  const maxValue = UNIT_MAX_VALUES[selectedUnit] ?? 30;
+  const controlInput = (value) => {
+    setFormValues({
+      ...formValues,
+      purDuration: {
+        unit: purDuration?.unit,
+        value,
+      },
+    });
+  };
+  const handleChange = (delta) => {
+    const currentValue = form.getFieldValue(['purDuration', 'value']) || 1;
+    let newVal =
+      delta === 'add' ? Number(currentValue) + 1 : Number(currentValue) - 1;
+    const formData = form.getFieldValue('purDuration');
+    console.log(formData);
+    if (newVal < 1) return;
+    controlInput(newVal);
+    form.setFieldsValue({
+      purDuration: { ...formData, value: newVal },
+    });
+  };
+  const handleInputChange = (val) => {
+    if (val === null || val === undefined || val === '') return;
+    controlInput(val);
+    form.setFieldsValue({
+      purDuration: { unit: form.getFieldValue('purDuration').unit, value: val },
+    });
+  };
+  const handleUnitChange = (newUnit) => {
+    form.setFieldsValue({
+      purDuration: { ...form.getFieldValue('purDuration'), unit: newUnit },
+    });
+  };
 
   return (
-    <div className={styles['duration-wrapper']}>
-      <LabelVal nameWidthAuto name="Purchase duration">
+    <div style={{ width: '280px' }}>
+      <div className={styles['duration-wrapper']}>
         <div className={styles['input-group']}>
+          <div className={styles['btn']} onClick={() => handleChange('sub')}>
+            -
+          </div>
           <Form.Item
             name={['purDuration', 'value']}
             initialValue={limit.minValue}
@@ -72,24 +99,29 @@ const PurDuration = (props) => {
               type="number"
               bordered={false}
               min={1}
-              // max={maxValue}
-              style={{ width: '200px' }}
+              onChange={handleInputChange}
+              style={{ width: '60px' }}
+              className={styles['input']}
             />
           </Form.Item>
-
+          <div className={styles['btn']} onClick={() => handleChange('add')}>
+            <i className="iconfont icon-add" />
+          </div>
           <Form.Item
             name={['purDuration', 'unit']}
-            initialValue={limit.minUnit}
             noStyle
+            initialValue={limit.minUnit}
           >
             <Select
+              value={form.getFieldValue(['purDuration', 'unit'])}
+              onChange={handleUnitChange}
               bordered={false}
               options={allowedUnits}
               style={{ width: '105px' }}
             />
           </Form.Item>
 
-          {/* Validación conjunta para 'value' y 'unit' */}
+          {/* Validación conjunta */}
           <Form.Item
             name="purDuration"
             noStyle
@@ -134,7 +166,6 @@ const PurDuration = (props) => {
                   const maxInHours =
                     limit.maxValue * DURATION_TO_HOURS[limit.maxUnit];
 
-                  // Verificar los límites globales de valor
                   if (valueInHours < minInHours || valueInHours > maxInHours) {
                     return Promise.reject(
                       new Error(
@@ -151,7 +182,7 @@ const PurDuration = (props) => {
             <div style={{ display: 'none' }} />
           </Form.Item>
         </div>
-      </LabelVal>
+      </div>
     </div>
   );
 };

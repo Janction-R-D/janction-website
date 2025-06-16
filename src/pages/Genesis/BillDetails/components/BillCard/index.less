@@ -1,0 +1,106 @@
+.total-wrapper {
+  padding: 15px 20px;
+
+  height: 220px;
+  background: #18181c;
+  border-radius: 4px;
+  margin-top: 26px;
+  margin-inline: 50px;
+  padding-inline: 40px;
+  display: flex;
+  justify-content: space-between;
+  gap: 100px;
+  .total-context {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 12px;
+    color: #fff;
+    .total-text {
+      font-size: 1.1rem;
+    }
+    .total-value {
+      font-family: 'SF Pro';
+      font-style: normal;
+      font-weight: 510;
+      font-size: 2.8rem;
+      line-height: 22px;
+      color: rgba(84, 234, 255, 1);
+    }
+    .currency {
+      color: #959494;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+  }
+  .equal {
+    display: flex;
+    align-items: center;
+    font-size: 2.6rem;
+    color: #959494;
+  }
+  .cols {
+    display: flex;
+    gap: 35px;
+    .col-left,
+    .col-right {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 12px;
+      div {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+    .desc {
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      position: relative;
+      &::before {
+        content: '';
+        display: inline-block;
+        width: 0.5em;
+        height: 0.5em;
+
+        margin-right: 0.4em;
+        vertical-align: middle;
+        border-radius: 2px; /* Opcional: si lo quieres con bordes más suaves */
+      }
+    }
+    .red {
+      &::before {
+        background-color: red; /* 🔶 Cambia el color aquí */
+      }
+    }
+    .blue {
+      &::before {
+        background-color: blue; /* 🔶 Cambia el color aquí */
+      }
+    }
+    .cyan {
+      &::before {
+        background-color: cyan; /* 🔶 Cambia el color aquí */
+      }
+    }
+    .yellow {
+      &::before {
+        background-color: yellow; /* 🔶 Cambia el color aquí */
+      }
+    }
+    .value {
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 20px;
+      color: #ffffff;
+    }
+  }
+}
+@media (max-width: 680px) {
+  .total-wrapper {
+    height: 100px;
+  }
+}

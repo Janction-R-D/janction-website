@@ -1,5 +1,5 @@
-import { Button, Card, Divider, Form } from 'antd';
-import React, { useState } from 'react';
+import { Button, Card, Divider, Form, message } from 'antd';
+import React, { useEffect, useState } from 'react';
 import OperatingCard from './Customized/OperatingCard';
 import InternetType from './Customized/InternetType';
 import Location from './Customized/Location';
@@ -15,19 +15,25 @@ import FrameworkAi from './Customized/FrameworkAi';
 import AsidePrice from './Customized/AsidePrice/AsidePrice';
 import { history } from 'umi';
 import PurDuration from './PurDuration';
+import { Duration } from '@/constant';
+import ImagesAi from './Customized/ImagesAi';
 
 const Customized = () => {
   const [form] = Form.useForm();
   const [formValues, setFormValues] = useState({});
   const [current, setCurrent] = useState(0);
-
+  const [completedSteps, setCompletedSteps] = useState(new Set());
+  useEffect(() => {
+    form.setFieldsValue(formValues);
+  }, [current, formValues]);
   const onValuesChange = async (_, allValues) => {
+    console.log(allValues);
     setFormValues(allValues); // Evita llamar a form.getFieldsValue()
   };
 
   const steps = [
     {
-      title: 'Operating System',
+      title: <p style={{ fontSize: '1rem' }}>Operating System</p>,
       content: (
         <>
           <Form.Item name="operating_system_str">
@@ -43,7 +49,7 @@ const Customized = () => {
         'Mobile is convenient, and large users can provide flexible computing power',
     },
     {
-      title: 'Internet',
+      title: <p style={{ fontSize: '1rem' }}>Internet</p>,
       content: (
         <>
           <Form.Item name="internet_type">
@@ -59,7 +65,7 @@ const Customized = () => {
         'Mobile is convenient, and large users can provide flexible computing power.',
     },
     {
-      title: 'Location',
+      title: <p style={{ fontSize: '1rem' }}>Location</p>,
       content: (
         <Form.Item name="location">
           <Location formValues={formValues} current={current} />
@@ -71,7 +77,7 @@ const Customized = () => {
     },
 
     {
-      title: 'Processor',
+      title: <p style={{ fontSize: '1rem' }}>Processor</p>,
       content: (
         <Card className={styles['processor-conf-wrapper']}>
           <Processor
@@ -88,7 +94,7 @@ const Customized = () => {
       description: '',
     },
     {
-      title: 'Available Instance',
+      title: <p style={{ fontSize: '1rem' }}>Available Instance</p>,
       content: (
         <Card className={styles['processor-conf-wrapper']}>
           <Form.Item
@@ -103,11 +109,28 @@ const Customized = () => {
       description: '',
     },
     {
-      title: 'Duration',
+      title: <p style={{ fontSize: '1rem' }}> Image</p>,
+      content: (
+        <Card className={styles['processor-conf-wrapper']}>
+          <p style={{ fontSize: '1rem' }}>Choose an Image</p>
+          <Form.Item name="template">
+            <ImagesAi formValues={formValues} current={current} />
+          </Form.Item>
+        </Card>
+      ),
+      field: 'Basic configuration',
+      description: '',
+    },
+    {
+      title: <p style={{ fontSize: '1rem' }}>Duration</p>,
       content: (
         <Card className={styles['processor-conf-wrapper']}>
           <Form.Item name="purDuration">
-            <PurDuration formValues={formValues} form={form} />
+            <PurDuration
+              formValues={formValues}
+              form={form}
+              setFormValues={setFormValues}
+            />
           </Form.Item>
         </Card>
       ),
@@ -126,18 +149,30 @@ const Customized = () => {
   };
   const next = async () => {
     try {
-      // Obtiene los nombres de los campos del paso actual
       const fieldsToValidate = onValidateStep();
-      await form.validateFields(fieldsToValidate); // Valida solo los campos del paso actual
+      await form.validateFields(fieldsToValidate);
+      console.log(completedSteps);
+      if (current > 4 && !completedSteps.has(4)) {
+        message.error('Please complete steps 5 before proceeding.');
+        return; // No avanzar al siguiente paso
+      }
 
+      setCompletedSteps(new Set(completedSteps).add(current));
+
+      // Avanzar al siguiente paso si no estamos en el último
       if (current < steps.length - 1) {
         setCurrent(current + 1);
       }
     } catch (error) {
-      console.log('Error during validation:', error);
+      console.error('Error during validation:', error);
     }
   };
 
+  const prev = () => {
+    if (current >= 1) {
+      setCurrent(current - 1);
+    }
+  };
   const onConfirm = async () => {
     try {
       await form.validateFields();
@@ -168,21 +203,36 @@ const Customized = () => {
             setCurrent={setCurrent}
             onValidateStep={onValidateStep}
             form={form}
+            completedSteps={completedSteps}
+            formValues={formValues}
           />
           <header className={styles['header']}>
             <section className={styles['header-desc']}>
               <h2 className={styles['title']}>{steps[current].field}</h2>
             </section>
-
-            {current < steps.length - 1 && (
-              <Button
-                type="primary"
-                className={styles['btn-next']}
-                onClick={next}
-              >
-                Next Step
-              </Button>
-            )}
+            <div className={styles['btns']}>
+              {current >= 1 && (
+                <Button
+                  type="primary"
+                  className={styles['btn-next']}
+                  onClick={prev}
+                >
+                  <div className={styles['prev']}>
+                    <i className="iconfont icon-next icon " />
+                  </div>
+                  Prev Step{' '}
+                </Button>
+              )}
+              {current < steps.length - 1 && (
+                <Button
+                  type="primary"
+                  className={styles['btn-next']}
+                  onClick={next}
+                >
+                  Next Step <i className="iconfont icon-next icon" />
+                </Button>
+              )}
+            </div>
           </header>
           <motion.div
             key={current}

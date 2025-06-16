@@ -1,0 +1,72 @@
+.create-wrapper {
+  padding-inline: 70px;
+  padding-top: 40px;
+  padding-bottom: 20px;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+  background: rgb(30, 30, 30);
+  height: calc(100vh - 60px);
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
+  position: fixed;
+  width: 100%;
+  z-index: 50;
+  top: 60px;
+  left: 0;
+
+  flex-direction: column;
+  .orders-header {
+    display: flex;
+    height: 50px;
+    padding: 12px;
+    gap: 12px;
+    align-items: center;
+    border-bottom: 1px solid #7070702d;
+    margin-bottom: 20px;
+    .btn-back {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #fff;
+      transition: all ease 250ms;
+      cursor: pointer;
+      &:hover {
+        color: #bfbfbfbd;
+      }
+    }
+    .box {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      .title-sm {
+        font-size: 0.8rem;
+      }
+    }
+    .divider {
+      background: #8282829e;
+      height: 25px;
+    }
+  }
+  .create__content {
+    display: grid;
+    grid-template-columns: 60% auto;
+    flex: 1;
+    gap: 40px;
+    margin-bottom: 20px;
+    .config {
+    }
+    .logs {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+  }
+  .buttons {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 20px;
+  }
+}

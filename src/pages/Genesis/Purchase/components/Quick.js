@@ -1,19 +1,18 @@
-import { Card, Collapse, Divider, Form, message } from 'antd';
+import { Card, Divider, Form } from 'antd';
 import styles from './index.less';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import Operating from './Quick/Operating';
+import { useEffect, useMemo, useState } from 'react';
 import AsidePrice from './Quick/AsidePrice/AsidePrice';
-import Instances from './Quick/Instances';
-import Specification from './Quick/Specification';
+import TypeSelector from './Quick/TypeSelector';
 import { history } from 'umi';
 import ToggleSwitch from './Quick/ToggelSwitch';
-import FrameworkAi from './Customized/FrameworkAi';
-import QuickTable from './Quick/QuickTable';
 import ProductList from './Quick/ProductList';
 import { fetchListFilter } from '@/services/genesis';
 import { getNodeStatusMatch } from '@/utils/lang';
 import PurDuration from './PurDuration';
 import { debounce } from 'lodash';
+import Purpose from './Quick/Purpose';
+import FrameworkAi from './Customized/FrameworkAi';
+import ImagesAi from './Customized/ImagesAi';
 
 const Quick = (props) => {
   const [form] = Form.useForm();
@@ -32,7 +31,6 @@ const Quick = (props) => {
       framework: ai_framework,
     };
 
-    // getList(payload);
     debouncedGetList(payload);
   }, [formValues?.operating_system_str, formValues?.ai_framework]);
 
@@ -44,8 +42,9 @@ const Quick = (props) => {
         const { isListed } = getNodeStatusMatch(node);
         return isListed;
       });
-      // check if theres an available node , if not refresh value of node in form
+
       if (res.length <= 0) {
+        setFormValues((prevState) => ({ ...prevState, node: undefined }));
         form.setFieldsValue({ node: undefined });
       }
       setList(newList);
@@ -56,8 +55,7 @@ const Quick = (props) => {
     }
   };
   const debouncedGetList = useMemo(() => debounce(getList, 1000), []);
-  const onValuesChange = async () => {
-    const values = form.getFieldsValue();
+  const onValuesChange = async (_, values) => {
     setFormValues(values);
   };
 
@@ -85,29 +83,23 @@ const Quick = (props) => {
           </p>
         </section>
         <main className={styles['specification-conf-wrapper']}>
-          <Form.Item name="operating_system_str">
-            <Operating getList={getList} />
+          <div className={styles['purpose-selector-title']}>Purpose</div>
+          <Form.Item name="purposes">
+            <Purpose />
           </Form.Item>
-          <Collapse
-            className={styles['custom-collapse']}
-            bordered={false}
-            defaultActiveKey={1}
-          >
-            <Collapse.Panel
-              header="Pre-installed application (AI Framework)"
-              key="1"
-              style={{ background: '#000' }}
-            >
-              <Form.Item name="ai_framework">
-                <FrameworkAi formValues={formValues} />
-              </Form.Item>
-            </Collapse.Panel>
-          </Collapse>
+          {/* <Form.Item name="operating_system_str">
+            <Operating getList={getList} />
+          </Form.Item> */}
+
+          <Form.Item name="ai_framework">
+            <FrameworkAi formValues={formValues} />
+          </Form.Item>
+
           <p>Instance Specification</p>
           <Card className={styles['specification-card']}>
             <section className={styles['specification-card-header']}>
               <Form.Item name="specification">
-                <Specification />
+                <TypeSelector />
               </Form.Item>
 
               <section className={styles['switch-container']}>
@@ -127,12 +119,19 @@ const Quick = (props) => {
               />
             </Form.Item>
           </Card>
-          <p>Purchase Duration</p>
-          <Card className={styles['duration-card']}>
-            <Form.Item name="purDuration">
-              <PurDuration formValues={formValues} form={form} />
-            </Form.Item>
-          </Card>
+
+          <Form.Item name="template">
+            <ImagesAi formValues={formValues} form={form} />
+          </Form.Item>
+
+          <p style={{ marginBottom: '12px' }}>Purchase Duration</p>
+          <Form.Item name="purDuration">
+            <PurDuration
+              form={form}
+              formValues={formValues}
+              setFormValues={setFormValues}
+            />
+          </Form.Item>
         </main>
       </Form>
       <Divider type="vertical" className={styles['divider']} />
@@ -140,6 +139,7 @@ const Quick = (props) => {
         formValues={formValues}
         styles={styles}
         onConfirm={onConfirm}
+        loading={loading}
       />
     </main>
   );

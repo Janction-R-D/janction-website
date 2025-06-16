@@ -7,7 +7,10 @@ import contract from '@/utils/contracts';
 import {
   fetchMarketOrder,
   fetchResource,
+  fetchResourceTunnel,
   fetchStopRentParams,
+  PostResourceTunnel,
+  updateUserConfig,
 } from '@/services/genesis';
 import SshKeyModal from './SshModal';
 
@@ -18,14 +21,18 @@ export default function OperationModal({ record, getAllNodes }) {
   const [selectVisible, setSelectVisible] = useState(false);
   const [selectLoading, setSelectLoading] = useState(false);
   const [selectValue, setSelectValue] = useState(undefined);
-  const isRunning = record.status.toLowerCase() === 'running';
+  const isRunning = record?.status?.toLowerCase() === 'running';
+
   const handleConnect = async () => {
     if (!isRunning) return;
     setSelectVisible(true); // abrir el popover
     setSelectLoading(true);
+
     try {
-      const res = (await fetchResource({ resource_id: record?.id })) || [];
+      const res =
+        (await fetchResourceTunnel({ resource_id: record?.id })) || [];
       setOptions(res.routes || []);
+      await PostResourceTunnel({ resource_id: record?.id });
     } catch (error) {
       console.log(error);
       message.error('Failed to load remote connections');
@@ -46,13 +53,15 @@ export default function OperationModal({ record, getAllNodes }) {
   const handleStop = async () => {
     try {
       const { signature, payment_id } = await fetchStopRentParams({
-        resource_id: record.id,
+        resource_id: record?.id,
       });
+
       // const signatures = [`0x${signature}`];
       const adminSignature = signature;
+      const { deadline } = signature;
       // await getOrderInfo();
-      if (!payment_id) return;
-      await contract.stopRent(payment_id, adminSignature);
+      if (!payment_id && !adminSignature) return;
+      await contract.stopRent(payment_id, adminSignature, deadline);
       message.success('Success');
       getAllNodes();
     } catch (error) {
@@ -60,7 +69,28 @@ export default function OperationModal({ record, getAllNodes }) {
       console.log('『error』', error);
     }
   };
-
+  const handleChange = async (value) => {
+    console.log(value);
+    const selected = options.find((opt) => opt.url === value);
+    try {
+      if (selected) {
+        message.info({
+          content: 'Waiting...',
+          key: 'code-server',
+          duration: 0,
+        });
+        //llamar a user config
+        await updateUserConfig({ last_resource_visited: record?.id });
+        window.open(selected.url, '_blank');
+        window.location.reload();
+      }
+      setSelectValue(value);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      message.destroy('code-server');
+    }
+  };
   return (
     <div className="ellipsis operation-modal">
       <JanctionPopover
@@ -79,13 +109,7 @@ export default function OperationModal({ record, getAllNodes }) {
               content={
                 <Select
                   value={selectValue}
-                  onChange={(value) => {
-                    const selected = options.find((opt) => opt.url === value);
-                    if (selected) {
-                      window.open(selected.url, '_blank');
-                    }
-                    setSelectValue(value);
-                  }}
+                  onChange={handleChange}
                   style={{ width: 200 }}
                   placeholder="Select connection"
                   loading={selectLoading}
@@ -135,14 +159,14 @@ export default function OperationModal({ record, getAllNodes }) {
               onConfirm={handleStop}
               okText="Yes"
               disabled={
-                record.status?.toLowerCase() === 'stopped' ||
-                record.status?.toLowerCase() === 'expired'
+                record?.status?.toLowerCase() === 'stopped' ||
+                record?.status?.toLowerCase() === 'expired'
               }
             >
               <li
                 className={`${'operation-action'}  ${
-                  record.status?.toLowerCase() === 'stopped' ||
-                  record.status?.toLowerCase() === 'expired'
+                  record?.status?.toLowerCase() === 'stopped' ||
+                  record?.status?.toLowerCase() === 'expired'
                     ? styles['forbiden']
                     : ''
                 }`}
@@ -154,7 +178,9 @@ export default function OperationModal({ record, getAllNodes }) {
           </ul>
         }
       >
-        <a>More Functions</a>
+        <a>
+          More functions <i className="iconfont icon-down" />
+        </a>
       </JanctionPopover>
 
       {visible && (

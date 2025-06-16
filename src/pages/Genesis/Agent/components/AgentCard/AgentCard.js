@@ -1,0 +1,41 @@
+import styles from './index.less';
+import { onNavigate } from '../../utils';
+
+export default function AgentCard({
+  title,
+  icon,
+  tags,
+  path,
+  id,
+  description,
+}) {
+  const agent = { title, icon, tags, id, description };
+  return (
+    <div className={styles.card}>
+      <img className={styles.image} src={icon} alt="FinChat AI" />
+      <div className={styles.overlay}>
+        <div className={styles.description}>
+          <div className={styles.description_left}>
+            <div className={styles.title}>{title}</div>
+          </div>
+          <div
+            className={styles.try}
+            onClick={() => onNavigate(path, location.pathname, agent)}
+          >
+            Chat
+            <span className={styles.icon}>
+              <i className="iconfont icon-next" style={{ fontSize: '12px' }} />
+            </span>
+          </div>
+        </div>
+        <div className={styles['buttons']}>
+          {tags?.map((btn, i) => (
+            <div key={i} className={styles.btn}>
+              {btn}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}

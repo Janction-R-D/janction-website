@@ -44,7 +44,7 @@ export function Graph({ data }) {
         const formatDate = formatDateTime(date);
         const price = params[0].value;
 
-        return `<div style="display:flex; justify-content:space-between;gap:18px; font-size:.7rem;">
+        return `<div style="display:flex; justify-content:space-between;gap:18px; font-size:.7rem; position:relative; z-index:100;">
         <span>${formatDate[0]}</span> 
         <span>${
           formatDate[1]
@@ -101,7 +101,7 @@ export function Graph({ data }) {
             x2: 0,
             y2: 1,
             colorStops: [
-              { offset: 0, color: 'rgba(0, 170, 255, 1)' },
+              { offset: 0, color: 'rgb(0, 255, 60)' },
               { offset: 1, color: 'rgba(0, 170, 255, 0)' },
             ],
             global: false,

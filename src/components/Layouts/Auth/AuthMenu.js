@@ -3,6 +3,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { history, useModel } from 'umi';
 import styles from './index.less';
 import { navList } from '@/layouts/GenesisLayout';
+import RoleSwitcher from './SwitchRole';
+import ChatBot from '@/components/Chatbot';
 export const AndroidAuthMenu = ({ active }) => {
   const [menuShow, setMenuShow] = useState(false);
   const { initialState } = useModel('@@initialState');
@@ -61,7 +63,7 @@ export const AuthMenuAside = ({ menu, active, onMenuChange }) => {
 
   const { isLessee } = initialState || {};
 
-  const [fold, setFold] = useState(true);
+  const [fold, setFold] = useState(false);
 
   const foldHandle = () => {
     setFold(!fold);
@@ -88,7 +90,7 @@ export const AuthMenuAside = ({ menu, active, onMenuChange }) => {
                 isLessee ? styles['buyer-role'] : ''
               }`}
             >
-              {isLessee ? <span>Lessee</span> : <span>Lessor</span>}
+              <RoleSwitcher />
             </div>
           )}
         </section>
@@ -113,6 +115,7 @@ export const AuthMenuAside = ({ menu, active, onMenuChange }) => {
         ))}
       </nav>
       <div className={styles['footer']}>
+        <ChatBot fold={fold} />
         <div
           className={styles['item']}
           onClick={() => {
@@ -124,6 +127,7 @@ export const AuthMenuAside = ({ menu, active, onMenuChange }) => {
           </div>
           <span>Help</span>
         </div>
+
         {/* <div className={styles['item']}>
     <div className={styles['icon']}>
       <SettingOutlined />

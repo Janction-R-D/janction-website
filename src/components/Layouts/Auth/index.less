@@ -17,9 +17,10 @@ aside.auth-menu-aside {
   align-items: center;
   flex-shrink: 0;
   transition: all 0.3s;
-  background: #1a1b1d;
+  background-color: rgba(2, 2, 2, 0.69);
   position: relative;
   z-index: 1;
+  border-right: 1px solid #484848;
 
   header {
     width: 192px;
@@ -121,7 +122,7 @@ aside.auth-menu-aside {
       align-items: center;
       gap: 12px;
       align-self: stretch;
-      border-radius: 20px;
+      border-radius: 8px;
       transition: all 0.3s;
       cursor: pointer;
       color: #fff;
@@ -134,7 +135,7 @@ aside.auth-menu-aside {
         justify-content: center;
         background: #2c2c2f;
         box-shadow: 0px 3.5px 5.5px rgba(0, 0, 0, 0.02);
-        border-radius: 12px;
+        border-radius: 8px;
 
         i {
           color: #73d5f4;
@@ -147,20 +148,24 @@ aside.auth-menu-aside {
         font-weight: 500;
         font-size: 14px;
         line-height: 14px;
-        color: rgba(255, 255, 255, 0.6);
+        color: rgba(255, 255, 255, 0.538);
       }
 
       &.active {
-        background: rgba(94, 94, 94, 0.5);
+        background: rgba(94, 94, 94, 0.315);
         background-blend-mode: color-dodge;
         backdrop-filter: blur(10.05px);
-
+        color: #fff;
         .icon {
           background: #73d5f4;
 
           i {
             color: #2c2c2f;
           }
+        }
+        span {
+          color: #fff;
+          font-weight: 700;
         }
       }
 
@@ -196,6 +201,22 @@ aside.auth-menu-aside {
         font-size: 13px;
       }
     }
+    .item-Ai {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      padding-block: 8px;
+      border: 1px solid rgb(160, 160, 255);
+      border-radius: 12px;
+      font-size: 1.1rem;
+      transition: all ease 250ms;
+      cursor: pointer;
+      margin-bottom: 12px;
+      &:hover {
+        color: rgb(160, 160, 255);
+        border-color: rgb(194, 194, 255);
+      }
+    }
   }
 
   .fold-wrapper {
@@ -207,6 +228,7 @@ aside.auth-menu-aside {
     height: 36px;
     background: #1a1b1d;
     border-radius: 0px 8px 8px 0px;
+    border-left: 1px solid #575757;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -231,8 +253,7 @@ aside.auth-menu-aside {
     align-items: center;
     justify-content: center;
     cursor: pointer !important;
-    z-index: 40;
-
+    border-left: 1px solid #575757;
     i {
       font-size: 20px;
       color: #d8d8d8;
@@ -287,7 +308,7 @@ aside.fold {
 }
 
 header.auth-header {
-  padding: 0 40px;
+  padding: 0 20px;
   width: 100%;
   position: absolute;
   top: 0;
@@ -321,16 +342,36 @@ header.auth-header {
       }
 
       .img-container {
-        width: 35px;
-        height: 35px;
-        border-radius: 100%;
+        // width: 105px;
+        height: 50px;
+        color: #fff;
+        padding: 4px 12px;
         overflow: hidden;
-        box-shadow: 2px 2px 10px #ffffff2e;
-
+        cursor: pointer;
+        // box-shadow: 2px 2px 10px #ffffff2e;
+        border: 1px solid #ffffff45;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+        &:hover {
+          box-shadow: 0 0 12px 5px #ffffff2e;
+        }
+        span {
+          color: #c1c1c1;
+          display: flex;
+          align-items: center;
+          gap: 2px;
+          i {
+            font-size: 0.6rem;
+          }
+        }
         .profile-img {
+          border-radius: 100%;
           display: block;
-          max-width: 100%;
-          height: 100%;
+          width: 30px;
+          height: 30px;
           cursor: pointer;
           object-fit: cover;
         }
@@ -357,10 +398,10 @@ header.auth-header {
   .header-card {
     display: flex;
     gap: 12px;
-    padding: 10px;
+    padding: 20px;
     margin-bottom: 18px;
     border-radius: 10px;
-    background: #252527;
+    background: rgba(52, 88, 96, 0.5);
 
     .modal-profile-img {
       width: 70px;
@@ -392,10 +433,10 @@ header.auth-header {
         display: flex;
         align-items: center;
         gap: 4px;
-        color: #929293;
-
+        color: #c1c1c1;
+        font-weight: 500;
         i {
-          font-size: 0.8rem;
+          font-size: 0.9rem;
         }
       }
 
@@ -416,7 +457,8 @@ header.auth-header {
 
           & > p {
             cursor: pointer;
-            color: #c9c8c8;
+            color: #ffffff;
+            font-weight: 600;
             font-size: 0.8rem;
           }
         }
@@ -432,13 +474,17 @@ header.auth-header {
     display: flex;
     flex-direction: column;
     gap: 6px;
-
+    padding: 4px 16px;
     li {
       display: flex;
       align-items: center;
       gap: 18px;
       cursor: pointer;
-
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      & a:hover {
+        color: #cdcdcd;
+      }
       i {
         font-size: 1.4rem;
         padding: 4px 6px;
@@ -449,14 +495,35 @@ header.auth-header {
   }
 
   .log-out {
-    padding: 6px;
-    margin-top: 12px;
-    border-radius: 15px;
+    padding: 12px;
+    height: 55px;
+    background: transparent;
+    font-family: Poppins;
+    font-size: 1.3rem;
+    font-weight: 600;
+    line-height: 24px;
+    text-align: center;
+    border: 1px solid #c7c7c7;
+    color: #fff;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #252527;
+    flex: 1;
+    transition: all 0.3s ease;
+    &:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      border: 1px solid #fff;
+    }
+  }
+  .btn {
+    display: flex;
     width: 100%;
+    padding: 12px 24px;
+    .log-out-icon {
+      color: orange;
+    }
   }
 
   :global {
@@ -465,7 +532,7 @@ header.auth-header {
 
       .ant-modal-body {
         border-radius: 15px;
-        padding: 14px;
+        padding: 0px;
       }
     }
 

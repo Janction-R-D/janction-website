@@ -1,0 +1,121 @@
+.mainCard {
+  background: transparent;
+  border-radius: 4px;
+
+  color: #fff;
+  margin-bottom: 24px;
+  :global {
+    .ant-card-body {
+      padding: 0;
+    }
+  }
+}
+.profitHeader {
+  background: #1f262e;
+  display: flex;
+  justify-content: space-between;
+  padding: 18px;
+  color: #fff;
+}
+.drop {
+  color: red;
+}
+.no-drop {
+  color: rgb(22, 180, 22);
+}
+.no-drop,
+.drop {
+  font-size: 0.8rem;
+  img {
+    width: 15px;
+    height: 15px;
+    margin-right: 8px;
+  }
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.value_total {
+  font-size: 1.9rem;
+  font-weight: 600;
+  color: #6cf;
+}
+
+.percentageUp {
+  color: #52c41a;
+}
+
+.chart {
+  width: 200px;
+  height: 80px;
+}
+
+.metrics {
+  margin-top: 24px;
+}
+
+.metricCard {
+  background: #13161b;
+  border-radius: 8px;
+  padding: 16px;
+  color: #fff;
+  text-align: center;
+}
+
+.metricCard h5 {
+  margin-bottom: 8px;
+  font-weight: 500;
+  font-size: 16px;
+  color: #ccc;
+}
+
+.metricCard .value {
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.metricCard .change {
+  font-size: 13px;
+  color: #ff4d4f;
+}
+.sub_profit {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  padding: 16px;
+  .sub_profit_card {
+    border-bottom: #38414c 1px solid;
+    padding: 18px;
+    background: #1a1a1a;
+    border-radius: 4px;
+    .title {
+      color: #8b9198;
+      margin-bottom: 4px;
+    }
+    img {
+      width: 15px;
+      height: 15px;
+      margin-right: 8px;
+    }
+  }
+}
+.title {
+  font-size: 1.1rem;
+  color: #fff;
+  padding-bottom: 8px;
+}
+.subTitle {
+  margin-top: 20px;
+}
+.value {
+  color: rgba(172, 252, 188, 0.644);
+  font-size: 1.4rem;
+}
+.compare {
+  color: #8b9198;
+  font-size: 0.8rem;
+}

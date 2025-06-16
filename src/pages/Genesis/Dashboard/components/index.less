@@ -553,7 +553,8 @@
   gap: 8px;
   overflow: hidden;
   height: 100%;
-
+  padding: 16px;
+  position: relative;
   .sale-item {
     display: flex;
     align-items: center;
@@ -600,25 +601,12 @@
     }
   }
 
-  :global {
-    .ant-skeleton {
-      .ant-skeleton-content {
-        .ant-skeleton-title {
-          width: 100% !important;
-        }
-
-        .ant-skeleton-paragraph {
-          margin-top: 0;
-        }
-      }
-    }
-  }
-
   .nft-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
+    position: relative;
+    z-index: 10;
     p {
       display: flex;
       align-items: center;
@@ -640,6 +628,7 @@
     justify-content: center;
     align-items: center;
     height: 100%;
+    min-height: 300px;
     width: 100%;
   }
 
@@ -650,7 +639,7 @@
     height: 100%;
     top: 0;
     left: 0;
-    z-index: -10;
+
     border-radius: 16px;
   }
 }

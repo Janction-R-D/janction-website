@@ -1,11 +1,5 @@
 import JanctionTable from '@/components/JanctionTable';
-import { Space } from 'antd';
-import { useState } from 'react';
-
-// import { convertMBtoGB } from '../Dashboard/Lessors';
 import styles from './resources.less';
-
-import { history } from 'umi';
 import useData from './Hook/useData';
 
 function ResourceTable({ data }) {
