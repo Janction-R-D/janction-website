@@ -1,0 +1,1025 @@
+.invite-wrapper {
+  position: fixed;
+  top: 80vh;
+  right: 32px;
+  z-index: 999;
+}
+
+.modal-purchase {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: 18px;
+
+  border-radius: 16px;
+
+  img {
+    max-width: 100%;
+    height: 300px;
+    object-fit: cover;
+    margin-bottom: 12px;
+  }
+
+  .details-text {
+    margin-bottom: 32px;
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-block: 12px;
+
+    li {
+      flex: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      p {
+        text-align: end;
+        max-width: 200px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        text-wrap: nowrap;
+      }
+    }
+  }
+
+  :global {
+    .ant-modal-content {
+      max-width: 900px;
+      height: 600px;
+      width: 100%;
+      margin-top: 0px;
+      border: #808080 1px solid;
+      border-radius: 20px;
+
+      background: linear-gradient(-10deg, #1e1e20, rgb(47, 47, 51));
+
+      .ant-modal-body {
+        display: flex;
+        padding: 22px;
+        gap: 22px;
+        height: 100%;
+
+        div {
+          display: flex;
+          flex-direction: column;
+          gap: 32px;
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+.invite-box {
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  h1 {
+    flex: 1;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 40px;
+    line-height: 60px;
+    color: #ffffff;
+  }
+}
+
+.invite-btn {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  .buy-btn {
+    height: 35px;
+    display: flex;
+    width: 120px;
+
+    justify-content: start;
+    align-items: center;
+    background: linear-gradient(90deg, #fdcb82, #f2933e);
+    border: none;
+    border-radius: 25px;
+    padding: 10px 30px;
+    font-size: 16px;
+    color: #000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    position: relative;
+  }
+
+  .buy-btn:hover {
+    background: linear-gradient(90deg, #f2933e, #fdcb82);
+
+    color: #fff;
+  }
+
+  .buy-btn:focus {
+    border: 1px solid #72deff;
+  }
+
+  img {
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: -12px;
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+  }
+}
+
+.setting-btn {
+  height: 35px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-inline: 18px;
+  background: linear-gradient(275.81deg, #72deff 18.68%, #ffebe7 100%);
+  font-family: Poppins;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  text-align: center;
+  color: #000;
+  border-radius: 20px;
+  text-wrap: nowrap;
+}
+
+.invite-modal {
+  .invite-box {
+    border-radius: 16px;
+    background-color: #0f0f10;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    width: 80%;
+
+    .invite-box-info {
+      flex: 1;
+      width: 80%;
+      padding: 10px 18px;
+    }
+
+    .invite-box-button {
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      background-color: #3c3a3d;
+      border-radius: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      i {
+        font-size: 20px;
+      }
+    }
+
+    p {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 95%;
+      text-wrap: nowrap;
+    }
+  }
+
+  :global {
+    .ant-modal-content {
+      background: radial-gradient(
+            68.82% 108.11% at 28.33% -13.1%,
+            rgba(240, 216, 168, 0.2) 0%,
+            rgba(238, 218, 179, 0.002) 86.27%,
+            rgba(238, 218, 181, 0) 100%
+          )
+          /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */,
+        rgba(128, 128, 128, 0.15);
+      background-blend-mode: normal, luminosity;
+      /* Blur */
+      backdrop-filter: blur(50px);
+      /* Note: backdrop-filter has minimal browser support */
+      border-radius: 32px;
+      border: 1.4px solid;
+      border-image-source: linear-gradient(
+        187.9deg,
+        rgba(255, 255, 255, 0.4) 6.09%,
+        rgba(255, 255, 255, 0.01) 53.52%,
+        rgba(255, 255, 255, 0.01) 73.24%,
+        rgba(255, 255, 255, 0.25) 123%
+      );
+    }
+  }
+
+  .invite-modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    img {
+      width: 352.69px;
+      height: 194px;
+    }
+
+    h1 {
+      margin-top: 32px;
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 24px;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.96);
+    }
+
+    p.desc {
+      margin-top: 8px;
+      width: 350px;
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 20px;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .email {
+      margin-top: 80px;
+      width: 350px;
+
+      :global {
+        .ant-input-affix-wrapper {
+          padding: 0 10px;
+          border-radius: 100px;
+          background-color: #0f0f10;
+          color: #ffffff66;
+
+          .ant-input-prefix {
+            font-size: 15px;
+            color: #cccccc;
+            margin-right: 10px;
+          }
+
+          .ant-input {
+            height: 36px;
+          }
+        }
+      }
+    }
+
+    p.tip {
+      margin-top: 8px;
+      width: 350px;
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 20px;
+      color: rgba(255, 255, 255, 0.4);
+      text-align: left;
+    }
+
+    a {
+      width: 350px;
+      margin-top: 4px;
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 20px;
+      text-decoration-line: underline;
+      color: #73d5f4;
+      text-align: left;
+    }
+
+    .invite {
+      margin-top: 32px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 350px;
+      height: 40px;
+      background: linear-gradient(90deg, #f7e5d9 0%, #f3b475 100%);
+      opacity: 0.5;
+      border-radius: 98px;
+      cursor: pointer;
+
+      span {
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 24px;
+        color: #0f0f10;
+      }
+    }
+
+    .footer {
+      margin-top: 32px;
+      width: 210px;
+      display: flex;
+      align-content: center;
+      justify-content: space-between;
+
+      .item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+
+        .icon {
+          width: 40px;
+          height: 40px;
+          background: #323233;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          i {
+            font-size: 16px;
+            color: #adadad;
+          }
+        }
+
+        span {
+          height: 20px;
+          font-family: 'Poppins';
+          font-style: normal;
+          font-weight: 400;
+          font-size: 12px;
+          line-height: 20px;
+          text-align: center;
+          color: rgba(255, 255, 255, 0.4);
+        }
+      }
+    }
+  }
+}
+@media (max-width: 680px) {
+  .invite-modal {
+    .invite-box {
+      border-radius: 16px;
+      background-color: #0f0f10;
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      width: 90%;
+
+      .invite-box-info {
+        flex: 1;
+        width: 80%;
+        padding: 10px 18px;
+      }
+
+      .invite-box-button {
+        width: 60px;
+        height: 60px;
+        cursor: pointer;
+        background-color: #3c3a3d;
+        border-radius: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        i {
+          font-size: 20px;
+        }
+      }
+
+      p {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 95%;
+        text-wrap: nowrap;
+      }
+    }
+
+    :global {
+      .ant-modal-content {
+        background: radial-gradient(
+              68.82% 108.11% at 28.33% -13.1%,
+              rgba(240, 216, 168, 0.2) 0%,
+              rgba(238, 218, 179, 0.002) 86.27%,
+              rgba(238, 218, 181, 0) 100%
+            )
+            /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */,
+          rgba(128, 128, 128, 0.15);
+        background-blend-mode: normal, luminosity;
+        /* Blur */
+        backdrop-filter: blur(50px);
+        /* Note: backdrop-filter has minimal browser support */
+        border-radius: 32px;
+        border: 1.4px solid;
+        border-image-source: linear-gradient(
+          187.9deg,
+          rgba(255, 255, 255, 0.4) 6.09%,
+          rgba(255, 255, 255, 0.01) 53.52%,
+          rgba(255, 255, 255, 0.01) 73.24%,
+          rgba(255, 255, 255, 0.25) 123%
+        );
+      }
+    }
+
+    .invite-modal-content {
+      img {
+        max-width: 352px;
+        width: 100%;
+        height: 194px;
+      }
+
+      h1 {
+        margin-block: 12px;
+        width: 80%;
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 24px;
+        text-align: center;
+        color: rgba(255, 255, 255, 0.96);
+      }
+
+      p.desc {
+        margin-top: 8px;
+        max-width: 350px;
+        width: 100%;
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 20px;
+        text-align: center;
+        color: rgba(255, 255, 255, 0.4);
+      }
+    }
+  }
+}
+.modal-nft {
+  flex: 1;
+}
+
+.create-btn {
+  height: 35px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-inline: 18px;
+  margin-block: 12px;
+  background: linear-gradient(275.81deg, #72deff 18.68%, #ffebe7 100%);
+  font-family: Poppins;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  text-align: center;
+  color: #000;
+  border-radius: 20px;
+  text-wrap: nowrap;
+}
+
+.card-modal {
+  width: 330px;
+
+  padding: 18px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background-color: transparent;
+  z-index: 10;
+  border-radius: 15px;
+
+  .log-out {
+    padding: 6px;
+    margin-top: 12px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #252527;
+    width: 100%;
+  }
+
+  :global {
+    .ant-modal-content {
+      border-radius: 15px !important;
+
+      .ant-modal-body {
+        border-radius: 15px;
+        padding: 14px;
+      }
+    }
+
+    .ant-modal-footer {
+      display: none !important;
+    }
+  }
+}
+
+.search-input {
+  border: none;
+  flex-grow: 1;
+  outline-style: none;
+  width: 100%;
+  margin-top: 12px;
+  background: #3c3a3d;
+  border-radius: 2.604vw;
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 0.833vw;
+  line-height: 1.25vw;
+  padding-left: 0.833vw;
+
+  :global {
+    .ant-input-prefix {
+      margin-right: 0.488vw;
+    }
+  }
+}
+
+.sales-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow: hidden;
+  height: 100%;
+
+  .sale-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    height: 36px;
+
+    .icon {
+      width: 24px;
+      height: 24px;
+      background: #0a0a0a;
+      border-radius: 4.90909px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      i {
+        font-size: 12px;
+      }
+    }
+
+    > span {
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 20px;
+      color: #fffcfc;
+    }
+
+    .name {
+      width: 100px;
+      flex-shrink: 0;
+      margin-right: 4px;
+    }
+
+    .bar {
+      flex: 1;
+
+      .value-bar {
+        height: 12px;
+        border-radius: 39.85px;
+        background-color: rgba(0, 187, 212, 1);
+      }
+    }
+  }
+
+  :global {
+    .ant-skeleton {
+      .ant-skeleton-content {
+        .ant-skeleton-title {
+          width: 100% !important;
+        }
+
+        .ant-skeleton-paragraph {
+          margin-top: 0;
+        }
+      }
+    }
+  }
+
+  .nft-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    p {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+
+      div {
+        rotate: 90deg;
+
+        i {
+          font-size: 10px;
+        }
+      }
+    }
+  }
+
+  .swiper-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+  }
+
+  .banner-img {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -10;
+    border-radius: 16px;
+  }
+}
+
+.hoisting-modal {
+  border-radius: 24px;
+
+  :global {
+    .ant-modal-content {
+      border-radius: 24px;
+
+      .ant-modal-body {
+        > header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 22px;
+        }
+
+        > footer {
+          padding-top: 25px;
+
+          p {
+            position: relative;
+            padding-left: 12px;
+
+            .earnings {
+              color: #f2933e;
+            }
+          }
+
+          p::before {
+            content: '•';
+            /* Disc (círculo sólido) */
+            position: absolute;
+            left: 0;
+            /* Ubicación del disc a la izquierda */
+            top: 0;
+            font-size: 1.5em;
+            /* Tamaño del disc */
+            color: rgb(86, 85, 85);
+            /* Color del disc */
+            line-height: 1;
+            /* Asegura que esté alineado correctamente */
+          }
+        }
+      }
+    }
+  }
+
+  .table {
+    :global {
+      .ant-table-container table {
+        .ant-table-tbody {
+          tr {
+            td {
+              color: #fff;
+
+              .name {
+                display: flex;
+                align-items: center;
+                gap: 50px;
+
+                div {
+                  .trusted {
+                    margin-top: 12px;
+                    display: flex;
+                    width: min-content;
+                    align-items: center;
+                    gap: 5px;
+                    font-weight: bold;
+                    background-color: #00e1951a;
+                    color: #00e196d1;
+                    padding: 5px 8px;
+                    border-radius: 12px;
+
+                    img {
+                      width: 15px;
+                      height: 15px;
+                      background: #000;
+                    }
+                  }
+                }
+
+                img {
+                  width: 150px;
+                  height: 100px;
+                  object-fit: cover;
+                  border-radius: 14px;
+                }
+              }
+
+              .earnings {
+                color: #f2933e;
+              }
+            }
+
+            .ellipsis {
+              text-overflow: ellipsis;
+              text-wrap: nowrap;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.earnings {
+  color: #f2933e;
+}
+
+.card-modal-hosting {
+  width: 330px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: transparent;
+  border-radius: 22px;
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1rem;
+    font-weight: bold;
+
+    i {
+      cursor: pointer;
+    }
+  }
+
+  /* Seleccionar elementos globales */
+  :global {
+    .ant-modal-content {
+      border-radius: 15px !important;
+      backdrop-filter: blur(14px) !important;
+
+      .ant-modal-body {
+        border-radius: 15px;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        gap: 24px;
+        padding: 24px 24px;
+      }
+    }
+
+    .ant-modal-footer {
+      display: none !important;
+    }
+  }
+
+  .info-box {
+    padding: 8px;
+    border-radius: 12px;
+    background-color: #f6951e46;
+  }
+
+  .buttons {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 14px;
+    margin-bottom: 12px;
+
+    button {
+      cursor: pointer;
+    }
+  }
+}
+
+.create-btn {
+  height: 40px;
+  width: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 12px;
+  padding-inline: 18px;
+  background: linear-gradient(275.81deg, #72deff 18.68%, #ffebe7 100%);
+  font-family: Poppins;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 24px;
+  text-align: center;
+  color: #000;
+  border-radius: 20px;
+  text-wrap: nowrap;
+}
+
+.pre {
+  height: 40px;
+  width: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 12px;
+  padding-inline: 18px;
+  font-family: Poppins;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 24px;
+  text-align: center;
+  border-radius: 20px;
+  text-wrap: nowrap;
+}
+
+.swiper {
+  width: 500px;
+  height: 300px;
+}
+
+.contributor-reward {
+  width: 100%;
+  height: 137px;
+  border-radius: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  backdrop-filter: blur(30px);
+
+  img {
+    width: 355px;
+    height: 45.04px;
+  }
+
+  .receive {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .value {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+
+      .icon {
+        width: 24px;
+        height: 24px;
+        background: url('../../../../assets/images/genesis/jasmy_coin.png');
+        background-size: 100% 100%;
+      }
+
+      span {
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 24px;
+        line-height: 36px;
+        color: #f6931e;
+      }
+    }
+
+    .btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 8.8px 22px;
+      gap: 11px;
+      width: 160px;
+      height: 44.6px;
+      background-color: linear-gradient(139.61deg, -32.94%, #000000 45.49%);
+      // border-image-source: linear-gradient(95.72deg, #FFF4DA -1.58%, #B85600 89.37%);
+      border: 1px solid transparent;
+      background-clip: padding-box, border-box;
+      background-origin: padding-box, border-box;
+      background-image: linear-gradient(to right, #000, #000),
+        linear-gradient(90deg, #fff4da 0%, #b85600 100%);
+      border-radius: 28.6px;
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 500;
+      font-size: 15px;
+      line-height: 26px;
+      color: #fff7dd;
+      cursor: pointer;
+    }
+  }
+}
+
+.contributor-reward.disabled {
+  display: none;
+}
+
+@media screen and (max-width: 800px) {
+  .invite-box {
+    h1 {
+      font-size: 22px;
+      line-height: 60px;
+    }
+
+    :global {
+      .ant-badge {
+        .ant-badge-count {
+          right: 85px !important;
+        }
+      }
+    }
+  }
+
+  .invite-btn {
+    .buy-btn {
+      width: auto;
+      height: 30px;
+      padding: 10px 25px;
+      font-size: 14px;
+    }
+
+    img {
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  .setting-btn {
+    height: 30px;
+    padding-inline: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 24px;
+  }
+
+  .contributor-reward {
+    height: auto;
+    flex-direction: column;
+    padding: 16px;
+
+    img {
+      width: 90%;
+      height: auto;
+    }
+
+    .receive {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-direction: column;
+
+      .value {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+
+        .icon {
+          width: 24px;
+          height: 24px;
+          background: url('../../../../assets/images/genesis/jasmy_coin.png');
+          background-size: 100% 100%;
+        }
+
+        span {
+          font-family: 'Poppins';
+          font-style: normal;
+          font-weight: 600;
+          font-size: 24px;
+          line-height: 36px;
+          color: #f6931e;
+        }
+      }
+
+      .btn {
+        width: auto;
+        height: 32px;
+        font-size: 14px;
+      }
+    }
+  }
+}

@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import styles from './index.less';
 import { Button, message } from 'antd';
 import { toFixed, toNumber } from '../lang';
+import { history } from 'umi';
 
 const ContributorReward = (props) => {
   const [remaining, setRemaining] = useState(0);
@@ -53,12 +54,16 @@ const ContributorReward = (props) => {
       message.error('Failed, please try again!');
     }
   };
-
+  const onNavigate = () => history.push('/genesis/dashboard');
   return (
     <div className={styles['contributor-reward']}>
       <div className={styles['header']}>
         <h1>Contributor Reward</h1>
         <div className={styles['extra']}>
+          <div className={styles['connect-button']} onClick={onNavigate}>
+            <i className="iconfont icon-pre" style={{ color: 'orange' }} />
+            Back
+          </div>
           <a
             className="hvr-grow"
             href="https://x.com/JanctionMGT"
@@ -73,7 +78,7 @@ const ContributorReward = (props) => {
           >
             <i className="iconfont icon-telegram"></i>
           </a>
-          <div className={styles['remaining']}>{`Jasmy: ${numeral(
+          <div className={styles['connect-button']}>{`Jasmy: ${numeral(
             remaining || 0,
           ).format('0.00')}`}</div>
         </div>

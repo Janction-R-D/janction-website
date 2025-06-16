@@ -428,3 +428,14 @@ export const fetchSingleResource = (params) => {
     loginAuth: true,
   });
 };
+export const fetchAgentStatus = (id) => {
+  return request(`${baseUrl}/eichi/kb/${id}`, {
+    loginAuth: true,
+  });
+};
+export const fetchAgentDelete = (id) => {
+  return request(`${baseUrl}/eichi/agents/${id}`, {
+    method: 'DELETE',
+    loginAuth: true,
+  });
+};

@@ -83,6 +83,7 @@ export default function MyAgent() {
                   key={agent.id}
                   {...agent}
                   path={'/genesis/agent/try_chat'}
+                  getAll={getAgents}
                 />
               ))}
             </div>
