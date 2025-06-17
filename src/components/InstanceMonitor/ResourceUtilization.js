@@ -79,37 +79,39 @@ const ResourceUtilization = ({ configInfo }) => {
       <header className={styles.header}>
         <div className={styles.title}>Resource utilization</div>
       </header>
-      <div className={styles.diskSection}>
-        <DiskRing label="System disk" used={0} max={100} />
-        <DiskRing label="Data disk" used={0} max={100} />
-      </div>
-      <div className={styles.information}>
-        <div className={styles.title}>Instance Information</div>
-        <article>
-          <div className={styles.item}>
-            <span className={styles.label}>Specs: </span>
-            <span className={styles.value}>
-              {' '}
-              {configInfo?.Cores} Cores <Divider type="vertical" />{' '}
-              {configInfo?.memory}
-            </span>
-          </div>
-          <div className={styles.item}>
-            <span className={styles.label}>GPU: </span>
-            <span className={styles.value}>
-              {getGpu()} <Divider type="vertical" />
-              {getCpu()}
-            </span>
-          </div>
-          <div className={styles.item}>
-            <span className={styles.label}>Expiration Time: </span>
-            <span className={styles.value}>
-              <span> {configInfo?.expired}</span>
-              <span className={styles['renewal']}>Renewal 45% off</span>
-            </span>
-          </div>
-        </article>
-      </div>
+      <section>
+        <div className={styles.diskSection}>
+          <DiskRing label="System disk" used={0} max={100} />
+          <DiskRing label="Data disk" used={0} max={100} />
+        </div>
+        <div className={styles.information}>
+          <div className={styles.title}>Instance Information</div>
+          <article>
+            <div className={styles.item}>
+              <span className={styles.label}>Specs: </span>
+              <span className={styles.value}>
+                {' '}
+                {configInfo?.Cores} Cores <Divider type="vertical" />{' '}
+                {configInfo?.memory}
+              </span>
+            </div>
+            <div className={styles.item}>
+              <span className={styles.label}>GPU: </span>
+              <span className={styles.value}>
+                {getGpu()} <Divider type="vertical" />
+                {getCpu()}
+              </span>
+            </div>
+            <div className={styles.item}>
+              <span className={styles.label}>Expiration Time: </span>
+              <span className={styles.value}>
+                <span> {configInfo?.expired}</span>
+                {/* <span className={styles['renewal']}>Renewal 45% off</span> */}
+              </span>
+            </div>
+          </article>
+        </div>
+      </section>
     </div>
   );
 };

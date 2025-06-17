@@ -83,7 +83,7 @@ const ResourceUtilization = () => {
             <span className={styles.label}>Expiration Time: </span>
             <span className={styles.value}>
               <span> 2025-05-04 10:22:22</span>
-              <span className={styles['renewal']}>Renewal 45% off</span>
+              {/* <span className={styles['renewal']}>Renewal 45% off</span> */}
             </span>
           </div>
         </article>
