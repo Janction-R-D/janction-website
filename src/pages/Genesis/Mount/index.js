@@ -312,6 +312,7 @@ function Mount() {
                   min={1}
                   onChange={(e) => setPrice(e.target.value)}
                   name="price"
+                  disabled={loading}
                   className={styles['price-input']}
                 />
                 {errorInput && (

@@ -44,7 +44,7 @@ export async function handleIdentityChange({
       const chainId = parseInt(chainIdHex, 16);
 
       const { nonce } = await fetchUserNonce();
-
+      const expirationTime = new Date(Date.now() + expires).toISOString();
       const siweMessage = new SiweMessage({
         domain: window.location.host,
         address: account,
@@ -53,6 +53,7 @@ export async function handleIdentityChange({
         version: '1',
         chainId,
         nonce,
+        expirationTime,
       });
 
       const messageToSign = siweMessage.prepareMessage();

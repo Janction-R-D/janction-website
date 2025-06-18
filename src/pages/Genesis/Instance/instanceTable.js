@@ -100,7 +100,7 @@ function InstanceTable({ data, getAllNodes }) {
               <i className="iconfont  icon-questioncircle"></i> Expiring Soon
             </div>
           ) : (
-            <div className="status status-starting">
+            <div className={styles['status-starting']}>
               <span className={styles['icon-loading']}>
                 <i className="iconfont icon-refresh "></i>
               </span>{' '}
@@ -199,9 +199,9 @@ function InstanceTable({ data, getAllNodes }) {
   useEffect(() => {
     const interval = setInterval(() => {
       const hasStarting = mappedOrders?.some(
-        (order) => order.status_str?.toLowerCase() === 'starting',
+        (order) => order.status_str?.toLowerCase() === 'pending',
       );
-      // console.log(hasStarting);
+      console.log(hasStarting);
       if (hasStarting) {
         console.log('[Interval] Some instance is still starting...');
         getAllNodes(); // if theres a starting machine
