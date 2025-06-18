@@ -26,7 +26,6 @@ export default function OperationModal({ record, getAllNodes }) {
   const handleConnect = async () => {
     if (!isRunning) return;
     if (selectLoading) return;
-    console.log('holalalala');
     setSelectVisible(true);
     setSelectLoading(true);
 
