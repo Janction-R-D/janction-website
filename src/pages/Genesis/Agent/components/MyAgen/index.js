@@ -22,7 +22,6 @@ export default function MyAgent() {
   const getAgents = async () => {
     try {
       const res = await fetchAgent();
-      console.log(res);
       setList(res || []);
     } catch (error) {
       console.log(error);

@@ -122,7 +122,6 @@ export default function Lessee() {
     try {
       const { resource } =
         (await fetchSingleResource({ resource_id: id })) || {};
-      console.log(resource);
       setLast(resource || {});
     } catch (error) {
       console.log(error);

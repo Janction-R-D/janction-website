@@ -3,7 +3,7 @@ import { Modal, Input } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
 import styles from './index.less';
 import aiImage from '@/assets/images/genesis/ai.png';
-import { history } from 'umi';
+import { history, useModel } from 'umi';
 
 const defaultResponses = [
   {
@@ -37,12 +37,6 @@ const defaultResponses = [
   },
 ];
 
-const initianMessages = [
-  { from: 'bot', text: 'how to quickly deploy nodes' },
-  { from: 'bot', text: 'i want to check my nodes info' },
-  { from: 'bot', text: 'How can i purchase an instance' },
-];
-
 const ChatBot = ({ fold }) => {
   const [visible, setVisible] = useState(false);
   const [messages, setMessages] = useState([]);
@@ -50,6 +44,55 @@ const ChatBot = ({ fold }) => {
   const [typing, setTyping] = useState(false);
   const messagesEndRef = useRef(null);
   const messagesContainerRef = useRef(null);
+  const { initialState, setInitialState } = useModel('@@initialState');
+  const { isLessee } = initialState;
+
+  const initianMessages = [
+    {
+      from: 'bot',
+      text: 'how to quickly deploy nodes',
+      onNavigate: () => {
+        console.log('object');
+        if (isLessee) {
+          setInitialState({
+            ...initialState,
+            isLessee: !isLessee,
+          });
+        }
+        setVisible(false);
+        history.push('/genesis/deployNode');
+      },
+    },
+    {
+      from: 'bot',
+      text: 'i want to check my nodes info',
+      onNavigate: () => {
+        if (isLessee) {
+          setInitialState({
+            ...initialState,
+            isLessee: !isLessee,
+          });
+        }
+        setVisible(false);
+        history.push('/genesis/nodes');
+      },
+    },
+    {
+      from: 'bot',
+      text: 'How can i purchase an instance',
+      onNavigate: () => {
+        setInitialState({
+          ...initialState,
+          isLessee: true,
+        });
+
+        setTimeout(() => {
+          setVisible(false);
+          history.push('/genesis/purchase');
+        }, 500);
+      },
+    },
+  ];
 
   const handleSend = () => {
     const trimmed = input.trim();
@@ -67,7 +110,7 @@ const ChatBot = ({ fold }) => {
 
     setMessages((prev) => [...prev, userMessage]);
     setInput('');
-    simulateTyping(fullResponse); // 👈 Llamamos a la animación de escritura
+    simulateTyping(fullResponse);
   };
   const simulateTyping = (botMessage) => {
     setTyping(true);
@@ -80,7 +123,7 @@ const ChatBot = ({ fold }) => {
         currentText += text[index];
         setMessages((prev) => {
           const last = prev[prev.length - 1];
-          // Reemplazamos el mensaje actual que se está escribiendo
+
           if (last?.from === 'bot' && last.typing) {
             return [...prev.slice(0, -1), { ...last, text: currentText }];
           } else {
@@ -92,13 +135,13 @@ const ChatBot = ({ fold }) => {
         clearInterval(interval);
         setMessages((prev) => {
           const updated = [...prev];
-          // Remplazamos el temporal por el final completo
+
           updated[updated.length - 1] = { from: 'bot', text, link };
           return updated;
         });
         setTyping(false);
       }
-    }, 30); // Velocidad de escritura (ms por letra)
+    }, 30);
   };
 
   const handleOk = () => {
@@ -106,7 +149,6 @@ const ChatBot = ({ fold }) => {
   };
 
   useEffect(() => {
-    // Desplazar hacia arriba para ver los nuevos mensajes
     if (messagesContainerRef.current) {
       messagesContainerRef.current.scrollTop =
         messagesContainerRef.current.scrollHeight;
@@ -155,16 +197,18 @@ const ChatBot = ({ fold }) => {
             </p>
             {initianMessages.map((msg, i) => {
               return (
-                <div key={i} className={styles.botMsg}>
+                <div
+                  key={i}
+                  className={styles.botMsg}
+                  onClick={() => {
+                    msg.onNavigate();
+                  }}
+                >
                   <div className={styles.messageText}>
                     {msg.text}
                     {msg.link && !msg.typing && (
                       <span
                         className={styles.link}
-                        onClick={() => {
-                          setVisible(false);
-                          history.push(msg.link);
-                        }}
                         style={{
                           color: 'skyblue',
                           textDecoration: 'underline',

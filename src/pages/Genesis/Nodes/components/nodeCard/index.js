@@ -34,7 +34,6 @@ const NodeCard = ({ item, getList }) => {
     return 'offline';
   };
   const renderGpu = () => {
-    console.log(item);
     if (!item.attr?.gpu_chip && !item.attr?.cpu_chip) return '--';
     const cpu = item.attr.cpu_chip;
     const gpu = item.attr.gpu_chip;
