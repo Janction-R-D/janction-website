@@ -25,22 +25,38 @@ export default function OperationModal({ record, getAllNodes }) {
 
   const handleConnect = async () => {
     if (!isRunning) return;
-    setSelectVisible(true); // abrir el popover
+    if (selectLoading) return;
+    console.log('holalalala');
+    setSelectVisible(true);
     setSelectLoading(true);
 
     try {
-      const res =
-        (await fetchResourceTunnel({ resource_id: record?.id })) || [];
+      // First attempt to fetch the tunnel
+      const res = await fetchResourceTunnel({ resource_id: record?.id });
       setOptions(res.routes || []);
-      await PostResourceTunnel({ resource_id: record?.id });
     } catch (error) {
-      console.log(error);
-      message.error('Failed to load remote connections');
+      console.log('Failed to fetch tunnel routes:', error);
+      try {
+        // Try to create the tunnel
+        console.log('Attempting to create the remote tunnel...');
+        await PostResourceTunnel({ resource_id: record?.id });
+
+        // Try fetching again after creating the tunnel
+        console.log('Retrying to fetch tunnel routes...');
+        const res = await fetchResourceTunnel({ resource_id: record?.id });
+        setOptions(res.routes || []);
+      } catch (postError) {
+        console.log(
+          'Failed to create tunnel or fetch routes after creation:',
+          postError,
+        );
+        message.error('Failed to create or retrieve remote tunnel routes');
+      }
     } finally {
-      // if (record.status) setVisible(true); // --> old terminal version
       setSelectLoading(false);
     }
   };
+
   useEffect(() => {
     if (!selectVisible) {
       setOptions([]);

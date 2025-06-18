@@ -300,6 +300,7 @@ function Mount() {
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
                 name="price"
+                disabled={loading}
                 className={styles['price-input']}
               />
             </div>

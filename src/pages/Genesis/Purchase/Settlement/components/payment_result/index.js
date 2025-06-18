@@ -13,6 +13,7 @@ const PaymentResultModal = ({
 }) => {
   const onClick = () => {
     console.log(' Button Clicked');
+    history.push('/genesis/purchase');
   };
   const onRepay = () => {
     setOpen(false);
@@ -30,19 +31,19 @@ const PaymentResultModal = ({
       case 1:
         return (
           <>
-            <div className={styles['failure-message']}>Payment Failure</div>
+            <div className={styles['failure-message']}>Payment Failed</div>
             <div className={styles['instruction-text']}>
               <span className={styles['normal-text']}>
-                Please complete the payment in{' '}
+                The payment was not successful. Please try again using your{' '}
               </span>
-              <span className={styles['highlight-text']}>coinbase wallet</span>
+              <span className={styles['highlight-text']}>Coinbase Wallet</span>
             </div>
             <div className={styles['button-group']}>
               <Button className={styles['connect-btn']} onClick={onClick}>
-                Contact Service
+                Return to Purchase
               </Button>
               <Button className={styles['connect-btn']} onClick={onRepay}>
-                Try Again
+                Retry Payment
               </Button>
             </div>
           </>
@@ -50,19 +51,19 @@ const PaymentResultModal = ({
       case 2:
         return (
           <>
-            <div className={styles['success-message']}>Success</div>
+            <div className={styles['success-message']}>Payment Successful</div>
             <div className={styles['instruction-text']}>
               <span className={styles['normal-text']}>
-                Please complete the payment in{' '}
+                Your payment has been completed via{' '}
               </span>
-              <span className={styles['highlight-text']}>coinbase wallet</span>
+              <span className={styles['highlight-text']}>Coinbase Wallet</span>
             </div>
             <div className={styles['button-group']}>
               <Button className={styles['connect-btn']} onClick={onClick}>
-                Return to purchase
+                Return to Purchase
               </Button>
               <Button className={styles['connect-btn']} onClick={onContinue}>
-                Check instances
+                View Instances
               </Button>
             </div>
           </>
@@ -70,12 +71,12 @@ const PaymentResultModal = ({
       case 3:
         return (
           <>
-            <div className={styles['process-message']}>Payment in progress</div>
+            <div className={styles['process-message']}>Payment In Progress</div>
             <div className={styles['instruction-text']}>
               <span className={styles['normal-text']}>
-                Please complete the payment in{' '}
+                Payment is being processed, please wait in your{' '}
               </span>
-              <span className={styles['highlight-text']}>coinbase wallet</span>
+              <span className={styles['highlight-text']}>Coinbase Wallet</span>
             </div>
           </>
         );
@@ -87,7 +88,7 @@ const PaymentResultModal = ({
   return (
     <Modal
       open={open}
-      onCancel={onClose}
+      // onCancel={onClose}
       footer={null}
       centered
       closable={true}

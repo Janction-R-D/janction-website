@@ -86,6 +86,7 @@ const RainbowConnect = (props) => {
       const signAndLogin = async () => {
         try {
           const { nonce } = (await fetchUserNonce()) || {};
+          const expirationTime = new Date(Date.now() + expires).toISOString();
 
           const siweMessage = new SiweMessage({
             domain: window.location.host,
@@ -95,6 +96,7 @@ const RainbowConnect = (props) => {
             version: '1',
             chainId,
             nonce,
+            expirationTime,
           });
 
           const message = siweMessage.prepareMessage();

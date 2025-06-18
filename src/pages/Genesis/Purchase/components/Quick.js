@@ -94,7 +94,9 @@ const Quick = (props) => {
           <Form.Item name="ai_framework">
             <FrameworkAi formValues={formValues} />
           </Form.Item>
-
+          <Form.Item name="template">
+            <ImagesAi formValues={formValues} form={form} />
+          </Form.Item>
           <p>Instance Specification</p>
           <Card className={styles['specification-card']}>
             <section className={styles['specification-card-header']}>
@@ -119,10 +121,6 @@ const Quick = (props) => {
               />
             </Form.Item>
           </Card>
-
-          <Form.Item name="template">
-            <ImagesAi formValues={formValues} form={form} />
-          </Form.Item>
 
           <p style={{ marginBottom: '12px' }}>Purchase Duration</p>
           <Form.Item name="purDuration">
