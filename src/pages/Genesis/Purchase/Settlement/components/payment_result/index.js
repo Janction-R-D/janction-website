@@ -36,7 +36,7 @@ const PaymentResultModal = ({
               <span className={styles['normal-text']}>
                 The payment was not successful. Please try again using your{' '}
               </span>
-              <span className={styles['highlight-text']}>Coinbase Wallet</span>
+              <span className={styles['highlight-text']}> Wallet</span>
             </div>
             <div className={styles['button-group']}>
               <Button className={styles['connect-btn']} onClick={onClick}>
@@ -56,7 +56,7 @@ const PaymentResultModal = ({
               <span className={styles['normal-text']}>
                 Your payment has been completed via{' '}
               </span>
-              <span className={styles['highlight-text']}>Coinbase Wallet</span>
+              <span className={styles['highlight-text']}> Wallet</span>
             </div>
             <div className={styles['button-group']}>
               <Button className={styles['connect-btn']} onClick={onClick}>
@@ -76,7 +76,7 @@ const PaymentResultModal = ({
               <span className={styles['normal-text']}>
                 Payment is being processed, please wait in your{' '}
               </span>
-              <span className={styles['highlight-text']}>Coinbase Wallet</span>
+              <span className={styles['highlight-text']}> Wallet</span>
             </div>
           </>
         );
