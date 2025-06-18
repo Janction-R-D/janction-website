@@ -100,7 +100,7 @@ function InstanceTable({ data, getAllNodes }) {
               <i className="iconfont  icon-questioncircle"></i> Expiring Soon
             </div>
           ) : (
-            <div className="status status-starting">
+            <div className={styles['status-starting']}>
               <span className={styles['icon-loading']}>
                 <i className="iconfont icon-refresh "></i>
               </span>{' '}
