@@ -188,6 +188,7 @@ function InstanceTable({ data, getAllNodes }) {
       Cores: order?.node?.attr.cpu || '--',
       memory: order?.node?.attr.memory,
       status: order?.status_str,
+      status_2: order?.operating_status_str,
       Location: order?.node?.attr.location || '--',
       MemoryUsage: convertMBtoGB(order?.activity?.memory_usage?.toFixed(2)),
       downtime: `${formatISODate(order.created_at)}\r\n${formatISODate(
