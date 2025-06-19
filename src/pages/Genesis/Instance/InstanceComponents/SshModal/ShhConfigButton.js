@@ -8,8 +8,7 @@ export default function SshConfigButton({ data, resourceId }) {
      Port ${port}
      User ${user}
     `;
-    console.log(sshConfig);
-    console.log(data);
+
     navigator.clipboard
       .writeText(sshConfig)
       .then(() => {
