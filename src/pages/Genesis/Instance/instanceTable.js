@@ -199,7 +199,7 @@ function InstanceTable({ data, getAllNodes }) {
   useEffect(() => {
     const interval = setInterval(() => {
       const hasStarting = mappedOrders?.some(
-        (order) => order.status_str?.toLowerCase() === 'pending',
+        (order) => order.status?.toLowerCase() === 'pending',
       );
       console.log(hasStarting);
       if (hasStarting) {
