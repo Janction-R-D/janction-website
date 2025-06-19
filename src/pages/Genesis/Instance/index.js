@@ -19,10 +19,12 @@ import InstanceTable from './instanceTable';
 import {
   AppstoreOutlined,
   BarsOutlined,
+  ClockCircleOutlined,
   ShoppingCartOutlined,
 } from '@ant-design/icons';
 import EmptyContent from './Empty/EmptyContent';
 import InstanceMonitor from '@/components/InstanceMonitor';
+import HistoryInstance from './InstanceComponents/HistoryInstances';
 
 const initQuery = { current: 1, size: 5 };
 function Instance() {
@@ -36,6 +38,15 @@ function Instance() {
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(4);
+  const [openHs, setOpenHs] = useState(false);
+
+  const onHistory = () => {
+    setOpenHs(true);
+  };
+  const cancelHistory = () => {
+    setOpenHs(false);
+  };
+
   const getAllNodes = () => {
     fetchNodeList()
       .then((res) => {
@@ -127,6 +138,15 @@ function Instance() {
                 ]}
                 onChange={handleSetView}
                 style={{ border: '1px solid #ccc' }}
+              />
+              <span className={styles['connect-btn']} onClick={onHistory}>
+                <ClockCircleOutlined />
+              </span>
+              <HistoryInstance
+                onCancel={cancelHistory}
+                open={openHs}
+                onOk={onHistory}
+                data={filteredData}
               />
             </div>
           </Col>

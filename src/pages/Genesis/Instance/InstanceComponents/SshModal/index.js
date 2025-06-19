@@ -1,9 +1,10 @@
-import { Modal, Form, Input, Typography, message, List, Tooltip } from 'antd';
+import { Modal, Form, Input, Typography, message, Button, Tooltip } from 'antd';
 import { CopyOutlined } from '@ant-design/icons';
 import styles from './index.less';
 import { fetchSshInsert, fetchSshList } from '@/services/genesis';
 import { useState, useEffect } from 'react';
 import { copy } from '@/utils/lang';
+import SshConfigButton from './ShhConfigButton';
 
 const { Text } = Typography;
 
@@ -81,6 +82,20 @@ const SshKeyModal = ({ visible, onCancel, record }) => {
       width={700}
       confirmLoading={loading}
       className={styles.modal}
+      footer={[
+        <SshConfigButton data={sshInfo} resourceId={record?.id} />,
+        <Button key="cancel" onClick={handleCancel}>
+          Cancel
+        </Button>,
+        <Button
+          key="submit"
+          type="primary"
+          loading={loading}
+          onClick={() => form.submit()}
+        >
+          Save key
+        </Button>,
+      ]}
     >
       <div className={styles.container}>
         <Text type="secondary">

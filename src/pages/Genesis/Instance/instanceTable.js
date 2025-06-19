@@ -195,6 +195,9 @@ function InstanceTable({ data, getAllNodes }) {
       )}`,
     }));
   }, [data]);
+  const filteredInstance = mappedOrders?.filter(
+    (item) => item.status === 'running' || item.status === 'pending',
+  );
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -227,7 +230,7 @@ function InstanceTable({ data, getAllNodes }) {
       <Table
         className={styles['table-instance']}
         columns={columns}
-        dataSource={mappedOrders}
+        dataSource={filteredInstance}
         emptyDescription={
           <p>
             No instance is currently available. Please{' '}
