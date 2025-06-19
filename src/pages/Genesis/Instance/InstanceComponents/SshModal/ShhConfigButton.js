@@ -3,6 +3,10 @@ import styles from './index.less';
 export default function SshConfigButton({ data, resourceId }) {
   const { host, port, user } = data || {};
   const handleCopy = () => {
+    if (!host) {
+      message.warning('SSH CODE is missing, please refresh and try again');
+      return;
+    }
     const sshConfig = `Host ${resourceId}
      HostName ${host}
      Port ${port}
