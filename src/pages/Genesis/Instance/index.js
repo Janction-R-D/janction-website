@@ -24,7 +24,7 @@ import {
 } from '@ant-design/icons';
 import EmptyContent from './Empty/EmptyContent';
 import InstanceMonitor from '@/components/InstanceMonitor';
-import HistoryInstance from './InstanceComponents/HistoryInstances';
+import HistoryInstances from './InstanceComponents/HistoryInstances';
 
 const initQuery = { current: 1, size: 5 };
 function Instance() {
@@ -142,7 +142,7 @@ function Instance() {
               <span className={styles['connect-btn']} onClick={onHistory}>
                 <ClockCircleOutlined />
               </span>
-              <HistoryInstance
+              <HistoryInstances
                 onCancel={cancelHistory}
                 open={openHs}
                 onOk={onHistory}

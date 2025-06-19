@@ -100,7 +100,7 @@ const columns = [
   },
 ];
 
-const HistoryInstance = (props) => {
+const HistoryInstances = (props) => {
   const { open, onOk, onCancel, data } = props;
   const [currentPage, setCurrentPage] = useState(1);
   const mappedOrders = useMemo(() => {
@@ -157,4 +157,4 @@ const HistoryInstance = (props) => {
   );
 };
 
-export default HistoryInstance;
+export default HistoryInstances;
