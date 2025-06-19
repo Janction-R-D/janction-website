@@ -92,7 +92,7 @@ const RainbowConnect = (props) => {
             domain: window.location.host,
             address,
             statement: 'Sign in Janction with your wallet.',
-            uri: 'https://janction.ai',
+            uri: window.location.origin,
             version: '1',
             chainId,
             nonce,

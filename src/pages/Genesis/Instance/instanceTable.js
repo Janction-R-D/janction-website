@@ -188,6 +188,7 @@ function InstanceTable({ data, getAllNodes }) {
       Cores: order?.node?.attr.cpu || '--',
       memory: order?.node?.attr.memory,
       status: order?.status_str,
+      status_2: order?.operating_status_str,
       Location: order?.node?.attr.location || '--',
       MemoryUsage: convertMBtoGB(order?.activity?.memory_usage?.toFixed(2)),
       downtime: `${formatISODate(order.created_at)}\r\n${formatISODate(
@@ -195,11 +196,14 @@ function InstanceTable({ data, getAllNodes }) {
       )}`,
     }));
   }, [data]);
+  const filteredInstance = mappedOrders?.filter(
+    (item) => item.status === 'running' || item.status === 'pending',
+  );
 
   useEffect(() => {
     const interval = setInterval(() => {
       const hasStarting = mappedOrders?.some(
-        (order) => order.status_str?.toLowerCase() === 'pending',
+        (order) => order.status?.toLowerCase() === 'pending',
       );
       console.log(hasStarting);
       if (hasStarting) {
@@ -227,7 +231,7 @@ function InstanceTable({ data, getAllNodes }) {
       <Table
         className={styles['table-instance']}
         columns={columns}
-        dataSource={mappedOrders}
+        dataSource={filteredInstance}
         emptyDescription={
           <p>
             No instance is currently available. Please{' '}

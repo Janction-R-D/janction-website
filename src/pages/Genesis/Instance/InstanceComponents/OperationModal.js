@@ -112,7 +112,7 @@ export default function OperationModal({ record, getAllNodes }) {
         content={
           <ul className={styles['more-function']} style={{ padding: '0px' }}>
             <Popover
-              trigger="hover"
+              trigger="click"
               open={isRunning && selectVisible}
               onOpenChange={(v) => {
                 setSelectVisible(v);
