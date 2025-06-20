@@ -1,12 +1,30 @@
 import { PlayCircleOutlined } from '@ant-design/icons';
+import { Modal } from 'antd';
 import styles from './index.less';
 import img from '@/assets/images/genesis/janction-thumbnail.png';
-import videoImg from '@/assets/images/genesis/video-thumbnail.png';
+import { useState } from 'react';
+
 const videos = [
-  { id: 1, title: '3 Must-Do Tasks to Boost Node Earnings' },
-  { id: 2, title: '3 Must-Do Tasks to Boost Node Earnings' },
-  { id: 3, title: '3 Must-Do Tasks to Boost Node Earnings' },
-  { id: 4, title: '3 Must-Do Tasks to Boost Node Earnings' },
+  {
+    id: 1,
+    title: 'How to Deploy and List a Node',
+    video: '/videos/DeployNodeWeb.mp4',
+  },
+  {
+    id: 2,
+    title: 'How to Purchase a Machine and Connect Remotely',
+    video: '/videos/purchase.mp4',
+  },
+  {
+    id: 3,
+    title: 'How to Deploy using Janction Deploy Application',
+    video: '/videos/DeployApp.mp4',
+  },
+  {
+    id: 4,
+    title: 'How to Connect Remotely using Janction Deploy Application',
+    video: '/videos/login.mp4',
+  },
 ];
 
 export default function VideoGrid() {
@@ -25,16 +43,57 @@ export default function VideoGrid() {
         </div>
         <div className={styles.grid}>
           {videos.map((video) => (
-            <div key={video.id} className={styles.videoCard}>
-              <img src={videoImg} />
-              <div className={styles.overlay}>
-                <span>{video.title}</span>
-                <PlayCircleOutlined className={styles.cardIcon} />
-              </div>
-            </div>
+            <VideoCard video={video} key={video.id} />
           ))}
         </div>
       </div>
     </div>
+  );
+}
+
+function VideoCard({ video }) {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const handleOpen = () => {
+    setIsModalVisible(true);
+  };
+  const handleClose = () => {
+    setIsModalVisible(false);
+  };
+
+  return (
+    <>
+      <div className={styles.videoCard}>
+        <div className={styles.videoWrapper}>
+          <video
+            src={video.video}
+            muted
+            playsInline
+            className={styles.video}
+            style={{ pointerEvents: 'none' }}
+          />
+        </div>
+        <div className={styles.overlay}>
+          <span className={styles.overlay_text}>{video.title}</span>
+          <PlayCircleOutlined
+            className={styles.cardIcon}
+            onClick={handleOpen}
+          />
+        </div>
+      </div>
+
+      <Modal
+        title={video.title}
+        open={isModalVisible}
+        onCancel={handleClose}
+        footer={null}
+        centered
+        destroyOnClose
+        width={800}
+        className={styles['customModal']}
+      >
+        <video src={video.video} controls autoPlay style={{ width: '100%' }} />
+      </Modal>
+    </>
   );
 }

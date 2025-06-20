@@ -33,12 +33,13 @@
       bottom: 0;
       height: 80px;
       width: 100%;
-      background: rgba(0, 0, 0, 0.5);
       color: white;
       padding: 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      backdrop-filter: blur(4px);
+      background: rgba(0, 0, 0, 0.529);
     }
 
     .videoName {
@@ -71,16 +72,24 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-
-    .cardImage {
-      height: 100%;
+    height: 200px;
+    border: 1px solid #cccccc21;
+    video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%; /* Ocupa toda la tarjeta */
+      height: 100%; /* Ocupa toda la tarjeta */
+      object-fit: cover; /* Mantiene la proporción y cubre toda el área */
+      object-position: center; /* Centra el video */
     }
     .overlay {
       position: absolute;
       bottom: 0;
       height: 60px;
       width: 100%;
-      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      background: rgba(0, 0, 0, 0.529);
       color: white;
       padding: 12px;
       display: flex;
@@ -89,6 +98,10 @@
       span {
         max-width: 30ch;
         padding-block: 3px;
+      }
+      .overlay_text {
+        font-size: 0.75rem;
+        max-width: 85%;
       }
     }
     .cardIcon {
@@ -104,6 +117,7 @@
     }
   }
 }
+//button play
 .fakeBullet {
   position: relative;
   padding-left: 20px;
@@ -118,5 +132,34 @@
     height: 6px;
     background-color: white;
     border-radius: 50%;
+  }
+}
+//modal
+.customModal {
+  video {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    object-position: center;
+  }
+  :global {
+    .ant-modal-header {
+      border-radius: 12px 12px 0 0;
+      background: #3e3e3e13;
+      backdrop-filter: blur(4px);
+    }
+
+    .ant-modal-content {
+      background: #3e3e3e6c;
+      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+      border-radius: 12px;
+    }
+    .ant-modal-body {
+      backdrop-filter: blur(18px);
+      max-height: 70vh;
+      overflow-y: auto;
+
+      border-radius: 0 0 12px 12px;
+    }
   }
 }

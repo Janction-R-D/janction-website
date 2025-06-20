@@ -27,10 +27,12 @@ const NodeCard = ({ item, getList }) => {
     setStatus(state);
   }, [item]);
   const getStatus = () => {
-    const { isRunning, isActive, isListed } = getNodeStatusMatch(item);
+    const { isRunning, isActive, isListed, isOngoing } =
+      getNodeStatusMatch(item);
     if (isRunning) return 'running';
     if (isActive) return 'active';
     if (isListed) return 'listed';
+    if (isOngoing) return 'starting';
     return 'offline';
   };
   const renderGpu = () => {
@@ -48,7 +50,8 @@ const NodeCard = ({ item, getList }) => {
   };
   const runningTime = () => {
     const text = item?.last_start_at;
-    const { isRunning, isActive, isListed } = getNodeStatusMatch(item);
+    const { isRunning, isActive, isListed, isOngoing } =
+      getNodeStatusMatch(item);
     if (!text) return '--';
     if (!isActive && !isListed && !isRunning) return '--';
     return calculateDuration(text, { showSeconds: false });

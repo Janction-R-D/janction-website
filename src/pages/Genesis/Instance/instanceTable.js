@@ -12,7 +12,6 @@ function InstanceTable({ data, getAllNodes }) {
   const [showOverView, setShowOverView] = useState(true);
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
-  const intervalRef = useRef(null);
 
   const handleOperation = (operation, resource, id) => {
     const payload = JSON.stringify({

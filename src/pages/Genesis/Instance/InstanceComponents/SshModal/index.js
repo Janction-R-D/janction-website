@@ -45,11 +45,13 @@ const SshKeyModal = ({ visible, onCancel, record }) => {
     try {
       setLoading(true);
       const res = await fetchSshInsert(payload);
+      console.log(res);
       message.success('SSH key added successfully!');
       form.resetFields();
       loadSshKeys();
     } catch (error) {
       console.log(error);
+      message.error('Operation Failed!');
     } finally {
       setLoading(false);
     }
@@ -141,7 +143,7 @@ const SshKeyModal = ({ visible, onCancel, record }) => {
             <div className={styles.keysList}>
               {sshKeys.slice(0, 5).map((key, index) => (
                 <div key={index} className={styles.keyRow}>
-                  <div className={styles.ellipsis}>{key}</div>
+                  <div className={styles.sshKey}>{key}</div>
                   <Tooltip title="Copy key">
                     <CopyOutlined
                       onClick={() => handleCopy(key)}
