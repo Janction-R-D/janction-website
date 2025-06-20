@@ -10,12 +10,13 @@ export default function AgentCard({
   id,
   description,
   getAll,
+  knowledge_id,
 }) {
   const agent = { title, icon, tags, id, description };
 
   const onStatus = async () => {
     try {
-      const res = await fetchAgentStatus(id);
+      const res = await fetchAgentStatus(knowledge_id);
       if (!res?.id) {
         message.error('Operation failed!');
         return;

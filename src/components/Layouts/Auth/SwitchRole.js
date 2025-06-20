@@ -44,7 +44,7 @@ const RoleSwitcher = () => {
       overlay={menu}
       open={visible}
       onOpenChange={setVisible}
-      trigger={['click']}
+      trigger={['hover']}
       placement="bottomCenter"
     >
       <Button className={styles.roleButton}>

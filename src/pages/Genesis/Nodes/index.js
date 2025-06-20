@@ -21,6 +21,25 @@ function Nodes() {
   const { isLessee } = initialState || {};
 
   useEffect(() => {
+    const interval = setInterval(() => {
+      const hasStarting = filteredData?.some(
+        (node) => node.status_str?.toLowerCase() === 'ongoing',
+      );
+      if (hasStarting) {
+        console.log('[Interval] Some node is still ongoing...');
+        getList();
+      } else {
+        console.log('[Interval] No node is ongoing. Clearing interval.');
+        clearInterval(interval);
+      }
+    }, 10000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [filteredData]);
+
+  useEffect(() => {
     getList();
   }, []);
 
@@ -79,7 +98,7 @@ function Nodes() {
       return strFlag && statusFlag;
     });
     setFilteredData(filterData);
-    setCurrentPage(1); // Reiniciar a la primera página si se cambia el filtro
+    setCurrentPage(1);
   }, [list, filters]);
 
   // Datos de la página actual

@@ -65,6 +65,11 @@
     font-weight: 600;
     color: #f59e0b;
   }
+  .starting {
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffd07d;
+  }
   .offline {
     font-size: 14px;
     font-weight: 600;
@@ -189,4 +194,34 @@
   border: 1px solid #64666a;
   padding: 2px 8px;
   border-radius: 4px;
+}
+
+.starting {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffd07d;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  animation: pulse 1.2s infinite ease-in-out;
+}
+
+.status-starting {
+  color: #ebe061;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.7rem;
+  animation: pulse 1.2s infinite ease-in-out;
+}
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
 }

@@ -27,10 +27,12 @@ const NodeCard = ({ item, getList }) => {
     setStatus(state);
   }, [item]);
   const getStatus = () => {
-    const { isRunning, isActive, isListed } = getNodeStatusMatch(item);
+    const { isRunning, isActive, isListed, isOngoing } =
+      getNodeStatusMatch(item);
     if (isRunning) return 'running';
     if (isActive) return 'active';
     if (isListed) return 'listed';
+    if (isOngoing) return 'starting';
     return 'offline';
   };
   const renderGpu = () => {
@@ -39,14 +41,17 @@ const NodeCard = ({ item, getList }) => {
     const gpu = item.attr.gpu_chip;
     return (
       <span className={styles.gpu_core}>
-        <span>CHIP/GPUS: {cpu ? `${cpu[0]} * ${cpu.length}` : '--'}</span>
-        {/* <p>{gpu ? `${gpu[0]} * ${gpu.length}` : '--'}</p> */}
+        <span>
+          CHIP/GPUS: {!!cpu.length ? `${cpu[0]} * ${cpu.length}` : '--'}
+        </span>
+        <p>{!!gpu.length ? `${gpu[0]} * ${gpu.length}` : '--'}</p>
       </span>
     );
   };
   const runningTime = () => {
     const text = item?.last_start_at;
-    const { isRunning, isActive, isListed } = getNodeStatusMatch(item);
+    const { isRunning, isActive, isListed, isOngoing } =
+      getNodeStatusMatch(item);
     if (!text) return '--';
     if (!isActive && !isListed && !isRunning) return '--';
     return calculateDuration(text, { showSeconds: false });
