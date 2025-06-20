@@ -55,6 +55,7 @@ function VideoCard({ video }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleOpen = () => {
+    if (video.video === '/videos/login.mp4') return;
     setIsModalVisible(true);
   };
   const handleClose = () => {
