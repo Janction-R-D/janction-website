@@ -39,8 +39,10 @@ const NodeCard = ({ item, getList }) => {
     const gpu = item.attr.gpu_chip;
     return (
       <span className={styles.gpu_core}>
-        <span>CHIP/GPUS: {cpu ? `${cpu[0]} * ${cpu.length}` : '--'}</span>
-        {/* <p>{gpu ? `${gpu[0]} * ${gpu.length}` : '--'}</p> */}
+        <span>
+          CHIP/GPUS: {!!cpu.length ? `${cpu[0]} * ${cpu.length}` : '--'}
+        </span>
+        <p>{!!gpu.length ? `${gpu[0]} * ${gpu.length}` : '--'}</p>
       </span>
     );
   };
