@@ -88,7 +88,6 @@ export default function TailscaleSetupModal({ visible, onClose }) {
       width={900}
       className={styles['customModal']}
     >
-      {/* Steps Indicator */}
       <Steps
         current={currentStep}
         size="small"
@@ -100,7 +99,7 @@ export default function TailscaleSetupModal({ visible, onClose }) {
         ))}
       </Steps>
 
-      {/* Active step content */}
+      <h2 style={{ paddingBottom: '1rem' }}>{stepsData[currentStep].title}</h2>
       <div style={{ paddingBottom: '1rem' }}>
         {stepsData[currentStep].description}
       </div>
@@ -108,7 +107,6 @@ export default function TailscaleSetupModal({ visible, onClose }) {
         <Image width={400} src={stepsData[currentStep].image} preview={false} />
       </div>
 
-      {/* Navigation */}
       <div style={{ textAlign: 'right' }}>
         <Button
           disabled={currentStep === 0}
@@ -121,6 +119,7 @@ export default function TailscaleSetupModal({ visible, onClose }) {
           type="primary"
           disabled={currentStep === stepsData.length - 1}
           onClick={() => setCurrentStep(currentStep + 1)}
+          className={styles['connect-btn']}
         >
           Next
         </Button>
