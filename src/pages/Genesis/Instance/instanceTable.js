@@ -217,7 +217,7 @@ function InstanceTable({ data, getAllNodes }) {
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [mappedOrders]);
 
   const handleModal = () => {
     setShowOverView(!showOverView);
