@@ -3,6 +3,7 @@ import { Modal } from 'antd';
 import styles from './index.less';
 import img from '@/assets/images/genesis/janction-thumbnail.png';
 import { useState } from 'react';
+import TailscaleSetupModal from '../TailscaleDoc';
 
 const videos = [
   {
@@ -28,6 +29,7 @@ const videos = [
 ];
 
 export default function VideoGrid() {
+  const [isModalVisible, setModalVisible] = useState(false);
   return (
     <div className={styles.main_container}>
       <p className={styles.fakeBullet}>Web3 Starter Hub</p>
@@ -36,8 +38,15 @@ export default function VideoGrid() {
           <div className={styles.featuredImage}>
             <img src={img} alt="Junction video" />
             <div className={styles.overlay}>
-              <div className={styles.videoName}>Video name</div>
-              <PlayCircleOutlined className={styles.playIcon} />
+              <div className={styles.videoName}>Tailscale Tutorial</div>
+              <PlayCircleOutlined
+                onClick={() => setModalVisible(true)}
+                className={styles.playIcon}
+              />
+              <TailscaleSetupModal
+                visible={isModalVisible}
+                onClose={() => setModalVisible(false)}
+              />
             </div>
           </div>
         </div>
@@ -55,6 +64,7 @@ function VideoCard({ video }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleOpen = () => {
+    if (video.video === '/videos/login.mp4') return;
     setIsModalVisible(true);
   };
   const handleClose = () => {

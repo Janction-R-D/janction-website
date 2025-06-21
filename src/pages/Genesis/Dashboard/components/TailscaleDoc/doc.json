@@ -1,0 +1,28 @@
+[
+  {
+    "title": "Install the Tailscale app",
+    "description": "First, download and install the Tailscale application on your computer. You can get the latest version from the official website at https://tailscale.com/download. Follow the setup wizard until the app is installed successfully.",
+    "image": "/images/step1.png",
+    "link": "https://tailscale.com/download"
+  },
+  {
+    "title": "Enable the Network Extension",
+    "description": "Go to System Settings → Privacy & Security → Network Extension and enable Tailscale so it can access the required network features.",
+    "image": "/images/step2.png"
+  },
+  {
+    "title": "Open Tailscale settings",
+    "description": "Click the Tailscale icon in the menu bar at the top of your screen, then select 'Settings' or 'Tailscale Settings' from the dropdown.",
+    "image": "/images/step3.png"
+  },
+  {
+    "title": "Enable CLI Integration",
+    "description": "In the Tailscale settings, scroll down to the 'CLI Integration: Manage Tailscale from terminal' section and click 'Show me how'.",
+    "image": "/images/step4.png"
+  },
+  {
+    "title": "Install the Tailscale CLI",
+    "description": "When the modal appears, click the button to install Tailscale CLI at /usr/local/bin/tailscale. Once installed, you'll be able to manage Tailscale directly from the terminal.",
+    "image": "/images/step5.png"
+  }
+]
