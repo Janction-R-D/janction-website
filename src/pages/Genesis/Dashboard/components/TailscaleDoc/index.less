@@ -20,3 +20,41 @@
     }
   }
 }
+
+.connect-btn {
+  width: 120px;
+  // display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 4px;
+  justify-content: center;
+  padding: 4px 14px;
+  background: transparent;
+  font-family: Poppins;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 24px;
+  text-align: center;
+  border: 1px solid #a1a1a1;
+  color: #fff;
+  border-radius: 4px;
+  text-wrap: nowrap;
+  .icon {
+    width: 18px;
+    height: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1rem;
+    color: orange !important;
+    margin-inline: 4px;
+  }
+  &:hover,
+  &:focus {
+    border: 1px solid #dfdfdf;
+    color: #dfdfdf;
+  }
+  &:focus {
+    background: transparent;
+  }
+}
