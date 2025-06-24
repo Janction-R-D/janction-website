@@ -16,21 +16,29 @@ export default function AgentCard({
 
   const onStatus = async () => {
     try {
+      message.info({
+        content: 'Accessing the Agent AI...',
+        key: 'agent',
+        duration: 0,
+      });
       const res = await fetchAgentStatus(knowledge_id);
-      if (!res?.id) {
+
+      if (['running'].includes(res?.parsing_doc_status)) {
+        message.info(
+          'Still checking your document! \n Please wait and try again later',
+        );
+        return;
+      }
+      if (!['success'].includes(res?.parsing_doc_status)) {
         message.error('Operation failed!');
         return;
       }
+      message.success('AI accessed successfully');
       onNavigate(path, location.pathname, agent);
     } catch (error) {
       console.log(error);
-
-      notification.info({
-        message: `Notification Info`,
-        description: error,
-        placement: 'bottomLeft',
-        duration: 5,
-      });
+    } finally {
+      message.destroy('agent');
     }
   };
 

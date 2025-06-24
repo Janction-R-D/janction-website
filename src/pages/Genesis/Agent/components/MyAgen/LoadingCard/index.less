@@ -1,0 +1,67 @@
+.card {
+  background: #272727ac;
+  margin-block: 25px;
+  border: none;
+  display: flex;
+  height: 400px;
+  justify-content: center;
+  align-items: center;
+  .empty-text {
+    color: #8b8b8bac;
+    padding: 0;
+    margin: 0;
+  }
+
+  :global {
+    .ant-card-body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+  }
+}
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #cccccc6e;
+  border-top-color: #188fff8c; // color principal
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+.empty-text {
+  font-size: 16px;
+  color: #666;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    animation: dots 1.5s steps(3, end) infinite;
+  }
+}
+
+// Animación para girar el spinner
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Animación para los puntos suspensivos
+@keyframes dots {
+  0% {
+    content: '';
+  }
+  33% {
+    content: '.';
+  }
+  66% {
+    content: '..';
+  }
+  100% {
+    content: '...';
+  }
+}

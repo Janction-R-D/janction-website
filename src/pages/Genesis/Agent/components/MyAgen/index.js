@@ -7,10 +7,12 @@ import { ArrowUpOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import { fetchAgent } from '@/services/genesis/agents';
 import EmptyCard from './EmptyCard';
+import LoadingCard from './LoadingCard';
 // import IconmeModal from '../IncomeModal';
 // import PurchaseModal from '../PurchaseModal';
 
 export default function MyAgent() {
+  const [loading, setLoading] = useState(false);
   // const [open, setOpen] = useState(true);
   // const onOk = () => {
   //   setOpen(false);
@@ -21,10 +23,13 @@ export default function MyAgent() {
   }, []);
   const getAgents = async () => {
     try {
+      setLoading(true);
       const res = await fetchAgent();
       setList(res || []);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
   const mappedAgents = list?.map((agent) => ({
@@ -71,7 +76,7 @@ export default function MyAgent() {
         </div>
       </section>
       <main className={styles['content']}>
-        {!!mappedAgents.length && (
+        {!loading && !!mappedAgents.length && (
           <Card className={styles['agents']}>
             <header className={styles['head']}>
               <i className="iconfont icon-next_page" /> Or explore AI agents
@@ -89,7 +94,8 @@ export default function MyAgent() {
             </div>
           </Card>
         )}
-        {!mappedAgents.length && <EmptyCard />}
+        {!loading && !mappedAgents.length && <EmptyCard />}
+        {loading && <LoadingCard />}
       </main>
       {/* <PurchaseModal onOpen={onOk} setIsOpen={setOpen} isOpen={open} /> */}
     </main>
