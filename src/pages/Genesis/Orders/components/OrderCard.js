@@ -117,10 +117,18 @@ export default function OrderCard({ order }) {
     <Card className={styles['card']}>
       <h1 className={styles['card-title']}>
         <p>{data?.order?.id || '~'}</p>
-        <div>
-          <i className="iconfont icon-check " />
-          <span>Payment Completed</span>
-        </div>
+        {data?.order?.status == 'completed' && (
+          <div className={styles['complete']}>
+            <i className="iconfont icon-check " />
+            <span>{data?.order?.status || '~'}</span>
+          </div>
+        )}
+        {data?.order?.status == 'pending' && (
+          <div className={styles['pending']}>
+            <i className="iconfont icon-refresh " />
+            <span>{data?.order?.status || '~'}</span>
+          </div>
+        )}
       </h1>
 
       <section className={styles['card-product']}>

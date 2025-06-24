@@ -10,8 +10,8 @@ const StepOne = (props, ref) => {
     if (!selectedValues?.system) return;
     const _architecture = ARCHITECTURE.filter((item) =>
       item.sys.includes(selectedValues.system),
-    );
-
+    )?.[0];
+    console.log(_architecture);
     const getLink = links.find(
       (item) => item.operatingSystem == selectedValues.system,
     );
@@ -20,7 +20,7 @@ const StepOne = (props, ref) => {
       return;
     }
     setDownloadLink(getLink.appLink);
-    setArchitecture(_architecture);
+    setArchitecture([_architecture]);
   }, [selectedValues]);
   const onSysSelect = (sys) => {
     console.log(sys);

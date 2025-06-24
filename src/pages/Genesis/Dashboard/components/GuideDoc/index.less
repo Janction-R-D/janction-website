@@ -1,0 +1,100 @@
+.documentationContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  img {
+    border-radius: 8px;
+    margin-bottom: 18px;
+    max-width: 100%;
+  }
+  a {
+    text-decoration: underline;
+    color: rgb(95, 182, 252) !important;
+  }
+}
+.guideImage {
+  display: flex;
+  justify-content: center;
+  padding: 8px;
+}
+.cardWrapper {
+  padding: 24px 8px;
+  border-radius: 12px;
+  background: transparent;
+}
+
+.imageWrapper {
+  margin-top: 16px;
+  text-align: center;
+
+  img {
+    border-radius: 8px;
+    margin-bottom: 12px;
+    max-width: 100%;
+  }
+}
+
+.customModal {
+  h2,
+  h3 {
+    color: #d8e3f2;
+  }
+  :global {
+    .ant-modal-header {
+      border-radius: 12px 12px 0 0;
+      background: #3e3e3e13;
+      backdrop-filter: blur(4px);
+    }
+
+    .ant-modal-content {
+      background: #3e3e3e6c;
+      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+      border-radius: 12px;
+    }
+    .ant-modal-body {
+      backdrop-filter: blur(18px);
+      max-height: 70vh;
+      overflow-y: auto;
+
+      border-radius: 0 0 12px 12px;
+    }
+  }
+}
+
+.connect-btn {
+  width: 120px;
+  // display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 4px;
+  justify-content: center;
+  padding: 4px 14px;
+  background: transparent;
+  font-family: Poppins;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 24px;
+  text-align: center;
+  border: 1px solid #a1a1a1;
+  color: #fff;
+  border-radius: 4px;
+  text-wrap: nowrap;
+  .icon {
+    width: 18px;
+    height: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1rem;
+    color: orange !important;
+    margin-inline: 4px;
+  }
+  &:hover,
+  &:focus {
+    border: 1px solid #dfdfdf;
+    color: #dfdfdf;
+  }
+  &:focus {
+    background: transparent;
+  }
+}
