@@ -1,15 +1,13 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import styles from './index.less';
 import { Button, Divider } from 'antd';
-import { AppstoreAddOutlined, ArrowUpOutlined } from '@ant-design/icons';
-
+import { AppstoreAddOutlined } from '@ant-design/icons';
 import Guide from './components/Guide/Guide';
 import OverviewTable from './components/Overview';
 import Profit from './components/profit';
 import Arithmetic from './components/artihmetic';
-
 import { fetchLessor, fetchNodeList } from '@/services/genesis';
-import { history, useModel } from 'umi';
+import { useModel } from 'umi';
 import { ARITHMETIC_SITUATION, convertMBtoGB } from './data';
 import NTFcard from './components/NTFcard';
 import VideoGrid from './components/VideoGrid';
@@ -134,7 +132,7 @@ export default function Lessor() {
         <p className={styles['join-text']}>Join Janction Network</p>
         <section className={styles['buttons-box']}>
           <Button className={styles['button']} onClick={() => onOpen()}>
-            Donwload App{' '}
+            Download App{' '}
             <span className={styles.icon}>
               <AppstoreAddOutlined />
             </span>
@@ -161,7 +159,7 @@ export default function Lessor() {
                       className={styles['button']}
                       onClick={() => onOpen()}
                     >
-                      Donwload App{' '}
+                      Download App{' '}
                       <span className={styles.icon}>
                         <AppstoreAddOutlined />
                       </span>

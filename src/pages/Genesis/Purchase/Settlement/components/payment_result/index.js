@@ -24,7 +24,7 @@ const PaymentResultModal = ({
   };
   const onContinue = () => {
     message.success('Successful hire!');
-    history.push('/genesis/instance');
+    history.replace('/genesis/instance');
   };
   const renderContent = () => {
     switch (status) {

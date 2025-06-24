@@ -15,68 +15,6 @@ import InstanceTable from './components/Table/instanceTable';
 import { empty } from '@/utils/lang';
 import { isEmpty } from 'lodash';
 // import InstanceMonitor from './components/InstanceMonitor';
-const cardData = [
-  {
-    id: 1,
-    title: 'NVIDIA TX4090',
-    location: 'Chicago, USA',
-    cores: '8 Cores',
-    memory: '16GiB',
-    bandwidth: '5M',
-    duration: '1 month',
-    price: '9.9',
-    discount: '45%',
-    originalPrice: '50',
-  },
-  {
-    id: 2,
-    title: 'NVIDIA TX4090',
-    location: 'Chicago, USA',
-    cores: '8 Cores',
-    memory: '16GiB',
-    bandwidth: '5M',
-    duration: '1 month',
-    price: '9.9',
-    discount: '45%',
-    originalPrice: '50',
-  },
-  {
-    id: 3,
-    title: 'NVIDIA TX4090',
-    location: 'Chicago, USA',
-    cores: '8 Cores',
-    memory: '16GiB',
-    bandwidth: '5M',
-    duration: '1 month',
-    price: '9.9',
-    discount: '45%',
-    originalPrice: '50',
-  },
-  {
-    id: 4,
-    title: 'NVIDIA TX4090',
-    location: 'Chicago, USA',
-    cores: '8 Cores',
-    memory: '16GiB',
-    bandwidth: '5M',
-    duration: '1 month',
-    price: '9.9',
-    discount: '45%',
-    originalPrice: '50',
-  },
-  {
-    id: 5,
-    title: 'NVIDIA TX4090',
-    location: 'Chicago, USA',
-    cores: '8 Cores',
-    memory: '16GiB',
-    bandwidth: '5M',
-    duration: '1 month',
-    price: '9.9',
-    discount: '45%',
-    originalPrice: '50',
-  },
-];
 
 export default function Lessee() {
   const [avModalOpen, setAvModaOpen] = useState(false);

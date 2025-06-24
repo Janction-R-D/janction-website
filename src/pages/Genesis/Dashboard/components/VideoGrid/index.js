@@ -4,6 +4,7 @@ import styles from './index.less';
 import img from '@/assets/images/genesis/janction-thumbnail.png';
 import { useState } from 'react';
 import TailscaleSetupModal from '../TailscaleDoc';
+import GuideDoc from '../GuideDoc';
 
 const videos = [
   {
@@ -38,15 +39,19 @@ export default function VideoGrid() {
           <div className={styles.featuredImage}>
             <img src={img} alt="Junction video" />
             <div className={styles.overlay}>
-              <div className={styles.videoName}>Tailscale Tutorial</div>
+              <div className={styles.videoName}>Janction Tutorial</div>
               <PlayCircleOutlined
                 onClick={() => setModalVisible(true)}
                 className={styles.playIcon}
               />
-              <TailscaleSetupModal
+              <GuideDoc
                 visible={isModalVisible}
                 onClose={() => setModalVisible(false)}
               />
+              {/* <TailscaleSetupModal
+                visible={isModalVisible}
+                onClose={() => setModalVisible(false)}
+              /> */}
             </div>
           </div>
         </div>
