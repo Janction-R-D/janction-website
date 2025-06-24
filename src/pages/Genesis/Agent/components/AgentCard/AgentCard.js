@@ -44,17 +44,18 @@ export default function AgentCard({
 
   const onDelete = async () => {
     try {
+      message.info({
+        content: 'Deleting Agent...',
+        key: 'delete-agent',
+        duration: 0,
+      });
       const res = await fetchAgentDelete(id);
       message.success('Agent deleted successfully!');
       getAll();
     } catch (error) {
       console.log(error);
-      notification.info({
-        message: `Notification Info`,
-        description: error,
-        placement: 'topLeft',
-        duration: 5,
-      });
+    } finally {
+      message.destroy('delete-agent');
     }
   };
   return (
