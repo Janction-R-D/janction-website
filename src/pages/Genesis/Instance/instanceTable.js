@@ -196,13 +196,13 @@ function InstanceTable({ data, getAllNodes }) {
     }));
   }, [data]);
   const filteredInstance = mappedOrders?.filter(
-    (item) => item.status === 'running' || item.status === 'pending',
+    (item) => item.status === 'running' || item.status === 'starting',
   );
 
   useEffect(() => {
     const interval = setInterval(() => {
       const hasStarting = mappedOrders?.some(
-        (order) => order.status?.toLowerCase() === 'pending',
+        (order) => order.status?.toLowerCase() === 'starting',
       );
       console.log(hasStarting);
       if (hasStarting) {
