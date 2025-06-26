@@ -2,6 +2,7 @@ import styles from './index.less';
 import { onNavigate } from '../../utils';
 import { fetchAgentDelete, fetchAgentStatus } from '@/services/genesis';
 import { message, notification } from 'antd';
+import { history } from 'umi';
 export default function AgentCard({
   title,
   icon,
@@ -58,11 +59,20 @@ export default function AgentCard({
       message.destroy('delete-agent');
     }
   };
+  const onDetails = () => {
+    history.push('/genesis/agent/file_manager', { knowledge_id });
+  };
   return (
     <div className={styles.card}>
-      <span onClick={onDelete} className={styles['onDelete']}>
-        <i className="iconfont icon-delete" />
-      </span>
+      <div className={styles.overlay_up}>
+        <span onClick={onDelete} className={styles['onDelete']}>
+          <i className="iconfont icon-delete" />
+        </span>
+        <span onClick={onDetails} className={styles['details']}>
+          <i className="iconfont icon-info" />
+          Details
+        </span>
+      </div>
       <img className={styles.image} src={icon} alt="FinChat AI" />
       <div className={styles.overlay}>
         <div className={styles.description}>

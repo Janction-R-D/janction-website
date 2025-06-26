@@ -37,7 +37,6 @@ export default function MyAgent() {
     title: agent.name,
     icon: agent.cover,
     tags: agent.tags,
-    file_id: agent.knowledge_base_id,
     description: agent.description,
     knowledge_id: agent.knowledge_base_id,
   }));

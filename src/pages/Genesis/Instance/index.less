@@ -16,6 +16,17 @@
     }
   }
 }
+.responsive-col {
+  display: flex;
+  gap: 16px;
+  border-bottom: 1px solid #767676;
+  padding: 0 14px 12px;
+
+  // Por debajo de 1024px
+  @media (max-width: 1024px) {
+    flex-wrap: wrap;
+  }
+}
 
 .title {
   display: flex;

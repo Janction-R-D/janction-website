@@ -14,6 +14,7 @@ import Rol from '@/pages/Genesis/Rol';
 import TryChat from '@/pages/Genesis/Agent/components/TryChat';
 import PurchaseAi from '@/pages/Genesis/Agent/components/Purchase';
 import Create from '@/pages/Genesis/Agent/components/Create';
+import FileManager from '@/pages/Genesis/Agent/components/FileManager';
 
 export const fullWidthRoute = ['/home', '/explore', '/getStarted', '/solution'];
 export const authRoute = [
@@ -42,6 +43,7 @@ export const authRoute = [
   '/genesis/agent/try_chat',
   '/genesis/agent/purchase',
   '/genesis/agent/create',
+  '/genesis/agent/file_manager',
 ];
 
 export default function Layout(props) {
@@ -80,6 +82,13 @@ export default function Layout(props) {
     return (
       <GenesisLayout>
         <PurchaseAi />
+      </GenesisLayout>
+    );
+  }
+  if (isAuthRoute && props.location.pathname.includes('/agent/file_manager')) {
+    return (
+      <GenesisLayout>
+        <FileManager />
       </GenesisLayout>
     );
   }
