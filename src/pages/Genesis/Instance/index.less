@@ -201,6 +201,13 @@
           @media screen and (max-width: 1024px) {
             .ant-table-cell-ellipsis {
               max-width: 100px;
+              .ant-space-item,
+              .ellip-text {
+                text-overflow: ellipsis !important;
+                overflow: hidden;
+                text-wrap: nowrap;
+                max-width: 100px;
+              }
             }
             .ellipsis {
               text-overflow: ellipsis !important;

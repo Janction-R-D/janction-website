@@ -1,13 +1,14 @@
-import JanctionTable from '@/components/JanctionTable';
-import { message, Space, Table } from 'antd';
-import { useEffect, useRef, useState, useMemo } from 'react';
+import { Space, Table } from 'antd';
+import { useEffect, useState, useMemo } from 'react';
 import { fetchNodeOperation } from '@/services/genesis/instance';
 import styles from './index.less';
 import OperationModal from './InstanceComponents/OperationModal';
 import { convertMBtoGB } from '../Dashboard3/Lessor';
 import { history } from 'umi';
 import { formatISODate } from '@/utils/datetime';
-import { convertKB, empty } from '@/utils/lang';
+import { empty } from '@/utils/lang';
+import TooltipBox from '../components/Tooltip';
+
 function InstanceTable({ data, getAllNodes }) {
   const [showOverView, setShowOverView] = useState(true);
   const [error, setError] = useState(false);
@@ -43,12 +44,28 @@ function InstanceTable({ data, getAllNodes }) {
       dataIndex: 'key',
       key: 'name',
       ellipsis: true,
+      render: (text, record) => {
+        const textRender = <p style={{ fontSize: '12px' }}>{text}</p>;
+        return (
+          <TooltipBox TooltipText={textRender} placement="topLeft">
+            <span className={styles['ellip-text']}>{text}</span>
+          </TooltipBox>
+        );
+      },
     },
     {
       title: <div className="name">Node ID</div>,
       dataIndex: 'node_id',
       key: 'node_id',
       ellipsis: true,
+      render: (text, record) => {
+        const textRender = <p style={{ fontSize: '12px' }}>{text}</p>;
+        return (
+          <TooltipBox TooltipText={textRender}>
+            <span className={styles['ellip-text']}>{text}</span>
+          </TooltipBox>
+        );
+      },
     },
     {
       title: <div className="name">Cores</div>,
@@ -59,15 +76,20 @@ function InstanceTable({ data, getAllNodes }) {
         if (!node?.attr?.gpu_chip && !node?.attr?.cpu_chip) return '--';
         const cpu = node?.attr?.cpu_chip;
         const gpu = node?.attr?.gpu_chip;
-        return (
+
+        const cpuText = !!cpu?.length ? `${cpu[0]} * ${cpu.length}` : '--';
+        const gpuText = !!gpu?.length ? `${gpu[0]} * ${gpu.length}` : '--';
+        const text = (
           <>
-            <p className="ellipsis">
-              {!!cpu?.length ? `${cpu[0]} * ${cpu.length}` : '--'}
-            </p>
-            <p className="ellipsis">
-              {!!gpu?.length ? `${gpu[0]} * ${gpu.length}` : '--'}
-            </p>
+            <p style={{ fontSize: '12px' }}>{cpuText}</p>
+            <p style={{ fontSize: '12px' }}>{gpuText}</p>
           </>
+        );
+        return (
+          <TooltipBox TooltipText={text}>
+            <p className="ellipsis">{cpuText}</p>
+            <p className="ellipsis">{gpuText}</p>
+          </TooltipBox>
         );
       },
     },
