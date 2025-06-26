@@ -161,7 +161,7 @@ const InstanceMonitor = ({ instance }) => {
                         <i className="iconfont  icon-questioncircle"></i>{' '}
                         Expiring Soon
                       </span>
-                    ) : instanceData?.status?.toLowerCase() === 'pending' ? (
+                    ) : instanceData?.status?.toLowerCase() === 'starting' ? (
                       <span
                         className={
                           (styles['status'], styles['status-starting'])

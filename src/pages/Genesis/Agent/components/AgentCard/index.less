@@ -5,7 +5,8 @@
   overflow: hidden;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
   background-color: #111;
-  .onDelete {
+  .onDelete,
+  .details {
     display: none;
   }
   &:hover .onDelete {
@@ -14,19 +15,41 @@
     justify-content: center;
     position: absolute;
     top: 12px;
-    right: 12px;
-    width: 25px;
-    height: 25px;
-    color: red;
-    font-weight: 600;
+    left: 12px;
+    width: 30px;
+    height: 30px;
+    color: rgb(225, 255, 75);
+    font-weight: 700;
     cursor: pointer;
     transition: all ease 300ms;
-    background: #787878a7;
+    background: #1fe9ff49;
     padding: 3px;
     border-radius: 50%;
     backdrop-filter: blur(4px);
     &:hover {
       color: orange;
+    }
+    i {
+      font-size: 1rem;
+    }
+  }
+  &:hover .details {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 18px;
+    color: #ffffff;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all ease 300ms;
+    padding: 3px;
+
+    backdrop-filter: blur(1px);
+    &:hover {
+      color: rgb(215, 215, 215);
     }
   }
 }
@@ -37,6 +60,18 @@
   object-fit: cover;
 }
 
+.overlay_up {
+  position: absolute;
+  top: 0;
+  color: #fff;
+  width: 100%;
+  background: linear-gradient(to bottom, rgb(0, 0, 0), transparent 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  padding-top: 50px;
+}
 .overlay {
   position: absolute;
   bottom: 0;

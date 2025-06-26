@@ -1,0 +1,301 @@
+.header-wrapper {
+  padding-bottom: 22px;
+  border-bottom: 1px solid #767676;
+
+  padding-inline: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  margin-bottom: 20px;
+  header {
+    display: flex;
+    align-items: center;
+    h1 {
+      font-size: 2.2rem;
+      color: #fff;
+      font-weight: 600;
+    }
+    .line {
+      height: 50px;
+      background: #767676c9;
+    }
+    span {
+      font-size: 1.1rem;
+      color: #a2a2a2;
+      font-weight: 400;
+    }
+  }
+}
+
+.table {
+  margin: 12px;
+  margin-top: 20px;
+  :global {
+    .ant-table {
+      background: transparent !important;
+    }
+    .ant-table-container table {
+      border-spacing: 0 8px !important;
+      border-collapse: separate !important;
+      .ant-table-thead {
+        tr > th {
+          background: #0f0f0f !important;
+          margin: 0;
+          height: 40px;
+          padding: 12px 10px;
+          border: none;
+        }
+      }
+
+      .ant-table-tbody {
+        tr {
+          background: #1a1a1a; // añade fondo a cada fila
+          border-radius: 10px;
+          overflow: hidden;
+          border-radius: 12px;
+          td {
+            padding: 12px;
+            border: none;
+            // background: transparent;
+
+            &:last-child {
+              a {
+                color: #73d5f4;
+              }
+              .recent-status {
+                color: #828283;
+                cursor: not-allowed;
+              }
+            }
+          }
+
+          .status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.7rem;
+          }
+
+          .status-running {
+            color: green;
+          }
+          .status-expired {
+            color: red;
+          }
+          .status-expiring-soon {
+            color: yellow;
+          }
+          .status-stopped {
+            color: orange;
+          }
+          .status-question {
+            color: #ebe061;
+          }
+
+          .ellipsis {
+            text-overflow: ellipsis;
+            text-wrap: nowrap;
+          }
+          @media screen and (max-width: 1024px) {
+            .ant-table-cell-ellipsis {
+              max-width: 100px;
+              .ant-space-item,
+              .ellip-text {
+                text-overflow: ellipsis !important;
+                overflow: hidden;
+                text-wrap: nowrap;
+                max-width: 100px;
+              }
+            }
+            .ellipsis {
+              text-overflow: ellipsis !important;
+              overflow: hidden;
+              text-wrap: nowrap;
+              max-width: 100px;
+            }
+          }
+        }
+        tr > td:first-child {
+          border-top-left-radius: 10px;
+          border-bottom-left-radius: 10px;
+        }
+
+        tr > td:last-child {
+          border-top-right-radius: 10px;
+          border-bottom-right-radius: 10px;
+        }
+      }
+    }
+    .ant-pagination {
+      display: flex;
+      align-items: center;
+      gap: 0.417vw;
+      justify-content: center;
+      margin-bottom: 0;
+
+      .ant-pagination-prev,
+      .ant-pagination-next,
+      .ant-pagination-item {
+        width: 28px;
+        height: 28px;
+        background: rgba(249, 250, 251, 0.15);
+        border-radius: 0.313vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .ant-pagination-next,
+      .ant-pagination-prev {
+        .ant-pagination-item-link {
+          color: rgba(255, 255, 255, 0.64);
+          border: none;
+          font-size: 14px;
+        }
+      }
+
+      .ant-pagination-item {
+        border: none;
+
+        a {
+          font-family: 'Poppins';
+          font-style: normal;
+          font-weight: 400;
+          font-size: 1.094vw;
+          line-height: 1.719vw;
+          color: #ffffff;
+        }
+
+        &:hover {
+          border: none;
+        }
+      }
+
+      .ant-pagination-item-active {
+        background: linear-gradient(148.03deg, #fcc7bc -6.41%, #73d5f4 99.6%);
+
+        a {
+          font-family: 'Poppins';
+          font-style: normal;
+          font-weight: 500;
+          font-size: 1.094vw;
+          line-height: 1.719vw;
+          color: #333333;
+        }
+      }
+    }
+  }
+}
+.title {
+  margin-block: 20px;
+}
+
+.connect-btn {
+  height: 40px;
+  min-width: 120px;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 4px;
+  justify-content: center;
+  padding: 4px 14px;
+  background: transparent;
+  font-family: Poppins;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 24px;
+  text-align: center;
+  border: 1px solid #a1a1a1;
+  color: #fff;
+  border-radius: 4px;
+  text-wrap: nowrap;
+  margin-right: 20px;
+  .icon {
+    width: 18px;
+    height: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1rem;
+    color: orange !important;
+    margin-inline: 4px;
+  }
+  transition: all 300ms ease;
+  &:hover,
+  &:focus {
+    background: transparent;
+  }
+}
+.modal {
+  :global {
+    background-color: transparent !important;
+    .ant-modal-header {
+      background-color: #2a292982 !important;
+      backdrop-filter: blur(4px);
+    }
+    .ant-modal-content {
+      background-color: #252525e2 !important;
+      backdrop-filter: blur(4px);
+      border-radius: 12px;
+    }
+    .ant-modal-body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .ant-modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+
+      .ant-btn-primary {
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        gap: 12px;
+        padding-inline: 24px;
+        background: #0000006c;
+        font-family: Poppins;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 24px;
+        text-align: center;
+        color: #fff;
+        border-radius: 3px;
+        text-wrap: nowrap;
+        transition: all ease 0.4s;
+        border: #ccc 1px solid;
+        &:hover {
+          background: transparent;
+          border-color: #1677ff;
+          color: #1677ff;
+        }
+
+        &:disabled {
+          background-color: #d9d9d9;
+          cursor: not-allowed;
+        }
+      }
+      .ant-btn-default {
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        gap: 12px;
+        padding-inline: 24px;
+        text-align: center;
+        color: #ffffff;
+        border-radius: 3px;
+        text-wrap: nowrap;
+        transition: all ease 0.3s;
+
+        &:hover {
+          border-color: #4096ff;
+          color: #4096ff;
+        }
+      }
+    }
+  }
+}

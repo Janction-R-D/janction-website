@@ -22,7 +22,6 @@ import {
   ClockCircleOutlined,
   ShoppingCartOutlined,
 } from '@ant-design/icons';
-import EmptyContent from './Empty/EmptyContent';
 import InstanceMonitor from '@/components/InstanceMonitor';
 import HistoryInstances from './InstanceComponents/HistoryInstances';
 
@@ -100,11 +99,13 @@ function Instance() {
       <Card className={styles['card-table']}>
         <Row justify="space-between" style={{ gap: '12px' }} align="middle">
           <Col
+            className={styles['responsive-col']}
             span={15}
             sm={24}
             xs={24}
             style={{
               display: 'flex',
+
               gap: '16px',
               borderBottom: '1px solid #767676',
               padding: '0px 14px 12px',

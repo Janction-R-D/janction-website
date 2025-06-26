@@ -1,13 +1,14 @@
-import JanctionTable from '@/components/JanctionTable';
-import { message, Space, Table } from 'antd';
-import { useEffect, useRef, useState, useMemo } from 'react';
+import { Space, Table } from 'antd';
+import { useEffect, useState, useMemo } from 'react';
 import { fetchNodeOperation } from '@/services/genesis/instance';
 import styles from './index.less';
 import OperationModal from './InstanceComponents/OperationModal';
 import { convertMBtoGB } from '../Dashboard3/Lessor';
 import { history } from 'umi';
 import { formatISODate } from '@/utils/datetime';
-import { convertKB, empty } from '@/utils/lang';
+import { empty } from '@/utils/lang';
+import TooltipBox from '../components/Tooltip';
+
 function InstanceTable({ data, getAllNodes }) {
   const [showOverView, setShowOverView] = useState(true);
   const [error, setError] = useState(false);
@@ -39,16 +40,32 @@ function InstanceTable({ data, getAllNodes }) {
   };
   const columns = [
     {
-      title: <div className="name">Instance ID / Name</div>,
+      title: <div className="name">Instance ID</div>,
       dataIndex: 'key',
       key: 'name',
       ellipsis: true,
+      render: (text, record) => {
+        const textRender = <p style={{ fontSize: '12px' }}>{text}</p>;
+        return (
+          <TooltipBox TooltipText={textRender} placement="topLeft">
+            <span className={styles['ellip-text']}>{text}</span>
+          </TooltipBox>
+        );
+      },
     },
     {
-      title: <div className="name">Node ID / Name</div>,
+      title: <div className="name">Node ID</div>,
       dataIndex: 'node_id',
       key: 'node_id',
       ellipsis: true,
+      render: (text, record) => {
+        const textRender = <p style={{ fontSize: '12px' }}>{text}</p>;
+        return (
+          <TooltipBox TooltipText={textRender}>
+            <span className={styles['ellip-text']}>{text}</span>
+          </TooltipBox>
+        );
+      },
     },
     {
       title: <div className="name">Cores</div>,
@@ -59,11 +76,20 @@ function InstanceTable({ data, getAllNodes }) {
         if (!node?.attr?.gpu_chip && !node?.attr?.cpu_chip) return '--';
         const cpu = node?.attr?.cpu_chip;
         const gpu = node?.attr?.gpu_chip;
-        return (
+
+        const cpuText = !!cpu?.length ? `${cpu[0]} * ${cpu.length}` : '--';
+        const gpuText = !!gpu?.length ? `${gpu[0]} * ${gpu.length}` : '--';
+        const text = (
           <>
-            <p>{!!cpu?.length ? `${cpu[0]} * ${cpu.length}` : '--'}</p>
-            <p>{!!gpu?.length ? `${gpu[0]} * ${gpu.length}` : '--'}</p>
+            <p style={{ fontSize: '12px' }}>{cpuText}</p>
+            <p style={{ fontSize: '12px' }}>{gpuText}</p>
           </>
+        );
+        return (
+          <TooltipBox TooltipText={text}>
+            <p className="ellipsis">{cpuText}</p>
+            <p className="ellipsis">{gpuText}</p>
+          </TooltipBox>
         );
       },
     },
@@ -71,6 +97,7 @@ function InstanceTable({ data, getAllNodes }) {
       title: <div className="memory">Memory</div>,
       dataIndex: 'memory',
       key: 'memory',
+      width: 190,
       ellipsis: true,
       render: (memory, rowData) => (
         <>{!empty(rowData.memory) ? convertMBtoGB(rowData.memory) : '--'}</>
@@ -113,14 +140,12 @@ function InstanceTable({ data, getAllNodes }) {
       title: 'Location',
       dataIndex: 'Location',
       key: 'Location',
-      ellipsis: true,
     },
 
     {
       title: 'Memory Usage Rates',
       dataIndex: 'MemoryUsage',
       key: 'MemoryUsage',
-      ellipsis: 'true',
     },
     {
       title: 'Release time / Downtime',
@@ -196,13 +221,13 @@ function InstanceTable({ data, getAllNodes }) {
     }));
   }, [data]);
   const filteredInstance = mappedOrders?.filter(
-    (item) => item.status === 'running' || item.status === 'pending',
+    (item) => item.status === 'running' || item.status === 'starting',
   );
 
   useEffect(() => {
     const interval = setInterval(() => {
       const hasStarting = mappedOrders?.some(
-        (order) => order.status?.toLowerCase() === 'pending',
+        (order) => order.status?.toLowerCase() === 'starting',
       );
       console.log(hasStarting);
       if (hasStarting) {
