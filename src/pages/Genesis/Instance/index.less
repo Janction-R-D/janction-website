@@ -198,6 +198,17 @@
             text-overflow: ellipsis;
             text-wrap: nowrap;
           }
+          @media screen and (max-width: 1024px) {
+            .ant-table-cell-ellipsis {
+              max-width: 100px;
+            }
+            .ellipsis {
+              text-overflow: ellipsis !important;
+              overflow: hidden;
+              text-wrap: nowrap;
+              max-width: 100px;
+            }
+          }
         }
         tr > td:first-child {
           border-top-left-radius: 10px;
@@ -220,8 +231,8 @@
       .ant-pagination-prev,
       .ant-pagination-next,
       .ant-pagination-item {
-        width: 2.5vw;
-        height: 2.5vw;
+        width: 28px;
+        height: 28px;
         background: rgba(249, 250, 251, 0.15);
         border-radius: 0.313vw;
         display: flex;
@@ -234,7 +245,7 @@
         .ant-pagination-item-link {
           color: rgba(255, 255, 255, 0.64);
           border: none;
-          font-size: 0.781vw;
+          font-size: 14px;
         }
       }
 

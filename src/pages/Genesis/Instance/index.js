@@ -105,6 +105,7 @@ function Instance() {
             xs={24}
             style={{
               display: 'flex',
+              flexWrap: 'wrap',
               gap: '16px',
               borderBottom: '1px solid #767676',
               padding: '0px 14px 12px',

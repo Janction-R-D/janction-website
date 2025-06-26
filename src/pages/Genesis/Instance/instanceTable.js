@@ -39,13 +39,13 @@ function InstanceTable({ data, getAllNodes }) {
   };
   const columns = [
     {
-      title: <div className="name">Instance ID / Name</div>,
+      title: <div className="name">Instance ID</div>,
       dataIndex: 'key',
       key: 'name',
       ellipsis: true,
     },
     {
-      title: <div className="name">Node ID / Name</div>,
+      title: <div className="name">Node ID</div>,
       dataIndex: 'node_id',
       key: 'node_id',
       ellipsis: true,
@@ -61,8 +61,12 @@ function InstanceTable({ data, getAllNodes }) {
         const gpu = node?.attr?.gpu_chip;
         return (
           <>
-            <p>{!!cpu?.length ? `${cpu[0]} * ${cpu.length}` : '--'}</p>
-            <p>{!!gpu?.length ? `${gpu[0]} * ${gpu.length}` : '--'}</p>
+            <p className="ellipsis">
+              {!!cpu?.length ? `${cpu[0]} * ${cpu.length}` : '--'}
+            </p>
+            <p className="ellipsis">
+              {!!gpu?.length ? `${gpu[0]} * ${gpu.length}` : '--'}
+            </p>
           </>
         );
       },
@@ -71,6 +75,7 @@ function InstanceTable({ data, getAllNodes }) {
       title: <div className="memory">Memory</div>,
       dataIndex: 'memory',
       key: 'memory',
+      width: 190,
       ellipsis: true,
       render: (memory, rowData) => (
         <>{!empty(rowData.memory) ? convertMBtoGB(rowData.memory) : '--'}</>
@@ -113,14 +118,12 @@ function InstanceTable({ data, getAllNodes }) {
       title: 'Location',
       dataIndex: 'Location',
       key: 'Location',
-      ellipsis: true,
     },
 
     {
       title: 'Memory Usage Rates',
       dataIndex: 'MemoryUsage',
       key: 'MemoryUsage',
-      ellipsis: 'true',
     },
     {
       title: 'Release time / Downtime',
