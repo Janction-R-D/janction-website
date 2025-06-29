@@ -98,3 +98,40 @@
     background: transparent;
   }
 }
+//faq
+.faqContainer {
+  padding: 0 24px;
+  max-width: 700px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+  :global(.ant-collapse) {
+    background-color: transparent;
+    border-radius: 8px;
+    border: none;
+  }
+  :global(.ant-collapse-content) {
+    background-color: transparent; // <-- color del contenido interno
+    padding-top: 4px;
+  }
+  :global(.ant-typography) {
+    margin: 0;
+  }
+
+  :global(.ant-collapse-item) {
+    border-bottom: 1px solid #f0f0f054;
+  }
+
+  :global(.ant-collapse-header) {
+    font-weight: 500;
+    font-size: 16px;
+    padding: 16px;
+  }
+
+  :global(.ant-collapse-content-box) {
+    font-size: 14px;
+    padding: 0 16px 16px;
+    line-height: 1.6;
+  }
+}
