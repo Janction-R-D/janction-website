@@ -13,7 +13,7 @@ export default function Header() {
         <span>Doc</span>
         <Button
           className={styles['connect-btn']}
-          onClick={() => history.push('/login')}
+          onClick={() => history.push('/genesis')}
         >
           Dashboard
         </Button>
