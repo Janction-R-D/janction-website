@@ -1,0 +1,111 @@
+@bg-dark: #000;
+@text-light: #fff;
+@text-muted: #aaa;
+@border: #333;
+@input-bg: #111;
+@input-border: #444;
+@input-placeholder: #555;
+@btn-bg: #111;
+@btn-border: #555;
+
+.container {
+  display: flex;
+  background: transparent;
+  padding: 1.5rem;
+  color: @text-light;
+  border: 1px solid @border;
+  border-radius: 12px;
+  margin-top: 120px;
+  margin-inline: auto;
+  width: 80%;
+  position: relative;
+  .left {
+    width: 30%;
+    padding-right: 2rem;
+    border-right: 1px dashed @border;
+
+    .title {
+      font-size: 32px;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: @text-muted;
+      line-height: 1.6;
+    }
+  }
+
+  .right {
+    width: 70%;
+    padding-left: 2rem;
+
+    :global {
+      .ant-form-item-label > label {
+        color: @text-light;
+        font-size: 13px;
+
+        &::after {
+          content: ' *';
+          color: #ff4d4f;
+        }
+      }
+
+      .ant-input,
+      .ant-input-affix-wrapper,
+      .ant-input-textarea {
+        background-color: @input-bg;
+        border-color: @input-border;
+        color: @text-light;
+
+        &::placeholder {
+          color: @input-placeholder;
+        }
+      }
+
+      .ant-input:focus,
+      .ant-input-focused {
+        border-color: #00d2ff !important;
+        box-shadow: 0 0 0 2px fade(#00d2ff, 20%);
+      }
+
+      .ant-btn-primary {
+        background-color: @btn-bg;
+        border-color: @btn-border;
+        color: @text-light;
+        padding: 0 2rem;
+        height: 36px;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+
+        &:hover {
+          background-color: #222;
+          border-color: #888;
+        }
+      }
+    }
+  }
+  &::before {
+    content: '';
+    position: absolute;
+    z-index: -5;
+    left: -30.5%;
+    top: -60px;
+    width: 36.49vw;
+    height: 35.792vw;
+    background: url('../../../../../assets/images/Home_2/shadow_5.png');
+    background-size: 100% 100%;
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    z-index: -5;
+    right: -28.6%;
+    top: 5px;
+    width: 48.09vw;
+    height: 35.5vw;
+    background: url('../../../../../assets/images/Home_2/shadow_6.png');
+    background-size: 100% 100%;
+  }
+}

@@ -17,6 +17,7 @@ import Create from '@/pages/Genesis/Agent/components/Create';
 import FileManager from '@/pages/Genesis/Agent/components/FileManager';
 
 export const fullWidthRoute = ['/home', '/explore', '/getStarted', '/solution'];
+export const newPaths = ['/recent'];
 export const authRoute = [
   '/genesis/dashboard',
   '/genesis/deployNode',
@@ -51,6 +52,9 @@ export default function Layout(props) {
 
   const fullWidth = useMemo(() => {
     return fullWidthRoute.includes(props.location.pathname);
+  }, [props.location.pathname]);
+  const newPath = useMemo(() => {
+    return newPaths.includes(props.location.pathname);
   }, [props.location.pathname]);
 
   const isAuthRoute = useMemo(() => {
@@ -146,7 +150,14 @@ export default function Layout(props) {
       </GenesisProvider>
     );
   }
-
+  // entrada para la nueva pagina
+  if (newPath) {
+    return (
+      <div id={styles['main-layout_2']}>
+        <main className={fullWidth && styles['main-wp100']}>{children}</main>
+      </div>
+    );
+  }
   if (fullWidth) {
     return (
       <div id={styles['main-layout']}>

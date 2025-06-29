@@ -37,7 +37,7 @@ export default function VideoGrid() {
       <div className={styles.container}>
         <div className={styles.featured}>
           <div className={styles.featuredImage}>
-            <img src={img} alt="Junction video" />
+            <img src={img} alt=" Janction video" />
             <div className={styles.overlay}>
               <div className={styles.videoName}>Janction Tutorial</div>
               <PlayCircleOutlined

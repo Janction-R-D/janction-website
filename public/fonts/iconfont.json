@@ -6,6 +6,48 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1488746",
+      "name": "tags-1",
+      "font_class": "tags-",
+      "unicode": "e672",
+      "unicode_decimal": 58994
+    },
+    {
+      "icon_id": "4766975",
+      "name": "tags",
+      "font_class": "tags",
+      "unicode": "e7e5",
+      "unicode_decimal": 59365
+    },
+    {
+      "icon_id": "8106269",
+      "name": "safety",
+      "font_class": "safety",
+      "unicode": "e6a1",
+      "unicode_decimal": 59041
+    },
+    {
+      "icon_id": "7082471",
+      "name": "gpu",
+      "font_class": "gpu",
+      "unicode": "e663",
+      "unicode_decimal": 58979
+    },
+    {
+      "icon_id": "40908195",
+      "name": "ai工具",
+      "font_class": "aigongju",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "42602091",
+      "name": "P2P软件检查",
+      "font_class": "P2Pruanjianjiancha",
+      "unicode": "e7f6",
+      "unicode_decimal": 59382
+    },
+    {
       "icon_id": "135538",
       "name": "clock",
       "font_class": "clock",
