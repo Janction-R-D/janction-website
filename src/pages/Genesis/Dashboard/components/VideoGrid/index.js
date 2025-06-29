@@ -25,7 +25,7 @@ const videos = [
   {
     id: 4,
     title: 'How to Connect Remotely using Janction Deploy Application',
-    video: '/videos/login.mp4',
+    video: '/videos/janctionAppRemote.m4v',
   },
 ];
 
