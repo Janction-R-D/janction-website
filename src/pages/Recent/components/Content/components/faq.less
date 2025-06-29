@@ -1,0 +1,85 @@
+@bg-dark: #0a0a0a;
+@bg-panel: #121212;
+@text-light: #fff;
+@text-muted: #ccc;
+@border-color: #444;
+@accent-color: #00d2ff;
+
+.container {
+  display: flex;
+  height: 550px;
+  background-color: @bg-dark;
+  color: @text-light;
+  margin-inline: auto;
+  width: 80%;
+  .banner {
+    position: absolute;
+    width: 100vw;
+    height: 550px;
+    left: 0;
+    z-index: -10;
+    background-color: @bg-panel;
+  }
+  .left {
+    width: 33%;
+    background: url('../../../../../assets/images/Home_2/faq.png');
+    background-size: cover;
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    padding: 2rem;
+
+    .title {
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: @text-muted;
+    }
+  }
+
+  .right {
+    width: 67%;
+    padding: 4rem;
+    background-color: @bg-panel;
+
+    :global {
+      .ant-collapse {
+        background-color: transparent;
+        border: none;
+
+        .ant-collapse-item {
+          border-bottom: 1px dashed @border-color;
+          padding: 12px;
+          .ant-collapse-header {
+            color: @text-light;
+            font-size: 16px;
+            font-weight: 500;
+            padding-left: 0;
+          }
+
+          .ant-collapse-content {
+            background-color: transparent;
+            color: #bbb;
+            padding-left: 0;
+
+            .ant-collapse-content-box {
+              padding: 0 0 12px 0;
+            }
+          }
+        }
+
+        .ant-collapse-expand-icon {
+          padding-inline-end: 12px;
+
+          svg {
+            color: @accent-color;
+          }
+        }
+      }
+    }
+  }
+}
