@@ -5,12 +5,13 @@ import {
   renderTableColumns,
 } from '@/components/JanctionTable/column';
 import {
+  fetchInquiry,
   fetchInviterList,
   fetchInviterNameUpdate,
   fetchNFTData,
   fetchPaymentHistory,
 } from '@/services/root';
-import { DATE_FORMAT_TYPE } from '@/utils/datetime';
+import { DATE_FORMAT_TYPE, formatISODate } from '@/utils/datetime';
 import { Col, message, Row } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import { history } from 'umi';
@@ -40,6 +41,13 @@ const Root = (props) => {
   const [inviterQuery, setInviterQuery] = useState({ offset: 0, limit: 10 });
   const [inviterPage, setInviterPage] = useState({ offset: 0, limit: 10 });
   const [inviterList, setInviterList] = useState([]);
+  const [inquiryPage, setInquiryPage] = useState({
+    page: 1,
+    page_size: 10,
+    total: 0,
+  });
+  const [inquiryQuery, setInquiryQuery] = useState({ page: 1, page_size: 10 });
+  const [inquiryList, setInquiryList] = useState([]);
   const [inviterLoading, setInviterLoading] = useState(false);
   const [splitVisible, setSplitVisible] = useState(false);
   const [inviterEdit, setInviterEdit] = useState(false);
@@ -60,7 +68,12 @@ const Root = (props) => {
   const fetchData = async () => {
     try {
       setLoading(true);
-      await Promise.all([getNFTData(), getPaymentHistory(), getInviterList()]);
+      await Promise.all([
+        getNFTData(),
+        getPaymentHistory(),
+        getInviterList(),
+        getInquiry(),
+      ]);
     } catch (err) {
       console.log(err);
     } finally {
@@ -75,6 +88,31 @@ const Root = (props) => {
       console.log('『err』', err);
     }
   };
+  const getInquiry = async (params = {}) => {
+    try {
+      const _query = { ...inquiryQuery, ...params };
+
+      const res = await fetchInquiry(_query);
+      const { data, ...extra } = res || {};
+
+      const mappedData = (data || []).map((item) => ({
+        ...item,
+        created_at: formatISODate(item.created_at),
+      }));
+
+      setInquiryList(mappedData);
+      setInquiryPage({
+        page: extra.page ?? _query.page,
+        page_size: extra.page_size ?? _query.page_size,
+        total: extra.total ?? 0,
+      });
+
+      setInquiryQuery(_query);
+    } catch (err) {
+      console.log('『err』', err);
+    }
+  };
+
   const dataHandle = (data) => {
     const { this_week, last_week, config } = data || {};
     setConfigData(config);
@@ -201,6 +239,16 @@ const Root = (props) => {
         },
       },
     ]),
+  ];
+  const columns3 = [
+    renderTableColumns('Company Name ', 'company_name', { copy: false }),
+    renderTableColumns('Name', 'name', { copy: false }),
+    renderTableColumns('Email Address', 'email_address', {
+      copy: false,
+    }),
+    renderTableColumns('Phone Number', 'phone_number'),
+    renderTableColumns('Usage Content', 'usage_content'),
+    renderTableColumns('Created at', 'created_at'),
   ];
 
   return (
@@ -335,6 +383,25 @@ const Root = (props) => {
                 total: inviterPage?.total || 0,
                 onChange: (page, pageSize) => {
                   getInviterList({ offset: page * 10 });
+                },
+              }}
+            />
+          </JanctionCard>
+        </Col>
+        <Col span={24}>
+          <JanctionCard title="Inquiry Data" divider>
+            <JanctionTable
+              size="small"
+              bordered
+              dataSource={inquiryList}
+              columns={columns3}
+              scroll={{ x: 'max-content' }}
+              pagination={{
+                position: ['bottomCenter'],
+                current: inquiryPage?.page || 1,
+                total: inquiryPage?.total || 0,
+                onChange: (page, pageSize) => {
+                  getInquiry({ page, page_size: pageSize });
                 },
               }}
             />

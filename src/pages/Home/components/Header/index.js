@@ -10,13 +10,15 @@ export default function Header() {
         <img src={logo} className={styles['logo']} />
       </section>
       <section className={styles['header-right']}>
-        <span>Doc</span>
-        <Button
+        <a href="https://docs.janction.io/" target="blank_">
+          Doc
+        </a>
+        <div
           className={styles['connect-btn']}
           onClick={() => history.push('/login')}
         >
           Dashboard
-        </Button>
+        </div>
       </section>
     </header>
   );

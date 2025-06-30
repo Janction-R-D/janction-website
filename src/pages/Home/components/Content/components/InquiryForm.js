@@ -1,14 +1,24 @@
-import React from 'react';
-import { Form, Input, Button, Row, Col } from 'antd';
+import React, { useState } from 'react';
+import { Form, Input, Button, Row, Col, message } from 'antd';
 import styles from './form.less';
+import { fetchCreateInquiry } from '@/services/home';
 
 const { TextArea } = Input;
 
 const InquiryForm = () => {
   const [form] = Form.useForm();
-
-  const onFinish = (values) => {
-    console.log('Form submitted:', values);
+  const [loading, setLoading] = useState(false);
+  const onFinish = async (values) => {
+    try {
+      setLoading(true);
+      await fetchCreateInquiry(values);
+      message.success('Inquiry created successfully!');
+      // form.resetFields();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -22,12 +32,17 @@ const InquiryForm = () => {
         </p>
       </div>
       <div className={styles.right}>
-        <Form form={form} layout="vertical" onFinish={onFinish}>
+        <Form
+          form={form}
+          layout="vertical"
+          onFinish={onFinish}
+          onSubmitCapture={(e) => e.preventDefault()}
+        >
           <Row gutter={24}>
             <Col span={12}>
               <Form.Item
                 label="Company name"
-                name="company"
+                name="company_name"
                 rules={[
                   { required: true, message: 'Please enter your company name' },
                 ]}
@@ -47,7 +62,7 @@ const InquiryForm = () => {
             <Col span={12}>
               <Form.Item
                 label="Email address"
-                name="email"
+                name="email_address"
                 rules={[
                   { required: true, message: 'Please enter your email' },
                   { type: 'email', message: 'Invalid email address' },
@@ -57,14 +72,14 @@ const InquiryForm = () => {
               </Form.Item>
             </Col>
             <Col span={12}>
-              <Form.Item label="Phone number" name="phone">
+              <Form.Item label="Phone number" name="phone_number">
                 <Input placeholder="03-1234-5678" />
               </Form.Item>
             </Col>
             <Col span={24}>
               <Form.Item
                 label="Usage and question contents"
-                name="content"
+                name="usage_content"
                 rules={[
                   { required: true, message: 'Please describe your inquiry' },
                 ]}
@@ -81,6 +96,7 @@ const InquiryForm = () => {
               type="primary"
               htmlType="submit"
               className={styles.sendButton}
+              loading={loading}
             >
               Send
             </Button>
