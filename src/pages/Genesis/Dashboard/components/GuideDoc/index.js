@@ -1,7 +1,33 @@
-import { Card, Typography, Image, Modal } from 'antd';
+import { Typography, Image, Modal, Collapse } from 'antd';
 import styles from './index.less';
-
+const { Panel } = Collapse;
 const { Title, Paragraph } = Typography;
+const FAQ_LIST = [
+  {
+    question: 'How secure is it to connect their own GPU to JANCTION?',
+    answer:
+      'Use bidirectional TLS encryption connection between user node and Janction service.',
+  },
+  {
+    question: 'How secure is it to rent a GPU and process data with it?',
+    answer:
+      'Depends on node provider; data and process may be lost if the node goes offline.',
+  },
+  {
+    question: 'Will all data on the GPU be wiped before renting?',
+    answer: 'No, data on GPU memory will remain.',
+  },
+  {
+    question: 'Will all data on the GPU be wiped after renting?',
+    answer:
+      'Yes, data on GPU RAM will be wiped after the task ends or the instance expires.',
+  },
+  {
+    question: 'What happens to data on disconnects, etc.?',
+    answer:
+      'Data on shared drive will be synced to storage server; other data will be removed. Users should manually back up data if necessary.',
+  },
+];
 
 export default function GuideDoc({ visible, onClose }) {
   return (
@@ -238,6 +264,18 @@ export default function GuideDoc({ visible, onClose }) {
               />
             </div>
           </Paragraph>
+        </div>
+        <div className={styles.faqContainer}>
+          <Title level={2} style={{ textAlign: 'center' }}>
+            FAQ
+          </Title>
+          <Collapse accordion>
+            {FAQ_LIST.map((item, index) => (
+              <Panel header={`${index + 1}. ${item.question}`} key={index}>
+                <Paragraph>{item.answer}</Paragraph>
+              </Panel>
+            ))}
+          </Collapse>
         </div>
       </div>
     </Modal>

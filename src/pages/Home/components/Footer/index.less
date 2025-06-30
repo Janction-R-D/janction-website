@@ -1,0 +1,235 @@
+footer.main-footer {
+  background-color: #101112;
+  width: 100%;
+  margin: 0 auto;
+  padding: 30px 12% 20px;
+  position: relative;
+  z-index: 2;
+  margin-top: 25px;
+  .links-container {
+    display: flex;
+    gap: 100px;
+
+    > div {
+      display: flex;
+      flex-direction: column;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 14px;
+
+      > div,
+      > a {
+        margin-bottom: 12px;
+      }
+
+      > a.m-t {
+        font-size: 15px;
+        color: #fff;
+      }
+
+      a {
+        cursor: pointer;
+      }
+    }
+  }
+
+  .related-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(245, 245, 255, 0.1);
+  }
+}
+
+@media (max-width: 1024px) {
+  header.main-header {
+    width: 100%;
+    height: 20vw;
+    padding: 0 5.333vw;
+    border-radius: 0;
+    background: #000;
+    backdrop-filter: blur(0);
+    position: fixed;
+    top: 0;
+    transition: all 0.3s;
+
+    .logo {
+      width: 45.867vw;
+      height: 9.067vw;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    > nav {
+      display: none;
+    }
+
+    .dashboard {
+      display: none;
+    }
+
+    .android-menu {
+      display: block;
+
+      i {
+        font-size: 8vw;
+      }
+    }
+  }
+
+  header.main-header.fixed {
+    position: fixed;
+    top: 0;
+    padding: 8vw 5.333vw;
+  }
+
+  footer.main-footer {
+    width: 100%;
+    padding: 75px 20px 30px;
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 35px;
+    position: relative;
+    z-index: 2;
+
+    > div:not(.related-container) {
+      width: 100%;
+      flex-direction: column;
+      align-items: center;
+
+      > div:not(.links-container) {
+        align-items: center;
+      }
+
+      > div.links-container {
+        gap: 0;
+        width: 100%;
+        justify-content: space-between;
+
+        > div {
+          > div,
+          > a {
+            margin-bottom: 10px;
+          }
+        }
+      }
+    }
+
+    .related-container {
+      width: 100%;
+      padding-bottom: 25px;
+      justify-content: center;
+
+      .socials-links {
+        display: none;
+      }
+    }
+
+    .links {
+      display: none;
+    }
+  }
+
+  :global {
+    .ant-dropdown,
+    .ant-dropdown-menu-submenu {
+      .ant-dropdown-menu {
+        width: 29.6vw;
+        padding: 4vw 4.8vw;
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(6.667vw);
+        border-radius: 2.667vw;
+
+        .ant-dropdown-menu-item,
+        .ant-dropdown-menu-submenu {
+          padding: 0;
+          font-weight: 500;
+          font-size: 3.2vw;
+
+          .ant-dropdown-menu-submenu-title {
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: 500;
+            font-size: 3.2vw;
+            flex-wrap: nowrap;
+          }
+        }
+
+        .ant-dropdown-menu-submenu-active .ant-dropdown-menu-submenu-title,
+        .ant-dropdown-menu-item-active {
+          background: transparent;
+        }
+
+        .ant-dropdown-menu-item:not(:first-child),
+        .ant-dropdown-menu-submenu-title {
+          margin-top: 4vw;
+        }
+      }
+    }
+  }
+}
+
+.children-dropdown {
+  :global {
+    .ant-dropdown-menu {
+      padding: 2.133vw;
+      background: rgba(18, 20, 21, 0.49);
+      border: 0.267vw solid #1f2327;
+      backdrop-filter: blur(6.667vw);
+      border-radius: 4vw;
+
+      li {
+        width: 40vw;
+        font-weight: 500;
+        font-size: 3.2vw;
+        color: #fff;
+        padding: 2.667vw 4.267vw;
+        border-radius: 2.667vw;
+        transition: background 0.4s;
+
+        a {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          position: relative;
+
+          div {
+            position: absolute;
+            right: 6.4vw;
+            top: 50%;
+            translate: 0 -50%;
+            opacity: 0;
+            width: 3.2vw;
+            height: 3.2vw;
+            transform: rotate(-90deg);
+            transition: opacity 0.4s, right 0.4s;
+
+            img {
+              display: inline-block;
+              width: 100%;
+            }
+          }
+        }
+      }
+
+      li:hover {
+        background-color: #101112;
+
+        a {
+          div {
+            right: 0;
+            opacity: 1;
+            transition: opacity 0.4s, right 0.4s;
+          }
+        }
+      }
+    }
+  }
+}

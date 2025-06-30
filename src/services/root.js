@@ -1,6 +1,7 @@
 import { request } from 'umi';
 
 const baseUrl = `${process.env.JANCTION_V0_API}/affv2/root`;
+const baseUrlV0 = `${process.env.JANCTION_V0_API}`;
 
 export const fetchNFTData = (params) => {
   return request(`${baseUrl}/dashboard`, {
@@ -117,6 +118,15 @@ export const fetchRootAuthVerify = (data) => {
 
 export const fetchRootAuthStatus = () => {
   return request(`${baseUrl}/authentication/status`, {
+    credentials: 'include',
+    // withCredentials: true,
+  });
+};
+
+export const fetchInquiry = (params) => {
+  return request(`${baseUrlV0}/inquiry/list`, {
+    params,
+    basicLoginAuth: true,
     credentials: 'include',
     // withCredentials: true,
   });

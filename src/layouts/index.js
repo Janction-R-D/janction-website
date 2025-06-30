@@ -16,8 +16,9 @@ import PurchaseAi from '@/pages/Genesis/Agent/components/Purchase';
 import Create from '@/pages/Genesis/Agent/components/Create';
 import FileManager from '@/pages/Genesis/Agent/components/FileManager';
 
-export const fullWidthRoute = ['/home', '/explore', '/getStarted', '/solution'];
-export const newPaths = ['/recent'];
+// export const fullWidthRoute = ['/home', '/explore', '/getStarted', '/solution'];
+export const fullWidthRoute = [];
+export const newPaths = ['/home'];
 export const authRoute = [
   '/genesis/dashboard',
   '/genesis/deployNode',
