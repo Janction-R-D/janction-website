@@ -13,12 +13,12 @@ export default function Header() {
         <a href="https://docs.janction.io/" target="blank_">
           Doc
         </a>
-        <div
+        <Button
           className={styles['connect-btn']}
           onClick={() => history.push('/login')}
         >
           Dashboard
-        </div>
+        </Button>
       </section>
     </header>
   );
