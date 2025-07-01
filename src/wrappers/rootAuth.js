@@ -17,6 +17,9 @@ export default (props) => {
     } catch (error) {
       setStatus('unlogin');
       console.log('『error』', error);
+      if (error.message.includes('Invalid session')) {
+        history.replace('/root/login');
+      }
     }
   };
 
