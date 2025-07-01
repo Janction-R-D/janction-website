@@ -82,7 +82,9 @@ function Instance() {
     const start = (currentPage - 1) * pageSize;
     return filteredData.slice(start, start + pageSize);
   }, [filteredData, currentPage, pageSize]);
-
+  const filteredInstance = filteredData?.filter(
+    (item) => item.status_str === 'running' || item.status_str === 'starting',
+  );
   if (!isLessee) return <Redirect to="/genesis/nodes"></Redirect>;
   return (
     <>
@@ -156,7 +158,7 @@ function Instance() {
           <section className={styles['instances']}>
             {!isEmpty(filteredData) && (
               <>
-                {paginatedData?.map((instance, index) => (
+                {filteredInstance?.map((instance, index) => (
                   <InstanceMonitor
                     key={index}
                     instance={instance}
@@ -167,7 +169,7 @@ function Instance() {
                   <Pagination
                     current={currentPage}
                     pageSize={pageSize}
-                    total={filteredData.length}
+                    total={filteredInstance.length}
                     onChange={(page, size) => {
                       setCurrentPage(page);
                       setPageSize(size);
