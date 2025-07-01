@@ -66,7 +66,7 @@ export default function AIForm() {
         throw new Error('Something went wrong uploading Agent Image');
       }
       //then upload base file knowloage
-      const knowleageFiles = values.files[0].originFileObj;
+      const knowleageFiles = values.files;
 
       const reqBaseUld = await fetchUploadFiles(knowleageId, knowleageFiles);
       console.log('reqBaseUld', reqBaseUld);
