@@ -64,7 +64,11 @@ export const fetchUploadImg = (file) => {
 
 export const fetchUploadFiles = (id, data) => {
   const formData = new FormData();
-  formData.append('file', data);
+  data.forEach((file) => {
+    if (file.originFileObj) {
+      formData.append('files', file.originFileObj);
+    }
+  });
   return request(`${baseUrl}/agent/kb/${id}/files`, {
     method: 'POST',
     data: formData,

@@ -151,7 +151,7 @@ const UploadDoc = ({ value = [], onChange }) => {
         ))}
       </div>
 
-      {files.length == 0 && (
+      {files.length <= 4 && (
         <div className={styles.textDesc} onClick={triggerUpload}>
           <div className={styles.descTitle}>
             <FileAddOutlined style={{ fontSize: '24px' }} />
