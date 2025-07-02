@@ -15,10 +15,12 @@ import TryChat from '@/pages/Genesis/Agent/components/TryChat';
 import PurchaseAi from '@/pages/Genesis/Agent/components/Purchase';
 import Create from '@/pages/Genesis/Agent/components/Create';
 import FileManager from '@/pages/Genesis/Agent/components/FileManager';
+import HomeFooter from '@/pages/Home/components/Footer';
+import HomeHeader from '@/pages/Home/components/Header';
 
 // export const fullWidthRoute = ['/home', '/explore', '/getStarted', '/solution'];
 export const fullWidthRoute = [];
-export const newPaths = ['/home'];
+export const newPaths = ['/home', '/solution'];
 export const authRoute = [
   '/genesis/dashboard',
   '/genesis/deployNode',
@@ -155,7 +157,9 @@ export default function Layout(props) {
   if (newPath) {
     return (
       <div id={styles['main-layout_2']}>
+        <HomeHeader />
         <main className={fullWidth && styles['main-wp100']}>{children}</main>
+        <HomeFooter />
       </div>
     );
   }

@@ -1,7 +1,7 @@
 import SocialsLinks from '@/components/SocialsLinks';
 import styles from './index.less';
 
-const Footer = (props) => {
+const HomeFooter = (props) => {
   return (
     <footer
       className={`animate__animated animate__zoomIn ${styles['main-footer']}`}
@@ -40,7 +40,7 @@ const Footer = (props) => {
               Company
             </a>
             <a href="/">Home</a>
-            <a>About</a>
+            <a href="/solution">About</a>
             <a href="https://medium.com/@janctionmgt" target="_blank">
               Articles
             </a>
@@ -70,4 +70,4 @@ const Footer = (props) => {
   );
 };
 
-export default Footer;
+export default HomeFooter;

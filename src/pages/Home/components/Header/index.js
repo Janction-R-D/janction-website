@@ -3,11 +3,15 @@ import styles from './index.less';
 import logo from '@/assets/images/icons/logo_name.png';
 import { Button } from 'antd';
 import { history } from 'umi';
-export default function Header() {
+export default function HomeHeader() {
   return (
     <header className={styles['main-header']}>
       <section className={styles['header-left']}>
-        <img src={logo} className={styles['logo']} />
+        <img
+          src={logo}
+          className={styles['logo']}
+          onClick={() => history.push('/')}
+        />
       </section>
       <section className={styles['header-right']}>
         <a href="https://docs.janction.io/" target="blank_">
