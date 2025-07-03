@@ -48,25 +48,45 @@ const UploadDoc = ({ value = [], onChange }) => {
     onChange?.(newFiles); // propagate change up
   };
 
-  const handleChange = (e) => {
+  const handleChange = async (e) => {
     const MAX_SIZE = 1024 * 1024 * 10; // 10MB
     const incoming = Array.from(e.target.files);
 
     const validFiles = [];
     const oversizedFiles = [];
+    const longPdfs = [];
 
-    incoming.forEach((file) => {
-      file.size <= MAX_SIZE
-        ? validFiles.push(file)
-        : oversizedFiles.push(file.name);
-    });
+    for (const file of incoming) {
+      const ext = file.name.split('.').pop().toLowerCase();
+
+      if (file.size > MAX_SIZE) {
+        oversizedFiles.push(file.name);
+        continue;
+      }
+
+      if (ext === 'pdf') {
+        try {
+          const tooLong = await isPdfTooLong(file);
+          if (tooLong) {
+            longPdfs.push(file.name);
+            continue;
+          }
+        } catch (err) {
+          console.error('Error leyendo PDF:', err);
+          longPdfs.push(file.name); // mejor prevenir si falla
+          continue;
+        }
+      }
+
+      validFiles.push(file);
+    }
 
     if (oversizedFiles.length) {
-      message.error(
-        `The following files exceed the maximum size of 10MB: ${oversizedFiles.join(
-          ', ',
-        )}`,
-      );
+      message.error(`Exceeds 10MB: ${oversizedFiles.join(', ')}`);
+    }
+
+    if (longPdfs.length) {
+      message.error(`PDF exceeds 100 pages: ${longPdfs.join(', ')}`);
     }
 
     const newFiles = validFiles.map((file, index) => {
@@ -91,7 +111,7 @@ const UploadDoc = ({ value = [], onChange }) => {
     });
 
     const allFiles = [...value, ...newFiles];
-    onChange?.(allFiles); // propagate all files up
+    onChange?.(allFiles);
     e.target.value = '';
   };
 

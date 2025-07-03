@@ -3,6 +3,7 @@ import { Button, Card, Divider } from 'antd';
 import styles from './orders.less';
 import { brandDetails } from '@/constant';
 import OrderModal from './OrderModal';
+import PayButton from './PayButton';
 
 export default function OrderCard({ order }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -61,6 +62,7 @@ export default function OrderCard({ order }) {
           <Button className={styles['connect-btn']} onClick={onOk}>
             Details <i className="iconfont icon-next" />
           </Button>
+          {data.order.status == 'pending' && <PayButton order={data.order} />}
           <OrderModal
             handleCancel={onCancel}
             isModalOpen={isModalOpen}
