@@ -221,17 +221,17 @@ function InstanceTable({ data, getAllNodes }) {
     }));
   }, [data]);
   const filteredInstance = mappedOrders?.filter(
-    (item) => item.status === 'running' || item.status === 'starting',
+    (item) => item.status === 'running' || item.status === 'pending',
   );
 
   useEffect(() => {
     const interval = setInterval(() => {
       const hasStarting = mappedOrders?.some(
-        (order) => order.status?.toLowerCase() === 'starting',
+        (order) => order.status?.toLowerCase() === 'pending',
       );
       console.log(hasStarting);
       if (hasStarting) {
-        console.log('[Interval] Some instance is still starting...');
+        console.log('[Interval] Some instance is still pending...');
         getAllNodes(); // if theres a starting machine
       } else {
         console.log('[Interval] No instance is starting. Clearing interval.');

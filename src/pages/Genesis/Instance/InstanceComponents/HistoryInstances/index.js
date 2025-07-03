@@ -118,7 +118,7 @@ const HistoryInstances = (props) => {
     }));
   }, [data]);
   const filteredInstance = mappedOrders?.filter(
-    (item) => item.status !== 'running' && item.status !== 'starting',
+    (item) => item.status !== 'running' && item.status !== 'pending',
   );
   const handleCancel = () => {
     onCancel();
