@@ -1,0 +1,349 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  margin-inline: auto;
+  padding-inline: 10%;
+}
+.header {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  width: 100%;
+  margin-block: 30px;
+  font-size: 3rem;
+  height: 200px;
+  &::after {
+    content: '';
+    position: absolute;
+    width: 44vw;
+    height: 44vh;
+    z-index: -5;
+    right: 50%;
+    transform: translate(50%, -50%);
+    top: 50%;
+    z-index: -10;
+    background: url('../../assets/images/company/jasmy.png');
+    background-size: 100% 100%;
+  }
+  &::before {
+    content: '';
+    position: absolute;
+    width: 90vw;
+    height: 90vh;
+    z-index: -4;
+    right: 50%;
+    transform: translate(50%, -30%);
+    top: 50%;
+    z-index: -10;
+    background: url('../../assets/images/company/shadow_1.png');
+    background-size: 100% 100%;
+  }
+}
+.cost-wrapper {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 100%;
+  height: 450px;
+  position: relative;
+  margin-bottom: 20px;
+  h2 {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    position: relative;
+    padding-top: 20px;
+    font-size: 1.8rem;
+    font-weight: 600;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 100vw;
+    height: 500px;
+    z-index: -5;
+    right: -12.5%;
+    top: 0;
+    z-index: -10;
+    background: url('../../assets/images/Home_2/decentaliced.png');
+    background-size: 100% 100%;
+  }
+
+  .dc-cards {
+    display: grid;
+    width: 80%;
+    margin-top: 20px;
+    margin-inline: auto;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    .dc-card {
+      background: #0e0e0e;
+
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      overflow: hidden;
+      border-radius: 8px;
+      .dc-card__content {
+        padding: 12px;
+        .dc-card__header {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+
+          .dc-card_title {
+            font-weight: 600;
+            max-width: 140px;
+            font-size: 1.05rem;
+            margin-bottom: 12px;
+          }
+          i {
+            font-size: 22px;
+          }
+        }
+        .dc-card_descriotion {
+          color: #7b7b7b;
+          font-size: 0.7rem;
+          flex: 1;
+          display: flex;
+          align-items: end;
+        }
+      }
+      .dc-card-icon {
+        height: 140px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #191919;
+        i {
+          font-size: 3.5rem;
+        }
+      }
+    }
+  }
+}
+.container_jasmycard {
+  @bg: #121212;
+  @text-color: white;
+  @label-color: #888;
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: @bg;
+  height: 300px;
+  width: 100%;
+  margin-inline: auto;
+  .card {
+    width: 90%;
+    background: transparent;
+    color: @text-color;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      width: 200px;
+      height: 200px;
+      background-image: url('../../assets/images/company/jasmyLab.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      pointer-events: none;
+    }
+
+    .info {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      background: transparent;
+      .row {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+
+        .label {
+          font-weight: bold;
+          color: @label-color;
+          width: 40%;
+        }
+
+        .value {
+          width: 60%;
+        }
+      }
+    }
+  }
+}
+
+.container_payment {
+  @bg: #000;
+  @text: #fff;
+  @text-secondary: #999;
+  @card-bg: rgba(255, 255, 255, 0.05);
+  margin-block: 25px;
+  background: @bg;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  .content {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+
+    padding: 40px;
+
+    .left {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 30px;
+
+      .dollar {
+        width: 100px;
+        height: 100px;
+        background-image: url('../../assets//images/company/dollar.png'); // reemplázalo
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+
+      .text {
+        h1 {
+          color: @text;
+          font-size: 28px;
+          line-height: 1.2;
+          margin: 0;
+        }
+
+        p {
+          color: @text-secondary;
+          margin-top: 10px;
+          font-size: 14px;
+        }
+      }
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 120px);
+      gap: 16px;
+
+      .methodCard {
+        background: @card-bg;
+        color: @text;
+        border-radius: 8px;
+        height: 80px;
+
+        padding: 10px 12px;
+        font-size: 12px;
+        position: relative;
+        .label {
+          color: @text-secondary;
+          font-size: 12px;
+          opacity: 0.6;
+        }
+
+        .icon_box {
+          position: absolute;
+          bottom: 0;
+          right: 8px;
+          i {
+            font-size: 2rem;
+            color: @text;
+          }
+        }
+        :global {
+          .ant-card-body {
+            padding: 0;
+          }
+        }
+      }
+    }
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    z-index: 10;
+    right: 32.5%;
+    top: -80px;
+    width: 60.5vw;
+    height: 45vw;
+    background: url('../../assets/images/company/shadow_2.png');
+    background-size: 100% 100%;
+  }
+}
+
+.container_methods {
+  @bg: #111;
+  @card-bg: #171717cb;
+  @text: #fff;
+  @subtext: #aaa;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 32px;
+  margin-top: 40px;
+  .card {
+    background: @card-bg;
+    backdrop-filter: blur(4px);
+    border-radius: 8px;
+    width: 500px;
+    height: 360px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 20;
+    .content {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      width: 100%;
+      height: 100%;
+      padding: 30px;
+      position: relative;
+      .text {
+        flex: 1;
+        max-width: 40ch;
+        h2 {
+          color: @text;
+          font-size: 20px;
+          margin-bottom: 12px;
+        }
+
+        p {
+          color: @subtext;
+          font-size: 14px;
+          line-height: 1.6;
+          margin: 0;
+        }
+      }
+
+      .image {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        width: 50%;
+        height: 50%;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+
+        pointer-events: none;
+      }
+    }
+  }
+}

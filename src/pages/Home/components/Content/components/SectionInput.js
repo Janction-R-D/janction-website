@@ -39,6 +39,12 @@ export default function SectionInput() {
         >
           Get Started
         </Button>
+        <Button
+          className={styles['connect-btn']}
+          onClick={() => history.push('/gpu')}
+        >
+          Provide GPU
+        </Button>
       </section>
     </div>
   );

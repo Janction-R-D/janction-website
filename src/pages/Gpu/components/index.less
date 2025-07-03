@@ -1,0 +1,130 @@
+.card {
+  width: 420px;
+  // height: 310px;
+  height: 390px;
+  // margin: 10em auto 10em;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  transform: scaleY(-1); // Voltear verticalmente igual que folder
+  border-radius: 5px 25px 25px 25px;
+  border: 2px solid #676767;
+  filter: drop-shadow(0 0 0.75rem rgba(128, 128, 128, 0.629));
+  background: #2a2a2a61;
+  backdrop-filter: blur(4px);
+  position: relative;
+  padding: 20px;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -30px;
+    left: -2px;
+    width: 50%;
+    height: 30px;
+    border: 2px solid #676767;
+
+    background: #2a2a2a61;
+    backdrop-filter: blur(4px);
+    border-radius: 25px 25px 0 0;
+  }
+
+  > * {
+    transform: scaleY(-1);
+  }
+  .gpuSelect {
+    padding: 12px 0px;
+    border-bottom: 1px solid #ccc;
+    margin-top: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.2rem;
+    .select {
+      width: 100%;
+      :global {
+        .ant-select-selector {
+          border: none !important;
+          box-shadow: none !important;
+          background: transparent;
+
+          &:hover,
+          &:focus {
+            border: none !important;
+            box-shadow: none !important;
+          }
+        }
+      }
+    }
+  }
+  .button {
+    width: 120px;
+    border-radius: 999px;
+    height: 40px;
+  }
+  .income {
+    margin-bottom: 25px;
+    .estimated {
+    }
+    .amount {
+      display: flex;
+      align-items: baseline;
+      font-weight: 700;
+      font-size: 3.5rem;
+      .token {
+        font-size: 0.8rem;
+      }
+    }
+  }
+}
+.table {
+  background: #2a2a2a61;
+  backdrop-filter: blur(4px);
+
+  margin-inline: auto;
+
+  :global {
+    .ant-table {
+      background: transparent;
+      border: 2px solid rgba(148, 148, 148, 0.644);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .ant-table-thead {
+      tr > th {
+        background: linear-gradient(180deg, #1a1a1abc 0%, #0f0f0fbd 100%);
+        color: #999;
+        font-weight: 500;
+        padding-block: 18px;
+        backdrop-filter: blur(15px);
+
+        border-bottom: 1px solid #2e2e2e !important;
+      }
+    }
+    .ant-table-tbody > tr > td {
+      background: transparent;
+      color: #fff;
+      font-weight: 600;
+      padding-block: 18px;
+      border-bottom: none !important;
+      cursor: pointer;
+      background: #00000077;
+      backdrop-filter: blur(4px);
+    }
+
+    .ant-table-tbody > tr:hover > td {
+      background-color: #141414 !important;
+    }
+  }
+  .cost {
+    color: #00e0ff;
+    font-weight: 600;
+  }
+
+  .model {
+    font-weight: 600;
+    color: #fff;
+  }
+}

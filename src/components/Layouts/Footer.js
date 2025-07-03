@@ -32,11 +32,7 @@ const Footer = (props) => {
             </a>
           </div>
           <div>
-            <a
-              href="https://jasmy.co.jp/en.html"
-              target="_blank"
-              className={styles['m-t']}
-            >
+            <a href="/company" className={styles['m-t']}>
               Company
             </a>
             <a href="/">Home</a>

@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4602216 */
-  src: url('iconfont.woff2?t=1751210835045') format('woff2'),
-       url('iconfont.woff?t=1751210835045') format('woff'),
-       url('iconfont.ttf?t=1751210835045') format('truetype');
+  src: url('iconfont.woff2?t=1751553365412') format('woff2'),
+       url('iconfont.woff?t=1751553365412') format('woff'),
+       url('iconfont.ttf?t=1751553365412') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,42 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-clock1:before {
+  content: "\e666";
+}
+
+.icon-sand-clock:before {
+  content: "\e609";
+}
+
+.icon-file-transfer-line:before {
+  content: "\e6f1";
+}
+
+.icon-banktransfernew:before {
+  content: "\e664";
+}
+
+.icon-unionpay:before {
+  content: "\e686";
+}
+
+.icon-mastercard:before {
+  content: "\e60a";
+}
+
+.icon-visa:before {
+  content: "\e66e";
+}
+
+.icon-alipay:before {
+  content: "\e87c";
+}
+
+.icon-jcb:before {
+  content: "\e6f7";
 }
 
 .icon-tags-:before {

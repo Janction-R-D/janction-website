@@ -35,7 +35,7 @@ const getFileIcon = (fileName) => {
       return <FileOutlined />;
   }
 };
-
+const isPdfTooLong = () => {};
 const UploadDoc = ({ value = [], onChange }) => {
   const uploadRef = useRef();
 
