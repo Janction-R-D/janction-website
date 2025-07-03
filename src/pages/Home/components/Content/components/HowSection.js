@@ -1,7 +1,11 @@
 import React from 'react';
+import { useIntl } from 'umi';
 import styles from './index.less';
 import img from '@/assets/images/Home_2/arrow.png';
+
 export default function HowSection() {
+  const intl = useIntl();
+
   return (
     <div className={styles['how']}>
       <div className={styles['node']}></div>
@@ -9,20 +13,15 @@ export default function HowSection() {
       <div className={styles['shadow_4']}></div>
 
       <div className={styles.how_left}>
-        <h2>HOW IT WORKS</h2>
+        <h2>{intl.formatMessage({ id: 'how.title' })}</h2>
         <div className={styles.underline}>
           <img src={img} />
         </div>
       </div>
+
       <div className={styles.how_right}>
-        <h2>Decoupling, Pipeline and Proof</h2>
-        <span>
-          Janction decouples data, computing power, and models within the AI
-          system, allowing tasks and resources to run in isolated yet pipeline
-          processes. The Janction Network provides decentralized AI services for
-          contribution verification, revenue distribution, and data
-          verifiability, using unique algorithms for node and route management.
-        </span>
+        <h2>{intl.formatMessage({ id: 'how.subtitle' })}</h2>
+        <span>{intl.formatMessage({ id: 'how.description' })}</span>
       </div>
     </div>
   );

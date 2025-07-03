@@ -1,25 +1,49 @@
 import React from 'react';
 import styles from './index.less';
-import { dcMock } from './mock';
+import { useIntl } from 'umi';
+
+const dcItems = [
+  {
+    titleId: 'cost.item.otherExpenses.title',
+    descriptionId: 'cost.item.otherExpenses.description',
+    icon: 'file-transfer-line',
+  },
+  {
+    titleId: 'cost.item.returnPolicy.title',
+    descriptionId: 'cost.item.returnPolicy.description',
+    icon: 'sand-clock',
+  },
+  {
+    titleId: 'cost.item.deliveryTime.title',
+    descriptionId: 'cost.item.deliveryTime.description',
+    icon: 'clock1',
+  },
+];
 
 export default function Cost() {
+  const intl = useIntl();
+
   return (
     <section className={styles['cost-wrapper']}>
-      <h2>Cost&After sales</h2>
+      <h2>{intl.formatMessage({ id: 'cost.title' })}</h2>
 
       <section className={styles['dc-cards']}>
-        {dcMock.map((item, index) => (
-          <DCard key={index} {...item} />
+        {dcItems.map((item, index) => (
+          <DCard
+            key={index}
+            title={intl.formatMessage({ id: item.titleId })}
+            description={intl.formatMessage({ id: item.descriptionId })}
+            icon={item.icon}
+          />
         ))}
       </section>
     </section>
   );
 }
 
-const DCard = (props) => {
-  const { title, icon, description } = props;
+const DCard = ({ title, description, icon }) => {
   return (
-    <arctile className={styles['dc-card']}>
+    <article className={styles['dc-card']}>
       <div className={styles['dc-card-icon']}>
         <i className={`iconfont icon-${icon}`} />
       </div>
@@ -29,6 +53,6 @@ const DCard = (props) => {
         </div>
         <p className={styles['dc-card_descriotion']}>{description}</p>
       </div>
-    </arctile>
+    </article>
   );
 };

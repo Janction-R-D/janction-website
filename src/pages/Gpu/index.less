@@ -1,6 +1,28 @@
 .gpu_wrapper {
   width: 80%;
-
+  position: relative;
+  &::after {
+    content: '';
+    position: absolute;
+    z-index: -5;
+    left: -32.5%;
+    top: -150px;
+    width: 60.5vw;
+    height: 45vw;
+    background: url('../../assets/images/company/shadow_2.png');
+    background-size: 100% 100%;
+  }
+  &::before {
+    content: '';
+    position: absolute;
+    z-index: -5;
+    right: -32.5%;
+    bottom: -150px;
+    width: 60.5vw;
+    height: 45vw;
+    background: url('../../assets/images/company/shadow_3.png');
+    background-size: 100% 100%;
+  }
   .cards {
     display: flex;
     width: 100%;

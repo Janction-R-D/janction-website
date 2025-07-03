@@ -1,4 +1,4 @@
 import Content from './components/Content';
-export default function Recent() {
+export default function NewHome() {
   return <Content />;
 }

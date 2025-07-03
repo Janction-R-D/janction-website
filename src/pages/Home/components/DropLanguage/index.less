@@ -1,0 +1,54 @@
+.drop__menu {
+  cursor: pointer;
+
+  .drop__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding-right: 10px;
+    gap: 15px;
+    &:hover {
+      background-color: #333;
+    }
+    div {
+      display: flex;
+      align-items: center;
+      span {
+        text-wrap: nowrap;
+        white-space: nowrap;
+      }
+    }
+    img {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .check {
+    color: #52c41a; // verde, puedes cambiarlo
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  :global {
+    .ant-dropdown-menu {
+      backdrop-filter: blur(6px);
+      background-color: #322c2c85;
+      border: 1px solid #cccccc37;
+      border-radius: 8px;
+      padding: 8px;
+      width: 140px;
+      color: red;
+      .ant-dropdown-menu-item {
+        color: #fff;
+
+        &:hover {
+          background-color: #333;
+        }
+      }
+    }
+  }
+}

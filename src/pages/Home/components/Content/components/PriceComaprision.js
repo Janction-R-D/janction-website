@@ -1,27 +1,39 @@
 import React from 'react';
 import styles from './index.less';
 import { Progress } from 'antd';
+import { useIntl } from 'umi';
+
 export default function PriceComparison() {
+  const intl = useIntl();
+
   return (
     <section className={styles.price_comparision}>
-      <h1 className={styles.title}>Price Comparison & Cost Savings</h1>
+      <h1 className={styles.title}>
+        {intl.formatMessage({ id: 'priceComparison.title' })}
+      </h1>
       <p className={styles.subtitle}>
-        Unbeatable Cost Performance vs. On-Premises
+        {intl.formatMessage({ id: 'priceComparison.subtitle' })}
       </p>
 
       <div className={styles.card}>
-        <span className={styles.card_title}>JANCTION H100 vs On-Premises</span>
+        <span className={styles.card_title}>
+          {intl.formatMessage({ id: 'priceComparison.cardTitle' })}
+        </span>
         <section>
           <div className={styles.left}>
             <JanctionProgressBar
-              label="JANCTION H100"
+              label={intl.formatMessage({
+                id: 'priceComparison.janctionLabel',
+              })}
               value="$3.3/h"
               percent={30}
               color="#00e0ff"
             />
 
             <JanctionProgressBar
-              label="On-Premises (Monthly Equivalent Cost)"
+              label={intl.formatMessage({
+                id: 'priceComparison.onPremisesLabel',
+              })}
               value="$50/month"
               percent={100}
               color="#ff9a00"
@@ -30,15 +42,16 @@ export default function PriceComparison() {
 
           <div className={styles.right}>
             <div className={styles.bullet}>
-              <span className={styles.dotBlue}></span> 1.4x Higher GPU Memory
-              Bandwidth
+              <span className={styles.dotBlue}></span>
+              {intl.formatMessage({ id: 'priceComparison.bullet1' })}
             </div>
             <div className={styles.bullet}>
-              <span className={styles.dotBlue}></span> Zero Upfront Investment
+              <span className={styles.dotBlue}></span>
+              {intl.formatMessage({ id: 'priceComparison.bullet2' })}
             </div>
             <div className={styles.bullet}>
-              <span className={styles.dotOrange}></span> 90% Lower Operational
-              Costs
+              <span className={styles.dotOrange}></span>
+              {intl.formatMessage({ id: 'priceComparison.bullet3' })}
             </div>
           </div>
         </section>

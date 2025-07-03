@@ -1,19 +1,20 @@
-import { Card } from 'antd';
+import { useIntl } from 'umi';
 import styles from './index.less';
 import imgPrice from '@/assets/images/company/price.png';
 import imgPayment from '@/assets/images/company/payment.png';
+
 export default function Methods() {
+  const intl = useIntl();
+
   const cards = [
     {
-      title: 'Payment cycle',
-      description:
-        'The customer pays immediately according to the rental duration of the GPU. If the user requires bank transfer, please contact the official support.',
+      title: intl.formatMessage({ id: 'methods.card1.title' }),
+      description: intl.formatMessage({ id: 'methods.card1.description' }),
       image: imgPayment,
     },
     {
-      title: 'Price',
-      description:
-        'Different GPUs have different prices, and real-time rental prices are provided on the official website and the purchase page.',
+      title: intl.formatMessage({ id: 'methods.card2.title' }),
+      description: intl.formatMessage({ id: 'methods.card2.description' }),
       image: imgPrice,
     },
   ];

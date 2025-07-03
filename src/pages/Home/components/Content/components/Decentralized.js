@@ -1,30 +1,39 @@
 import React from 'react';
 import styles from './index.less';
-
+import { useIntl } from 'umi';
 import { dcMock } from './mock';
+
 export default function Decentralized() {
+  const intl = useIntl();
+
   return (
     <section className={styles['decentralized']}>
-      <h2>Decentralized AI hub</h2>
+      <h2>{intl.formatMessage({ id: 'decentralized.title' })}</h2>
 
       <section className={styles['dc-cards']}>
-        {dcMock.map((item, index) => (
-          <DCard key={index} {...item} />
+        {dcMock.map((_, index) => (
+          <DCard key={index} index={index} />
         ))}
       </section>
     </section>
   );
 }
 
-const DCard = (props) => {
-  const { title, icon, description } = props;
+const DCard = ({ index }) => {
+  const intl = useIntl();
+  const { icon } = dcMock[index];
+
   return (
-    <arctile className={styles['dc-card']}>
+    <article className={styles['dc-card']}>
       <div className={styles['dc-card__header']}>
         <i className={`iconfont icon-${icon}`} />
-        <span className={styles['dc-card_title']}>{title}</span>
+        <span className={styles['dc-card_title']}>
+          {intl.formatMessage({ id: `decentralized.item.${index}.title` })}
+        </span>
       </div>
-      <p className={styles['dc-card_descriotion']}>{description}</p>
-    </arctile>
+      <p className={styles['dc-card_descriotion']}>
+        {intl.formatMessage({ id: `decentralized.item.${index}.description` })}
+      </p>
+    </article>
   );
 };
