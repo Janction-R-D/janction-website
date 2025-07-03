@@ -48,45 +48,31 @@ const UploadDoc = ({ value = [], onChange }) => {
     onChange?.(newFiles); // propagate change up
   };
 
-  const handleChange = async (e) => {
+  const handleChange = (e) => {
     const MAX_SIZE = 1024 * 1024 * 10; // 10MB
-    const incoming = Array.from(e.target.files);
+    const MAX_FILES = 5;
+    const files = Array.from(e.target.files);
 
     const validFiles = [];
     const oversizedFiles = [];
-    const longPdfs = [];
+    const totalAfterAdding = value.length + files.length;
 
-    for (const file of incoming) {
-      const ext = file.name.split('.').pop().toLowerCase();
-
-      if (file.size > MAX_SIZE) {
-        oversizedFiles.push(file.name);
-        continue;
-      }
-
-      if (ext === 'pdf') {
-        try {
-          const tooLong = await isPdfTooLong(file);
-          if (tooLong) {
-            longPdfs.push(file.name);
-            continue;
-          }
-        } catch (err) {
-          console.error('Error leyendo PDF:', err);
-          longPdfs.push(file.name); // mejor prevenir si falla
-          continue;
-        }
-      }
-
-      validFiles.push(file);
+    if (totalAfterAdding > MAX_FILES) {
+      message.error(`You can only upload up to ${MAX_FILES} files in total.`);
+      e.target.value = '';
+      return;
     }
+
+    files.forEach((file) => {
+      if (file.size <= MAX_SIZE) {
+        validFiles.push(file);
+      } else {
+        oversizedFiles.push(file.name);
+      }
+    });
 
     if (oversizedFiles.length) {
-      message.error(`Exceeds 10MB: ${oversizedFiles.join(', ')}`);
-    }
-
-    if (longPdfs.length) {
-      message.error(`PDF exceeds 100 pages: ${longPdfs.join(', ')}`);
+      message.error(`These files exceed 10MB: ${oversizedFiles.join(', ')}`);
     }
 
     const newFiles = validFiles.map((file, index) => {
@@ -111,6 +97,7 @@ const UploadDoc = ({ value = [], onChange }) => {
     });
 
     const allFiles = [...value, ...newFiles];
+    setFiles(allFiles);
     onChange?.(allFiles);
     e.target.value = '';
   };
