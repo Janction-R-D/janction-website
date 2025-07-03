@@ -2,17 +2,20 @@ import React, { useState } from 'react';
 import { Form, Input, Button, Row, Col, message } from 'antd';
 import styles from './form.less';
 import { fetchCreateInquiry } from '@/services/home';
+import { useIntl } from 'umi';
 
 const { TextArea } = Input;
 
 const InquiryForm = () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+  const intl = useIntl();
+
   const onFinish = async (values) => {
     try {
       setLoading(true);
       await fetchCreateInquiry(values);
-      message.success('Inquiry created successfully!');
+      message.success(intl.formatMessage({ id: 'inquiry.successMessage' }));
       // form.resetFields();
     } catch (error) {
       console.log(error);
@@ -24,11 +27,19 @@ const InquiryForm = () => {
   return (
     <div className={styles.container}>
       <div className={styles.left}>
-        <h1 className={styles.title}>Inquiry</h1>
+        <h1 className={styles.title}>
+          {intl.formatMessage({ id: 'inquiry.title' })}
+        </h1>
         <p className={styles.subtitle}>
-          Document and
-          <br />
-          technical consultation
+          {intl
+            .formatMessage({ id: 'inquiry.subtitle' })
+            .split('\n')
+            .map((line, idx) => (
+              <React.Fragment key={idx}>
+                {line}
+                <br />
+              </React.Fragment>
+            ))}
         </p>
       </div>
       <div className={styles.right}>
@@ -41,51 +52,95 @@ const InquiryForm = () => {
           <Row gutter={24}>
             <Col span={12}>
               <Form.Item
-                label="Company name"
+                label={intl.formatMessage({ id: 'inquiry.companyLabel' })}
                 name="company_name"
                 rules={[
-                  { required: true, message: 'Please enter your company name' },
+                  {
+                    required: true,
+                    message: intl.formatMessage({
+                      id: 'inquiry.companyRequired',
+                    }),
+                  },
                 ]}
               >
-                <Input placeholder="Corporation  Janction" />
+                <Input
+                  placeholder={intl.formatMessage({
+                    id: 'inquiry.companyPlaceholder',
+                  })}
+                />
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item
-                label="Name"
+                label={intl.formatMessage({ id: 'inquiry.nameLabel' })}
                 name="name"
-                rules={[{ required: true, message: 'Please enter your name' }]}
+                rules={[
+                  {
+                    required: true,
+                    message: intl.formatMessage({ id: 'inquiry.nameRequired' }),
+                  },
+                ]}
               >
-                <Input placeholder="Enter a name" />
+                <Input
+                  placeholder={intl.formatMessage({
+                    id: 'inquiry.namePlaceholder',
+                  })}
+                />
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item
-                label="Email address"
+                label={intl.formatMessage({ id: 'inquiry.emailLabel' })}
                 name="email_address"
                 rules={[
-                  { required: true, message: 'Please enter your email' },
-                  { type: 'email', message: 'Invalid email address' },
+                  {
+                    required: true,
+                    message: intl.formatMessage({
+                      id: 'inquiry.emailRequired',
+                    }),
+                  },
+                  {
+                    type: 'email',
+                    message: intl.formatMessage({ id: 'inquiry.emailInvalid' }),
+                  },
                 ]}
               >
-                <Input placeholder="example@company.com" />
+                <Input
+                  placeholder={intl.formatMessage({
+                    id: 'inquiry.emailPlaceholder',
+                  })}
+                />
               </Form.Item>
             </Col>
             <Col span={12}>
-              <Form.Item label="Phone number" name="phone_number">
-                <Input placeholder="03-1234-5678" />
+              <Form.Item
+                label={intl.formatMessage({ id: 'inquiry.phoneLabel' })}
+                name="phone_number"
+              >
+                <Input
+                  placeholder={intl.formatMessage({
+                    id: 'inquiry.phonePlaceholder',
+                  })}
+                />
               </Form.Item>
             </Col>
             <Col span={24}>
               <Form.Item
-                label="Usage and question contents"
+                label={intl.formatMessage({ id: 'inquiry.usageLabel' })}
                 name="usage_content"
                 rules={[
-                  { required: true, message: 'Please describe your inquiry' },
+                  {
+                    required: true,
+                    message: intl.formatMessage({
+                      id: 'inquiry.usageRequired',
+                    }),
+                  },
                 ]}
               >
                 <TextArea
-                  placeholder="Describe the functions and purposes of the agent"
+                  placeholder={intl.formatMessage({
+                    id: 'inquiry.usagePlaceholder',
+                  })}
                   autoSize={{ minRows: 5 }}
                 />
               </Form.Item>
@@ -98,7 +153,7 @@ const InquiryForm = () => {
               className={styles.sendButton}
               loading={loading}
             >
-              Send
+              {intl.formatMessage({ id: 'inquiry.sendButton' })}
             </Button>
           </Form.Item>
         </Form>

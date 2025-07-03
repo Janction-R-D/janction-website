@@ -35,7 +35,7 @@ function Orders() {
   }, []);
   const paginatedData = useMemo(() => {
     const start = (currentPage - 1) * pageSize;
-    return filteredData.slice(start, start + pageSize);
+    return filteredData?.slice(start, start + pageSize);
   }, [filteredData, currentPage, pageSize]);
   if (!isLessee) return <Redirect to="/genesis/dashboard"></Redirect>;
   return (
@@ -57,7 +57,7 @@ function Orders() {
             <Pagination
               current={currentPage}
               pageSize={pageSize}
-              total={filteredData.length}
+              total={filteredData?.length}
               onChange={(page, size) => {
                 setCurrentPage(page);
                 setPageSize(size);

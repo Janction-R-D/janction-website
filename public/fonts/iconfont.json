@@ -6,6 +6,69 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "248916",
+      "name": "clock",
+      "font_class": "clock1",
+      "unicode": "e666",
+      "unicode_decimal": 58982
+    },
+    {
+      "icon_id": "8253368",
+      "name": "sand-clock",
+      "font_class": "sand-clock",
+      "unicode": "e609",
+      "unicode_decimal": 58889
+    },
+    {
+      "icon_id": "35092031",
+      "name": "文件",
+      "font_class": "file-transfer-line",
+      "unicode": "e6f1",
+      "unicode_decimal": 59121
+    },
+    {
+      "icon_id": "934990",
+      "name": "bank-transfer-new",
+      "font_class": "banktransfernew",
+      "unicode": "e664",
+      "unicode_decimal": 58980
+    },
+    {
+      "icon_id": "1777966",
+      "name": "unionpay",
+      "font_class": "unionpay",
+      "unicode": "e686",
+      "unicode_decimal": 59014
+    },
+    {
+      "icon_id": "3876081",
+      "name": "mastercard",
+      "font_class": "mastercard",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    },
+    {
+      "icon_id": "3876493",
+      "name": "visa",
+      "font_class": "visa",
+      "unicode": "e66e",
+      "unicode_decimal": 58990
+    },
+    {
+      "icon_id": "4936955",
+      "name": "alipay",
+      "font_class": "alipay",
+      "unicode": "e87c",
+      "unicode_decimal": 59516
+    },
+    {
+      "icon_id": "15188425",
+      "name": "jcb",
+      "font_class": "jcb",
+      "unicode": "e6f7",
+      "unicode_decimal": 59127
+    },
+    {
       "icon_id": "1488746",
       "name": "tags-1",
       "font_class": "tags-",

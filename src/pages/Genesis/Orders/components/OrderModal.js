@@ -47,10 +47,10 @@ export default function OrderModal({ handleCancel, isModalOpen, data }) {
           !data?.resource?.node?.attr.gpu_chip &&
             !data?.resource?.node?.attr.cpu_chip
             ? '--'
-            : `${data?.resource?.node?.attr.gpu_chip || ''} ${
-                data?.resource?.node?.attr.cpu_chip +
+            : `${data?.resource?.node?.attr?.gpu_chip || ''} ${
+                data?.resource?.node?.attr?.cpu_chip +
                   ' * ' +
-                  data?.resource?.node?.attr.cpu_chip.length || ''
+                  data?.resource?.node?.attr?.cpu_chip?.length || ''
               }`,
         )}
       </div>

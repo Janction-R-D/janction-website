@@ -20,9 +20,7 @@ import UploadDoc from './components/uploads';
 import { history, Redirect, useLocation } from 'umi';
 import {
   fetchDeleteDocument,
-  fetchDetailKnowledge,
   fetchDocList,
-  fetchUploadFiles,
   fetchUploadMultiFiles,
 } from '@/services/genesis/agents';
 import { formatISODate } from '@/utils/datetime';
@@ -51,7 +49,10 @@ export default function FileManager() {
     url: item?.s3_url,
   }));
   const showModal = () => setIsModalVisible(true);
-  const handleCancel = () => setIsModalVisible(false);
+  const handleCancel = () => {
+    form.resetFields();
+    setIsModalVisible(false);
+  };
 
   const handleCreateFile = async (values) => {
     const { files } = values;

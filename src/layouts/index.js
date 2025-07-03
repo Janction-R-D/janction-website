@@ -20,7 +20,7 @@ import HomeHeader from '@/pages/Home/components/Header';
 
 // export const fullWidthRoute = ['/home', '/explore', '/getStarted', '/solution'];
 export const fullWidthRoute = [];
-export const newPaths = ['/home', '/solution'];
+export const newPaths = ['/home', '/solution', '/gpu', '/company'];
 export const authRoute = [
   '/genesis/dashboard',
   '/genesis/deployNode',

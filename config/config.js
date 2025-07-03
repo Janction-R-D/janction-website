@@ -32,4 +32,11 @@ export default defineConfig({
       `,
     },
   ],
+  locale: {
+    default: 'en-US',
+    antd: false,
+    title: false,
+    baseNavigator: true,
+    baseSeparator: '-',
+  },
 });

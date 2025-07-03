@@ -50,11 +50,19 @@ const UploadDoc = ({ value = [], onChange }) => {
   };
 
   const handleChange = (e) => {
-    const MAX_SIZE = 1024 * 1024 * 10; // 10MB en bytes
+    const MAX_SIZE = 1024 * 1024 * 10; // 10MB
+    const MAX_FILES = 5;
     const files = Array.from(e.target.files);
 
     const validFiles = [];
     const oversizedFiles = [];
+    const totalAfterAdding = value.length + files.length;
+
+    if (totalAfterAdding > MAX_FILES) {
+      message.error(`You can only upload up to ${MAX_FILES} files in total.`);
+      e.target.value = '';
+      return;
+    }
 
     files.forEach((file) => {
       if (file.size <= MAX_SIZE) {
@@ -65,11 +73,7 @@ const UploadDoc = ({ value = [], onChange }) => {
     });
 
     if (oversizedFiles.length) {
-      message.error(
-        `The following files exceed the maximum size of 10MB: ${oversizedFiles.join(
-          ', ',
-        )}`,
-      );
+      message.error(`These files exceed 10MB: ${oversizedFiles.join(', ')}`);
     }
 
     const newFiles = validFiles.map((file, index) => {
@@ -98,33 +102,6 @@ const UploadDoc = ({ value = [], onChange }) => {
     onChange?.(allFiles);
     e.target.value = '';
   };
-
-  // const handleChange = (e) => {
-  //   const newFiles = Array.from(e.target.files).map((file, index) => {
-  //     const fileName = file.name;
-  //     const extMatch = fileName.match(/(\.[^.]+)$/);
-  //     const extension = extMatch ? extMatch[1] : '';
-  //     const nameNoExt = fileName.replace(extension, '');
-
-  //     let displayName = fileName;
-  //     if (nameNoExt.length >= 20) {
-  //       const first = nameNoExt.slice(0, 15);
-  //       const last = nameNoExt.slice(-5);
-  //       displayName = `${first}...${last}${extension}`;
-  //     }
-
-  //     return {
-  //       uid: `${Date.now()}-${index}`,
-  //       name: displayName,
-  //       status: 'done',
-  //       originFileObj: file,
-  //     };
-  //   });
-
-  //   const allFiles = [...value, ...newFiles];
-  //   onChange?.(allFiles);
-  //   e.target.value = '';
-  // };
 
   return (
     <div className={styles.uploadDoc}>

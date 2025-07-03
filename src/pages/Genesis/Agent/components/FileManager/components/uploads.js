@@ -35,7 +35,7 @@ const getFileIcon = (fileName) => {
       return <FileOutlined />;
   }
 };
-
+const isPdfTooLong = () => {};
 const UploadDoc = ({ value = [], onChange }) => {
   const uploadRef = useRef();
 
@@ -50,23 +50,29 @@ const UploadDoc = ({ value = [], onChange }) => {
 
   const handleChange = (e) => {
     const MAX_SIZE = 1024 * 1024 * 10; // 10MB
-    const incoming = Array.from(e.target.files);
+    const MAX_FILES = 5;
+    const files = Array.from(e.target.files);
 
     const validFiles = [];
     const oversizedFiles = [];
+    const totalAfterAdding = value.length + files.length;
 
-    incoming.forEach((file) => {
-      file.size <= MAX_SIZE
-        ? validFiles.push(file)
-        : oversizedFiles.push(file.name);
+    if (totalAfterAdding > MAX_FILES) {
+      message.error(`You can only upload up to ${MAX_FILES} files in total.`);
+      e.target.value = '';
+      return;
+    }
+
+    files.forEach((file) => {
+      if (file.size <= MAX_SIZE) {
+        validFiles.push(file);
+      } else {
+        oversizedFiles.push(file.name);
+      }
     });
 
     if (oversizedFiles.length) {
-      message.error(
-        `The following files exceed the maximum size of 10MB: ${oversizedFiles.join(
-          ', ',
-        )}`,
-      );
+      message.error(`These files exceed 10MB: ${oversizedFiles.join(', ')}`);
     }
 
     const newFiles = validFiles.map((file, index) => {
@@ -91,7 +97,8 @@ const UploadDoc = ({ value = [], onChange }) => {
     });
 
     const allFiles = [...value, ...newFiles];
-    onChange?.(allFiles); // propagate all files up
+    setFiles(allFiles);
+    onChange?.(allFiles);
     e.target.value = '';
   };
 

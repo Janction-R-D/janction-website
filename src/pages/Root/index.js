@@ -240,14 +240,16 @@ const Root = (props) => {
     ]),
   ];
   const columns3 = [
-    renderTableColumns('Company Name ', 'company_name', { copy: false }),
-    renderTableColumns('Name', 'name', { copy: false }),
+    renderTableColumns('Company/Contact ', 'company_name', { copy: true }),
+    // renderTableColumns('Name', 'name', { copy: true }),
     renderTableColumns('Email Address', 'email_address', {
-      copy: false,
+      copy: true,
     }),
-    renderTableColumns('Phone Number', 'phone_number'),
-    renderTableColumns('Usage Content', 'usage_content'),
-    renderTableColumns('Created at', 'created_at'),
+    renderTableColumns('Phone Number', 'phone_number', { copy: true }),
+    renderTableColumns('Usage and question contents', 'usage_content', {
+      copy: true,
+    }),
+    // renderTableColumns('Created at', 'created_at', { copy: true }),
   ];
 
   return (
@@ -388,7 +390,7 @@ const Root = (props) => {
           </JanctionCard>
         </Col>
         <Col span={24}>
-          <JanctionCard title="Inquiry Data" divider>
+          <JanctionCard title="Inquiry" divider>
             <JanctionTable
               size="small"
               bordered
