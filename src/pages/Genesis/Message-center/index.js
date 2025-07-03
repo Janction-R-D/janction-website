@@ -8,6 +8,7 @@ import styles from './index.less';
 import data from './mesages.json';
 import TimeRangePickerNumeric from './components/TimeRangePickerNumeric';
 import useScale from '@/hooks/useScale';
+import { formatDateYMD } from '@/utils/datetime';
 
 export function formatDate(originalDateStr) {
   const date = new Date(originalDateStr);

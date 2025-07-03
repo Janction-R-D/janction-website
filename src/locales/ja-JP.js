@@ -135,10 +135,10 @@ export default {
   'cost.item.deliveryTime.description':
     '注文後、ノードのデプロイに3〜10分かかる場合があり、その後顧客はマシンのレンタルを開始します。',
 
-  'jasmyCard.legalName.label': '正式名称',
-  'jasmyCard.legalName.value': 'Jasmy Lab',
+  'jasmyCard.legalName.label': '会社名',
+  'jasmyCard.legalName.value': 'Jasmy Lab 株式会社',
 
-  'jasmyCard.address.label': '住所',
+  'jasmyCard.address.label': 'アドレス',
   'jasmyCard.address.value': '東京都港区北青山 107-0061 F',
 
   'jasmyCard.phone.label': '電話番号',
@@ -147,7 +147,7 @@ export default {
   'jasmyCard.email.label': 'メールアドレス',
   'jasmyCard.email.value': 'Contact@jasmylab.com',
 
-  'jasmyCard.supervisor.label': '運営責任者',
+  'jasmyCard.supervisor.label': '代表取締役',
   'jasmyCard.supervisor.value': '原田 弘',
 
   'methods.card1.title': '支払サイクル',
