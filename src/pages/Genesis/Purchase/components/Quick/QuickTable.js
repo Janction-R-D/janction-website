@@ -20,7 +20,6 @@ export default function QuickTable(props) {
   const getRowClassName = (record) => {
     return record.id === selectKey ? styles['selected-row'] : '';
   };
-  console.log(data);
 
   const columns = [
     {

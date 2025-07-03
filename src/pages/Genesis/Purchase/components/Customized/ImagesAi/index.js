@@ -24,7 +24,7 @@ const ImagesAi = ({ value, onChange, formValues, current = 5 }) => {
       Object.entries(payload).filter(([_, v]) => v !== null),
     );
     debouncedGetTemplate(filteredPayload);
-  }, [formValues?.ai_framework, formValues?.node]);
+  }, [formValues?.ai_framework]);
   useEffect(() => {
     return () => {
       debouncedGetTemplate.cancel();
