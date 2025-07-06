@@ -131,3 +131,29 @@ export const fetchInquiry = (params) => {
     // withCredentials: true,
   });
 };
+export const fetchStripeUsers = (params) => {
+  return request(`${baseUrlV0}/stripe/white/user/list`, {
+    params,
+    basicLoginAuth: true,
+    credentials: 'include',
+    // withCredentials: true,
+  });
+};
+export const fetchPostStripeUsers = (data) => {
+  return request(`${baseUrlV0}/stripe/white/user/set`, {
+    method: 'POST',
+    data,
+    basicLoginAuth: true,
+    credentials: 'include',
+    // withCredentials: true,
+  });
+};
+export const fetchDeleteStripeUsers = (data) => {
+  return request(`${baseUrlV0}/stripe/white/user/delete`, {
+    method: 'DELETE',
+    data,
+    basicLoginAuth: true,
+    credentials: 'include',
+    // withCredentials: true,
+  });
+};

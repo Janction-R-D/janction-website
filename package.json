@@ -27,6 +27,8 @@
     "@ant-design/pro-layout": "^6.5.0",
     "@passwordless-id/webauthn": "^2.1.2",
     "@rainbow-me/rainbowkit": "^2.1.2",
+    "@stripe/react-stripe-js": "^3.7.0",
+    "@stripe/stripe-js": "^7.4.0",
     "@tanstack/react-query": "^5.28.4",
     "@xterm/addon-fit": "^0.10.0",
     "@xterm/xterm": "^5.5.0",

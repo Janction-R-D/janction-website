@@ -5,14 +5,16 @@ import {
   renderTableColumns,
 } from '@/components/JanctionTable/column';
 import {
+  fetchDeleteStripeUsers,
   fetchInquiry,
   fetchInviterList,
   fetchInviterNameUpdate,
   fetchNFTData,
   fetchPaymentHistory,
+  fetchStripeUsers,
 } from '@/services/root';
 import { DATE_FORMAT_TYPE, formatISODate } from '@/utils/datetime';
-import { Col, message, Row } from 'antd';
+import { Button, Col, message, Row } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import { history } from 'umi';
 import GenerateCode from './components/GenerateCode';
@@ -25,6 +27,7 @@ import SplitRatioSetting from './components/SplitRatioSetting';
 import StatisticCard from './components/StatisticCard';
 import styles from './index.less';
 import ModifyModal from './components/ModifyModal';
+import StripeUserModal from './components/CreateStripeUser';
 
 const Root = (props) => {
   const [record, setRecord] = useState();
@@ -38,6 +41,7 @@ const Root = (props) => {
   const [psPage, setPsPage] = useState({ offset: 0, limit: 10 });
   const [paymentHistory, setPaymentHistory] = useState([]);
   const [paymentHistoryLoading, setPaymentHistoryLoading] = useState(false);
+  const [stripeList, setStripeList] = useState([]);
   const [inviterQuery, setInviterQuery] = useState({ offset: 0, limit: 10 });
   const [inviterPage, setInviterPage] = useState({ offset: 0, limit: 10 });
   const [inviterList, setInviterList] = useState([]);
@@ -51,6 +55,7 @@ const Root = (props) => {
   const [inviterLoading, setInviterLoading] = useState(false);
   const [splitVisible, setSplitVisible] = useState(false);
   const [inviterEdit, setInviterEdit] = useState(false);
+  const [userCreate, setUserCreate] = useState(false);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     fetchData();
@@ -73,6 +78,7 @@ const Root = (props) => {
         getPaymentHistory(),
         getInviterList(),
         getInquiry(),
+        getStripeUsers(),
       ]);
     } catch (err) {
       console.log(err);
@@ -108,6 +114,14 @@ const Root = (props) => {
       });
 
       setInquiryQuery(_query);
+    } catch (err) {
+      console.log('『err』', err);
+    }
+  };
+  const getStripeUsers = async (params = {}) => {
+    try {
+      const res = await fetchStripeUsers();
+      setStripeList(res || []);
     } catch (err) {
       console.log('『err』', err);
     }
@@ -239,6 +253,7 @@ const Root = (props) => {
       },
     ]),
   ];
+
   const columns3 = [
     renderTableColumns('Company/Contact ', 'company_name', { copy: true }),
     // renderTableColumns('Name', 'name', { copy: true }),
@@ -251,7 +266,47 @@ const Root = (props) => {
     }),
     // renderTableColumns('Created at', 'created_at', { copy: true }),
   ];
+  const columns4 = [
+    renderTableColumns('User ID', 'id', { copy: true }),
 
+    renderTableColumns('Name', 'name', {
+      copy: true,
+    }),
+    renderTableColumns('Email', 'email', { copy: true }),
+    renderTableActionBar([
+      {
+        name: 'Delete User',
+        onClick: async (rowData) => {
+          const key = 'deleteUser';
+
+          try {
+            message.loading({
+              content: 'Deleting user...',
+              key,
+              duration: 0,
+            });
+
+            await fetchDeleteStripeUsers({ user_id: rowData.id });
+
+            message.success({
+              content: 'User deleted successfully!',
+              key,
+              duration: 2,
+            });
+            getStripeUsers();
+          } catch (error) {
+            console.error('Error deleting user:', error);
+
+            message.error({
+              content: 'Failed to delete user. Please try again.',
+              key,
+              duration: 2,
+            });
+          }
+        },
+      },
+    ]),
+  ];
   return (
     <div className={styles['root-container']}>
       <div className={styles['root-header']}>
@@ -408,6 +463,32 @@ const Root = (props) => {
             />
           </JanctionCard>
         </Col>
+        <Col span={24}>
+          <JanctionCard
+            title="Stripe Users"
+            divider
+            extra={
+              <Button
+                onClick={() => setUserCreate(true)}
+                className={styles['create-btn']}
+              >
+                Create New User
+              </Button>
+            }
+          >
+            <JanctionTable
+              size="small"
+              bordered
+              dataSource={stripeList}
+              columns={columns4}
+              scroll={{ x: 'max-content' }}
+              pagination={{
+                position: ['bottomCenter'],
+                pageSize: 6,
+              }}
+            />
+          </JanctionCard>
+        </Col>
       </Row>
       {payDetailVisible && (
         <PayDetail
@@ -450,6 +531,17 @@ const Root = (props) => {
             setRecord();
           }}
           onOk={updateInviterName}
+        />
+      )}
+      {userCreate && (
+        <StripeUserModal
+          title="Create New Stripe User"
+          visible={userCreate}
+          onCancel={() => {
+            setUserCreate(false);
+          }}
+          setUserCreate={setUserCreate}
+          fetchStripe={getStripeUsers}
         />
       )}
     </div>

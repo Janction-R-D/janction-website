@@ -3,18 +3,13 @@ import JanctionTable from '@/components/JanctionTable';
 import { Duration, DURATION_OPTIONS } from '@/constant';
 import {
   fetchCreateOrders,
-  fetchMarketRent,
   fetchNodesConfigInfo,
   fetchNodesPrice,
   fetchPaymentOrder,
 } from '@/services/genesis';
-import contract, {
-  convertDurationToHours,
-  getCurrency,
-  getDefaultCurrency,
-} from '@/utils/contracts';
+import contract, { getCurrency, getDefaultCurrency } from '@/utils/contracts';
 import { delay, empty, isEmpty } from '@/utils/lang';
-import { Button, message } from 'antd';
+import { message } from 'antd';
 import { useEffect, useState } from 'react';
 import { history, Redirect, useModel } from 'umi';
 import { useAccount } from 'wagmi';
@@ -22,8 +17,6 @@ import PurchaseCard from '../components/Card';
 import Footer from '../components/Footer';
 import PayType from '../components/PayType';
 import styles from './index.less';
-import { create } from 'lodash';
-import storage from '@/utils/storage';
 
 const Settlement = (props) => {
   const [deadline, setDeadline] = useState();
