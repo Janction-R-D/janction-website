@@ -1,11 +1,12 @@
 import { convertDurationToHours, getCurrency } from '@/utils/contracts';
 import { empty, isEmpty } from '@/utils/lang';
 import { Button, Checkbox, message } from 'antd';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import styles from './index.less';
 import { WalletOutlined } from '@ant-design/icons';
 import PaymentResultModal from '../../Settlement/components/payment_result';
 import ModalInfo from '../../Settlement/components/ModalInfo';
+import StripePayment from '../../Settlement/components/Stripe/StripePayment';
 
 const Footer = (props) => {
   const {
@@ -25,6 +26,8 @@ const Footer = (props) => {
   } = props;
 
   const [agree, setAgree] = useState(false);
+  const [allowStripe, setAllowStripe] = useState(false);
+  useEffect(() => {}, []);
   const currency = useMemo(() => {
     const goal = getCurrency().find((item) => item.value == currencyAddress);
     return goal;
@@ -95,6 +98,7 @@ const Footer = (props) => {
           setPaymentStatus={setPaymentStatus}
         />
         <ModalInfo open={isWarning} onClose={onWarningCancel} onOk={onOk} />
+        {allowStripe && <StripePayment />}
       </div>
     </div>
   );
