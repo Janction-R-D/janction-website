@@ -27,6 +27,7 @@ export function getTableData(data) {
     config: node?.node_config,
     memory:
       node?.attr?.memory !== undefined ? `${node.attr.memory} GB` : 'Unknown',
+    is_support_stripe: node?.is_support_stripe,
   }));
 }
 

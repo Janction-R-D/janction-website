@@ -38,7 +38,7 @@ const Quick = (props) => {
     setLoading(true);
     try {
       const res = await fetchListFilter(data);
-      const newList = (res || []).filter((node) => {
+      const newList = (res || [])?.filter((node) => {
         const { isListed } = getNodeStatusMatch(node);
         return isListed;
       });

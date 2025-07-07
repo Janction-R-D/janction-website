@@ -33,6 +33,7 @@ const Settlement = (props) => {
   const { initialState } = useModel('@@initialState');
   const { isLessee, sessionType } = initialState || {};
   const [isWarning, setIsWarning] = useState(false);
+  const [allowStripe, setAllowStripe] = useState(false);
   const onWarningCancel = () => {
     setIsWarning(false);
   };
@@ -42,8 +43,13 @@ const Settlement = (props) => {
 
   useEffect(() => {
     if (!formValues?.node?.id) return;
+    console.log(formValues?.node);
+    if (formValues?.node?.is_support_stripe) {
+      console.log('supported');
+      setAllowStripe(true);
+    }
     getNodeConfigInfo({ node_id: formValues.node.id });
-  }, [formValues]);
+  }, [formValues, allowStripe]);
 
   const getNodeConfigInfo = async (params) => {
     try {
@@ -321,6 +327,7 @@ const Settlement = (props) => {
         onWarningCancel={onWarningCancel}
         isWarning={isWarning}
         onOk={onWarningOk}
+        allowStripe={allowStripe}
       />
     </div>
   );
