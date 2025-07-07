@@ -17,6 +17,7 @@ import Create from '@/pages/Genesis/Agent/components/Create';
 import FileManager from '@/pages/Genesis/Agent/components/FileManager';
 import HomeFooter from '@/pages/Home/components/Footer';
 import HomeHeader from '@/pages/Home/components/Header';
+import PaymentSuccessPage from '@/pages/Genesis/Purchase/Settlement/components/Success/Success';
 
 // export const fullWidthRoute = ['/home', '/explore', '/getStarted', '/solution'];
 export const fullWidthRoute = [];
@@ -125,7 +126,9 @@ export default function Layout(props) {
       </GenesisProvider>
     );
   }
-
+  if (isAuthRoute && props.location.pathname.includes('/purchase/success')) {
+    return <PaymentSuccessPage />;
+  }
   if (isAuthRoute) {
     return (
       <GenesisProvider>

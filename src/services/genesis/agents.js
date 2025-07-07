@@ -113,3 +113,9 @@ export const fetchUploadMultiFiles = (id, data) => {
     requestType: 'form',
   });
 };
+export const fetchJoinAgent = (id) => {
+  return request(`${baseUrl}/agent/agents/share/join/${id}`, {
+    method: 'POST',
+    loginAuth: true,
+  });
+};

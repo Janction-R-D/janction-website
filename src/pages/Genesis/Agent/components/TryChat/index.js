@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './index.less';
 import { Avatar, Divider } from 'antd';
 import Chat from './components/Chats';
@@ -6,11 +6,30 @@ import DetailModal from './components/Chats/DetailModal';
 import NewInfo from './components/Chats/NewInfo';
 import { history, Redirect, useLocation } from 'umi';
 import { onNavigate } from '../../utils';
+import { fetchJoinAgent } from '@/services/genesis/agents';
 
 export default function TryChat() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const [isNewsOpen, setIsNewsOpen] = useState(false);
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const isShared = searchParams.get('share') === 'true';
+    const agentId = searchParams.get('agent_id');
+
+    if (isShared && agentId) {
+      accesSharedAgent(agentId);
+    }
+  }, []);
+  const accesSharedAgent = async (id) => {
+    try {
+      await fetchJoinAgent(id);
+    } catch (err) {
+      console.log('Error :', err);
+      message.error('Operation failed, please try again!');
+    }
+  };
   const { from, agent } = location.state || {};
   if (!agent) {
     return <Redirect to="/genesis/agent" />;

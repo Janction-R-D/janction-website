@@ -26,16 +26,9 @@ const Footer = (props) => {
     onOk,
     allowStripe,
   } = props;
-  const { userInfo } = useModel('common');
+
   const [agree, setAgree] = useState(false);
-  const [stripeSupported, setStripeSupported] = useState(false);
-  useEffect(() => {
-    console.log(allowStripe);
-    console.log(userInfo?.is_support_stripe);
-    if (allowStripe && userInfo?.is_support_stripe) {
-      setStripeSupported(true);
-    }
-  }, []);
+
   const currency = useMemo(() => {
     const goal = getCurrency().find((item) => item.value == currencyAddress);
     return goal;
@@ -106,9 +99,13 @@ const Footer = (props) => {
           setPaymentStatus={setPaymentStatus}
         />
         <ModalInfo open={isWarning} onClose={onWarningCancel} onOk={onOk} />
-        {stripeSupported && (
-          <StripePayment total={total} formValues={formValues} />
-        )}
+        {/* {allowStripe && (
+          <StripePayment
+            total={total}
+            formValues={formValues}
+            onPayBefore={onPayBefore}
+          />
+        )} */}
       </div>
     </div>
   );

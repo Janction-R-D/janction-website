@@ -32,6 +32,7 @@ export default function MyAgent() {
       setLoading(false);
     }
   };
+  console.log(list);
   const mappedAgents = list?.map((agent) => ({
     id: agent.id,
     title: agent.name,
@@ -39,6 +40,7 @@ export default function MyAgent() {
     tags: agent.tags,
     description: agent.description,
     knowledge_id: agent.knowledge_base_id,
+    user_id: agent.user_id,
   }));
 
   return (
