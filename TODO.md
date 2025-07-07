@@ -3,3 +3,11 @@
 2. api oauth methods  [done]
 3. purchase UI changes [done]
 6. Terminate Function [almost]
+
+
+7. check agent user id == account addres to give permission to delete , details and share
+8. token for email login
+9. payment for every type of account session
+
+Questions :
+Market/payment need two params : tx_id , and order id , is the same when we do payment with stripe ?

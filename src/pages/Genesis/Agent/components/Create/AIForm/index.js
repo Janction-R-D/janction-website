@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Upload, Avatar, Button, message } from 'antd';
+import { Form, Input, Upload, Avatar, Button, message, Switch } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import {
   UploadOutlined,
@@ -45,8 +45,8 @@ export default function AIForm() {
       description: values.file_description,
     };
 
-    console.log(params);
-    console.log('values : ', values);
+    // console.log(params);
+    // console.log('values : ', values);
     setLoading(1);
     try {
       //first create a base file route
@@ -61,7 +61,7 @@ export default function AIForm() {
       //then upload image
       const realFile = values.cover?.originFileObj || values.cover;
       const uploadImg = (await fetchUploadImg(realFile)) || {};
-      console.log('uploadImg', uploadImg);
+      // console.log('uploadImg', uploadImg);
       if (!uploadImg) {
         throw new Error('Something went wrong uploading Agent Image');
       }
@@ -69,7 +69,7 @@ export default function AIForm() {
       const knowleageFiles = values.files;
 
       const reqBaseUld = await fetchUploadFiles(knowleageId, knowleageFiles);
-      console.log('reqBaseUld', reqBaseUld);
+      // console.log('reqBaseUld', reqBaseUld);
       //finaly create the agent
       const createParams = {
         name: values.name,
@@ -77,14 +77,15 @@ export default function AIForm() {
         cover: uploadImg,
         tags: values.tags,
         knowledge_base_id: knowleageId,
+        is_public: values.is_public,
       };
 
       const createAgent = await fetchCreateAgent(createParams);
-      console.log('createAgent', createAgent);
+      // console.log('createAgent', createAgent);
       message.success('Agent Created Successfully');
       setLoading(2);
       setTimeout(() => {
-        history.push('/genesis/agent');
+        history.replace('/genesis/agent');
       }, 2000);
     } catch (err) {
       console.error('Error:', err);
@@ -92,7 +93,9 @@ export default function AIForm() {
       setLoading(0);
     }
   };
-
+  const onChange = (checked) => {
+    console.log(`switch to ${checked}`);
+  };
   return (
     <Form
       form={form}
@@ -113,12 +116,10 @@ export default function AIForm() {
               message.error('Only image files are allowed');
               return Upload.LIST_IGNORE;
             }
-
             // Guardar en el form y mostrar preview
             const previewUrl = URL.createObjectURL(file);
             setAvatarUrl(previewUrl);
             form.setFieldsValue({ cover: file });
-
             // Evitar que Ant Upload haga la subida automática
             return Upload.LIST_IGNORE;
           }}
@@ -162,6 +163,9 @@ export default function AIForm() {
           className={styles.input}
           autoComplete="off"
         />
+      </Form.Item>
+      <Form.Item name="is_public" label="Public">
+        <Switch onChange={onChange} />
       </Form.Item>
       <Form.Item name="tags" label="Tags">
         <TagsInputGroup />

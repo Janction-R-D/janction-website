@@ -1,8 +1,12 @@
 import styles from './index.less';
 import { onNavigate } from '../../utils';
 import { fetchAgentDelete, fetchAgentStatus } from '@/services/genesis';
-import { message, notification } from 'antd';
+import { message } from 'antd';
 import { history } from 'umi';
+import { fetchJoinAgent } from '@/services/genesis/agents';
+import ShareModal from '../ShareModal';
+import { useState } from 'react';
+import { useAccount } from 'wagmi';
 export default function AgentCard({
   title,
   icon,
@@ -12,9 +16,15 @@ export default function AgentCard({
   description,
   getAll,
   knowledge_id,
+  user_id,
 }) {
+  const { address } = useAccount();
   const agent = { title, icon, tags, id, description };
 
+  const [visible, setVisible] = useState(false);
+  const [shareUrl, setShareUrl] = useState(
+    `${location.origin}/genesis/agent/try_chat?share=true&agent_id=${id}`,
+  );
   const onStatus = async () => {
     try {
       message.info({
@@ -59,19 +69,37 @@ export default function AgentCard({
       message.destroy('delete-agent');
     }
   };
+  const onShare = async () => {
+    setVisible(true);
+  };
   const onDetails = () => {
     history.push('/genesis/agent/file_manager', { knowledge_id });
   };
+  console.log(user_id === address);
   return (
     <div className={styles.card}>
       <div className={styles.overlay_up}>
-        <span onClick={onDelete} className={styles['onDelete']}>
-          <i className="iconfont icon-delete" />
-        </span>
-        <span onClick={onDetails} className={styles['details']}>
-          <i className="iconfont icon-info" />
-          Details
-        </span>
+        {user_id === address && (
+          <>
+            <span onClick={onDelete} className={styles['onDelete']}>
+              <i className="iconfont icon-delete" />
+            </span>
+            <span onClick={onDetails} className={styles['details']}>
+              <i className="iconfont icon-info" />
+              Details
+            </span>
+            <span onClick={onShare} className={styles['share']}>
+              <i className="iconfont icon-share" />
+              Share
+            </span>
+          </>
+        )}
+        <ShareModal
+          visible={visible}
+          onClose={() => setVisible(false)}
+          shareUrl={shareUrl}
+          agent={agent}
+        />
       </div>
       <img className={styles.image} src={icon} alt="FinChat AI" />
       <div className={styles.overlay}>

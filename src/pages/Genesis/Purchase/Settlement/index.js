@@ -43,9 +43,8 @@ const Settlement = (props) => {
 
   useEffect(() => {
     if (!formValues?.node?.id) return;
-    console.log(formValues?.node);
     if (formValues?.node?.is_support_stripe) {
-      console.log('supported');
+      console.log('supported. node for stripe');
       setAllowStripe(true);
     }
     getNodeConfigInfo({ node_id: formValues.node.id });
