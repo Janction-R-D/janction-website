@@ -11,6 +11,8 @@ export default defineConfig({
       ASSETS_URL: 'https://assets.janction.ai',
       TESTNET: 'op',
       JanctionClient: 'd613993852aee264cee39ff93368ee10',
+      JanctionStripe:
+        'pk_live_51RLz4pC53KvFF1GVYYI1oADMsSmvhVTjgjmaq6GjvtDaE6ZeKHJtCnSuVtWS0TwxWyKzhcQvQcVg0RAqrg34Z71P00GsZ7nsBq',
       JanctionSecret:
         'WuIz7TMgECNBv-JIAPX23zQtOIOncnPIz0gkkoYF5HcR-f8uo1pyJ6X8yeOar0x4gNagst7bNHqDxk3HafZN9w',
     },

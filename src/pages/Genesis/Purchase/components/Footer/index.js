@@ -7,6 +7,7 @@ import { WalletOutlined } from '@ant-design/icons';
 import PaymentResultModal from '../../Settlement/components/payment_result';
 import ModalInfo from '../../Settlement/components/ModalInfo';
 import StripePayment from '../../Settlement/components/Stripe/StripePayment';
+import { useModel } from 'umi';
 
 const Footer = (props) => {
   const {
@@ -23,11 +24,18 @@ const Footer = (props) => {
     isWarning,
     onWarningCancel,
     onOk,
+    allowStripe,
   } = props;
-
+  const { userInfo } = useModel('common');
   const [agree, setAgree] = useState(false);
-  const [allowStripe, setAllowStripe] = useState(false);
-  useEffect(() => {}, []);
+  const [stripeSupported, setStripeSupported] = useState(false);
+  useEffect(() => {
+    console.log(allowStripe);
+    console.log(userInfo?.is_support_stripe);
+    if (allowStripe && userInfo?.is_support_stripe) {
+      setStripeSupported(true);
+    }
+  }, []);
   const currency = useMemo(() => {
     const goal = getCurrency().find((item) => item.value == currencyAddress);
     return goal;
@@ -98,7 +106,9 @@ const Footer = (props) => {
           setPaymentStatus={setPaymentStatus}
         />
         <ModalInfo open={isWarning} onClose={onWarningCancel} onOk={onOk} />
-        {allowStripe && <StripePayment />}
+        {stripeSupported && (
+          <StripePayment total={total} formValues={formValues} />
+        )}
       </div>
     </div>
   );

@@ -2,17 +2,20 @@ import React, { useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { Button, message, Spin } from 'antd';
 import { fetchCreateOrders } from '@/services/genesis';
+import { DURATION_OPTIONS } from '@/constant';
+import styles from './index.less';
+const stripeKey = process.env.JanctionStripe;
 
-// Reemplaza con tu clave pública de Stripe
-const stripePromise = loadStripe(
-  'pk_live_51RLz4pC53KvFF1GVYYI1oADMsSmvhVTjgjmaq6GjvtDaE6ZeKHJtCnSuVtWS0TwxWyKzhcQvQcVg0RAqrg34Z71P00GsZ7nsBq',
-);
+const stripePromise = loadStripe(stripeKey);
 
-export default function StripePayment() {
+export default function StripePayment({ formValues, total }) {
   const [loading, setLoading] = useState(false);
 
   const handleCheckout = async () => {
     setLoading(true);
+    const goal = DURATION_OPTIONS.find((item) => item.value == unit);
+    const { node, template } = formValues || {};
+    const { value, unit } = formValues?.purDuration || {};
     const payload = {
       node_id: node?.id,
       tempalte: template || 'base',
@@ -22,9 +25,9 @@ export default function StripePayment() {
       payment_type: 'stripe',
     };
     try {
-      // 1. Crear el pedido en tu backend
-      const res = await fetchCreateOrders(payload);
       return;
+      const res = await fetchCreateOrders(payload);
+      console.log(res);
       if (!sessionId) {
         message.error('No se pudo obtener el ID de sesión de Stripe');
         return;
@@ -42,7 +45,7 @@ export default function StripePayment() {
 
       // Nota: Stripe redirige a una página de éxito o cancelación. En la página de éxito, haces lo siguiente ↓
     } catch (err) {
-      message.error('Error durante el proceso de pago');
+      message.error('Operation failed, please try again later !');
       console.error(err);
     } finally {
       setLoading(false);
@@ -50,8 +53,13 @@ export default function StripePayment() {
   };
 
   return (
-    <Button onClick={handleCheckout} disabled={loading} loading={loading}>
-      Pagar con Stripe
+    <Button
+      onClick={handleCheckout}
+      disabled={loading}
+      loading={loading}
+      className={styles['connect-btn']}
+    >
+      Pay with Fiat
     </Button>
   );
 }

@@ -9,6 +9,8 @@ export default defineConfig({
       JANCTION_BASE_API: 'https://www.janction.ai',
       JANCTION_SOCKET_API: 'wss://www.janction.ai',
       ASSETS_URL: 'https://assets.janction.ai',
+      JanctionStripe:
+        'pk_live_51RLz4pC53KvFF1GVYYI1oADMsSmvhVTjgjmaq6GjvtDaE6ZeKHJtCnSuVtWS0TwxWyKzhcQvQcVg0RAqrg34Z71P00GsZ7nsBq',
     },
   },
 });
