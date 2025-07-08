@@ -66,7 +66,11 @@ export default function StripePayment({
 
   return (
     <>
-      <Button onClick={handleOpenModal} type="primary">
+      <Button
+        onClick={handleOpenModal}
+        type="primary"
+        className={styles['btnPayFiat']}
+      >
         Pay with Fiat
       </Button>
 
