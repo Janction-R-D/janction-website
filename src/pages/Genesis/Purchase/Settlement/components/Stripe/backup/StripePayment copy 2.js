@@ -10,7 +10,9 @@ import { Button, message, Modal } from 'antd';
 import { DURATION_OPTIONS } from '@/constant';
 import { fetchCreateOrders } from '@/services/genesis';
 
-const stripePromise = loadStripe(process.env.JanctionStripe);
+const key =
+  'pk_live_51RLz4pC53KvFF1GVYYI1oADMsSmvhVTjgjmaq6GjvtDaE6ZeKHJtCnSuVtWS0TwxWyKzhcQvQcVg0RAqrg34Z71P00GsZ7nsBq';
+const stripePromise = loadStripe(key);
 
 const CARD_ELEMENT_OPTIONS = {
   style: {

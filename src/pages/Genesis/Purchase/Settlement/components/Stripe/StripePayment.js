@@ -1,58 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { loadStripe } from '@stripe/stripe-js';
-import {
-  Elements,
-  PaymentElement,
-  useStripe,
-  useElements,
-} from '@stripe/react-stripe-js';
+import { useState } from 'react';
 import { Button, Modal, message } from 'antd';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
 import { fetchCreateOrders } from '@/services/genesis';
 import { DURATION_OPTIONS } from '@/constant';
+import CustomCheckoutForm from '@/components/Stripe/CustomCheckoutForm';
 import styles from './index.less';
-
-const stripePromise = loadStripe(process.env.JanctionStripe);
-
-// Subcomponente para el formulario de pago
-function CheckoutForm({ clientSecret, onCancel, orderId }) {
-  const stripe = useStripe();
-  const elements = useElements();
-  const [loading, setLoading] = useState(false);
-
-  const handleCheckout = async (e) => {
-    e.preventDefault();
-    if (!stripe || !elements) return;
-    setLoading(true);
-
-    const { error } = await stripe.confirmPayment({
-      elements,
-      confirmParams: {
-        return_url: `${window.location.origin}/genesis/purchase/success?order_id=${orderId}`,
-      },
-    });
-
-    if (error) {
-      message.error(error.message || 'Payment error');
-      console.error(error);
-    }
-
-    setLoading(false);
-  };
-
-  return (
-    <form onSubmit={handleCheckout}>
-      <PaymentElement />
-      <div style={{ marginTop: 16, textAlign: 'right' }}>
-        <Button onClick={onCancel} style={{ marginRight: 8 }}>
-          Cancel
-        </Button>
-        <Button type="primary" htmlType="submit" loading={loading}>
-          Pay with Fiat
-        </Button>
-      </div>
-    </form>
-  );
-}
+const key =
+  'pk_live_51RLz4pC53KvFF1GVYYI1oADMsSmvhVTjgjmaq6GjvtDaE6ZeKHJtCnSuVtWS0TwxWyKzhcQvQcVg0RAqrg34Z71P00GsZ7nsBq';
+const stripePromise = loadStripe(key);
 
 export default function StripePayment({
   formValues,
@@ -62,8 +18,7 @@ export default function StripePayment({
   setMainModal,
 }) {
   const [clientSecret, setClientSecret] = useState(null);
-
-  const [orderId, setOrderId] = useState(false);
+  const [orderId, setOrderId] = useState(null);
 
   const fetchSecret = async () => {
     const { value, unit } = formValues?.purDuration || {};
@@ -81,27 +36,23 @@ export default function StripePayment({
 
     try {
       const { stripe: stripeData, order } = await fetchCreateOrders(payload);
-      if (!order?.id) {
-        message.error('Failed to get order info');
+      if (!order?.id || !stripeData?.client_secret) {
+        message.error('Failed to initialize order');
         return;
       }
-      if (!stripeData?.client_secret) {
-        message.error('Failed to get client_secret');
-        return;
-      }
+
       setOrderId(order.id);
       setClientSecret(stripeData.client_secret);
       setVisible(true);
     } catch (err) {
       console.error(err);
-      message.error('Failed to initialize payment');
+      message.error('Stripe init failed');
     }
   };
 
   const handleOpenModal = async () => {
     try {
       onPayBefore();
-
       await fetchSecret();
     } catch (err) {
       console.error('[handleOpenModal Error]', err);
@@ -117,8 +68,8 @@ export default function StripePayment({
     <>
       <Button
         onClick={handleOpenModal}
-        className={styles['btnPayFiat']}
         type="primary"
+        className={styles['btnPayFiat']}
       >
         Pay with Fiat
       </Button>
@@ -129,10 +80,20 @@ export default function StripePayment({
         footer={null}
         destroyOnClose
         title="Complete Your Payment"
+        width={700}
+        className={styles['modal']}
       >
         {clientSecret && (
-          <Elements options={{ clientSecret }} stripe={stripePromise}>
-            <CheckoutForm
+          <Elements
+            stripe={stripePromise}
+            options={{
+              clientSecret,
+              wallets: {
+                link: 'never',
+              },
+            }}
+          >
+            <CustomCheckoutForm
               clientSecret={clientSecret}
               onCancel={handleCloseModal}
               orderId={orderId}

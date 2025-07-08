@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { message, Spin, Button } from 'antd';
 import { history } from 'umi';
 import { fetchPaymentOrder } from '@/services/genesis';
-
+import styles from './index.less';
 export default function PaymentSuccessPage() {
   const [loading, setLoading] = useState(true);
   const [confirmed, setConfirmed] = useState(false);
@@ -42,13 +42,16 @@ export default function PaymentSuccessPage() {
   const goToInstances = () => {
     history.push('/instances');
   };
+  const goToPurchase = () => {
+    history.push('/genesis/purchase');
+  };
 
   return (
-    <div style={{ textAlign: 'center', padding: '2rem' }}>
+    <div className={styles['main']}>
       {loading ? (
         <Spin tip="Confirming your payment..." size="large" />
       ) : confirmed ? (
-        <>
+        <main>
           <h1>Thank you for your purchase!</h1>
           <p>Your payment has been received and is being processed.</p>
           <Button
@@ -58,11 +61,19 @@ export default function PaymentSuccessPage() {
           >
             Go to Instances
           </Button>
-        </>
+        </main>
       ) : (
         <>
           <h1>Payment Confirmation</h1>
           <p>Unable to confirm your payment at this time.</p>
+          <Button
+            type="primary"
+            onClick={goToPurchase}
+            style={{ marginTop: 16 }}
+            className={styles['connect-btn']}
+          >
+            Go to Purchase
+          </Button>
         </>
       )}
     </div>

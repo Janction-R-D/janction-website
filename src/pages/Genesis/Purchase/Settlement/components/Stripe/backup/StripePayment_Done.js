@@ -56,15 +56,9 @@ function CheckoutForm({ clientSecret, onCancel, orderId }) {
   );
 }
 
-export default function StripePayment({
-  formValues,
-  onPayBefore,
-  visible,
-  setVisible,
-  setMainModal,
-}) {
+export default function StripePayment({ formValues, onPayBefore }) {
   const [clientSecret, setClientSecret] = useState(null);
-
+  const [modalVisible, setModalVisible] = useState(false);
   const [orderId, setOrderId] = useState(false);
 
   const fetchSecret = async () => {
@@ -93,7 +87,7 @@ export default function StripePayment({
       }
       setOrderId(order.id);
       setClientSecret(stripeData.client_secret);
-      setVisible(true);
+      setModalVisible(true);
     } catch (err) {
       console.error(err);
       message.error('Failed to initialize payment');
@@ -103,7 +97,6 @@ export default function StripePayment({
   const handleOpenModal = async () => {
     try {
       onPayBefore();
-
       await fetchSecret();
     } catch (err) {
       console.error('[handleOpenModal Error]', err);
@@ -111,22 +104,21 @@ export default function StripePayment({
   };
 
   const handleCloseModal = () => {
-    setVisible(false);
-    setMainModal(false);
+    setModalVisible(false);
   };
 
   return (
     <>
       <Button
         onClick={handleOpenModal}
-        className={styles['btnPayFiat']}
+        className={styles['connect-btn']}
         type="primary"
       >
         Pay with Fiat
       </Button>
 
       <Modal
-        open={visible}
+        open={modalVisible}
         onCancel={handleCloseModal}
         footer={null}
         destroyOnClose

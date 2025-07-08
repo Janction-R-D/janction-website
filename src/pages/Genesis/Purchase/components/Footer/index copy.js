@@ -1,15 +1,15 @@
-import React, { useState, useMemo } from 'react';
-import { Button, Checkbox, message, Modal } from 'antd';
+import { convertDurationToHours, getCurrency } from '@/utils/contracts';
+import { empty, isEmpty } from '@/utils/lang';
+import { Button, Checkbox, message } from 'antd';
+import { useEffect, useMemo, useState } from 'react';
+import styles from './index.less';
 import { WalletOutlined } from '@ant-design/icons';
 import PaymentResultModal from '../../Settlement/components/payment_result';
 import ModalInfo from '../../Settlement/components/ModalInfo';
 import StripePayment from '../../Settlement/components/Stripe/StripePayment';
-import { convertDurationToHours, getCurrency } from '@/utils/contracts';
-import { empty, isEmpty } from '@/utils/lang';
-import styles from './index.less';
-import PaymentMethodModal from '../PaymentMethod';
+import { useModel } from 'umi';
 
-const Footer = (props) => {
+const Footer1 = (props) => {
   const {
     onPay,
     node,
@@ -28,8 +28,6 @@ const Footer = (props) => {
   } = props;
 
   const [agree, setAgree] = useState(false);
-  const [payNowModalVisible, setPayNowModalVisible] = useState(false);
-  const [visible, setVisible] = useState(false);
 
   const currency = useMemo(() => {
     const goal = getCurrency().find((item) => item.value == currencyAddress);
@@ -55,39 +53,17 @@ const Footer = (props) => {
     }
   };
 
-  const openPayNowModal = () => {
-    try {
-      onPayBefore();
-      setPayNowModalVisible(true);
-    } catch (err) {
-      console.log('『err』', err);
-    }
-  };
-
-  const handlePayWithMetaMask = () => {
-    setPayNowModalVisible(false);
-    onPay?.();
-  };
-
-  const handlePayWithFiat = () => {
-    setPayNowModalVisible(false);
-    setStripeModalVisible(true);
-  };
-
-  const handleStripeModalClose = () => {
-    setStripeModalVisible(false);
-  };
-
   return (
     <div className={styles['footer-price']}>
       <div className={styles['confirm-info']}>
-        <Checkbox checked={agree} onChange={onAgreeChange}>
-          <div className={styles['agree-tip']}>
-            I have read and agreed to the <a>relevant service terms</a>.
-          </div>
-        </Checkbox>
+        <div>
+          <Checkbox checked={agree} onChange={onAgreeChange}>
+            <div className={styles['agree-tip']}>
+              I have read and agreed to the <a>relevant service terms</a>.
+            </div>
+          </Checkbox>
+        </div>
       </div>
-
       <div className={styles['btn']}>
         <div className={styles['price-info']}>
           <span className={styles['value']}>
@@ -101,37 +77,19 @@ const Footer = (props) => {
 
         <Button
           className={styles['connect-btn']}
-          onClick={openPayNowModal}
+          onClick={() => {
+            try {
+              onPayBefore();
+              onPay();
+            } catch (err) {
+              console.log('『err』', err);
+            }
+          }}
           type="primary"
           disabled={tableLoading}
         >
-          Pay Now <WalletOutlined className={styles['icon']} />
+          Check to pay <WalletOutlined className={styles['icon']} />
         </Button>
-
-        <PaymentMethodModal
-          payNowModalVisible={payNowModalVisible}
-          setPayNowModalVisible={setPayNowModalVisible}
-        >
-          <Button
-            className={styles.btnPayMetaMask}
-            type="primary"
-            onClick={handlePayWithMetaMask}
-          >
-            Pay with MetaMask
-          </Button>
-
-          {allowStripe && (
-            <StripePayment
-              total={total}
-              formValues={formValues}
-              onPayBefore={onPayBefore}
-              visible={visible}
-              setVisible={setVisible}
-              setMainModal={setPayNowModalVisible}
-            />
-          )}
-        </PaymentMethodModal>
-
         <PaymentResultModal
           open={modalOpen}
           setOpen={setModalOpen}
@@ -141,9 +99,18 @@ const Footer = (props) => {
           setPaymentStatus={setPaymentStatus}
         />
         <ModalInfo open={isWarning} onClose={onWarningCancel} onOk={onOk} />
+        {allowStripe && (
+          <StripePayment
+            total={total}
+            formValues={formValues}
+            onPayBefore={onPayBefore}
+          />
+        )}
       </div>
     </div>
   );
 };
 
 export default Footer;
+
+//
