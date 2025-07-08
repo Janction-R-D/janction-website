@@ -10,10 +10,13 @@ export default function PaymentSuccessPage() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const session_id = params.get('session_id');
-
+    const order_id = params.get('order_id');
+    const payment_intent = params.get('payment_intent');
     if (session_id) {
       const payload = {
-        payment_tx_id: session_id,
+        order_id,
+        session_id,
+        payment_intent,
         payment_type: 'stripe',
       };
       updatePayment(payload);
