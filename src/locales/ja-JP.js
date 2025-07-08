@@ -53,10 +53,10 @@ export default {
   'products.description': '透明な価格設定、時間単位の課金。',
 
   'products.column.model': 'GPUモデル',
-  'products.column.cost': 'コスト',
-  'products.column.specs': '仕様',
-  'products.column.remarks': '備考',
-  'products.cost.comingSoon': '近日公開',
+  'products.column.location': '場所',
+  'products.column.vram': 'VRAM（GB）',
+  'products.column.cuda': 'CUDAコア',
+  'products.cost.price': '価格',
 
   'how.title': '仕組み',
   'how.subtitle': '分離、パイプライン、証明',

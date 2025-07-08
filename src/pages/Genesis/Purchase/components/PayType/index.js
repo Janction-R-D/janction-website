@@ -37,8 +37,16 @@ const PayType = (props) => {
             }}
           >
             <span className={styles.icon}>
-              <img src={item.label === 'USDT' ? usdtImg : usdcImg} />
-            </span>{' '}
+              <img
+                src={
+                  item.label === 'USDT'
+                    ? usdtImg
+                    : item.label === 'USDC'
+                    ? usdcImg
+                    : stripeImg
+                }
+              />
+            </span>
             <span>{item.label == 'USD' ? 'Stripe' : item.label}</span>
             <span className={styles['desc']}>{item.desc}</span>
           </div>
