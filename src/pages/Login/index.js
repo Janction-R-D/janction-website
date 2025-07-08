@@ -33,6 +33,8 @@ const Login = (props) => {
   };
 
   useEffect(() => {
+    const checkIsLoged = storage.get('SESSION_TYPE');
+    if (checkIsLoged) history.push('/genesis/dashboard');
     const searchParams = new URLSearchParams(location.search);
     const code = searchParams.get('code');
     const stateEncoded = searchParams.get('state');

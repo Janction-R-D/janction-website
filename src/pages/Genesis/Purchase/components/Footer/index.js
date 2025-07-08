@@ -120,7 +120,8 @@ const Footer = (props) => {
           </Button>
         )}
 
-        {currency.value == 'Stripe' && allowStripe && (
+        {currency.value == 'Stripe' && (
+          //  !allowStripe &&
           <StripePayment
             total={total}
             formValues={formValues}

@@ -330,7 +330,9 @@
 }
 .card-prices {
   display: flex;
+  flex-direction: column;
   padding-block: 22px;
+  gap: 12px;
 }
 // .card-prices > div {
 //   display: flex;
@@ -742,6 +744,24 @@ input[type='number']::-webkit-outer-spin-button {
   border-left: 1px solid #3a3a3c;
   cursor: pointer;
   color: #73d5f4;
+}
+.select-stripe {
+  padding: 7px 8px;
+  background-color: #222224;
+  border-radius: 0px 4px 4px 0px;
+  border: 0px;
+  outline: none;
+  border: none;
+  width: 130px;
+  text-overflow: ellipsis;
+
+  cursor: pointer;
+  color: #73d5f4;
+  :global {
+    .ant-select-selector {
+      border: 0px !important;
+    }
+  }
 }
 .card-alone {
   display: flex;
