@@ -5,7 +5,9 @@ import { fetchCreateOrders } from '@/services/genesis';
 import { DURATION_OPTIONS } from '@/constant';
 import styles from './index.less';
 
-const stripePromise = loadStripe(process.env.JanctionStripe);
+const key =
+  'pk_live_51RLz4pC53KvFF1GVYYI1oADMsSmvhVTjgjmaq6GjvtDaE6ZeKHJtCnSuVtWS0TwxWyKzhcQvQcVg0RAqrg34Z71P00GsZ7nsBq';
+const stripePromise = loadStripe(key);
 
 export default function StripePayment({ formValues, onPayBefore }) {
   const [loading, setLoading] = useState(false);

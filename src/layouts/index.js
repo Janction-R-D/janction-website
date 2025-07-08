@@ -49,6 +49,7 @@ export const authRoute = [
   '/genesis/agent/purchase',
   '/genesis/agent/create',
   '/genesis/agent/file_manager',
+  '/genesis/purchase/success',
 ];
 
 export default function Layout(props) {
