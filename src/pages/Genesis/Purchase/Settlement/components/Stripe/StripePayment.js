@@ -11,7 +11,9 @@ import { fetchCreateOrders } from '@/services/genesis';
 import { DURATION_OPTIONS } from '@/constant';
 import styles from './index.less';
 
-const stripePromise = loadStripe(process.env.JanctionStripe);
+const key = process.env.JanctionStripe;
+console.log(key);
+const stripePromise = loadStripe(key);
 
 // Subcomponente para el formulario de pago
 function CheckoutForm({ clientSecret, onCancel, orderId }) {
