@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
-import { Button, message } from 'antd';
+import {
+  Elements,
+  PaymentElement,
+  useStripe,
+  useElements,
+} from '@stripe/react-stripe-js';
+import { Button, Modal, message } from 'antd';
 import { fetchCreateOrders } from '@/services/genesis';
 import { DURATION_OPTIONS } from '@/constant';
 import styles from './index.less';
@@ -9,66 +15,66 @@ const key =
   'pk_live_51RLz4pC53KvFF1GVYYI1oADMsSmvhVTjgjmaq6GjvtDaE6ZeKHJtCnSuVtWS0TwxWyKzhcQvQcVg0RAqrg34Z71P00GsZ7nsBq';
 const stripePromise = loadStripe(key);
 
-export default function StripePayment({ formValues, onPayBefore }) {
+// Subcomponente para el formulario de pago
+function CheckoutForm({ clientSecret, onCancel, orderId }) {
+  const stripe = useStripe();
+  const elements = useElements();
   const [loading, setLoading] = useState(false);
-  const [paymentStatus, setPaymentStatus] = useState(null); // track payment status
 
-  // Effect to check if Stripe redirected back with client_secret in URL
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const clientSecret = params.get('payment_intent_client_secret');
-
-    if (clientSecret) {
-      // Check payment status on return from Stripe
-      stripePromise.then(async (stripe) => {
-        const { paymentIntent, error } = await stripe.retrievePaymentIntent(
-          clientSecret,
-        );
-
-        if (error) {
-          message.error('Failed to retrieve payment status');
-          setPaymentStatus('error');
-          console.error('[Stripe retrievePaymentIntent Error]', error);
-          return;
-        }
-
-        switch (paymentIntent.status) {
-          case 'succeeded':
-            setPaymentStatus('success');
-            // Call backend to notify payment completed if needed
-            await fetch('/api/payment-completed', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ paymentIntentId: paymentIntent.id }),
-            });
-            message.success('Payment succeeded!');
-            break;
-          case 'processing':
-            setPaymentStatus('processing');
-            message.info('Payment is processing...');
-            break;
-          case 'requires_payment_method':
-            setPaymentStatus('failed');
-            message.error('Payment failed, please try again.');
-            break;
-          default:
-            setPaymentStatus('unknown');
-            message.warn('Payment status unknown.');
-        }
-      });
-    }
-  }, []);
-
-  const handleCheckout = async () => {
+  const handleCheckout = async (e) => {
+    e.preventDefault();
+    if (!stripe || !elements) return;
     setLoading(true);
 
+    const { error } = await stripe.confirmPayment({
+      elements,
+      confirmParams: {
+        return_url: `${window.location.origin}/genesis/purchase/success?order_id=${orderId}`,
+      },
+    });
+
+    if (error) {
+      message.error(error.message || 'Payment error');
+      console.error(error);
+    }
+
+    setLoading(false);
+  };
+
+  return (
+    <form onSubmit={handleCheckout}>
+      <PaymentElement />
+      <div style={{ marginTop: 16, textAlign: 'right' }}>
+        <Button onClick={onCancel} style={{ marginRight: 8 }}>
+          Cancel
+        </Button>
+        <Button type="primary" htmlType="submit" loading={loading}>
+          Pay with Fiat
+        </Button>
+      </div>
+    </form>
+  );
+}
+
+export default function StripePayment({
+  formValues,
+  onPayBefore,
+  visible,
+  setVisible,
+  setMainModal,
+}) {
+  const [clientSecret, setClientSecret] = useState(null);
+
+  const [orderId, setOrderId] = useState(false);
+
+  const fetchSecret = async () => {
     const { value, unit } = formValues?.purDuration || {};
     const { node, template } = formValues || {};
     const goal = DURATION_OPTIONS.find((item) => item.value == unit);
 
     const payload = {
       node_id: node?.id,
-      tempalte: template || 'base',
+      template: template || 'base',
       purchase_instance_quantity: 1,
       purchase_duration: value,
       purchase_duration_unit: goal?.label.toLowerCase(),
@@ -76,65 +82,66 @@ export default function StripePayment({ formValues, onPayBefore }) {
     };
 
     try {
-      // Call backend to create the order and get client_secret || 调用后端创建订单并获取 client_secret
-      const { stripe: stripeData } = (await fetchCreateOrders(payload)) || {};
-      const { client_secret, stripe_payment_id } = stripeData;
-      if (!client_secret) {
+      const { stripe: stripeData, order } = await fetchCreateOrders(payload);
+      if (!order?.id) {
+        message.error('Failed to get order info');
+        return;
+      }
+      if (!stripeData?.client_secret) {
         message.error('Failed to get client_secret');
-        setLoading(false);
         return;
       }
-
-      const stripe = await stripePromise;
-
-      // Confirm payment WITHOUT return_url to stay on same page || 确认支付，不使用 return_url，停留在当前页面
-      const { error } = await stripe.confirmCardPayment(client_secret);
-
-      if (error) {
-        message.error(error.message || 'Stripe payment error');
-        console.error('[Stripe Error]', error);
-        setLoading(false);
-        return;
-      }
-
-      // Payment flow continues, status will be checked in useEffect after redirect from Stripe 3DS or other steps
+      setOrderId(order.id);
+      setClientSecret(stripeData.client_secret);
+      setVisible(true);
     } catch (err) {
-      message.error('Operation failed, please try again later');
       console.error(err);
-      setLoading(false);
+      message.error('Failed to initialize payment');
     }
   };
 
+  const handleOpenModal = async () => {
+    try {
+      onPayBefore();
+
+      await fetchSecret();
+    } catch (err) {
+      console.error('[handleOpenModal Error]', err);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setVisible(false);
+    setMainModal(false);
+  };
+
   return (
-    <div>
+    <>
       <Button
-        onClick={() => {
-          try {
-            onPayBefore?.(); // Run pre-payment callback if provided || 如有提供，先执行支付前回调
-            handleCheckout(); // Start the payment process || 开始支付流程
-          } catch (err) {
-            console.error('[handleCheckout Error]', err);
-          }
-        }}
-        disabled={loading}
-        loading={loading}
-        className={styles['connect-btn']}
+        onClick={handleOpenModal}
+        className={styles['btnPayFiat']}
+        type="primary"
       >
         Pay with Fiat
       </Button>
 
-      {paymentStatus === 'success' && (
-        <p style={{ color: 'green' }}>Payment completed successfully!</p>
-      )}
-      {paymentStatus === 'processing' && (
-        <p style={{ color: 'orange' }}>Your payment is processing...</p>
-      )}
-      {paymentStatus === 'failed' && (
-        <p style={{ color: 'red' }}>Payment failed. Please try again.</p>
-      )}
-      {paymentStatus === 'error' && (
-        <p style={{ color: 'red' }}>Error retrieving payment status.</p>
-      )}
-    </div>
+      <Modal
+        open={visible}
+        onCancel={handleCloseModal}
+        footer={null}
+        destroyOnClose
+        title="Complete Your Payment"
+      >
+        {clientSecret && (
+          <Elements options={{ clientSecret }} stripe={stripePromise}>
+            <CheckoutForm
+              clientSecret={clientSecret}
+              onCancel={handleCloseModal}
+              orderId={orderId}
+            />
+          </Elements>
+        )}
+      </Modal>
+    </>
   );
 }

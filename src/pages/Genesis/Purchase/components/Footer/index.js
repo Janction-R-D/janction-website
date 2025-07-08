@@ -7,7 +7,7 @@ import StripePayment from '../../Settlement/components/Stripe/StripePayment';
 import { convertDurationToHours, getCurrency } from '@/utils/contracts';
 import { empty, isEmpty } from '@/utils/lang';
 import styles from './index.less';
-import PaymentMethodModal from '../PaymentMethodModal';
+import PaymentMethodModal from '../PaymentMethod';
 
 const Footer = (props) => {
   const {
