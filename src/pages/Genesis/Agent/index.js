@@ -45,7 +45,7 @@ export default function Agent() {
       <main className={styles['container']}>
         {currNav === 'agent' && <MyAgent />}
         {/* {currNav === 'repo' && <Repo />} */}
-        {currNav === 'doc' && <Document />}
+        {/* {currNav === 'doc' && <Document />} */}
         {/* {currNav === 'about' && <About />} */}
       </main>
     </main>

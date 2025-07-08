@@ -25,6 +25,7 @@ const Footer = (props) => {
     onWarningCancel,
     onOk,
     allowStripe,
+    paytype,
   } = props;
 
   const [agree, setAgree] = useState(false);
@@ -32,7 +33,7 @@ const Footer = (props) => {
   const [visible, setVisible] = useState(false);
 
   const currency = useMemo(() => {
-    const goal = getCurrency().find((item) => item.value == currencyAddress);
+    const goal = paytype.find((item) => item.value == currencyAddress);
     return goal;
   }, [currencyAddress]);
 
@@ -77,7 +78,7 @@ const Footer = (props) => {
   const handleStripeModalClose = () => {
     setStripeModalVisible(false);
   };
-
+  console.log();
   return (
     <div className={styles['footer-price']}>
       <div className={styles['confirm-info']}>
@@ -99,38 +100,37 @@ const Footer = (props) => {
           </div>
         </div>
 
-        <Button
+        {/* <Button
           className={styles['connect-btn']}
           onClick={openPayNowModal}
           type="primary"
           disabled={tableLoading}
         >
           Pay Now <WalletOutlined className={styles['icon']} />
-        </Button>
+        </Button> */}
 
-        <PaymentMethodModal
-          payNowModalVisible={payNowModalVisible}
-          setPayNowModalVisible={setPayNowModalVisible}
-        >
+        {currency.value !== 'Stripe' && (
           <Button
-            className={styles.btnPayMetaMask}
+            className={styles['connect-btn']}
             type="primary"
             onClick={handlePayWithMetaMask}
+            disabled={tableLoading}
           >
-            Pay with MetaMask
+            Pay with MetaMask <WalletOutlined className={styles['icon']} />
           </Button>
+        )}
 
-          {allowStripe && (
-            <StripePayment
-              total={total}
-              formValues={formValues}
-              onPayBefore={onPayBefore}
-              visible={visible}
-              setVisible={setVisible}
-              setMainModal={setPayNowModalVisible}
-            />
-          )}
-        </PaymentMethodModal>
+        {currency.value == 'Stripe' && allowStripe && (
+          <StripePayment
+            total={total}
+            formValues={formValues}
+            onPayBefore={onPayBefore}
+            visible={visible}
+            setVisible={setVisible}
+            setMainModal={setPayNowModalVisible}
+            tableLoading={tableLoading}
+          />
+        )}
 
         <PaymentResultModal
           open={modalOpen}

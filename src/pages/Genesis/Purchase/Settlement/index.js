@@ -34,6 +34,14 @@ const Settlement = (props) => {
   const { isLessee, sessionType } = initialState || {};
   const [isWarning, setIsWarning] = useState(false);
   const [allowStripe, setAllowStripe] = useState(false);
+  const paytype = [
+    ...getCurrency(),
+    {
+      value: 'Stripe',
+      label: 'USD',
+      rate: 1,
+    },
+  ];
   const onWarningCancel = () => {
     setIsWarning(false);
   };
@@ -305,7 +313,7 @@ const Settlement = (props) => {
               </span>
 
               <span className={styles['currency']}>
-                {getCurrency().find((item) => item.value == currency)?.label}
+                {paytype.find((item) => item.value == currency)?.label}
               </span>
             </div>
           </section>
@@ -327,6 +335,7 @@ const Settlement = (props) => {
         isWarning={isWarning}
         onOk={onWarningOk}
         allowStripe={allowStripe}
+        paytype={paytype}
       />
     </div>
   );

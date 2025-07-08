@@ -4,6 +4,7 @@ import styles from './index.less';
 import { getCurrency } from '@/utils/contracts';
 import usdtImg from '@/assets/images/genesis/usdt.png';
 import usdcImg from '@/assets/images/genesis/usdc.png';
+import stripeImg from '@/assets/images/genesis/stripe.png';
 const isProduction = process.env.JANCTION_ENV === 'production';
 
 const PayType = (props) => {
@@ -12,11 +13,18 @@ const PayType = (props) => {
   useEffect(() => {
     setActive(value);
   }, [value]);
-
+  const paytype = [
+    ...getCurrency(),
+    {
+      value: 'Stripe',
+      label: 'USD',
+      rate: 1,
+    },
+  ];
   return (
-    <LabelVal name="Payment type">
+    <LabelVal name="Payment Method">
       <div className={styles['pay-type']}>
-        {getCurrency().map((item, index) => (
+        {paytype.map((item, index) => (
           <div
             key={index}
             className={[
@@ -31,7 +39,7 @@ const PayType = (props) => {
             <span className={styles.icon}>
               <img src={item.label === 'USDT' ? usdtImg : usdcImg} />
             </span>{' '}
-            <span>{item.label}</span>
+            <span>{item.label == 'USD' ? 'Stripe' : item.label}</span>
             <span className={styles['desc']}>{item.desc}</span>
           </div>
         ))}
