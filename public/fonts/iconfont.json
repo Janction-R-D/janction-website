@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "7049836",
+      "name": "visa",
+      "font_class": "visa1",
+      "unicode": "e6a6",
+      "unicode_decimal": 59046
+    },
+    {
+      "icon_id": "9582467",
+      "name": "mastercard",
+      "font_class": "mastercard1",
+      "unicode": "e667",
+      "unicode_decimal": 58983
+    },
+    {
+      "icon_id": "24818496",
+      "name": "american_express",
+      "font_class": "american_express",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "34501766",
+      "name": "americanexpress",
+      "font_class": "americanexpress",
+      "unicode": "e772",
+      "unicode_decimal": 59250
+    },
+    {
       "icon_id": "248916",
       "name": "clock",
       "font_class": "clock1",

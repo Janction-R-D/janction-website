@@ -261,7 +261,11 @@ const Settlement = (props) => {
       </div>
 
       <PurchaseCard title="Price detail">
-        <PayType value={currency} onChange={(e) => setCurrency(e)} />
+        <PayType
+          value={currency}
+          onChange={(e) => setCurrency(e)}
+          allowStripe={allowStripe}
+        />
         <p>Price detail</p>
         <div className={styles['node-wrapper']}>
           <p className={styles['node-id']}>Device ID:{list?.[0]?.node_id}</p>

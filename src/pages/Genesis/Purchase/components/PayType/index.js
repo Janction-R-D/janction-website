@@ -8,18 +8,22 @@ import stripeImg from '@/assets/images/genesis/stripe.png';
 const isProduction = process.env.JANCTION_ENV === 'production';
 
 const PayType = (props) => {
-  const { value, onChange } = props;
+  const { value, onChange, allowStripe } = props;
   const [active, setActive] = useState();
   useEffect(() => {
     setActive(value);
   }, [value]);
   const paytype = [
     ...getCurrency(),
-    {
-      value: 'Stripe',
-      label: 'USD',
-      rate: 1,
-    },
+    ...(allowStripe
+      ? [
+          {
+            value: 'Stripe',
+            label: 'USD',
+            rate: 1,
+          },
+        ]
+      : []),
   ];
   return (
     <LabelVal name="Payment Method">

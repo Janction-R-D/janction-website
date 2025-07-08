@@ -38,16 +38,13 @@ export default function StripePayment({
 
     try {
       const { stripe: stripeData, order } = await fetchCreateOrders(payload);
-      // if (!order?.id || !stripeData?.client_secret) {
-      //   message.error('Failed to initialize order');
-      //   return;
-      // }
+      if (!order?.id || !stripeData?.client_secret) {
+        message.error('Failed to initialize order');
+        return;
+      }
 
       setOrderId(order.id);
-      setClientSecret(
-        stripeData?.client_secret ||
-          'pi_3RiTtVC53KvFF1GV0hNGFWX6_secret_dYamxsevcLRLMyn6NYNDfcOnF',
-      );
+      setClientSecret(stripeData?.client_secret);
       setVisible(true);
     } catch (err) {
       console.error(err);
@@ -85,8 +82,7 @@ export default function StripePayment({
         onCancel={handleCloseModal}
         footer={null}
         destroyOnClose
-        title="Complete Your Payment"
-        width={700}
+        width={800}
         className={styles['modal']}
       >
         {clientSecret && (

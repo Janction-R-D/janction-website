@@ -36,10 +36,15 @@
   }
 }
 .modal {
+  h1 {
+    text-align: center;
+    padding-block: 15px;
+  }
   :global {
     .ant-modal-content,
     .ant-modal-header {
-      background-color: #12121d;
+      background: #1f1f1fcf;
+      backdrop-filter: blur(4px);
     }
     .ant-modal-content {
       border-radius: 12px;
