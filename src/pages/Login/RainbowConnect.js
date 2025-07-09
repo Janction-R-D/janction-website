@@ -32,15 +32,11 @@ const RainbowConnect = (props) => {
     setMounted(true);
   }, []);
 
-  // useEffect(() => {
-  //   const refresh = storage.get('refresh');
-  //   if (refresh) {
-  //     setTimeout(() => {
-  //       openConnectModal && openConnectModal();
-  //       storage.remove('refresh');
-  //     }, 1000);
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (address) {
+      disconnect();
+    }
+  }, []);
 
   useAccountEffect({
     async onConnect({ address, chainId }) {
