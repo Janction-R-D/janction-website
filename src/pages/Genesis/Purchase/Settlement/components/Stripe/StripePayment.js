@@ -16,12 +16,11 @@ export default function StripePayment({
   onPayBefore,
   visible,
   setVisible,
-  // setMainModal,
   tableLoading,
 }) {
   const [clientSecret, setClientSecret] = useState(null);
   const [orderId, setOrderId] = useState(null);
-
+  const [loading, setLoading] = useState(false);
   const fetchSecret = async () => {
     const { value, unit } = formValues?.purDuration || {};
     const { node, template } = formValues || {};
@@ -35,7 +34,7 @@ export default function StripePayment({
       purchase_duration_unit: goal?.label.toLowerCase(),
       payment_type: 'stripe',
     };
-
+    setLoading(true);
     try {
       const { stripe: stripeData, order } = await fetchCreateOrders(payload);
       if (!order?.id || !stripeData?.client_secret) {
@@ -49,6 +48,8 @@ export default function StripePayment({
     } catch (err) {
       console.error(err);
       message.error('Stripe init failed');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -63,7 +64,6 @@ export default function StripePayment({
 
   const handleCloseModal = () => {
     setVisible(false);
-    // setMainModal(false);
   };
 
   return (
@@ -73,6 +73,7 @@ export default function StripePayment({
         type="primary"
         className={styles['connect-btn']}
         disabled={tableLoading}
+        loading={loading}
       >
         Pay with Fiat <WalletOutlined className={styles['icon']} />
       </Button>

@@ -1,13 +1,11 @@
-import React, { useState, useMemo } from 'react';
-import { Button, Checkbox, message, Modal } from 'antd';
+import { useState, useMemo } from 'react';
+import { Button, Checkbox, message } from 'antd';
 import { WalletOutlined } from '@ant-design/icons';
 import PaymentResultModal from '../../Settlement/components/payment_result';
 import ModalInfo from '../../Settlement/components/ModalInfo';
 import StripePayment from '../../Settlement/components/Stripe/StripePayment';
-import { convertDurationToHours, getCurrency } from '@/utils/contracts';
 import { empty, isEmpty } from '@/utils/lang';
 import styles from './index.less';
-import PaymentMethodModal from '../PaymentMethod';
 
 const Footer = (props) => {
   const {
@@ -29,7 +27,6 @@ const Footer = (props) => {
   } = props;
 
   const [agree, setAgree] = useState(false);
-  // const [payNowModalVisible, setPayNowModalVisible] = useState(false);
   const [visible, setVisible] = useState(false);
 
   const currency = useMemo(() => {
@@ -56,17 +53,7 @@ const Footer = (props) => {
     }
   };
 
-  // const openPayNowModal = () => {
-  //   try {
-  //     onPayBefore();
-  //     setPayNowModalVisible(true);
-  //   } catch (err) {
-  //     console.log('『err』', err);
-  //   }
-  // };
-
   const handlePayWithMetaMask = async () => {
-    // setPayNowModalVisible(false);
     try {
       onPayBefore();
       onPay();
@@ -74,15 +61,6 @@ const Footer = (props) => {
       console.log(error);
     }
   };
-
-  // const handlePayWithFiat = () => {
-  //   setPayNowModalVisible(false);
-  //   setStripeModalVisible(true);
-  // };
-
-  // const handleStripeModalClose = () => {
-  //   setStripeModalVisible(false);
-  // };
 
   return (
     <div className={styles['footer-price']}>
@@ -126,14 +104,12 @@ const Footer = (props) => {
         )}
 
         {currency.value == 'Stripe' && (
-          //  !allowStripe &&
           <StripePayment
             total={total}
             formValues={formValues}
             onPayBefore={onPayBefore}
             visible={visible}
             setVisible={setVisible}
-            // setMainModal={setPayNowModalVisible}
             tableLoading={tableLoading}
           />
         )}

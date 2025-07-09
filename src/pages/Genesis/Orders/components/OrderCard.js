@@ -62,7 +62,7 @@ export default function OrderCard({ order }) {
           <Button className={styles['connect-btn']} onClick={onOk}>
             Details <i className="iconfont icon-next" />
           </Button>
-          {data.order.status == 'pending' && <PayButton order={data.order} />}
+          {/* {data.order.status == 'pending' && <PayButton order={data.order} />} */}
           <OrderModal
             handleCancel={onCancel}
             isModalOpen={isModalOpen}
