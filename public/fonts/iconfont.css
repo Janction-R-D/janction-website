@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4602216 */
-  src: url('iconfont.woff2?t=1751553365412') format('woff2'),
-       url('iconfont.woff?t=1751553365412') format('woff'),
-       url('iconfont.ttf?t=1751553365412') format('truetype');
+  src: url('iconfont.woff2?t=1752001139710') format('woff2'),
+       url('iconfont.woff?t=1752001139710') format('woff'),
+       url('iconfont.ttf?t=1752001139710') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,22 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-visa1:before {
+  content: "\e6a6";
+}
+
+.icon-mastercard1:before {
+  content: "\e667";
+}
+
+.icon-american_express:before {
+  content: "\e602";
+}
+
+.icon-americanexpress:before {
+  content: "\e772";
 }
 
 .icon-clock1:before {

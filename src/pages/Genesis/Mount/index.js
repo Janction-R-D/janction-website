@@ -64,10 +64,12 @@ function Mount() {
   const [minLease, setMinLease] = useState(1);
   const [maxLease, setMaxLease] = useState(1);
   const [tags, setTags] = useState([]);
+  const [stripeAmount, setStripeAmount] = useState(null);
+  const [stripeUnit, setStripeUnit] = useState('usd');
   const [nodeInfo, setNodeInfo] = useState({});
   const [agreeClause, setAgreeClause] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [errorInput, setErrorInput] = useState(false);
+  const [supportStripe, setSupportStripe] = useState(false);
 
   const onMaxDurationValueChange = (value, option) => {
     setMaxDuration(option);
@@ -125,6 +127,9 @@ function Mount() {
   const getNodeInfo = async () => {
     try {
       const res = await fetchNodesInfo({ node_id: searchId });
+      if (res?.is_support_stripe) {
+        setSupportStripe(true);
+      }
       setNodeInfo(res);
     } catch (error) {
       console.log('『error』', error);
@@ -162,13 +167,28 @@ function Mount() {
 
   const handleSubmit = async (e) => {
     // e.preventDefault();
-    if (price < 1) {
+    const priceNumber = Number(price);
+    const stripeAmountNumber = Number(stripeAmount);
+
+    if (!price || isNaN(priceNumber)) {
+      message.warning('Please enter price!');
+      return;
+    }
+
+    if (priceNumber <= 0) {
       message.warning('Please enter a valid price!');
       return;
     }
-    if (!price) {
-      message.warning('Please enter price!');
-      return;
+
+    if (supportStripe) {
+      if (!stripeAmount || isNaN(stripeAmountNumber)) {
+        message.warning('Please enter Fiat price!');
+        return;
+      }
+      if (stripeAmountNumber <= 0) {
+        message.warning('Please enter a valid Fiat price!');
+        return;
+      }
     }
     if (price < 1) {
       message.warning('Please enter a valid price value!');
@@ -191,7 +211,7 @@ function Mount() {
         placement: 'bottomLeft',
         duration: 5,
       });
-      // notification.info('bottomLeft', 'Please read the terms first and agree!');
+      notification.info('bottomLeft', 'Please read the terms first and agree!');
       return;
     }
     if (!node?.id && !userInfo?.id) return;
@@ -298,7 +318,6 @@ function Mount() {
         <Card className={styles['card']}>
           <section className={styles['card-header-graph']}>
             <h3>Prices</h3>
-            {/* <MountEchart styles={styles} /> */}
           </section>
           <section className={styles['card-prices']}>
             <div className={styles['duration-item']}>
@@ -322,6 +341,31 @@ function Mount() {
                 )}
               </div>
             </div>
+            {supportStripe && (
+              <div className={styles['duration-item']}>
+                <p>Fiat price</p>
+                <Input
+                  suffix={<p>Day</p>}
+                  type="number"
+                  placeholder="Enter a price"
+                  value={stripeAmount}
+                  onChange={(e) => setStripeAmount(e.target.value)}
+                  name="stripe_price"
+                  disabled={loading}
+                  className={styles['price-input']}
+                />
+
+                <Select
+                  value={stripeUnit}
+                  onChange={(value) => setStripeUnit(value)}
+                  disabled={loading}
+                  className={styles['select-stripe']}
+                >
+                  <Option value="usd">USD</Option>
+                  <Option value="jpy">JPY</Option>
+                </Select>
+              </div>
+            )}
           </section>
         </Card>
       </section>

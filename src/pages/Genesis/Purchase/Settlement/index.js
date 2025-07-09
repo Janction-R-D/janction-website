@@ -34,6 +34,14 @@ const Settlement = (props) => {
   const { isLessee, sessionType } = initialState || {};
   const [isWarning, setIsWarning] = useState(false);
   const [allowStripe, setAllowStripe] = useState(false);
+  const paytype = [
+    ...getCurrency(),
+    {
+      value: 'Stripe',
+      label: 'USD',
+      rate: 1,
+    },
+  ];
   const onWarningCancel = () => {
     setIsWarning(false);
   };
@@ -253,7 +261,11 @@ const Settlement = (props) => {
       </div>
 
       <PurchaseCard title="Price detail">
-        <PayType value={currency} onChange={(e) => setCurrency(e)} />
+        <PayType
+          value={currency}
+          onChange={(e) => setCurrency(e)}
+          allowStripe={allowStripe}
+        />
         <p>Price detail</p>
         <div className={styles['node-wrapper']}>
           <p className={styles['node-id']}>Device ID:{list?.[0]?.node_id}</p>
@@ -305,7 +317,7 @@ const Settlement = (props) => {
               </span>
 
               <span className={styles['currency']}>
-                {getCurrency().find((item) => item.value == currency)?.label}
+                {paytype.find((item) => item.value == currency)?.label}
               </span>
             </div>
           </section>
@@ -327,6 +339,7 @@ const Settlement = (props) => {
         isWarning={isWarning}
         onOk={onWarningOk}
         allowStripe={allowStripe}
+        paytype={paytype}
       />
     </div>
   );

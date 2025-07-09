@@ -5,32 +5,76 @@ const { Text } = Typography;
 
 const dataSource = [
   {
-    key: '1',
-    model: 'Nvidia H100',
-    cost: '$3.4/H',
-    specs: '80GB HBM3, NVLLINK',
-    remarks: '1 unit',
+    key: 1,
+    model: 'NVIDIA RTX 3090',
+    location: 'User1 - Tokyo',
+    vram: 24,
+    cuda: 10496,
+    price: '¥102/hr',
   },
   {
-    key: '2',
-    model: 'Nvidia A100',
-    cost: '$1.8/H',
-    specs: '40/80GB HBM2e',
-    remarks: '1 unit',
+    key: 2,
+    model: 'NVIDIA A100',
+    location: 'DC1 - Osaka',
+    vram: 40,
+    cuda: 6912,
+    price: '¥363/hr',
   },
   {
-    key: '3',
-    model: 'Nvidia 4090',
-    cost: '$0.3/H',
-    specs: '24GB GDDR6X',
-    remarks: '1 unit',
+    key: 4,
+    model: 'NVIDIA RTX 4080',
+    location: 'User2 - Fukuoka',
+    vram: 16,
+    cuda: 9728,
+    price: '¥131/hr',
   },
   {
-    key: '4',
-    model: 'Nvidia A200',
-    cost: 'comingSoon',
-    specs: '80GB HBM3, NVLLINK',
-    remarks: '1 unit',
+    key: 5,
+    model: 'NVIDIA H100',
+    location: 'Azure - Tokyo',
+    vram: 80,
+    cuda: 16896,
+    price: '¥1,015/hr',
+  },
+  {
+    key: 6,
+    model: 'NVIDIA RTX 3080',
+    location: 'User3 - Nagoya',
+    vram: 10,
+    cuda: 8704,
+    price: '¥87/hr',
+  },
+  {
+    key: 7,
+    model: 'NVIDIA T4',
+    location: 'DC2 - Sapporo',
+    vram: 16,
+    cuda: 2560,
+    price: '¥174/hr',
+  },
+  {
+    key: 8,
+    model: 'AMD Instinct MI300X',
+    location: 'DC3 - Osaka',
+    vram: 192,
+    cuda: 'N/A',
+    price: '¥798/hr',
+  },
+  {
+    key: 9,
+    model: 'NVIDIA RTX 4070',
+    location: 'User4 - Yokohama',
+    vram: 12,
+    cuda: 5888,
+    price: '¥80/hr',
+  },
+  {
+    key: 10,
+    model: 'PlayStation 5 GPU',
+    location: 'PS5#B2 - Tokyo',
+    vram: 10,
+    cuda: 'N/A',
+    price: '¥65/hr',
   },
 ];
 
@@ -46,30 +90,28 @@ export default function ProductsTable() {
       render: (text) => <Text className={styles.model}>{text}</Text>,
     },
     {
-      title: intl.formatMessage({ id: 'products.column.cost' }),
-      dataIndex: 'cost',
-      key: 'cost',
+      title: intl.formatMessage({ id: 'products.column.location' }),
+      dataIndex: 'location',
+      key: 'location',
       className: styles.header,
-      render: (cost) =>
-        cost === 'comingSoon' ? (
-          <Text style={{ color: 'orange' }}>
-            {intl.formatMessage({ id: 'products.cost.comingSoon' })}
-          </Text>
-        ) : (
-          <Text className={styles.cost}>{cost}</Text>
-        ),
     },
     {
       title: intl.formatMessage({ id: 'products.column.specs' }),
-      dataIndex: 'specs',
-      key: 'specs',
+      dataIndex: 'vram',
+      key: 'vram',
       className: styles.header,
     },
     {
       title: intl.formatMessage({ id: 'products.column.remarks' }),
-      dataIndex: 'remarks',
-      key: 'remarks',
+      dataIndex: 'cuda',
+      key: 'cuda',
       className: styles.header,
+    },
+    {
+      title: '料金',
+      dataIndex: 'price',
+      key: 'price',
+      render: (text) => <Text style={{ color: '#00B2FF' }}>{text}</Text>,
     },
   ];
 

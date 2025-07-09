@@ -51,10 +51,10 @@ export default {
   'products.description': 'Transparent Pricing, Hourly Billing.',
 
   'products.column.model': 'GPU Model',
-  'products.column.cost': 'Cost',
-  'products.column.specs': 'Specification',
-  'products.column.remarks': 'Remarks',
-  'products.cost.comingSoon': 'Coming Soon',
+  'products.column.location': 'Location',
+  'products.column.vram': 'VRAM (GB)',
+  'products.column.cuda': 'CUDA Cores',
+  'products.cost.price': 'Price ',
   'how.title': 'HOW IT WORKS',
   'how.subtitle': 'Decoupling, Pipeline and Proof',
   'how.description':

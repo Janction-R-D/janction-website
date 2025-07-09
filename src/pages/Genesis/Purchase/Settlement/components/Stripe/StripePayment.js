@@ -6,6 +6,7 @@ import { fetchCreateOrders } from '@/services/genesis';
 import { DURATION_OPTIONS } from '@/constant';
 import CustomCheckoutForm from '@/components/Stripe/CustomCheckoutForm';
 import styles from './index.less';
+import { WalletOutlined } from '@ant-design/icons';
 const key =
   'pk_live_51RLz4pC53KvFF1GVYYI1oADMsSmvhVTjgjmaq6GjvtDaE6ZeKHJtCnSuVtWS0TwxWyKzhcQvQcVg0RAqrg34Z71P00GsZ7nsBq';
 const stripePromise = loadStripe(key);
@@ -16,6 +17,7 @@ export default function StripePayment({
   visible,
   setVisible,
   setMainModal,
+  tableLoading,
 }) {
   const [clientSecret, setClientSecret] = useState(null);
   const [orderId, setOrderId] = useState(null);
@@ -42,7 +44,7 @@ export default function StripePayment({
       }
 
       setOrderId(order.id);
-      setClientSecret(stripeData.client_secret);
+      setClientSecret(stripeData?.client_secret);
       setVisible(true);
     } catch (err) {
       console.error(err);
@@ -69,9 +71,10 @@ export default function StripePayment({
       <Button
         onClick={handleOpenModal}
         type="primary"
-        className={styles['btnPayFiat']}
+        className={styles['connect-btn']}
+        disabled={tableLoading}
       >
-        Pay with Fiat
+        Pay with Fiat <WalletOutlined className={styles['icon']} />
       </Button>
 
       <Modal
@@ -79,8 +82,7 @@ export default function StripePayment({
         onCancel={handleCloseModal}
         footer={null}
         destroyOnClose
-        title="Complete Your Payment"
-        width={700}
+        width={800}
         className={styles['modal']}
       >
         {clientSecret && (
