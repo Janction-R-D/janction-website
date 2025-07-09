@@ -8,7 +8,7 @@ import stripeImg from '@/assets/images/genesis/stripe.png';
 const isProduction = process.env.JANCTION_ENV === 'production';
 
 const PayType = (props) => {
-  const { value, onChange, allowStripe } = props;
+  const { value, onChange, allowStripe, configInfo } = props;
   const [active, setActive] = useState();
   useEffect(() => {
     setActive(value);
@@ -19,7 +19,7 @@ const PayType = (props) => {
       ? [
           {
             value: 'Stripe',
-            label: 'USD',
+            label: configInfo?.stripe_currency,
             rate: 1,
           },
         ]
@@ -51,7 +51,11 @@ const PayType = (props) => {
                 }
               />
             </span>
-            <span>{item.label == 'USD' ? 'Stripe' : item.label}</span>
+            <span>
+              {item.label == 'usd' || item.label == 'jpy'
+                ? 'Stripe'
+                : item.label}
+            </span>
             <span className={styles['desc']}>{item.desc}</span>
           </div>
         ))}

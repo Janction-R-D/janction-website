@@ -34,13 +34,18 @@ const Settlement = (props) => {
   const { isLessee, sessionType } = initialState || {};
   const [isWarning, setIsWarning] = useState(false);
   const [allowStripe, setAllowStripe] = useState(false);
+  console.log(configInfo);
   const paytype = [
     ...getCurrency(),
-    {
-      value: 'Stripe',
-      label: 'USD',
-      rate: 1,
-    },
+    ...(allowStripe
+      ? [
+          {
+            value: 'Stripe',
+            label: configInfo?.stripe_currency,
+            rate: 1,
+          },
+        ]
+      : []),
   ];
   const onWarningCancel = () => {
     setIsWarning(false);
@@ -265,6 +270,7 @@ const Settlement = (props) => {
           value={currency}
           onChange={(e) => setCurrency(e)}
           allowStripe={allowStripe}
+          configInfo={configInfo}
         />
         <p>Price detail</p>
         <div className={styles['node-wrapper']}>
