@@ -20,7 +20,7 @@ export default function AgentCard({
 }) {
   const { address } = useAccount();
   const agent = { title, icon, tags, id, description };
-
+  const isPublic = user_id !== address;
   const [visible, setVisible] = useState(false);
   const [shareUrl, setShareUrl] = useState(
     `${location.origin}/genesis/agent/try_chat?share=true&agent_id=${id}`,
@@ -75,11 +75,16 @@ export default function AgentCard({
   const onDetails = () => {
     history.push('/genesis/agent/file_manager', { knowledge_id });
   };
-  console.log(user_id === address);
+
   return (
     <div className={styles.card}>
+      {isPublic && (
+        <div className={styles.ribbonWrapper}>
+          <span className={styles.ribbon}>Public Agent</span>
+        </div>
+      )}
       <div className={styles.overlay_up}>
-        {user_id === address && (
+        {!isPublic && (
           <>
             <span onClick={onDelete} className={styles['onDelete']}>
               <i className="iconfont icon-delete" />
