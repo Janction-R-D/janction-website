@@ -217,6 +217,8 @@ function Mount() {
       maximum_lease_duration: Number(maxLease),
       available_period_up: maxPeriod,
       available_period_down: minPeriod,
+      stripe_currency: stripeUnit,
+      stripe_price: stripeAmount,
     };
     setConfirmLoading(true);
     try {

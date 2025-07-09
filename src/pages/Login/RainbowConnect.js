@@ -21,21 +21,26 @@ const RainbowConnect = (props) => {
   const location = useLocation();
   const { inviterCode } = location.query || {};
   const [isOldUser, setIsOldUser] = useState();
+  const [mounted, setMounted] = useState(false);
+
   const { address } = useAccount();
   const { openConnectModal } = useConnectModal();
   const { signMessageAsync } = useSignMessage();
 
   const { disconnect } = useDisconnect();
-
   useEffect(() => {
-    const refresh = storage.get('refresh');
-    if (refresh) {
-      setTimeout(() => {
-        openConnectModal && openConnectModal();
-        storage.remove('refresh');
-      }, 1000);
-    }
+    setMounted(true);
   }, []);
+
+  // useEffect(() => {
+  //   const refresh = storage.get('refresh');
+  //   if (refresh) {
+  //     setTimeout(() => {
+  //       openConnectModal && openConnectModal();
+  //       storage.remove('refresh');
+  //     }, 1000);
+  //   }
+  // }, []);
 
   useAccountEffect({
     async onConnect({ address, chainId }) {
@@ -156,19 +161,29 @@ const RainbowConnect = (props) => {
       console.log('『err』', err);
     }
   };
+  // const onConnect = async () => {
+  //   if (address) {
+  //     await disconnect();
+  //     // Triggered when the user clears local data
+  //     storage.set({ name: 'refresh', value: true });
+  //     window.location.reload();
+  //     // openConnectModal();
+  //   } else {
+  //     openConnectModal();
+  //   }
+  // };
 
   const onConnect = async () => {
+    if (!mounted || typeof openConnectModal !== 'function') return;
+
     if (address) {
       await disconnect();
-      // Triggered when the user clears local data
-      storage.set({ name: 'refresh', value: true });
-      window.location.reload();
-      // openConnectModal();
+      openConnectModal();
     } else {
       openConnectModal();
     }
   };
-
+  if (!mounted) return null;
   return (
     <a className={styles['login-btn']} onClick={onConnect}>
       <WalletOutlined />
