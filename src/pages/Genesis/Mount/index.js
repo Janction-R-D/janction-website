@@ -218,7 +218,7 @@ function Mount() {
       available_period_up: maxPeriod,
       available_period_down: minPeriod,
       stripe_currency: stripeUnit,
-      stripe_price: stripeAmount,
+      stripe_price: Number(stripeAmount),
     };
     setConfirmLoading(true);
     try {
