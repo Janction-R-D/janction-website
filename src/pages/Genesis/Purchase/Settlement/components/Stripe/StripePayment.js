@@ -16,7 +16,7 @@ export default function StripePayment({
   onPayBefore,
   visible,
   setVisible,
-  setMainModal,
+  // setMainModal,
   tableLoading,
 }) {
   const [clientSecret, setClientSecret] = useState(null);
@@ -63,7 +63,7 @@ export default function StripePayment({
 
   const handleCloseModal = () => {
     setVisible(false);
-    setMainModal(false);
+    // setMainModal(false);
   };
 
   return (

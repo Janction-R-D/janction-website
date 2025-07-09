@@ -24,12 +24,12 @@ const Footer = (props) => {
     isWarning,
     onWarningCancel,
     onOk,
-    allowStripe,
+    getPrice,
     paytype,
   } = props;
 
   const [agree, setAgree] = useState(false);
-  const [payNowModalVisible, setPayNowModalVisible] = useState(false);
+  // const [payNowModalVisible, setPayNowModalVisible] = useState(false);
   const [visible, setVisible] = useState(false);
 
   const currency = useMemo(() => {
@@ -40,7 +40,7 @@ const Footer = (props) => {
   const total = useMemo(() => {
     const { value, unit } = formValues?.purDuration || {};
     if (isEmpty(node) || !value || empty(unit)) return 0;
-    const price = priceInfo?.price?.price_in_currency || '--';
+    const price = getPrice() || '--';
     return (Number(price) / Number(currency?.rate || 1)).toFixed(2);
   }, [node, formValues, currency]);
 
@@ -56,29 +56,34 @@ const Footer = (props) => {
     }
   };
 
-  const openPayNowModal = () => {
+  // const openPayNowModal = () => {
+  //   try {
+  //     onPayBefore();
+  //     setPayNowModalVisible(true);
+  //   } catch (err) {
+  //     console.log('『err』', err);
+  //   }
+  // };
+
+  const handlePayWithMetaMask = async () => {
+    // setPayNowModalVisible(false);
     try {
       onPayBefore();
-      setPayNowModalVisible(true);
-    } catch (err) {
-      console.log('『err』', err);
+      onPay();
+    } catch (error) {
+      console.log(error);
     }
   };
 
-  const handlePayWithMetaMask = () => {
-    setPayNowModalVisible(false);
-    onPay?.();
-  };
+  // const handlePayWithFiat = () => {
+  //   setPayNowModalVisible(false);
+  //   setStripeModalVisible(true);
+  // };
 
-  const handlePayWithFiat = () => {
-    setPayNowModalVisible(false);
-    setStripeModalVisible(true);
-  };
+  // const handleStripeModalClose = () => {
+  //   setStripeModalVisible(false);
+  // };
 
-  const handleStripeModalClose = () => {
-    setStripeModalVisible(false);
-  };
-  console.log();
   return (
     <div className={styles['footer-price']}>
       <div className={styles['confirm-info']}>
@@ -128,7 +133,7 @@ const Footer = (props) => {
             onPayBefore={onPayBefore}
             visible={visible}
             setVisible={setVisible}
-            setMainModal={setPayNowModalVisible}
+            // setMainModal={setPayNowModalVisible}
             tableLoading={tableLoading}
           />
         )}

@@ -242,6 +242,21 @@ const Settlement = (props) => {
   const goBack = () => {
     history.push('/genesis/purchase');
   };
+  const findCurrency = paytype.find((item) => item.value == currency).label;
+  const getPrice = () => {
+    let newPrice;
+    if (findCurrency !== 'usd') {
+      newPrice = !priceInfo?.node_config?.price
+        ? '--'
+        : priceInfo?.node_config?.price;
+      return newPrice;
+    }
+    newPrice = !priceInfo?.node_config?.stripe_price
+      ? '--'
+      : priceInfo?.node_config?.stripe_price;
+    return newPrice;
+  };
+  console.log(getPrice(), findCurrency);
   if (!isLessee) return <Redirect to="/genesis/dashboard"></Redirect>;
   return (
     <div className={styles['settlement-wrapper']}>
@@ -279,11 +294,8 @@ const Settlement = (props) => {
             <div className={styles['price-item']}>
               <span>Price</span>
               <span className={styles['blue-item']}>
-                {!priceInfo?.node_config?.price
-                  ? '--'
-                  : `${
-                      priceInfo?.node_config?.price
-                    } USDT / ${priceInfo?.node_config?.unit.toUpperCase()}`}
+                {getPrice()}
+                {` ${findCurrency} / ${priceInfo?.node_config?.unit.toUpperCase()}`}
               </span>
             </div>
             <div className={styles['duration-item']}>
@@ -311,15 +323,11 @@ const Settlement = (props) => {
             <span className={styles['total-title']}>Total Price</span>
             <div>
               <span className={styles['blue-item']}>
-                {isNaN(
-                  Number(priceInfo?.price?.price_in_currency) /
-                    Number(currency?.rate || 1),
-                )
+                {isNaN(Number(getPrice()) / Number(currency?.rate || 1))
                   ? '~~'
-                  : (
-                      Number(priceInfo?.price?.price_in_currency) /
-                      Number(currency?.rate || 1)
-                    ).toFixed(2)}
+                  : (Number(getPrice()) / Number(currency?.rate || 1)).toFixed(
+                      2,
+                    )}
               </span>
 
               <span className={styles['currency']}>
@@ -346,6 +354,7 @@ const Settlement = (props) => {
         onOk={onWarningOk}
         allowStripe={allowStripe}
         paytype={paytype}
+        getPrice={getPrice}
       />
     </div>
   );
