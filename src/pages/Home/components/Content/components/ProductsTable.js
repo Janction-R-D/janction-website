@@ -96,13 +96,13 @@ export default function ProductsTable() {
       className: styles.header,
     },
     {
-      title: intl.formatMessage({ id: 'products.column.specs' }),
+      title: intl.formatMessage({ id: 'products.column.vram' }),
       dataIndex: 'vram',
       key: 'vram',
       className: styles.header,
     },
     {
-      title: intl.formatMessage({ id: 'products.column.remarks' }),
+      title: intl.formatMessage({ id: 'products.column.cuda' }),
       dataIndex: 'cuda',
       key: 'cuda',
       className: styles.header,
