@@ -46,10 +46,15 @@ export const fetchOauthCallback = (data) => {
   });
 };
 export const fetchToken = () => {
-  return request(`${baseUrl}/user/oauth2/binding`, {
+  return request(`${baseUrl}/user/oauth2/session`, {
     loginAuth: true,
   });
 };
+// export const fetchToken = () => {
+//   return request(`${baseUrl}/user/oauth2/binding`, {
+//     loginAuth: true,
+//   });
+// };
 
 export const fetchProviderLog = (data) => {
   return request(`${baseUrl}/user/oauth2/providers`);
