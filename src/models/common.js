@@ -46,11 +46,13 @@ export default () => {
           callback && callback(result);
         });
     }
-    if (sessionType == 'google') {
+    if (sessionType == 'google' || sessionType == 'github') {
       fetchToken()
         .then((res) => {
-          const userData = res?.user_info;
+          const info = res?.oauth2_user;
+          const userData = info?.user_info;
           setUserInfo(userData);
+          console.log(userData.picture);
           if (userData?.email) {
             setUserName(userData?.email);
             setAvatarSnapUrl(userData?.picture);
@@ -66,7 +68,7 @@ export default () => {
     if (sessionType == 'email') {
       fetchToken()
         .then((res) => {
-          const emailData = res;
+          const emailData = res?.oauth2_user;
           setUserInfo(emailData);
           if (emailData?.platform_user_id) {
             setUserInfo(emailData);

@@ -46,15 +46,15 @@ const Login = (props) => {
   }, [location.search]);
   const logIn = async (param) => {
     try {
-      getToken(param);
+      const receivedTkn = await getToken(param);
       message.success('User logged successfully!');
       setInitialState({
         ...initialState,
-        sessionType: 'google',
+        sessionType: receivedTkn.platform,
       });
       setTimeout(() => {
         history.push('/genesis/rol', {
-          type: 'google',
+          type: receivedTkn.platform,
         });
       }, 1200);
     } catch (err) {
@@ -77,9 +77,10 @@ const Login = (props) => {
       });
       storage.set({
         name: 'SESSION_TYPE',
-        value: 'google',
+        value: user.platform,
         expires,
       });
+      return user;
     } catch (error) {
       console.log(error);
     }
