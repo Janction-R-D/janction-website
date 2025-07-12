@@ -9,7 +9,7 @@ import { useEffect, useMemo } from 'react';
 import { history } from 'umi';
 import { GenesisProvider } from './Context/GenesisContext';
 // import MessageCenter from '@/pages/Genesis/Message-center';
-import Nodes from '@/pages/Genesis/DeployNodes';
+import DeployNodes from '@/pages/Genesis/DeployNodes';
 import Rol from '@/pages/Genesis/Rol';
 import TryChat from '@/pages/Genesis/Agent/components/TryChat';
 import PurchaseAi from '@/pages/Genesis/Agent/components/Purchase';
@@ -118,11 +118,11 @@ export default function Layout(props) {
   //   );
   // }
   // deployNodes new UI for testing
-  if (props.location.pathname.includes('/deployNodes')) {
+  if (props.location.pathname.includes('/genesis/deployNodes')) {
     return (
       <GenesisProvider>
         <GenesisLayout>
-          <Nodes />
+          <DeployNodes />
         </GenesisLayout>
       </GenesisProvider>
     );

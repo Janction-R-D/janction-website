@@ -3,21 +3,18 @@ import { useEffect, useState } from 'react';
 import styles from './index.less';
 import { ARCHITECTURE, SYSTEM_LIST } from '@/constant';
 import { links } from '@/utils/lang';
-import { fetchNodesRegister } from '@/services/genesis';
+
 import RunNode from './components/RunNode';
-import { Redirect, useModel } from 'umi';
 import NTFBanner from './components/NTFBanner';
 
-const DeployNode = () => {
+const DeployNodes = () => {
   const [selectedValues, setSelectedValues] = useState({});
   const [architecture, setArchitecture] = useState([]);
   const [downloadLink, setDownloadLink] = useState();
   const [loading, setLoading] = useState(false);
   const [isLinux, setIsLinux] = useState(false);
-  const [nodesData, setNodesData] = useState();
-  const { initialState } = useModel('@@initialState');
+  const [nodesData, setNodesData] = useState({});
 
-  const { isLessee } = initialState || {};
   function detectSystem() {
     const ua = navigator.userAgent.toLowerCase();
 
@@ -28,9 +25,6 @@ const DeployNode = () => {
     return 'unkown';
   }
 
-  useEffect(() => {
-    getNodes();
-  }, []);
   useEffect(() => {
     if (!selectedValues?.system) return;
     const _architecture = ARCHITECTURE.filter((item) =>
@@ -61,30 +55,7 @@ const DeployNode = () => {
       system: sys.value,
     });
   };
-  const getNodes = async () => {
-    const system = detectSystem();
-    if (system !== 'unkown') {
-      const _architecture = ARCHITECTURE.filter((item) =>
-        item.sys.includes(system),
-      );
-      setSelectedValues({
-        system,
-        architecture: _architecture?.[0]?.value,
-      });
-      setIsLinux(system === 'linux');
-    }
-
-    try {
-      setLoading(true);
-      const res = await fetchNodesRegister();
-      setNodesData(res);
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-      console.log('『error』', error);
-    }
-  };
-  if (isLessee) return <Redirect to="/genesis/nodes"></Redirect>;
+  const getNodes = async () => {};
   return (
     <section className={styles['dashboard-wrapper']}>
       <section className={styles['header-wrapper']}>
@@ -142,5 +113,4 @@ const DeployNode = () => {
   );
 };
 
-export default DeployNode;
-DeployNode.wrappers = ['@/wrappers/auth'];
+export default DeployNodes;
