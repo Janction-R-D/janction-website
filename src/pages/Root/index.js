@@ -92,6 +92,7 @@ const Root = (props) => {
       dataHandle(res);
     } catch (err) {
       console.log('『err』', err);
+      history.replace('root/login');
     }
   };
   const getInquiry = async (params = {}) => {

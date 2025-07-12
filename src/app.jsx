@@ -62,7 +62,6 @@ const responseData = async (response, options) => {
 
   if (!url.includes('/v0')) return res;
   if (url.includes('authentication/status')) {
-    console.log(res);
     if (res?.message == 'success') return res;
     throw new Error('Invalid session');
   }
