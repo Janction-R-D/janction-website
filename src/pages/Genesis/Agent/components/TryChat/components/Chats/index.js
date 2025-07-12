@@ -2,52 +2,14 @@ import { useEffect, useRef, useState } from 'react';
 import styles from './index.less';
 import { Button, Input } from 'antd';
 import { fetchChat } from '@/services/genesis/agents';
-import storage from '@/utils/storage';
-const STORAGE_KEY = 'web3_chat_messages';
-function extractDataLines(rawText) {
-  return rawText
-    .split('\n')
-    .filter((line) => line.startsWith('data:'))
-    .map((line) => line.replace('data:', '').trim())
-    .join(' ');
-}
+import {
+  chineseChar,
+  extractDataLines,
+  loadMessagesFromStorage,
+  saveMessagesToStorage,
+  typeMessage,
+} from '@/utils/lang';
 
-function loadMessagesFromStorage(agentId) {
-  try {
-    const saved = storage.get(STORAGE_KEY);
-    if (!saved) return [];
-
-    const allChats = Array.isArray(saved) ? saved : [];
-    const found = allChats.find((chat) => chat.agent_id === agentId);
-    return found?.messages || [];
-  } catch (error) {
-    console.error('Error parsing stored messages:', error);
-    return [];
-  }
-}
-
-function saveMessagesToStorage(agentId, newMessages) {
-  try {
-    const saved = storage.get(STORAGE_KEY);
-    const allChats = Array.isArray(saved) ? saved : [];
-
-    const updated = allChats.filter((chat) => chat.agent_id !== agentId);
-    updated.push({
-      agent_id: agentId,
-      messages: newMessages,
-    });
-
-    storage.set({
-      name: STORAGE_KEY,
-      value: updated,
-    });
-  } catch (e) {
-    console.error('Error saving messages:', e);
-  }
-}
-function chineseChar(sms) {
-  return /[\u4E00-\u9FFF]/.test(sms);
-}
 const Chat = ({ agent }) => {
   const [isTyping, setIsTyping] = useState(false);
   const [input, setInput] = useState('');
@@ -104,32 +66,6 @@ const Chat = ({ agent }) => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const typeMessage = (text) => {
-    setIsTyping(true);
-    let i = 0;
-    let currentText = '';
-    const interval = setInterval(() => {
-      currentText += text[i];
-      i++;
-      if (i === text.length) {
-        clearInterval(interval);
-        setMessages((prev) => {
-          const withoutTyping = prev.filter((m) => !m.typing);
-          return [...withoutTyping, { text, sender: 'bot' }];
-        });
-        setIsTyping(false);
-      } else {
-        setMessages((prev) => {
-          const withoutTyping = prev.filter((m) => !m.typing);
-          return [
-            ...withoutTyping,
-            { text: currentText, sender: 'bot', typing: true },
-          ];
-        });
-      }
-    }, 10);
   };
 
   return (
