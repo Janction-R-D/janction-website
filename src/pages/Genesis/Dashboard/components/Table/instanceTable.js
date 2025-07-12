@@ -22,32 +22,6 @@ function InstanceTable({ data, getAllNodes, loading }) {
       ellipsis: true,
     },
     {
-      title: <div className="name">Cores</div>,
-      dataIndex: 'node',
-      key: 'Cores',
-      ellipsis: true,
-      render: (node, record) => {
-        if (!node?.attr?.gpu_chip && !node?.attr?.cpu_chip) return '--';
-        const cpu = node?.attr.cpu_chip;
-        const gpu = node?.attr.gpu_chip;
-        return (
-          <>
-            <p>{cpu ? `${cpu[0]} * ${cpu.length}` : '--'}</p>
-            <p>{gpu ? `${gpu[0]} * ${gpu.length}` : '--'}</p>
-          </>
-        );
-      },
-    },
-    {
-      title: <div className="memory">Memory</div>,
-      dataIndex: 'memory',
-      key: 'memory',
-      ellipsis: true,
-      render: (memory, rowData) => (
-        <>{!empty(rowData.memory) ? convertMBtoGB(rowData.memory) : '--'}</>
-      ),
-    },
-    {
       title: 'Status',
       key: 'status',
       dataIndex: 'status',
@@ -77,6 +51,33 @@ function InstanceTable({ data, getAllNodes, loading }) {
         </>
       ),
     },
+    {
+      title: <div className="name">Cores</div>,
+      dataIndex: 'node',
+      key: 'Cores',
+      ellipsis: true,
+      render: (node, record) => {
+        if (!node?.attr?.gpu_chip && !node?.attr?.cpu_chip) return '--';
+        const cpu = node?.attr.cpu_chip;
+        const gpu = node?.attr.gpu_chip;
+        return (
+          <>
+            <p>{cpu ? `${cpu[0]} * ${cpu.length}` : '--'}</p>
+            <p>{gpu ? `${gpu[0]} * ${gpu.length}` : '--'}</p>
+          </>
+        );
+      },
+    },
+    {
+      title: <div className="memory">Memory</div>,
+      dataIndex: 'memory',
+      key: 'memory',
+      ellipsis: true,
+      render: (memory, rowData) => (
+        <>{!empty(rowData.memory) ? convertMBtoGB(rowData.memory) : '--'}</>
+      ),
+    },
+
     {
       title: 'Location',
       dataIndex: 'Location',
@@ -146,6 +147,7 @@ function InstanceTable({ data, getAllNodes, loading }) {
             .
           </p>
         }
+        scroll={{ x: 'auto' }}
         pagination={false}
       />
     </>

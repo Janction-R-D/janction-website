@@ -14,6 +14,7 @@ import VideoGrid from './components/VideoGrid';
 import SkeletonGrid from './components/SkeletonGrid';
 import GenerateButton from './components/GenerateButton';
 import ContributorReward from './components/ContributorReward';
+import Invitation from './components/Invitation';
 
 export default function Lessor() {
   const [isOpen, setIsOpen] = useState(false);
@@ -131,14 +132,17 @@ export default function Lessor() {
         </header>
         <p className={styles['join-text']}>Join Janction Network</p>
         <section className={styles['buttons-box']}>
-          <Button className={styles['button']} onClick={() => onOpen()}>
-            Download App{' '}
-            <span className={styles.icon}>
-              <AppstoreAddOutlined />
-            </span>
-          </Button>
-          <Guide isOpen={isOpen} setIsOpen={setIsOpen} onOpen={onOpen} />
-          <GenerateButton />
+          <div className={styles['buttons-app']}>
+            <Button className={styles['button']} onClick={() => onOpen()}>
+              Download App{' '}
+              <span className={styles.icon}>
+                <AppstoreAddOutlined />
+              </span>
+            </Button>
+            <Guide isOpen={isOpen} setIsOpen={setIsOpen} onOpen={onOpen} />
+            <GenerateButton />
+          </div>
+          <Invitation />
         </section>
       </section>
       <section className={styles['container']}>
