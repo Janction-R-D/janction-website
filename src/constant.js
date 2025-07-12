@@ -203,6 +203,7 @@ export const notShowErrors = [
   'email_send_error',
   'not_found',
   'node_not_found',
+  'invalid_operation',
 ];
 export const brandDetails = {
   apple: { icon: 'macos', color: 'white' },

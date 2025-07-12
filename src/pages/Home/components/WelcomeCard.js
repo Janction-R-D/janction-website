@@ -35,7 +35,8 @@ export default function WelcomeCard() {
     fetchInviteVerify(code)
       .then((res) => {
         if (res?.inviter) {
-          history.push(`/deployNodes?inviterCode=${code}`);
+          console.log(res);
+          history.replace(`/genesis/deployNodes?inviterCode=${code}`);
           return;
         }
         message.warning(res.msg);

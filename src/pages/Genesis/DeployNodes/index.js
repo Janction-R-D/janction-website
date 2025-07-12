@@ -3,35 +3,30 @@ import { useEffect, useState } from 'react';
 import styles from './index.less';
 import { ARCHITECTURE, SYSTEM_LIST } from '@/constant';
 import { links } from '@/utils/lang';
-import { fetchNodesRegister } from '@/services/genesis';
-import RunNode from './components/RunNode';
-import { Redirect, useModel } from 'umi';
-import NTFBanner from './components/NTFBanner';
 
-const DeployNode = () => {
+import RunNode from './components/RunNode';
+import NTFBanner from './components/NTFBanner';
+import { history, Redirect, useAccess, useModel } from 'umi';
+import storage from '@/utils/storage';
+import { useAccountEffect } from 'wagmi';
+
+const DeployNodes = (props) => {
+  const { initialState, setInitialState } = useModel('@@initialState');
+  const { sessionType } = initialState || {};
+  const { isLogin } = useAccess();
+  const TOKEN = storage.get('TOKEN');
   const [selectedValues, setSelectedValues] = useState({});
   const [architecture, setArchitecture] = useState([]);
   const [downloadLink, setDownloadLink] = useState();
   const [loading, setLoading] = useState(false);
   const [isLinux, setIsLinux] = useState(false);
-  const [nodesData, setNodesData] = useState();
-  const { initialState } = useModel('@@initialState');
-
-  const { isLessee } = initialState || {};
-  function detectSystem() {
-    const ua = navigator.userAgent.toLowerCase();
-
-    if (ua.includes('windows')) return 'windows';
-    if (ua.includes('mac os') || ua.includes('macintosh')) return 'macos';
-    if (ua.includes('linux')) return 'linux';
-
-    return 'unkown';
-  }
+  const [nodesData, setNodesData] = useState({});
 
   useEffect(() => {
-    getNodes();
-  }, []);
-  useEffect(() => {
+    setInitialState({
+      ...initialState,
+      isLessee: false,
+    });
     if (!selectedValues?.system) return;
     const _architecture = ARCHITECTURE.filter((item) =>
       item.sys.includes(selectedValues.system),
@@ -61,30 +56,28 @@ const DeployNode = () => {
       system: sys.value,
     });
   };
-  const getNodes = async () => {
-    const system = detectSystem();
-    if (system !== 'unkown') {
-      const _architecture = ARCHITECTURE.filter((item) =>
-        item.sys.includes(system),
-      );
-      setSelectedValues({
-        system,
-        architecture: _architecture?.[0]?.value,
-      });
-      setIsLinux(system === 'linux');
-    }
+  const getNodes = async () => {};
 
-    try {
-      setLoading(true);
-      const res = await fetchNodesRegister();
-      setNodesData(res);
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-      console.log('『error』', error);
-    }
-  };
-  if (isLessee) return <Redirect to="/genesis/nodes"></Redirect>;
+  useAccountEffect({
+    onDisconnect() {
+      if (sessionType !== 'wallet') {
+        storage.remove('AUTH_HEADERS');
+        storage.remove('userAccount');
+        setInitialState({
+          ...initialState,
+          userAccount: null,
+        });
+        return;
+      }
+      storage.clear();
+      setInitialState({
+        ...initialState,
+        userAccount: null,
+      });
+      history.push(`/login?from=${history.location.pathname}`);
+    },
+  });
+
   return (
     <section className={styles['dashboard-wrapper']}>
       <section className={styles['header-wrapper']}>
@@ -142,5 +135,4 @@ const DeployNode = () => {
   );
 };
 
-export default DeployNode;
-DeployNode.wrappers = ['@/wrappers/auth'];
+export default DeployNodes;
