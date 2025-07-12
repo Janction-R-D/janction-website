@@ -9,9 +9,11 @@ import HowSection from './components/HowSection';
 import PriceComparison from './components/PriceComaprision';
 import Faq from './components/Faq';
 import InquiryForm from './components/InquiryForm';
+import WelcomeCard from '../WelcomeCard';
 export default function Content() {
   return (
     <section className={styles['main']}>
+      <WelcomeCard />
       <SectionOne />
       <SectionInput />
       <WhySection />
