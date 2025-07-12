@@ -6,8 +6,15 @@ import { links } from '@/utils/lang';
 
 import RunNode from './components/RunNode';
 import NTFBanner from './components/NTFBanner';
+import { history, Redirect, useAccess, useModel } from 'umi';
+import storage from '@/utils/storage';
+import { useAccountEffect } from 'wagmi';
 
-const DeployNodes = () => {
+const DeployNodes = (props) => {
+  const { initialState, setInitialState } = useModel('@@initialState');
+  const { sessionType } = initialState || {};
+  const { isLogin } = useAccess();
+  const TOKEN = storage.get('TOKEN');
   const [selectedValues, setSelectedValues] = useState({});
   const [architecture, setArchitecture] = useState([]);
   const [downloadLink, setDownloadLink] = useState();
@@ -15,17 +22,11 @@ const DeployNodes = () => {
   const [isLinux, setIsLinux] = useState(false);
   const [nodesData, setNodesData] = useState({});
 
-  function detectSystem() {
-    const ua = navigator.userAgent.toLowerCase();
-
-    if (ua.includes('windows')) return 'windows';
-    if (ua.includes('mac os') || ua.includes('macintosh')) return 'macos';
-    if (ua.includes('linux')) return 'linux';
-
-    return 'unkown';
-  }
-
   useEffect(() => {
+    setInitialState({
+      ...initialState,
+      isLessee: false,
+    });
     if (!selectedValues?.system) return;
     const _architecture = ARCHITECTURE.filter((item) =>
       item.sys.includes(selectedValues.system),
@@ -56,6 +57,27 @@ const DeployNodes = () => {
     });
   };
   const getNodes = async () => {};
+
+  useAccountEffect({
+    onDisconnect() {
+      if (sessionType !== 'wallet') {
+        storage.remove('AUTH_HEADERS');
+        storage.remove('userAccount');
+        setInitialState({
+          ...initialState,
+          userAccount: null,
+        });
+        return;
+      }
+      storage.clear();
+      setInitialState({
+        ...initialState,
+        userAccount: null,
+      });
+      history.push(`/login?from=${history.location.pathname}`);
+    },
+  });
+
   return (
     <section className={styles['dashboard-wrapper']}>
       <section className={styles['header-wrapper']}>
