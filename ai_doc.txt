@@ -1,0 +1,129 @@
+FAQ - Janction and Its Services
+
+What is Janction?
+Janction is the first Layer2 solution that provides verifiable, synergic, and scalable artificial intelligence (AI) services. It leverages smart contracts to automate and dynamize machine learning and AI processes.
+
+What does Janction integrate into its platform?
+Janction integrates key AI lifecycle components, including AI models, GPU computing power, data feeding, and data labeling, all combined into a unified system for co-processing.
+
+What is Janction’s main vision?
+Janction aims to build a global distributed computing power marketplace. The Janction GPU Marketplace offers users unlimited GPU capacity at lower costs by aggregating GPUs from multiple sources.
+
+What is the Janction Cluster GPU Pool?
+It is a system designed to manage and allocate multiple GPU resources, supporting large-scale parallel computing applications. It focuses on efficiency, scalability, and flexibility for both users and GPU providers.
+
+What are the key considerations in the Cluster GPU Pool design?
+The system considers:
+
+Resource scheduling and management
+Task scheduling
+Parallel computing
+Load balancing
+Resource security and isolation
+Fault recovery and fault tolerance
+Cost management and efficiency optimization
+Proof of work
+Consistency across the network
+
+What resource allocation modes does Janction offer?
+Janction supports two types of resource scheduling:
+Centralized scheduling
+Peer-to-peer (P2P) scheduling
+
+How does Janction build a collaborative system in a distributed trustless way?
+Janction considers several aspects:
+
+Resource Scheduling and Management: Ensuring reasonable and safe allocation of resources like computing, data, storage, and bandwidth to efficiently and reliably meet user needs while addressing arithmetic routing and cluster colocation.
+Data Acquisition: Extracting data from various off-chain and on-chain sources, with reasonable compensation for data providers.
+Proof of Workload: Verifying that the AI computational work is performed as promised to build a trustless computational network and provide financial incentives.
+Gaming Mechanism: Designing fair incentives for different roles (data providers, annotators, arithmetic providers, model providers) to complete tasks and maximize mutual benefits.
+Privacy: Protecting personal data privacy and security, avoiding data silos during model training and inference while complying with regulations.
+Parallelization: Implementing parallel deep learning algorithms (data, tensor, pipeline parallelism) and designing communication methods for distributed parallel computing.
+
+What is the current focus of Janction's architecture?
+Currently, Janction focuses mainly on model inference. It plans to start from data acquisition, preprocessing, and the GPU arithmetic market to gradually realize a collaborative AI Layer2 system.
+
+What are the core designs addressed by Janction Layer2?
+
+Designing methods for data acquisition and preprocessing from both on-chain and off-chain sources.
+Using microservice architecture to simplify AI model deployment by packaging algorithms,optimizing systems and runtime, adding standard APIs, containerizing network resources tofacilitate scheduling and management, and providing an end-to-end computational powerrouting solution.
+Efficiently scheduling idle GPU computing power using mixing algorithms.
+Designing a GPU computing power market, constructing role models and gaming mechanismswithin Janction, and pricing the work of arithmetic providers using workload correlation functions and the VCG (Vickrey-Clarke-Groves) mechanism.
+
+What is the Janction Testnet?
+The Janction testnet is now live with chain ID 679. It is developed using Optimism's OP stack, a popular system for creating new Layer2 blockchains with production-quality Optimistic Rollup technology. The testnet uses Sepolia's Testnet (chain ID: 11155111) as the Settlement Layer.
+
+Where can I find the Janction Testnet endpoints?
+
+WebSocket (WS) endpoint: wss\://janction-testnet.alt.technology/ws
+HTTP endpoint: [https://janction-testnet.alt.technology](https://janction-testnet.alt.technology)
+
+Where can I explore blocks and transactions on the Janction Testnet?
+Use the Janction testnet explorer at [https://janction-testnet-explorer.alt.technology](https://janction-testnet-explorer.alt.technology) to see live statistics, blocks, and transactions.
+
+What are the versions of the Janction testnet node components?
+op-node version: 1.10.3
+op-geth version: 1.101411.6
+l1-op-contracts version: 1.8.0-rc.4
+l2-op-contracts version: 1.7.0-beta.1+l2-contracts
+
+Where can I find the genesis and rollup configuration files?
+Genesis file: [https://operator-public.s3.us-west-2.amazonaws.com/janction/testnet/genesisjson](https://operator-public.s3.us-west-2.amazonaws.com/janction/testnet/genesis.json)
+Rollup config file: [https://operator-public.s3.us-west-2.amazonaws.com/janction/testnetrollup.json](https://operator-public.s3.us-west-2.amazonaws.com/janction/testnet/rollupjson)
+
+What is the Janction Bridge application?
+The bridge application ([https://bridge.janction.ai/](https://bridge.janction.ai/)) allows users to send tokens between Sepolia Testnet and Janction Testnet. It is used to transfer tokens to the Janction Testnet to enable usage there.
+
+How do I use the Janction Bridge app?
+
+1. Connect your wallet using the "connect" button at the top right corner. You can choose any supported wallet.
+2. After connecting, two new buttons appear: one to switch networks and another to access your wallet.
+3. Select the source ("From") and target ("To") networks. Options include sending ETH from Sepolia Testnet to Janction Testnet (default), or the opposite.
+4. Enter the amount of tokens to transfer. Currently, only ETH is supported.
+5. The app shows your available token balance and displays a transfer summary including gas fees and estimated transaction time.
+6. If you have enough funds, the "Review bridge" button will activate (black). Otherwise, it shows "Insufficient funds" (gray).
+7. (Optional) Use the "gear" button to access settings.
+8. (Optional) Use the "clock" button to view your transaction history.
+
+What recent improvements have been made to Janction Network's GPU resource provisioning?
+Janction Network has completed an optimized design that significantly improves resource utilization and scalability. This allows for more efficient allocation of resources to better meet diverse computing needs and provide flexible solutions for users of all sizes.
+
+What is the Janction GPU Marketplace?
+The GPU Marketplace is an innovative platform designed to facilitate transactions between GPU demanders and providers. It allows users to shop for GPU resources they need in a transparent, fair, and efficient environment.
+
+What features does the GPU Marketplace provide to users?
+Users can choose GPU resources that fit their needs, compare specifications and prices from different providers, and access a transparent marketplace.
+
+Does Janction’s marketplace include other resources besides GPUs?
+Yes, it also includes other high-performance processor resources, enabling users to maximize resource usage by publishing idle computing resources for others to use.
+
+Who can benefit from Janction’s GPU Marketplace?
+Individuals, small startups, and large enterprises alike can find suitable computing resources for a variety of computing tasks.
+
+What pricing issues does Janction address in the current GPU rental market?
+Janction considers that most current GPU rental service providers do not have reasonable pricing schemes that maximize the interests of both providers and users in distributed computing scenarios.
+
+What categories of AI/ML models does Janction consider for storage?
+Janction considers three main categories:
+Traditional machine learning models (e.g., linear regression, decision trees, SVMs) withsizes from hundreds of KB to tens of MB.
+Deep learning models ranging from tens of MB to several GB depending on network depth andparameters.
+Large language models (LLMs) from hundreds of MB to tens of GB depending on model size andparameters.
+
+How does Janction store models smaller than 4GB?
+Models with storage requirements under 4GB are stored persistently using highly reliable and scalable file storage systems combined with memory caching mechanisms. These models can be intelligently preloaded into the GPU instance memory. Traditional compression techniques are also applied to optimize storage.
+
+How does Janction handle geographic distribution of models?
+Janction configures Content Delivery Networks (CDNs) based on the regions where aggregated GPUs are located to optimize model delivery.
+
+What is Janction’s approach to storing large language models?
+Due to their huge size, Janction is exploring distributed file storage solutions such as Hadoop Distributed File System (HDFS). Distributed caching systems like Redis and Memcached are also considered to enhance storage and access performance.
+
+
+What cost advantages does Janction’s distributed idle GPU computing power have over traditional cloud GPU providers?
+Janction's computing resources have a natural cost advantage. Idle GPUs are dynamically and flexibly allocated based on customer demand. When AI demand is low, GPUs can participate in Proof of Work (PoW) projects, and when demand is high, GPUs switch back to AI tasks.
+
+Does Janction provide monitoring similar to traditional cloud GPU platforms?
+Yes, Janction has designed a complete set of monitoring products for real-time tracking of GPU activity, service quality, and more, similar to traditional cloud GPU providers.
+
+What stage is Janction currently in and how does it impact service quality?
+Janction is currently in the cold start stage with relatively few early users. This allows operation and maintenance personnel to dedicate more time and energy to ensure service quality, accumulate experience, and develop peripheral products to enhance the service.
