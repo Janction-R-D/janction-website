@@ -6,16 +6,18 @@
   --hue-2: 50;
 }
 .checkbox-grid {
-  display: flex;
-  flex-wrap: wrap;
+  // display: flex;
+  // flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
   gap: 16px;
   padding: 8px;
 
   .checkbox-item {
     --hue-1: 180;
     --hue-2: 100;
-    flex: 1 1 22%;
-    max-width: 22%;
+    // flex: 1 1 22%;
+    // max-width: 22%;
     box-sizing: border-box;
     display: flex;
     justify-content: center;

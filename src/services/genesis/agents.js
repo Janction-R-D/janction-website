@@ -84,6 +84,13 @@ export const fetchChat = (id, data) => {
     loginAuth: true,
   });
 };
+export const fetchChatSee = (data) => {
+  return request(`${baseUrl}/ai/chat/sse`, {
+    method: 'POST',
+    data,
+    loginAuth: true,
+  });
+};
 
 export const fetchDetailKnowledge = (id) => {
   return request(`${baseUrl}/agent/kb/${id}`, {

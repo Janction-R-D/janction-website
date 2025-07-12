@@ -27,6 +27,14 @@
 
       font-size: 14px;
       line-height: 1.5;
+      .pulseDot {
+        width: 10px;
+        height: 10px;
+        background-color: #1890ff;
+        border-radius: 50%;
+        animation: pulse 1.2s infinite ease-in-out;
+        margin: 8px auto;
+      }
     }
   }
 
@@ -143,4 +151,22 @@
       }
     }
   }
+}
+@keyframes pulse {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.9);
+    opacity: 0.7;
+  }
+}
+.chinese {
+  letter-spacing: -2px;
+  line-height: 1.8;
 }

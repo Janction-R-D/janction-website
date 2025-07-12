@@ -213,3 +213,5 @@ export const brandDetails = {
   intel: { icon: 'intel', color: 'blue' },
   amd: { icon: 'amd', color: 'green' },
 };
+
+export const STORAGE_KEY = 'web3_chat_messages';
