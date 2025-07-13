@@ -59,7 +59,7 @@ const Footer = (props) => {
       <div className={styles['related-container']}>
         <SocialsLinks className={styles['links']} />
         <a href="/" className="f16">
-          ©2024
+          ©2025
         </a>
       </div>
     </footer>

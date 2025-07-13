@@ -6,7 +6,7 @@ const HomeFooter = (props) => {
     <footer
       className={`animate__animated animate__zoomIn ${styles['main-footer']}`}
     >
-      <div className="df jc_sb ai_c">
+      <div className="df jc_sb ai_c gap18">
         <div className="df fd_c">
           <img
             src={require('@/assets/images/icons/logo.png')}
@@ -59,7 +59,7 @@ const HomeFooter = (props) => {
       <div className={styles['related-container']}>
         <SocialsLinks className={styles['links']} />
         <a href="/" className="f16">
-          ©2024
+          ©2025
         </a>
       </div>
     </footer>
