@@ -77,6 +77,80 @@ const dataSource = [
     price: '¥65/hr',
   },
 ];
+const dataSourceEn = [
+  {
+    key: 1,
+    model: 'NVIDIA RTX 3090',
+    location: 'User1 - Tokyo',
+    vram: 24,
+    cuda: 10496,
+    price: '$0.70/hr',
+  },
+  {
+    key: 2,
+    model: 'NVIDIA A100',
+    location: 'DC1 - Osaka',
+    vram: 40,
+    cuda: 6912,
+    price: '$2.50/hr',
+  },
+  {
+    key: 4,
+    model: 'NVIDIA RTX 4080',
+    location: 'User2 - Fukuoka',
+    vram: 16,
+    cuda: 9728,
+    price: '$0.90/hr',
+  },
+  {
+    key: 5,
+    model: 'NVIDIA H100',
+    location: 'Azure - Tokyo',
+    vram: 80,
+    cuda: 16896,
+    price: '7.00/hr',
+  },
+  {
+    key: 6,
+    model: 'NVIDIA RTX 3080',
+    location: 'User3 - Nagoya',
+    vram: 10,
+    cuda: 8704,
+    price: '$0.60/hr',
+  },
+  {
+    key: 7,
+    model: 'NVIDIA T4',
+    location: 'DC2 - Sapporo',
+    vram: 16,
+    cuda: 2560,
+    price: '$1.20/hr',
+  },
+  {
+    key: 8,
+    model: 'AMD Instinct MI300X',
+    location: 'DC3 - Osaka',
+    vram: 192,
+    cuda: 'N/A',
+    price: '$5.50/hr',
+  },
+  {
+    key: 9,
+    model: 'NVIDIA RTX 4070',
+    location: 'User4 - Yokohama',
+    vram: 12,
+    cuda: 5888,
+    price: '$0.55/hr',
+  },
+  {
+    key: 10,
+    model: 'PlayStation 5 GPU',
+    location: 'PS5#B2 - Tokyo',
+    vram: 10,
+    cuda: 'N/A',
+    price: '$0.45/hr',
+  },
+];
 
 export default function ProductsTable() {
   const intl = useIntl();
@@ -128,7 +202,7 @@ export default function ProductsTable() {
         </div>
         <Table
           columns={columns}
-          dataSource={dataSource}
+          dataSource={intl.locale == 'ja-JP' ? dataSource : dataSourceEn}
           pagination={false}
           bordered={false}
           className={styles.table}

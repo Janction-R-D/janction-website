@@ -88,7 +88,6 @@ export const fetchChatSee = (data) => {
   return request(`${baseUrl}/ai/chat/sse`, {
     method: 'POST',
     data,
-    loginAuth: true,
   });
 };
 

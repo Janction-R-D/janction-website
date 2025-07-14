@@ -1,9 +1,10 @@
 export default {
   'header.doc': 'Doc',
   'header.dashboard': 'Dashboard',
-  'sectionOne.title': 'Layer 2 for verifiable, synergic and scalable AI',
+  'sectionOne.title':
+    'GPU Marketplace for verifiable, synergic and scalable AI',
   'sectionOne.description':
-    'Janction is building a decentralized service network for the data and computing power sides of artificial intelligence, featuring a fair revenue distribution algorithm, secure P2P processor resource internet, and an efficient distributed resource allocation system.',
+    'Janction is a resource sharing platform on the open web, serving your AI products. Janction offers resource sharing services such as computing power, storage, and images. You can use Janction to rent and lease various service resources. We ensure a secure, fair, and convenient marketplace for resource sharing, encompassing both traditional and decentralized scenarios.',
   'sectionInput.title': 'Rent out / Rent your processor',
   'sectionInput.button.deployTitle': 'How to deploy node',
   'sectionInput.button.askAi': 'Ask Smart Janction ✦',
