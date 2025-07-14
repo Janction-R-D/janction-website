@@ -3,14 +3,8 @@ import styles from './index.less';
 import { Button, Input } from 'antd';
 import { fetchChat } from '@/services/genesis/agents';
 import storage from '@/utils/storage';
+import { extractDataLines } from '@/utils/lang';
 const STORAGE_KEY = 'web3_chat_messages';
-function extractDataLines(rawText) {
-  return rawText
-    .split('\n')
-    .filter((line) => line.startsWith('data:'))
-    .map((line) => line.replace('data:', '').trim())
-    .join('');
-}
 
 function loadMessagesFromStorage(agentId) {
   try {
@@ -153,11 +147,9 @@ const Chat = ({ agent }) => {
               <div
                 className={`${styles.message} ${
                   msg.sender === 'user' ? styles.end : styles.start
-                } ${msg.typing ? styles.typing : ''} ${
-                  msg.text && chineseChar(msg.text) && msg.sender !== 'user'
-                    ? styles.chinese
-                    : ''
-                }`}
+                } ${msg.typing ? styles.typing : ''} 
+              
+                `}
               >
                 {msg.text?.split('\n').map((line, i) => (
                   <div key={i} className={styles.sms}>

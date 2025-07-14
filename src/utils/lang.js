@@ -242,9 +242,18 @@ export function extractDataLines(rawText) {
   return rawText
     .split('\n')
     .filter((line) => line.startsWith('data:'))
-    .map((line) => line.replace('data:', '').trim())
+    .map((line) => {
+      const jsonStr = line.replace('data:', '').trim();
+      try {
+        const parsed = JSON.parse(jsonStr);
+        return parsed.content || '';
+      } catch (err) {
+        return '';
+      }
+    })
     .join('');
 }
+
 export const typeMessage = (text) => {
   setIsTyping(true);
   let i = 0;
