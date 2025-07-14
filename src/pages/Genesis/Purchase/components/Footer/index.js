@@ -24,6 +24,7 @@ const Footer = (props) => {
     onOk,
     getPrice,
     paytype,
+    getTotalPrice,
   } = props;
 
   const [agree, setAgree] = useState(false);
@@ -37,7 +38,7 @@ const Footer = (props) => {
   const total = useMemo(() => {
     const { value, unit } = formValues?.purDuration || {};
     if (isEmpty(node) || !value || empty(unit)) return 0;
-    const price = getPrice() || '--';
+    const price = getTotalPrice() || '--';
     return (Number(price) / Number(currency?.rate || 1)).toFixed(2);
   }, [node, formValues, currency]);
 
