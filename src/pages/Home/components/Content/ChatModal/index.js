@@ -176,7 +176,7 @@ const ChatModal = ({ open, onClose }) => {
                 </div>
               ) : (
                 <div className={styles.bubble}>
-                  {msg.text?.split('\n').map((line, i) => (
+                  {msg?.text?.split('\n').map((line, i) => (
                     <div key={i}>{line}</div>
                   ))}
                 </div>
