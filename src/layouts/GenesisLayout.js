@@ -141,7 +141,7 @@ const GenesisLayout = (props) => {
               <div className={styles['bottom']}>
                 <SocialsLinks />
                 <p className={styles['comp-info']}>
-                  JANCTION ©2024
+                  JANCTION ©2025
                   <br />
                   janction.ai
                 </p>

@@ -46,7 +46,7 @@ const LoginLayout = (props) => {
         <div className="df ai_c">
           <SocialsLinks />
           <a href="/" className="f16">
-            ©2024
+            ©2025
           </a>
         </div>
       </footer>

@@ -2,9 +2,9 @@ export default {
   'header.doc': 'ドキュメント',
   'header.dashboard': 'ダッシュボード',
   'sectionOne.title':
-    '検証可能で相乗効果のあるスケーラブルなAIのためのレイヤー2',
+    '検証可能、シネルギック、スケーラブルなAIのためのGPUマーケットプレイス',
   'sectionOne.description':
-    'Janctionは、公平な収益分配アルゴリズム、安全なP2Pプロセッサリソースインターネット、および効率的な分散リソース割り当てシステムを備えた、人工知能のデータおよび計算能力側の分散型サービスネットワークを構築しています。',
+    'Janctionはオープンウェブ上のリソース共有プラットフォームで,AI製品を提供しています.Janctionはコンピューティングパワー,ストレージ,画像などのリソース共有サービスを提供しています.Janctionを利用して、様々なサービスリソースをレンタル・リースできます。リソース共有のための安全で公平で便利な市場を確保し,伝統的なシナリオと分散されたシナリオの両方を含んでいます.',
   'sectionInput.title': 'プロセッサの貸し出し／レンタル',
   'sectionInput.button.deployTitle': 'ノードのデプロイ方法',
   'sectionInput.button.askAi': 'スマートJanctionに質問 ✦',

@@ -1,5 +1,9 @@
 import { message } from 'antd';
-import { ChromeOutlined } from '@ant-design/icons';
+import {
+  ChromeOutlined,
+  GoogleCircleFilled,
+  GoogleOutlined,
+} from '@ant-design/icons';
 import styles from './index.less';
 import { fetchOauth } from '@/services/login';
 const origin = location.origin;
@@ -27,7 +31,7 @@ export default function GoogleConnect({ setLoading }) {
 
   return (
     <a className={styles['login-btn']} onClick={handleGoogleLogin}>
-      <ChromeOutlined />
+      <GoogleOutlined />
     </a>
   );
 }
