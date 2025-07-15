@@ -101,8 +101,8 @@ export default function Lessor() {
   const nft_sumary = useMemo(() => {
     const { amount, detail } = lessorsData?.nft_summary || {};
     return {
-      ammount: 0,
-      // ammount: amount || 0,
+      // ammount: 0,
+      ammount: amount || 0,
       detail: detail || [],
     };
   }, [lessorsData]);
