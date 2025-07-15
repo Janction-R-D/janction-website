@@ -1,4 +1,4 @@
-import { fetchNodesList } from '@/services/genesis';
+import { fetchLessor, fetchNodesList } from '@/services/genesis';
 import { Card, message, Pagination } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
 import { Redirect, useModel } from 'umi';
@@ -16,6 +16,7 @@ function Nodes() {
   const [filteredData, setFilteredData] = useState([]);
   const [filters, setFilter] = useState(initQuery);
   const [currentPage, setCurrentPage] = useState(1);
+  const [lessorsData, setLessorsData] = useState({});
   const [pageSize, setPageSize] = useState(6); // Puedes ajustar este valor
   const { initialState } = useModel('@@initialState');
   const { isLessee } = initialState || {};
@@ -41,11 +42,22 @@ function Nodes() {
 
   useEffect(() => {
     getList();
+    getLessors();
   }, []);
 
+  const getLessors = async () => {
+    try {
+      const res = await fetchLessor();
+
+      setLessorsData(res);
+    } catch (error) {
+      console.log('『error』', error);
+    }
+  };
   const getList = async () => {
     try {
       const res = await fetchNodesList({ mine: true });
+
       setList(res || []);
       setFilteredData(res || []);
       setFilter(initQuery);
@@ -117,7 +129,11 @@ function Nodes() {
         </header>
       </section>
       <main className={styles['container']}>
-        <NodeStats statisticData={statisticData} getList={getList} />
+        <NodeStats
+          statisticData={statisticData}
+          getList={getList}
+          lessorsData={lessorsData}
+        />
         {list.length > 0 ? (
           <Card className={styles['card']}>
             <header>

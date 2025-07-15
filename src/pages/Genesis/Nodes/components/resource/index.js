@@ -1,16 +1,24 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import styles from './index.less';
 import { ArrowDownOutlined } from '@ant-design/icons';
+import { fetchLessor } from '@/services/genesis';
 
-const NodeStats = ({ statisticData }) => {
-  const totalNodes = 6;
-  const running = 4;
-  const listed = 1;
-  const active = 1;
+const NodeStats = ({ statisticData, lessorsData }) => {
+  const totalNodes = statisticData.total;
+  const running = statisticData.running;
+  const listed = statisticData.listed;
+  const active = statisticData.active;
 
   const totalIncome = 0;
   const todayIncome = 0;
   const changePercent = 0;
+
+  const nft_sumary = useMemo(() => {
+    const { amount } = lessorsData?.nft_summary || {};
+    return {
+      ammount: amount || 0,
+    };
+  }, [lessorsData]);
 
   return (
     <div className={styles.container}>
@@ -18,7 +26,9 @@ const NodeStats = ({ statisticData }) => {
         <section className={styles.left_header}>
           <div className={styles.item}>
             <div className={styles.label}>Total node</div>
-            <div className={styles.value}>{statisticData.total}</div>
+            <div className={styles.value}>
+              {statisticData.total + nft_sumary.ammount}
+            </div>
           </div>
           <div className={styles.item}>
             <div className={styles.label}>Total income</div>
