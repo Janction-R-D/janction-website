@@ -155,9 +155,9 @@ export default function Lessor() {
           <ContributorReward nft={nft_sumary.ammount} />
         )}
 
-        <section className={styles['overview-wrapper']}>
+        <>
           {!nft_sumary?.ammount && summary?.total > 0 && !loading && (
-            <>
+            <section className={styles['overview-wrapper']}>
               <OverviewTable overview={overview} />
               <section className={styles['buttons-box']}>
                 <Button className={styles['button']} onClick={() => onOpen()}>
@@ -169,10 +169,10 @@ export default function Lessor() {
                 <Guide isOpen={isOpen} setIsOpen={setIsOpen} onOpen={onOpen} />
                 <GenerateButton />
               </section>
-            </>
+            </section>
           )}
-          {nft_sumary.ammount !== 0 && <NTFcard nft={nft_sumary} />}
-        </section>
+        </>
+        {nft_sumary.ammount > 0 && !loading && <NTFcard nft={nft_sumary} />}
         {summary?.total > 0 && !loading && (
           <section className={styles['container-info']}>
             <Profit
