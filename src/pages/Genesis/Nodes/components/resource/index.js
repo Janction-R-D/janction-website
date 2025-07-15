@@ -1,7 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import styles from './index.less';
 import { ArrowDownOutlined } from '@ant-design/icons';
-import { fetchLessor } from '@/services/genesis';
 
 const NodeStats = ({ statisticData, lessorsData }) => {
   const totalNodes = statisticData.total;
