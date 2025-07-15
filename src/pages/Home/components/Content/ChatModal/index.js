@@ -57,6 +57,7 @@ const ChatModal = ({ open, onClose }) => {
       const payload = { message: trimmed };
       const sendSms = await fetchChatSee(payload);
       const newMessage = extractDataLines(sendSms);
+      console.log(newMessage);
       const botMessage = { text: newMessage, from: 'bot' };
       setMessages((prev) => prev.filter((m) => !m.waiting));
       allMessages.push(userMessage);

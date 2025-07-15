@@ -47,6 +47,7 @@ export default function Lessor() {
     try {
       setLoading(true);
       const res = await fetchNodeList();
+      console.log(res);
       setSummary(res?.summary || null);
     } catch (error) {
       console.log(error);
@@ -100,10 +101,13 @@ export default function Lessor() {
   const nft_sumary = useMemo(() => {
     const { amount, detail } = lessorsData?.nft_summary || {};
     return {
-      ammount: amount || 0,
+      ammount: 0,
+      // ammount: amount || 0,
       detail: detail || [],
     };
   }, [lessorsData]);
+  console.log('nft: ', !!nft_sumary?.ammount);
+  console.log('total nft: ', nft_sumary.ammount);
   const overview = useMemo(() => {
     const res = lessorsData?.activities || [];
     return res;
@@ -147,47 +151,37 @@ export default function Lessor() {
       </section>
       <section className={styles['container']}>
         {loading && <SkeletonGrid />}
-        {!!nft_sumary?.ammount && (
+        {!!nft_sumary?.ammount && !loading && (
           <ContributorReward nft={nft_sumary.ammount} />
         )}
-        {summary?.total > 0 && !loading && (
-          <>
-            <section className={styles['overview-wrapper']}>
-              {nft_sumary.ammount !== 0 ? (
-                <NTFcard nft={nft_sumary} />
-              ) : (
-                <>
-                  <OverviewTable overview={overview} />
-                  <section className={styles['buttons-box']}>
-                    <Button
-                      className={styles['button']}
-                      onClick={() => onOpen()}
-                    >
-                      Download App{' '}
-                      <span className={styles.icon}>
-                        <AppstoreAddOutlined />
-                      </span>
-                    </Button>
-                    <Guide
-                      isOpen={isOpen}
-                      setIsOpen={setIsOpen}
-                      onOpen={onOpen}
-                    />
-                    <GenerateButton />
-                  </section>
-                </>
-              )}
-            </section>
 
-            <section className={styles['container-info']}>
-              <Profit
-                lessorsData={lessorsData}
-                getLessors={getLessors}
-                percent={percent}
-              />
-              <Arithmetic />
-            </section>
-          </>
+        <section className={styles['overview-wrapper']}>
+          {!nft_sumary?.ammount && summary?.total > 0 && !loading && (
+            <>
+              <OverviewTable overview={overview} />
+              <section className={styles['buttons-box']}>
+                <Button className={styles['button']} onClick={() => onOpen()}>
+                  Download App{' '}
+                  <span className={styles.icon}>
+                    <AppstoreAddOutlined />
+                  </span>
+                </Button>
+                <Guide isOpen={isOpen} setIsOpen={setIsOpen} onOpen={onOpen} />
+                <GenerateButton />
+              </section>
+            </>
+          )}
+          {nft_sumary.ammount !== 0 && <NTFcard nft={nft_sumary} />}
+        </section>
+        {summary?.total > 0 && !loading && (
+          <section className={styles['container-info']}>
+            <Profit
+              lessorsData={lessorsData}
+              getLessors={getLessors}
+              percent={percent}
+            />
+            <Arithmetic />
+          </section>
         )}
 
         {!loading && !summary?.total && <VideoGrid />}

@@ -1,31 +1,9 @@
 import React from 'react';
 import styles from './index.less';
-import { Tooltip } from 'antd';
+import { Empty, Tooltip } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
 import drop from '@/assets/images/icons/drop.png';
 import rise from '@/assets/images/icons/rise.png';
-const mockOverviewData = [
-  {
-    id: 'sacnksbjrs341342dgness',
-    status: 'Running',
-    reward: '100 JTT',
-  },
-  {
-    id: 'sacnksbjrs341342dgness',
-    status: 'Listed',
-    reward: '100 JTT',
-  },
-  {
-    id: 'sacnksbjrs341342dgness',
-    status: 'Running',
-    reward: '100 JTT',
-  },
-  {
-    id: 'sacnksbjrs341342dgness',
-    status: 'Running',
-    reward: '100 JTT',
-  },
-];
 
 const StatusTag = ({ status }) => {
   const isRunning = status === 'Running';
@@ -48,7 +26,7 @@ const OverviewTable = ({ overview }) => {
     status: item.status,
     cpu: item.cpu_usage,
   }));
-  console.log(mappedData);
+  console.log(!!mappedData.length);
   return (
     <div className={styles.container}>
       <div className={styles.sidebar}>
@@ -65,15 +43,21 @@ const OverviewTable = ({ overview }) => {
           <div>Status</div>
           <div>CPU usage</div>
         </div>
-        {mappedData?.map((item, index) => (
-          <div key={index} className={styles.row}>
-            <div className={styles.cell_title}>{item.id}</div>
-            <div className={styles.cell}>
-              <StatusTag status={item.status} />
+        {!!mappedData.length &&
+          mappedData?.map((item, index) => (
+            <div key={index} className={styles.row}>
+              <div className={styles.cell_title}>{item.id}</div>
+              <div className={styles.cell}>
+                <StatusTag status={item.status} />
+              </div>
+              <div className={styles.cell}>{item.cpu} %</div>
             </div>
-            <div className={styles.cell}>{item.cpu} %</div>
+          ))}
+        {!mappedData.length && (
+          <div className={styles.empty}>
+            <Empty />
           </div>
-        ))}
+        )}
       </div>
     </div>
   );
