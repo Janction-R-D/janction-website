@@ -190,10 +190,6 @@ function Mount() {
         return;
       }
     }
-    if (price < 1) {
-      message.warning('Please enter a valid price value!');
-      return;
-    }
     if (errorRange) {
       message.warning('Please fill in a time greater than the minimum period.');
       return;
@@ -224,7 +220,6 @@ function Mount() {
       stripe_currency: stripeUnit,
       stripe_price: Number(stripeAmount),
     };
-
     setConfirmLoading(true);
     try {
       await fetchNodesConfigUpdate(payload);
@@ -318,20 +313,18 @@ function Mount() {
           </section>
           <section className={styles['card-prices']}>
             <div className={styles['duration-item']}>
-              <p className={styles['bill-text']}>Billing price</p>
-              <div className={styles['bill-price']}>
-                <Input
-                  suffix={<p>USDT / Day</p>}
-                  type="number"
-                  placeholder="Enter a price"
-                  value={price}
-                  min={1}
-                  onChange={(e) => setPrice(e.target.value)}
-                  name="price"
-                  disabled={loading}
-                  className={styles['price-input']}
-                />
-              </div>
+              <p>Billing price</p>
+
+              <Input
+                suffix={<p>USDT / Day</p>}
+                type="number"
+                placeholder="Enter a price"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                name="price"
+                disabled={loading}
+                className={styles['price-input']}
+              />
             </div>
             {supportStripe && (
               <div className={styles['duration-item']}>
