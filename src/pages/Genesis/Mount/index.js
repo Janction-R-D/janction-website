@@ -192,11 +192,6 @@ function Mount() {
     }
     if (price < 1) {
       message.warning('Please enter a valid price value!');
-      setErrorInput(true);
-      setTimeout(() => {
-        setErrorInput(false);
-      }, 4000);
-
       return;
     }
     if (errorRange) {
@@ -336,11 +331,6 @@ function Mount() {
                   disabled={loading}
                   className={styles['price-input']}
                 />
-                {errorInput && (
-                  <p className={styles['red']}>
-                    Please enter a valid price value!
-                  </p>
-                )}
               </div>
             </div>
             {supportStripe && (
