@@ -287,6 +287,12 @@ export const fetchBillingList = (params) => {
     loginAuth: true,
   });
 };
+export const fetchNodePoints = (params) => {
+  return request(`${baseUrl}/user/profit`, {
+    params,
+    loginAuth: true,
+  });
+};
 
 export const fetchNodesRegister = (data) => {
   return request(`${baseUrl}/node/register`, {

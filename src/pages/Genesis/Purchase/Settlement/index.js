@@ -269,7 +269,7 @@ const Settlement = (props) => {
     }
     newPrice = !payPriceInfo.stripe_price_in_currency
       ? '--'
-      : payPriceInfo.stripe_price;
+      : payPriceInfo.stripe_price_in_currency;
     return newPrice;
   };
 
