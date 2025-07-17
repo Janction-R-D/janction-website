@@ -10,8 +10,8 @@ import { copy } from '@/utils/lang';
 
 const { Text } = Typography;
 const RunNodeScript = (props) => {
-  const { isLinux, getNodes, nodesData, loading } = props;
-
+  const { isLinux, getNodes, nodesData, loading, isWin } = props;
+  console.log(isWin);
   const [isCN, setIsCn] = useState(false);
 
   const script = useMemo(() => {
@@ -30,9 +30,9 @@ ${value}
         value,
       };
     }
-    const value = `curl '${
-      process.env.JANCTION_BASE_API
-    }/v0/node/install.sh' | ${isCN ? 'LOCATION=cn' : ''} NODE_ID=${
+    const value = `curl '${process.env.JANCTION_BASE_API}/v0/node/install${
+      isWin ? '_win' : ''
+    }.sh' | ${isCN ? 'LOCATION=cn' : ''} NODE_ID=${
       nodesData?.node_id || ''
     } bash -s install`;
     return {
@@ -43,7 +43,7 @@ ${value}
 `,
       value,
     };
-  }, [nodesData, isCN]);
+  }, [nodesData, isCN, isWin]);
 
   const onChange = () => {
     setIsCn(!isCN);
