@@ -137,7 +137,12 @@ const RunNode = (props) => {
             </a>
           </Text>
           <p>This command checks whether WSL is available on your system.</p>
-
+          <p>
+            On Windows 10/11, WSL is typically preinstalled. However, older
+            Windows versions may not support WSL. If you encounter an error when
+            running the command above, consider updating your system to the
+            latest version.
+          </p>
           <h3>Install Ubuntu</h3>
           <Text className={styles['token_id']}>
             <p className="ell">
