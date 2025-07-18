@@ -137,6 +137,12 @@ const RunNode = (props) => {
             </a>
           </Text>
           <p>This command checks whether WSL is available on your system.</p>
+          <p>
+            On Windows 10/11, WSL is typically preinstalled. However, older
+            Windows versions may not support WSL. If you encounter an error when
+            running the command above, consider updating your system to the
+            latest version.
+          </p>
 
           <h3>Install Ubuntu</h3>
           <Text className={styles['token_id']}>
@@ -163,6 +169,12 @@ const RunNode = (props) => {
             </a>
           </Text>
 
+          <p>
+            If Ubuntu does not appear in the list or if you encounter errors,
+            make sure WSL 2 is enabled and virtualization is turned on in your
+            BIOS settings.
+          </p>
+
           <h3>Start Ubuntu and set root password</h3>
           <Text className={styles['token_id']}>
             <p className="ell">$ wsl -d Ubuntu</p>
@@ -173,7 +185,21 @@ const RunNode = (props) => {
               <i className="iconfont icon-copy" />
             </a>
           </Text>
-          <p>This will launch Ubuntu and prompt you to set a root password.</p>
+          <p>
+            This will launch Ubuntu and prompt you to set a root password the
+            first time it starts.
+          </p>
+          <p>
+            If the command fails with an error such as "Ubuntu not found", it's
+            possible your installed distribution is named differently (e.g.,
+            "Ubuntu-22.04"). You can check the exact name using:
+          </p>
+          <Text className={styles['token_id']}>
+            <p className="ell">$ wsl -l</p>
+            <a className={styles['icon-blue']} onClick={() => copy('wsl -l')}>
+              <i className="iconfont icon-copy" />
+            </a>
+          </Text>
         </section>
 
         <RunNodeScript
