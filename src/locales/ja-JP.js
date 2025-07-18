@@ -168,4 +168,12 @@ export default {
   'payment.method.jcb': 'JCB',
   'payment.method.alipay': '支付宝（Alipay）',
   'payment.method.bankTransfer': '銀行振込',
+
+  'card.gpu': 'GPU を提供する',
+  'card.income': '推定収益',
+  'card.term': '期間',
+  'card.day': '日',
+  'card.days': '日間',
+  'card.model': 'GPUモデル',
+  'card.price': '価格（需要）',
 };

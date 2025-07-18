@@ -143,7 +143,6 @@ const RunNode = (props) => {
             running the command above, consider updating your system to the
             latest version.
           </p>
-
           <h3>Install Ubuntu</h3>
           <Text className={styles['token_id']}>
             <p className="ell">

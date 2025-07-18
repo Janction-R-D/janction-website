@@ -121,7 +121,7 @@ function BillDetails() {
     const unit = 'veJCT';
     return (
       <div className={styles['total-wrapper']}>
-        <span>Total cost </span>
+        <span>Total income </span>
         <span
           className={[styles['value'], styles['total-value']].join(' ')}
         >{`${numeral(total?.sum).format('0.00')} ${unit}`}</span>

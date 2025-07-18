@@ -112,7 +112,7 @@ const InquiryForm = () => {
                 />
               </Form.Item>
             </Col>
-            <Col span={12}>
+            <Col xs={24} sm={12}>
               <Form.Item
                 label={intl.formatMessage({ id: 'inquiry.phoneLabel' })}
                 name="phone_number"
