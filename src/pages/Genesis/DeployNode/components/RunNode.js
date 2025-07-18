@@ -107,30 +107,75 @@ const RunNode = (props) => {
       <>
         <section className={styles['link']}>
           <h1>Prerequisites</h1>
+
           <h2>1. Install WSL</h2>
           <Text className={styles['token_id']}>
             <p className="ell">
               https://learn.microsoft.com/en-us/windows/wsl/install
             </p>
             <a
-              // className={styles['icon-blue']}
               href="https://learn.microsoft.com/en-us/windows/wsl/install"
               target="_blank"
             >
               <i className="iconfont icon-link" />
             </a>
           </Text>
-          <h2>2. Replace shell with linux version</h2>
+
+          <p style={{ marginTop: '16px' }}>
+            If you prefer not to follow the Microsoft WSL guide, you can follow
+            our step-by-step instructions below:
+          </p>
+
+          <h3>Check if WSL is installed</h3>
           <Text className={styles['token_id']}>
-            <p className="ell">$ wsl sudo -i</p>
+            <p className="ell">$ wsl -l -v</p>
             <a
               className={styles['icon-blue']}
-              onClick={() => copy(`wsl sudo -i`)}
+              onClick={() => copy('wsl -l -v')}
             >
               <i className="iconfont icon-copy" />
             </a>
           </Text>
+          <p>This command checks whether WSL is available on your system.</p>
+
+          <h3>Install Ubuntu</h3>
+          <Text className={styles['token_id']}>
+            <p className="ell">
+              $ wsl --install --distribution Ubuntu --web-download
+            </p>
+            <a
+              className={styles['icon-blue']}
+              onClick={() =>
+                copy('wsl --install --distribution Ubuntu --web-download')
+              }
+            >
+              <i className="iconfont icon-copy" />
+            </a>
+          </Text>
+          <p>After installation, verify with:</p>
+          <Text className={styles['token_id']}>
+            <p className="ell">$ wsl -l -v</p>
+            <a
+              className={styles['icon-blue']}
+              onClick={() => copy('wsl -l -v')}
+            >
+              <i className="iconfont icon-copy" />
+            </a>
+          </Text>
+
+          <h3>Start Ubuntu and set root password</h3>
+          <Text className={styles['token_id']}>
+            <p className="ell">$ wsl -d Ubuntu</p>
+            <a
+              className={styles['icon-blue']}
+              onClick={() => copy('wsl -d Ubuntu')}
+            >
+              <i className="iconfont icon-copy" />
+            </a>
+          </Text>
+          <p>This will launch Ubuntu and prompt you to set a root password.</p>
         </section>
+
         <RunNodeScript
           nodesData={nodesData}
           getNodes={getNodes}
