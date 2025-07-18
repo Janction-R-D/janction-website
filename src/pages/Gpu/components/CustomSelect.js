@@ -1,13 +1,5 @@
 import styles from './index.less';
-
-const options = [
-  'Nvidia RTX 4090',
-  'Nvidia RTX 3080',
-  'Nvidia RTX 3080',
-  'Nvidia RTX 3080',
-
-  'Nvidia RTX 3080',
-];
+import { modelsGpu } from './ModelTable';
 
 export default function CustomSelect({ onSelect, open, setOpen }) {
   return (
@@ -15,13 +7,13 @@ export default function CustomSelect({ onSelect, open, setOpen }) {
       {open && (
         <div className={styles.backdrop} onClick={() => setOpen(false)}>
           <div className={styles.dropdown} onClick={(e) => e.stopPropagation()}>
-            {options.map((opt) => (
+            {modelsGpu.map((opt) => (
               <div
                 key={opt}
                 className={styles.option}
                 onClick={() => onSelect(opt)}
               >
-                {opt}
+                {opt.model}
               </div>
             ))}
           </div>

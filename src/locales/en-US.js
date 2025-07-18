@@ -158,4 +158,11 @@ export default {
   'payment.method.jcb': 'JCB',
   'payment.method.alipay': 'Alipay',
   'payment.method.bankTransfer': 'Bank transfer',
+  'card.gpu': 'Provide GPU',
+  'card.income': 'Estimated income',
+  'card.term': 'Term',
+  'card.day': 'day',
+  'card.days': 'days',
+  'card.model': 'GPU Model',
+  'card.price': 'Price (Demand)',
 };
