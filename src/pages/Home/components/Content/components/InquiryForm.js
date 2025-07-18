@@ -50,7 +50,7 @@ const InquiryForm = () => {
           onSubmitCapture={(e) => e.preventDefault()}
         >
           <Row gutter={24}>
-            <Col span={12}>
+            <Col xs={24} sm={12}>
               <Form.Item
                 label={intl.formatMessage({ id: 'inquiry.companyLabel' })}
                 name="company_name"
@@ -70,7 +70,7 @@ const InquiryForm = () => {
                 />
               </Form.Item>
             </Col>
-            <Col span={12}>
+            <Col xs={24} sm={12}>
               <Form.Item
                 label={intl.formatMessage({ id: 'inquiry.nameLabel' })}
                 name="name"
@@ -88,7 +88,7 @@ const InquiryForm = () => {
                 />
               </Form.Item>
             </Col>
-            <Col span={12}>
+            <Col xs={24} sm={12}>
               <Form.Item
                 label={intl.formatMessage({ id: 'inquiry.emailLabel' })}
                 name="email_address"

@@ -13,6 +13,7 @@ const DeployNode = () => {
   const [downloadLink, setDownloadLink] = useState();
   const [loading, setLoading] = useState(false);
   const [isLinux, setIsLinux] = useState(false);
+  const [isWin, setIsWin] = useState(false);
   const [nodesData, setNodesData] = useState();
   const { initialState } = useModel('@@initialState');
 
@@ -20,7 +21,10 @@ const DeployNode = () => {
   function detectSystem() {
     const ua = navigator.userAgent.toLowerCase();
 
-    if (ua.includes('windows')) return 'windows';
+    if (ua.includes('windows')) {
+      setIsWin(true);
+      return 'windows';
+    }
     if (ua.includes('mac os') || ua.includes('macintosh')) return 'macos';
     if (ua.includes('linux')) return 'linux';
 
@@ -50,7 +54,13 @@ const DeployNode = () => {
     const _architecture = ARCHITECTURE.filter((item) =>
       item.sys.includes(sys.value),
     );
-    if (sys == 'linux') {
+    console.log(sys);
+    if (sys.value == 'windows') {
+      setIsWin(true);
+    } else if (sys !== 'windows') {
+      setIsWin(false);
+    }
+    if (sys.value == 'linux') {
       setIsLinux(true);
     } else {
       setIsLinux(false);
@@ -83,6 +93,7 @@ const DeployNode = () => {
       console.log('『error』', error);
     }
   };
+
   if (isLessee) return <Redirect to="/genesis/nodes"></Redirect>;
   return (
     <section className={styles['dashboard-wrapper']}>
@@ -132,6 +143,7 @@ const DeployNode = () => {
               nodesData={nodesData}
               getNodes={getNodes}
               loading={loading}
+              isWin={isWin}
             />
           </Timeline.Item>
         </Timeline>

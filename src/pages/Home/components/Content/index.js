@@ -12,15 +12,17 @@ import InquiryForm from './components/InquiryForm';
 import WelcomeCard from '../WelcomeCard';
 export default function Content() {
   return (
-    <section className={styles['main']}>
-      <WelcomeCard />
-      <SectionOne />
-      <SectionInput />
-      <WhySection />
-      <Decentralized />
-      <ProductsTable />
-      <HowSection />
-      <PriceComparison />
+    <section className={styles['main-container']}>
+      <section className={styles['main']}>
+        <WelcomeCard />
+        <SectionOne />
+        <SectionInput />
+        <WhySection />
+        <Decentralized />
+        <ProductsTable />
+        <HowSection />
+        <PriceComparison />
+      </section>
       <Faq />
       <InquiryForm />
     </section>

@@ -6,7 +6,7 @@ import { Typography } from 'antd';
 import RunNodeScript from './RunNodeScript';
 const { Text } = Typography;
 const RunNode = (props) => {
-  const { selectedValues, nodesData, getNodes, loading } = props;
+  const { selectedValues, nodesData, getNodes, loading, isWin } = props;
 
   const [nodeData, setNodaData] = useState();
   useEffect(() => {
@@ -87,6 +87,7 @@ const RunNode = (props) => {
             nodesData={nodesData}
             getNodes={getNodes}
             loading={loading}
+            isWin={false}
           />
         </>
       );
@@ -98,6 +99,7 @@ const RunNode = (props) => {
           nodesData={nodesData}
           getNodes={getNodes}
           loading={loading}
+          isWin={false}
         />
       );
     }
@@ -133,6 +135,7 @@ const RunNode = (props) => {
           nodesData={nodesData}
           getNodes={getNodes}
           loading={loading}
+          isWin={isWin}
         />
       </>
     );

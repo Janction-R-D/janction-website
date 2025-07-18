@@ -39,22 +39,23 @@ export default function SectionInput() {
           {intl.formatMessage({ id: 'sectionInput.button.download' })}
         </Button>
 
-        <Guide onOpen={onOpen} isOpen={isOpen} setIsOpen={setIsOpen} />
+        <div className={styles['buttons-grid']}>
+          <Button
+            className={styles['connect-btn']}
+            onClick={() => history.push('/genesis')}
+          >
+            {intl.formatMessage({ id: 'sectionInput.button.getStarted' })}
+          </Button>
 
-        <Button
-          className={styles['connect-btn']}
-          onClick={() => history.push('/genesis')}
-        >
-          {intl.formatMessage({ id: 'sectionInput.button.getStarted' })}
-        </Button>
-
-        <Button
-          className={styles['connect-btn']}
-          onClick={() => history.push('/gpu')}
-        >
-          {intl.formatMessage({ id: 'sectionInput.button.provideGpu' })}
-        </Button>
+          <Button
+            className={styles['connect-btn']}
+            onClick={() => history.push('/gpu')}
+          >
+            {intl.formatMessage({ id: 'sectionInput.button.provideGpu' })}
+          </Button>
+        </div>
       </section>
+      <Guide onOpen={onOpen} isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>
   );
 }

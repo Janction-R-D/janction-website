@@ -83,3 +83,80 @@
     }
   }
 }
+
+@media screen and (max-width: 740px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    background-color: @bg-dark;
+    color: @text-light;
+    margin-inline: auto;
+    width: 100%;
+    .banner {
+      display: none;
+    }
+    .left {
+      width: 100%;
+      background: url('../../../../../assets/images/Home_2/faq.png');
+      background-size: cover;
+      display: flex;
+      align-items: start;
+      justify-content: start;
+      padding: 2rem;
+      height: 330px;
+      .title {
+        font-size: 3.5rem;
+        font-weight: bold;
+        margin-bottom: 8px;
+      }
+
+      .subtitle {
+        font-size: 1.3rem;
+        color: @text-muted;
+      }
+    }
+
+    .right {
+      width: 100%;
+      padding: 2rem;
+      background-color: @bg-panel;
+
+      :global {
+        .ant-collapse {
+          background-color: transparent;
+          border: none;
+
+          .ant-collapse-item {
+            border-bottom: 1px dashed @border-color;
+            padding: 12px;
+            .ant-collapse-header {
+              color: @text-light;
+              font-size: 16px;
+              font-weight: 500;
+              padding-left: 0;
+            }
+
+            .ant-collapse-content {
+              background-color: transparent;
+              color: #bbb;
+              padding-left: 0;
+
+              .ant-collapse-content-box {
+                padding: 0 0 12px 0;
+              }
+            }
+          }
+
+          .ant-collapse-expand-icon {
+            padding-inline-end: 12px;
+
+            svg {
+              color: @accent-color;
+            }
+          }
+        }
+      }
+    }
+  }
+}

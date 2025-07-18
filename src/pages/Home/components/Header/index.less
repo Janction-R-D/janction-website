@@ -69,3 +69,47 @@
 .logo {
   cursor: pointer;
 }
+@media screen and (max-width: 740px) {
+  .main-header {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    backdrop-filter: blur(12px);
+    background-color: rgba(0, 0, 0, 0.6); // Fallback + base
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 80px;
+    width: 100vw;
+    padding: 20px 10px;
+
+    .header-left {
+      transform: scale(0.5);
+      width: 120px;
+      display: flex;
+      .logo {
+        transform: translateX(-20%);
+      }
+    }
+
+    .header-right {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: end;
+      span {
+        cursor: pointer;
+      }
+      a {
+        font-size: 0.7rem;
+      }
+    }
+    .connect-btn {
+      height: 30px;
+      min-width: 80px;
+      font-size: 0.7rem;
+      margin-right: 0px;
+    }
+  }
+}
