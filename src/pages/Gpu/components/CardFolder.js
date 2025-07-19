@@ -44,7 +44,7 @@ export default function CardFolder() {
       <div className={styles.income}>
         <span className={styles.estimated}>{t('card.income')}</span>
         <div className={styles.amount}>
-          {getPrice()} <span className={styles.token}>veJCT</span>
+          {getPrice()} <span className={styles.token}>usdt</span>
         </div>
       </div>
 
