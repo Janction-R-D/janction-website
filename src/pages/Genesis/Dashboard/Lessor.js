@@ -173,7 +173,7 @@ export default function Lessor() {
           )}
         </>
         {nft_sumary.ammount > 0 && !loading && <NTFcard nft={nft_sumary} />}
-        {summary?.total > 0 && !loading && (
+        {(nft_sumary.ammount > 0 || summary?.total > 0) && !loading && (
           <section className={styles['container-info']}>
             <Profit
               lessorsData={lessorsData}
