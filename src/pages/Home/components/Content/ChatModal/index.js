@@ -11,7 +11,7 @@ import {
   saveMessagesToStorage,
 } from '@/utils/lang';
 import { fetchChatSee } from '@/services/genesis/agents';
-const STORAGE_KEY = 'janction_chat_messages';
+
 const ChatModal = ({ open, onClose }) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');

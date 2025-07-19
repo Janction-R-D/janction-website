@@ -4,6 +4,8 @@ import { SendOutlined } from '@ant-design/icons';
 import styles from './index.less';
 import aiImage from '@/assets/images/genesis/ai.png';
 import { history, useModel } from 'umi';
+import { fetchChatSee } from '@/services/genesis/agents';
+import { extractDataLines, saveMessagesToStorage } from '@/utils/lang';
 
 const defaultResponses = [
   {
@@ -41,7 +43,9 @@ const ChatBot = ({ fold }) => {
   const [visible, setVisible] = useState(false);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
-  const [typing, setTyping] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const typingInterval = useRef(null);
   const messagesEndRef = useRef(null);
   const messagesContainerRef = useRef(null);
   const { initialState, setInitialState } = useModel('@@initialState');
@@ -94,54 +98,81 @@ const ChatBot = ({ fold }) => {
     },
   ];
 
-  const handleSend = () => {
+  const handleSend = async () => {
     const trimmed = input.trim();
+    if (isTyping || loading) return;
     if (!trimmed) return;
-
-    const userMessage = { from: 'user', text: trimmed };
-    const lowerInput = trimmed.toLowerCase();
-    const matched = defaultResponses.find(({ keywords }) =>
-      keywords.some((kw) => lowerInput.includes(kw.toLowerCase())),
-    );
-
-    const fullResponse = matched
-      ? { from: 'bot', text: matched.response, link: matched.link }
-      : { from: 'bot', text: "Sorry, I didn't understand that. Try again!" };
-
-    setMessages((prev) => [...prev, userMessage]);
     setInput('');
-    simulateTyping(fullResponse);
+    const allMessages = [...messages];
+    try {
+      setLoading(true);
+      const userMessage = { text: trimmed, from: 'user' };
+      setMessages((prev) => [
+        ...prev,
+        userMessage,
+        { from: 'bot', waiting: true },
+      ]);
+
+      const payload = { message: trimmed };
+      const sendSms = await fetchChatSee(payload);
+      const newMessage = extractDataLines(sendSms);
+      console.log(newMessage);
+      const botMessage = { text: newMessage, from: 'bot' };
+      setMessages((prev) => prev.filter((m) => !m.waiting));
+      allMessages.push(userMessage);
+      if (!newMessage) return;
+      allMessages.push(botMessage);
+      saveMessagesToStorage('janction-dashboard', allMessages);
+      simulateTyping(newMessage);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
-  const simulateTyping = (botMessage) => {
-    setTyping(true);
-    const { text, link } = botMessage;
+
+  const simulateTyping = (message) => {
+    setIsTyping(true);
+    const response =
+      typeof message === 'string' ? message : message.text || message.answer;
+    const link = message.link || null;
+
     let currentText = '';
     let index = 0;
 
-    const interval = setInterval(() => {
-      if (index < text.length) {
-        currentText += text[index];
+    // Limpiar intervalo anterior si existía
+    if (typingInterval.current) clearInterval(typingInterval.current);
+
+    typingInterval.current = setInterval(() => {
+      if (index < response.length) {
+        currentText += response[index];
         setMessages((prev) => {
           const last = prev[prev.length - 1];
-
           if (last?.from === 'bot' && last.typing) {
-            return [...prev.slice(0, -1), { ...last, text: currentText }];
+            // Actualiza el texto del mensaje "typing"
+            return [
+              ...prev.slice(0, -1),
+              { ...last, text: currentText, typing: true, link },
+            ];
           } else {
-            return [...prev, { from: 'bot', text: currentText, typing: true }];
+            // Añade un nuevo mensaje con typing=true
+            return [
+              ...prev,
+              { from: 'bot', text: currentText, typing: true, link },
+            ];
           }
         });
         index++;
       } else {
-        clearInterval(interval);
+        clearInterval(typingInterval.current);
         setMessages((prev) => {
           const updated = [...prev];
-
-          updated[updated.length - 1] = { from: 'bot', text, link };
+          updated[updated.length - 1] = { from: 'bot', text: response, link };
           return updated;
         });
-        setTyping(false);
+        setIsTyping(false);
       }
-    }, 30);
+    }, 20);
   };
 
   const handleOk = () => {
