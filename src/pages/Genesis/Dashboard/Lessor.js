@@ -184,7 +184,7 @@ export default function Lessor() {
           </section>
         )}
 
-        {!loading && !summary?.total && <VideoGrid />}
+        {!summary?.total && !nft_sumary.ammount && !loading && <VideoGrid />}
       </section>
     </main>
   );
