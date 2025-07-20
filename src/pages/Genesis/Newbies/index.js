@@ -27,8 +27,28 @@ On the instance rental page: select the billing method, region, GPU model, and n
   },
   'Video tutorial': {
     title: 'Video tutorial',
-    content:
-      'Here you can watch a video guide to help you get started quickly.',
+    videos: [
+      {
+        id: 1,
+        title: 'How to Deploy and List a Node',
+        path: '/videos/DeployNodeWeb.mp4',
+      },
+      {
+        id: 2,
+        title: 'How to Purchase a Machine and Connect Remotely',
+        path: '/videos/purchase.mp4',
+      },
+      {
+        id: 3,
+        title: 'How to Deploy using Janction Deploy Application',
+        path: '/videos/DeployApp.mp4',
+      },
+      {
+        id: 4,
+        title: 'How to Connect Remotely using Janction Deploy Application',
+        path: '/videos/janctionAppRemote.m4v',
+      },
+    ],
   },
   'Container instance': {
     title: 'Container instance',
@@ -70,6 +90,19 @@ function Newbies() {
                   <p>{step.description}</p>
                 </div>
               ))
+            ) : current.videos ? (
+              <div className={styles['video-list']}>
+                {current.videos.map((video, i) => (
+                  <div key={i} className={styles['video-item']}>
+                    <h3>{video.title}</h3>
+                    <video
+                      src={video.path}
+                      controls
+                      className={styles['video-player']}
+                    />
+                  </div>
+                ))}
+              </div>
             ) : (
               <p>{current.content}</p>
             )}
