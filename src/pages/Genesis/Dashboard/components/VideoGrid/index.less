@@ -73,6 +73,7 @@
     flex-direction: column;
     justify-content: space-between;
     border: 1px solid #cccccc21;
+    min-height: 250px;
     video {
       position: absolute;
       top: 0;
@@ -159,6 +160,43 @@
       overflow-y: auto;
 
       border-radius: 0 0 12px 12px;
+    }
+  }
+}
+
+@media screen and (max-width: 740px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+
+    gap: 24px;
+  }
+  .grid {
+    .videoCard {
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px solid #cccccc21;
+      min-height: 250px;
+
+      .overlay {
+        position: absolute;
+        bottom: 0;
+        height: 45px;
+        width: 100%;
+        backdrop-filter: blur(4px);
+        background: rgba(0, 0, 0, 0.529);
+        color: white;
+        padding: 10px;
+
+        .overlay_text {
+          font-size: 0.55rem;
+          max-width: 85%;
+        }
+      }
     }
   }
 }
