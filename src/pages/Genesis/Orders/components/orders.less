@@ -159,6 +159,80 @@
     align-items: center;
   }
 }
+@media screen and (max-width: 740px) {
+  .orders-component {
+    margin-block: 20px;
+    .header-wrapper {
+      padding-bottom: 12px;
+      padding-inline: 12px;
+    }
+  }
+  .orders {
+    margin-top: 20px;
+    margin-inline: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 34px;
+  }
+  .card-title {
+    p {
+      font-size: 0.8rem;
+    }
+
+    div {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      i {
+        color: rgb(41, 184, 41);
+      }
+      .complete {
+        font-size: 0.7rem;
+        color: rgb(41, 184, 41);
+      }
+      .pending {
+        font-size: 0.7rem;
+        color: rgb(120, 255, 120);
+      }
+    }
+  }
+  .card-product {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 12px;
+    padding-top: 18px;
+
+    .card-product-model {
+      display: flex;
+      gap: 12px;
+    }
+    .id {
+      flex: 1;
+      width: 100%;
+
+      display: flex;
+      flex-direction: column;
+      span {
+        text-wrap: nowrap;
+        width: 205px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+    .card-product-section-r {
+      color: #b7b7b7;
+      display: flex;
+      flex-direction: column;
+
+      flex: 1;
+      p {
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+  }
+}
 .empty {
   display: flex;
   align-items: center;
@@ -246,7 +320,7 @@
 .pagination-wrapper {
   width: 100%;
   margin-top: 2.448vw;
-  height: 2.5vw;
+  height: 25px;
 
   :global {
     .ant-pagination {
@@ -259,8 +333,8 @@
       .ant-pagination-prev,
       .ant-pagination-next,
       .ant-pagination-item {
-        width: 2.5vw;
-        height: 2.5vw;
+        width: 25px;
+        height: 25px;
         background: rgba(249, 250, 251, 0.15);
         border-radius: 0.313vw;
         display: flex;
@@ -273,7 +347,10 @@
         .ant-pagination-item-link {
           color: rgba(255, 255, 255, 0.64);
           border: none;
-          font-size: 0.781vw;
+          font-size: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
       }
 
@@ -284,7 +361,7 @@
           font-family: 'Poppins';
           font-style: normal;
           font-weight: 400;
-          font-size: 1.094vw;
+          font-size: 12px;
           line-height: 1.719vw;
           color: #ffffff;
         }
@@ -301,7 +378,7 @@
           font-family: 'Poppins';
           font-style: normal;
           font-weight: 500;
-          font-size: 1.094vw;
+          font-size: 12px;
           line-height: 1.719vw;
           color: #333333;
         }

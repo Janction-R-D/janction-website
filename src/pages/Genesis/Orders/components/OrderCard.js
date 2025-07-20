@@ -38,7 +38,7 @@ export default function OrderCard({ order }) {
 
       <section className={styles['card-product']}>
         <div className={styles['card-product-section']}>
-          <div>
+          <div className={styles['card-product-model']}>
             <div className={styles['icon']}>
               {brandDetails[data.resource?.node?.attr.operating_system_str] && (
                 <i
@@ -57,7 +57,9 @@ export default function OrderCard({ order }) {
               )}
             </div>
 
-            <p className={styles['id']}>Order ID : {data.order?.id}</p>
+            <p className={styles['id']}>
+              Order ID : <span>{data.order?.id}</span>
+            </p>
           </div>
           <Button className={styles['connect-btn']} onClick={onOk}>
             Details <i className="iconfont icon-next" />
