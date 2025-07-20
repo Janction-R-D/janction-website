@@ -43,9 +43,9 @@
     .ant-btn {
       border: none;
       background: #252527;
-      border-radius: 51px;
+      border-radius: 4px;
       padding: 4px 32px;
-      height: 45px;
+      height: 35px;
       span {
         font-family: 'Poppins';
         font-style: normal;
@@ -193,5 +193,11 @@
   &:hover {
     color: rrgb(33, 255, 44);
     scale: 1.02;
+  }
+}
+
+@media screen and (max-width: 740px) {
+  .footer {
+    flex-direction: column;
   }
 }
