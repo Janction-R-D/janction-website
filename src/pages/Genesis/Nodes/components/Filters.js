@@ -1,5 +1,5 @@
 import React from 'react';
-import { Radio, Input } from 'antd';
+import { Radio, Input, Select } from 'antd';
 export default function Filters({ styles, setFilter, filters }) {
   const handleFilters = (filter) => {
     setFilter((prevState) => ({ ...prevState, status: filter.toLowerCase() }));
@@ -9,6 +9,21 @@ export default function Filters({ styles, setFilter, filters }) {
   };
   return (
     <div className={styles['filters']}>
+      <div className={styles['band-select-wrapper']}>
+        <Select
+          value={filters?.status}
+          onChange={handleFilters}
+          className={styles['band-select']}
+          dropdownMatchSelectWidth={false}
+          style={{ borderRadius: '24px', width: 160 }} // puedes ajustar el ancho
+        >
+          <Option value="all">All nodes</Option>
+          <Option value="running">running</Option>
+          <Option value="listed">listed</Option>
+          <Option value="active">active</Option>
+          <Option value="offline">offline</Option>
+        </Select>
+      </div>
       <div className={styles['band-radio-wrapper']}>
         <Radio.Group
           value={filters?.status}

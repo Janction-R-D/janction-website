@@ -328,3 +328,36 @@
 .icon-blue {
   color: rgb(36, 128, 249) !important;
 }
+
+@media screen and (max-width: 740px) {
+  .dashboard-wrapper {
+    margin-top: 20px;
+    .header-wrapper {
+      padding: 8px 12px;
+    }
+    .node_steps {
+      margin: 12px 0px;
+      .timeline {
+        padding: 8px 12px;
+      }
+      .sys-choice {
+        .sys-list {
+          grid-template-columns: repeat(2, 1fr); // sigue siendo 2 columnas
+          > li {
+            width: 100%; // ocupa todo el espacio de la celda
+            padding: 12px;
+            height: 140px;
+            i {
+              font-size: 40px;
+            }
+          }
+        }
+      }
+    }
+    .token_id {
+      pre {
+        color: red;
+      }
+    }
+  }
+}

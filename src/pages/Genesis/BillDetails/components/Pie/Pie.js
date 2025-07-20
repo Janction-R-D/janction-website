@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactECharts from 'echarts-for-react';
 
-const PieChart = ({ total }) => {
+const PieChart = ({ total, styles }) => {
   const option = {
     tooltip: {
       trigger: 'item',
@@ -64,9 +64,7 @@ const PieChart = ({ total }) => {
     ],
   };
 
-  return (
-    <ReactECharts option={option} style={{ height: '400px', width: '200px' }} />
-  );
+  return <ReactECharts option={option} className={styles['chart']} />;
 };
 
 export default PieChart;
