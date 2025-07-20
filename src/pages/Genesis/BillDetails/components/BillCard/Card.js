@@ -7,12 +7,13 @@ export default function Card({ total }) {
   return (
     <div className={styles['total-wrapper']}>
       <div className={styles['total-context']}>
-        <span className={styles['total-text']}>Total cost </span>
+        <span className={styles['total-text']}>Total income </span>
         <span className={[styles['value'], styles['total-value']].join(' ')}>
           {`${numeral(total?.sum).format('0.00')} `}
           <span className={styles['currency']}>{unit}</span>
         </span>
       </div>
+      <span className={styles['equal-mobile']}>=</span>
       <div className={styles['cols']}>
         <span className={styles['equal']}>=</span>
         <div className={styles['col-left']}>
@@ -34,7 +35,7 @@ export default function Card({ total }) {
             )} ${unit}`}</span>
           </div>
         </div>
-        <span className={styles['equal']}>+</span>
+        <span className={styles['equal-add']}>+</span>
         <div className={styles['col-right']}>
           <div>
             <span className={`${styles['desc']} ${styles['yellow']}`}>
@@ -56,7 +57,7 @@ export default function Card({ total }) {
         </div>
       </div>
       <div>
-        <PieChart className={styles['chart']} total={total} />
+        <PieChart total={total} styles={styles} />
       </div>
     </div>
   );

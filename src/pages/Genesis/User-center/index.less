@@ -426,6 +426,19 @@
   }
 }
 
+@media screen and (max-width: 740px) {
+  .card {
+    margin-inline: 12px;
+    :global {
+      .ant-card-body {
+        padding: 12px;
+      }
+    }
+  }
+  .info-box {
+    flex-direction: column;
+  }
+}
 @media screen and (max-width: 580px) {
   .card-content > ul {
     display: flex;

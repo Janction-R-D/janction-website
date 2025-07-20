@@ -4,7 +4,7 @@ import { Avatar, Divider } from 'antd';
 import Chat from './components/Chats';
 import DetailModal from './components/Chats/DetailModal';
 import NewInfo from './components/Chats/NewInfo';
-import { history, Redirect, useLocation } from 'umi';
+import { Redirect, useLocation } from 'umi';
 import { onNavigate } from '../../utils';
 import { fetchJoinAgent } from '@/services/genesis/agents';
 

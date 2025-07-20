@@ -99,8 +99,8 @@
         .ant-pagination-prev,
         .ant-pagination-next,
         .ant-pagination-item {
-          width: 2.5vw;
-          height: 2.5vw;
+          width: 25px;
+          height: 25px;
           background: rgba(249, 250, 251, 0.15);
           border-radius: 0.313vw;
           display: flex;
@@ -113,7 +113,7 @@
           .ant-pagination-item-link {
             color: rgba(255, 255, 255, 0.64);
             border: none;
-            font-size: 0.781vw;
+            font-size: 18px;
           }
         }
 
@@ -124,7 +124,7 @@
             font-family: 'Poppins';
             font-style: normal;
             font-weight: 400;
-            font-size: 1.094vw;
+            font-size: 12px;
             line-height: 1.719vw;
             color: #ffffff;
           }
@@ -141,7 +141,7 @@
             font-family: 'Poppins';
             font-style: normal;
             font-weight: 500;
-            font-size: 1.094vw;
+            font-size: 12px;
             line-height: 1.719vw;
             color: #333333;
           }
@@ -260,5 +260,16 @@
     font-size: 1.1rem;
     color: orange !important;
     margin-inline: 4px;
+  }
+}
+
+@media screen and (max-width: 740px) {
+  .stake-wrapper {
+    margin-inline: 10px;
+    .title {
+      h1 {
+        margin-bottom: 12px;
+      }
+    }
   }
 }

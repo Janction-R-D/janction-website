@@ -7,6 +7,7 @@
   background: #0e0e0e;
   margin-bottom: 24px;
 }
+
 .card-header {
   display: flex;
   align-items: center;
@@ -148,6 +149,7 @@
   background-color: #242424ae;
   border-radius: 4px;
   gap: 12px;
+
   .bin-title {
     color: #fff;
     font-weight: 700;
@@ -156,6 +158,11 @@
     display: flex;
     align-items: center;
     gap: 12px;
+    text-overflow: ellipsis;
+    span {
+      text-wrap: wrap;
+      width: 100%;
+    }
     .icon {
       display: flex;
       justify-content: center;
@@ -164,6 +171,7 @@
       width: 20px;
       height: 20px;
       cursor: pointer;
+
       i {
         color: orange;
         font-size: 0.9rem;
@@ -174,5 +182,10 @@
         }
       }
     }
+  }
+}
+@media screen and (max-width: 740px) {
+  .card {
+    margin-inline: 10px;
   }
 }

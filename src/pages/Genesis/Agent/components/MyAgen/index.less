@@ -2,19 +2,19 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  div {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    .title__text {
-      font-size: 1.4rem;
-      max-width: 30ch;
-      color: #fff;
-    }
-    .title__desc {
-      font-size: 0.7rem;
-      color: rgba(182, 184, 185, 0.845);
-    }
+}
+.uncreated {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  .title__text {
+    font-size: 1.4rem;
+    max-width: 30ch;
+    color: #fff;
+  }
+  .title__desc {
+    font-size: 0.7rem;
+    color: rgba(182, 184, 185, 0.845);
   }
 }
 
@@ -86,5 +86,27 @@
   .icon_rotate {
     transform: rotate(45deg);
     color: orange;
+  }
+}
+
+@media screen and (max-width: 740px) {
+  .header-container {
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    gap: 12px;
+    div > .title__text {
+      font-size: 1rem;
+    }
+    div > .submitButton {
+      padding: 8px;
+      width: min-content;
+      height: 35px;
+      font-size: 0.8rem;
+    }
+    .uncreated {
+      display: block;
+      width: 100%;
+    }
   }
 }

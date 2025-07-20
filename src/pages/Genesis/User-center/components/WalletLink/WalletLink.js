@@ -51,7 +51,7 @@ function BindedWallet({ address }) {
       <div className={styles['unbin-container']}>
         <p className={styles['bin-title']}>MetaMask</p>
         <p className={styles['binded']}>
-          Address: {address}
+          <span>Address: {address}</span>
           <div className={styles['icon']} onClick={() => copy(address)}>
             <i className="iconfont icon-copy" />
           </div>
