@@ -106,8 +106,6 @@ export default function Lessor() {
       detail: detail || [],
     };
   }, [lessorsData]);
-  console.log('nft: ', !!nft_sumary?.ammount);
-  console.log('total nft: ', nft_sumary.ammount);
   const overview = useMemo(() => {
     const res = lessorsData?.activities || [];
     return res;

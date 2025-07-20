@@ -69,3 +69,27 @@
   color: #ccc;
   font-size: 14px;
 }
+@media screen and (max-width: 740px) {
+  .container {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 40vw;
+    height: 40vw;
+    .desc {
+      font-size: 15px;
+    }
+    .title {
+      font-size: 20px;
+    }
+  }
+  .table {
+    margin: 0;
+    padding: 8px;
+    .header {
+      div {
+        font-size: 12px;
+      }
+    }
+  }
+}

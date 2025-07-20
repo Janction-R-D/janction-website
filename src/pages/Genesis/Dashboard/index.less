@@ -164,3 +164,46 @@
     }
   }
 }
+
+@media screen and (max-width: 740px) {
+  .dashboard-wrapper {
+    padding-top: 40px;
+    .container {
+      padding-inline: 20px;
+    }
+    .header-wrapper {
+      padding-inline: 20px;
+      header {
+        h1 {
+          font-size: 6vw;
+        }
+        p {
+          font-size: 4vw;
+        }
+      }
+      .buttons-box,
+      .join-text {
+        display: none;
+      }
+    }
+    .container-info {
+      display: block;
+    }
+    .overview-wrapper {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      gap: 18px;
+      .buttons-box {
+        flex-direction: row;
+        gap: 8px;
+        .button {
+          padding: 12px;
+          font-size: 12px;
+          gap: 5px;
+        }
+      }
+    }
+  }
+}
