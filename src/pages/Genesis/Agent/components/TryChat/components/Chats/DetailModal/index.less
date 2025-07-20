@@ -175,3 +175,41 @@
   flex-direction: column;
   margin-top: 44px;
 }
+@media screen and (max-width: 740px) {
+  .backdrop-modal {
+    color: #fff;
+
+    width: 220px !important;
+
+    margin-right: auto;
+
+    .title {
+      color: #fff;
+      padding: 0;
+      margin: 0;
+      background: unset;
+    }
+    :global {
+      .ant-modal {
+        margin-right: auto !important;
+      }
+      .ant-modal-header {
+        background: transparent;
+      }
+      .ant-modal-content {
+        background: #2727276c;
+        border: 1px solid #cccccc52;
+        border-radius: 12px;
+
+        left: -100%;
+        transform: translateX(-80%);
+        padding: 0;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
+      }
+      .ant-modal-body {
+        padding: 12px;
+      }
+    }
+  }
+}

@@ -47,7 +47,7 @@ export default function MyAgent() {
     <main>
       <section className={styles['header-container']}>
         {!mappedAgents.length && (
-          <div>
+          <div className={styles['uncreated']}>
             <p className={styles['title__text']}>
               Apologies, you haven't created your own AI agent yet.
             </p>
