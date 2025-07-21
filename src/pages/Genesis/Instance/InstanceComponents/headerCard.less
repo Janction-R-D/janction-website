@@ -6,6 +6,16 @@
   margin-inline: 30px;
   border: none;
 }
+@media screen and (max-width: 740px) {
+  .card {
+    margin-inline: 4px;
+    :global {
+      .ant-card-body {
+        padding: 12px;
+      }
+    }
+  }
+}
 .refresh {
   display: flex;
   gap: 5px;

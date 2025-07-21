@@ -821,3 +821,33 @@
   position: relative;
   z-index: 1; /* Asegura que el texto quede arriba */
 }
+
+@media screen and (max-width: 740px) {
+  .quick-conf-wrapper {
+    flex-direction: column;
+    .divider {
+      display: none;
+    }
+    .specification-card {
+      .specification-card-header {
+        justify-content: start;
+        align-items: start;
+        flex-direction: column;
+      }
+    }
+  }
+  .custom-conf-wrapper {
+    display: flex;
+    flex-direction: column;
+    .divider {
+      display: none;
+    }
+    .customized-steps {
+      display: none;
+    }
+    .processor-conf-wrapper {
+      width: 100%;
+      max-width: 100%;
+    }
+  }
+}

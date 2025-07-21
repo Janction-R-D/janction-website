@@ -22,7 +22,7 @@ function Purchase() {
     <main className={styles['purchase-container']}>
       <section className={styles['header-wrapper']}>
         <header>
-          <h1>Orders</h1>
+          <h1>Purchase</h1>
         </header>
       </section>
       <section className={styles['purchase-nav-header']}>

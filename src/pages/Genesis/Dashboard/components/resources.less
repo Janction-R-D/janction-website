@@ -63,6 +63,34 @@
     }
   }
 }
+@media screen and (max-width: 740px) {
+  .card {
+    background: transparent;
+    margin-inline: 0px;
+    :global {
+      .ant-card-body {
+        padding: 4px;
+      }
+    }
+    .resource-container {
+      width: 100%;
+      flex: 1;
+      .resources {
+        li {
+          span {
+            font-size: 0.7rem;
+          }
+          p {
+            font-size: 1.2rem;
+          }
+        }
+      }
+    }
+    .divider {
+      display: none;
+    }
+  }
+}
 .refresh {
   display: flex;
   gap: 5px;

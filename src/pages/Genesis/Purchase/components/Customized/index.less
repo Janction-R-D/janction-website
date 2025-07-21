@@ -972,3 +972,70 @@
 
   z-index: 1; /* Asegura que el texto quede arriba */
 }
+
+@media screen and (max-width: 740px) {
+  .customized-steps {
+    display: none;
+  }
+  .image-conf-wrapper {
+    margin-top: 18px;
+    .image-conf-cards {
+      display: grid;
+      // grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+  }
+  .processor-conf {
+    border: none;
+    .options {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 30px;
+      :global {
+        .ant-form-item {
+          margin-bottom: 4px;
+        }
+      }
+      .processors {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 18px;
+        .processor {
+          height: 50px;
+          width: 102px;
+          border-radius: 10px;
+          display: flex;
+          position: relative;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          background: #1c1b1b;
+          color: white !important;
+          .processor-label {
+            position: relative;
+          }
+          .hidden-checkbox {
+            display: none;
+          }
+          :global {
+            .ant-radio-button-checked {
+              border: none;
+            }
+          }
+        }
+      }
+      .divider {
+        display: none;
+      }
+    }
+    .search {
+      background-color: rgba(26, 26, 26, 0.841);
+      padding: 12px;
+      border-radius: 16px;
+      border: none;
+    }
+  }
+}
