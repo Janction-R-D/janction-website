@@ -12,6 +12,7 @@ import Guide from '@/pages/Genesis/Dashboard3/components/Guide/Guide';
 import { fetchUserConfig } from '@/services/genesis';
 import { LoginOutlined } from '@ant-design/icons';
 import { handleIdentityChange } from '@/utils/metamaskLogin';
+import ChatBot from '@/components/Chatbot';
 
 export const Logo = () => {
   return (
@@ -108,6 +109,9 @@ export default function AuthHeader(props) {
           )}
         </div>
         <div className={styles['extra']}>
+          <div>
+            <ChatBot fold={true} />
+          </div>
           <div
             className={styles['msg']}
             id="notifications-icon"

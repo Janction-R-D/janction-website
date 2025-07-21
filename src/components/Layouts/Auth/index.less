@@ -589,7 +589,13 @@ header.auth-header {
     nav {
       transform: translateX(-100%);
       padding: 6px 16px;
-      background: linear-gradient(60deg, #192d52 5.03%, #201436 99.86%);
+      // background: linear-gradient(60deg, #192d52 5.03%, #201436 99.86%);
+      background: linear-gradient(
+        226deg,
+        #1e1e1e 5.03%,
+        /* negro claro */ #121212 39.86%,
+        /* negro medio */ #000000 74.68% /* negro puro */
+      );
       position: fixed;
       width: 100vw;
       z-index: 30;
@@ -653,7 +659,7 @@ header.auth-header {
     align-items: center;
     padding: 0 16px;
     position: fixed;
-    background: linear-gradient(60deg, #192d52 5.03%, #201436 99.86%);
+    background: linear-gradient(60deg, #1d1d1d 5.03%, #0e0e0e 99.86%);
     background-blend-mode: color-dodge;
     -webkit-backdrop-filter: blur(10.05px);
     backdrop-filter: blur(10.05px);
