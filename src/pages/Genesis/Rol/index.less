@@ -8,15 +8,17 @@
   align-items: center;
   height: 100vh;
   gap: 70px;
+  padding: 22px;
   .cards-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
     gap: 24px;
+    width: 100%;
   }
 }
 .text--blue {
   color: #73d5f4;
+  padding-top: 30px;
 }
 .text-title {
   font-size: 1.9rem;
