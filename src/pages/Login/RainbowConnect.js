@@ -59,7 +59,8 @@ const RainbowConnect = (props) => {
           };
 
           const resVerify = await fetchUserVerify(param);
-          if (!resVerify?.success) {
+
+          if (resVerify?.message !== 'success') {
             throw new Error('Signature verification failed');
           }
 
