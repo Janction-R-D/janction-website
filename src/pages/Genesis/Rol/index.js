@@ -4,7 +4,7 @@ import styles from './index.less';
 import planetImg from '@/assets/images/genesis/planet.png';
 import lessorImg from '@/assets/images/genesis/rol_lessor.png';
 import lesseeImg from '@/assets/images/genesis/rol_lessee.png';
-import { useLocation, useModel } from 'umi';
+import { Redirect, useLocation, useModel } from 'umi';
 const cards = [
   {
     title: 'Lessor',
@@ -30,7 +30,7 @@ export default function Rol() {
   const [cardsType, setCardType] = useState([]);
   const location = useLocation();
   const { type } = location.state || {};
-
+  console.log(type);
   useEffect(() => {
     if (sessionType && sessionType !== 'wallet') {
       const showedCards = cards.filter((item) => item.title !== 'Lessor');
@@ -40,6 +40,7 @@ export default function Rol() {
     }
     setCardType(cards);
   }, []);
+  if (!type) return <Redirect to="/login" />;
   return (
     <main className={styles['identity-wrapper']}>
       <h1 className={`${styles['text-title']} ${styles['text--blue']}`}>

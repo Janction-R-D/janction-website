@@ -109,7 +109,7 @@ export default function AuthHeader(props) {
           )}
         </div>
         <div className={styles['extra']}>
-          <div>
+          <div className={styles['extra-chat']}>
             <ChatBot fold={true} />
           </div>
           <div
