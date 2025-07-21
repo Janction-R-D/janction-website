@@ -262,14 +262,24 @@
     margin-inline: 4px;
   }
 }
-
+.list {
+  display: none;
+}
 @media screen and (max-width: 740px) {
   .stake-wrapper {
-    margin-inline: 10px;
+    margin-inline: 0px;
     .title {
       h1 {
         margin-bottom: 12px;
       }
+    }
+    .table {
+      display: none;
+    }
+    .list {
+      gap: 12px;
+      display: flex;
+      flex-direction: column;
     }
   }
 }

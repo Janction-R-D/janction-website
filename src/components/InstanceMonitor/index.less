@@ -276,3 +276,24 @@
     transform: rotate(360deg);
   }
 }
+@media screen and (max-width: 740px) {
+  .card {
+    .card_container {
+      flex-direction: column;
+
+      .divider {
+        display: none;
+      }
+      .monitor {
+        width: auto;
+      }
+      .resourceCard {
+        width: auto;
+        .diskSection {
+          flex-direction: column;
+          height: auto;
+        }
+      }
+    }
+  }
+}

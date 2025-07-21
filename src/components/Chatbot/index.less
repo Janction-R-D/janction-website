@@ -248,3 +248,36 @@
     border-color: rgb(194, 194, 255);
   }
 }
+
+@media screen and (max-width: 740px) {
+  .item-Ai {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    padding-block: 8px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    transition: all ease 250ms;
+    cursor: pointer;
+    margin-bottom: 0px;
+    transform: all ease 250ms;
+    &:hover {
+      color: rgb(160, 160, 255);
+      border-color: rgb(194, 194, 255);
+    }
+    border: 1px solid rgb(160, 160, 255);
+  }
+  .item-Ai-folded-box {
+    padding: 4px;
+    width: 40px;
+    img {
+      width: 20px;
+      height: 20px;
+    }
+  }
+  .chatModal {
+    margin-left: 15px;
+    top: 180px;
+  }
+}

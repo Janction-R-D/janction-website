@@ -237,7 +237,7 @@ const ChatBot = ({ fold }) => {
                 >
                   <div className={styles.messageText}>
                     {msg.text}
-                    {msg.link && !msg.typing && (
+                    {/* {msg.link && !msg.typing && (
                       <span
                         className={styles.link}
                         style={{
@@ -247,7 +247,7 @@ const ChatBot = ({ fold }) => {
                       >
                         Here
                       </span>
-                    )}
+                    )} */}
                   </div>
                 </div>
               );
@@ -269,7 +269,7 @@ const ChatBot = ({ fold }) => {
                   )}
                   <div className={styles.messageText}>
                     {msg.text}
-                    {msg.link && !msg.typing && (
+                    {/* {msg.link && !msg.typing && (
                       <span
                         className={styles.link}
                         onClick={() => {
@@ -283,7 +283,7 @@ const ChatBot = ({ fold }) => {
                       >
                         Here
                       </span>
-                    )}
+                    )} */}
                   </div>
                 </div>
               );

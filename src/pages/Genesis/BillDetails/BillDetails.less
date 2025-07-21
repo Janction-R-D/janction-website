@@ -54,6 +54,9 @@
     border-bottom: #8b8b8bdc 1px solid;
     padding: 16px;
     padding-top: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
     .row {
       display: flex;
       align-items: center;
@@ -267,11 +270,31 @@
 }
 @media screen and (max-width: 740px) {
   .billings-wrapper {
+    .header-wrapper {
+      padding-inline: 10px;
+      margin-top: 20px;
+      header {
+        h1 {
+          font-size: 6vw;
+        }
+        p {
+          font-size: 3.2vw;
+        }
+      }
+    }
     .total-wrapper {
       height: 100px;
-      margin-inline: 20px;
+      margin-inline: 12px;
       padding-inline: 12px;
       background: red !important;
+    }
+    .table-wrapper {
+      padding: 12px;
+      margin-inline: 4px;
+      .card-header {
+        border-bottom: #8b8b8bdc 1px solid;
+        padding: 12px 4px;
+      }
     }
   }
 }

@@ -8,6 +8,7 @@ import styles from './index.less';
 import HeaderCard from './InstanceComponents/HeaderCard';
 import JanctionTip from '@/components/JanctionTip';
 import Operation from './InstanceComponents/Operation';
+import RefundCard from './RefundCard';
 
 function Staking() {
   const { initialState } = useModel('@@initialState');
@@ -41,10 +42,9 @@ function Staking() {
     },
     {
       title: 'Status',
-      dataIndex: 'Cores',
-      key: 'Cores',
+      dataIndex: 'status_str',
+      key: 'status_str',
       ellipsis: true,
-      render: (text) => <p>{text} Cores</p>,
     },
     {
       title: 'CHP / GPUS',
@@ -136,10 +136,25 @@ function Staking() {
           rowKey="id" // importante para performance
         />
 
+        <div className={styles.list}>
+          {paginatedData?.map((item, index) => (
+            <RefundCard
+              key={index}
+              data={{
+                id: item.id,
+                status: item.status_str,
+                gpu: item.memory, // CHP / GPUS
+                cooling: item.status, // Stake in cooling
+                withdrawable: item.Location, // Withdrawable
+                undercarriage: item.GPUrate, // Will undercarriage
+              }}
+            />
+          ))}
+        </div>
         <div className={styles['pagination-wrapper']}>
           <Pagination
             current={current}
-            total={filteredData.length}
+            total={filteredData?.length}
             pageSize={pageSize}
             onChange={setCurrent}
             showSizeChanger={false}
