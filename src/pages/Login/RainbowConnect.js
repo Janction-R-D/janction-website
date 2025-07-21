@@ -52,41 +52,55 @@ const RainbowConnect = (props) => {
       };
 
       const onSuccess = async (sig, message) => {
-        const param = {
-          message,
-          signature: sig,
-        };
+        try {
+          const param = {
+            message,
+            signature: sig,
+          };
 
-        await fetchUserVerify(param);
+          const resVerify = await fetchUserVerify(param);
+          if (!resVerify?.success) {
+            throw new Error('Signature verification failed');
+          }
 
-        const msg = btoa(message);
-        const dataStorage = {
-          signature: sig,
-          message: msg,
-          address: address,
-        };
-        storage.set({
-          name: 'userAccount',
-          value: userAccount,
-          expires,
-        });
-        storage.set({
-          name: 'AUTH_HEADERS',
-          value: { 'x-siwe-sig': sig, 'x-siwe-msg': msg },
-          expires,
-        });
-        storage.set({
-          name: 'SESSION_TYPE',
-          value: 'wallet',
-          expires,
-        });
+          const msg = btoa(message);
+          const dataStorage = {
+            signature: sig,
+            message: msg,
+            address,
+          };
 
-        onRedirect(address, dataStorage);
+          storage.set({
+            name: 'userAccount',
+            value: userAccount,
+            expires,
+          });
+          storage.set({
+            name: 'AUTH_HEADERS',
+            value: { 'x-siwe-sig': sig, 'x-siwe-msg': msg },
+            expires,
+          });
+          storage.set({
+            name: 'SESSION_TYPE',
+            value: 'wallet',
+            expires,
+          });
+
+          onRedirect(address, dataStorage);
+        } catch (err) {
+          console.error('Signature verification error:', err);
+          message.error('Failed to verify signature. Please try again.');
+          await disconnect();
+        }
       };
 
       const signAndLogin = async () => {
         try {
           const { nonce } = (await fetchUserNonce()) || {};
+          if (!nonce) {
+            throw new Error('Nonce is missing');
+          }
+
           const expirationTime = new Date(Date.now() + expires).toISOString();
 
           const siweMessage = new SiweMessage({
@@ -101,15 +115,16 @@ const RainbowConnect = (props) => {
           });
 
           const message = siweMessage.prepareMessage();
+          const signature = await signMessageAsync({ message });
 
-          const signature = await signMessageAsync({
-            message,
-          });
-
-          onSuccess(signature, message);
+          await onSuccess(signature, message);
         } catch (err) {
+          console.error('Login error:', err);
+          message.error('Login failed. Please try again.');
           await disconnect();
-          console.log('『err』', err);
+        } finally {
+          setLoading(false);
+          message.destroy('loading');
         }
       };
 
