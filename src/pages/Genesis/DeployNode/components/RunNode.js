@@ -87,7 +87,8 @@ const RunNode = (props) => {
             <Text className={styles['token_id']}>
               <p className="ell">
                 <span className="db">
-                  $ echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zshrc
+                  $ echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' &gt;&gt;
+                  ~/.zshrc
                 </span>
               </p>
               <a
@@ -114,6 +115,19 @@ const RunNode = (props) => {
               </a>
             </Text>
 
+            <p>Verify installation (optional):</p>
+            <Text className={styles['token_id']}>
+              <p className="ell">
+                <span className="db">$ brew doctor</span>
+              </p>
+              <a
+                className={styles['icon-orange']}
+                onClick={() => copy(`brew doctor`)}
+              >
+                <i className="iconfont icon-copy" />
+              </a>
+            </Text>
+
             <p>Update Homebrew (recommended):</p>
             <Text className={styles['token_id']}>
               <p className="ell">
@@ -129,20 +143,7 @@ const RunNode = (props) => {
 
             <h2>2. Check & Install Lima</h2>
 
-            <p>Install Lima:</p>
-            <Text className={styles['token_id']}>
-              <p className="ell">
-                <span className="db">$ brew install lima</span>
-              </p>
-              <a
-                className={styles['icon-orange']}
-                onClick={() => copy(`brew install lima`)}
-              >
-                <i className="iconfont icon-copy" />
-              </a>
-            </Text>
-
-            <p>Verify installation:</p>
+            <p>Check if Lima is installed:</p>
             <Text className={styles['token_id']}>
               <p className="ell">
                 <span className="db">$ limactl --version</span>
@@ -155,7 +156,20 @@ const RunNode = (props) => {
               </a>
             </Text>
 
-            <p>Start Lima virtual machine:</p>
+            <p>If not installed, install Lima using Homebrew:</p>
+            <Text className={styles['token_id']}>
+              <p className="ell">
+                <span className="db">$ brew install lima</span>
+              </p>
+              <a
+                className={styles['icon-orange']}
+                onClick={() => copy(`brew install lima`)}
+              >
+                <i className="iconfont icon-copy" />
+              </a>
+            </Text>
+
+            <p>Start the default virtual machine:</p>
             <Text className={styles['token_id']}>
               <p className="ell">
                 <span className="db">$ limactl start</span>
@@ -182,14 +196,83 @@ const RunNode = (props) => {
                 <i className="iconfont icon-copy" />
               </a>
             </Text>
-          </section>
 
-          <RunNodeScript
-            nodesData={nodesData}
-            getNodes={getNodes}
-            loading={loading}
-            isWin={false}
-          />
+            <RunNodeScript
+              nodesData={nodesData}
+              getNodes={getNodes}
+              loading={loading}
+              isWin={false}
+            />
+
+            <p>If successful, the following message will be displayed:</p>
+            <Text className={styles['token_id']}>
+              <pre className={styles['output']}>{`
+Congratulations! Installation completed successfully!
+ === EdgeCore Configuration Summary === 
+KubeEdge Version: v1.20.0
+Configuration Status:
+- metaServer: enabled
+- edgeMesh: disabled
+- edgeStream: enabled
+Backup File: /etc/kubeedge/config/edgecore.yaml.20250720_000731.bak
+=======================================
+
+=== Service Management Commands ===
+To start edgecore service:
+  systemctl start edgecore
+To check edgecore service status:
+  systemctl status edgecore
+To stop edgecore service:
+  systemctl stop edgecore
+=======================================
+    `}</pre>
+            </Text>
+
+            <h2>5. Manage Lima Virtual Machine</h2>
+
+            <p>
+              <strong>Do not stop the VM while the node is active.</strong>
+            </p>
+
+            <p>Stop the virtual machine:</p>
+            <Text className={styles['token_id']}>
+              <p className="ell">
+                <span className="db">$ limactl stop default</span>
+              </p>
+              <a
+                className={styles['icon-orange']}
+                onClick={() => copy(`limactl stop default`)}
+              >
+                <i className="iconfont icon-copy" />
+              </a>
+            </Text>
+
+            <p>Check VM status:</p>
+            <Text className={styles['token_id']}>
+              <p className="ell">
+                <span className="db">$ limactl status default</span>
+              </p>
+              <a
+                className={styles['icon-orange']}
+                onClick={() => copy(`limactl status default`)}
+              >
+                <i className="iconfont icon-copy" />
+              </a>
+            </Text>
+
+            <p>Delete the virtual machine:</p>
+            <Text className={styles['token_id']}>
+              <p className="ell">
+                <span className="db">$ limactl delete default</span>
+              </p>
+              <a
+                className={styles['icon-orange']}
+                onClick={() => copy(`limactl delete default`)}
+              >
+                <i className="iconfont icon-copy" />
+              </a>
+            </Text>
+          </section>
         </>
       );
     }
@@ -228,86 +311,147 @@ const RunNode = (props) => {
           </p>
 
           <h3>Check if WSL is installed</h3>
+          <p>
+            On Windows 10/11, WSL usually comes preinstalled. For earlier
+            Windows versions that don't support WSL, please upgrade your system.
+          </p>
+          <p>
+            To check whether WSL is already installed (if version info is
+            displayed, it's installed):
+          </p>
           <Text className={styles['token_id']}>
-            <p className="ell">$ wsl -l -v</p>
+            <p className="ell">$ wsl.exe --version</p>
             <a
               className={styles['icon-blue']}
-              onClick={() => copy('wsl -l -v')}
+              onClick={() => copy('wsl.exe --version')}
             >
               <i className="iconfont icon-copy" />
             </a>
           </Text>
-          <p>This command checks whether WSL is available on your system.</p>
-          <p>
-            On Windows 10/11, WSL is typically preinstalled. However, older
-            Windows versions may not support WSL. If you encounter an error when
-            running the command above, consider updating your system to the
-            latest version.
-          </p>
+
           <h3>Install Ubuntu</h3>
           <Text className={styles['token_id']}>
             <p className="ell">
-              $ wsl --install --distribution Ubuntu --web-download
+              $ wsl.exe --install --distribution Ubuntu --web-download
             </p>
             <a
               className={styles['icon-blue']}
               onClick={() =>
-                copy('wsl --install --distribution Ubuntu --web-download')
+                copy('wsl.exe --install --distribution Ubuntu --web-download')
               }
             >
               <i className="iconfont icon-copy" />
             </a>
           </Text>
-          <p>After installation, verify with:</p>
+
+          <h3>Verify Installation</h3>
+          <p>Check if the installation succeeded (Ubuntu should be listed):</p>
           <Text className={styles['token_id']}>
-            <p className="ell">$ wsl -l -v</p>
+            <p className="ell">$ wsl.exe --list</p>
             <a
               className={styles['icon-blue']}
-              onClick={() => copy('wsl -l -v')}
+              onClick={() => copy('wsl.exe --list')}
             >
               <i className="iconfont icon-copy" />
             </a>
           </Text>
-
-          <p>
-            If Ubuntu does not appear in the list or if you encounter errors,
-            make sure WSL 2 is enabled and virtualization is turned on in your
-            BIOS settings.
-          </p>
 
           <h3>Start Ubuntu and set root password</h3>
+          <p>
+            Launch Ubuntu. The first time you start it, you will be prompted to
+            set a root password. Please remember it.
+          </p>
           <Text className={styles['token_id']}>
-            <p className="ell">$ wsl -d Ubuntu</p>
+            <p className="ell">$ wsl.exe -d Ubuntu</p>
             <a
               className={styles['icon-blue']}
-              onClick={() => copy('wsl -d Ubuntu')}
+              onClick={() => copy('wsl.exe -d Ubuntu')}
             >
               <i className="iconfont icon-copy" />
             </a>
           </Text>
+
+          <RunNodeScript
+            nodesData={nodesData}
+            getNodes={getNodes}
+            loading={loading}
+            isWin={isWin}
+          />
+
           <p>
-            This will launch Ubuntu and prompt you to set a root password the
-            first time it starts.
-          </p>
-          <p>
-            If the command fails with an error such as "Ubuntu not found", it's
-            possible your installed distribution is named differently (e.g.,
-            "Ubuntu-22.04"). You can check the exact name using:
+            If you see the following output, it means the node was installed
+            successfully:
           </p>
           <Text className={styles['token_id']}>
-            <p className="ell">$ wsl -l</p>
-            <a className={styles['icon-blue']} onClick={() => copy('wsl -l')}>
+            <pre className={styles['output']}>{`
+Congratulations! Installation completed successfully!
+ === EdgeCore Configuration Summary === 
+KubeEdge Version: v1.20.0
+Configuration Status:
+- metaServer: enabled
+- edgeMesh: disabled
+- edgeStream: enabled
+Backup File: /etc/kubeedge/config/edgecore.yaml.20250720_000731.bak
+=======================================
+
+=== Service Management Commands ===
+To start edgecore service:
+  systemctl start edgecore
+To check edgecore service status:
+  systemctl status edgecore
+To stop edgecore service:
+  systemctl stop edgecore
+=======================================
+    `}</pre>
+          </Text>
+
+          <h3>WSL VM Management</h3>
+          <p>Use these commands to manage the WSL virtual machine:</p>
+
+          <strong>View running virtual machines:</strong>
+          <Text className={styles['token_id']}>
+            <p className="ell">$ wsl.exe --list --verbose</p>
+            <a
+              className={styles['icon-blue']}
+              onClick={() => copy('wsl.exe --list --verbose')}
+            >
+              <i className="iconfont icon-copy" />
+            </a>
+          </Text>
+
+          <strong>Start the Ubuntu VM:</strong>
+          <Text className={styles['token_id']}>
+            <p className="ell">$ wsl.exe -d Ubuntu</p>
+            <a
+              className={styles['icon-blue']}
+              onClick={() => copy('wsl.exe -d Ubuntu')}
+            >
+              <i className="iconfont icon-copy" />
+            </a>
+          </Text>
+
+          <strong>Shutdown running VMs:</strong>
+          <Text className={styles['token_id']}>
+            <p className="ell">$ wsl.exe --shutdown</p>
+            <a
+              className={styles['icon-blue']}
+              onClick={() => copy('wsl.exe --shutdown')}
+            >
+              <i className="iconfont icon-copy" />
+            </a>
+          </Text>
+
+          <strong>Delete Ubuntu VM:</strong>
+          <Text className={styles['token_id']}>
+            <p className="ell">$ wsl.exe --unregister Ubuntu</p>
+            <a
+              className={styles['icon-blue']}
+              onClick={() => copy('wsl.exe --unregister Ubuntu')}
+            >
               <i className="iconfont icon-copy" />
             </a>
           </Text>
         </section>
-
-        <RunNodeScript
-          nodesData={nodesData}
-          getNodes={getNodes}
-          loading={loading}
-          isWin={isWin}
-        />
       </>
     );
   };
