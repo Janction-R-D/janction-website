@@ -47,7 +47,89 @@ const RunNode = (props) => {
         <>
           <section className={styles['link']}>
             <h1>Prerequisites</h1>
-            <h2>1. Install lima</h2>
+
+            <h2>1. Check & Install Homebrew</h2>
+
+            <p>Check if Homebrew is installed:</p>
+            <Text className={styles['token_id']}>
+              <p className="ell">
+                <span className="db">$ brew --version</span>
+              </p>
+              <a
+                className={styles['icon-orange']}
+                onClick={() => copy(`brew --version`)}
+              >
+                <i className="iconfont icon-copy" />
+              </a>
+            </Text>
+
+            <p>If not installed, run the following:</p>
+            <Text className={styles['token_id']}>
+              <p className="ell">
+                <span className="db">
+                  $ /bin/bash -c "$(curl -fsSL
+                  https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+                </span>
+              </p>
+              <a
+                className={styles['icon-orange']}
+                onClick={() =>
+                  copy(
+                    `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`,
+                  )
+                }
+              >
+                <i className="iconfont icon-copy" />
+              </a>
+            </Text>
+
+            <p>Add Homebrew to your PATH:</p>
+            <Text className={styles['token_id']}>
+              <p className="ell">
+                <span className="db">
+                  $ echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zshrc
+                </span>
+              </p>
+              <a
+                className={styles['icon-orange']}
+                onClick={() =>
+                  copy(
+                    `echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zshrc`,
+                  )
+                }
+              >
+                <i className="iconfont icon-copy" />
+              </a>
+            </Text>
+
+            <Text className={styles['token_id']}>
+              <p className="ell">
+                <span className="db">$ source ~/.zshrc</span>
+              </p>
+              <a
+                className={styles['icon-orange']}
+                onClick={() => copy(`source ~/.zshrc`)}
+              >
+                <i className="iconfont icon-copy" />
+              </a>
+            </Text>
+
+            <p>Update Homebrew (recommended):</p>
+            <Text className={styles['token_id']}>
+              <p className="ell">
+                <span className="db">$ brew update</span>
+              </p>
+              <a
+                className={styles['icon-orange']}
+                onClick={() => copy(`brew update`)}
+              >
+                <i className="iconfont icon-copy" />
+              </a>
+            </Text>
+
+            <h2>2. Check & Install Lima</h2>
+
+            <p>Install Lima:</p>
             <Text className={styles['token_id']}>
               <p className="ell">
                 <span className="db">$ brew install lima</span>
@@ -59,6 +141,21 @@ const RunNode = (props) => {
                 <i className="iconfont icon-copy" />
               </a>
             </Text>
+
+            <p>Verify installation:</p>
+            <Text className={styles['token_id']}>
+              <p className="ell">
+                <span className="db">$ limactl --version</span>
+              </p>
+              <a
+                className={styles['icon-orange']}
+                onClick={() => copy(`limactl --version`)}
+              >
+                <i className="iconfont icon-copy" />
+              </a>
+            </Text>
+
+            <p>Start Lima virtual machine:</p>
             <Text className={styles['token_id']}>
               <p className="ell">
                 <span className="db">$ limactl start</span>
@@ -70,7 +167,10 @@ const RunNode = (props) => {
                 <i className="iconfont icon-copy" />
               </a>
             </Text>
-            <h2>2. Replace shell with linux version</h2>
+
+            <h2>3. Access Virtual Machine Shell</h2>
+
+            <p>Access Lima shell with root privileges:</p>
             <Text className={styles['token_id']}>
               <p className="ell">
                 <span className="db">$ lima sudo -i</span>
@@ -83,6 +183,7 @@ const RunNode = (props) => {
               </a>
             </Text>
           </section>
+
           <RunNodeScript
             nodesData={nodesData}
             getNodes={getNodes}
