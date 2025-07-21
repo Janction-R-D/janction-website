@@ -665,11 +665,19 @@ header.auth-header {
     backdrop-filter: blur(10.05px);
   }
 }
-
+.extra {
+  .extra-chat {
+    display: none;
+  }
+}
 @media screen and (max-width: 740px) {
   header.auth-header {
     .wrapper {
       .extra {
+        gap: 5px;
+        .extra-chat {
+          display: blobk;
+        }
         .img-container {
           // width: 105px;
           height: 40px;
@@ -693,6 +701,12 @@ header.auth-header {
           }
         }
       }
+    }
+  }
+  .extra {
+    gap: 5px;
+    .extra-chat {
+      display: block;
     }
   }
 }
