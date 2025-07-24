@@ -77,7 +77,13 @@ const StepOne = (props, ref) => {
                     });
                   }}
                 >
-                  <span>{item.name}</span>
+                  <span>
+                    {selectedValues.system == 'macos'
+                      ? 'ARM'
+                      : selectedValues.system == 'windows'
+                      ? 'ARM'
+                      : item.name}
+                  </span>
                 </li>
               ))}
             </ul>
