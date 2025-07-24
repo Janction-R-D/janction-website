@@ -8,6 +8,7 @@ import { message } from 'antd';
 import { history, useLocation, useModel } from 'umi';
 import { fetchOauthCallback } from '@/services/login';
 import { expires } from '@/utils/lang';
+import DesktopConnect from './CnnectElectron';
 
 const origin = location.origin;
 const CALLBACK_URL = `${origin}/login`;
@@ -16,6 +17,7 @@ const Login = (props) => {
   const [open, setOpen] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isFlipped, setIsFlipped] = useState(false);
+  const [fromApp, setFromApp] = useState(false);
   const [mode, setMode] = useState('signup');
   const location = useLocation();
   const { initialState, setInitialState } = useModel('@@initialState');
@@ -36,6 +38,9 @@ const Login = (props) => {
     const searchParams = new URLSearchParams(location.search);
     const loginFromApp = searchParams.get('redirect_uri');
     const checkIsLoged = storage.get('SESSION_TYPE');
+    if (loginFromApp) {
+      setFromApp(true);
+    }
     if (checkIsLoged && !loginFromApp) history.push('/genesis/dashboard');
     const code = searchParams.get('code');
     const stateEncoded = searchParams.get('state');
@@ -100,9 +105,14 @@ const Login = (props) => {
         </h2>
         <p>One account for everything Janction</p>
       </div>
-      <a className={styles['login-btn']} onClick={() => setOpen(true)}>
-        Sign in
-      </a>
+
+      {fromApp && <DesktopConnect setLoading={setLoading} loading={loading} />}
+
+      {!fromApp && (
+        <a className={styles['login-btn']} onClick={() => setOpen(true)}>
+          Sign in
+        </a>
+      )}
       <FlippedModal
         open={open}
         onCancel={onCancel}
