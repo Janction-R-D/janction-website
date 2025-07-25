@@ -32,9 +32,6 @@ const DeployNode = () => {
   }
 
   useEffect(() => {
-    getNodes();
-  }, []);
-  useEffect(() => {
     if (!selectedValues?.system) return;
     const _architecture = ARCHITECTURE.filter((item) =>
       item.sys.includes(selectedValues.system),
@@ -141,7 +138,6 @@ const DeployNode = () => {
             <RunNode
               selectedValues={selectedValues}
               nodesData={nodesData}
-              getNodes={getNodes}
               loading={loading}
               isWin={isWin}
             />
