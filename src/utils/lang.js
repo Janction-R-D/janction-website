@@ -189,12 +189,14 @@ export const convertKB = (kb, decimalPlaces = 2) => {
 export const links = [
   {
     operatingSystem: 'windows',
-    appLink: 'https://assets.janction.ai/bin/JanctionApp 1.0.0.msi',
+    appLink:
+      'https://assets.janction.ai/app-release/win/x64/JanctionApp+1.9.17.msi',
   },
 
   {
     operatingSystem: 'macos',
-    appLink: 'https://assets.janction.ai/bin/JanctionApp-1.0.0-arm64.dmg',
+    appLink:
+      'https://assets.janction.ai/app-release/mac/arm64/JanctionApp-1.9.14-arm64.dmg',
   },
   {
     operatingSystem: 'linux',
