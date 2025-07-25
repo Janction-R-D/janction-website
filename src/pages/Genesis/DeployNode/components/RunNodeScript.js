@@ -7,13 +7,14 @@ import { useEffect, useMemo, useState } from 'react';
 import { fetchNodesRegister } from '@/services/genesis';
 import { RedoOutlined } from '@ant-design/icons';
 import { copy } from '@/utils/lang';
+import { ARCHITECTURE } from '@/constant';
 
 const { Text } = Typography;
 const RunNodeScript = (props) => {
-  const { isLinux, getNodes, nodesData, loading, isWin } = props;
-  console.log(isWin);
+  const { isLinux, isWin } = props;
+  const [loading, setLoading] = useState(false);
   const [isCN, setIsCn] = useState(false);
-
+  const [nodesData, setNodesData] = useState({});
   const script = useMemo(() => {
     if (isLinux) {
       const value = `curl '${
@@ -44,7 +45,21 @@ ${value}
       value,
     };
   }, [nodesData, isCN, isWin]);
-
+  useEffect(() => {
+    getNodes();
+  }, []);
+  const getNodes = async () => {
+    try {
+      setLoading(true);
+      const res = await fetchNodesRegister();
+      setNodesData(res);
+      setLoading(false);
+      message.success('Refreshed');
+    } catch (error) {
+      setLoading(false);
+      console.log('『error』', error);
+    }
+  };
   const onChange = () => {
     setIsCn(!isCN);
   };

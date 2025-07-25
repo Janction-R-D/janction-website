@@ -6,7 +6,7 @@ import { Typography } from 'antd';
 import RunNodeScript from './RunNodeScript';
 const { Text } = Typography;
 const RunNode = (props) => {
-  const { selectedValues, nodesData, getNodes, loading, isWin } = props;
+  const { selectedValues, nodesData, loading, isWin } = props;
 
   const [nodeData, setNodaData] = useState();
   useEffect(() => {
@@ -199,7 +199,6 @@ const RunNode = (props) => {
 
             <RunNodeScript
               nodesData={nodesData}
-              getNodes={getNodes}
               loading={loading}
               isWin={false}
             />
@@ -281,7 +280,6 @@ To stop edgecore service:
         <RunNodeScript
           isLinux
           nodesData={nodesData}
-          getNodes={getNodes}
           loading={loading}
           isWin={false}
         />
@@ -373,7 +371,6 @@ To stop edgecore service:
 
           <RunNodeScript
             nodesData={nodesData}
-            getNodes={getNodes}
             loading={loading}
             isWin={isWin}
           />
