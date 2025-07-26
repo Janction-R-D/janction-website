@@ -54,7 +54,7 @@ ${value}
       const res = await fetchNodesRegister();
       setNodesData(res);
       setLoading(false);
-      message.success('Refreshed');
+      // message.success('Refreshed');
     } catch (error) {
       setLoading(false);
       console.log('『error』', error);
