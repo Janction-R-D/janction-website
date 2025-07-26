@@ -33,8 +33,12 @@ const DesktopConnect = (props) => {
   }, []);
 
   useEffect(() => {
-    if (address) {
-      disconnect();
+    const refresh = storage.get('refresh');
+    if (refresh) {
+      setTimeout(() => {
+        openConnectModal && openConnectModal();
+        storage.remove(refresh);
+      }, 1000);
     }
   }, []);
 
@@ -174,7 +178,7 @@ const DesktopConnect = (props) => {
     }
   };
   const onConnect = async () => {
-    if (!mounted || typeof openConnectModal !== 'function') return;
+    // if (!mounted || typeof openConnectModal !== 'function') return;
     if (address) {
       await disconnect();
       // Triggered when the user clears local data

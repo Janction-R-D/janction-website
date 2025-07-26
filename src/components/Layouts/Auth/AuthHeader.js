@@ -206,7 +206,8 @@ export function ProfileModal({ isModalOpen, handleOk, handleCancel }) {
         };
         const isLoggedIn = isLoged || !!account?.address;
         if (sessionType == 'wallet' && !isLoggedIn) {
-          return <Redirect to={`login?from=${location.pathname}`} />;
+          storage.clear();
+          return history.replace(`/login?from=${location.pathname}`);
         }
         return (
           <Modal
@@ -231,7 +232,7 @@ export function ProfileModal({ isModalOpen, handleOk, handleCancel }) {
               <section className={styles['profile-info']} id="change-mode">
                 <h3>{userName}</h3>
                 <span className={styles['chain-copy']}>
-                  <p> {account.address ? account?.displayName : null}</p>
+                  <p> {account?.address ? account?.displayName : null}</p>
                   <i
                     className="iconfont icon-copy poi"
                     onClick={() => copy(account?.address)}

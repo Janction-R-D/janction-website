@@ -31,9 +31,9 @@ ${value}
         value,
       };
     }
-    const value = `curl '${process.env.JANCTION_BASE_API}/v0/node/install${
-      isWin ? '_win' : ''
-    }.sh' | ${isCN ? 'LOCATION=cn' : ''} NODE_ID=${
+    const value = `curl '${
+      process.env.JANCTION_BASE_API
+    }/v0/node/install.sh' | ${isCN ? 'LOCATION=cn' : ''} NODE_ID=${
       nodesData?.node_id || ''
     } bash -s install`;
     return {
