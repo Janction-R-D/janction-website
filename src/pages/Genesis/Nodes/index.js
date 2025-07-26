@@ -134,6 +134,7 @@ function Nodes() {
           getList={getList}
           lessorsData={lessorsData}
         />
+        {/* <ListedMessage /> */}
         {list.length > 0 ? (
           <Card className={styles['card']}>
             <header>
