@@ -8,6 +8,7 @@ import NodeList from './components/nodeList';
 import EmptyNodes from './components/empty';
 import styles from './index.less';
 import { getNodeStatusMatch } from './components/extra';
+import ListedMessage from './ListedMessage';
 
 const initQuery = { status: 'all', word: '' };
 
@@ -134,7 +135,7 @@ function Nodes() {
           getList={getList}
           lessorsData={lessorsData}
         />
-        {/* <ListedMessage /> */}
+        {!!statisticData.listed && <ListedMessage />}
         {list.length > 0 ? (
           <Card className={styles['card']}>
             <header>
