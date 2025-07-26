@@ -4,7 +4,7 @@ import storage from '@/utils/storage';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Button, Modal } from 'antd';
 import { useEffect, useState } from 'react';
-import { history, useLocation, useModel } from 'umi';
+import { history, Redirect, useLocation, useModel } from 'umi';
 import { useAccount, useDisconnect, useSignMessage } from 'wagmi';
 import AndroidAuthMenu from './AuthMenu';
 import styles from './index.less';
@@ -169,7 +169,7 @@ export function ProfileModal({ isModalOpen, handleOk, handleCancel }) {
     <ConnectButton.Custom>
       {({ account, chain }) => {
         const { initialState, setInitialState } = useModel('@@initialState');
-        const { isLessee } = initialState || {};
+        const { isLessee, sessionType } = initialState || {};
         const { disconnect } = useDisconnect();
 
         const onChangeIdentity = async () => {
@@ -205,6 +205,9 @@ export function ProfileModal({ isModalOpen, handleOk, handleCancel }) {
           handleCancel();
         };
         const isLoggedIn = isLoged || !!account?.address;
+        if (sessionType == 'wallet' && !isLoggedIn) {
+          return <Redirect to={`login?from=${location.pathname}`} />;
+        }
         return (
           <Modal
             className={styles['card-modal']}
@@ -228,7 +231,7 @@ export function ProfileModal({ isModalOpen, handleOk, handleCancel }) {
               <section className={styles['profile-info']} id="change-mode">
                 <h3>{userName}</h3>
                 <span className={styles['chain-copy']}>
-                  <p> {account?.displayName || 'Unknow'}</p>
+                  <p> {account.address ? account?.displayName : null}</p>
                   <i
                     className="iconfont icon-copy poi"
                     onClick={() => copy(account?.address)}

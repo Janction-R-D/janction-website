@@ -190,13 +190,13 @@ export const links = [
   {
     operatingSystem: 'windows',
     appLink:
-      'https://assets.janction.ai/app-release/win/x64/JanctionApp+1.9.17.msi',
+      'https://assets.janction.ai/app-release/win/x64/JanctionApp+2.0.13.exe',
   },
 
   {
     operatingSystem: 'macos',
     appLink:
-      'https://assets.janction.ai/app-release/mac/arm64/JanctionApp-1.9.14-arm64.dmg',
+      'https://assets.janction.ai/app-release/mac/arm64/JanctionApp-2.0.13-arm64.dmg',
   },
   {
     operatingSystem: 'linux',
