@@ -5,17 +5,31 @@ import { useEffect, useState } from 'react';
 import Customized from './components/Customized';
 import Quick from './components/Quick';
 import { Button } from 'antd';
+import { fetchUserInfo } from '@/services/genesis';
 function Purchase() {
   const { path, isQuick } = history.location.state || {};
   const { initialState } = useModel('@@initialState');
   const { isLessee } = initialState || {};
   const [activePurType, setActivePurType] = useState(DEFAULT_PURCHASE_TYPE);
+  const [isBinded, setIsBinded] = useState(false);
   useEffect(() => {
     if (isQuick) {
       setActivePurType(PURCHASES[1].value);
     }
   }, [isQuick]);
-
+  useEffect(() => {
+    getUserInfo();
+  }, []);
+  const getUserInfo = async () => {
+    try {
+      const res = await fetchUserInfo();
+      if (res?.email) {
+        setIsBinded(res);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   if (!isLessee) return <Redirect to="/genesis/dashboard"></Redirect>;
 
   return (
@@ -24,6 +38,21 @@ function Purchase() {
         <header>
           <h1>Purchase</h1>
         </header>
+        {!isBinded && (
+          <div className={styles['warning-box']}>
+            <i className="iconfont icon-info" />
+            <span>
+              Please bind your email to receive real-time node monitoring
+              updates
+              <span
+                className={styles['bind']}
+                onClick={() => history.push('/genesis/user-center')}
+              >
+                Go bind email.
+              </span>
+            </span>
+          </div>
+        )}
       </section>
       <section className={styles['purchase-nav-header']}>
         <div className={styles['purchase-type-nav']}>

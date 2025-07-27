@@ -439,9 +439,23 @@ export const fetchAgentStatus = (id) => {
     loginAuth: true,
   });
 };
+export const taskList = (id) => {
+  return request(`${baseUrl}/task/list`, {
+    loginAuth: true,
+  });
+};
 export const fetchAgentDelete = (id) => {
   return request(`${baseUrl}/agent/agents/${id}`, {
     method: 'DELETE',
+    loginAuth: true,
+  });
+};
+
+//node tag data
+export const fetchNodeTag = (data) => {
+  return request(`${baseUrl}/node/name`, {
+    method: 'PUT',
+    data,
     loginAuth: true,
   });
 };

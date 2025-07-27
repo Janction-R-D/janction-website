@@ -1,22 +1,54 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Pagination } from 'antd';
 import styles from './notify.less';
 import { Tooltip } from 'antd';
+import { formatISODate } from '@/utils/datetime';
+
 function News({ news }) {
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Número de items por página
+  const itemsPerPage = 5;
+
+  // Calcula las notificaciones que se deben mostrar en la página actual
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentNotifications = news.slice(
+    startIndex,
+    startIndex + itemsPerPage,
+  );
+
+  // Maneja el cambio de página
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   return (
     <div className={styles['notifications-list']}>
-      {news.slice(0, 5).map((notification, index) => (
+      {currentNotifications.map((notification, index) => (
         <NotificationItem
           key={index}
           type={notification.type}
-          message={notification.message}
+          message={notification?.message}
+          notification={notification}
           timestamp={notification.timestamp}
         />
       ))}
+
+      {/* Paginación */}
+      <Pagination
+        current={currentPage}
+        total={news.length}
+        pageSize={itemsPerPage}
+        onChange={handlePageChange}
+        showSizeChanger={false}
+        className={styles['notifications-pagination']}
+        showTotal={(total) => `Total ${total} items`}
+      />
     </div>
   );
 }
 
-const NotificationItem = ({ type, message, timestamp }) => (
+const NotificationItem = ({ type, message, timestamp, notification }) => (
   <div className={styles['notification-item']}>
     <header className={styles['notification-header']}>
       <h1 className={styles['type']}>
@@ -29,7 +61,9 @@ const NotificationItem = ({ type, message, timestamp }) => (
         )}
         {type}
       </h1>
-      <div className={styles['time']}>{timestamp}</div>
+      <div className={styles['time']}>
+        {formatISODate(notification.createdAt)}
+      </div>
     </header>
     <Tooltip
       title={message}
@@ -38,7 +72,10 @@ const NotificationItem = ({ type, message, timestamp }) => (
       color="black"
     >
       <p className={styles['message']}>{message}</p>
+      <p className={styles['message']}>{notification.id}</p>
+      <p className={styles['message']}>{notification.handler}</p>
     </Tooltip>
   </div>
 );
+
 export default News;
