@@ -102,9 +102,9 @@ export default function OperationDelis({ record, error, getList }) {
           handleCancel={handleCancelStake}
         />
       </a>
-      <a className={`${'operation-action'}`} onClick={handleReceive}>
+      {/* <a className={`${'operation-action'}`} onClick={handleReceive}>
         <p>Receive Rewards</p>
-      </a>
+      </a> */}
       <a onClick={() => onRefresh()}>
         <RedoOutlined
           rotate={90}

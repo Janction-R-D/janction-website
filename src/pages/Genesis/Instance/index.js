@@ -36,9 +36,9 @@ function Instance() {
   const [resource, setResource] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(4);
+  const [pageSize, setPageSize] = useState(5);
   const [openHs, setOpenHs] = useState(false);
-
+  const allowedStatuses = ['running', 'starting', 'stopped'];
   const onHistory = () => {
     setOpenHs(true);
   };
@@ -82,8 +82,9 @@ function Instance() {
     const start = (currentPage - 1) * pageSize;
     return filteredData.slice(start, start + pageSize);
   }, [filteredData, currentPage, pageSize]);
-  const filteredInstance = filteredData?.filter(
-    (item) => item.status_str === 'running' || item.status_str === 'starting',
+
+  const filteredInstance = paginatedData?.filter((item) =>
+    allowedStatuses.includes(item.status_str.toLowerCase()),
   );
   if (!isLessee) return <Redirect to="/genesis/nodes"></Redirect>;
   return (
@@ -185,7 +186,7 @@ function Instance() {
           </section>
         )}
         {view === 'Kanban' && (
-          <InstanceTable data={filteredData} getAllNodes={getAllNodes} />
+          <InstanceTable data={filteredInstance} getAllNodes={getAllNodes} />
         )}
       </Card>
     </>

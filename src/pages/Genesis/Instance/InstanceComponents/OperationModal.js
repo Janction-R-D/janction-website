@@ -21,7 +21,10 @@ export default function OperationModal({ record, getAllNodes }) {
   const [selectVisible, setSelectVisible] = useState(false);
   const [selectLoading, setSelectLoading] = useState(false);
   const [selectValue, setSelectValue] = useState(undefined);
-  const isRunning = record?.status?.toLowerCase() === 'running';
+  const allowedStatuses = ['running', 'starting', 'stopped'];
+  const allowedRunning = ['running', 'starting'];
+  const isRunning = allowedRunning.includes(record?.status?.toLowerCase());
+  const isAllowed = allowedStatuses.includes(record?.status?.toLowerCase());
 
   const handleConnect = async () => {
     if (!isRunning) return;
@@ -106,6 +109,7 @@ export default function OperationModal({ record, getAllNodes }) {
       message.destroy('code-server');
     }
   };
+
   return (
     <div className="ellipsis operation-modal">
       <JanctionPopover
@@ -160,7 +164,11 @@ export default function OperationModal({ record, getAllNodes }) {
 
             <li
               className={`${'operation-action'}  
-                ${!isRunning ? styles['forbiden'] : ''}
+                ${
+                  record?.status?.toLowerCase() !== 'stopped' || !isRunning
+                    ? styles['forbiden']
+                    : ''
+                }
                 `}
               onClick={() => {
                 if (!isRunning) return;
@@ -173,17 +181,11 @@ export default function OperationModal({ record, getAllNodes }) {
               title="Please confirm whether to stop renting this node!"
               onConfirm={handleStop}
               okText="Yes"
-              disabled={
-                record?.status?.toLowerCase() === 'stopped' ||
-                record?.status?.toLowerCase() === 'expired'
-              }
+              disabled={!isAllowed}
             >
               <li
                 className={`${'operation-action'}  ${
-                  record?.status?.toLowerCase() === 'stopped' ||
-                  record?.status?.toLowerCase() === 'expired'
-                    ? styles['forbiden']
-                    : ''
+                  !isAllowed ? styles['forbiden'] : ''
                 }`}
               >
                 Terminate

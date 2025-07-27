@@ -103,6 +103,7 @@ const columns = [
 const HistoryInstances = (props) => {
   const { open, onOk, onCancel, data } = props;
   const [currentPage, setCurrentPage] = useState(1);
+  const allowedStatuses = ['running', 'starting', 'stopped'];
   const mappedOrders = useMemo(() => {
     return data?.map((order) => ({
       ...order,
@@ -118,7 +119,7 @@ const HistoryInstances = (props) => {
     }));
   }, [data]);
   const filteredInstance = mappedOrders?.filter(
-    (item) => item.status !== 'running' && item.status !== 'starting',
+    (item) => !allowedStatuses.includes(item.status_str.toLowerCase()),
   );
   const handleCancel = () => {
     onCancel();

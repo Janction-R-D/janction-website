@@ -14,10 +14,12 @@ import {
   fetchMarketOrder,
   fetchNodesDelete,
   fetchNodesRefresh,
+  fetchNodeTag,
 } from '@/services/genesis';
 import contract from '@/utils/contracts';
 import { calculateDuration } from '@/utils/datetime';
 import { history } from 'umi';
+import ModalTagInput from '../ModalTagInput';
 
 const NodeCard = ({ item, getList }) => {
   const { id, yesterdayReward } = item;
@@ -80,10 +82,13 @@ const NodeCard = ({ item, getList }) => {
           </div>
         </div>
         <div className={styles.status}>
-          <span className={`${styles[`${status}`]}`}>{status}</span>
-          <Tooltip title="Node is active">
-            <InfoCircleOutlined className={styles.infoIcon} />
-          </Tooltip>
+          <div className={`${styles[`status-box`]}`}>
+            <span className={`${styles[`${status}`]}`}>{status}</span>
+            <Tooltip title="Node is active">
+              <InfoCircleOutlined className={styles.infoIcon} />
+            </Tooltip>
+          </div>
+          <span className={styles['tags']}>{item?.name || ''}</span>
         </div>
       </div>
 
@@ -122,6 +127,7 @@ const NodeCard = ({ item, getList }) => {
 };
 const Operation = ({ item, getList }) => {
   const [isModalOpenStake, setIsModalOpenStake] = useState(false);
+  const [isTagModalOpen, setIsTagModalOpen] = useState(false);
   const { isRunning, isListed } = getNodeStatusMatch(item);
   const [loading, setLoading] = useState(false);
   const [paymentId, setPaymentId] = useState('');
@@ -195,6 +201,19 @@ const Operation = ({ item, getList }) => {
         className={`${styles['operation-action']}  ${
           !isRunning ? styles['disabled'] : ''
         }`}
+        onClick={() => setIsTagModalOpen(true)}
+      >
+        Add tag
+      </a>
+      <ModalTagInput
+        open={isTagModalOpen}
+        onClose={() => setIsTagModalOpen(false)}
+        item={item}
+      />
+      <a
+        className={`${styles['operation-action']}  ${
+          !isRunning ? styles['disabled'] : ''
+        }`}
         onClick={handleNavigate}
       >
         List
@@ -215,9 +234,9 @@ const Operation = ({ item, getList }) => {
         />
       </a>
 
-      <span className={styles.receive} onClick={handleReceive}>
+      {/* <span className={styles.receive} onClick={handleReceive}>
         Receive Rewards
-      </span>
+      </span> */}
 
       <a onClick={() => onRefresh()}>
         <RedoOutlined

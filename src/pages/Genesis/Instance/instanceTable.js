@@ -68,6 +68,12 @@ function InstanceTable({ data, getAllNodes }) {
       },
     },
     {
+      title: <div className="name">Tag</div>,
+      dataIndex: 'tag',
+      key: 'tag',
+      ellipsis: true,
+    },
+    {
       title: <div className="name">Cores</div>,
       dataIndex: 'node',
       key: 'Cores',
@@ -209,6 +215,7 @@ function InstanceTable({ data, getAllNodes }) {
     return data?.map((order) => ({
       ...order,
       key: order?.id,
+      tag: order.node?.name || '~~',
       Cores: order?.node?.attr.cpu || '--',
       memory: order?.node?.attr.memory,
       status: order?.status_str,
@@ -220,9 +227,6 @@ function InstanceTable({ data, getAllNodes }) {
       )}`,
     }));
   }, [data]);
-  const filteredInstance = mappedOrders?.filter(
-    (item) => item.status === 'running' || item.status === 'starting',
-  );
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -255,7 +259,7 @@ function InstanceTable({ data, getAllNodes }) {
       <Table
         className={styles['table-instance']}
         columns={columns}
-        dataSource={filteredInstance}
+        dataSource={mappedOrders}
         emptyDescription={
           <p>
             No instance is currently available. Please{' '}

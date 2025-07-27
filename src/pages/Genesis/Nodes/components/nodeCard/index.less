@@ -58,8 +58,16 @@
 .status {
   display: flex;
   align-items: center;
-  gap: 8px;
+  flex-direction: column;
+  gap: 4px;
   text-transform: capitalize;
+  .tags {
+    font-size: 0.7rem;
+  }
+  .status-box {
+    display: flex;
+    gap: 3px;
+  }
   .running {
     font-size: 14px;
     font-weight: 600;
