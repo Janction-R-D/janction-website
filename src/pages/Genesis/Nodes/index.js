@@ -1,4 +1,4 @@
-import { fetchLessor, fetchNodesList } from '@/services/genesis';
+import { fetchLessor, fetchNodesList, fetchUserInfo } from '@/services/genesis';
 import { Card, message, Pagination } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
 import { Redirect, useModel } from 'umi';
@@ -18,7 +18,8 @@ function Nodes() {
   const [filters, setFilter] = useState(initQuery);
   const [currentPage, setCurrentPage] = useState(1);
   const [lessorsData, setLessorsData] = useState({});
-  const [pageSize, setPageSize] = useState(6); // Puedes ajustar este valor
+  const [pageSize, setPageSize] = useState(6);
+  const [isBinded, setIsBinded] = useState(false);
   const { initialState } = useModel('@@initialState');
   const { isLessee } = initialState || {};
 
@@ -42,10 +43,17 @@ function Nodes() {
   }, [filteredData]);
 
   useEffect(() => {
+    getUserInfo();
+  }, []);
+  useEffect(() => {
     getList();
     getLessors();
   }, []);
-
+  const handleRefresh = async () => {
+    await getList();
+    await getLessors();
+    message.success('Refreshed!');
+  };
   const getLessors = async () => {
     try {
       const res = await fetchLessor();
@@ -120,6 +128,16 @@ function Nodes() {
     return filteredData.slice(start, start + pageSize);
   }, [filteredData, currentPage, pageSize]);
 
+  const getUserInfo = async () => {
+    try {
+      const res = await fetchUserInfo();
+      if (res?.email) {
+        setIsBinded(res);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   if (isLessee) return <Redirect to="/genesis/instance" />;
 
   return (
@@ -135,12 +153,16 @@ function Nodes() {
           getList={getList}
           lessorsData={lessorsData}
         />
-        {!!statisticData.listed && <ListedMessage />}
+        {!!statisticData?.listed && !isBinded && <ListedMessage />}
         {list.length > 0 ? (
           <Card className={styles['card']}>
             <header>
               <div className={styles['card-header']}>
                 <h2>Node status monitoring</h2>
+                <span className={styles['refresh']} onClick={handleRefresh}>
+                  <i className="iconfont icon-refresh"></i>
+                  Refresh
+                </span>
               </div>
               <Filters
                 styles={styles}
