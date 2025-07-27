@@ -4,6 +4,7 @@ import { DownloadOutlined } from '@ant-design/icons';
 import styles from './index.less'; // Import styles
 import StepOne from '../StepOne/StepOne';
 import { SYSTEM_LIST } from '@/constant';
+import { request } from 'umi';
 
 const DEFAULT = {
   system: SYSTEM_LIST[0].value,
@@ -48,10 +49,10 @@ const Guide = ({ onOpen, isOpen, setIsOpen }) => {
     async function fetchLinks() {
       setLoading(true);
       try {
-        const response = await fetch('/assets/app-release/metadata.json');
-        if (!response.ok) throw new Error('Failed to fetch metadata');
+        const apiResponse = await request(
+          `${process.env.ASSETS_URL}/app-release/metadata.json`,
+        );
 
-        const apiResponse = await response.json();
         const latest = getLatestWinX64MsiAndMacArm64Dmg(apiResponse, baseURL);
         if (!latest) return;
 
@@ -118,7 +119,12 @@ const Guide = ({ onOpen, isOpen, setIsOpen }) => {
             </Button>
           </a>
         ) : (
-          <Button type="primary" className={styles.btn} disabled loading>
+          <Button
+            type="primary"
+            className={styles.btn}
+            disabled
+            loading={loading}
+          >
             Download
             <span className={styles.icon}>
               <DownloadOutlined />
