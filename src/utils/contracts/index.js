@@ -210,18 +210,6 @@ const contract = {
         await approveTx.wait();
         message.success('Approval successful!');
       }
-      console.log(
-        'Payer Address:',
-        payerAddress,
-        '| Owner Address:',
-        ownerAddress,
-        '| Currency Address:',
-        currencyAddress,
-        '| Total Amount:',
-        totalAmount,
-        '| Total Hours:',
-        totalHours,
-      );
 
       // 调起支付
       const tx = await payment.createPaymentPlan(

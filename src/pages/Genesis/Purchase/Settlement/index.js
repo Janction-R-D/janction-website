@@ -168,7 +168,6 @@ const Settlement = (props) => {
         currencyAddress: currency,
         durationNum: value,
         duration: unit,
-        // TODO
         price: price,
       });
 
