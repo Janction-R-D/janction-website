@@ -190,7 +190,7 @@ export const links = [
   {
     operatingSystem: 'windows',
     appLink:
-      'https://assets.janction.ai/app-release/win/x64/JanctionApp+2.0.14.exe',
+      'https://assets.janction.ai/app-release/win/x64/JanctionApp+2.0.14.msi',
   },
 
   {

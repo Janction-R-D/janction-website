@@ -8,4 +8,8 @@ export default {
     changeOrigin: true,
     secure: false,
   },
+  '/assets/': {
+    target: 'https://assets.janction.ai',
+    changeOrigin: true,
+  },
 };
