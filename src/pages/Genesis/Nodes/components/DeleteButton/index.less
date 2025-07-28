@@ -1,0 +1,31 @@
+.modalWrapper {
+  :global {
+    .ant-modal-content {
+      border-radius: 12px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .ant-modal-header {
+      border-radius: 12px 12px 0 0;
+      background-color: transparent;
+      backdrop-filter: blur(8px);
+    }
+
+    .ant-modal-footer {
+      background-color: transparent;
+    }
+  }
+}
+
+.iconBtn {
+  color: red;
+  font-size: 16px;
+  cursor: pointer;
+  transition: color 0.3s;
+
+  &:hover {
+    color: #ff4d4f;
+  }
+}

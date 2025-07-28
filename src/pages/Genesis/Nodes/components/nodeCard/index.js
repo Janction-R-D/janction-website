@@ -20,6 +20,7 @@ import contract from '@/utils/contracts';
 import { calculateDuration } from '@/utils/datetime';
 import { history } from 'umi';
 import ModalTagInput from '../ModalTagInput';
+import DeleteNodeButton from '../DeleteButton';
 
 const NodeCard = ({ item, getList }) => {
   const { id, yesterdayReward } = item;
@@ -246,9 +247,10 @@ const Operation = ({ item, getList }) => {
           className={styles.iconBtn}
         />
       </a>
-      <a onClick={() => onDelete()}>
+      <DeleteNodeButton onDelete={onDelete} nodeId={item.id} />
+      {/* <a onClick={() => onDelete()}>
         <DeleteOutlined className={styles.iconBtn} />
-      </a>
+      </a> */}
     </div>
   );
 };
