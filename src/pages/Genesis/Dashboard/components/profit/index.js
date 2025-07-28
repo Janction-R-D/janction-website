@@ -48,7 +48,9 @@ const Profit = ({ lessorsData }) => {
           <p className={styles.title}>Profit</p>
           <span className={styles.subTitle}>Total</span>
           <div className={styles.profitCard}>
-            <p className={styles.value_total}>{profit.total.now} veJCT</p>
+            <p className={styles.value_total}>
+              {numeral(profit.total.now).format('0.00')}veJCT
+            </p>
             <div className={styles.compare}>
               <p
                 className={

@@ -1,90 +1,102 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
-import styles from './index.less'; // Import styles
+import styles from './index.less';
 import StepOne from '../StepOne/StepOne';
 import { SYSTEM_LIST } from '@/constant';
 import { request } from 'umi';
 
 const DEFAULT = {
   system: SYSTEM_LIST[0].value,
+  architecture: null, // arranca sin arquitectura seleccionada
 };
 
 const baseURL = 'https://assets.janction.ai/';
 
-function getLatestWinX64MsiAndMacArm64Dmg(apiResponse, baseURL) {
-  if (!apiResponse?.versions?.length) return null;
+function flattenVersions(versions, baseURL) {
+  const result = [];
 
-  const latest = apiResponse.versions[0];
-  const files = latest.files;
+  for (const versionObj of versions) {
+    const { version, files } = versionObj;
 
-  const winX64Msi = files.find(
-    (f) => f.endsWith('.msi') && f.includes('/win/x64/'),
-  );
+    for (const file of files) {
+      let os = '';
+      if (file.includes('/win/')) os = 'windows';
+      else if (file.includes('/mac/')) os = 'macos';
+      else if (file.includes('/linux/')) os = 'linux';
+      else continue;
 
-  const macArm64Dmg = files.find(
-    (f) => f.endsWith('.dmg') && f.includes('/mac/arm64/'),
-  );
+      const arch = file.includes('arm64')
+        ? 'cpu' //  ARM = 'cpu'
+        : file.includes('x64') || file.includes('AppImage')
+        ? 'cpu64' // AMD64 = 'cpu64'
+        : 'unknown';
 
-  return {
-    version: latest.version,
-    windowsMsiUrl: winX64Msi ? baseURL + winX64Msi : null,
-    macDmgUrl: macArm64Dmg ? baseURL + macArm64Dmg : null,
-  };
+      const ext = file.split('.').pop();
+
+      result.push({
+        url: baseURL + file,
+        version,
+        operatingSystem: os,
+        architecture: arch,
+        ext,
+      });
+    }
+  }
+
+  return result;
 }
 
 const Guide = ({ onOpen, isOpen, setIsOpen }) => {
   const [selectedValues, setSelectedValues] = useState(DEFAULT);
-  const [links, setLinks] = useState([]);
+  const [allLinks, setAllLinks] = useState([]);
   const [downloadLink, setDownloadLink] = useState(null);
+  const [downloadVersion, setDownloadVersion] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const handleCancel = () => {
-    setIsOpen(false);
-  };
+  const handleCancel = () => setIsOpen(false);
 
   useEffect(() => {
     let isMounted = true;
-
     async function fetchLinks() {
       setLoading(true);
       try {
         const apiResponse = await request(
           `${process.env.ASSETS_URL}/app-release/metadata.json`,
         );
+        if (!apiResponse?.versions?.length) return;
 
-        const latest = getLatestWinX64MsiAndMacArm64Dmg(apiResponse, baseURL);
-        if (!latest) return;
-
-        const newLinks = [
-          {
-            operatingSystem: 'windows',
-            appLink: latest.windowsMsiUrl,
-          },
-          {
-            operatingSystem: 'macos',
-            appLink: latest.macDmgUrl,
-          },
-          {
-            operatingSystem: 'linux',
-            appLink: null,
-          },
-        ];
-
-        if (isMounted) setLinks(newLinks);
+        const all = flattenVersions(apiResponse.versions, baseURL);
+        if (isMounted) setAllLinks(all);
       } catch (error) {
         console.error('Error fetching links:', error);
       } finally {
         if (isMounted) setLoading(false);
       }
     }
-
     fetchLinks();
-
     return () => {
       isMounted = false;
     };
   }, []);
+
+  useEffect(() => {
+    if (!selectedValues.system || !selectedValues.architecture) {
+      setDownloadLink(null);
+      setDownloadVersion(null);
+      return;
+    }
+
+    const found = allLinks.find(
+      (item) =>
+        item.operatingSystem === selectedValues.system &&
+        item.architecture === selectedValues.architecture &&
+        ['msi', 'dmg', 'AppImage'].includes(item.ext),
+    );
+
+    setDownloadLink(found?.url || null);
+    setDownloadVersion(found?.version || null);
+  }, [selectedValues, allLinks]);
 
   return (
     <Modal
@@ -99,9 +111,6 @@ const Guide = ({ onOpen, isOpen, setIsOpen }) => {
       <StepOne
         selectedValues={selectedValues}
         setSelectedValues={setSelectedValues}
-        links={links}
-        setDownloadLink={setDownloadLink}
-        loading={loading}
       />
       <div className={styles['install-wizard-footer']}>
         {downloadLink ? (
@@ -113,6 +122,9 @@ const Guide = ({ onOpen, isOpen, setIsOpen }) => {
           >
             <Button type="primary" className={styles.btn}>
               Download
+              {downloadVersion && (
+                <span className={styles.version}>v{downloadVersion}</span>
+              )}
               <span className={styles.icon}>
                 <DownloadOutlined />
               </span>
