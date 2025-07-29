@@ -8,7 +8,7 @@ import JasmyRewards from './JasmyRewards.json';
 import NFTEscrowImpl from './NFTEscrowImpl.json';
 import JanctionNFT from './JanctionNFT.json';
 import { delay } from '../lang';
-import janctionTestnet from './janctionTestnet.json';
+import jasmyTestnet from './jasmyTestnet.json';
 import Addresses from './Addresses.json';
 
 const isProduction = process.env.JANCTION_ENV === 'production';
@@ -38,11 +38,11 @@ const NETWORKS = {
     rpcUrls: ['https://sepolia.optimism.io'],
     blockExplorerUrls: ['https://sepolia-optimism.etherscan.io'],
   },
-  janction_test: {
-    chainId: janctionTestnet.id,
-    chainName: janctionTestnet.name,
-    rpcUrls: [janctionTestnet.rpcUrls.default],
-    blockExplorerUrls: [janctionTestnet.blockExplorers.default.url],
+  jasmy_test: {
+    chainId: jasmyTestnet.id,
+    chainName: jasmyTestnet.name,
+    rpcUrls: [jasmyTestnet.rpcUrls.default],
+    blockExplorerUrls: [jasmyTestnet.blockExplorers.default.url],
   },
 };
 
@@ -50,7 +50,7 @@ export const getCurrency = () => {
   const address = isProduction
     ? Addresses.OP
     : process.env.TESTNET == 'janction'
-    ? Addresses.JANCTION_TESTNET
+    ? Addresses.JASMY_TESTNET
     : Addresses.OP_SEPOLIA;
   return [
     // {
@@ -101,7 +101,7 @@ const getAddresses = (networkName = 'OP') => {
     : networkName == 'ETH'
     ? 'SEPOLIA'
     : process.env.TESTNET == 'janction'
-    ? 'JANCTION_TESTNET'
+    ? 'JASMY_TESTNET'
     : 'OP_SEPOLIA';
   return Addresses[network_name];
 };
