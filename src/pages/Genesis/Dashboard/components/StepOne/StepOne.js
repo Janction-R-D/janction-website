@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import styles from './index.less';
-import { ARCHITECTURE, SYSTEM_LIST } from '@/constant';
+import { ARCHITECTURE_LINK, SYSTEM_LIST } from '@/constant';
 
 const StepOne = ({ selectedValues, setSelectedValues }) => {
   const [availableArchitectures, setAvailableArchitectures] = useState([]);
@@ -12,7 +12,7 @@ const StepOne = ({ selectedValues, setSelectedValues }) => {
       return;
     }
 
-    const filteredArchitectures = ARCHITECTURE.filter((arch) =>
+    const filteredArchitectures = ARCHITECTURE_LINK.filter((arch) =>
       arch.sys.includes(selectedValues.system),
     );
 
@@ -37,7 +37,14 @@ const StepOne = ({ selectedValues, setSelectedValues }) => {
       architecture: null, // reset arquitectura al cambiar sistema para forzar la selección
     });
   };
+  const ARCH_LABELS = {
+    cpu: 'ARM',
+    cpu64: 'AMD64',
+  };
 
+  function getArchLabel(value, fallback) {
+    return ARCH_LABELS[value] || fallback;
+  }
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.8 }}
@@ -82,17 +89,7 @@ const StepOne = ({ selectedValues, setSelectedValues }) => {
                       })
                     }
                   >
-                    <span>
-                      {selectedValues.system === 'macos'
-                        ? item.value === 'cpu'
-                          ? 'ARM'
-                          : item.value === 'cpu64'
-                          ? 'AMD64'
-                          : item.name
-                        : selectedValues.system === 'windows'
-                        ? 'ARM'
-                        : item.name}
-                    </span>
+                    <span>{getArchLabel(item.value, item.name)}</span>
                   </li>
                 ))}
               </ul>

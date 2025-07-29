@@ -248,9 +248,6 @@ const Operation = ({ item, getList }) => {
         />
       </a>
       <DeleteNodeButton onDelete={onDelete} nodeId={item.id} />
-      {/* <a onClick={() => onDelete()}>
-        <DeleteOutlined className={styles.iconBtn} />
-      </a> */}
     </div>
   );
 };
