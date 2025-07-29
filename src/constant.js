@@ -83,6 +83,13 @@ export const ARCHITECTURE = [
   // { name: 'ARM', value: 'gpu', sys: [] },
 ];
 
+export const ARCHITECTURE_LINK = [
+  { name: 'AMD64', value: 'cpu64', sys: ['macos', 'linux', 'windows'] },
+  { name: 'ARM', value: 'cpu', sys: ['macos', 'linux', 'windows'] },
+  // { name: 'AMD64', value: 'gpu64', sys: [] },
+  // { name: 'ARM', value: 'gpu', sys: [] },
+];
+
 export const COMMAND = {
   macos: {
     cpu64:

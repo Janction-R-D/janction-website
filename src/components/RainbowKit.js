@@ -1,4 +1,4 @@
-import janctionTestnet from '@/utils/contracts/janctionTestnet.json';
+import jasmyTestnet from '@/utils/contracts/jasmyTestnet.json';
 import {
   connectorsForWallets,
   darkTheme,
@@ -17,7 +17,7 @@ import { WagmiProvider } from 'wagmi';
 import { optimism, optimismSepolia } from 'wagmi/chains';
 
 const projectId = '23cf742fb52fc761a81ebe69526d0b82';
-const chains = [optimismSepolia, optimism, janctionTestnet];
+const chains = [optimismSepolia, optimism, jasmyTestnet];
 
 const connectors = connectorsForWallets(
   [

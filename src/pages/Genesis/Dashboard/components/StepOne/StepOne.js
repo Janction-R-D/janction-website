@@ -1,39 +1,50 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import styles from './index.less';
-import { ARCHITECTURE, SYSTEM_LIST } from '@/constant';
+import { ARCHITECTURE_LINK, SYSTEM_LIST } from '@/constant';
 
-const StepOne = (props, ref) => {
-  const { selectedValues, setSelectedValues, links, setDownloadLink } = props;
-  const [architecture, setArchitecture] = useState([]);
+const StepOne = ({ selectedValues, setSelectedValues }) => {
+  const [availableArchitectures, setAvailableArchitectures] = useState([]);
+
   useEffect(() => {
-    if (!selectedValues?.system) return;
-    const _architecture = ARCHITECTURE.filter((item) =>
-      item.sys.includes(selectedValues.system),
-    )?.[0];
-    console.log(_architecture);
-    const getLink = links.find(
-      (item) => item.operatingSystem == selectedValues.system,
-    );
-    if (!getLink) {
-      setDownloadLink(null);
+    if (!selectedValues?.system) {
+      setAvailableArchitectures([]);
       return;
     }
-    setDownloadLink(getLink.appLink);
-    setArchitecture([_architecture]);
-  }, [selectedValues]);
-  const onSysSelect = (sys) => {
-    console.log(sys);
-    const _architecture = ARCHITECTURE.filter((item) =>
-      item.sys.includes(sys.value),
+
+    const filteredArchitectures = ARCHITECTURE_LINK.filter((arch) =>
+      arch.sys.includes(selectedValues.system),
     );
 
+    setAvailableArchitectures(filteredArchitectures);
+
+    if (
+      !selectedValues.architecture ||
+      !filteredArchitectures.some(
+        (a) => a.value === selectedValues.architecture,
+      )
+    ) {
+      setSelectedValues((prev) => ({
+        ...prev,
+        architecture: filteredArchitectures[0]?.value || null,
+      }));
+    }
+  }, [selectedValues.system, setSelectedValues]);
+
+  const onSysSelect = (sys) => {
     setSelectedValues({
-      architecture: _architecture?.[0]?.value,
       system: sys.value,
+      architecture: null, // reset arquitectura al cambiar sistema para forzar la selección
     });
   };
+  const ARCH_LABELS = {
+    cpu: 'ARM',
+    cpu64: 'AMD64',
+  };
 
+  function getArchLabel(value, fallback) {
+    return ARCH_LABELS[value] || fallback;
+  }
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.8 }}
@@ -48,7 +59,7 @@ const StepOne = (props, ref) => {
             <li
               key={item.value}
               className={
-                selectedValues?.system == item.value ? styles['active'] : ''
+                selectedValues.system === item.value ? styles['active'] : ''
               }
               onClick={() => onSysSelect(item)}
             >
@@ -57,38 +68,33 @@ const StepOne = (props, ref) => {
             </li>
           ))}
         </ul>
-        {selectedValues?.system !== 'android' && (
-          <>
-            <p className={styles['sys-title']}>Choose Architecture</p>
 
-            <ul className={styles['gpu-cpu']}>
-              {architecture.map((item) => (
-                <li
-                  className={` ${
-                    selectedValues?.architecture == item.value &&
-                    styles['active']
-                  }
-                  }`}
-                  key={item.value}
-                  onClick={() => {
-                    setSelectedValues({
-                      ...selectedValues,
-                      architecture: item.value,
-                    });
-                  }}
-                >
-                  <span>
-                    {selectedValues.system == 'macos'
-                      ? 'ARM'
-                      : selectedValues.system == 'windows'
-                      ? 'ARM'
-                      : item.name}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </>
-        )}
+        {selectedValues.system !== 'android' &&
+          availableArchitectures.length > 0 && (
+            <>
+              <p className={styles['sys-title']}>Choose Architecture</p>
+              <ul className={styles['gpu-cpu']}>
+                {availableArchitectures.map((item) => (
+                  <li
+                    key={item.value}
+                    className={
+                      selectedValues.architecture === item.value
+                        ? styles['active']
+                        : ''
+                    }
+                    onClick={() =>
+                      setSelectedValues({
+                        ...selectedValues,
+                        architecture: item.value,
+                      })
+                    }
+                  >
+                    <span>{getArchLabel(item.value, item.name)}</span>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
       </section>
     </motion.div>
   );
