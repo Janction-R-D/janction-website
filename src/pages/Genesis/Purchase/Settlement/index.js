@@ -189,57 +189,6 @@ const Settlement = (props) => {
     }
   };
 
-  const columns = [
-    {
-      title: 'Device ID',
-      dataIndex: 'node_id',
-      key: 'deviceId',
-      width: 'auto',
-      ellipsis: true,
-    },
-    {
-      title: 'Price',
-      dataIndex: 'price',
-      ellipsis: true,
-      width: 'auto',
-      render: (text, record) => {
-        if (!text) return '--';
-        // TODO
-
-        return `${text} USDT / ${record?.unit.toUpperCase()}`;
-      },
-    },
-    {
-      title: 'Quantity',
-      dataIndex: 'quantity',
-      render: () => '*1',
-    },
-    {
-      title: 'Duration',
-      dataIndex: 'duration',
-      width: 'auto',
-      render: (text) => {
-        const { value, unit } = formValues?.purDuration || {};
-        if (!value && empty(unit)) return '--';
-        const goal = DURATION_OPTIONS.find((item) => item.value == unit);
-        return `${value || 0}${goal?.label}`;
-      },
-    },
-    {
-      title: 'Total Price',
-      dataIndex: 'price',
-      width: 'auto',
-      render: (text) => {
-        const { value, unit } = formValues?.purDuration || {};
-        if (!value && empty(unit)) return '--';
-        const price = priceInfo?.price?.price_in_currency || '--';
-
-        const _currency = getCurrency().find((item) => item.value == currency);
-
-        return (Number(price) / Number(_currency?.rate || 1)).toFixed(2);
-      },
-    },
-  ];
   const goBack = () => {
     history.push('/genesis/purchase');
   };
@@ -310,7 +259,9 @@ const Settlement = (props) => {
               <span>Price</span>
               <span className={styles['blue-item']}>
                 {getPrice()}
-                {` ${findCurrency} / ${priceInfo?.node_config?.unit.toUpperCase()}`}
+                {` ${findCurrency} / ${
+                  priceInfo?.node_config?.unit?.toUpperCase() || '~~'
+                }`}
               </span>
             </div>
             <div className={styles['duration-item']}>

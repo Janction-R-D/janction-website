@@ -9,7 +9,7 @@ export default defineConfig({
       JANCTION_BASE_API: 'https://dev.janction.ai',
       JANCTION_SOCKET_API: 'wss://dev.janction.ai',
       ASSETS_URL: 'https://assets.janction.ai',
-      TESTNET: 'janction',
+      TESTNET: 'jasmy',
       JanctionClient: 'd613993852aee264cee39ff93368ee10',
       JanctionStripe:
         'pk_live_51RLz4pC53KvFF1GVYYI1oADMsSmvhVTjgjmaq6GjvtDaE6ZeKHJtCnSuVtWS0TwxWyKzhcQvQcVg0RAqrg34Z71P00GsZ7nsBq',

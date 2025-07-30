@@ -68,7 +68,7 @@ function InstanceTable({ data, getAllNodes }) {
       },
     },
     {
-      title: <div className="name">Tag</div>,
+      title: <div className="name">Name</div>,
       dataIndex: 'tag',
       key: 'tag',
       ellipsis: true,
@@ -230,12 +230,17 @@ function InstanceTable({ data, getAllNodes }) {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const hasStarting = mappedOrders?.some(
-        (order) => order.status?.toLowerCase() === 'pending',
+      const hasStartingOrPending = mappedOrders?.some((order) =>
+        ['starting', 'pending'].includes(
+          String(order?.status || '')
+            .trim()
+            .toLowerCase(),
+        ),
       );
-      console.log(hasStarting);
-      if (hasStarting) {
-        console.log('[Interval] Some instance is still pending...');
+
+      console.log(hasStartingOrPending);
+      if (hasStartingOrPending) {
+        console.log('[Interval] Some instance is still starting...');
         getAllNodes(); // if theres a starting machine
       } else {
         console.log('[Interval] No instance is starting. Clearing interval.');

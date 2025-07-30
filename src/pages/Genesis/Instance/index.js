@@ -38,7 +38,7 @@ function Instance() {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
   const [openHs, setOpenHs] = useState(false);
-  const allowedStatuses = ['running', 'starting', 'stopped'];
+  const allowedStatuses = ['running', 'starting', 'stopped', 'pending'];
   const onHistory = () => {
     setOpenHs(true);
   };
