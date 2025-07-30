@@ -259,7 +259,9 @@ const Settlement = (props) => {
               <span>Price</span>
               <span className={styles['blue-item']}>
                 {getPrice()}
-                {` ${findCurrency} / ${priceInfo?.node_config?.unit.toUpperCase()}`}
+                {` ${findCurrency} / ${
+                  priceInfo?.node_config?.unit?.toUpperCase() || '~~'
+                }`}
               </span>
             </div>
             <div className={styles['duration-item']}>

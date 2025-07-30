@@ -129,7 +129,7 @@ const NodeCard = ({ item, getList }) => {
 const Operation = ({ item, getList }) => {
   const [isModalOpenStake, setIsModalOpenStake] = useState(false);
   const [isTagModalOpen, setIsTagModalOpen] = useState(false);
-  const { isRunning, isListed } = getNodeStatusMatch(item);
+  const { isOffLine, isRunning, isListed } = getNodeStatusMatch(item);
   const [loading, setLoading] = useState(false);
   const [paymentId, setPaymentId] = useState('');
 
@@ -200,16 +200,17 @@ const Operation = ({ item, getList }) => {
     <div className={styles.actions}>
       <a
         className={`${styles['operation-action']}  ${
-          !isRunning ? styles['disabled'] : ''
+          isOffLine ? styles['disabled'] : ''
         }`}
         onClick={() => setIsTagModalOpen(true)}
       >
-        Add tag
+        Add Name
       </a>
       <ModalTagInput
         open={isTagModalOpen}
         onClose={() => setIsTagModalOpen(false)}
         item={item}
+        onRefresh={getList}
       />
       <a
         className={`${styles['operation-action']}  ${

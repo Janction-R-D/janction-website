@@ -28,20 +28,21 @@ export default function QuickTable(props) {
       dataIndex: 'id',
     },
     {
-      title: 'Operating System',
+      title: 'OS Arch',
       ellipsis: true,
       dataIndex: 'operatingSystem',
       filters: [{ text: 'Android', value: 'Android' }],
       onFilter: (value, record) => record.operatingSystem.includes(value),
+      render: (text, record) => {
+        const displayText = `${record.operatingSystem} / ${record.architecture}`;
+        return <span>{displayText}</span>;
+      },
     },
     {
-      title: 'Architecture',
+      title: 'Location',
       ellipsis: true,
-      dataIndex: 'architecture',
-      filters: [{ text: 'ARM64', value: 'ARM64' }],
-      onFilter: (value, record) => record.architecture.includes(value),
+      dataIndex: 'location',
     },
-
     {
       title: 'Processor',
       dataIndex: 'attr',

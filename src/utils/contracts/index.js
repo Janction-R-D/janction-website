@@ -49,7 +49,7 @@ const NETWORKS = {
 export const getCurrency = () => {
   const address = isProduction
     ? Addresses.OP
-    : process.env.TESTNET == 'janction'
+    : process.env.TESTNET == 'jasmy'
     ? Addresses.JASMY_TESTNET
     : Addresses.OP_SEPOLIA;
   return [
@@ -100,19 +100,24 @@ const getAddresses = (networkName = 'OP') => {
     ? networkName
     : networkName == 'ETH'
     ? 'SEPOLIA'
-    : process.env.TESTNET == 'janction'
+    : process.env.TESTNET == 'jasmy'
     ? 'JASMY_TESTNET'
     : 'OP_SEPOLIA';
   return Addresses[network_name];
 };
 
-const switchNetwork = async (provider, networkName = 'op') => {
+const switchNetwork = async (provider, onMain = true, networkName = 'op') => {
   try {
     const network = await provider.getNetwork();
+    let networkConf;
     const network_name =
       isProduction || networkName == 'eth' ? networkName : process.env.TESTNET;
-    const networkConf =
-      NETWORKS[`${network_name}${isProduction ? '' : '_test'}`];
+    if (!onMain) {
+      networkConf = NETWORKS[`${network_name}_test`];
+    } else {
+      networkConf = NETWORKS[`${network_name}${isProduction ? '' : '_test'}`];
+    }
+
     const chainId = networkConf.chainId;
 
     if (network.chainId !== chainId) {
@@ -178,7 +183,7 @@ const contract = {
         duration: 0,
       });
 
-      await switchNetwork(provider);
+      await switchNetwork(provider, false);
 
       // 初始化合约
       const payment = new ethers.Contract(

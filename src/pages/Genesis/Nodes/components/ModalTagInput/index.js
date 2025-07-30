@@ -3,7 +3,7 @@ import { useState } from 'react';
 import styles from './index.less';
 import { fetchNodeTag } from '@/services/genesis';
 
-export default function ModalTagInput({ open, onClose, item }) {
+export default function ModalTagInput({ onRefresh, open, onClose, item }) {
   const [tag, setTag] = useState('');
   const [loading, setLoading] = useState(false);
   const handleTag = async () => {
@@ -13,6 +13,8 @@ export default function ModalTagInput({ open, onClose, item }) {
       await fetchNodeTag(data);
       message.success('name updated successfully!');
       onClose();
+      await onRefresh();
+      setTag('');
     } catch (error) {
       console.log(error);
     } finally {
@@ -31,7 +33,7 @@ export default function ModalTagInput({ open, onClose, item }) {
       onOk={handleTag}
       okText="Add Tag"
       cancelText="Cancel"
-      title="Add a Tag"
+      title="Add a name for your node"
       className={styles['custom-modal']}
       confirmLoading={loading}
     >
