@@ -112,8 +112,8 @@ function ProductList(props) {
         const gpu = attr.gpu_chip;
         return (
           <>
-            <p>{cpu ? `${cpu[0]} * ${cpu.length}` : '--'}</p>
-            <p>{gpu ? `${gpu[0]} * ${gpu.length}` : '--'}</p>
+            <p>{!!cpu.length ? `${cpu[0]} * ${cpu.length}` : '--'}</p>
+            <p>{!!gpu.length ? `${gpu[0]} * ${gpu.length}` : '--'}</p>
           </>
         );
       },
