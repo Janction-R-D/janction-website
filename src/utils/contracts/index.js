@@ -114,10 +114,11 @@ const switchNetwork = async (provider, onMain = true, networkName = 'op') => {
       isProduction || networkName == 'eth' ? networkName : process.env.TESTNET;
     if (!onMain) {
       networkConf = NETWORKS[`${network_name}_test`];
+      console.log(networkConf);
     } else {
       networkConf = NETWORKS[`${network_name}${isProduction ? '' : '_test'}`];
     }
-
+    console.log(networkConf);
     const chainId = networkConf.chainId;
 
     if (network.chainId !== chainId) {
@@ -182,12 +183,12 @@ const contract = {
         key: 'tx',
         duration: 0,
       });
-
-      await switchNetwork(provider, false);
+      const isMainnet = false;
+      await switchNetwork(provider, isMainnet);
 
       // 初始化合约
       const payment = new ethers.Contract(
-        getAddresses().PaymentProxy,
+        getAddresses('OP_SEPOLIA').PaymentProxy,
         PaymentImpl.abi,
         provider,
       ).connect(signer);
