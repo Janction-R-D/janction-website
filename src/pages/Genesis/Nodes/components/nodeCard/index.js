@@ -202,7 +202,10 @@ const Operation = ({ item, getList }) => {
         className={`${styles['operation-action']}  ${
           isOffLine ? styles['disabled'] : ''
         }`}
-        onClick={() => setIsTagModalOpen(true)}
+        onClick={() => {
+          if (isOffLine) return;
+          setIsTagModalOpen(true);
+        }}
       >
         Add Name
       </a>

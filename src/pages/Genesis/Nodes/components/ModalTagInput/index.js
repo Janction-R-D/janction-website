@@ -7,6 +7,10 @@ export default function ModalTagInput({ onRefresh, open, onClose, item }) {
   const [tag, setTag] = useState('');
   const [loading, setLoading] = useState(false);
   const handleTag = async () => {
+    if (tag.length < 3) {
+      message.info('The name must have at least 4 letters.');
+      return;
+    }
     try {
       setLoading(true);
       const data = { node_id: item.id, name: tag };
@@ -31,14 +35,14 @@ export default function ModalTagInput({ onRefresh, open, onClose, item }) {
         onClose();
       }}
       onOk={handleTag}
-      okText="Add Tag"
+      okText="Add Name"
       cancelText="Cancel"
       title="Add a name for your node"
       className={styles['custom-modal']}
       confirmLoading={loading}
     >
       <Input
-        placeholder="Enter tag..."
+        placeholder="Enter a Name..."
         value={tag}
         onChange={(e) => setTag(e.target.value)}
       />
