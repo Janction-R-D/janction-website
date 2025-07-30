@@ -106,18 +106,13 @@ const getAddresses = (networkName = 'OP') => {
   return Addresses[network_name];
 };
 
-const switchNetwork = async (provider, onMain = true, networkName = 'op') => {
+const switchNetwork = async (provider, networkName = 'op') => {
   try {
     const network = await provider.getNetwork();
-    let networkConf;
     const network_name =
       isProduction || networkName == 'eth' ? networkName : process.env.TESTNET;
-    if (!onMain) {
-      networkConf = NETWORKS[`${network_name}_test`];
-    } else {
-      networkConf = NETWORKS[`${network_name}${isProduction ? '' : '_test'}`];
-    }
-
+    const networkConf =
+      NETWORKS[`${network_name}${isProduction ? '' : '_test'}`];
     const chainId = networkConf.chainId;
 
     if (network.chainId !== chainId) {
