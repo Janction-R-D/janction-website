@@ -1,14 +1,14 @@
 import JanctionCountDown from '@/components/JanctionCountDown';
-import JanctionTable from '@/components/JanctionTable';
-import { Duration, DURATION_OPTIONS } from '@/constant';
+import { DURATION_OPTIONS } from '@/constant';
 import {
   fetchCreateOrders,
+  fetchMarketOrders,
   fetchNodesConfigInfo,
   fetchNodesPrice,
   fetchPaymentOrder,
 } from '@/services/genesis';
 import contract, { getCurrency, getDefaultCurrency } from '@/utils/contracts';
-import { delay, empty, isEmpty } from '@/utils/lang';
+import { delay, isEmpty } from '@/utils/lang';
 import { message } from 'antd';
 import { useEffect, useState } from 'react';
 import { history, Redirect, useModel } from 'umi';
@@ -155,13 +155,36 @@ const Settlement = (props) => {
       };
 
       setLoading(true);
-      //first  create order
-      const res = await fetchCreateOrders(payload);
-      const price = priceInfo?.price?.price_1e6;
-      if (!price) {
-        throw new Error('Price Not Found');
+      //first check if order exist
+      const payload_order = {
+        page: 1,
+        page_size: 100,
+      };
+      const { data: getOrders } =
+        (await fetchMarketOrders(payload_order)) || {};
+      console.log(getOrders);
+      const isOrderCreated = getOrders.find((item) => {
+        return (
+          item.order?.node_id === formValues?.node?.id &&
+          item.order?.status?.toLowerCase() === 'pending'
+        );
+      });
+
+      console.log(isOrderCreated);
+      let price;
+      //second create order
+      if (!isOrderCreated) {
+        const res = await fetchCreateOrders(payload);
+        price = priceInfo?.price?.price_1e6;
+        if (!price) {
+          throw new Error('Price Not Found');
+        }
+      } else {
+        price = isOrderCreated?.order?.price?.price_1e6;
+        console.log(price);
       }
-      //second  rent with the contract
+
+      //third  rent with the contract
       const tx = await contract.rent({
         payerAddress: address,
         ownerAddress: node.user_id,
@@ -174,7 +197,7 @@ const Settlement = (props) => {
       await delay(1000);
       //then confirm payment with backend
       await onPayment({
-        order_id: res?.order.id,
+        order_id: isOrderCreated ? isOrderCreated?.order.id : res?.order.id,
         payment_tx_id: tx.hash,
       });
       setPaymentStatus(2);
