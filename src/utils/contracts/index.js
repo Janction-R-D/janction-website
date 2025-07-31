@@ -157,7 +157,7 @@ const switchNetwork = async (provider, networkName = 'op') => {
 export const switchNetworkJasmy = async (provider) => {
   try {
     const network = await provider.getNetwork();
-    const network_name = !isProduction ? 'jasmy_test' : 'op_test';
+    const network_name = isProduction ? 'jasmy_test' : 'op_test';
     const networkConf = NETWORKS[network_name];
     const chainId = networkConf.chainId;
     console.log(' switching to network_name', network_name);
@@ -204,7 +204,7 @@ export const switchNetworkJasmy = async (provider) => {
   }
 };
 const getJasmyAddress = () => {
-  const network_name = !isProduction ? 'JASMY_TESTNET' : 'OP_SEPOLIA';
+  const network_name = isProduction ? 'JASMY_TESTNET' : 'OP_SEPOLIA';
   console.log('network_name for pay: ', network_name);
   return Addresses[network_name];
 };
