@@ -22,7 +22,6 @@ export default function NotifyModal({ setIsModalOpen, isModalOpen, handleOk }) {
   const fetchData = async () => {
     try {
       const res = await taskList();
-      console.log(res);
       setNews(res?.items || []);
     } catch (error) {
       console.log(error);

@@ -38,13 +38,6 @@ export const codeTypeJsonArr = [
 
 export const SYSTEM_LIST = [
   {
-    label: 'Android',
-    value: 'android',
-    icon: 'android',
-    description:
-      'Optimizes performance for mobile applications and connected devices.',
-  },
-  {
     label: 'MAC',
     value: 'macos',
     icon: 'macos',
@@ -241,7 +234,7 @@ export const routeTitles = {
   '/genesis/user-center': 'User Center',
   '/genesis/pledge': 'Pledge Center',
   '/genesis/income': 'Income Center',
-  '/genesis/purchase/settlement': 'Settlement',
+  '/genesis/purchase/settlement': 'Payment',
   '/genesis/wallet-management': 'Wallet Management',
   '/genesis/message-center': 'Message Center',
   '/genesis/rol': 'My Role',
@@ -250,7 +243,7 @@ export const routeTitles = {
   '/genesis/agent/document': 'Agent Document',
   '/genesis/agent/my_repo': 'My Repository',
   '/genesis/agent/about': 'About Agent',
-  '/genesis/agent/try_chat': 'Try Chatbot',
+  '/genesis/agent/try_chat': 'Chatbot',
   '/genesis/agent/purchase': 'Agent Purchase',
   '/genesis/agent/create': 'Create Agent',
   '/genesis/agent/file_manager': 'File Manager',
@@ -258,4 +251,5 @@ export const routeTitles = {
   '/gpu': 'GPU',
   '/company': 'Company',
   '/root': 'Root',
+  '/genesis/rewards': 'Claim Rewards',
 };

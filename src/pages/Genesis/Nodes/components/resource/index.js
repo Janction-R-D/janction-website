@@ -76,7 +76,7 @@ const NodeStats = ({ statisticData, lessorsData }) => {
     () => calculateGrowth(totalNow, totalYesterday),
     [totalNow, totalYesterday],
   );
-  console.log(totalYesterday, totalNow);
+
   const totalNodes = statisticData.total;
   const running = statisticData.running;
   const listed = statisticData.listed;
@@ -97,7 +97,6 @@ const NodeStats = ({ statisticData, lessorsData }) => {
       try {
         const res = await fetchNodePoints();
         setNodeStat(res);
-        console.log(res);
       } catch (error) {
         console.log(error);
       }

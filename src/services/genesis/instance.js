@@ -345,7 +345,7 @@ export const fetchNodeProcessers = (params) => {
   });
 };
 export const fetchNft = (id) => {
-  return request(`https://pub-da89859eb37b4af0ab4fbec6b5247ec5.r2.dev/${id}`);
+  return request(`${process.env.ASSETS_URL}/${id}`);
 };
 
 export const fetchStopRentParams = (data) => {

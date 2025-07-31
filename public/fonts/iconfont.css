@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4602216 */
-  src: url('iconfont.woff2?t=1752001139710') format('woff2'),
-       url('iconfont.woff?t=1752001139710') format('woff'),
-       url('iconfont.ttf?t=1752001139710') format('truetype');
+  src: url('iconfont.woff2?t=1753989527821') format('woff2'),
+       url('iconfont.woff?t=1753989527821') format('woff'),
+       url('iconfont.ttf?t=1753989527821') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,22 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-icon-refunded:before {
+  content: "\e617";
+}
+
+.icon-refund:before {
+  content: "\e792";
+}
+
+.icon-Completed:before {
+  content: "\e668";
+}
+
+.icon-Pending:before {
+  content: "\e669";
 }
 
 .icon-visa1:before {

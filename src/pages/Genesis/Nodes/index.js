@@ -108,10 +108,10 @@ function Nodes() {
           node.operating_status_str === 'leased';
       }
       if (filters?.status === 'running') {
-        statusFlag =
-          node.status_str === 'online' &&
-          node.operating_status_str !== 'leisure' &&
-          node.operating_status_str !== 'leased';
+        statusFlag = node.status_str === 'online';
+        // &&
+        // node.operating_status_str !== 'leisure' &&
+        // node.operating_status_str !== 'leased';
       }
       if (filters?.status === 'offline') {
         statusFlag = node.status_str !== 'online';
@@ -182,8 +182,6 @@ function Nodes() {
                   setCurrentPage(page);
                   setPageSize(size);
                 }}
-                showSizeChanger
-                pageSizeOptions={['5', '10', '20', '50']}
               />
             </div>
           </Card>

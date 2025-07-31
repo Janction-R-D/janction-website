@@ -110,7 +110,6 @@ const RainbowConnect = (props) => {
           );
           await provider.send('eth_requestAccounts', []);
           if (provider) {
-            console.log(provider);
             await switchNetworkJasmy(provider);
           }
           const expirationTime = new Date(Date.now() + expires).toISOString();

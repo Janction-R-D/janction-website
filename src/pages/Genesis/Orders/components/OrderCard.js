@@ -28,11 +28,13 @@ export default function OrderCard({ order }) {
         <div className={styles[`${data?.order?.status}`]}>
           <i
             className={`iconfont ${
-              data?.order?.status == 'completed'
-                ? 'icon-check'
-                : data?.order?.status == 'pending'
+              data?.order?.status.toLowerCase() == 'completed'
+                ? 'icon-Completed'
+                : data?.order?.status.toLowerCase() == 'pending'
                 ? 'icon-refresh'
-                : 'refunded'
+                : data?.order?.status.toLowerCase() == 'expired'
+                ? 'icon-info'
+                : 'icon-refund'
             }`}
           />
           <span>{data?.order?.status || '~'}</span>
