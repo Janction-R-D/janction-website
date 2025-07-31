@@ -76,7 +76,7 @@ const Footer = (props) => {
       <div className={styles['btn']}>
         <div className={styles['price-info']}>
           <span className={styles['value']}>
-            {tableLoading ? '--' : total || 0} {currency?.label}
+            {tableLoading ? '--' : total || '~~'} {currency?.label}
           </span>
           <div className={styles['detail']}>
             <span>Bill Details</span>
@@ -98,7 +98,7 @@ const Footer = (props) => {
             className={styles['connect-btn']}
             type="primary"
             onClick={handlePayWithMetaMask}
-            disabled={tableLoading}
+            disabled={tableLoading || !total}
           >
             Pay with MetaMask <WalletOutlined className={styles['icon']} />
           </Button>

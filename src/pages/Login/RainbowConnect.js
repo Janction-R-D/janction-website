@@ -15,6 +15,8 @@ import {
 import styles from './index.less';
 import { WalletOutlined } from '@ant-design/icons';
 import { expires } from '@/utils/lang';
+import { switchNetworkJasmy } from '@/utils/contracts';
+import { ethers } from 'ethers';
 
 const RainbowConnect = (props) => {
   const { setLoading } = props;
@@ -40,6 +42,7 @@ const RainbowConnect = (props) => {
 
   useAccountEffect({
     async onConnect({ address, chainId }) {
+      console.log(address, chainId);
       setLoading(true);
       message.info({
         content: 'The operation is in progress, please wait...',
@@ -101,7 +104,15 @@ const RainbowConnect = (props) => {
           if (!nonce) {
             throw new Error('Nonce is missing');
           }
-
+          const provider = new ethers.providers.Web3Provider(
+            window.ethereum,
+            'any',
+          );
+          await provider.send('eth_requestAccounts', []);
+          if (provider) {
+            console.log(provider);
+            await switchNetworkJasmy(provider);
+          }
           const expirationTime = new Date(Date.now() + expires).toISOString();
 
           const siweMessage = new SiweMessage({

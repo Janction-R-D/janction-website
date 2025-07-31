@@ -17,6 +17,7 @@ export default function StripePayment({
   visible,
   setVisible,
   tableLoading,
+  total,
 }) {
   const [clientSecret, setClientSecret] = useState(null);
   const [orderId, setOrderId] = useState(null);
@@ -72,7 +73,7 @@ export default function StripePayment({
         onClick={handleOpenModal}
         type="primary"
         className={styles['connect-btn']}
-        disabled={tableLoading}
+        disabled={tableLoading || !total}
         loading={loading}
       >
         Pay with Fiat <WalletOutlined className={styles['icon']} />

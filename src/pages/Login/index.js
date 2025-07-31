@@ -129,8 +129,6 @@ const Login = (props) => {
         onClose={() => setIsSuccess(false)}
         onConfirm={onSuccessConfirm}
       />
-
-      {/* <RainbowConnect setLoading={setLoading} /> */}
     </div>
   );
 };

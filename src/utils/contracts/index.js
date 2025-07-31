@@ -41,7 +41,7 @@ const NETWORKS = {
   jasmy_test: {
     chainId: jasmyTestnet.id,
     chainName: jasmyTestnet.name,
-    rpcUrls: [jasmyTestnet.rpcUrls.default],
+    rpcUrls: [jasmyTestnet.rpcUrls.default.http],
     blockExplorerUrls: [jasmyTestnet.blockExplorers.default.url],
   },
 };
@@ -154,15 +154,17 @@ const switchNetwork = async (provider, networkName = 'op') => {
     throw new Error(err);
   }
 };
-const switchNetworkJasmy = async (provider) => {
+export const switchNetworkJasmy = async (provider) => {
   try {
     const network = await provider.getNetwork();
     const network_name = isProduction ? 'jasmy_test' : 'op_test';
     const networkConf = NETWORKS[network_name];
     const chainId = networkConf.chainId;
     console.log(' switching to network_name', network_name);
-    console.log('networkConf', networkConf.chainName);
+    console.log('networkConf', networkConf);
+
     if (network.chainId !== chainId) {
+      console.log('chainId', chainId);
       try {
         await window.ethereum.request({
           method: 'wallet_switchEthereumChain',
