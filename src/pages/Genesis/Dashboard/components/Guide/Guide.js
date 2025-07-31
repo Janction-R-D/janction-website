@@ -6,13 +6,12 @@ import StepOne from '../StepOne/StepOne';
 import { SYSTEM_LIST } from '@/constant';
 import { request } from 'umi';
 
+const APP_SYSTEM = SYSTEM_LIST.filter((item) => item.value !== 'android');
+const baseURL = 'https://assets.janction.ai/';
 const DEFAULT = {
-  system: SYSTEM_LIST[0].value,
+  system: APP_SYSTEM[0].value,
   architecture: null, // arranca sin arquitectura seleccionada
 };
-
-const baseURL = 'https://assets.janction.ai/';
-
 function flattenVersions(versions, baseURL) {
   const result = [];
 

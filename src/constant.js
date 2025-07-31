@@ -85,7 +85,7 @@ export const ARCHITECTURE = [
 
 export const ARCHITECTURE_LINK = [
   { name: 'AMD64', value: 'cpu64', sys: ['macos', 'linux', 'windows'] },
-  { name: 'ARM', value: 'cpu', sys: ['macos', 'linux', 'windows'] },
+  { name: 'ARM', value: 'cpu', sys: ['macos'] },
   // { name: 'AMD64', value: 'gpu64', sys: [] },
   // { name: 'ARM', value: 'gpu', sys: [] },
 ];

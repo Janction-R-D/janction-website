@@ -21,19 +21,22 @@ export default function OrderCard({ order }) {
   return (
     <Card className={styles['card']}>
       <h1 className={styles['card-title']}>
-        <p>{data?.order?.id || '~'}</p>
-        {data?.order?.status == 'completed' && (
-          <div className={styles['complete']}>
-            <i className="iconfont icon-check " />
-            <span>{data?.order?.status || '~'}</span>
-          </div>
-        )}
-        {data?.order?.status == 'pending' && (
-          <div className={styles['pending']}>
-            <i className="iconfont icon-refresh " />
-            <span>{data?.order?.status || '~'}</span>
-          </div>
-        )}
+        <p>
+          <Hearder data={data} />
+        </p>
+
+        <div className={styles[`${data?.order?.status}`]}>
+          <i
+            className={`iconfont ${
+              data?.order?.status == 'completed'
+                ? 'icon-check'
+                : data?.order?.status == 'pending'
+                ? 'icon-refresh'
+                : 'refunded'
+            }`}
+          />
+          <span>{data?.order?.status || '~'}</span>
+        </div>
       </h1>
 
       <section className={styles['card-product']}>
@@ -88,6 +91,15 @@ export default function OrderCard({ order }) {
                 {data.order?.purchase_duration_unit || '~'}
               </span>
             </p>
+            <p>
+              <span>Arch:</span>
+              <span>
+                {data.order?.resource?.node?.attr?.architechture_str &&
+                data.order?.resource?.node?.attr?.operating_system_str
+                  ? `${data.order.resource.node.attr.architechture_str} / ${data.order.resource.node.attr.operating_system_str}`
+                  : '~~'}
+              </span>
+            </p>
           </section>
           <Divider />
           <section>
@@ -117,3 +129,14 @@ export default function OrderCard({ order }) {
     </Card>
   );
 }
+const Hearder = ({ data }) => {
+  const gpu = data?.resource?.node?.attr?.gpu_chip;
+  const cpu = data?.resource?.node?.attr?.cpu_chip;
+  const nodeId = data?.order?.node_id;
+
+  if (!gpu && !cpu) {
+    return <span className={styles['node_id']}>Node ID: {nodeId || '--'}</span>;
+  }
+
+  return <span>{`${gpu || ''} ${cpu || ''} * ${cpu?.length || 0}`}</span>;
+};

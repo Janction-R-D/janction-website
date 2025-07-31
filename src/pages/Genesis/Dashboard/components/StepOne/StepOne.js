@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import styles from './index.less';
 import { ARCHITECTURE_LINK, SYSTEM_LIST } from '@/constant';
-
+const APP_SYSTEM = SYSTEM_LIST.filter((item) => item.value !== 'android');
 const StepOne = ({ selectedValues, setSelectedValues }) => {
   const [availableArchitectures, setAvailableArchitectures] = useState([]);
 
@@ -55,7 +55,7 @@ const StepOne = ({ selectedValues, setSelectedValues }) => {
         <p className={styles['sys-title']}>Choose your Operating System</p>
 
         <ul className={styles['sys-list']}>
-          {SYSTEM_LIST.map((item) => (
+          {APP_SYSTEM.map((item) => (
             <li
               key={item.value}
               className={
