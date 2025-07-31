@@ -7,7 +7,14 @@
     "name": "JASMY",
     "symbol": "WJASMY"
   },
-  "rpcUrls": ["https://jasmy-chain-testnet.alt.technology/"],
+  "rpcUrls": {
+    "default": {
+      "http": "https://jasmy-chain-testnet.alt.technology"
+    },
+    "public": {
+      "http": "https://jasmy-chain-testnet.alt.technology"
+    }
+  },
   "blockExplorers": {
     "default": {
       "name": "JasmyExplorer",

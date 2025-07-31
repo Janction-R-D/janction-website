@@ -170,7 +170,6 @@ const Settlement = (props) => {
         );
       });
 
-      console.log(isOrderCreated);
       let price;
       //second create order
       if (!isOrderCreated) {
