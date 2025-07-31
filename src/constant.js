@@ -38,13 +38,6 @@ export const codeTypeJsonArr = [
 
 export const SYSTEM_LIST = [
   {
-    label: 'Android',
-    value: 'android',
-    icon: 'android',
-    description:
-      'Optimizes performance for mobile applications and connected devices.',
-  },
-  {
     label: 'MAC',
     value: 'macos',
     icon: 'macos',
