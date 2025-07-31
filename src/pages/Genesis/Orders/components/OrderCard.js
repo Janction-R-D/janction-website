@@ -21,21 +21,22 @@ export default function OrderCard({ order }) {
   return (
     <Card className={styles['card']}>
       <h1 className={styles['card-title']}>
-        <p>{data?.order?.id || '~'}</p>
-        {data?.order?.status == 'completed' && (
-          <div className={styles[`${data?.order?.status}`]}>
-            <i
-              className={`iconfont ${
-                data?.order?.status == 'completed'
-                  ? 'icon-check'
-                  : data?.order?.status == 'pending'
-                  ? 'icon-refresh'
-                  : 'refunded'
-              }`}
-            />
-            <span>{data?.order?.status || '~'}</span>
-          </div>
-        )}
+        <p>
+          <Hearder data={data} />
+        </p>
+
+        <div className={styles[`${data?.order?.status}`]}>
+          <i
+            className={`iconfont ${
+              data?.order?.status == 'completed'
+                ? 'icon-check'
+                : data?.order?.status == 'pending'
+                ? 'icon-refresh'
+                : 'refunded'
+            }`}
+          />
+          <span>{data?.order?.status || '~'}</span>
+        </div>
       </h1>
 
       <section className={styles['card-product']}>
@@ -90,6 +91,15 @@ export default function OrderCard({ order }) {
                 {data.order?.purchase_duration_unit || '~'}
               </span>
             </p>
+            <p>
+              <span>Arch:</span>
+              <span>
+                {data.order?.resource?.node?.attr?.architechture_str &&
+                data.order?.resource?.node?.attr?.operating_system_str
+                  ? `${data.order.resource.node.attr.architechture_str} / ${data.order.resource.node.attr.operating_system_str}`
+                  : '~~'}
+              </span>
+            </p>
           </section>
           <Divider />
           <section>
@@ -119,3 +129,19 @@ export default function OrderCard({ order }) {
     </Card>
   );
 }
+
+const Hearder = ({ item }) => {
+  const { node } = item?.resource || {};
+  if (!node?.attr?.gpu_chip && !node?.attr?.cpu_chip) return '--';
+  const cpu = node?.attr?.cpu_chip;
+  const gpu = node?.attr?.gpu_chip;
+
+  const cpuText = !!cpu?.length ? `${cpu[0]} * ${cpu.length}` : '--';
+  const gpuText = !!gpu?.length ? `${gpu[0]} * ${gpu.length}` : '--';
+  return (
+    <>
+      <p style={{ fontSize: '12px' }}>{cpuText}</p>
+      <p style={{ fontSize: '12px' }}>{gpuText}</p>
+    </>
+  );
+};
