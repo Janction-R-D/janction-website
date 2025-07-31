@@ -130,9 +130,14 @@ export default function OrderCard({ order }) {
   );
 }
 
-const Hearder = ({ item }) => {
-  const { node } = item?.resource || {};
-  if (!node?.attr?.gpu_chip && !node?.attr?.cpu_chip) return '--';
+const Hearder = ({ data }) => {
+  const { node } = data?.order || {};
+
+  if (!node?.attr?.gpu_chip && !node?.attr?.cpu_chip) {
+    return (
+      <span className={styles['node_id']}>Node ID: {data?.order?.node_id}</span>
+    );
+  }
   const cpu = node?.attr?.cpu_chip;
   const gpu = node?.attr?.gpu_chip;
 
