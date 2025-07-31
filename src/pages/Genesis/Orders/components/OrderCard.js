@@ -23,14 +23,16 @@ export default function OrderCard({ order }) {
       <h1 className={styles['card-title']}>
         <p>{data?.order?.id || '~'}</p>
         {data?.order?.status == 'completed' && (
-          <div className={styles['complete']}>
-            <i className="iconfont icon-check " />
-            <span>{data?.order?.status || '~'}</span>
-          </div>
-        )}
-        {data?.order?.status == 'pending' && (
-          <div className={styles['pending']}>
-            <i className="iconfont icon-refresh " />
+          <div className={styles[`${data?.order?.status}`]}>
+            <i
+              className={`iconfont ${
+                data?.order?.status == 'completed'
+                  ? 'icon-check'
+                  : data?.order?.status == 'pending'
+                  ? 'icon-refresh'
+                  : 'refunded'
+              }`}
+            />
             <span>{data?.order?.status || '~'}</span>
           </div>
         )}
