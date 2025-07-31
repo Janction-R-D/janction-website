@@ -224,3 +224,38 @@ export const brandDetails = {
 };
 
 export const STORAGE_KEY = 'web3_chat_messages';
+
+export const routeTitles = {
+  '/home': 'Home',
+  '/login': 'Login',
+  '/genesis/dashboard': 'Dashboard',
+  '/genesis/deployNode': 'Deploy Node',
+  '/genesis/nodes': 'My Nodes',
+  '/genesis/mount': 'Listing Node',
+  '/genesis/instance': 'My Instances',
+  '/genesis/instance/create': 'Create Instance',
+  '/genesis/purchase': 'Purchase Node',
+  '/genesis/help': 'Help Center',
+  '/genesis/orders': 'My Orders',
+  '/genesis/billDetails': 'Billing Details',
+  '/genesis/user-center': 'User Center',
+  '/genesis/pledge': 'Pledge Center',
+  '/genesis/income': 'Income Center',
+  '/genesis/purchase/settlement': 'Settlement',
+  '/genesis/wallet-management': 'Wallet Management',
+  '/genesis/message-center': 'Message Center',
+  '/genesis/rol': 'My Role',
+  '/genesis/newbies': 'Newbie Guide',
+  '/genesis/agent': 'Agent Center',
+  '/genesis/agent/document': 'Agent Document',
+  '/genesis/agent/my_repo': 'My Repository',
+  '/genesis/agent/about': 'About Agent',
+  '/genesis/agent/try_chat': 'Try Chatbot',
+  '/genesis/agent/purchase': 'Agent Purchase',
+  '/genesis/agent/create': 'Create Agent',
+  '/genesis/agent/file_manager': 'File Manager',
+  '/genesis/purchase/success': 'Purchase Success',
+  '/gpu': 'GPU',
+  '/company': 'Company',
+  '/root': 'Root',
+};

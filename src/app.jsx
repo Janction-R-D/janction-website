@@ -5,7 +5,7 @@ import { empty, logout } from './utils/lang';
 import React from 'react';
 import RainbowKit from '@/components/RainbowKit';
 import '@xterm/xterm/css/xterm.css';
-import { notShowErrors } from './constant';
+import { notShowErrors, routeTitles } from './constant';
 
 /**
  * Request interceptor
@@ -96,4 +96,9 @@ export async function getInitialState() {
 
 export function rootContainer(container) {
   return React.createElement(RainbowKit, null, container);
+}
+
+export function onRouteChange({ location }) {
+  const title = routeTitles[location.pathname] || 'Janction';
+  document.title = `${title} | Janction`;
 }
