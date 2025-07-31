@@ -103,9 +103,9 @@ const getAddresses = (networkName = 'OP') => {
     : process.env.TESTNET == 'jasmy'
     ? 'JASMY_TESTNET'
     : 'OP_SEPOLIA';
+  console.log(network_name);
   return Addresses[network_name];
 };
-
 const switchNetwork = async (provider, networkName = 'op') => {
   try {
     const network = await provider.getNetwork();
@@ -154,12 +154,71 @@ const switchNetwork = async (provider, networkName = 'op') => {
     throw new Error(err);
   }
 };
+const switchNetworkJasmy = async (provider) => {
+  try {
+    const network = await provider.getNetwork();
+    const network_name = isProduction ? 'jasmy_test' : 'op_test';
+    const networkConf = NETWORKS[network_name];
+    const chainId = networkConf.chainId;
+    console.log(' switching to network_name', network_name);
+    console.log('networkConf', networkConf.chainName);
+    if (network.chainId !== chainId) {
+      try {
+        await window.ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: `0x${chainId.toString(16)}` }],
+        });
+      } catch (switchError) {
+        if (switchError.code === 4902) {
+          try {
+            await window.ethereum.request({
+              method: 'wallet_addEthereumChain',
+              params: [
+                {
+                  chainId: `0x${chainId.toString(16)}`,
+                  chainName: networkConf.chainName,
+                  nativeCurrency: {
+                    name: 'JASMY',
+                    symbol: 'WJASMY',
+                    decimals: 18,
+                  },
+                  rpcUrls: networkConf.rpcUrls,
+                  blockExplorerUrls: networkConf.blockExplorerUrls,
+                },
+              ],
+            });
+          } catch (addError) {
+            throw new Error(
+              `Failed to add ${networkConf.chainName} to your wallet.`,
+            );
+          }
+        } else {
+          throw new Error(`Failed to switch to ${networkConf.chainName}.`);
+        }
+      }
+    }
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+const getJasmyAddress = () => {
+  const network_name = isProduction ? 'JASMY_TESTNET' : 'OP_SEPOLIA';
+  console.log('network_name for pay: ', network_name);
+  return Addresses[network_name];
+};
+
 function uuidToBytes32(uuidString) {
-  // Convert the UUID to UTF-8 bytes
-  const bytes = ethers.utils.toUtf8Bytes(uuidString);
-  // Compute the keccak256 hash (32 bytes)
-  const hash = ethers.utils.keccak256(bytes);
-  return hash; // This is a hexadecimal string with 0x prefix, 32 bytes long
+  // Remove hyphens from the UUID string
+  const hexWithoutHyphens = uuidString.replace(/-/g, '');
+  // Validate the UUID format (should have exactly 32 hex characters after removing hyphens)
+  if (hexWithoutHyphens.length !== 32) {
+    throw new Error(
+      'Invalid UUID format. Expected 32 hex characters after removing hyphens.',
+    );
+  }
+  //Pad the hex string to 64 characters (32 bytes) and add '0x' prefix
+  const paddedHex = '0x' + hexWithoutHyphens.padEnd(64, '0');
+  return paddedHex; // Returns a bytes32-compatible hex string
 }
 
 const contract = {
@@ -186,11 +245,11 @@ const contract = {
         duration: 0,
       });
 
-      await switchNetwork(provider, false);
+      await switchNetworkJasmy(provider);
 
       // 初始化合约
       const payment = new ethers.Contract(
-        getAddresses().PaymentProxy,
+        getJasmyAddress().PaymentProxy,
         PaymentImpl.abi,
         provider,
       ).connect(signer);
@@ -208,11 +267,11 @@ const contract = {
       // 检查授权额度
       const currentAllowance = await currency.allowance(
         payerAddress,
-        getAddresses().PaymentProxy,
+        getJasmyAddress().PaymentProxy,
       );
       if (currentAllowance.lt(totalAmount)) {
         const approveTx = await currency.approve(
-          getAddresses().PaymentProxy,
+          getJasmyAddress().PaymentProxy,
           totalAmount,
         );
         await approveTx.wait();
