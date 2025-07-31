@@ -129,24 +129,14 @@ export default function OrderCard({ order }) {
     </Card>
   );
 }
-
 const Hearder = ({ data }) => {
-  const { node } = data?.order || {};
+  const gpu = data?.resource?.node?.attr?.gpu_chip;
+  const cpu = data?.resource?.node?.attr?.cpu_chip;
+  const nodeId = data?.order?.node_id;
 
-  if (!node?.attr?.gpu_chip && !node?.attr?.cpu_chip) {
-    return (
-      <span className={styles['node_id']}>Node ID: {data?.order?.node_id}</span>
-    );
+  if (!gpu && !cpu) {
+    return <span className={styles['node_id']}>Node ID: {nodeId || '--'}</span>;
   }
-  const cpu = node?.attr?.cpu_chip;
-  const gpu = node?.attr?.gpu_chip;
 
-  const cpuText = !!cpu?.length ? `${cpu[0]} * ${cpu.length}` : '--';
-  const gpuText = !!gpu?.length ? `${gpu[0]} * ${gpu.length}` : '--';
-  return (
-    <>
-      <p style={{ fontSize: '12px' }}>{cpuText}</p>
-      <p style={{ fontSize: '12px' }}>{gpuText}</p>
-    </>
-  );
+  return <span>{`${gpu || ''} ${cpu || ''} * ${cpu?.length || 0}`}</span>;
 };
