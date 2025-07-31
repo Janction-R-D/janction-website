@@ -154,6 +154,13 @@ const switchNetwork = async (provider, networkName = 'op') => {
     throw new Error(err);
   }
 };
+function uuidToBytes32(uuidString) {
+  // Convert the UUID to UTF-8 bytes
+  const bytes = ethers.utils.toUtf8Bytes(uuidString);
+  // Compute the keccak256 hash (32 bytes)
+  const hash = ethers.utils.keccak256(bytes);
+  return hash; // This is a hexadecimal string with 0x prefix, 32 bytes long
+}
 
 const contract = {
   rent: async ({
@@ -163,6 +170,7 @@ const contract = {
     durationNum,
     duration,
     price,
+    nodeId,
   }) => {
     try {
       const provider = new ethers.providers.Web3Provider(
@@ -210,7 +218,8 @@ const contract = {
         await approveTx.wait();
         message.success('Approval successful!');
       }
-
+      const node32 = uuidToBytes32(nodeId);
+      console.log(node32);
       // 调起支付
       const tx = await payment.createPaymentPlan(
         payerAddress,
@@ -218,6 +227,7 @@ const contract = {
         currencyAddress,
         totalAmount,
         totalHours,
+        node32,
       );
       await tx.wait(); // 等待交易完成
       message.success('Trade successfully!');
