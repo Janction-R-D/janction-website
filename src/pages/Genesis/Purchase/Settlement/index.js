@@ -192,6 +192,7 @@ const Settlement = (props) => {
         durationNum: value,
         duration: unit,
         price: price,
+        nodeId: formValues?.node?.id,
       });
 
       await delay(1000);
