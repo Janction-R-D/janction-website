@@ -111,10 +111,6 @@ export const getJasmyCurrency = () => {
   ];
 };
 
-export const getDefaultCurrency = () => {
-  const allCurrency = getCurrency();
-  return allCurrency[0].value;
-};
 export const getDefaultJasmyCurrency = () => {
   const allCurrency = getJasmyCurrency();
   return allCurrency[0].value;
@@ -305,7 +301,7 @@ const contract = {
         window.ethereum,
         'any',
       );
-
+      await provider.send('eth_requestAccounts', []);
       const signer = provider.getSigner();
 
       message.info({

@@ -11,6 +11,7 @@ import contract, {
   getCurrency,
   getDefaultCurrency,
   getDefaultJasmyCurrency,
+  getJasmyCurrency,
 } from '@/utils/contracts';
 import { delay, isEmpty } from '@/utils/lang';
 import { message } from 'antd';
@@ -44,7 +45,7 @@ const Settlement = (props) => {
   const [allowStripe, setAllowStripe] = useState(false);
 
   const paytype = [
-    ...getCurrency(),
+    ...getJasmyCurrency(),
     ...(allowStripe
       ? [
           {
@@ -223,7 +224,7 @@ const Settlement = (props) => {
   const goBack = () => {
     history.push('/genesis/purchase');
   };
-  const findCurrency = paytype.find((item) => item.value == currency).label;
+  const findCurrency = paytype.find((item) => item.value == currency)?.label;
   const getPrice = () => {
     let newPrice;
     if (findCurrency !== 'usd') {
