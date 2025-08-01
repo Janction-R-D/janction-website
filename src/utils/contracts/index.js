@@ -300,7 +300,7 @@ const contract = {
         window.ethereum,
         'any',
       );
-
+      await provider.send('eth_requestAccounts', []);
       const signer = provider.getSigner();
 
       message.info({

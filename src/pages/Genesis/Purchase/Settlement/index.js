@@ -11,6 +11,7 @@ import contract, {
   getCurrency,
   getDefaultCurrency,
   getDefaultJasmyCurrency,
+  getJasmyCurrency,
 } from '@/utils/contracts';
 import { delay, isEmpty } from '@/utils/lang';
 import { message } from 'antd';
@@ -41,7 +42,7 @@ const Settlement = (props) => {
   const [allowStripe, setAllowStripe] = useState(false);
 
   const paytype = [
-    ...getCurrency(),
+    ...getJasmyCurrency(),
     ...(allowStripe
       ? [
           {

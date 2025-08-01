@@ -1,6 +1,9 @@
 import { Button, message } from 'antd';
 import styles from './orders.less';
-import contract, { getDefaultCurrency } from '@/utils/contracts';
+import contract, {
+  getDefaultCurrency,
+  getDefaultJasmyCurrency,
+} from '@/utils/contracts';
 import { useAccount } from 'wagmi';
 import PaymentResultModal from '../../Purchase/Settlement/components/payment_result';
 import ModalInfo from '../../Purchase/Settlement/components/ModalInfo';
@@ -16,10 +19,9 @@ export default function PayButton({ order }) {
   const { address } = useAccount();
   const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const [currency, setCurrency] = useState(getDefaultCurrency());
+  const [currency, setCurrency] = useState(getDefaultJasmyCurrency());
   const [isWarning, setIsWarning] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState(3);
-  console.log(order);
 
   function getDurationValueByLabel(label) {
     const match = DURATION_OPTIONS.find(
