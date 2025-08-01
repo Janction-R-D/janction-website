@@ -11,7 +11,7 @@ import { ethers } from 'ethers';
 import { message } from 'antd';
 import { useLocation, history } from 'umi';
 import { expires } from '@/utils/lang';
-import styles from './index.less';
+import styles from './index.less'; // tu archivo de estilos
 
 const RainbowConnect = ({ setLoading }) => {
   const location = useLocation();
@@ -171,7 +171,8 @@ const RainbowConnect = ({ setLoading }) => {
             }}
             title={account.address}
           >
-            <WalletOutlined />
+            <WalletOutlined /> {account.address.slice(0, 6)}...
+            {account.address.slice(-4)}
           </a>
         );
       }}

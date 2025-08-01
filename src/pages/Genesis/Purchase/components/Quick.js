@@ -37,19 +37,21 @@ const Quick = (props) => {
   const getList = async (data) => {
     setLoading(true);
     try {
-      const res = (await fetchListFilter(data)) || [];
-      const newList = (res || [])?.filter((node) => {
+      const res = await fetchListFilter(data);
+      const nodeList = res?.data || [];
+      const newList = nodeList.filter((node) => {
         const { isListed } = getNodeStatusMatch(node);
         return isListed;
       });
 
-      if (res?.length <= 0) {
+      if (!nodeList || nodeList.length <= 0) {
         setFormValues((prevState) => ({ ...prevState, node: undefined }));
         form.setFieldsValue({ node: undefined });
       }
       setList(newList);
     } catch (error) {
       console.log(error);
+      setList([]);
     } finally {
       setLoading(false);
     }
