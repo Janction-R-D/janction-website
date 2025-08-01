@@ -56,11 +56,17 @@ const NETWORKS = {
 };
 
 export const getCurrency = () => {
-  const address = isProduction
+  let address = isProduction
     ? Addresses.OP
     : process.env.TESTNET == 'jasmy'
     ? Addresses.JASMY_TESTNET
     : Addresses.OP_SEPOLIA;
+
+  // 补丁
+  if (process.env.TESTNET == 'jasmy') {
+    address = Addresses.JASMY_TESTNET;
+  }
+
   return [
     // {
     //   value: address.veJCT,
@@ -226,6 +232,8 @@ const contract = {
       await switchNetwork(provider);
 
       // 初始化合约
+      console.log('payment address: ', getJasmyAddress().PaymentProxy);
+      console.log('currency address: ', currencyAddress);
 
       const payment = new ethers.Contract(
         getJasmyAddress().PaymentProxy,
