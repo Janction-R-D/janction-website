@@ -15,7 +15,6 @@ import {
 import styles from './index.less';
 import { WalletOutlined } from '@ant-design/icons';
 import { expires } from '@/utils/lang';
-import { switchNetworkJasmy } from '@/utils/contracts';
 import { ethers } from 'ethers';
 
 const RainbowConnect = (props) => {
@@ -110,7 +109,7 @@ const RainbowConnect = (props) => {
           );
           await provider.send('eth_requestAccounts', []);
           if (provider) {
-            await switchNetworkJasmy(provider);
+            await switchNetwork(provider);
           }
           const expirationTime = new Date(Date.now() + expires).toISOString();
 
