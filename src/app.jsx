@@ -11,6 +11,8 @@ import { notShowErrors, routeTitles } from './constant';
  * Request interceptor
  */
 const authHeaderInterceptor = (url, options) => {
+  console.log('testnet:', process.env.TESTNET);
+
   const AUTH_HEADERS = storage.get('AUTH_HEADERS');
   const TOKEN = storage.get('TOKEN');
 
