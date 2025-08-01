@@ -16,11 +16,12 @@ import { delay, isEmpty } from '@/utils/lang';
 import { message } from 'antd';
 import { useEffect, useState } from 'react';
 import { history, Redirect, useModel } from 'umi';
-import { useAccount } from 'wagmi';
+import { useAccount, useChainId } from 'wagmi';
 import PurchaseCard from '../components/Card';
 import Footer from '../components/Footer';
 import PayType from '../components/PayType';
 import styles from './index.less';
+import { useEthersSigner } from '@/hooks/useEthersSigner';
 
 const Settlement = (props) => {
   const [deadline, setDeadline] = useState();
@@ -35,6 +36,8 @@ const Settlement = (props) => {
   const [priceInfo, setPriceInfo] = useState({});
   const [payPriceInfo, setPayPriceInfo] = useState({});
   const [configInfo, setConfigInfo] = useState('');
+  const chainId = useChainId();
+  const signer = useEthersSigner(chainId);
   const { initialState } = useModel('@@initialState');
   const { isLessee, sessionType } = initialState || {};
   const [isWarning, setIsWarning] = useState(false);
@@ -189,6 +192,7 @@ const Settlement = (props) => {
 
       //third  rent with the contract
       const tx = await contract.rent({
+        signer,
         payerAddress: address,
         ownerAddress: node.user_id,
         currencyAddress: currency,

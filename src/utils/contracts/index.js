@@ -230,14 +230,14 @@ export const switchNetworkJasmy = async (provider) => {
 
     if (network.chainId !== chainId) {
       try {
-        await window.ethereum.request({
+        await provider.request({
           method: 'wallet_switchEthereumChain',
           params: [{ chainId: `0x${chainId.toString(16)}` }],
         });
       } catch (switchError) {
         if (switchError.code === 4902) {
           try {
-            await window.ethereum.request({
+            await provider.request({
               method: 'wallet_addEthereumChain',
               params: [
                 {
@@ -291,6 +291,7 @@ function uuidToBytes32(uuidString) {
 
 const contract = {
   rent: async ({
+    signer,
     payerAddress,
     ownerAddress,
     currencyAddress,
@@ -300,34 +301,27 @@ const contract = {
     nodeId,
   }) => {
     try {
-      const provider = new ethers.providers.Web3Provider(
-        window.ethereum,
-        'any',
-      );
-      await provider.send('eth_requestAccounts', []);
-      const signer = provider.getSigner();
-
       message.info({
         content: 'Waiting...',
         key: 'tx',
         duration: 0,
       });
 
-      await switchNetworkJasmy(provider);
+      await switchNetworkJasmy(signer.provider);
 
       // 初始化合约
 
       const payment = new ethers.Contract(
         getJasmyAddress().PaymentProxy,
         PaymentImpl.abi,
-        provider,
-      ).connect(signer);
+        signer,
+      );
 
       const currency = new ethers.Contract(
         currencyAddress,
         currencyABI,
-        provider,
-      ).connect(signer);
+        signer,
+      );
 
       const totalHours = durationNum * convertDurationToHours(duration);
       console.log(totalHours, duration, durationNum);
@@ -367,14 +361,8 @@ const contract = {
       message.destroy('tx');
     }
   },
-  stopRent: async (paymentId, adminSignature, deadline) => {
+  stopRent: async (paymentId, adminSignature) => {
     try {
-      const provider = new ethers.providers.Web3Provider(
-        window.ethereum,
-        'any',
-      );
-      await provider.send('eth_requestAccounts', []);
-      const signer = provider.getSigner();
       const signerAddress = await signer.getAddress();
 
       message.info({
@@ -383,14 +371,14 @@ const contract = {
         duration: 0,
       });
 
-      await switchNetwork(provider);
+      await switchNetwork(signer.provider);
 
       // 初始化合约
       const payment = new ethers.Contract(
         getAddresses().PaymentProxy,
         PaymentImpl.abi,
-        provider,
-      ).connect(signer);
+        signer,
+      );
 
       const domain = {
         name: 'PaymentImpl',
@@ -442,29 +430,22 @@ const contract = {
       message.destroy('tx');
     }
   },
-  releaseHourlyPayment: async (paymentId) => {
+  releaseHourlyPayment: async (signer, paymentId) => {
     try {
-      const provider = new ethers.providers.Web3Provider(
-        window.ethereum,
-        'any',
-      );
-      await provider.send('eth_requestAccounts', []);
-      const signer = provider.getSigner();
-
       message.info({
         content: 'Waiting...',
         key: 'tx',
         duration: 0,
       });
 
-      await switchNetwork(provider);
+      await switchNetwork(signer.provider);
 
       // 初始化合约
       const payment = new ethers.Contract(
         getAddresses().PaymentProxy,
         PaymentImpl.abi,
-        provider,
-      ).connect(signer);
+        signer,
+      );
 
       const tx = await payment.releaseHourlyPayment(paymentId);
       await tx.wait(); // 等待交易完成
@@ -478,33 +459,27 @@ const contract = {
     }
   },
   distribute: async (
+    signer,
     payerAddress,
     totalAmount,
     beneficiaries, // address[]
     rewards, // uint256[]
   ) => {
     try {
-      const provider = new ethers.providers.Web3Provider(
-        window.ethereum,
-        'any',
-      );
-      await provider.send('eth_requestAccounts', []);
-      const signer = provider.getSigner();
-
-      await switchNetwork(provider);
+      await switchNetwork(signer.provider);
 
       // 初始化合约
       const distribution = new ethers.Contract(
         getAddresses().Distribution,
         Distribution.abi,
-        provider,
-      ).connect(signer);
+        signer,
+      );
 
       const currency = new ethers.Contract(
         getAddresses().USDT,
         currencyABI,
-        provider,
-      ).connect(signer);
+        signer,
+      );
       // 检查授权额度
       const currentAllowance = await currency.allowance(
         payerAddress,
@@ -550,23 +525,16 @@ const contract = {
       throw new Error(error);
     }
   },
-  distributeRewards: async (nature, rewards) => {
+  distributeRewards: async (signer, nature, rewards) => {
     try {
-      const provider = new ethers.providers.Web3Provider(
-        window.ethereum,
-        'any',
-      );
-      await provider.send('eth_requestAccounts', []);
-      const signer = provider.getSigner();
-
-      await switchNetwork(provider, 'eth');
+      await switchNetwork(signer.provider, 'eth');
 
       // 初始化合约
       const distribution = new ethers.Contract(
         getAddresses('ETH').JasmyRewards,
         JasmyRewards.abi,
-        provider,
-      ).connect(signer);
+        signer,
+      );
 
       message.info({
         content: 'Waiting...',
@@ -583,35 +551,28 @@ const contract = {
     }
   },
 
-  escrow: async (tokenId) => {
+  escrow: async (signer, tokenId) => {
     try {
-      const provider = new ethers.providers.Web3Provider(
-        window.ethereum,
-        'any',
-      );
-      await provider.send('eth_requestAccounts', []);
-      const signer = provider.getSigner();
-
       message.info({
         content: 'Waiting...',
         key: 'tx',
         duration: 0,
       });
 
-      await switchNetwork(provider);
+      await switchNetwork(signer.provider);
 
       // 初始化合约
       const escrowContract = new ethers.Contract(
         getAddresses().NFTEscrowProxy,
         NFTEscrowImpl.abi,
-        provider,
-      ).connect(signer);
+        signer,
+      );
 
       const nftContract = new ethers.Contract(
         getAddresses().JanctionNFT,
         JanctionNFT.abi,
-        provider,
-      ).connect(signer);
+        signer,
+      );
 
       const approveTx = await nftContract.approve(
         getAddresses().NFTEscrowProxy,
@@ -644,29 +605,22 @@ const contract = {
     }
   },
 
-  unescrow: async (tokenId) => {
+  unescrow: async (signer, tokenId) => {
     try {
-      const provider = new ethers.providers.Web3Provider(
-        window.ethereum,
-        'any',
-      );
-      await provider.send('eth_requestAccounts', []);
-      const signer = provider.getSigner();
-
       message.info({
         content: 'Waiting...',
         key: 'tx',
         duration: 0,
       });
 
-      await switchNetwork(provider);
+      await switchNetwork(signer.provider);
 
       // 初始化合约
       const unescrowContract = new ethers.Contract(
         getAddresses().NFTEscrowProxy,
         NFTEscrowImpl.abi,
-        provider,
-      ).connect(signer);
+        signer,
+      );
 
       const tx = await unescrowContract.unescrow(tokenId);
       await tx.wait(); // 等待交易完成

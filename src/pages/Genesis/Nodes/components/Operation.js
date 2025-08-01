@@ -10,12 +10,17 @@ import {
 } from '@/services/genesis';
 import { DeleteOutlined, RedoOutlined } from '@ant-design/icons';
 import contract from '@/utils/contracts';
+import { useChainId } from 'wagmi';
+import { useEthersSigner } from '@/hooks/useEthersSigner';
 
 export default function OperationDelis({ record, error, getList }) {
   const [isModalOpenStake, setIsModalOpenStake] = useState(false);
   const { isRunning, isListed } = getNodeStatusMatch(record);
   const [loading, setLoading] = useState(false);
   const [paymentId, setPaymentId] = useState('');
+
+  const chainId = useChainId();
+  const signer = useEthersSigner(chainId);
 
   const getOrderInfo = async () => {
     const data = {
@@ -74,7 +79,7 @@ export default function OperationDelis({ record, error, getList }) {
     try {
       await getOrderInfo();
       if (!paymentId) return;
-      await contract.releaseHourlyPayment(paymentId);
+      await contract.releaseHourlyPayment(signer, paymentId);
     } catch (error) {
       message.warning('Operation failed, please try again later!');
       console.log('『error』', error);

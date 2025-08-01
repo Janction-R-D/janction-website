@@ -17,6 +17,8 @@ import dayjs from 'dayjs';
 import { delay, showValue } from '@/utils/lang';
 import { ethers } from 'ethers';
 import { SwiperImg } from '../../Dashboard3/components/Cards';
+import { useChainId } from 'wagmi';
+import { useEthersSigner } from '@/hooks/useEthersSigner';
 
 export default function BuyNode({ mineCode, inviterCode }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,6 +27,8 @@ export default function BuyNode({ mineCode, inviterCode }) {
   const [price, setPrice] = useState(0);
   const [addressList, setAddressList] = useState([]);
   const [benefitList, setBenefitList] = useState([]);
+  const chainId = useChainId();
+  const signer = useEthersSigner(chainId);
 
   const { address } = useAccount();
 
@@ -104,6 +108,7 @@ export default function BuyNode({ mineCode, inviterCode }) {
     try {
       const totalAmount = price * num;
       const tx = await contract.distribute(
+        signer,
         address,
         ethers.utils.parseUnits(`${totalAmount}`, 6),
         addressList,
