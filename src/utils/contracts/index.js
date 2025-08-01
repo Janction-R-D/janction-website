@@ -8,7 +8,6 @@ import JasmyRewards from './JasmyRewards.json';
 import NFTEscrowImpl from './NFTEscrowImpl.json';
 import JanctionNFT from './JanctionNFT.json';
 import { delay } from '../lang';
-import jasmyTestnet from './jasmyTestnet.json';
 import Addresses from './Addresses.json';
 
 const isProduction = process.env.JANCTION_ENV === 'production';
@@ -17,32 +16,42 @@ const NETWORKS = {
   eth: {
     chainId: 1,
     chainName: 'Ethereum Mainnet',
+    currencyName: 'Ether',
+    currencySymbol: 'ETH',
     rpcUrls: ['https://eth.llamarpc.com'],
     blockExplorerUrls: ['https://etherscan.io'],
   },
   eth_test: {
     chainId: 11155111,
     chainName: 'Sepolia Test Network',
+    currencyName: 'Ether',
+    currencySymbol: 'ETH',
     rpcUrls: ['https://rpc.sepolia.org'],
     blockExplorerUrls: ['https://sepolia.etherscan.io'],
   },
   op: {
     chainId: 10,
     chainName: 'Optimism Mainnet',
+    currencyName: 'Ether',
+    currencySymbol: 'ETH',
     rpcUrls: ['https://mainnet.optimism.io'],
     blockExplorerUrls: ['https://optimistic.etherscan.io'],
   },
   op_test: {
     chainId: 11155420,
     chainName: 'Optimism Sepolia Testnet',
+    currencyName: 'Ether',
+    currencySymbol: 'ETH',
     rpcUrls: ['https://sepolia.optimism.io'],
     blockExplorerUrls: ['https://sepolia-optimism.etherscan.io'],
   },
   jasmy_test: {
-    chainId: jasmyTestnet.id,
-    chainName: jasmyTestnet.name,
-    rpcUrls: [jasmyTestnet.rpcUrls.default.http],
-    blockExplorerUrls: [jasmyTestnet.blockExplorers.default.url],
+    chainId: 681,
+    chainName: 'Jasmy Testnet',
+    currencyName: 'JASMY',
+    currencySymbol: 'JASMY',
+    rpcUrls: ['https://jasmy-chain-testnet.alt.technology'],
+    blockExplorerUrls: ['https://jasmy-chain-testnet-explorer.alt.technology/'],
   },
 };
 
@@ -106,65 +115,31 @@ const getAddresses = (networkName = 'OP') => {
   console.log(network_name);
   return Addresses[network_name];
 };
-const switchNetwork = async (provider, networkName = 'op') => {
+
+export const switchNetwork = async (provider, networkName = 'op') => {
   try {
     const network = await provider.getNetwork();
-    const network_name =
+
+    console.log('Current network:', network);
+
+    let network_name =
       isProduction || networkName == 'eth' ? networkName : process.env.TESTNET;
+
+    console.log('process.env.TESTNET: ', process.env.TESTNET);
+
+    if (process.env.TESTNET == 'jasmy') {
+      network_name = 'jasmy_test';
+    }
+
+    console.log('Switching to network:', network_name);
+
     const networkConf =
       NETWORKS[`${network_name}${isProduction ? '' : '_test'}`];
     const chainId = networkConf.chainId;
 
-    if (network.chainId !== chainId) {
-      try {
-        await window.ethereum.request({
-          method: 'wallet_switchEthereumChain',
-          params: [{ chainId: `0x${chainId.toString(16)}` }],
-        });
-      } catch (switchError) {
-        if (switchError.code === 4902) {
-          try {
-            await window.ethereum.request({
-              method: 'wallet_addEthereumChain',
-              params: [
-                {
-                  chainId: `0x${chainId.toString(16)}`,
-                  chainName: networkConf.chainName,
-                  nativeCurrency: {
-                    name: 'Ether',
-                    symbol: 'ETH',
-                    decimals: 18,
-                  },
-                  rpcUrls: networkConf.rpcUrls,
-                  blockExplorerUrls: networkConf.blockExplorerUrls,
-                },
-              ],
-            });
-          } catch (addError) {
-            throw new Error(
-              `Failed to add ${networkConf.chainName} to your wallet.`,
-            );
-          }
-        } else {
-          throw new Error(`Failed to switch to ${networkConf.chainName}.`);
-        }
-      }
-    }
-  } catch (err) {
-    throw new Error(err);
-  }
-};
-export const switchNetworkJasmy = async (provider) => {
-  try {
-    const network = await provider.getNetwork();
-    const network_name = isProduction ? 'jasmy_test' : 'op_test';
-    const networkConf = NETWORKS[network_name];
-    const chainId = networkConf.chainId;
-    console.log(' switching to network_name', network_name);
-    console.log('networkConf', networkConf);
+    console.log('Network configuration:', networkConf);
 
     if (network.chainId !== chainId) {
-      console.log('chainId', chainId);
       try {
         await window.ethereum.request({
           method: 'wallet_switchEthereumChain',
@@ -180,8 +155,8 @@ export const switchNetworkJasmy = async (provider) => {
                   chainId: `0x${chainId.toString(16)}`,
                   chainName: networkConf.chainName,
                   nativeCurrency: {
-                    name: 'JASMY',
-                    symbol: 'WJASMY',
+                    name: networkConf.currencyName,
+                    symbol: networkConf.currencySymbol,
                     decimals: 18,
                   },
                   rpcUrls: networkConf.rpcUrls,
@@ -203,6 +178,7 @@ export const switchNetworkJasmy = async (provider) => {
     throw new Error(err);
   }
 };
+
 const getJasmyAddress = () => {
   const network_name = isProduction ? 'JASMY_TESTNET' : 'OP_SEPOLIA';
   console.log('network_name for pay: ', network_name);
@@ -247,7 +223,7 @@ const contract = {
         duration: 0,
       });
 
-      await switchNetworkJasmy(provider);
+      await switchNetwork(provider);
 
       // 初始化合约
 

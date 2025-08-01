@@ -15,7 +15,7 @@ import {
 import styles from './index.less';
 import { WalletOutlined } from '@ant-design/icons';
 import { expires } from '@/utils/lang';
-import { switchNetworkJasmy } from '@/utils/contracts';
+import { switchNetwork } from '@/utils/contracts';
 import { ethers } from 'ethers';
 
 const RainbowConnect = (props) => {
@@ -100,19 +100,20 @@ const RainbowConnect = (props) => {
 
       const signAndLogin = async () => {
         try {
-          const { nonce } = (await fetchUserNonce()) || {};
-          if (!nonce) {
-            throw new Error('Nonce is missing');
-          }
           const provider = new ethers.providers.Web3Provider(
             window.ethereum,
             'any',
           );
           await provider.send('eth_requestAccounts', []);
           if (provider) {
-            console.log(provider);
-            await switchNetworkJasmy(provider);
+            await switchNetwork(provider);
           }
+
+          const { nonce } = (await fetchUserNonce()) || {};
+          if (!nonce) {
+            throw new Error('Nonce is missing');
+          }
+
           const expirationTime = new Date(Date.now() + expires).toISOString();
 
           const siweMessage = new SiweMessage({

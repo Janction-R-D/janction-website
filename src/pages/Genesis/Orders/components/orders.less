@@ -49,41 +49,64 @@
     display: flex;
     gap: 12px;
     align-items: center;
+    text-transform: capitalize;
     i {
       color: rgb(41, 184, 41);
     }
-    .complete {
-      font-size: 0.9rem;
-      color: rgb(41, 184, 41);
-    }
-    .pending {
-      font-size: 0.9rem;
-      color: rgb(120, 255, 120);
-    }
-    .refunded {
-      font-size: 0.9rem;
-      color: rgb(249, 146, 10);
-    }
+    // .complete {
+    //   font-size: 0.9rem;
+    //   color: rgb(41, 184, 41);
+    // }
+    // .pending {
+    //   font-size: 0.9rem;
+    //   color: rgb(120, 255, 120);
+    // }
+    // .refunded {
+    //   font-size: 0.9rem;
+    //   color: rgb(249, 146, 10);
+    // }
   }
 }
 .refunded {
-  font-size: 0.9rem;
-  color: rgb(249, 146, 10);
+  font-size: 1rem;
+  color: #e67e22;
+  i {
+    color: #e67e22 !important;
+    font-size: 1.2rem;
+  }
 }
+
 .complete {
-  font-size: 0.9rem;
-  color: rgb(41, 184, 41);
+  font-size: 1rem;
+  color: #2ecc71;
+  i {
+    color: #2ecc71 !important;
+    font-size: 1.2rem;
+  }
 }
+
+.expired {
+  font-size: 1rem;
+  color: #c0392b;
+  i {
+    color: #c0392b !important;
+    font-size: 1.4rem;
+  }
+}
+
+.pending {
+  font-size: 1rem;
+  color: #f1c40f;
+  i {
+    color: #f1c40f !important;
+    font-size: 1rem;
+  }
+}
+
 .node_id {
   font-size: 0.99rem;
 }
-.pending {
-  font-size: 0.9rem;
-  color: rgb(120, 255, 120);
-  i {
-    color: rgb(120, 255, 120) !important;
-  }
-}
+
 .card-product-img-container {
   i {
     font-size: 20px;

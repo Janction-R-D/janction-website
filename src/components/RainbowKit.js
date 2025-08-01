@@ -1,4 +1,3 @@
-import jasmyTestnet from '@/utils/contracts/jasmyTestnet.json';
 import {
   connectorsForWallets,
   darkTheme,
@@ -15,6 +14,32 @@ import {
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider } from 'wagmi';
 import { optimism, optimismSepolia } from 'wagmi/chains';
+
+const jasmyTestnet = {
+  id: 681,
+  name: 'Jasmy Testnet',
+  network: 'jasmy-testnet',
+  nativeCurrency: {
+    decimals: 18,
+    name: 'JASMY',
+    symbol: 'JASMY',
+  },
+  rpcUrls: {
+    default: {
+      http: ['https://jasmy-chain-testnet.alt.technology'],
+    },
+    public: {
+      http: ['https://jasmy-chain-testnet.alt.technology'],
+    },
+  },
+  blockExplorers: {
+    default: {
+      name: 'JasmyExplorer',
+      url: 'https://jasmy-chain-testnet-explorer.alt.technology/',
+    },
+  },
+  testnet: true,
+};
 
 const projectId = '23cf742fb52fc761a81ebe69526d0b82';
 const chains = [optimismSepolia, optimism, jasmyTestnet];

@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "3658681",
+      "name": "icon-refunded",
+      "font_class": "icon-refunded",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
+      "icon_id": "1120782",
+      "name": "refund",
+      "font_class": "refund",
+      "unicode": "e792",
+      "unicode_decimal": 59282
+    },
+    {
+      "icon_id": "9571746",
+      "name": "Completed",
+      "font_class": "Completed",
+      "unicode": "e668",
+      "unicode_decimal": 58984
+    },
+    {
+      "icon_id": "17561282",
+      "name": "Pending",
+      "font_class": "Pending",
+      "unicode": "e669",
+      "unicode_decimal": 58985
+    },
+    {
       "icon_id": "7049836",
       "name": "visa",
       "font_class": "visa1",
