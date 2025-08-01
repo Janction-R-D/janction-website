@@ -12,7 +12,7 @@ import Addresses from './Addresses.json';
 
 const isProduction = process.env.JANCTION_ENV === 'production';
 
-const NETWORKS = {
+export const NETWORKS = {
   eth: {
     chainId: 1,
     chainName: 'Ethereum Mainnet',
@@ -301,6 +301,13 @@ const contract = {
     nodeId,
   }) => {
     try {
+      const provider = new ethers.providers.Web3Provider(
+        window.ethereum,
+        'any',
+      );
+
+      const signer = provider.getSigner();
+
       message.info({
         content: 'Waiting...',
         key: 'tx',

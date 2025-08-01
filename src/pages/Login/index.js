@@ -9,6 +9,7 @@ import { history, useLocation, useModel } from 'umi';
 import { fetchOauthCallback } from '@/services/login';
 import { expires } from '@/utils/lang';
 import DesktopConnect from './CnnectElectron';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 const origin = location.origin;
 const CALLBACK_URL = `${origin}/login`;
@@ -108,7 +109,19 @@ const Login = (props) => {
         <p>One account for everything Janction</p>
       </div>
 
-      {fromApp && <DesktopConnect setLoading={setLoading} loading={loading} />}
+      {fromApp && (
+        <ConnectButton.Custom>
+          {({ openConnectModal, openAccountModal, mounted }) => (
+            <DesktopConnect
+              setLoading={setLoading}
+              loading={loading}
+              mounted={mounted}
+              openConnectModal={openConnectModal}
+              openAccountModal={openAccountModal}
+            />
+          )}
+        </ConnectButton.Custom>
+      )}
 
       {!fromApp && (
         <a className={styles['login-btn']} onClick={() => setOpen(true)}>
