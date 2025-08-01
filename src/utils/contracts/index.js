@@ -62,6 +62,11 @@ export const getCurrency = () => {
     ? Addresses.JASMY_TESTNET
     : Addresses.OP_SEPOLIA;
 
+  // 补丁
+  if (process.env.TESTNET == 'jasmy') {
+    address = Addresses.JASMY_TESTNET;
+  }
+
   return [
     // {
     //   value: address.veJCT,
