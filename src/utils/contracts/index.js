@@ -47,7 +47,7 @@ const NETWORKS = {
   },
   jasmy_test: {
     chainId: 681,
-    chainName: 'Janction Testnet',
+    chainName: 'Jasmy Testnet',
     currencyName: 'JASMY',
     currencySymbol: 'JASMY',
     rpcUrls: ['https://jasmy-chain-testnet.alt.technology'],
