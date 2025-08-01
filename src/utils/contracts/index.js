@@ -88,9 +88,35 @@ export const getCurrency = () => {
     },
   ];
 };
+export const getJasmyCurrency = () => {
+  let address = isProduction ? Addresses.JASMY_TESTNET : Addresses.OP_SEPOLIA;
+
+  return [
+    // {
+    //   value: address.veJCT,
+    //   label: 'veJCT',
+    //   desc: 'From JANCTION',
+    //   rate: 0.02,
+    // },
+    {
+      value: address.USDT,
+      label: 'USDT',
+      rate: 1,
+    },
+    {
+      value: address.USDC,
+      label: 'USDC',
+      rate: 1,
+    },
+  ];
+};
 
 export const getDefaultCurrency = () => {
   const allCurrency = getCurrency();
+  return allCurrency[0].value;
+};
+export const getDefaultJasmyCurrency = () => {
+  const allCurrency = getJasmyCurrency();
   return allCurrency[0].value;
 };
 

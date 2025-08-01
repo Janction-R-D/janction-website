@@ -7,7 +7,11 @@ import {
   fetchNodesPrice,
   fetchPaymentOrder,
 } from '@/services/genesis';
-import contract, { getCurrency, getDefaultCurrency } from '@/utils/contracts';
+import contract, {
+  getCurrency,
+  getDefaultCurrency,
+  getDefaultJasmyCurrency,
+} from '@/utils/contracts';
 import { delay, isEmpty } from '@/utils/lang';
 import { message } from 'antd';
 import { useEffect, useState } from 'react';
@@ -26,7 +30,7 @@ const Settlement = (props) => {
   const { address } = useAccount();
   const [tableLoading, setTableLoading] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [currency, setCurrency] = useState(getDefaultCurrency());
+  const [currency, setCurrency] = useState(getDefaultJasmyCurrency());
   const [list, setList] = useState([]);
   const [priceInfo, setPriceInfo] = useState({});
   const [payPriceInfo, setPayPriceInfo] = useState({});
