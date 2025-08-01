@@ -35,7 +35,7 @@ function ProductList(props) {
   const getList = async (input) => {
     try {
       setLoading(true);
-      const res = await fetchListFilter(input);
+      const res = (await fetchListFilter(input)) || [];
 
       const data = (res || []).filter((node) => {
         const { isListed } = getNodeStatusMatch(node);

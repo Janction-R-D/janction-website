@@ -89,7 +89,7 @@ export const getCurrency = () => {
   ];
 };
 export const getJasmyCurrency = () => {
-  let address = isProduction ? Addresses.JASMY_TESTNET : Addresses.OP_SEPOLIA;
+  let address = isProduction ? Addresses.OP_SEPOLIA : Addresses.OP_SEPOLIA;
 
   return [
     // {
@@ -218,7 +218,7 @@ export const switchNetworkJasmy = async (provider) => {
 
     console.log('Current network:', network);
 
-    let network_name = isProduction ? 'jasmy_test' : 'op_test';
+    let network_name = isProduction ? 'op_test' : 'op_test';
 
     console.log('Switching to network:', network_name);
 
@@ -269,7 +269,7 @@ export const switchNetworkJasmy = async (provider) => {
 };
 
 const getJasmyAddress = () => {
-  const network_name = isProduction ? 'JASMY_TESTNET' : 'OP_SEPOLIA';
+  const network_name = isProduction ? 'OP_SEPOLIA' : 'OP_SEPOLIA';
   console.log('network_name for pay: ', network_name);
   console.log('Addresses', Addresses[network_name]);
   return Addresses[network_name];
