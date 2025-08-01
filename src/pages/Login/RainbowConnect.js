@@ -169,6 +169,7 @@ const RainbowConnect = ({ setLoading }) => {
             onClick={() => {
               openAccountModal();
             }}
+            title={account.address}
           >
             <WalletOutlined />
           </a>
