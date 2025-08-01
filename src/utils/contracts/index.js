@@ -67,6 +67,8 @@ export const getCurrency = () => {
     address = Addresses.JASMY_TESTNET;
   }
 
+  console.log('get address:', address);
+
   return [
     // {
     //   value: address.veJCT,
