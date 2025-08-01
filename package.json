@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "start": "cross-env UMI_ENV=prod NODE_OPTIONS=--openssl-legacy-provider umi dev",
+    "start": "cross-env UMI_ENV=dev NODE_OPTIONS=--openssl-legacy-provider umi dev",
     "build": "cross-env UMI_ENV=prod NODE_OPTIONS=--openssl-legacy-provider umi build",
     "build:test": "cross-env UMI_ENV=test NODE_OPTIONS=--openssl-legacy-provider umi build",
     "build:ai": "cross-env UMI_ENV=ai NODE_OPTIONS=--openssl-legacy-provider umi build",
