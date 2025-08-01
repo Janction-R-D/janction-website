@@ -219,7 +219,7 @@ const Settlement = (props) => {
   const goBack = () => {
     history.push('/genesis/purchase');
   };
-  const findCurrency = paytype.find((item) => item.value == currency).label;
+  const findCurrency = paytype.find((item) => item.value == currency)?.label;
   const getPrice = () => {
     let newPrice;
     if (findCurrency !== 'usd') {

@@ -9,7 +9,7 @@ export default function QuickTable(props) {
   const { onChange, formValues, value, data, loading } = props;
   const [selectKey, setSelectKey] = useState(value || null);
   const list = getTableData(data);
-
+  console.log(data);
   const rowSelection = {
     selectedRowKeys: [selectKey],
     onChange: (selectedRowKeys, selectedRows) => {

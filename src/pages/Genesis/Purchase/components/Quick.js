@@ -38,13 +38,14 @@ const Quick = (props) => {
     setLoading(true);
     try {
       const res = await fetchListFilter(data);
-      const nodeList = res?.data || [];
-      const newList = nodeList.filter((node) => {
-        const { isListed } = getNodeStatusMatch(node);
-        return isListed;
-      });
 
-      if (!nodeList || nodeList.length <= 0) {
+      const newList =
+        res?.filter((node) => {
+          const { isListed } = getNodeStatusMatch(node);
+          return isListed;
+        }) || [];
+
+      if (!res || res?.length <= 0) {
         setFormValues((prevState) => ({ ...prevState, node: undefined }));
         form.setFieldsValue({ node: undefined });
       }
