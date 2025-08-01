@@ -11,7 +11,7 @@ import { ethers } from 'ethers';
 import { message } from 'antd';
 import { useLocation, history } from 'umi';
 import { expires } from '@/utils/lang';
-import styles from './index.less'; // tu archivo de estilos
+import styles from './index.less';
 
 const RainbowConnect = ({ setLoading }) => {
   const location = useLocation();
