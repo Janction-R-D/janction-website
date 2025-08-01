@@ -56,11 +56,19 @@ const NETWORKS = {
 };
 
 export const getCurrency = () => {
-  const address = isProduction
+  let address = isProduction
     ? Addresses.OP
     : process.env.TESTNET == 'jasmy'
     ? Addresses.JASMY_TESTNET
     : Addresses.OP_SEPOLIA;
+
+  // 补丁
+  if (process.env.TESTNET == 'jasmy') {
+    address = Addresses.JASMY_TESTNET;
+  }
+
+  console.log('get address:', address);
+
   return [
     // {
     //   value: address.veJCT,
