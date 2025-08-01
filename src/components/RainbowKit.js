@@ -22,7 +22,7 @@ const jasmyTestnet = {
   nativeCurrency: {
     decimals: 18,
     name: 'JASMY',
-    symbol: 'WJASMY',
+    symbol: 'JASMY',
   },
   rpcUrls: {
     default: {

@@ -116,14 +116,28 @@ const getAddresses = (networkName = 'OP') => {
   return Addresses[network_name];
 };
 
-const switchNetwork = async (provider, networkName = 'op') => {
+export const switchNetwork = async (provider, networkName = 'op') => {
   try {
     const network = await provider.getNetwork();
-    const network_name =
+
+    console.log('Current network:', network);
+
+    let network_name =
       isProduction || networkName == 'eth' ? networkName : process.env.TESTNET;
+
+    console.log('process.env.TESTNET: ', process.env.TESTNET);
+
+    if (process.env.TESTNET == 'jasmy') {
+      network_name = 'jasmy_test';
+    }
+
+    console.log('Switching to network:', network_name);
+
     const networkConf =
       NETWORKS[`${network_name}${isProduction ? '' : '_test'}`];
     const chainId = networkConf.chainId;
+
+    console.log('Network configuration:', networkConf);
 
     if (network.chainId !== chainId) {
       try {
