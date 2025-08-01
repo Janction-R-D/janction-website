@@ -1,151 +1,26 @@
+import React, { useEffect, useState } from 'react';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { WalletOutlined } from '@ant-design/icons';
+import { useAccount, useDisconnect, useSignMessage } from 'wagmi';
+import { SiweMessage } from 'siwe';
+import storage from '@/utils/storage';
 import { fetchInviteAccept, fetchUserConfig } from '@/services/genesis';
 import { fetchUserNonce, fetchUserVerify } from '@/services/login';
-import storage from '@/utils/storage';
-import { useConnectModal } from '@rainbow-me/rainbowkit';
-import { message } from 'antd';
-import { useEffect, useState } from 'react';
-import { SiweMessage } from 'siwe';
-import { history, useLocation } from 'umi';
-import {
-  useAccount,
-  useAccountEffect,
-  useDisconnect,
-  useSignMessage,
-} from 'wagmi';
-import styles from './index.less';
-import { WalletOutlined } from '@ant-design/icons';
-import { expires } from '@/utils/lang';
-import { switchNetwork } from '@/utils/contracts';
+import { switchNetworkJasmy } from '@/utils/contracts';
 import { ethers } from 'ethers';
+import { message } from 'antd';
+import { useLocation, history } from 'umi';
+import { expires } from '@/utils/lang';
+import styles from './index.less';
 
-const RainbowConnect = (props) => {
-  const { setLoading } = props;
+const RainbowConnect = ({ setLoading }) => {
   const location = useLocation();
   const { inviterCode } = location.query || {};
-  const [isOldUser, setIsOldUser] = useState();
-  const [mounted, setMounted] = useState(false);
-
-  const { address } = useAccount();
-  const { openConnectModal } = useConnectModal();
+  const { address, isConnected } = useAccount();
+  const { disconnect } = useDisconnect();
   const { signMessageAsync } = useSignMessage();
 
-  const { disconnect } = useDisconnect();
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (address) {
-      disconnect();
-    }
-  }, []);
-
-  useAccountEffect({
-    async onConnect({ address, chainId }) {
-      console.log(address, chainId);
-      setLoading(true);
-      message.info({
-        content: 'The operation is in progress, please wait...',
-        key: 'loading',
-        duration: 0,
-      });
-      const userAccount = {
-        address,
-        chainId,
-      };
-
-      const onSuccess = async (sig, message) => {
-        try {
-          const param = {
-            message,
-            signature: sig,
-          };
-
-          const resVerify = await fetchUserVerify(param);
-
-          if (resVerify?.message !== 'success') {
-            throw new Error('Signature verification failed');
-          }
-
-          const msg = btoa(message);
-          const dataStorage = {
-            signature: sig,
-            message: msg,
-            address,
-          };
-
-          storage.set({
-            name: 'userAccount',
-            value: userAccount,
-            expires,
-          });
-          storage.set({
-            name: 'AUTH_HEADERS',
-            value: { 'x-siwe-sig': sig, 'x-siwe-msg': msg },
-            expires,
-          });
-          storage.set({
-            name: 'SESSION_TYPE',
-            value: 'wallet',
-            expires,
-          });
-
-          onRedirect(address, dataStorage);
-        } catch (err) {
-          console.error('Signature verification error:', err);
-          message.error('Failed to verify signature. Please try again.');
-          await disconnect();
-        }
-      };
-
-      const signAndLogin = async () => {
-        try {
-          const provider = new ethers.providers.Web3Provider(
-            window.ethereum,
-            'any',
-          );
-          await provider.send('eth_requestAccounts', []);
-          if (provider) {
-            await switchNetwork(provider);
-          }
-
-          const { nonce } = (await fetchUserNonce()) || {};
-          if (!nonce) {
-            throw new Error('Nonce is missing');
-          }
-
-          const expirationTime = new Date(Date.now() + expires).toISOString();
-
-          const siweMessage = new SiweMessage({
-            domain: window.location.host,
-            address,
-            statement: 'Sign in Janction with your wallet.',
-            uri: window.location.origin,
-            version: '1',
-            chainId,
-            nonce,
-            expirationTime,
-          });
-
-          const message = siweMessage.prepareMessage();
-          const signature = await signMessageAsync({ message });
-
-          await onSuccess(signature, message);
-        } catch (err) {
-          console.error('Login error:', err);
-          message.error('Login failed. Please try again.');
-          await disconnect();
-        } finally {
-          setLoading(false);
-          message.destroy('loading');
-        }
-      };
-
-      await signAndLogin();
-      setLoading(false);
-      message.destroy('loading');
-    },
-  });
+  const [loadingLogin, setLoadingLogin] = useState(false);
 
   const onRedirect = async (address, dataStorage) => {
     const { is_old_user } = (await fetchUserConfig()) || {};
@@ -158,7 +33,6 @@ const RainbowConnect = (props) => {
         message: dataStorage?.message ?? '',
         address: dataStorage?.address ?? '',
       });
-
       window.location.href = `${redirectUri}?${params.toString()}`;
       return;
     }
@@ -167,51 +41,142 @@ const RainbowConnect = (props) => {
     }
     const from = history.location.query?.from || '/genesis/dashboard';
     if (inviterCode) {
-      await bindCode(address);
+      try {
+        await fetchInviteAccept({
+          receive_address: address,
+          code: inviterCode,
+        });
+      } catch (err) {
+        console.log('『err』', err);
+      }
       return window.location.replace(
         `/genesis/deployNodes?inviterCode=${inviterCode}&root='lessor'`,
       );
     }
     window.location.replace(from);
   };
-  const bindCode = async (address) => {
+
+  const loginWithSIWE = async () => {
+    if (!address) return;
+    setLoadingLogin(true);
+    setLoading?.(true);
+    message.loading({ content: 'Signing in...', key: 'login', duration: 0 });
+
     try {
-      const data = {
-        receive_address: address,
-        code: inviterCode,
-      };
-      await fetchInviteAccept(data);
-    } catch (err) {
-      console.log('『err』', err);
-    }
-  };
-  // const onConnect = async () => {
-  //   if (address) {
-  //     await disconnect();
-  //     // Triggered when the user clears local data
-  //     storage.set({ name: 'refresh', value: true });
-  //     window.location.reload();
-  //     // openConnectModal();
-  //   } else {
-  //     openConnectModal();
-  //   }
-  // };
+      const provider = new ethers.providers.Web3Provider(
+        window.ethereum,
+        'any',
+      );
+      await provider.send('eth_requestAccounts', []);
 
-  const onConnect = async () => {
-    if (!mounted || typeof openConnectModal !== 'function') return;
+      try {
+        await switchNetworkJasmy(provider);
+      } catch (e) {
+        console.warn('Failed to switch network', e);
+      }
 
-    if (address) {
+      const networkAfterSwitch = await provider.getNetwork();
+      const activeChainId = networkAfterSwitch.chainId;
+
+      const { nonce } = (await fetchUserNonce()) || {};
+      if (!nonce) throw new Error('Nonce is missing');
+
+      const userAccount = { address, chainId: activeChainId };
+
+      const expirationTime = new Date(Date.now() + expires).toISOString();
+      const siweMessage = new SiweMessage({
+        domain: window.location.host,
+        address,
+        statement: 'Sign in Janction with your wallet.',
+        uri: window.location.origin,
+        version: '1',
+        chainId: activeChainId,
+        nonce,
+        expirationTime,
+      });
+
+      const messageToSign = siweMessage.prepareMessage();
+      const signature = await signMessageAsync({ message: messageToSign });
+
+      const resVerify = await fetchUserVerify({
+        message: messageToSign,
+        signature,
+      });
+      if (resVerify?.message !== 'success')
+        throw new Error('Signature verification failed');
+
+      const msgEncoded = btoa(messageToSign);
+      const dataStorage = { signature, message: msgEncoded, address };
+
+      storage.set({ name: 'userAccount', value: userAccount, expires });
+      storage.set({
+        name: 'AUTH_HEADERS',
+        value: { 'x-siwe-sig': signature, 'x-siwe-msg': msgEncoded },
+        expires,
+      });
+      storage.set({ name: 'SESSION_TYPE', value: 'wallet', expires });
+
+      await onRedirect(address, dataStorage);
+      message.success({ content: 'Login successful!', key: 'login' });
+    } catch (error) {
+      console.error('Login error:', error);
+      message.error({ content: error.message || 'Login failed', key: 'login' });
       await disconnect();
-      openConnectModal();
-    } else {
-      openConnectModal();
+    } finally {
+      setLoadingLogin(false);
+      setLoading?.(false);
+      message.destroy('login');
     }
   };
-  if (!mounted) return null;
+
+  useEffect(() => {
+    if (isConnected && address) {
+      loginWithSIWE();
+    }
+  }, [isConnected, address]);
+
   return (
-    <a className={styles['login-btn']} onClick={onConnect}>
-      <WalletOutlined />
-    </a>
+    <ConnectButton.Custom>
+      {({
+        account,
+        chain,
+        openAccountModal,
+        openChainModal,
+        openConnectModal,
+        mounted,
+      }) => {
+        if (!mounted) {
+          return null;
+        }
+
+        if (!account || !chain) {
+          return (
+            <a
+              className={styles['login-btn']}
+              onClick={() => {
+                openConnectModal();
+              }}
+            >
+              <WalletOutlined />
+            </a>
+          );
+        }
+
+        // Wallet conectada y red OK
+        return (
+          <a
+            className={styles['login-btn']}
+            onClick={() => {
+              openAccountModal();
+            }}
+            title={account.address}
+          >
+            <WalletOutlined /> {account.address.slice(0, 6)}...
+            {account.address.slice(-4)}
+          </a>
+        );
+      }}
+    </ConnectButton.Custom>
   );
 };
 
