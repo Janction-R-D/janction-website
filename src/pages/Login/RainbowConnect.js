@@ -23,18 +23,6 @@ const RainbowConnect = ({ setLoading }) => {
   const onRedirect = async (address, dataStorage) => {
     const { is_old_user } = (await fetchUserConfig()) || {};
     const params = new URLSearchParams(location.search);
-    const redirectUri = params.get('redirect_uri');
-    const isElectron = redirectUri?.startsWith('janctionapp://');
-
-    if (isElectron && redirectUri) {
-      const params = new URLSearchParams({
-        signature: dataStorage?.signature ?? '',
-        message: dataStorage?.message ?? '',
-        address: dataStorage?.address ?? '',
-      });
-      window.location.href = `${redirectUri}?${params.toString()}`;
-      return;
-    }
 
     if (!is_old_user) {
       return window.location.replace(`/genesis/rol`, { type: 'wallet' });
@@ -93,7 +81,7 @@ const RainbowConnect = ({ setLoading }) => {
       }
 
       const msgEncoded = btoa(messageToSign);
-      const userAccount = { address, chainId };
+      const userAccount = { address };
       const dataStorage = { signature, message: msgEncoded, address };
 
       storage.set({ name: 'userAccount', value: userAccount, expires });
