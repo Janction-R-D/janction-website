@@ -181,7 +181,7 @@ export const switchNetworkJasmy = async (provider) => {
                   chainName: networkConf.chainName,
                   nativeCurrency: {
                     name: 'JASMY',
-                    symbol: 'WJASMY',
+                    symbol: 'JASMY',
                     decimals: 18,
                   },
                   rpcUrls: networkConf.rpcUrls,
