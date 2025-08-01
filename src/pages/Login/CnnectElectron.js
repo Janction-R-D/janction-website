@@ -14,7 +14,7 @@ import {
 } from 'wagmi';
 import styles from './index.less';
 import { expires } from '@/utils/lang';
-import { switchNetwork } from '@/utils/contracts';
+import { switchNetwork, switchNetworkJasmy } from '@/utils/contracts';
 import { ethers } from 'ethers';
 export function extractSubdomainFromLocation() {
   const parts = location.hostname.split('.');
@@ -115,30 +115,33 @@ const DesktopConnect = (props) => {
             'any',
           );
           await provider.send('eth_requestAccounts', []);
-          if (provider) {
-            await switchNetwork(provider);
+
+          try {
+            await switchNetworkJasmy(provider);
+          } catch (e) {
+            console.warn('Failed to switch network', e);
           }
+
+          const networkAfterSwitch = await provider.getNetwork();
+          const activeChainId = networkAfterSwitch.chainId;
 
           const { nonce } = (await fetchUserNonce()) || {};
-          if (!nonce) {
-            throw new Error('Nonce is missing');
-          }
+          if (!nonce) throw new Error('Nonce is missing');
 
           const expirationTime = new Date(Date.now() + expires).toISOString();
-
           const siweMessage = new SiweMessage({
             domain: window.location.host,
             address,
             statement: 'Sign in Janction with your wallet.',
             uri: window.location.origin,
             version: '1',
-            chainId,
+            chainId: activeChainId,
             nonce,
             expirationTime,
           });
 
           const message = siweMessage.prepareMessage();
-          const signature = await signMessageAsync({ message });
+          const signature = await signMessageAsync({ message: message });
 
           await onSuccess(signature, message);
         } catch (err) {

@@ -55,8 +55,8 @@ export default function QuickTable(props) {
         console.log(gpu);
         return (
           <>
-            <p>{!!cpu.length ? `${cpu[0]} * ${cpu.length}` : '--'}</p>
-            <p>{!!gpu.length ? `${gpu[0]} * ${gpu.length}` : '--'}</p>
+            <p>{!!cpu?.length ? `${cpu[0]} * ${cpu?.length}` : '--'}</p>
+            <p>{!!gpu?.length ? `${gpu[0]} * ${gpu?.length}` : '--'}</p>
           </>
         );
       },
