@@ -56,11 +56,12 @@ const NETWORKS = {
 };
 
 export const getCurrency = () => {
-  const address = isProduction
+  let address = isProduction
     ? Addresses.OP
     : process.env.TESTNET == 'jasmy'
     ? Addresses.JASMY_TESTNET
     : Addresses.OP_SEPOLIA;
+
   return [
     // {
     //   value: address.veJCT,
