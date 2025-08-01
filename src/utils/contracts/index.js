@@ -123,7 +123,7 @@ export const switchNetwork = async (provider, networkName = 'op') => {
     console.log('Current network:', network);
 
     let network_name =
-      isProduction || networkName == 'eth' ? networkName : process.env.TESTNET;
+      !isProduction || networkName == 'eth' ? networkName : process.env.TESTNET;
 
     console.log('process.env.TESTNET: ', process.env.TESTNET);
 
@@ -134,7 +134,7 @@ export const switchNetwork = async (provider, networkName = 'op') => {
     console.log('Switching to network:', network_name);
 
     const networkConf =
-      NETWORKS[`${network_name}${isProduction ? '' : '_test'}`];
+      NETWORKS[`${network_name}${!isProduction ? '' : '_test'}`];
     const chainId = networkConf.chainId;
 
     console.log('Network configuration:', networkConf);
@@ -178,10 +178,66 @@ export const switchNetwork = async (provider, networkName = 'op') => {
     throw new Error(err);
   }
 };
+export const switchNetworkJasmy = async (provider) => {
+  try {
+    const network = await provider.getNetwork();
+
+    console.log('Current network:', network);
+
+    let network_name = !isProduction ? 'jasmy_test' : 'op_test';
+
+    console.log('Switching to network:', network_name);
+
+    const networkConf = NETWORKS[network_name];
+    const chainId = networkConf.chainId;
+
+    console.log('Network configuration:', networkConf);
+    console.log('Network ChainId:', chainId);
+
+    if (network.chainId !== chainId) {
+      try {
+        await window.ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: `0x${chainId.toString(16)}` }],
+        });
+      } catch (switchError) {
+        if (switchError.code === 4902) {
+          try {
+            await window.ethereum.request({
+              method: 'wallet_addEthereumChain',
+              params: [
+                {
+                  chainId: `0x${chainId.toString(16)}`,
+                  chainName: networkConf.chainName,
+                  nativeCurrency: {
+                    name: networkConf.currencyName,
+                    symbol: networkConf.currencySymbol,
+                    decimals: 18,
+                  },
+                  rpcUrls: networkConf.rpcUrls,
+                  blockExplorerUrls: networkConf.blockExplorerUrls,
+                },
+              ],
+            });
+          } catch (addError) {
+            throw new Error(
+              `Failed to add ${networkConf.chainName} to your wallet.`,
+            );
+          }
+        } else {
+          throw new Error(`Failed to switch to ${networkConf.chainName}.`);
+        }
+      }
+    }
+  } catch (err) {
+    throw new Error(err);
+  }
+};
 
 const getJasmyAddress = () => {
-  const network_name = isProduction ? 'JASMY_TESTNET' : 'OP_SEPOLIA';
+  const network_name = !isProduction ? 'JASMY_TESTNET' : 'OP_SEPOLIA';
   console.log('network_name for pay: ', network_name);
+  console.log('Addresses', Addresses[network_name]);
   return Addresses[network_name];
 };
 
@@ -223,7 +279,7 @@ const contract = {
         duration: 0,
       });
 
-      await switchNetwork(provider);
+      await switchNetworkJasmy(provider);
 
       // 初始化合约
       const payment = new ethers.Contract(

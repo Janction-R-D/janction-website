@@ -13,9 +13,15 @@ import {
   useSignMessage,
 } from 'wagmi';
 import styles from './index.less';
-import { WalletOutlined } from '@ant-design/icons';
 import { expires } from '@/utils/lang';
-
+import { switchNetwork } from '@/utils/contracts';
+import { ethers } from 'ethers';
+export function extractSubdomainFromLocation() {
+  const parts = location.hostname.split('.');
+  console.log(parts);
+  console.log(location);
+  return parts.length >= 3 ? parts[0] : null;
+}
 const DesktopConnect = (props) => {
   const { setLoading } = props;
   const location = useLocation();
@@ -30,6 +36,7 @@ const DesktopConnect = (props) => {
   const { disconnect } = useDisconnect();
   useEffect(() => {
     setMounted(true);
+    disconnect();
   }, []);
 
   useEffect(() => {
@@ -67,14 +74,16 @@ const DesktopConnect = (props) => {
           if (resVerify?.message !== 'success') {
             throw new Error('Signature verification failed');
           }
-
+          const pathToApp = extractSubdomainFromLocation();
+          console.log(pathToApp);
           const msg = btoa(message);
           const dataStorage = {
             signature: sig,
             message: msg,
             address,
+            envValue: pathToApp,
           };
-
+          console.log(dataStorage);
           storage.set({
             name: 'userAccount',
             value: userAccount,
@@ -101,6 +110,15 @@ const DesktopConnect = (props) => {
 
       const signAndLogin = async () => {
         try {
+          const provider = new ethers.providers.Web3Provider(
+            window.ethereum,
+            'any',
+          );
+          await provider.send('eth_requestAccounts', []);
+          if (provider) {
+            await switchNetwork(provider);
+          }
+
           const { nonce } = (await fetchUserNonce()) || {};
           if (!nonce) {
             throw new Error('Nonce is missing');
@@ -149,34 +167,14 @@ const DesktopConnect = (props) => {
         signature: dataStorage?.signature ?? '',
         message: dataStorage?.message ?? '',
         address: dataStorage?.address ?? '',
+        address: dataStorage?.envBalue ?? '',
       });
 
       window.location.href = `${redirectUri}?${params.toString()}`;
       return;
     }
-    if (!is_old_user) {
-      return window.location.replace(`/genesis/rol`, { type: 'wallet' });
-    }
-    const from = history.location.query?.from || '/genesis/dashboard';
-    if (inviterCode) {
-      await bindCode(address);
-      return window.location.replace(
-        `/genesis/deployNodes?inviterCode=${inviterCode}&root='lessor'`,
-      );
-    }
-    window.location.replace(from);
   };
-  const bindCode = async (address) => {
-    try {
-      const data = {
-        receive_address: address,
-        code: inviterCode,
-      };
-      await fetchInviteAccept(data);
-    } catch (err) {
-      console.log('『err』', err);
-    }
-  };
+
   const onConnect = async () => {
     // if (!mounted || typeof openConnectModal !== 'function') return;
     if (address) {
