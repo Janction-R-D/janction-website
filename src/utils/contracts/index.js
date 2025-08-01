@@ -8,7 +8,6 @@ import JasmyRewards from './JasmyRewards.json';
 import NFTEscrowImpl from './NFTEscrowImpl.json';
 import JanctionNFT from './JanctionNFT.json';
 import { delay } from '../lang';
-import jasmyTestnet from './jasmyTestnet.json';
 import Addresses from './Addresses.json';
 
 const isProduction = process.env.JANCTION_ENV === 'production';
@@ -34,7 +33,7 @@ const NETWORKS = {
     chainId: 10,
     chainName: 'Optimism Mainnet',
     currencyName: 'Ether',
-    currencySymbol: 'ETH',    
+    currencySymbol: 'ETH',
     rpcUrls: ['https://mainnet.optimism.io'],
     blockExplorerUrls: ['https://optimistic.etherscan.io'],
   },
@@ -48,11 +47,11 @@ const NETWORKS = {
   },
   jasmy_test: {
     chainId: 681,
-    chainName: "Janction Testnet",
+    chainName: 'Janction Testnet',
     currencyName: 'JASMY',
     currencySymbol: 'JASMY',
-    rpcUrls: ["https://jasmy-chain-testnet.alt.technology"],
-    blockExplorerUrls: ["https://jasmy-chain-testnet-explorer.alt.technology/"],
+    rpcUrls: ['https://jasmy-chain-testnet.alt.technology'],
+    blockExplorerUrls: ['https://jasmy-chain-testnet-explorer.alt.technology/'],
   },
 };
 
