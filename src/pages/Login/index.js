@@ -13,6 +13,8 @@ import DesktopConnect from './CnnectElectron';
 const origin = location.origin;
 const CALLBACK_URL = `${origin}/login`;
 const Login = (props) => {
+  console.log('testnet:', process.env.TESTNET);
+
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
