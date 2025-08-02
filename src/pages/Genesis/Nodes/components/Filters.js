@@ -1,6 +1,8 @@
 import React from 'react';
 import { Radio, Input, Select } from 'antd';
+import { useIntl } from 'umi';
 export default function Filters({ styles, setFilter, filters }) {
+  const intl = useIntl();
   const handleFilters = (filter) => {
     setFilter((prevState) => ({ ...prevState, status: filter.toLowerCase() }));
   };
@@ -17,11 +19,21 @@ export default function Filters({ styles, setFilter, filters }) {
           dropdownMatchSelectWidth={false}
           style={{ borderRadius: '24px', width: 160 }} // puedes ajustar el ancho
         >
-          <Option value="all">All nodes</Option>
-          <Option value="running">running</Option>
-          <Option value="listed">listed</Option>
-          <Option value="active">active</Option>
-          <Option value="offline">offline</Option>
+          <Option value="all">
+            {intl.formatMessage({ id: 'filters.allNodes' })}
+          </Option>
+          <Option value="running">
+            {intl.formatMessage({ id: 'filters.running' })}
+          </Option>
+          <Option value="listed">
+            {intl.formatMessage({ id: 'filters.listed' })}
+          </Option>
+          <Option value="active">
+            {intl.formatMessage({ id: 'filters.active' })}
+          </Option>
+          <Option value="offline">
+            {intl.formatMessage({ id: 'filters.offline' })}
+          </Option>
         </Select>
       </div>
       <div className={styles['band-radio-wrapper']}>
@@ -38,35 +50,35 @@ export default function Filters({ styles, setFilter, filters }) {
             name="filter"
             onClick={() => handleFilters('all')}
           >
-            All nodes
+            {intl.formatMessage({ id: 'filters.allNodes' })}
           </Radio.Button>
           <Radio.Button
             value="running"
             name="filter"
             onClick={() => handleFilters('running')}
           >
-            running
+            {intl.formatMessage({ id: 'filters.running' })}
           </Radio.Button>
           <Radio.Button
             value="listed"
             name="filter"
             onClick={() => handleFilters('listed')}
           >
-            listed
+            {intl.formatMessage({ id: 'filters.listed' })}
           </Radio.Button>
           <Radio.Button
             value="active"
             name="filter"
             onClick={() => handleFilters('active')}
           >
-            active
+            {intl.formatMessage({ id: 'filters.active' })}
           </Radio.Button>
           <Radio.Button
             value="offline"
             name="filter"
             onClick={() => handleFilters('offline')}
           >
-            offline
+            {intl.formatMessage({ id: 'filters.offline' })}
           </Radio.Button>
         </Radio.Group>
       </div>

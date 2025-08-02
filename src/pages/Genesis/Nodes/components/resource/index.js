@@ -2,15 +2,22 @@ import { useMemo, useState, useEffect } from 'react';
 import styles from './index.less';
 import { empty } from '@/utils/lang';
 import numeral from 'numeral';
-import { ArrowDownOutlined } from '@ant-design/icons';
 import { fetchNodePoints } from '@/services/genesis';
 import drop from '@/assets/images/icons/drop.png';
 import rise from '@/assets/images/icons/rise.png';
+import { useIntl, FormattedMessage } from 'umi';
+
 function calculateFilteredTotal(data) {
   return Object.entries(data)
     .filter(([key]) => key !== 'node_reward')
     .reduce((sum, [, val]) => sum + val, 0);
 }
+
+export function calculateGrowth(current, previous) {
+  if (previous === 0) return current === 0 ? 0 : 100;
+  return ((current - previous) / previous) * 100;
+}
+
 function extractProfitData(info, nowTotal, yestTotal, growthTotal) {
   return {
     total: {
@@ -51,13 +58,9 @@ function extractProfitData(info, nowTotal, yestTotal, growthTotal) {
     graph: info.by_unit_hour?.point || {},
   };
 }
-export function calculateGrowth(current, previous) {
-  if (previous === 0) {
-    return current === 0 ? 0 : 100;
-  }
-  return ((current - previous) / previous) * 100;
-}
+
 const NodeStats = ({ statisticData, lessorsData }) => {
+  const intl = useIntl();
   const [nodeStat, setNodeStat] = useState({});
 
   const totalNow = useMemo(
@@ -68,13 +71,13 @@ const NodeStats = ({ statisticData, lessorsData }) => {
     () => calculateFilteredTotal(nodeStat.yesterday || {}),
     [nodeStat.yesterday],
   );
-  const profit = useMemo(
-    () => extractProfitData(nodeStat, totalNow, totalYesterday, totalGrowth),
-    [nodeStat, totalNow, totalYesterday, totalGrowth],
-  );
   const totalGrowth = useMemo(
     () => calculateGrowth(totalNow, totalYesterday),
     [totalNow, totalYesterday],
+  );
+  const profit = useMemo(
+    () => extractProfitData(nodeStat, totalNow, totalYesterday, totalGrowth),
+    [nodeStat, totalNow, totalYesterday, totalGrowth],
   );
 
   const totalNodes = statisticData.total;
@@ -82,42 +85,45 @@ const NodeStats = ({ statisticData, lessorsData }) => {
   const listed = statisticData.listed;
   const active = statisticData.active;
 
-  const totalIncome = 0;
-  const todayIncome = 0;
-  const changePercent = 0;
-
   const nft_sumary = useMemo(() => {
     const { amount } = lessorsData?.nft_summary || {};
     return {
       ammount: amount || 0,
     };
   }, [lessorsData]);
+
   useEffect(() => {
     const getNodeInfo = async () => {
       try {
         const res = await fetchNodePoints();
         setNodeStat(res);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
     getNodeInfo();
   }, []);
-  const isDrop = profit['total'].growth < 0;
+
+  const isDrop = profit.total.growth < 0;
+
   return (
     <div className={styles.container}>
       <div className={styles.left}>
         <section className={styles.left_header}>
           <div className={styles.item}>
-            <div className={styles.label}>Total node</div>
+            <div className={styles.label}>
+              <FormattedMessage id="nodeStats.totalNode" />
+            </div>
             <div className={styles.value}>
               {statisticData.total + nft_sumary.ammount}
             </div>
           </div>
           <div className={styles.item}>
-            <div className={styles.label}>Total income</div>
+            <div className={styles.label}>
+              <FormattedMessage id="nodeStats.totalIncome" />
+            </div>
             <div className={styles.value}>
-              {nodeStat?.now?.node_reward.toFixed(2)}{' '}
+              {nodeStat?.now?.node_reward?.toFixed(2)}{' '}
               <span className={styles.unit}>veJCT</span>
             </div>
           </div>
@@ -140,15 +146,18 @@ const NodeStats = ({ statisticData, lessorsData }) => {
           </div>
           <div className={styles.legend}>
             <span>
-              <i className={styles.runningDot} /> Running nodes:{' '}
+              <i className={styles.runningDot} />{' '}
+              <FormattedMessage id="nodeStats.runningNodes" />:{' '}
               {statisticData.running}
             </span>
             <span>
-              <i className={styles.listedDot} /> Listed nodes:{' '}
+              <i className={styles.listedDot} />{' '}
+              <FormattedMessage id="nodeStats.listedNodes" />:{' '}
               {statisticData.listed}
             </span>
             <span>
-              <i className={styles.activeDot} /> Active instances:{' '}
+              <i className={styles.activeDot} />{' '}
+              <FormattedMessage id="nodeStats.activeInstances" />:{' '}
               {statisticData.active}
             </span>
           </div>
@@ -156,29 +165,26 @@ const NodeStats = ({ statisticData, lessorsData }) => {
       </div>
 
       <div className={styles.right}>
-        <div className={styles.label}>Node income</div>
-        {/* <div className={styles.date}>--</div> */}
+        <div className={styles.label}>
+          <FormattedMessage id="nodeStats.nodeIncome" />
+        </div>
         <div className={styles.footer}>
           <div className={styles.todayIncome}>
-            {nodeStat?.now?.total_currency.toFixed(2)}{' '}
+            {nodeStat?.now?.total_currency?.toFixed(2)}{' '}
             <span className={styles.unit}>veJCT</span>
           </div>
           <div className={styles.comparison}>
             <img
               src={isDrop ? drop : rise}
               alt="change"
-              style={{ width: '15px', heigth: '15px', marginRight: '4px' }}
+              style={{ width: '15px', height: '15px', marginRight: '4px' }}
             />
-            Compared to yesterday{' '}
+            <FormattedMessage id="nodeStats.comparedToYesterday" />{' '}
             {!empty(profit.total.diffValue)
-              ? profit.total.diffValue
-                ? '-'
+              ? profit.total.diffValue < 0
+                ? '-' + numeral(Math.abs(profit.total.diffValue)).format('0%')
                 : '+' + numeral(profit.total.diffValue).format('0%')
-              : profit.total.diffValue}{' '}
-            {/* <ArrowDownOutlined /> */}
-            {/* <span className={styles.down}>
-              {changePercent}%
-            </span> */}
+              : '0%'}
           </div>
         </div>
       </div>

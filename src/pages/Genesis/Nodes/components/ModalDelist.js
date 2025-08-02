@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Modal, Checkbox, Button, message } from 'antd';
 import styles from './modal.less';
-import { check } from 'prettier';
 import { fetchNodesConfigDelete } from '@/services/genesis';
 import dayjs from 'dayjs';
 import { calculateDuration } from '@/utils/datetime';
+import { useIntl, FormattedMessage } from 'umi';
+
 export default function ModalDelist({
   handleCancel,
   handleOk,
@@ -13,15 +14,16 @@ export default function ModalDelist({
   record,
 }) {
   const [checked, setChecked] = useState(false);
+  const intl = useIntl();
 
   const onDelete = async () => {
     try {
       await fetchNodesConfigDelete({ node_id: record?.id });
-      message.success('delist success!');
+      message.success(intl.formatMessage({ id: 'delist_success' }));
       handleCancel();
       handleSuccess();
     } catch (err) {
-      console.log('『err』', err);
+      console.error('『err』', err);
     }
   };
 
@@ -31,28 +33,31 @@ export default function ModalDelist({
       open={isModalOpen}
       onOk={handleOk}
       onCancel={handleCancel}
-      //   footer={true}
       height={300}
       width={550}
     >
       <section className={styles['card-header']}>
-        <h3>Delist</h3>
+        <h3>
+          <FormattedMessage id="delist" />
+        </h3>
       </section>
       <section className={styles['header-card']}>
         <i className="iconfont icon-info"></i>
         <p>
-          Before the node is removed from the shelves, please confirm that no
-          users are bound to the instance to avoid unnecessary losses to you and
-          others
+          <FormattedMessage id="delist_warning" />
         </p>
       </section>
       <section className={styles['stake-info']}>
         <div>
-          <span className={styles['info-label']}>Device ID :</span>
+          <span className={styles['info-label']}>
+            <FormattedMessage id="device_id" /> :
+          </span>
           <p>{record?.id}</p>
         </div>
         <div>
-          <span className={styles['info-label']}>Listed time:</span>
+          <span className={styles['info-label']}>
+            <FormattedMessage id="listed_time" />:
+          </span>
           <p>
             {record?.last_start_at
               ? dayjs(record?.last_start_at).format('YYYY-MM-DD HH:mm:ss')
@@ -60,7 +65,9 @@ export default function ModalDelist({
           </p>
         </div>
         <div>
-          <span className={styles['info-label']}>Node run time:</span>
+          <span className={styles['info-label']}>
+            <FormattedMessage id="run_time" />:
+          </span>
           <p>
             {calculateDuration(record?.last_start_at, { showSeconds: false })}
           </p>
@@ -70,22 +77,27 @@ export default function ModalDelist({
           <Checkbox onClick={() => setChecked(!checked)}>
             <div className={styles['stake-check']}>
               <p>
-                I have read and agreed to the{' '}
-                <span className={styles['blue']}>relevant service terms</span>.
+                <FormattedMessage id="confirm_clause" />{' '}
+                <span className={styles['blue']}>
+                  <FormattedMessage id="clause_terms" />
+                </span>
+                。
               </p>
             </div>
           </Checkbox>
         </div>
         <section className={styles['buttons']}>
           <div className={styles['pre']}>
-            <Button onClick={handleCancel}>Cancel</Button>
+            <Button onClick={handleCancel}>
+              <FormattedMessage id="cancel" />
+            </Button>
           </div>
           <Button
             disabled={!checked}
             className={styles['create-btn']}
             onClick={onDelete}
           >
-            Delist
+            <FormattedMessage id="delist" />
           </Button>
         </section>
       </section>

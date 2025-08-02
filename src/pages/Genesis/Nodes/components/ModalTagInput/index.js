@@ -1,21 +1,26 @@
-import { Modal, Input, Button, message } from 'antd';
+import { Modal, Input, message } from 'antd';
 import { useState } from 'react';
 import styles from './index.less';
 import { fetchNodeTag } from '@/services/genesis';
+import { useIntl } from 'umi';
 
 export default function ModalTagInput({ onRefresh, open, onClose, item }) {
   const [tag, setTag] = useState('');
   const [loading, setLoading] = useState(false);
+  const intl = useIntl();
+
   const handleTag = async () => {
-    if (tag.length < 3) {
-      message.info('The name must have at least 4 letters.');
+    if (tag.length < 4) {
+      message.info(intl.formatMessage({ id: 'modalTagInput.nameMinLength' }));
       return;
     }
     try {
       setLoading(true);
       const data = { node_id: item.id, name: tag };
       await fetchNodeTag(data);
-      message.success('name updated successfully!');
+      message.success(
+        intl.formatMessage({ id: 'modalTagInput.updateSuccess' }),
+      );
       onClose();
       await onRefresh();
       setTag('');
@@ -35,14 +40,14 @@ export default function ModalTagInput({ onRefresh, open, onClose, item }) {
         onClose();
       }}
       onOk={handleTag}
-      okText="Add Name"
-      cancelText="Cancel"
-      title="Add a name for your node"
+      okText={intl.formatMessage({ id: 'modalTagInput.okText' })}
+      cancelText={intl.formatMessage({ id: 'modalTagInput.cancelText' })}
+      title={intl.formatMessage({ id: 'modalTagInput.title' })}
       className={styles['custom-modal']}
       confirmLoading={loading}
     >
       <Input
-        placeholder="Enter a Name..."
+        placeholder={intl.formatMessage({ id: 'modalTagInput.placeholder' })}
         value={tag}
         onChange={(e) => setTag(e.target.value)}
       />

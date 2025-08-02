@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Modal, Input, message, Typography } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import styles from './index.less';
+import { useIntl, FormattedMessage } from 'umi';
 
 const { Paragraph, Text } = Typography;
 
@@ -10,6 +11,8 @@ const DeleteNodeButton = ({ nodeId, onDelete }) => {
   const [verifyModalVisible, setVerifyModalVisible] = useState(false);
   const [typedNodeId, setTypedNodeId] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
+  const intl = useIntl();
+
   const handleClickDelete = () => {
     setConfirmModalVisible(true);
   };
@@ -23,14 +26,18 @@ const DeleteNodeButton = ({ nodeId, onDelete }) => {
     setIsDeleting(true);
     try {
       if (typedNodeId === nodeId) {
-        await onDelete(); // Por si devuelve una promesa
+        await onDelete?.();
         setVerifyModalVisible(false);
         setTypedNodeId('');
       } else {
-        message.error('Node ID does not match.');
+        message.error(
+          intl.formatMessage({ id: 'deleteNode.error.idNotMatch' }),
+        );
       }
     } catch (error) {
-      message.error('An error occurred while deleting the node.');
+      message.error(
+        intl.formatMessage({ id: 'deleteNode.error.deletionFailed' }),
+      );
     } finally {
       setIsDeleting(false);
     }
@@ -50,46 +57,43 @@ const DeleteNodeButton = ({ nodeId, onDelete }) => {
       </a>
 
       <Modal
-        title="Confirm Node Deletion"
+        title={intl.formatMessage({ id: 'deleteNode.confirmTitle' })}
         open={confirmModalVisible}
         onCancel={resetAll}
         onOk={handleConfirmDelete}
-        okText="I understand, continue"
-        okButtonProps={{
-          danger: true,
-          loading: isDeleting,
-          disabled: isDeleting,
-        }}
+        okText={intl.formatMessage({ id: 'deleteNode.okContinue' })}
+        okButtonProps={{ danger: true, loading: isDeleting }}
         className={styles.modalWrapper}
+        cancelText={intl.formatMessage({ id: 'fileManager.modal.cancel' })}
       >
         <Paragraph>
-          You are about to permanently delete the following node:
+          <FormattedMessage id="deleteNode.confirm.description" />
         </Paragraph>
         <Paragraph copyable code>
           {nodeId}
         </Paragraph>
         <Paragraph type="warning">
-          This action <Text strong>cannot be undone</Text>. The node and all its
-          data will be permanently removed.
+          <Text strong>
+            <FormattedMessage id="deleteNode.confirm.cannotUndo" />
+          </Text>
         </Paragraph>
-        <Paragraph>Please confirm that you want to continue.</Paragraph>
+        <Paragraph>
+          <FormattedMessage id="deleteNode.confirm.askToContinue" />
+        </Paragraph>
       </Modal>
 
       <Modal
-        title="Final Confirmation Required"
+        title={intl.formatMessage({ id: 'deleteNode.verifyTitle' })}
         open={verifyModalVisible}
         onCancel={resetAll}
         onOk={handleVerifyAndDelete}
-        okText="Delete Node"
-        okButtonProps={{
-          danger: true,
-          loading: isDeleting,
-          disabled: isDeleting,
-        }}
+        okText={intl.formatMessage({ id: 'deleteNode.okDelete' })}
+        okButtonProps={{ danger: true, loading: isDeleting }}
         className={styles.modalWrapper}
+        cancelText={intl.formatMessage({ id: 'fileManager.modal.cancel' })}
       >
         <Paragraph>
-          To permanently delete this node, please type the exact Node ID below.
+          <FormattedMessage id="deleteNode.verify.description" />
         </Paragraph>
         <Paragraph copyable code>
           {nodeId}
@@ -97,7 +101,9 @@ const DeleteNodeButton = ({ nodeId, onDelete }) => {
         <Input
           value={typedNodeId}
           onChange={(e) => setTypedNodeId(e.target.value)}
-          placeholder="Enter Node ID to confirm"
+          placeholder={intl.formatMessage({
+            id: 'deleteNode.verify.inputPlaceholder',
+          })}
         />
       </Modal>
     </>
