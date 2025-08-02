@@ -3,7 +3,7 @@ import SearchInput from '@/components/SeachInput';
 import { fetchNodeList } from '@/services/genesis/instance';
 import { Card, Input, Pagination, Table } from 'antd';
 import { useEffect, useState } from 'react';
-import { Redirect, useModel } from 'umi';
+import { Redirect, useModel, useIntl, FormattedMessage } from 'umi';
 import styles from './index.less';
 import HeaderCard from './InstanceComponents/HeaderCard';
 import JanctionTip from '@/components/JanctionTip';
@@ -11,6 +11,7 @@ import Operation from './InstanceComponents/Operation';
 import RefundCard from './RefundCard';
 
 function Staking() {
+  const intl = useIntl();
   const { initialState } = useModel('@@initialState');
   const { isLessee } = initialState || {};
 
@@ -35,30 +36,30 @@ function Staking() {
 
   const columns = [
     {
-      title: 'Device ID',
+      title: intl.formatMessage({ id: 'staking.columns.deviceId' }),
       dataIndex: 'id',
       key: 'id',
       ellipsis: true,
     },
     {
-      title: 'Status',
+      title: intl.formatMessage({ id: 'staking.columns.status' }),
       dataIndex: 'status_str',
       key: 'status_str',
       ellipsis: true,
     },
     {
-      title: 'CHP / GPUS',
+      title: intl.formatMessage({ id: 'staking.columns.memory' }),
       dataIndex: 'memory',
       key: 'memory',
       ellipsis: true,
     },
     {
-      title: 'Stake in cooling',
+      title: intl.formatMessage({ id: 'staking.columns.cooling' }),
       dataIndex: 'status',
       key: 'status',
     },
     {
-      title: 'Withdrawable',
+      title: intl.formatMessage({ id: 'staking.columns.withdrawable' }),
       dataIndex: 'Location',
       key: 'Location',
       ellipsis: true,
@@ -66,10 +67,14 @@ function Staking() {
     {
       title: (
         <div className="df ai_c gap10">
-          <span>Will undercarriage</span>
+          <span>
+            <FormattedMessage id="staking.columns.undercarriage" />
+          </span>
           <JanctionTip
             placement="topRight"
-            title="Instances with less than 7 days until expiration will be displayed here"
+            title={intl.formatMessage({
+              id: 'staking.columns.undercarriageTip',
+            })}
           />
         </div>
       ),
@@ -77,12 +82,12 @@ function Staking() {
       key: 'GPUrate',
     },
     {
-      title: 'Memory Usage Rates',
+      title: intl.formatMessage({ id: 'staking.columns.memoryUsage' }),
       dataIndex: 'MemoryUsage',
       key: 'MemoryUsage',
     },
     {
-      title: 'Release time / Downtime',
+      title: intl.formatMessage({ id: 'staking.columns.releaseDowntime' }),
       dataIndex: 'downtime',
       key: 'downtime',
       render: (_, record) => (
@@ -90,7 +95,7 @@ function Staking() {
       ),
     },
     {
-      title: 'Operation',
+      title: intl.formatMessage({ id: 'staking.columns.operation' }),
       key: 'action',
       render: (_, record) => <Operation record={record} />,
     },
@@ -101,7 +106,9 @@ function Staking() {
   return (
     <main className={styles['stake-wrapper']}>
       <div className={styles['title']}>
-        <h1>Stake</h1>
+        <h1>
+          <FormattedMessage id="staking.title" />
+        </h1>
       </div>
 
       <HeaderCard summary={summary} />
@@ -109,10 +116,14 @@ function Staking() {
       <Card className={styles['card-table']}>
         <div className={styles['card-header']}>
           <div>
-            <span>Manage Stake</span>
+            <span>
+              <FormattedMessage id="staking.card.manageStake" />
+            </span>
             <JanctionTip
               placement="topLeft"
-              title='The pledge status is divided into three states: "paid, not paid, and refunded", and the pledge information after refund can be viewed in the "Bill".'
+              title={intl.formatMessage({
+                id: 'staking.card.manageStakeTip',
+              })}
             />
           </div>
           <Input
@@ -122,7 +133,9 @@ function Staking() {
                 style={{ fontSize: '0.8rem' }}
               />
             }
-            placeholder="Search"
+            placeholder={intl.formatMessage({
+              id: 'staking.search.placeholder',
+            })}
             className={styles['search-input']}
           />
         </div>
@@ -133,7 +146,7 @@ function Staking() {
           dataSource={paginatedData}
           scroll={{ x: 'auto' }}
           pagination={false}
-          rowKey="id" // importante para performance
+          rowKey="id"
         />
 
         <div className={styles.list}>
@@ -143,10 +156,10 @@ function Staking() {
               data={{
                 id: item.id,
                 status: item.status_str,
-                gpu: item.memory, // CHP / GPUS
-                cooling: item.status, // Stake in cooling
-                withdrawable: item.Location, // Withdrawable
-                undercarriage: item.GPUrate, // Will undercarriage
+                gpu: item.memory,
+                cooling: item.status,
+                withdrawable: item.Location,
+                undercarriage: item.GPUrate,
               }}
             />
           ))}

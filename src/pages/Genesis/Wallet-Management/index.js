@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
+import { useIntl } from 'umi';
 import styles from './index.less';
 import MyWallet from './MyWallet';
 import Resources from './Resources';
 import AuthHeader from '@/components/Layouts/Auth/AuthHeader';
+
 export default function WalletManagement() {
   const [wallet, setIsWallet] = useState(true);
+  const intl = useIntl();
 
   return (
     <div className={styles['personal-container-wallet']}>
       <section className={styles['header-wrapper']}>
         <header>
-          <h1>Wallet Management</h1>
+          <h1>{intl.formatMessage({ id: 'wallet.title' })}</h1>
         </header>
         <nav className={styles['main-menu']}>
           <ul className={styles['menu']}>
@@ -20,7 +23,7 @@ export default function WalletManagement() {
               } `}
               onClick={() => setIsWallet(true)}
             >
-              <a>My wallet</a>
+              <a>{intl.formatMessage({ id: 'wallet.my' })}</a>
             </li>
             <li
               className={`${styles['menu-item']} ${
@@ -28,7 +31,7 @@ export default function WalletManagement() {
               } `}
               onClick={() => setIsWallet(false)}
             >
-              <a>Record</a>
+              <a>{intl.formatMessage({ id: 'wallet.record' })}</a>
             </li>
           </ul>
         </nav>
@@ -40,4 +43,5 @@ export default function WalletManagement() {
     </div>
   );
 }
+
 WalletManagement.wrappers = ['@/wrappers/auth'];

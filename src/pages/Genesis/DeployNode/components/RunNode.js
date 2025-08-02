@@ -4,11 +4,15 @@ import { copy } from '@/utils/lang';
 import styles from './index.less';
 import { Typography } from 'antd';
 import RunNodeScript from './RunNodeScript';
+import { useIntl } from 'umi';
+
 const { Text } = Typography;
+
 const RunNode = (props) => {
   const { selectedValues, nodesData, loading, isWin } = props;
-
   const [nodeData, setNodaData] = useState();
+  const intl = useIntl();
+
   useEffect(() => {
     let nodeData = {
       docker: DOCKER_PATH[selectedValues?.system],
@@ -16,24 +20,25 @@ const RunNode = (props) => {
         COMMAND[selectedValues?.system]?.[selectedValues?.architecture] ||
         '(code area)',
     };
-    if (selectedValues?.system == 'android') {
+    if (selectedValues?.system === 'android') {
       nodeData.apk = ANDROID_APK_PATH;
     }
     setNodaData(nodeData);
   }, [selectedValues]);
 
   const renderLinks = () => {
-    if (selectedValues?.system == 'android') {
+    if (selectedValues?.system === 'android') {
       return (
         <>
           <section className={styles['link']}>
-            <h1>Prerequisites: Install termux-app</h1>
+            <h1>{intl.formatMessage({ id: 'runNode.install.termux' })}</h1>
             <Text className={styles['token_id']}>
               {nodeData?.apk}
               <a
                 className={styles['icon-orange']}
                 href={nodeData?.apk}
                 target="_blank"
+                rel="noreferrer"
               >
                 <i className="iconfont icon-link" />
               </a>
@@ -42,33 +47,36 @@ const RunNode = (props) => {
         </>
       );
     }
-    if (selectedValues?.system == 'macos') {
+
+    if (selectedValues?.system === 'macos') {
       return (
         <>
           <section className={styles['link']}>
-            <h1>Prerequisites</h1>
+            <h1>{intl.formatMessage({ id: 'runNode.prerequisites' })}</h1>
 
-            <h2>1. Check & Install Homebrew</h2>
+            <h2>
+              1. {intl.formatMessage({ id: 'runNode.check.install.brew' })}
+            </h2>
 
-            <p>Check if Homebrew is installed:</p>
+            <p>{intl.formatMessage({ id: 'runNode.check.brew.version' })}</p>
             <Text className={styles['token_id']}>
               <p className="ell">
                 <span className="db">$ brew --version</span>
               </p>
               <a
                 className={styles['icon-orange']}
-                onClick={() => copy(`brew --version`)}
+                onClick={() => copy('brew --version')}
               >
                 <i className="iconfont icon-copy" />
               </a>
             </Text>
 
-            <p>If not installed, run the following:</p>
+            <p>{intl.formatMessage({ id: 'runNode.not.installed.run' })}</p>
             <Text className={styles['token_id']}>
               <p className="ell">
                 <span className="db">
-                  $ /bin/bash -c "$(curl -fsSL
-                  https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+                  $ /bin/bash -c &quot;$(curl -fsSL
+                  https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&quot;
                 </span>
               </p>
               <a
@@ -83,7 +91,7 @@ const RunNode = (props) => {
               </a>
             </Text>
 
-            <p>Add Homebrew to your PATH:</p>
+            <p>{intl.formatMessage({ id: 'runNode.add.homebrew.path' })}</p>
             <Text className={styles['token_id']}>
               <p className="ell">
                 <span className="db">
@@ -109,89 +117,91 @@ const RunNode = (props) => {
               </p>
               <a
                 className={styles['icon-orange']}
-                onClick={() => copy(`source ~/.zshrc`)}
+                onClick={() => copy('source ~/.zshrc')}
               >
                 <i className="iconfont icon-copy" />
               </a>
             </Text>
 
-            <p>Verify installation (optional):</p>
+            <p>{intl.formatMessage({ id: 'runNode.verify.installation' })}</p>
             <Text className={styles['token_id']}>
               <p className="ell">
                 <span className="db">$ brew doctor</span>
               </p>
               <a
                 className={styles['icon-orange']}
-                onClick={() => copy(`brew doctor`)}
+                onClick={() => copy('brew doctor')}
               >
                 <i className="iconfont icon-copy" />
               </a>
             </Text>
 
-            <p>Update Homebrew (recommended):</p>
+            <p>{intl.formatMessage({ id: 'runNode.update.homebrew' })}</p>
             <Text className={styles['token_id']}>
               <p className="ell">
                 <span className="db">$ brew update</span>
               </p>
               <a
                 className={styles['icon-orange']}
-                onClick={() => copy(`brew update`)}
+                onClick={() => copy('brew update')}
               >
                 <i className="iconfont icon-copy" />
               </a>
             </Text>
 
-            <h2>2. Check & Install Lima</h2>
+            <h2>
+              2. {intl.formatMessage({ id: 'runNode.check.install.lima' })}
+            </h2>
 
-            <p>Check if Lima is installed:</p>
+            <p>{intl.formatMessage({ id: 'runNode.check.lima.version' })}</p>
             <Text className={styles['token_id']}>
               <p className="ell">
                 <span className="db">$ limactl --version</span>
               </p>
               <a
                 className={styles['icon-orange']}
-                onClick={() => copy(`limactl --version`)}
+                onClick={() => copy('limactl --version')}
               >
                 <i className="iconfont icon-copy" />
               </a>
             </Text>
 
-            <p>If not installed, install Lima using Homebrew:</p>
+            <p>{intl.formatMessage({ id: 'runNode.install.lima' })}</p>
             <Text className={styles['token_id']}>
               <p className="ell">
                 <span className="db">$ brew install lima</span>
               </p>
               <a
                 className={styles['icon-orange']}
-                onClick={() => copy(`brew install lima`)}
+                onClick={() => copy('brew install lima')}
               >
                 <i className="iconfont icon-copy" />
               </a>
             </Text>
 
-            <p>Start the default virtual machine:</p>
+            <p>{intl.formatMessage({ id: 'runNode.start.vm' })}</p>
             <Text className={styles['token_id']}>
               <p className="ell">
                 <span className="db">$ limactl start</span>
               </p>
               <a
                 className={styles['icon-orange']}
-                onClick={() => copy(`limactl start`)}
+                onClick={() => copy('limactl start')}
               >
                 <i className="iconfont icon-copy" />
               </a>
             </Text>
 
-            <h2>3. Access Virtual Machine Shell</h2>
+            <h2>3. {intl.formatMessage({ id: 'runNode.access.shell' })}</h2>
 
-            <p>Access Lima shell with root privileges:</p>
+            <p>{intl.formatMessage({ id: 'runNode.access.lima.shell' })}</p>
             <Text className={styles['token_id']}>
               <p className="ell">
                 <span className="db">$ lima sudo -i</span>
               </p>
               <a
                 className={styles['icon-orange']}
-                onClick={() => copy(`lima sudo -i`)}
+                onClick={() => copy('lima sudo -i')}
               >
                 <i className="iconfont icon-copy" />
               </a>
@@ -203,7 +213,7 @@ const RunNode = (props) => {
               isWin={false}
             />
 
-            <p>If successful, the following message will be displayed:</p>
+            <p>{intl.formatMessage({ id: 'runNode.install.success' })}</p>
             <Text className={styles['token_id']}>
               <pre className={styles['output']}>{`
 Congratulations! Installation completed successfully!
@@ -227,46 +237,48 @@ To stop edgecore service:
     `}</pre>
             </Text>
 
-            <h2>5. Manage Lima Virtual Machine</h2>
+            <h2>5. {intl.formatMessage({ id: 'runNode.manage.vm' })}</h2>
 
             <p>
-              <strong>Do not stop the VM while the node is active.</strong>
+              <strong>
+                {intl.formatMessage({ id: 'runNode.do.not.stop' })}
+              </strong>
             </p>
 
-            <p>Stop the virtual machine:</p>
+            <p>{intl.formatMessage({ id: 'runNode.stop.vm' })}</p>
             <Text className={styles['token_id']}>
               <p className="ell">
                 <span className="db">$ limactl stop default</span>
               </p>
               <a
                 className={styles['icon-orange']}
-                onClick={() => copy(`limactl stop default`)}
+                onClick={() => copy('limactl stop default')}
               >
                 <i className="iconfont icon-copy" />
               </a>
             </Text>
 
-            <p>Check VM status:</p>
+            <p>{intl.formatMessage({ id: 'runNode.check.vm.status' })}</p>
             <Text className={styles['token_id']}>
               <p className="ell">
                 <span className="db">$ limactl status default</span>
               </p>
               <a
                 className={styles['icon-orange']}
-                onClick={() => copy(`limactl status default`)}
+                onClick={() => copy('limactl status default')}
               >
                 <i className="iconfont icon-copy" />
               </a>
             </Text>
 
-            <p>Delete the virtual machine:</p>
+            <p>{intl.formatMessage({ id: 'runNode.delete.vm' })}</p>
             <Text className={styles['token_id']}>
               <p className="ell">
                 <span className="db">$ limactl delete default</span>
               </p>
               <a
                 className={styles['icon-orange']}
-                onClick={() => copy(`limactl delete default`)}
+                onClick={() => copy('limactl delete default')}
               >
                 <i className="iconfont icon-copy" />
               </a>
@@ -275,7 +287,8 @@ To stop edgecore service:
         </>
       );
     }
-    if (selectedValues?.system == 'linux') {
+
+    if (selectedValues?.system === 'linux') {
       return (
         <RunNodeScript
           isLinux
@@ -285,12 +298,14 @@ To stop edgecore service:
         />
       );
     }
+
+    // Para windows (u otro caso)
     return (
       <>
         <section className={styles['link']}>
-          <h1>Prerequisites</h1>
+          <h1>{intl.formatMessage({ id: 'runNode.prerequisites' })}</h1>
 
-          <h2>1. Install WSL</h2>
+          <h2>1. {intl.formatMessage({ id: 'runNode.install.wsl' })}</h2>
           <Text className={styles['token_id']}>
             <p className="ell">
               https://learn.microsoft.com/en-us/windows/wsl/install
@@ -298,17 +313,17 @@ To stop edgecore service:
             <a
               href="https://learn.microsoft.com/en-us/windows/wsl/install"
               target="_blank"
+              rel="noreferrer"
             >
               <i className="iconfont icon-link" />
             </a>
           </Text>
 
-          <p style={{ marginTop: '16px' }}>
-            If you prefer not to follow the Microsoft WSL guide, you can follow
-            our step-by-step instructions below:
+          <p style={{ marginTop: 16 }}>
+            {intl.formatMessage({ id: 'runNode.wsl.guide' })}
           </p>
 
-          <h3>Check if WSL is installed</h3>
+          <h3>{intl.formatMessage({ id: 'runNode.check.wsl.installed' })}</h3>
           <p>
             On Windows 10/11, WSL usually comes preinstalled. For earlier
             Windows versions that don't support WSL, please upgrade your system.
@@ -327,7 +342,7 @@ To stop edgecore service:
             </a>
           </Text>
 
-          <h3>Install Ubuntu</h3>
+          <h3>{intl.formatMessage({ id: 'runNode.install.ubuntu' })}</h3>
           <Text className={styles['token_id']}>
             <p className="ell">
               $ wsl.exe --install --distribution Ubuntu --web-download
@@ -342,8 +357,8 @@ To stop edgecore service:
             </a>
           </Text>
 
-          <h3>Verify Installation</h3>
-          <p>Check if the installation succeeded (Ubuntu should be listed):</p>
+          <h3>{intl.formatMessage({ id: 'runNode.verify.installation' })}</h3>
+          <p>{intl.formatMessage({ id: 'runNode.node.installed.success' })}</p>
           <Text className={styles['token_id']}>
             <p className="ell">$ wsl.exe --list</p>
             <a
@@ -354,7 +369,7 @@ To stop edgecore service:
             </a>
           </Text>
 
-          <h3>Start Ubuntu and set root password</h3>
+          <h3>{intl.formatMessage({ id: 'runNode.start.ubuntu.set.root' })}</h3>
           <p>
             Launch Ubuntu. The first time you start it, you will be prompted to
             set a root password. Please remember it.
@@ -375,10 +390,7 @@ To stop edgecore service:
             isWin={isWin}
           />
 
-          <p>
-            If you see the following output, it means the node was installed
-            successfully:
-          </p>
+          <p>{intl.formatMessage({ id: 'runNode.node.installed.success' })}</p>
           <Text className={styles['token_id']}>
             <pre className={styles['output']}>{`
 Congratulations! Installation completed successfully!
@@ -402,10 +414,12 @@ To stop edgecore service:
     `}</pre>
           </Text>
 
-          <h3>WSL VM Management</h3>
-          <p>Use these commands to manage the WSL virtual machine:</p>
+          <h3>{intl.formatMessage({ id: 'runNode.wsl.vm.management' })}</h3>
+          <p>{intl.formatMessage({ id: 'runNode.manage.vm.commands' })}</p>
 
-          <strong>View running virtual machines:</strong>
+          <strong>
+            {intl.formatMessage({ id: 'runNode.view.running.vms' })}
+          </strong>
           <Text className={styles['token_id']}>
             <p className="ell">$ wsl.exe --list --verbose</p>
             <a
@@ -416,7 +430,9 @@ To stop edgecore service:
             </a>
           </Text>
 
-          <strong>Start the Ubuntu VM:</strong>
+          <strong>
+            {intl.formatMessage({ id: 'runNode.start.ubuntu.vm' })}
+          </strong>
           <Text className={styles['token_id']}>
             <p className="ell">$ wsl.exe -d Ubuntu</p>
             <a
@@ -427,7 +443,7 @@ To stop edgecore service:
             </a>
           </Text>
 
-          <strong>Shutdown running VMs:</strong>
+          <strong>{intl.formatMessage({ id: 'runNode.shutdown.vms' })}</strong>
           <Text className={styles['token_id']}>
             <p className="ell">$ wsl.exe --shutdown</p>
             <a
@@ -438,7 +454,9 @@ To stop edgecore service:
             </a>
           </Text>
 
-          <strong>Delete Ubuntu VM:</strong>
+          <strong>
+            {intl.formatMessage({ id: 'runNode.delete.ubuntu.vm' })}
+          </strong>
           <Text className={styles['token_id']}>
             <p className="ell">$ wsl.exe --unregister Ubuntu</p>
             <a
@@ -456,9 +474,9 @@ To stop edgecore service:
   return (
     <section className={styles['run-node']}>
       <hgroup>
-        <div className={styles['run-node__box']}></div>
+        <div className={styles['run-node__box']} />
         <span className={styles['node-desc']}>
-          You need to execute the following command
+          {intl.formatMessage({ id: 'runNode.execute.command' })}
         </span>
       </hgroup>
       <div className={styles['content']}>{renderLinks()}</div>

@@ -1,45 +1,49 @@
 import drop from '@/assets/images/icons/drop.png';
 import rise from '@/assets/images/icons/rise.png';
-import { Button, Card, Col, Input, message, Row, Table } from 'antd';
+import { Card, Col, Row } from 'antd';
 import numeral from 'numeral';
-import React, { useEffect, useMemo, useState } from 'react';
+import React from 'react';
 import styles from './wallet.less';
-import { fetchIncomeInfo, fetchMarketInfo } from '@/services/genesis';
 import { formatDate } from '../Income/utils';
 import useData from './Hook/useData';
 import Graph from './components/Graph/Graph';
+import { useIntl } from 'umi';
 
 export default function MyWallet() {
-  const { revenue, compared_yesterday, list, statisticData } = useData() || {};
+  const { revenue, compared_yesterday } = useData() || {};
+  const intl = useIntl();
 
   return (
     <div className={styles['income-wrapper']}>
       <Row>
         <Col span={24}>
           {StatisticInfo({
-            title: 'Statistical information',
+            title: intl.formatMessage({ id: 'wallet.statistics.title' }),
             value: '00' || {},
             unit: 'veJCT',
+            intl,
           })}
         </Col>
       </Row>
       <Row gutter={[20, 20]} className="mt40">
-        <Col span={12} xs={24} sm={24} md={12} lg={12} xl={12}>
+        <Col span={12}>
           {RenderIncomeCard({
-            title: 'Node income',
+            title: intl.formatMessage({ id: 'wallet.node.income' }),
             value: revenue?.node_income,
             unit: 'veJCT',
             diffValue: compared_yesterday?.node_i,
             date: formatDate(revenue?.node_income_update_time) || '~',
+            intl,
           })}
         </Col>
-        <Col span={12} xs={24} sm={24} md={12} lg={12} xl={12}>
+        <Col span={12}>
           {RenderIncomeCard({
-            title: 'Rental server revenue',
+            title: intl.formatMessage({ id: 'wallet.rental.revenue' }),
             value: revenue?.rental_server_revenue,
             unit: 'veJCT',
             diffValue: compared_yesterday?.rentalServer_i,
             date: formatDate(revenue?.rental_server_revenue_update_time) || '~',
+            intl,
           })}
         </Col>
       </Row>
@@ -47,7 +51,7 @@ export default function MyWallet() {
   );
 }
 
-const RenderIncomeCard = ({ title, value, unit, diffValue, date }) => {
+const RenderIncomeCard = ({ title, value, unit, diffValue, date, intl }) => {
   const isDrop = diffValue < 0;
   return (
     <Card title={title} className={styles['card']}>
@@ -59,8 +63,10 @@ const RenderIncomeCard = ({ title, value, unit, diffValue, date }) => {
       </div>
       <div className={styles['card-footer']}>
         <div className={styles['compare']}>
-          <span className={styles['name']}>Compared to yesterday</span>
-          <img src={isDrop ? drop : rise}></img>
+          <span className={styles['name']}>
+            {intl.formatMessage({ id: 'wallet.compare.yesterday' })}
+          </span>
+          <img src={isDrop ? drop : rise} alt="diff" />
           <span
             className={`${styles['diff-value']} ${
               diffValue > 0 ? styles['text-red'] : styles['text-green']
@@ -69,7 +75,9 @@ const RenderIncomeCard = ({ title, value, unit, diffValue, date }) => {
             {diffValue ? numeral(diffValue).format('0%') : '~'}
           </span>
         </div>
-        <span className={styles['update-time']}>Last Updated: {date}</span>
+        <span className={styles['update-time']}>
+          {intl.formatMessage({ id: 'wallet.last.updated' })}: {date}
+        </span>
       </div>
       <section className={styles['graph']}>
         <Graph />
@@ -77,12 +85,15 @@ const RenderIncomeCard = ({ title, value, unit, diffValue, date }) => {
     </Card>
   );
 };
-const StatisticInfo = ({ title, value, unit }) => {
+
+const StatisticInfo = ({ title, value, unit, intl }) => {
   return (
     <Card title={title} className={styles['card-statistic']}>
       <section>
         <div className={styles['statistic-value']}>
-          <p className={styles['text-grey']}>Current available balance</p>
+          <p className={styles['text-grey']}>
+            {intl.formatMessage({ id: 'wallet.balance.available' })}
+          </p>
           <section>
             <div>
               <span className={styles['value']}>
@@ -92,12 +103,13 @@ const StatisticInfo = ({ title, value, unit }) => {
                 <p>{unit}</p>
               </span>
             </div>
-            {/* <Button className={styles['create-btn']}>Top-up</Button> */}
           </section>
         </div>
         <div className={styles['card-data']}>
           <section>
-            <p className={styles['text-grey']}>Total revenue</p>
+            <p className={styles['text-grey']}>
+              {intl.formatMessage({ id: 'wallet.total.revenue' })}
+            </p>
             <span className={styles['box']}>
               <p className={styles['value']}>
                 {value ? numeral(value.total_revenue).format('0.00') : '~'}
@@ -106,10 +118,11 @@ const StatisticInfo = ({ title, value, unit }) => {
             </span>
           </section>
           <section>
-            <p className={styles['text-grey']}>Total expenditure</p>
+            <p className={styles['text-grey']}>
+              {intl.formatMessage({ id: 'wallet.total.expenditure' })}
+            </p>
             <span className={styles['red-style']}>
               <p className={styles['value']}>
-                {' '}
                 {value ? numeral(value.total_revenue).format('0.00') : '~'}
               </p>
               <span className={styles['unit']}>JCT</span>
@@ -117,12 +130,11 @@ const StatisticInfo = ({ title, value, unit }) => {
           </section>
           <section>
             <p className={styles['text-grey']}>
-              Frozen Amount <i className="iconfont icon-info"></i>
+              {intl.formatMessage({ id: 'wallet.frozen.amount' })}{' '}
+              <i className="iconfont icon-info"></i>
             </p>
-
             <span className={styles['red-style']}>
               <p className={styles['value']}>
-                {' '}
                 {value ? numeral(value.gross_pledge).format('0.00') : '~'}
               </p>
               <span className={styles['unit']}>JCT</span>

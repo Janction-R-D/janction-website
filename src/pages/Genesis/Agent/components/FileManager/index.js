@@ -14,10 +14,10 @@ import {
   DownloadOutlined,
   DeleteOutlined,
 } from '@ant-design/icons';
+import { useIntl, history, Redirect, useLocation, FormattedMessage } from 'umi';
 
 import styles from './index.less';
 import UploadDoc from './components/uploads';
-import { history, Redirect, useLocation } from 'umi';
 import {
   fetchDeleteDocument,
   fetchDocList,
@@ -32,15 +32,17 @@ export default function FileManager() {
   const location = useLocation();
   const [form] = Form.useForm();
   const { knowledge_id } = location.state || {};
+  const intl = useIntl();
 
   useEffect(() => {
     getFiles();
   }, []);
+
   const getFiles = async () => {
     const res = await fetchDocList(knowledge_id);
-
     setList(res || []);
   };
+
   const mappedFiles = list?.map((item, index) => ({
     id: index + 1,
     createdAt: formatISODate(item?.created_at),
@@ -48,6 +50,7 @@ export default function FileManager() {
     file_id: item?.id,
     url: item?.s3_url,
   }));
+
   const showModal = () => setIsModalVisible(true);
   const handleCancel = () => {
     form.resetFields();
@@ -64,10 +67,9 @@ export default function FileManager() {
           formData.append('files', file.originFileObj);
         }
       });
-      const res = await fetchUploadMultiFiles(knowledge_id, formData);
-      console.log(res);
+      await fetchUploadMultiFiles(knowledge_id, formData);
       setIsModalVisible(false);
-      message.success('File created (pending implementation)');
+      message.success(intl.formatMessage({ id: 'fileManager.upload.success' }));
       getFiles();
       form.resetFields();
     } catch (error) {
@@ -76,33 +78,32 @@ export default function FileManager() {
       setLoading(false);
     }
   };
+
   const onDelete = async (record) => {
     if (list.length <= 1) {
-      message.error('Knoleadge Base cannot be empty!');
+      message.error(intl.formatMessage({ id: 'fileManager.delete.error' }));
       return;
     }
     try {
       message.info({
-        content: 'Deleting Document...',
+        content: intl.formatMessage({ id: 'fileManager.delete.pending' }),
         key: 'delete',
         duration: 0,
       });
       const params = { k_id: knowledge_id, file_id: record?.file_id };
       await fetchDeleteDocument(params);
 
-      message.success('File deleted successfully!');
+      message.success(intl.formatMessage({ id: 'fileManager.delete.success' }));
       getFiles();
     } catch (error) {
       console.log(error);
-      error;
-      message.error('Operation failed!');
+      message.error(intl.formatMessage({ id: 'fileManager.delete.failed' }));
     } finally {
       message.destroy('delete');
     }
   };
 
   const downloadFile = (url, fileName) => {
-    console.log(fileName);
     const link = document.createElement('a');
     link.href = url;
     if (fileName) link.download = fileName;
@@ -110,24 +111,25 @@ export default function FileManager() {
     link.click();
     document.body.removeChild(link);
   };
+
   const columns = [
     {
-      title: 'ID',
+      title: intl.formatMessage({ id: 'fileManager.table.id' }),
       dataIndex: 'id',
       key: 'id',
     },
     {
-      title: 'Name',
+      title: intl.formatMessage({ id: 'fileManager.table.name' }),
       dataIndex: 'name',
       key: 'name',
     },
     {
-      title: 'Created at',
+      title: intl.formatMessage({ id: 'fileManager.table.createdAt' }),
       dataIndex: 'createdAt',
       key: 'createdAt',
     },
     {
-      title: 'Actions',
+      title: intl.formatMessage({ id: 'fileManager.table.actions' }),
       key: 'actions',
       render: (_, record) => (
         <Space>
@@ -136,14 +138,17 @@ export default function FileManager() {
             icon={<DownloadOutlined />}
             onClick={() => downloadFile(record.url, record.name)}
           >
-            Download
+            {intl.formatMessage({ id: 'fileManager.download' })}
           </Button>
           <Popconfirm
-            title={`Delete ${record.name}?`}
+            title={intl.formatMessage(
+              { id: 'fileManager.delete.confirm' },
+              { name: record.name },
+            )}
             onConfirm={() => onDelete(record)}
           >
             <Button type="link" icon={<DeleteOutlined />} danger>
-              Delete
+              {intl.formatMessage({ id: 'fileManager.delete' })}
             </Button>
           </Popconfirm>
         </Space>
@@ -151,20 +156,30 @@ export default function FileManager() {
     },
   ];
 
-  if (!knowledge_id) return <Redirect to="/genesis/agent"></Redirect>;
+  if (!knowledge_id) return <Redirect to="/genesis/agent" />;
   return (
     <div style={{ padding: 24 }}>
       <section className={styles['header-wrapper']}>
         <header>
-          <h1>Agent AI</h1>
+          <h1>
+            <FormattedMessage id="fileManager.header.title" />
+          </h1>
           <Divider type="vertical" className={styles['line']} />
           <span>
-            <p>Easily create your </p>
-            <p>Own AI agent </p>
+            <p>
+              <FormattedMessage id="fileManager.header.subtitle.1" />
+            </p>
+            <p>
+              <FormattedMessage id="fileManager.header.subtitle.2" />
+            </p>
           </span>
         </header>
       </section>
-      <h1 className={styles['title']}>Knowleage Base Details</h1>
+
+      <h1 className={styles['title']}>
+        <FormattedMessage id="fileManager.title" />
+      </h1>
+
       <div
         style={{
           display: 'flex',
@@ -178,7 +193,7 @@ export default function FileManager() {
           onClick={() => history.replace('/genesis/agent')}
         >
           <i className="iconfont icon-pre" />
-          Back
+          <FormattedMessage id="fileManager.back" />
         </Button>
         <Button
           type="primary"
@@ -186,7 +201,7 @@ export default function FileManager() {
           className={styles['connect-btn']}
           onClick={showModal}
         >
-          Create new file
+          <FormattedMessage id="fileManager.createNew" />
         </Button>
       </div>
 
@@ -198,38 +213,41 @@ export default function FileManager() {
       />
 
       <Modal
-        title="Upload new file"
+        title={intl.formatMessage({ id: 'fileManager.modalTitle' })}
         open={isModalVisible}
         onCancel={handleCancel}
-        footer={null} // Para que el botón sea parte del Form
+        footer={null}
         className={styles['modal']}
       >
-        <Form
-          layout="vertical"
-          form={form}
-          onFinish={handleCreateFile} // Cuando el usuario haga submit
-        >
+        <Form layout="vertical" form={form} onFinish={handleCreateFile}>
           <Form.Item
             name="files"
-            label="Files"
+            label={intl.formatMessage({ id: 'fileManager.table.name' })}
             valuePropName="value"
             getValueFromEvent={(e) => e}
             rules={[
-              { required: true, message: 'Please select at least one file' },
+              {
+                required: true,
+                message: intl.formatMessage({
+                  id: 'fileManager.modal.validation',
+                }),
+              },
             ]}
           >
             <UploadDoc />
           </Form.Item>
 
           <div style={{ textAlign: 'right' }}>
-            <Button onClick={handleCancel}>Cancel</Button>
+            <Button onClick={handleCancel}>
+              <FormattedMessage id="fileManager.modal.cancel" />
+            </Button>
             <Button
               type="primary"
               htmlType="submit"
               style={{ marginLeft: 8 }}
               loading={loading}
             >
-              Create
+              <FormattedMessage id="fileManager.modal.create" />
             </Button>
           </div>
         </Form>
