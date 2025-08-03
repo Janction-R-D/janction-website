@@ -41,46 +41,40 @@ const jasmyTestnet = {
   testnet: true,
 };
 
+const projectId = '23cf742fb52fc761a81ebe69526d0b82';
+
 const chains = [optimismSepolia, optimism, jasmyTestnet];
 
-const RainbowKit = (props) => {
-  let projectId = '23cf742fb52fc761a81ebe69526d0b82';
-
-  if (window.innerWidth > 768) {
-    projectId = 'xxx';
-  }
-
-  const connectors = connectorsForWallets(
-    [
-      {
-        groupName: 'Recommended',
-        wallets: [
-          metaMaskWallet,
-          rainbowWallet,
-          tokenPocketWallet,
-          coinbaseWallet,
-          walletConnectWallet,
-        ],
-      },
-    ],
+const connectors = connectorsForWallets(
+  [
     {
-      appName: 'Janction',
-      projectId,
+      groupName: 'Recommended',
+      wallets: [
+        metaMaskWallet,
+        rainbowWallet,
+        tokenPocketWallet,
+        coinbaseWallet,
+        walletConnectWallet,
+      ],
     },
-  );
-
-  const config = getDefaultConfig({
+  ],
+  {
     appName: 'Janction',
-    connectors,
     projectId,
-    chains,
-    ssr: false, // If your dApp uses server side rendering (SSR)
-  });
+  },
+);
 
-  const queryClient = new QueryClient();
+const config = getDefaultConfig({
+  appName: 'Janction',
+  connectors,
+  projectId,
+  chains,
+  ssr: false, // If your dApp uses server side rendering (SSR)
+});
 
-  console.log('projectId', projectId);
+const queryClient = new QueryClient();
 
+const RainbowKit = (props) => {
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
