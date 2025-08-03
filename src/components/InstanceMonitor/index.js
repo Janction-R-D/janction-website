@@ -17,7 +17,7 @@ import {
   fetchStatistic,
 } from '@/services/genesis';
 import { formatISODate } from '@/utils/datetime';
-import { convertMBtoGB } from '@/utils/lang';
+import { convertMBtoGB, isExpired } from '@/utils/lang';
 
 const { TabPane } = Tabs;
 const formatDate = (dateString) => {
@@ -63,6 +63,7 @@ const InstanceMonitor = ({ instance }) => {
     status: instance?.status_str,
     expired: formatDate(instance?.expired_at),
     created: formatDate(instance?.created_at),
+    isExpired: isExpired(instance.expired_at),
     Location: instance?.node?.attr?.location || '~',
     gpu_chip: instance?.node?.attr?.cpu_chip,
     cpu_chip: instance?.node?.attr?.cpu,
@@ -126,6 +127,7 @@ const InstanceMonitor = ({ instance }) => {
         console.log('Error capturado:', err);
       });
   };
+  if (instanceData.isExpired) return;
   return (
     <Card className={styles.card} bordered={false}>
       <header className={styles.main_header}>

@@ -504,4 +504,5 @@ export default {
   'billing.timePeriod': 'Time Period',
   'billing.allCPU': 'All CPU',
   'billing.drawerHeader': 'Instance',
+  'nodeCard.deleteSuccess': 'Node deleted Successfully',
 };

@@ -205,6 +205,7 @@ export const notShowErrors = [
   'node_not_found',
   'invalid_operation',
   'session_inactive',
+  'transaction_failed',
 ];
 export const brandDetails = {
   apple: { icon: 'macos', color: 'white' },

@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { Modal, Table } from 'antd';
 import styles from './index.less';
-import { convertMBtoGB, empty } from '@/utils/lang';
+import { convertMBtoGB, empty, isExpired } from '@/utils/lang';
 import { formatISODate } from '@/utils/datetime';
 
 const columns = [
@@ -15,6 +15,12 @@ const columns = [
     title: <div className="name">Node ID / Name</div>,
     dataIndex: 'node_id',
     key: 'node_id',
+    ellipsis: true,
+  },
+  {
+    title: <div className="name">Name</div>,
+    dataIndex: 'name',
+    key: 'name',
     ellipsis: true,
   },
   {
@@ -103,7 +109,7 @@ const columns = [
 const HistoryInstances = (props) => {
   const { open, onOk, onCancel, data } = props;
   const [currentPage, setCurrentPage] = useState(1);
-  const allowedStatuses = ['running', 'starting', 'stopped'];
+  const allowedStatuses = ['stopped'];
   const mappedOrders = useMemo(() => {
     return data?.map((order) => ({
       ...order,
@@ -112,6 +118,7 @@ const HistoryInstances = (props) => {
       memory: order?.node?.attr.memory,
       status: order?.status_str,
       Location: order?.node?.attr.location || '--',
+      isExpired: isExpired(order.expired_at),
       MemoryUsage: convertMBtoGB(order?.activity?.memory_usage?.toFixed(2)),
       downtime: `${formatISODate(order.created_at)}\r\n${formatISODate(
         order.expired_at,
@@ -119,8 +126,10 @@ const HistoryInstances = (props) => {
     }));
   }, [data]);
   const filteredInstance = mappedOrders?.filter(
-    (item) => !allowedStatuses.includes(item.status_str.toLowerCase()),
+    (item) =>
+      allowedStatuses.includes(item.status.toLowerCase()) && item.isExpired,
   );
+
   const handleCancel = () => {
     onCancel();
     setCurrentPage(1);
