@@ -81,7 +81,6 @@ export default function OperationModal({ record, getAllNodes }) {
 
       // const signatures = [`0x${signature}`];
       const adminSignature = signature;
-      const { deadline } = signature;
       // await getOrderInfo();
       if (!payment_id) return;
       await contract.stopRent(payment_id, adminSignature);

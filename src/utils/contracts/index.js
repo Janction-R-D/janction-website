@@ -361,6 +361,8 @@ const contract = {
     try {
       const signerAddress = await signer.getAddress();
 
+      const deadline = adminSignature.deadline;
+
       message.info({
         content: 'Waiting...',
         key: 'tx',
