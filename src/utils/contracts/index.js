@@ -153,7 +153,7 @@ export const switchNetwork = async (provider, networkName = 'op') => {
     console.log('Current network:', network);
 
     let network_name =
-      !isProduction || networkName == 'eth' ? networkName : process.env.TESTNET;
+      isProduction || networkName == 'eth' ? networkName : process.env.TESTNET;
 
     console.log('process.env.TESTNET: ', process.env.TESTNET);
 

@@ -7,7 +7,6 @@ import Methods from './Methods';
 export default function Company() {
   return (
     <section className={styles['main']}>
-      <section className={styles['header']}>Jasmy</section>
       <JasmyCard />
       <Cost />
       <Payment />
