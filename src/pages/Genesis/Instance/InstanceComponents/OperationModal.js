@@ -13,6 +13,8 @@ import {
   updateUserConfig,
 } from '@/services/genesis';
 import SshKeyModal from './SshModal';
+import { useChainId } from 'wagmi';
+import { useEthersSigner } from '@/hooks/useEthersSigner';
 
 export default function OperationModal({ record, getAllNodes }) {
   const [visible, setVisible] = useState(false);
@@ -21,6 +23,9 @@ export default function OperationModal({ record, getAllNodes }) {
   const [selectVisible, setSelectVisible] = useState(false);
   const [selectLoading, setSelectLoading] = useState(false);
   const [selectValue, setSelectValue] = useState(undefined);
+  const chainId = useChainId();
+  const signer = useEthersSigner(chainId);
+
   const allowedStatuses = ['running', 'starting', 'stopped'];
   const allowedRunning = ['running', 'starting'];
   const isRunning = allowedRunning.includes(record?.status?.toLowerCase());
@@ -78,8 +83,8 @@ export default function OperationModal({ record, getAllNodes }) {
       const adminSignature = signature;
       const { deadline } = signature;
       // await getOrderInfo();
-      if (!payment_id && !adminSignature) return;
-      await contract.stopRent(payment_id, adminSignature, deadline);
+      if (!payment_id) return;
+      await contract.stopRent(payment_id, adminSignature);
       message.success('Success');
       getAllNodes();
     } catch (error) {

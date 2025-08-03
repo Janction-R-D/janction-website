@@ -8,6 +8,8 @@ import contract from '@/utils/contracts';
 import { fetchNftStatus } from '@/services/genesis';
 import { renderTableColumns } from '@/components/JanctionTable/column';
 import { DATE_FORMAT_TYPE } from '@/utils/datetime';
+import { useChainId } from 'wagmi';
+import { useEthersSigner } from '@/hooks/useEthersSigner';
 
 const inTrustValue = 'hosted';
 export default function Hoisting({ nft, showModal, handleOk, setShowModal }) {
@@ -116,12 +118,14 @@ export default function Hoisting({ nft, showModal, handleOk, setShowModal }) {
 function Operation({ text, record, loading, setLoading, onSuccess }) {
   const [showUnscrow, setShowUnscrow] = useState(false);
   const [opLoading, setOpLoading] = useState(false);
+  const chainId = useChainId();
+  const signer = useEthersSigner(chainId);
 
   const onEscrow = async () => {
     try {
       setLoading(true);
       setOpLoading(true);
-      await contract.escrow(record.token_id);
+      await contract.escrow(signer, record.token_id);
       message.success('Escrow successfully!');
       setLoading(false);
       setOpLoading(false);
@@ -137,7 +141,7 @@ function Operation({ text, record, loading, setLoading, onSuccess }) {
   const onUnEscrow = async () => {
     try {
       setLoading(true);
-      await contract.unescrow(record.token_id);
+      await contract.unescrow(signer, record.token_id);
       message.success('Unescrow successfully!');
       setLoading(false);
       setShowUnscrow(false);
