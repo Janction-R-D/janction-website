@@ -180,8 +180,9 @@ const Settlement = (props) => {
 
       let price;
       //second create order
+      let res;
       if (!isOrderCreated) {
-        const res = await fetchCreateOrders(payload);
+        res = await fetchCreateOrders(payload);
         price = priceInfo?.price?.price_1e6;
         if (!price) {
           throw new Error('Price Not Found');

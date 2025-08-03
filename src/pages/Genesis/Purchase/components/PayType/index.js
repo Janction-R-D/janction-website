@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import LabelVal from '../Card/LabelVal';
 import styles from './index.less';
-import { getCurrency } from '@/utils/contracts';
+import { getCurrency, getJasmyCurrency } from '@/utils/contracts';
 import usdtImg from '@/assets/images/genesis/usdt.png';
 import usdcImg from '@/assets/images/genesis/usdc.png';
 import stripeImg from '@/assets/images/genesis/stripe.png';
@@ -14,7 +14,7 @@ const PayType = (props) => {
     setActive(value);
   }, [value]);
   const paytype = [
-    ...getCurrency(),
+    ...getJasmyCurrency(),
     ...(allowStripe
       ? [
           {
