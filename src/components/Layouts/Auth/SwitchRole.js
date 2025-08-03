@@ -5,6 +5,8 @@ import { useModel } from 'umi';
 import { useState } from 'react';
 import { handleIdentityChange } from '@/utils/metamaskLogin';
 import { useDisconnect, useSignMessage } from 'wagmi';
+import { useChainId } from 'wagmi';
+import { useEthersSigner } from '@/hooks/useEthersSigner';
 
 const RoleSwitcher = () => {
   const { initialState, setInitialState } = useModel('@@initialState');
@@ -12,8 +14,11 @@ const RoleSwitcher = () => {
   const [visible, setVisible] = useState(false);
   const { signMessageAsync } = useSignMessage();
   const { disconnect } = useDisconnect();
+  const chainId = useChainId();
+  const signer = useEthersSigner(chainId);
   const onChangeIdentity = async () => {
     const resConnect = await handleIdentityChange({
+      signer,
       isLessee,
       setInitialState,
       initialState,

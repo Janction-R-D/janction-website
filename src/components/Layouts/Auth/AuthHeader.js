@@ -13,6 +13,8 @@ import { fetchUserConfig } from '@/services/genesis';
 import { LoginOutlined } from '@ant-design/icons';
 import { handleIdentityChange } from '@/utils/metamaskLogin';
 import ChatBot from '@/components/Chatbot';
+import { useChainId } from 'wagmi';
+import { useEthersSigner } from '@/hooks/useEthersSigner';
 
 export const Logo = () => {
   return (
@@ -159,6 +161,8 @@ export function ProfileModal({ isModalOpen, handleOk, handleCancel }) {
   const [isLoged, setIsLoged] = useState(false);
   const { signMessageAsync } = useSignMessage();
   const { inviterCode } = location.query || {};
+  const chainId = useChainId();
+  const signer = useEthersSigner(chainId);
   useEffect(() => {
     const credentials = storage.get('TOKEN');
     if (credentials) {
@@ -174,6 +178,7 @@ export function ProfileModal({ isModalOpen, handleOk, handleCancel }) {
 
         const onChangeIdentity = async () => {
           const resConnect = await handleIdentityChange({
+            signer,
             isLessee,
             setInitialState,
             initialState,

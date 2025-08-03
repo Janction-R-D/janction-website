@@ -175,14 +175,14 @@ export const switchNetwork = async (provider, networkName = 'op') => {
 
     if (network.chainId !== chainId) {
       try {
-        await window.ethereum.request({
+        await provider.request({
           method: 'wallet_switchEthereumChain',
           params: [{ chainId: `0x${chainId.toString(16)}` }],
         });
       } catch (switchError) {
         if (switchError.code === 4902) {
           try {
-            await window.ethereum.request({
+            await provider.request({
               method: 'wallet_addEthereumChain',
               params: [
                 {
@@ -301,13 +301,6 @@ const contract = {
     nodeId,
   }) => {
     try {
-      const provider = new ethers.providers.Web3Provider(
-        window.ethereum,
-        'any',
-      );
-
-      const signer = provider.getSigner();
-
       message.info({
         content: 'Waiting...',
         key: 'tx',
