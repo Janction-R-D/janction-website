@@ -7,7 +7,7 @@ import OverviewTable from './components/Overview';
 import Profit from './components/profit';
 import Arithmetic from './components/artihmetic';
 import { fetchLessor, fetchNodeList } from '@/services/genesis';
-import { useModel } from 'umi';
+import { useModel, useIntl } from 'umi';
 import { ARITHMETIC_SITUATION, convertMBtoGB } from './data';
 import NTFcard from './components/NTFcard';
 import VideoGrid from './components/VideoGrid';
@@ -23,6 +23,8 @@ export default function Lessor() {
   const [summary, setSummary] = useState({});
   const [loading, setLoading] = useState(false);
   const { code } = useModel('common');
+  const intl = useIntl();
+  const t = (id) => intl.formatMessage({ id });
 
   const percent = useMemo(() => {
     const { monthly_goal = 0, total = 0 } = lessorsData?.profit || {};
@@ -47,7 +49,6 @@ export default function Lessor() {
     try {
       setLoading(true);
       const res = await fetchNodeList();
-      console.log(res);
       setSummary(res?.summary || null);
     } catch (error) {
       console.log(error);
@@ -101,15 +102,16 @@ export default function Lessor() {
   const nft_sumary = useMemo(() => {
     const { amount, detail } = lessorsData?.nft_summary || {};
     return {
-      // ammount: 0,
       ammount: amount || 0,
       detail: detail || [],
     };
   }, [lessorsData]);
+
   const overview = useMemo(() => {
     const res = lessorsData?.activities || [];
     return res;
   }, [lessorsData]);
+
   const onSortChange = (e) => {
     const sortField = e.target.value;
     const _monitorList = monitorList.sort(
@@ -125,18 +127,18 @@ export default function Lessor() {
     <main className={styles['dashboard-wrapper']}>
       <section className={styles['header-wrapper']}>
         <header>
-          <h1>Dashboard</h1>
+          <h1>{t('lessor.title')}</h1>
           <Divider type="vertical" className={styles['line']} />
           <span>
-            <p>Your personal speed </p>
-            <p>mining node</p>
+            <p>{t('lessor.subtitle1')}</p>
+            <p>{t('lessor.subtitle2')}</p>
           </span>
         </header>
-        <p className={styles['join-text']}>Join Janction Network</p>
+        <p className={styles['join-text']}>{t('lessor.join')}</p>
         <section className={styles['buttons-box']}>
           <div className={styles['buttons-app']}>
             <Button className={styles['button']} onClick={() => onOpen()}>
-              Download App{' '}
+              {t('lessor.download')}
               <span className={styles.icon}>
                 <AppstoreAddOutlined />
               </span>
@@ -159,7 +161,7 @@ export default function Lessor() {
               <OverviewTable overview={overview} />
               <section className={styles['buttons-box']}>
                 <Button className={styles['button']} onClick={() => onOpen()}>
-                  Download App{' '}
+                  {t('lessor.download')}
                   <span className={styles.icon}>
                     <AppstoreAddOutlined />
                   </span>

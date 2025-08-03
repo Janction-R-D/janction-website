@@ -1,11 +1,12 @@
 import { Button, Card } from 'antd';
 import styles from './index.less';
-import { mockAgents } from '../../mock';
+import { useEffect, useState } from 'react';
+import { ArrowUpOutlined } from '@ant-design/icons';
+import { useIntl } from 'umi';
+
+import { fetchAgent } from '@/services/genesis/agents';
 import AgentCard from '../AgentCard/AgentCard';
 import { onNavigate } from '../../utils';
-import { ArrowUpOutlined } from '@ant-design/icons';
-import { useEffect, useState } from 'react';
-import { fetchAgent } from '@/services/genesis/agents';
 import EmptyCard from './EmptyCard';
 import LoadingCard from './LoadingCard';
 // import IconmeModal from '../IncomeModal';
@@ -13,14 +14,13 @@ import LoadingCard from './LoadingCard';
 
 export default function MyAgent() {
   const [loading, setLoading] = useState(false);
-  // const [open, setOpen] = useState(true);
-  // const onOk = () => {
-  //   setOpen(false);
-  // };
   const [list, setList] = useState([]);
+  const intl = useIntl();
+
   useEffect(() => {
     getAgents();
   }, []);
+
   const getAgents = async () => {
     try {
       setLoading(true);
@@ -32,7 +32,7 @@ export default function MyAgent() {
       setLoading(false);
     }
   };
-  console.log(list);
+
   const mappedAgents = list?.map((agent) => ({
     id: agent.id,
     title: agent.name,
@@ -49,18 +49,20 @@ export default function MyAgent() {
         {!mappedAgents.length && (
           <div className={styles['uncreated']}>
             <p className={styles['title__text']}>
-              Apologies, you haven't created your own AI agent yet.
+              {intl.formatMessage({ id: 'myAgent.header.noAgentTitle' })}
             </p>
-
             <span className={styles['title__desc']}>
-              Simply upload your knowledge base to create your own AI agent.
+              {intl.formatMessage({ id: 'myAgent.header.noAgentDesc' })}
             </span>
           </div>
         )}
         {!!mappedAgents.length && (
           <div>
             <p className={styles['title__text']}>
-              Created Agents ({mappedAgents?.length})
+              {intl.formatMessage(
+                { id: 'myAgent.header.createdAgents' },
+                { count: mappedAgents.length },
+              )}
             </p>
           </div>
         )}
@@ -69,19 +71,20 @@ export default function MyAgent() {
             className={styles['submitButton']}
             onClick={() => onNavigate('agent/create')}
           >
-            Create My Agent
+            {intl.formatMessage({ id: 'myAgent.header.buttonText' })}
             <span className={styles.icon_rotate}>
               <ArrowUpOutlined />
             </span>
           </Button>
         </div>
       </section>
+
       <main className={styles['content']}>
         {!loading && !!mappedAgents.length && (
           <Card className={styles['agents']}>
             <header className={styles['head']}>
-              <i className="iconfont icon-next_page" /> Or explore AI agents
-              created by the community
+              <i className="iconfont icon-next_page" />
+              {intl.formatMessage({ id: 'myAgent.header.exploreOthers' })}
             </header>
             <div className={styles['agent-cards']}>
               {mappedAgents.map((agent) => (
@@ -98,6 +101,7 @@ export default function MyAgent() {
         {!loading && !mappedAgents.length && <EmptyCard />}
         {loading && <LoadingCard />}
       </main>
+
       {/* <PurchaseModal onOpen={onOk} setIsOpen={setOpen} isOpen={open} /> */}
     </main>
   );

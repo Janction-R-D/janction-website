@@ -37,6 +37,7 @@ export default function Operation({ record }) {
         isModalOpen={isModalOpenStake}
         handleOk={handleOkStake}
         handleCancel={handleCancelStake}
+        item={record}
       />
       <a onClick={showModalRefound}>
         <p className={styles['action-refund']}>Refund</p>

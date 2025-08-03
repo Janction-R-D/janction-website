@@ -1,7 +1,7 @@
 import { fetchLessor, fetchNodesList, fetchUserInfo } from '@/services/genesis';
 import { Card, message, Pagination } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
-import { Redirect, useModel } from 'umi';
+import { Redirect, useModel, useIntl } from 'umi';
 import Filters from './components/Filters';
 import NodeStats from './components/resource';
 import NodeList from './components/nodeList';
@@ -22,6 +22,7 @@ function Nodes() {
   const [isBinded, setIsBinded] = useState(false);
   const { initialState } = useModel('@@initialState');
   const { isLessee } = initialState || {};
+  const intl = useIntl();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -52,7 +53,7 @@ function Nodes() {
   const handleRefresh = async () => {
     await getList();
     await getLessors();
-    message.success('Refreshed!');
+    message.success(intl.formatMessage({ id: 'nodes.refresh.success' }));
   };
   const getLessors = async () => {
     try {
@@ -109,9 +110,6 @@ function Nodes() {
       }
       if (filters?.status === 'running') {
         statusFlag = node.status_str === 'online';
-        // &&
-        // node.operating_status_str !== 'leisure' &&
-        // node.operating_status_str !== 'leased';
       }
       if (filters?.status === 'offline') {
         statusFlag = node.status_str !== 'online';
@@ -144,7 +142,7 @@ function Nodes() {
     <div className={styles['nodes-wrapper']}>
       <section className={styles['header-wrapper']}>
         <header>
-          <h1>My Nodes</h1>
+          <h1>{intl.formatMessage({ id: 'nodes.myNodes' })}</h1>
         </header>
       </section>
       <main className={styles['container']}>
@@ -158,10 +156,10 @@ function Nodes() {
           <Card className={styles['card']}>
             <header>
               <div className={styles['card-header']}>
-                <h2>Node status monitoring</h2>
+                <h2>{intl.formatMessage({ id: 'nodes.statusMonitoring' })}</h2>
                 <span className={styles['refresh']} onClick={handleRefresh}>
                   <i className="iconfont icon-refresh"></i>
-                  Refresh
+                  {intl.formatMessage({ id: 'nodes.refresh' })}
                 </span>
               </div>
               <Filters
@@ -186,7 +184,7 @@ function Nodes() {
             </div>
           </Card>
         ) : (
-          <EmptyNodes />
+          <EmptyNodes>{intl.formatMessage({ id: 'nodes.empty' })}</EmptyNodes>
         )}
       </main>
     </div>

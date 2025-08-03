@@ -11,6 +11,7 @@ import {
 import { message } from 'antd';
 import styles from './index.less';
 import { useRef, useState } from 'react';
+import { useIntl } from 'umi';
 
 const getFileIcon = (fileName) => {
   const extension = fileName.split('.').pop().toLowerCase();
@@ -37,8 +38,10 @@ const getFileIcon = (fileName) => {
 };
 
 const UploadDoc = ({ value = [], onChange }) => {
+  const { formatMessage } = useIntl();
   const uploadRef = useRef();
   const [files, setFiles] = useState([]);
+
   const handleRemove = (file) => {
     const newFiles = value.filter((f) => f.uid !== file.uid);
     setFiles(newFiles);
@@ -59,7 +62,7 @@ const UploadDoc = ({ value = [], onChange }) => {
     const totalAfterAdding = value.length + files.length;
 
     if (totalAfterAdding > MAX_FILES) {
-      message.error(`You can only upload up to ${MAX_FILES} files in total.`);
+      message.error(formatMessage({ id: 'uploadDoc.limitExceeded' }));
       e.target.value = '';
       return;
     }
@@ -73,7 +76,11 @@ const UploadDoc = ({ value = [], onChange }) => {
     });
 
     if (oversizedFiles.length) {
-      message.error(`These files exceed 10MB: ${oversizedFiles.join(', ')}`);
+      message.error(
+        `${formatMessage({ id: 'uploadDoc.oversized' })}${oversizedFiles.join(
+          ', ',
+        )}`,
+      );
     }
 
     const newFiles = validFiles.map((file, index) => {
@@ -120,7 +127,7 @@ const UploadDoc = ({ value = [], onChange }) => {
             <div className={styles.fileTypeIcon}>{getFileIcon(file.name)}</div>
             <div className={styles.fileName}>{file.name}</div>
             <DeleteOutlined
-              title="Eliminar archivo"
+              title={formatMessage({ id: 'uploadDoc.deleteTitle' })}
               onClick={() => handleRemove(file)}
               className={styles.deleteIcon}
             />
@@ -132,9 +139,13 @@ const UploadDoc = ({ value = [], onChange }) => {
         <div className={styles.textDesc} onClick={triggerUpload}>
           <div className={styles.descTitle}>
             <FileAddOutlined style={{ fontSize: '24px' }} />
-            <div style={{ marginLeft: 12 }}>Drag and drop</div>
+            <div style={{ marginLeft: 12 }}>
+              {formatMessage({ id: 'uploadDoc.dragDrop' })}
+            </div>
           </div>
-          <div className={styles.descContent}>Support Word/pdf/markdown</div>
+          <div className={styles.descContent}>
+            {formatMessage({ id: 'uploadDoc.supportedFormats' })}
+          </div>
         </div>
       )}
     </div>

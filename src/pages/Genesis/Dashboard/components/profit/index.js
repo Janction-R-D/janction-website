@@ -1,8 +1,8 @@
-// Profit/index.jsx
 import React, { useMemo } from 'react';
 import { Card } from 'antd';
 import numeral from 'numeral';
 import styles from './index.less';
+import { useIntl } from 'umi';
 import { Graph } from '../Graph';
 import drop from '@/assets/images/icons/drop.png';
 import rise from '@/assets/images/icons/rise.png';
@@ -14,6 +14,7 @@ import {
 } from './utils';
 
 const Profit = ({ lessorsData }) => {
+  const intl = useIntl();
   const profitInfo = lessorsData?.profit || {};
 
   const totalNow = useMemo(
@@ -35,21 +36,37 @@ const Profit = ({ lessorsData }) => {
   );
 
   const cards = [
-    { key: 'node_reward', label: 'Node rewards' },
-    { key: 'invite_reward', label: 'Invite Reward' },
-    { key: 'rental_income', label: 'Rental income' },
-    { key: 'staking_proceeds', label: 'Staking proceeds' },
+    {
+      key: 'node_reward',
+      label: intl.formatMessage({ id: 'profit.nodeReward' }),
+    },
+    {
+      key: 'invite_reward',
+      label: intl.formatMessage({ id: 'profit.inviteReward' }),
+    },
+    {
+      key: 'rental_income',
+      label: intl.formatMessage({ id: 'profit.rentalIncome' }),
+    },
+    {
+      key: 'staking_proceeds',
+      label: intl.formatMessage({ id: 'profit.stakingProceeds' }),
+    },
   ];
 
   return (
     <Card className={styles.mainCard}>
       <div className={styles.profitHeader}>
         <div>
-          <p className={styles.title}>Profit</p>
-          <span className={styles.subTitle}>Total</span>
+          <p className={styles.title}>
+            {intl.formatMessage({ id: 'profit.title' })}
+          </p>
+          <span className={styles.subTitle}>
+            {intl.formatMessage({ id: 'profit.total' })}
+          </span>
           <div className={styles.profitCard}>
             <p className={styles.value_total}>
-              {numeral(profit.total.now).format('0.00')}veJCT
+              {numeral(profit.total.now).format('0.00')} veJCT
             </p>
             <div className={styles.compare}>
               <p
@@ -63,7 +80,9 @@ const Profit = ({ lessorsData }) => {
                     ? '-'
                     : '+' + numeral(profit.total.diffValue).format('0%')
                   : profit.total.diffValue}{' '}
-                <span style={{ color: '#ccc' }}>Compared to last week</span>
+                <span style={{ color: '#ccc' }}>
+                  {intl.formatMessage({ id: 'profit.comparedLastWeek' })}
+                </span>
               </p>
             </div>
           </div>
@@ -84,7 +103,9 @@ const Profit = ({ lessorsData }) => {
     </Card>
   );
 };
+
 const ProfitCard = ({ title, value, growth }) => {
+  const intl = useIntl();
   const isDrop = growth < 0;
 
   return (
@@ -100,7 +121,9 @@ const ProfitCard = ({ title, value, growth }) => {
             ? '-'
             : '+' + numeral(growth).format('0%')
           : growth}{' '}
-        <span style={{ color: '#ccc' }}>Compared to last week</span>
+        <span style={{ color: '#ccc' }}>
+          {intl.formatMessage({ id: 'profit.comparedLastWeek' })}
+        </span>
       </p>
     </div>
   );

@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './index.less';
-import {
-  InfoCircleOutlined,
-  ReloadOutlined,
-  DeleteOutlined,
-  RedoOutlined,
-} from '@ant-design/icons';
+import { InfoCircleOutlined, ReloadOutlined } from '@ant-design/icons';
 import { message, Tooltip } from 'antd';
 import { getNodeStatusMatch } from '../extra';
 import dayjs from 'dayjs';
@@ -14,21 +9,28 @@ import {
   fetchMarketOrder,
   fetchNodesDelete,
   fetchNodesRefresh,
-  fetchNodeTag,
 } from '@/services/genesis';
 import contract from '@/utils/contracts';
 import { calculateDuration } from '@/utils/datetime';
-import { history } from 'umi';
+import { history, useIntl } from 'umi';
 import ModalTagInput from '../ModalTagInput';
 import DeleteNodeButton from '../DeleteButton';
 
 const NodeCard = ({ item, getList }) => {
+  const intl = useIntl();
   const { id, yesterdayReward } = item;
   const [status, setStatus] = useState('offline');
+  const [isModalOpenStake, setIsModalOpenStake] = useState(false);
+  const [isTagModalOpen, setIsTagModalOpen] = useState(false);
+  const { isOffLine, isRunning, isListed } = getNodeStatusMatch(item);
+  const [loading, setLoading] = useState(false);
+  const [paymentId, setPaymentId] = useState('');
+
   useEffect(() => {
     const state = getStatus();
     setStatus(state);
   }, [item]);
+
   const getStatus = () => {
     const { isRunning, isActive, isListed, isOngoing } =
       getNodeStatusMatch(item);
@@ -38,6 +40,7 @@ const NodeCard = ({ item, getList }) => {
     if (isOngoing) return 'starting';
     return 'offline';
   };
+
   const renderGpu = () => {
     if (!item.attr?.gpu_chip && !item.attr?.cpu_chip) return '--';
     const cpu = item.attr?.cpu_chip;
@@ -51,6 +54,7 @@ const NodeCard = ({ item, getList }) => {
       </span>
     );
   };
+
   const runningTime = () => {
     const text = item?.last_start_at;
     const { isRunning, isActive, isListed, isOngoing } =
@@ -59,17 +63,85 @@ const NodeCard = ({ item, getList }) => {
     if (!isActive && !isListed && !isRunning) return '--';
     return calculateDuration(text, { showSeconds: false });
   };
+
   const lisTime = () => {
     const text = item?.last_config_at;
     if (!text) return '--';
     const time = dayjs(text).format('YYYY-MM-DD HH:mm:ss').split(' ');
     return (
       <>
-        <span style={{ textWrap: 'nowrap' }}>
+        <span style={{ whiteSpace: 'nowrap' }}>
           {time[0]} {time[1]}
         </span>
       </>
     );
+  };
+
+  const getOrderInfo = async () => {
+    const data = {
+      resource_id: item.id,
+    };
+    try {
+      const res = (await fetchMarketOrder(data)) || {};
+      const code = res?.order?.payment_id;
+      setPaymentId(code);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const showModalStake = () => {
+    if (!isListed) return;
+    setIsModalOpenStake(true);
+  };
+
+  const handleNavigate = () => {
+    if (!isRunning) return;
+    history.push('/genesis/mount', {
+      node: item,
+    });
+  };
+
+  const handleOkStake = () => {
+    setIsModalOpenStake(false);
+  };
+
+  const handleCancelStake = () => {
+    setIsModalOpenStake(false);
+  };
+
+  const onRefresh = async () => {
+    try {
+      setLoading(true);
+      await fetchNodesRefresh({ node_id: item.id });
+      message.success(intl.formatMessage({ id: 'nodeCard.refreshSuccess' }));
+      getList();
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.log('『error』', error);
+    }
+  };
+
+  const onDelete = async () => {
+    try {
+      await fetchNodesDelete({ node_id: item.id });
+      message.success(intl.formatMessage({ id: 'nodeCard.deleteSuccess' }));
+      getList();
+    } catch (error) {
+      console.log('『error』', error);
+    }
+  };
+
+  const handleReceive = async () => {
+    try {
+      await getOrderInfo();
+      if (!paymentId) return;
+      await contract.releaseHourlyPayment(paymentId);
+    } catch (error) {
+      message.warning(intl.formatMessage({ id: 'nodeCard.operationFailed' }));
+      console.log('『error』', error);
+    }
   };
 
   return (
@@ -83,9 +155,11 @@ const NodeCard = ({ item, getList }) => {
           </div>
         </div>
         <div className={styles.status}>
-          <div className={`${styles[`status-box`]}`}>
-            <span className={`${styles[`${status}`]}`}>{status}</span>
-            <Tooltip title="Node is active">
+          <div className={`${styles['status-box']}`}>
+            <span className={`${styles[status]}`}>{status}</span>
+            <Tooltip
+              title={intl.formatMessage({ id: 'nodeCard.nodeIsActive' })}
+            >
               <InfoCircleOutlined className={styles.infoIcon} />
             </Tooltip>
           </div>
@@ -96,14 +170,18 @@ const NodeCard = ({ item, getList }) => {
       <section className={styles.container}>
         <div className={styles.rewards}>
           <div className={styles.rewardBlock}>
-            <div className={styles.label}>Yesterday's reward</div>
+            <div className={styles.label}>
+              {intl.formatMessage({ id: 'nodeCard.yesterdayReward' })}
+            </div>
             <div className={styles.value}>
               {yesterdayReward?.toFixed(2)}{' '}
               <span className={styles.unit}>veJCT</span>
             </div>
           </div>
           <div className={styles.rewardBlock}>
-            <div className={styles.label}>Rewarded</div>
+            <div className={styles.label}>
+              {intl.formatMessage({ id: 'nodeCard.rewarded' })}
+            </div>
             <div className={styles.value}>
               {item?.rewarned?.toFixed(2)}{' '}
               <span className={styles.unit}>veJCT</span>
@@ -114,10 +192,12 @@ const NodeCard = ({ item, getList }) => {
         <div className={styles.footer}>
           <div className={styles.meta}>
             <span>
-              Node running time: <b>{runningTime()}</b>
+              {intl.formatMessage({ id: 'nodeCard.nodeRunningTime' })}:{' '}
+              <b>{runningTime()}</b>
             </span>
             <span>
-              list time: <b>{lisTime()}</b>
+              {intl.formatMessage({ id: 'nodeCard.listTime' })}:{' '}
+              <b>{lisTime()}</b>
             </span>
           </div>
           <Operation item={item} getList={getList} />
@@ -126,7 +206,9 @@ const NodeCard = ({ item, getList }) => {
     </div>
   );
 };
+
 const Operation = ({ item, getList }) => {
+  const intl = useIntl();
   const [isModalOpenStake, setIsModalOpenStake] = useState(false);
   const [isTagModalOpen, setIsTagModalOpen] = useState(false);
   const { isOffLine, isRunning, isListed } = getNodeStatusMatch(item);
@@ -145,10 +227,12 @@ const Operation = ({ item, getList }) => {
       console.log(err);
     }
   };
+
   const showModalStake = () => {
     if (!isListed) return;
     setIsModalOpenStake(true);
   };
+
   const handleNavigate = () => {
     if (!isRunning) return;
     history.push('/genesis/mount', {
@@ -159,6 +243,7 @@ const Operation = ({ item, getList }) => {
   const handleOkStake = () => {
     setIsModalOpenStake(false);
   };
+
   const handleCancelStake = () => {
     setIsModalOpenStake(false);
   };
@@ -167,7 +252,7 @@ const Operation = ({ item, getList }) => {
     try {
       setLoading(true);
       await fetchNodesRefresh({ node_id: item.id });
-      message.success('refresh success!');
+      message.success(intl.formatMessage({ id: 'nodeCard.refreshSuccess' }));
       getList();
       setLoading(false);
     } catch (error) {
@@ -179,7 +264,7 @@ const Operation = ({ item, getList }) => {
   const onDelete = async () => {
     try {
       await fetchNodesDelete({ node_id: item.id });
-      message.success('delete success!');
+      message.success(intl.formatMessage({ id: 'nodeCard.deleteSuccess' }));
       getList();
     } catch (error) {
       console.log('『error』', error);
@@ -192,10 +277,11 @@ const Operation = ({ item, getList }) => {
       if (!paymentId) return;
       await contract.releaseHourlyPayment(paymentId);
     } catch (error) {
-      message.warning('Operation failed, please try again later!');
+      message.warning(intl.formatMessage({ id: 'nodeCard.operationFailed' }));
       console.log('『error』', error);
     }
   };
+
   return (
     <div className={styles.actions}>
       <a
@@ -207,7 +293,7 @@ const Operation = ({ item, getList }) => {
           setIsTagModalOpen(true);
         }}
       >
-        Add Name
+        {intl.formatMessage({ id: 'nodeCard.addName' })}
       </a>
       <ModalTagInput
         open={isTagModalOpen}
@@ -221,7 +307,7 @@ const Operation = ({ item, getList }) => {
         }`}
         onClick={handleNavigate}
       >
-        List
+        {intl.formatMessage({ id: 'nodeCard.list' })}
       </a>
 
       <a
@@ -229,7 +315,9 @@ const Operation = ({ item, getList }) => {
           !isListed ? styles['disabled'] : ''
         }`}
       >
-        <p onClick={showModalStake}>Delist</p>
+        <p onClick={showModalStake}>
+          {intl.formatMessage({ id: 'nodeCard.delist' })}
+        </p>
         <ModalDelist
           record={item}
           isModalOpen={isModalOpenStake}
@@ -239,12 +327,8 @@ const Operation = ({ item, getList }) => {
         />
       </a>
 
-      {/* <span className={styles.receive} onClick={handleReceive}>
-        Receive Rewards
-      </span> */}
-
       <a onClick={() => onRefresh()}>
-        <RedoOutlined
+        <ReloadOutlined
           rotate={90}
           spin={loading}
           loading={loading}
@@ -255,4 +339,5 @@ const Operation = ({ item, getList }) => {
     </div>
   );
 };
+
 export default NodeCard;

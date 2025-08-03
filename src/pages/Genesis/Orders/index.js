@@ -20,6 +20,8 @@ function Orders() {
   const { isLessee } = initialState || {};
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
+  const chainId = useChainId();
+  const signer = useEthersSigner(chainId);
 
   useEffect(() => {
     const payload = {
@@ -49,10 +51,10 @@ function Orders() {
       const { signature, payment_id } = await fetchStopRentParams({
         resource_id: record.id,
       });
-      const signatures = [`0x${signature}`];
+
       // await getOrderInfo();
       if (!payment_id) return;
-      await contract.stopRent(payment_id, signatures);
+      await contract.stopRent(signer, payment_id, signature);
       message.success('Success');
       getList();
     } catch (error) {

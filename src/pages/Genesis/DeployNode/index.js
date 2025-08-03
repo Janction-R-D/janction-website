@@ -5,7 +5,7 @@ import { ARCHITECTURE, SYSTEM_LIST } from '@/constant';
 import { links } from '@/utils/lang';
 import { fetchNodesRegister } from '@/services/genesis';
 import RunNode from './components/RunNode';
-import { Redirect, useModel } from 'umi';
+import { Redirect, useModel, useIntl } from 'umi';
 
 const DeployNode = () => {
   const [selectedValues, setSelectedValues] = useState({});
@@ -16,8 +16,10 @@ const DeployNode = () => {
   const [isWin, setIsWin] = useState(false);
   const [nodesData, setNodesData] = useState();
   const { initialState } = useModel('@@initialState');
+  const intl = useIntl();
 
   const { isLessee } = initialState || {};
+
   function detectSystem() {
     const ua = navigator.userAgent.toLowerCase();
 
@@ -47,11 +49,11 @@ const DeployNode = () => {
     setDownloadLink(getLink.appLink);
     setArchitecture(_architecture);
   }, [selectedValues]);
+
   const onSysSelect = (sys) => {
     const _architecture = ARCHITECTURE.filter((item) =>
       item.sys.includes(sys.value),
     );
-    console.log(sys);
     if (sys.value == 'windows') {
       setIsWin(true);
     } else if (sys !== 'windows') {
@@ -67,6 +69,7 @@ const DeployNode = () => {
       system: sys.value,
     });
   };
+
   const getNodes = async () => {
     const system = detectSystem();
     if (system !== 'unkown') {
@@ -96,7 +99,7 @@ const DeployNode = () => {
     <section className={styles['dashboard-wrapper']}>
       <section className={styles['header-wrapper']}>
         <header>
-          <h1>Deploy Nodes</h1>
+          <h1>{intl.formatMessage({ id: 'deploy.title' })}</h1>
         </header>
       </section>
       <article className={styles['node_steps']}>
@@ -104,7 +107,9 @@ const DeployNode = () => {
           <Timeline.Item
             dot={<span className={styles['timeline-dot']}>1</span>}
           >
-            <p className={styles['timeline-step']}>Select operating system</p>
+            <p className={styles['timeline-step']}>
+              {intl.formatMessage({ id: 'deploy.step1' })}
+            </p>
             <Card className={styles['card']}>
               <section className={styles['sys-choice']}>
                 <ul className={styles['sys-list']}>
@@ -130,9 +135,9 @@ const DeployNode = () => {
             dot={<span className={styles['timeline-dot']}>2</span>}
           >
             <p className={styles['timeline-step']}>
-              {selectedValues?.system == 'android'
-                ? 'Running on Android'
-                : 'Run Node'}
+              {selectedValues?.system === 'android'
+                ? intl.formatMessage({ id: 'deploy.run.android' })
+                : intl.formatMessage({ id: 'deploy.run.node' })}
             </p>
 
             <RunNode

@@ -42,6 +42,7 @@ const jasmyTestnet = {
 };
 
 const projectId = '23cf742fb52fc761a81ebe69526d0b82';
+
 const chains = [optimismSepolia, optimism, jasmyTestnet];
 
 const connectors = connectorsForWallets(

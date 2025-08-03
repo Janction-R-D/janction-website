@@ -6,6 +6,7 @@ import { getAddress } from 'ethers/lib/utils';
 import { expires } from './lang';
 
 export async function handleIdentityChange({
+  signer,
   isLessee,
   setInitialState,
   initialState,
@@ -18,7 +19,7 @@ export async function handleIdentityChange({
   const sessionType = storage.get('SESSION_TYPE');
 
   if (sessionType !== 'wallet') {
-    if (!window.ethereum) {
+    if (!signer.provider) {
       message.error('MetaMask not available');
       return;
     }
@@ -32,13 +33,13 @@ export async function handleIdentityChange({
 
     try {
       // Solicitar cuentas a MetaMask
-      const accounts = await window.ethereum.request({
+      const accounts = await signer.provider.request({
         method: 'eth_requestAccounts',
       });
       const account = getAddress(accounts[0]);
 
       // Obtener chainId
-      const chainIdHex = await window.ethereum.request({
+      const chainIdHex = await signer.provider.request({
         method: 'eth_chainId',
       });
       const chainId = parseInt(chainIdHex, 16);

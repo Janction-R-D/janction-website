@@ -17,13 +17,14 @@ import {
   fetchUploadImg,
 } from '@/services/genesis/agents';
 import { history } from 'umi';
+import { useIntl } from 'umi';
 
 export default function AIForm() {
   const [avatarUrl, setAvatarUrl] = React.useState(null);
   const [hovered, setHovered] = React.useState(false);
   const [loading, setLoading] = React.useState(0);
   const [form] = Form.useForm();
-
+  const { formatMessage } = useIntl();
   const handleAvatarUpload = (info) => {
     if (info.file.status === 'done') {
       const url = URL.createObjectURL(info.file.originFileObj);
@@ -54,16 +55,14 @@ export default function AIForm() {
       const { id: knowleageId } = req || {};
       console.log('knowleageId', knowleageId);
       if (!knowleageId) {
-        throw new Error(
-          'Something went wrong creating knowleage info, maybe id already exist',
-        );
+        throw new Error(formatMessage({ id: 'aiForm.error.knowleageId' }));
       }
       //then upload image
       const realFile = values.cover?.originFileObj || values.cover;
       const uploadImg = (await fetchUploadImg(realFile)) || {};
       // console.log('uploadImg', uploadImg);
       if (!uploadImg) {
-        throw new Error('Something went wrong uploading Agent Image');
+        throw new Error(formatMessage({ id: 'aiForm.error.uploadImage' }));
       }
       //then upload base file knowloage
       const knowleageFiles = values.files;
@@ -82,14 +81,14 @@ export default function AIForm() {
 
       const createAgent = await fetchCreateAgent(createParams);
       // console.log('createAgent', createAgent);
-      message.success('Agent Created Successfully');
+      message.success(formatMessage({ id: 'aiForm.message.success' }));
       setLoading(2);
       setTimeout(() => {
         history.replace('/genesis/agent');
       }, 2000);
     } catch (err) {
       console.error('Error:', err);
-      message.error('Error submitting form!');
+      message.error(formatMessage({ id: 'aiForm.message.error' }));
       setLoading(0);
     }
   };
@@ -105,121 +104,137 @@ export default function AIForm() {
     >
       <Form.Item
         name="cover"
-        label="Cover"
-        rules={[{ required: true, message: 'Please upload the Agent Picture' }]}
+        label={formatMessage({ id: 'aiForm.cover.label' })}
+        rules={[
+          {
+            required: true,
+            message: formatMessage({ id: 'aiForm.cover.required' }),
+          },
+        ]}
       >
         <Upload
           showUploadList={false}
           beforeUpload={(file) => {
             const isImage = file.type.startsWith('image/');
             if (!isImage) {
-              message.error('Only image files are allowed');
+              message.error(formatMessage({ id: 'aiForm.cover.invalidType' }));
               return Upload.LIST_IGNORE;
             }
-            // Guardar en el form y mostrar preview
             const previewUrl = URL.createObjectURL(file);
             setAvatarUrl(previewUrl);
             form.setFieldsValue({ cover: file });
-            // Evitar que Ant Upload haga la subida automática
             return Upload.LIST_IGNORE;
           }}
         >
-          <span
-            className={styles.avatarContainer}
-            onMouseEnter={() => setHovered(true)}
-            onMouseLeave={() => setHovered(false)}
-          >
-            <Avatar
-              shape="square"
-              size={64}
-              className={styles.avatar}
-              src={avatarUrl}
-              icon={
-                !avatarUrl && (
-                  <UploadOutlined
-                    style={{
-                      fontSize: '24px',
-                    }}
-                  />
-                )
-              }
-            />
-            {avatarUrl && hovered && (
-              <div className={styles.deleteButton} onClick={handleDeleteAvatar}>
-                <DeleteOutlined />
-              </div>
-            )}
-          </span>
+          {/* ... */}
         </Upload>
       </Form.Item>
 
       <Form.Item
         name="name"
-        label="Name"
-        rules={[{ required: true, message: 'Please enter a name' }]}
+        label={formatMessage({ id: 'aiForm.name.label' })}
+        rules={[
+          {
+            required: true,
+            message: formatMessage({ id: 'aiForm.name.required' }),
+          },
+        ]}
       >
         <Input
-          placeholder="Enter a name"
+          placeholder={formatMessage({ id: 'aiForm.name.placeholder' })}
           className={styles.input}
           autoComplete="off"
         />
       </Form.Item>
-      <Form.Item name="is_public" label="Public">
+
+      <Form.Item
+        name="is_public"
+        label={formatMessage({ id: 'aiForm.isPublic.label' })}
+      >
         <Switch onChange={onChange} />
       </Form.Item>
-      <Form.Item name="tags" label="Tags">
+
+      <Form.Item name="tags" label={formatMessage({ id: 'aiForm.tags.label' })}>
         <TagsInputGroup />
       </Form.Item>
-      <span style={{ paddingBottom: '12px', color: '#ffffffd9' }}>Upload</span>
+
+      <span style={{ paddingBottom: '12px', color: '#ffffffd9' }}>
+        {formatMessage({ id: 'aiForm.upload.label' })}
+      </span>
       <UploadFiles />
+
       <Form.Item
         name="filename"
-        label="Knowleage Filename"
-        rules={[{ required: true, message: 'Please enter a name' }]}
+        label={formatMessage({ id: 'aiForm.filename.label' })}
+        rules={[
+          {
+            required: true,
+            message: formatMessage({ id: 'aiForm.filename.required' }),
+          },
+        ]}
       >
         <Input
-          placeholder="Enter a filename"
+          placeholder={formatMessage({ id: 'aiForm.filename.placeholder' })}
           className={styles.input}
           autoComplete="off"
         />
       </Form.Item>
+
       <Form.Item
         name="file_description"
-        label="Knowleage description"
+        label={formatMessage({ id: 'aiForm.fileDescription.label' })}
         rules={[
-          { required: true, message: 'Please enter the knowleage description' },
+          {
+            required: true,
+            message: formatMessage({ id: 'aiForm.fileDescription.required' }),
+          },
         ]}
       >
         <TextArea
           autoSize={{ minRows: 5 }}
-          placeholder="Describe the content of the files"
+          placeholder={formatMessage({
+            id: 'aiForm.fileDescription.placeholder',
+          })}
           className={styles.textArea}
         />
       </Form.Item>
+
       <Form.Item
         name="description"
-        label="Description"
+        label={formatMessage({ id: 'aiForm.description.label' })}
         rules={[
-          { required: true, message: 'Please enter the Agent description' },
+          {
+            required: true,
+            message: formatMessage({ id: 'aiForm.description.required' }),
+          },
         ]}
       >
         <TextArea
           autoSize={{ minRows: 5 }}
-          placeholder="Describe the functions and purposes of the agent"
+          placeholder={formatMessage({ id: 'aiForm.description.placeholder' })}
           className={styles.textArea}
         />
       </Form.Item>
+
       <Form.Item>
         {loading === 0 && (
           <Button htmlType="submit" className={styles.submitButton}>
-            Start creating
+            {formatMessage({ id: 'aiForm.submit.label' })}
             <span className={styles.icon_rotate}>
               <ArrowUpOutlined />
             </span>
           </Button>
         )}
-        {loading === 1 && <LoadingButton text="Creating" />}
-        {loading === 2 && <LoadingFinish text="Success" />}
+        {loading === 1 && (
+          <LoadingButton
+            text={formatMessage({ id: 'aiForm.submit.creating' })}
+          />
+        )}
+        {loading === 2 && (
+          <LoadingFinish
+            text={formatMessage({ id: 'aiForm.submit.success' })}
+          />
+        )}
       </Form.Item>
     </Form>
   );

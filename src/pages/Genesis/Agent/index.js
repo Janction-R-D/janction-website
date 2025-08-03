@@ -5,32 +5,36 @@ import Repo from './components/Repo';
 import Document from './components/Document';
 import About from './components/About';
 import { Divider } from 'antd';
-import { Redirect, useModel } from 'umi';
+import { Redirect, useModel, useIntl } from 'umi';
 
 export default function Agent() {
   const [currNav, setCurrNav] = useState('agent');
   const { initialState } = useModel('@@initialState');
+  const { formatMessage } = useIntl();
 
   const { isLessee } = initialState || {};
   const nav = [
-    { name: 'My AI Agent', path: '/genesis/agent', label: 'agent' },
-    // { name: 'Repo', path: '/genesis/agent/my_repo', label: 'repo' },
-    // { name: 'Document', path: '/genesis/agent/my_document', label: 'doc' },
-    // { name: 'About', path: '/genesis/agent/about_ai', label: 'about' },
+    {
+      name: formatMessage({ id: 'agent.nav.myAiAgent' }),
+      path: '/genesis/agent',
+      label: 'agent',
+    },
   ];
-  if (!isLessee) return <Redirect to="/genesis/dashboard"></Redirect>;
+
+  if (!isLessee) return <Redirect to="/genesis/dashboard" />;
+
   return (
     <main className={styles['agent-wrapper']}>
       <section className={styles['header-wrapper']}>
         <header>
-          <h1>Agent AI</h1>
+          <h1>{formatMessage({ id: 'agent.header.title' })}</h1>
           <Divider type="vertical" className={styles['line']} />
           <span>
-            <p>Easily create your </p>
-            <p>Own AI agent </p>
+            <p>{formatMessage({ id: 'agent.header.subtitle1' })}</p>
+            <p>{formatMessage({ id: 'agent.header.subtitle2' })}</p>
           </span>
         </header>
-      </section>{' '}
+      </section>
       <section className={styles['header-resources']}>
         {nav.map((item) => (
           <span

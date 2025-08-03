@@ -4,10 +4,12 @@ import { Button, message } from 'antd';
 import { ArrowUpOutlined } from '@ant-design/icons';
 import styles from './index.less';
 import { copy } from '@/utils/lang';
+import { useIntl } from 'umi';
 export default function GenerateButton() {
   const [nodeId, setNodeId] = useState('');
   const [loading, setLoading] = useState(false);
-
+  const intl = useIntl();
+  const t = (id) => intl.formatMessage({ id });
   const getNodes = async () => {
     try {
       setLoading(true);
@@ -41,7 +43,7 @@ export default function GenerateButton() {
   };
   return (
     <Button className={styles['button']} onClick={getNodes}>
-      Generate Token ID{' '}
+      {t('generateTokenId')}
       <span className={styles.icon_rotate}>
         <ArrowUpOutlined />
       </span>

@@ -4,6 +4,7 @@ import { Button, Input } from 'antd';
 import { fetchChat } from '@/services/genesis/agents';
 import storage from '@/utils/storage';
 import { extractDataLines } from '@/utils/lang';
+import { useIntl } from 'umi';
 const STORAGE_KEY = 'web3_chat_messages';
 
 function loadMessagesFromStorage(agentId) {
@@ -47,7 +48,7 @@ const Chat = ({ agent }) => {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
-
+  const { formatMessage } = useIntl();
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
@@ -167,13 +168,14 @@ const Chat = ({ agent }) => {
         <Input
           className={styles['input-box']}
           type="text"
-          placeholder={'Send a message to FinChat AI'}
+          placeholder={`${formatMessage({ id: 'agent.chat.input' })}`}
           value={input}
           onPressEnter={sendMessage}
           onChange={(e) => setInput(e.target.value)}
           suffix={
             <Button className={styles['send-button']} onClick={sendMessage}>
-              Send <i className="iconfont icon-telegram" />
+              {formatMessage({ id: 'agent.button.send' })}{' '}
+              <i className="iconfont icon-telegram" />
             </Button>
           }
         />

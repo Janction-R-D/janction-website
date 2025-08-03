@@ -2,11 +2,12 @@ import styles from './index.less';
 import { onNavigate } from '../../utils';
 import { fetchAgentDelete, fetchAgentStatus } from '@/services/genesis';
 import { message } from 'antd';
-import { history } from 'umi';
+import { history, useIntl } from 'umi';
 import { fetchJoinAgent } from '@/services/genesis/agents';
 import ShareModal from '../ShareModal';
 import { useState } from 'react';
 import { useAccount } from 'wagmi';
+
 export default function AgentCard({
   title,
   icon,
@@ -19,32 +20,32 @@ export default function AgentCard({
   user_id,
 }) {
   const { address } = useAccount();
+  const { formatMessage } = useIntl();
   const agent = { title, icon, tags, id, description };
   const isPublic = user_id !== address;
   const [visible, setVisible] = useState(false);
   const [shareUrl, setShareUrl] = useState(
     `${location.origin}/genesis/agent/try_chat?share=true&agent_id=${id}`,
   );
+
   const onStatus = async () => {
     try {
       message.info({
-        content: 'Accessing the Agent AI...',
+        content: formatMessage({ id: 'agentCard.accessing' }),
         key: 'agent',
         duration: 0,
       });
       const res = await fetchAgentStatus(knowledge_id);
 
       if (['running'].includes(res?.parsing_doc_status)) {
-        message.info(
-          'Still checking your document! \n Please wait and try again later',
-        );
+        message.info(formatMessage({ id: 'agentCard.checkingDoc' }));
         return;
       }
       if (!['success'].includes(res?.parsing_doc_status)) {
-        message.error('Operation failed!');
+        message.error(formatMessage({ id: 'agentCard.failed' }));
         return;
       }
-      message.success('AI accessed successfully');
+      message.success(formatMessage({ id: 'agentCard.success' }));
       onNavigate(path, location.pathname, agent);
     } catch (error) {
       console.log(error);
@@ -56,12 +57,12 @@ export default function AgentCard({
   const onDelete = async () => {
     try {
       message.info({
-        content: 'Deleting Agent...',
+        content: formatMessage({ id: 'agentCard.deleting' }),
         key: 'delete-agent',
         duration: 0,
       });
       const res = await fetchAgentDelete(id);
-      message.success('Agent deleted successfully!');
+      message.success(formatMessage({ id: 'agentCard.deleted' }));
       getAll();
     } catch (error) {
       console.log(error);
@@ -69,9 +70,11 @@ export default function AgentCard({
       message.destroy('delete-agent');
     }
   };
-  const onShare = async () => {
+
+  const onShare = () => {
     setVisible(true);
   };
+
   const onDetails = () => {
     history.push('/genesis/agent/file_manager', { knowledge_id });
   };
@@ -80,7 +83,9 @@ export default function AgentCard({
     <div className={styles.card}>
       {isPublic && (
         <div className={styles.ribbonWrapper}>
-          <span className={styles.ribbon}>Public Agent</span>
+          <span className={styles.ribbon}>
+            {formatMessage({ id: 'agentCard.public' })}
+          </span>
         </div>
       )}
       <div className={styles.overlay_up}>
@@ -91,11 +96,11 @@ export default function AgentCard({
             </span>
             <span onClick={onDetails} className={styles['details']}>
               <i className="iconfont icon-info" />
-              Details
+              {formatMessage({ id: 'agentCard.details' })}
             </span>
             <span onClick={onShare} className={styles['share']}>
               <i className="iconfont icon-share" />
-              Share
+              {formatMessage({ id: 'agentCard.share' })}
             </span>
           </>
         )}
@@ -114,7 +119,7 @@ export default function AgentCard({
           </div>
           <div>
             <div className={styles.try} onClick={onStatus}>
-              Chat
+              {formatMessage({ id: 'agentCard.chat' })}
               <span className={styles.icon}>
                 <i
                   className="iconfont icon-next"
