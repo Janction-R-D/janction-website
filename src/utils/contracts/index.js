@@ -157,14 +157,8 @@ export const switchNetwork = async (provider, networkName = 'op') => {
     let network_name =
       isProduction || networkName == 'eth' ? networkName : process.env.TESTNET;
 
-    console.log('process.env.TESTNET: ', process.env.TESTNET);
-
-    if (process.env.TESTNET == 'jasmy') {
-      network_name = 'jasmy_test';
-    }
-
     const networkConf =
-      NETWORKS[`${network_name}${!isProduction ? '' : '_test'}`];
+      NETWORKS[`${network_name}${isProduction ? '' : '_test'}`];
     const chainId = networkConf.chainId;
 
     console.log('Expected chain ID:', chainId);
