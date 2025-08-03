@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, message, Popconfirm, Popover, Select } from 'antd';
+import { message, Popconfirm, Popover, Select } from 'antd';
 import styles from './operation.less';
 import TerminalModal from './TerminalModal';
 import JanctionPopover from '@/components/JanctionPopover';
@@ -15,9 +15,11 @@ import {
 import SshKeyModal from './SshModal';
 import { useChainId } from 'wagmi';
 import { useEthersSigner } from '@/hooks/useEthersSigner';
+import CustomWarningModal from './WarningModal';
 
 export default function OperationModal({ record, getAllNodes }) {
   const [visible, setVisible] = useState(false);
+  const [warningVisible, setWarningVisible] = useState(false);
   const [sshOpen, setSshOpen] = useState(false);
   const [options, setOptions] = useState([]);
   const [selectVisible, setSelectVisible] = useState(false);
@@ -85,8 +87,10 @@ export default function OperationModal({ record, getAllNodes }) {
       message.success('Success');
       getAllNodes();
     } catch (error) {
-      message.warning('Operation failed, please try again later!');
       console.log('『error』', error);
+      // message.warning('Operation failed, please try again later!');
+      console.log('『error』', error);
+      setWarningVisible(true);
     }
   };
   const handleChange = async (value) => {
@@ -99,7 +103,7 @@ export default function OperationModal({ record, getAllNodes }) {
           key: 'code-server',
           duration: 0,
         });
-        //llamar a user config
+        //call  user config
         await updateUserConfig({ last_resource_visited: record?.id });
         window.open(selected.url, '_blank');
         window.location.reload();
@@ -193,6 +197,10 @@ export default function OperationModal({ record, getAllNodes }) {
                 Terminate
               </li>
             </Popconfirm>
+            <CustomWarningModal
+              open={warningVisible}
+              onClose={() => setWarningVisible(false)}
+            />
             {/* <li>Renewal</li> */}
           </ul>
         }

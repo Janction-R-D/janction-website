@@ -86,6 +86,7 @@ function Instance() {
   const filteredInstance = paginatedData?.filter((item) =>
     allowedStatuses.includes(item.status_str.toLowerCase()),
   );
+
   if (!isLessee) return <Redirect to="/genesis/nodes"></Redirect>;
   return (
     <>
@@ -186,7 +187,7 @@ function Instance() {
           </section>
         )}
         {view === 'Kanban' && (
-          <InstanceTable data={filteredInstance} getAllNodes={getAllNodes} />
+          <InstanceTable data={filteredData} getAllNodes={getAllNodes} />
         )}
       </Card>
     </>

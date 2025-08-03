@@ -416,3 +416,8 @@ export const ALL_QA = [
       'To check your billing information, make sure you are logged in first. Then access the billing section where you can review your payments, history, and usage details.',
   },
 ];
+
+export function isExpired(dateStr) {
+  if (!dateStr) return false;
+  return new Date(dateStr) < new Date();
+}

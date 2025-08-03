@@ -6,8 +6,9 @@ import OperationModal from './InstanceComponents/OperationModal';
 import { convertMBtoGB } from '../Dashboard3/Lessor';
 import { history } from 'umi';
 import { formatISODate } from '@/utils/datetime';
-import { empty } from '@/utils/lang';
+import { empty, isExpired } from '@/utils/lang';
 import TooltipBox from '../components/Tooltip';
+import EditableNameInCell from './InstanceComponents/EditableName';
 
 function InstanceTable({ data, getAllNodes }) {
   const [showOverView, setShowOverView] = useState(true);
@@ -69,9 +70,12 @@ function InstanceTable({ data, getAllNodes }) {
     },
     {
       title: <div className="name">Name</div>,
-      dataIndex: 'tag',
-      key: 'tag',
+      dataIndex: 'name',
+      key: 'name',
       ellipsis: true,
+      render: (text, record) => (
+        <EditableNameInCell text={text} record={record} refresh={getAllNodes} />
+      ),
     },
     {
       title: <div className="name">Cores</div>,
@@ -215,18 +219,25 @@ function InstanceTable({ data, getAllNodes }) {
     return data?.map((order) => ({
       ...order,
       key: order?.id,
+      expired_at: order?.expired_at,
       tag: order.node?.name || '~~',
       Cores: order?.node?.attr.cpu || '--',
       memory: order?.node?.attr.memory,
       status: order?.status_str,
       status_2: order?.operating_status_str,
       Location: order?.node?.attr.location || '--',
+      expired_at: order?.expired_at,
+      isExpired: isExpired(order.expired_at),
       MemoryUsage: convertMBtoGB(order?.activity?.memory_usage?.toFixed(2)),
       downtime: `${formatISODate(order.created_at)}\r\n${formatISODate(
         order.expired_at,
       )}`,
     }));
   }, [data]);
+
+  const notExpiredInstances = useMemo(() => {
+    return mappedOrders?.filter((order) => !order.isExpired);
+  }, [mappedOrders]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -264,7 +275,7 @@ function InstanceTable({ data, getAllNodes }) {
       <Table
         className={styles['table-instance']}
         columns={columns}
-        dataSource={mappedOrders}
+        dataSource={notExpiredInstances}
         emptyDescription={
           <p>
             No instance is currently available. Please{' '}

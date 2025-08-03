@@ -525,4 +525,5 @@ export default {
   'billing.timePeriod': '期間',
   'billing.allCPU': 'すべてのCPU',
   'billing.drawerHeader': 'インスタンス',
+  'nodeCard.deleteSuccess': 'ノードが正常に削除されました',
 };

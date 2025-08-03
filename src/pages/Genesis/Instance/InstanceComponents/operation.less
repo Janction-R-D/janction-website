@@ -95,3 +95,133 @@
     cursor: not-allowed !important;
   }
 }
+
+.modal {
+  h3 {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    align-items: center;
+    font-size: 2.3rem;
+
+    background: linear-gradient(90deg, #ff5a31 0%, #ffa561 49%, #b5e2ce 100%);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    font-family: 'Encode Sans Expanded', sans-serif;
+
+    i {
+      font-size: 2rem;
+    }
+  }
+  .connect-btn {
+    height: 35px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 18px;
+    background: transparent;
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 24px;
+    text-align: center;
+    border: 1px solid #878787;
+    color: #fff;
+    border-radius: 4px;
+    text-wrap: nowrap;
+    transition: all ease 250ms;
+    &:hover {
+      background: #fff;
+      color: #000;
+    }
+  }
+  .desc {
+    font-size: 1.2rem;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    margin-block: 12px;
+  }
+  .footer {
+    display: flex;
+    justify-content: end;
+  }
+  :global {
+    .ant-modal-content {
+      border-radius: 12px;
+      background: #3e3e3e6c;
+      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(8px);
+    }
+
+    .ant-modal-header {
+      border-bottom: 1px solid #515151c0;
+      background: #0d0d0d4d;
+      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.249);
+      backdrop-filter: blur(5px);
+    }
+
+    .ant-modal-title {
+      font-size: 18px;
+      font-weight: 600;
+    }
+    .ant-modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+
+      .ant-btn-primary {
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        gap: 12px;
+        padding-inline: 24px;
+        background: linear-gradient(275.81deg, #72deff 18.68%, #ffebe7 100%);
+        font-family: Poppins;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 24px;
+        text-align: center;
+        color: #000;
+        border-radius: 20px;
+        text-wrap: nowrap;
+        transition: all ease 0.4s;
+
+        &:hover {
+          background: transparent;
+          border-color: #1677ff;
+          color: #1677ff;
+        }
+
+        &:disabled {
+          background-color: #d9d9d9;
+          cursor: not-allowed;
+        }
+      }
+      .ant-btn-default {
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        gap: 12px;
+        padding-inline: 24px;
+        text-align: center;
+        color: #ffffff;
+        border-radius: 20px;
+        text-wrap: nowrap;
+        transition: all ease 0.3s;
+
+        &:hover {
+          border-color: #4096ff;
+          color: #4096ff;
+        }
+      }
+    }
+  }
+  .input {
+    padding: 12px;
+    border-radius: 8px;
+  }
+}
