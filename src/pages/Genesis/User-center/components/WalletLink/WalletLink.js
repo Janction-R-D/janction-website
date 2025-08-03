@@ -6,6 +6,8 @@ import { handleIdentityChange } from '@/utils/metamaskLogin';
 import { useModel } from 'umi';
 import { useState } from 'react';
 import { copy } from '@/utils/lang';
+import { useChainId } from 'wagmi';
+import { useEthersSigner } from '@/hooks/useEthersSigner';
 
 export default function WalletLink() {
   const [loading, setLoading] = useState(false);
@@ -13,6 +15,8 @@ export default function WalletLink() {
   const { address, isConnected } = useAccount();
   const { signMessageAsync } = useSignMessage();
   const { disconnect } = useDisconnect();
+  const chainId = useChainId();
+  const signer = useEthersSigner(chainId);
   const handleCancel = () => {};
   return (
     <Card className={styles['card']}>
@@ -26,6 +30,7 @@ export default function WalletLink() {
           <NoWallet
             onBind={() =>
               handleIdentityChange({
+                signer,
                 isLessee: initialState?.isLessee,
                 setInitialState,
                 initialState,

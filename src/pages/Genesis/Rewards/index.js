@@ -10,6 +10,8 @@ import { useEffect, useState } from 'react';
 import styles from './index.less';
 import { Button, message } from 'antd';
 import { toFixed, toNumber } from '../lang';
+import { useChainId } from 'wagmi';
+import { useEthersSigner } from '@/hooks/useEthersSigner';
 import { history } from 'umi';
 
 const ContributorReward = (props) => {
@@ -17,6 +19,8 @@ const ContributorReward = (props) => {
   const [reward, setReward] = useState(0);
   const [rewardShow, setRewardShow] = useState(0);
   const [loading, setLoading] = useState(false);
+  const chainId = useChainId();
+  const signer = useEthersSigner(chainId);
 
   useEffect(() => {
     getData();
@@ -44,7 +48,7 @@ const ContributorReward = (props) => {
       if (!toNumber(rewardShow)) return;
       setLoading(true);
       const claimData = await fetchNTFClaimJasmyUpdate();
-      await contract.distributeRewards(claimData.signature, reward);
+      await contract.distributeRewards(signer, claimData.signature, reward);
       await delay(1000);
       await getData();
       message.success('Successfully!');
