@@ -148,37 +148,31 @@ const getAddresses = (networkName = 'OP') => {
 
 export const switchNetwork = async (provider, networkName = 'op') => {
   try {
-    const network = await provider.getNetwork();
+    const rawProvider = provider.provider;
 
-    console.log('Current network:', network);
+    const currentChainId = await rawProvider.request({ method: 'eth_chainId' });
+
+    console.log('Current chain ID:', currentChainId);
 
     let network_name =
       isProduction || networkName == 'eth' ? networkName : process.env.TESTNET;
 
-    console.log('process.env.TESTNET: ', process.env.TESTNET);
-
-    if (process.env.TESTNET == 'jasmy') {
-      network_name = 'jasmy_test';
-    }
-
-    console.log('Switching to network:', network_name);
-
     const networkConf =
-      NETWORKS[`${network_name}${!isProduction ? '' : '_test'}`];
+      NETWORKS[`${network_name}${isProduction ? '' : '_test'}`];
     const chainId = networkConf.chainId;
 
-    console.log('Network configuration:', networkConf);
+    console.log('Expected chain ID:', chainId);
 
-    if (network.chainId !== chainId) {
+    if (currentChainId !== chainId) {
       try {
-        await provider.request({
+        await rawProvider.request({
           method: 'wallet_switchEthereumChain',
           params: [{ chainId: `0x${chainId.toString(16)}` }],
         });
       } catch (switchError) {
         if (switchError.code === 4902) {
           try {
-            await provider.request({
+            await rawProvider.request({
               method: 'wallet_addEthereumChain',
               params: [
                 {
@@ -210,30 +204,30 @@ export const switchNetwork = async (provider, networkName = 'op') => {
 };
 export const switchNetworkJasmy = async (provider) => {
   try {
-    const network = await provider.getNetwork();
+    const rawProvider = provider.provider;
 
-    console.log('Current network:', network);
+    const currentChainId = await rawProvider.request({ method: 'eth_chainId' });
+
+    console.log('Current chain ID:', currentChainId);
 
     let network_name = isProduction ? 'op_test' : 'op_test';
 
-    console.log('Switching to network:', network_name);
-
     const networkConf = NETWORKS[network_name];
+
     const chainId = networkConf.chainId;
 
-    console.log('Network configuration:', networkConf);
-    console.log('Network ChainId:', chainId);
+    console.log('Expected chain ID:', chainId);
 
-    if (network.chainId !== chainId) {
+    if (currentChainId !== chainId) {
       try {
-        await provider.request({
+        await rawProvider.request({
           method: 'wallet_switchEthereumChain',
           params: [{ chainId: `0x${chainId.toString(16)}` }],
         });
       } catch (switchError) {
         if (switchError.code === 4902) {
           try {
-            await provider.request({
+            await rawProvider.request({
               method: 'wallet_addEthereumChain',
               params: [
                 {
