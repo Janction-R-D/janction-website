@@ -357,7 +357,7 @@ const contract = {
       message.destroy('tx');
     }
   },
-  stopRent: async (paymentId, adminSignature) => {
+  stopRent: async (signer, paymentId, adminSignature) => {
     try {
       const signerAddress = await signer.getAddress();
 

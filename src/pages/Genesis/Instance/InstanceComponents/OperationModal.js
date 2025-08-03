@@ -79,11 +79,9 @@ export default function OperationModal({ record, getAllNodes }) {
         resource_id: record?.id,
       });
 
-      // const signatures = [`0x${signature}`];
-      const adminSignature = signature;
       // await getOrderInfo();
       if (!payment_id) return;
-      await contract.stopRent(payment_id, adminSignature);
+      await contract.stopRent(signer, payment_id, signature);
       message.success('Success');
       getAllNodes();
     } catch (error) {
