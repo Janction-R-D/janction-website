@@ -459,3 +459,10 @@ export const fetchNodeTag = (data) => {
     loginAuth: true,
   });
 };
+export const updateNodeName = (data) => {
+  return request(`${baseUrl}/resource/name`, {
+    method: 'PUT',
+    data,
+    loginAuth: true,
+  });
+};

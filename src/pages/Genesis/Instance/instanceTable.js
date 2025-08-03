@@ -8,6 +8,7 @@ import { history } from 'umi';
 import { formatISODate } from '@/utils/datetime';
 import { empty } from '@/utils/lang';
 import TooltipBox from '../components/Tooltip';
+import EditableNameInCell from './InstanceComponents/EditableName';
 
 function InstanceTable({ data, getAllNodes }) {
   const [showOverView, setShowOverView] = useState(true);
@@ -69,9 +70,12 @@ function InstanceTable({ data, getAllNodes }) {
     },
     {
       title: <div className="name">Name</div>,
-      dataIndex: 'tag',
-      key: 'tag',
+      dataIndex: 'name',
+      key: 'name',
       ellipsis: true,
+      render: (text, record) => (
+        <EditableNameInCell text={text} record={record} refresh={getAllNodes} />
+      ),
     },
     {
       title: <div className="name">Cores</div>,
