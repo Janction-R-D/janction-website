@@ -260,8 +260,8 @@ export const switchNetworkJasmy = async (provider) => {
 
 const getJasmyAddress = () => {
   const network_name = isProduction ? 'OP_SEPOLIA' : 'OP_SEPOLIA';
-  console.log('network_name for pay: ', network_name);
-  console.log('Addresses', Addresses[network_name]);
+  // console.log('network_name for pay: ', network_name);
+  // console.log('Addresses', Addresses[network_name]);
   return Addresses[network_name];
 };
 

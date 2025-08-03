@@ -88,7 +88,12 @@ const PaymentResultModal = ({
   return (
     <Modal
       open={open}
-      onCancel={onClose}
+      onCancel={() => {
+        if (status == 2) {
+          onContinue();
+        }
+        onClose();
+      }}
       footer={null}
       centered
       closable={true}
