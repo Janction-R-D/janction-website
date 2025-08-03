@@ -177,10 +177,6 @@ function BillDetails() {
           className={styles['billings-table']}
           columns={columns}
           dataSource={filteredData}
-          // pagination={{
-          //   pageSize: 5,
-          //   position: ['bottomCenter'],
-          // }}
           pagination={false}
           scroll={{ x: 'auto' }}
         />
