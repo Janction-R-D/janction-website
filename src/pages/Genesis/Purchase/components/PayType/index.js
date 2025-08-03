@@ -51,11 +51,7 @@ const PayType = (props) => {
                 }
               />
             </span>
-            <span>
-              {item.label == 'usd' || item.label == 'jpy'
-                ? 'Stripe'
-                : item.label}
-            </span>
+            <span>{item.value === 'Stripe' ? 'Stripe' : item.label}</span>
             <span className={styles['desc']}>{item.desc}</span>
           </div>
         ))}

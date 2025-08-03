@@ -369,11 +369,11 @@ const contract = {
         duration: 0,
       });
 
-      await switchNetwork(signer.provider);
+      await switchNetworkJasmy(signer.provider);
 
       // 初始化合约
       const payment = new ethers.Contract(
-        getAddresses().PaymentProxy,
+        getJasmyAddress().PaymentProxy,
         PaymentImpl.abi,
         signer,
       );
@@ -382,7 +382,7 @@ const contract = {
         name: 'PaymentImpl',
         version: '1',
         chainId: (await provider.getNetwork()).chainId,
-        verifyingContract: getAddresses().PaymentProxy,
+        verifyingContract: getJasmyAddress().PaymentProxy,
       };
 
       const types = {
