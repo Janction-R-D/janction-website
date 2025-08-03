@@ -3,8 +3,10 @@ import pytorch from '@/assets/images/genesis/pytorch.png';
 import tensorflow from '@/assets/images/genesis/tensorflow.png';
 import { FRAMEWORK } from './constant';
 import styles from './index.less';
+import { useIntl } from 'umi';
 
 export default function FrameworkAi({ value = [], onChange }) {
+  const intl = useIntl();
   const handleCheckboxChange = (itemValue) => {
     const isSelected = value.includes(itemValue);
     const newValue = isSelected
@@ -16,7 +18,7 @@ export default function FrameworkAi({ value = [], onChange }) {
   return (
     <main className={styles['framework-conf-wrapper']}>
       <div className={styles['framework-check']}>
-        <p>AI Framework</p>
+        <p> {intl.formatMessage({ id: 'steps.framework' })}</p>
       </div>
       <section className={styles['framework-conf-cards']}>
         {FRAMEWORK.map((item) => (

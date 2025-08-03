@@ -1,5 +1,5 @@
-import { history, useModel, Redirect } from 'umi';
-import { DEFAULT_PURCHASE_TYPE, PURCHASES } from './extra';
+import { history, useModel, Redirect, useIntl } from 'umi';
+import { DEFAULT_PURCHASE_TYPE, getPurchases, PURCHASES } from './extra';
 import styles from './index.less';
 import { useEffect, useState } from 'react';
 import Customized from './components/Customized';
@@ -12,6 +12,8 @@ function Purchase() {
   const { isLessee } = initialState || {};
   const [activePurType, setActivePurType] = useState(DEFAULT_PURCHASE_TYPE);
   const [isBinded, setIsBinded] = useState(false);
+  const intl = useIntl();
+  const purchases = getPurchases(intl);
   useEffect(() => {
     if (isQuick) {
       setActivePurType(PURCHASES[1].value);
@@ -36,19 +38,18 @@ function Purchase() {
     <main className={styles['purchase-container']}>
       <section className={styles['header-wrapper']}>
         <header>
-          <h1>Purchase</h1>
+          <h1>{intl.formatMessage({ id: 'purchase.title' })}</h1>
         </header>
         {!isBinded && (
           <div className={styles['warning-box']}>
             <i className="iconfont icon-info" />
             <span>
-              Please bind your email to receive real-time node monitoring
-              updates
+              {intl.formatMessage({ id: 'purchase.bindEmail' })}
               <span
                 className={styles['bind']}
                 onClick={() => history.push('/genesis/user-center')}
               >
-                Go bind email.
+                {intl.formatMessage({ id: 'purchase.goBind' })}
               </span>
             </span>
           </div>
@@ -56,7 +57,7 @@ function Purchase() {
       </section>
       <section className={styles['purchase-nav-header']}>
         <div className={styles['purchase-type-nav']}>
-          {PURCHASES.map((item) => (
+          {purchases.map((item) => (
             <div
               key={item.value}
               className={[

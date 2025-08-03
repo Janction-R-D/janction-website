@@ -58,6 +58,26 @@ export const SYSTEM_LIST = [
       'Ensures compatibility and ease of use for enterprise environments.',
   },
 ];
+export const getSystemList = (intl) => [
+  {
+    label: 'MAC',
+    value: 'macos',
+    icon: 'macos',
+    description: intl.formatMessage({ id: 'system.mac' }),
+  },
+  {
+    label: 'Linux',
+    value: 'linux',
+    icon: 'linux',
+    description: intl.formatMessage({ id: 'system.linux' }),
+  },
+  {
+    label: 'Windows',
+    value: 'windows',
+    icon: 'windows',
+    description: intl.formatMessage({ id: 'system.windows' }),
+  },
+];
 
 export const SYSTEM_SELECT_LIST = [
   { label: 'All', value: 'all' },

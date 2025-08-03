@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { SYSTEM_LIST } from '@/constant';
+import { SYSTEM_LIST, getSystemList } from '@/constant';
 import { Card, Checkbox } from 'antd';
 import styles from './index.less';
+import { useIntl } from 'umi';
 
 export default function OperatingCard({ value = [], onChange }) {
+  const intl = useIntl();
+  const systemList = getSystemList(intl);
   const handleCheckboxChange = (checked, newValue) => {
     let newValues = checked
       ? [...value, newValue]
@@ -14,7 +17,7 @@ export default function OperatingCard({ value = [], onChange }) {
   return (
     <div className={styles['image-conf-wrapper']}>
       <section className={styles['image-conf-cards']}>
-        {SYSTEM_LIST.map((item) => (
+        {systemList.map((item) => (
           <Card
             key={item.value}
             className={[
