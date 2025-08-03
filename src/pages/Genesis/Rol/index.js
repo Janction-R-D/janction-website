@@ -4,33 +4,34 @@ import styles from './index.less';
 import planetImg from '@/assets/images/genesis/planet.png';
 import lessorImg from '@/assets/images/genesis/rol_lessor.png';
 import lesseeImg from '@/assets/images/genesis/rol_lessee.png';
-import { Redirect, useLocation, useModel } from 'umi';
-const cards = [
-  {
-    title: 'Lessor',
+import { Redirect, useLocation, useModel, useIntl } from 'umi';
 
-    name: 'Rent Out Your Node',
-    description: 'Your Personal Speed Minning Node',
-    isLessee: false,
-    img: lessorImg,
-    path: '/genesis/dashboard',
-  },
-  {
-    title: 'Lessee',
-    name: 'Find Nodes to Rent',
-    description: 'Your Personal Speed Minning Node',
-    isLessee: true,
-    img: lesseeImg,
-    path: '/genesis/dashboard',
-  },
-];
 export default function Rol() {
   const { initialState } = useModel('@@initialState');
   const { sessionType } = initialState || {};
   const [cardsType, setCardType] = useState([]);
   const location = useLocation();
   const { type } = location.state || {};
-  console.log(type);
+  const intl = useIntl();
+
+  const cards = [
+    {
+      title: intl.formatMessage({ id: 'role.lessor' }),
+      name: intl.formatMessage({ id: 'role.lessor.name' }),
+      description: intl.formatMessage({ id: 'role.description' }),
+      isLessee: false,
+      img: lessorImg,
+      path: '/genesis/dashboard',
+    },
+    {
+      title: intl.formatMessage({ id: 'role.lessee' }),
+      name: intl.formatMessage({ id: 'role.lessee.name' }),
+      description: intl.formatMessage({ id: 'role.description' }),
+      isLessee: true,
+      img: lesseeImg,
+      path: '/genesis/dashboard',
+    },
+  ];
   useEffect(() => {
     if (sessionType && sessionType !== 'wallet') {
       const showedCards = cards.filter((item) => item.title !== 'Lessor');
@@ -44,7 +45,7 @@ export default function Rol() {
   return (
     <main className={styles['identity-wrapper']}>
       <h1 className={`${styles['text-title']} ${styles['text--blue']}`}>
-        Choose your identity
+        {intl.formatMessage({ id: 'role.choose' })}
       </h1>
       <div className={styles['banner']}>
         <img src={planetImg} alt="Lessor" />

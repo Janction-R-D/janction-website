@@ -4,8 +4,11 @@ import { Divider, Modal } from 'antd';
 import { brandDetails } from '@/constant';
 import { useId } from 'react';
 import { formatISODate } from '@/utils/datetime';
+import { useIntl } from 'umi';
 
 export default function OrderModal({ handleCancel, isModalOpen, data }) {
+  const intl = useIntl();
+
   return (
     <Modal
       open={isModalOpen}
@@ -14,7 +17,7 @@ export default function OrderModal({ handleCancel, isModalOpen, data }) {
       className={styles['modal']}
     >
       <section className={styles['modal__header']}>
-        <p>Configuration details</p>
+        <p>{intl.formatMessage({ id: 'orderModal.title' })}</p>
       </section>
       <div>
         <div className={styles['icon']}>
@@ -35,15 +38,16 @@ export default function OrderModal({ handleCancel, isModalOpen, data }) {
         </div>
         <span>{data?.order?.id}</span>
       </div>
+
       <div>
         {renderInfo(
-          'Operating System',
-          data?.resource?.node?.attr.operating_system_str.toUpperCase(),
+          intl.formatMessage({ id: 'orderModal.os' }),
+          data?.resource?.node?.attr.operating_system_str?.toUpperCase(),
         )}
       </div>
       <div>
         {renderInfo(
-          'Basic Configuration',
+          intl.formatMessage({ id: 'orderModal.basic' }),
           !data?.resource?.node?.attr.gpu_chip &&
             !data?.resource?.node?.attr.cpu_chip
             ? '--'
@@ -56,7 +60,7 @@ export default function OrderModal({ handleCancel, isModalOpen, data }) {
       </div>
       <div>
         {renderInfo(
-          'Purchase Time',
+          intl.formatMessage({ id: 'orderModal.purchaseTime' }),
           data?.order?.purchase_duration +
             ' ' +
             data?.order?.purchase_duration_unit,
@@ -64,24 +68,33 @@ export default function OrderModal({ handleCancel, isModalOpen, data }) {
       </div>
       <div>
         {renderInfo(
-          'Architechture',
-          data?.resource?.node?.attr.architechture_str.toUpperCase(),
+          intl.formatMessage({ id: 'orderModal.arch' }),
+          data?.resource?.node?.attr.architechture_str?.toUpperCase(),
         )}
       </div>
-      <div>{renderInfo('Location', data?.resource?.node?.attr.location)}</div>
       <div>
         {renderInfo(
-          'Operating System',
+          intl.formatMessage({ id: 'orderModal.location' }),
+          data?.resource?.node?.attr.location,
+        )}
+      </div>
+      <div>
+        {renderInfo(
+          intl.formatMessage({ id: 'orderModal.os' }),
           data?.resource?.node?.attr.operating_system_str,
         )}
       </div>
       <Divider />
       <div>
-        {renderInfo('Order Time', formatISODate(data?.order?.created_at))}
+        {renderInfo(
+          intl.formatMessage({ id: 'orderModal.orderTime' }),
+          formatISODate(data?.order?.created_at),
+        )}
       </div>
     </Modal>
   );
 }
+
 const renderInfo = (description, value) => {
   const id = useId();
   return (

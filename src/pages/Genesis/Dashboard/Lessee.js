@@ -14,6 +14,7 @@ import InstanceMonitor from '@/components/InstanceMonitor';
 import InstanceTable from './components/Table/instanceTable';
 import { empty } from '@/utils/lang';
 import { isEmpty } from 'lodash';
+import { useIntl } from 'umi';
 // import InstanceMonitor from './components/InstanceMonitor';
 
 export default function Lessee() {
@@ -22,7 +23,7 @@ export default function Lessee() {
   const [resource, setResource] = useState([]);
   const [last, setLast] = useState({});
   const [loading, setLoading] = useState(false);
-
+  const intl = useIntl();
   const [userConf, setUserConf] = useState({});
 
   const { lessesData } = useLesses();
@@ -77,11 +78,11 @@ export default function Lessee() {
       /> */}
       <section className={styles['header-wrapper']}>
         <header>
-          <h1>Dashboard</h1>
+          <h1>{intl.formatMessage({ id: 'dashboard.title' })}</h1>
           <Divider type="vertical" className={styles['line']} />
           <span>
-            <p>GPU rental service with stable </p>
-            <p>service and reasonable price</p>
+            <p>{intl.formatMessage({ id: 'dashboard.subtitle.line1' })}</p>
+            <p>{intl.formatMessage({ id: 'dashboard.subtitle.line2' })}</p>
           </span>
         </header>
       </section>
@@ -91,7 +92,9 @@ export default function Lessee() {
       <main className={styles['cards-container']}>
         {loading && (
           <>
-            <p className={styles['title']}>Last visit</p>
+            <p className={styles['title']}>
+              {intl.formatMessage({ id: 'dashboard.lastVisit.title' })}
+            </p>
             <div className={styles['video-col']}>
               <Skeleton.Avatar className={styles['custom-skeleton-1']} active />
             </div>
@@ -100,13 +103,18 @@ export default function Lessee() {
 
         {!loading && !isEmpty(last) && (
           <>
-            <p className={styles['title']}>Last visit</p>
+            <p className={styles['title']}>
+              {intl.formatMessage({ id: 'dashboard.lastVisit.title' })}
+            </p>
             <section className={styles['card-monitor']}>
               <InstanceMonitor instance={last} />
             </section>
           </>
         )}
-        <p className={styles['title']}>Last purchased instances</p>
+
+        <p className={styles['title']}>
+          {intl.formatMessage({ id: 'dashboard.lastPurchased.title' })}
+        </p>
         <InstanceTable
           data={resource}
           getAllNodes={getAllNodes}

@@ -3,110 +3,10 @@ import { Modal, Table } from 'antd';
 import styles from './index.less';
 import { convertMBtoGB, empty, isExpired } from '@/utils/lang';
 import { formatISODate } from '@/utils/datetime';
-
-const columns = [
-  {
-    title: <div className="name">Instance ID / Name</div>,
-    dataIndex: 'key',
-    key: 'name',
-    ellipsis: true,
-  },
-  {
-    title: <div className="name">Node ID / Name</div>,
-    dataIndex: 'node_id',
-    key: 'node_id',
-    ellipsis: true,
-  },
-  {
-    title: <div className="name">Name</div>,
-    dataIndex: 'name',
-    key: 'name',
-    ellipsis: true,
-  },
-  {
-    title: <div className="name">Cores</div>,
-    dataIndex: 'node',
-    key: 'Cores',
-    ellipsis: true,
-    render: (node, record) => {
-      if (!node?.attr?.gpu_chip && !node?.attr?.cpu_chip) return '--';
-      const cpu = node?.attr?.cpu_chip;
-      const gpu = node?.attr?.gpu_chip;
-      return (
-        <>
-          <p>{!!cpu?.length ? `${cpu[0]} * ${cpu.length}` : '--'}</p>
-          <p>{!!gpu?.length ? `${gpu[0]} * ${gpu.length}` : '--'}</p>
-        </>
-      );
-    },
-  },
-  {
-    title: <div className="memory">Memory</div>,
-    dataIndex: 'memory',
-    key: 'memory',
-    ellipsis: true,
-    render: (memory, rowData) => (
-      <>{!empty(rowData.memory) ? convertMBtoGB(rowData.memory) : '--'}</>
-    ),
-  },
-  {
-    title: 'Status',
-    key: 'status',
-    dataIndex: 'status',
-    render: (text) => (
-      <>
-        {text?.toLowerCase() === 'running' ? (
-          <div className="status status-running">
-            <i className="iconfont  icon-check"></i> Running
-          </div>
-        ) : text?.toLowerCase() === 'stopped' ? (
-          <div className="status status-stopped">
-            <i className="iconfont  icon-play_pause"></i> Stopped
-          </div>
-        ) : text?.toLowerCase() === 'expired' ? (
-          <div className="status status-expired">
-            <i className="iconfont  icon-icforbidden"></i> Expired
-          </div>
-        ) : text?.toLowerCase() === 'expiring soon' ? (
-          <div className="status status-expiring-soon">
-            <i className="iconfont  icon-questioncircle"></i> Expiring Soon
-          </div>
-        ) : (
-          <div className={styles['status-starting']}>
-            <span className={styles['icon-loading']}>
-              <i className="iconfont icon-refresh "></i>
-            </span>{' '}
-            Starting
-          </div>
-        )}
-      </>
-    ),
-  },
-  {
-    title: 'Location',
-    dataIndex: 'Location',
-    key: 'Location',
-    ellipsis: true,
-  },
-
-  {
-    title: 'Memory Usage Rates',
-    dataIndex: 'MemoryUsage',
-    key: 'MemoryUsage',
-    ellipsis: 'true',
-  },
-  {
-    title: 'Release time / Downtime',
-    key: 'downtime',
-    dataIndex: 'downtime',
-    ellipsis: 'true',
-    render: (_, record) => (
-      <div style={{ whiteSpace: 'pre' }}>{record.downtime}</div>
-    ),
-  },
-];
+import { useIntl } from 'umi';
 
 const HistoryInstances = (props) => {
+  const intl = useIntl();
   const { open, onOk, onCancel, data } = props;
   const [currentPage, setCurrentPage] = useState(1);
   const allowedStatuses = ['stopped'];
@@ -134,10 +34,138 @@ const HistoryInstances = (props) => {
     onCancel();
     setCurrentPage(1);
   };
+
+  const columns = [
+    {
+      title: (
+        <div className="name">
+          {' '}
+          {intl.formatMessage({ id: 'instanceTable.instanceId' })}
+        </div>
+      ),
+      dataIndex: 'key',
+      key: 'name',
+      ellipsis: true,
+    },
+    {
+      title: (
+        <div className="name">
+          {intl.formatMessage({ id: 'instanceTable.name' })}
+        </div>
+      ),
+      dataIndex: 'node_id',
+      key: 'node_id',
+      ellipsis: true,
+    },
+    {
+      title: (
+        <div className="name">
+          {intl.formatMessage({ id: 'instanceTable.cores' })}
+        </div>
+      ),
+      dataIndex: 'name',
+      key: 'name',
+      ellipsis: true,
+    },
+    {
+      title: <div className="name">Cores</div>,
+      dataIndex: 'node',
+      key: 'Cores',
+      ellipsis: true,
+      render: (node, record) => {
+        if (!node?.attr?.gpu_chip && !node?.attr?.cpu_chip) return '--';
+        const cpu = node?.attr?.cpu_chip;
+        const gpu = node?.attr?.gpu_chip;
+        return (
+          <>
+            <p>{!!cpu?.length ? `${cpu[0]} * ${cpu.length}` : '--'}</p>
+            <p>{!!gpu?.length ? `${gpu[0]} * ${gpu.length}` : '--'}</p>
+          </>
+        );
+      },
+    },
+    {
+      title: (
+        <div className="memory">
+          {intl.formatMessage({ id: 'instanceTable.memory' })}
+        </div>
+      ),
+      dataIndex: 'memory',
+      key: 'memory',
+      ellipsis: true,
+      render: (memory, rowData) => (
+        <>{!empty(rowData.memory) ? convertMBtoGB(rowData.memory) : '--'}</>
+      ),
+    },
+    {
+      title: intl.formatMessage({ id: 'instanceTable.status' }),
+      key: 'status',
+      dataIndex: 'status',
+      render: (text) => {
+        const lower = text?.toLowerCase();
+        return (
+          <>
+            {lower === 'running' ? (
+              <div className="status status-running">
+                <i className="iconfont icon-check" />{' '}
+                {intl.formatMessage({ id: 'instanceTable.status.running' })}
+              </div>
+            ) : lower === 'stopped' ? (
+              <div className="status status-stopped">
+                <i className="iconfont icon-play_pause" />{' '}
+                {intl.formatMessage({ id: 'instanceTable.status.stopped' })}
+              </div>
+            ) : lower === 'expired' ? (
+              <div className="status status-expired">
+                <i className="iconfont icon-icforbidden" />{' '}
+                {intl.formatMessage({ id: 'instanceTable.status.expired' })}
+              </div>
+            ) : lower === 'expiring soon' ? (
+              <div className="status status-expiring-soon">
+                <i className="iconfont icon-questioncircle" />{' '}
+                {intl.formatMessage({
+                  id: 'instanceTable.status.expiringSoon',
+                })}
+              </div>
+            ) : (
+              <div className={styles['status-starting']}>
+                <span className={styles['icon-loading']}>
+                  <i className="iconfont icon-refresh" />
+                </span>{' '}
+                {intl.formatMessage({ id: 'instanceTable.status.starting' })}
+              </div>
+            )}
+          </>
+        );
+      },
+    },
+    {
+      title: intl.formatMessage({ id: 'instanceTable.location' }),
+      dataIndex: 'Location',
+      key: 'Location',
+      ellipsis: true,
+    },
+
+    {
+      title: intl.formatMessage({ id: 'instanceTable.memoryUsage' }),
+      dataIndex: 'MemoryUsage',
+      key: 'MemoryUsage',
+      ellipsis: 'true',
+    },
+    {
+      title: intl.formatMessage({ id: 'instanceTable.downtime' }),
+      key: 'downtime',
+      dataIndex: 'downtime',
+      ellipsis: 'true',
+      render: (_, record) => (
+        <div style={{ whiteSpace: 'pre' }}>{record.downtime}</div>
+      ),
+    },
+  ];
   return (
     <>
       <Modal
-        title="Instance History"
+        title={`${intl.formatMessage({ id: 'instance.title.history' })}`}
         open={open}
         onCancel={handleCancel}
         onOk={onOk}

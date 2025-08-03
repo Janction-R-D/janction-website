@@ -11,7 +11,7 @@ import {
   Space,
 } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
-import { history, useModel, Redirect } from 'umi';
+import { history, useModel, Redirect, useIntl } from 'umi';
 import JactionEmpty from '../../../components/JactionEmpty';
 import styles from './index.less';
 import HeaderCard from './InstanceComponents/HeaderCard';
@@ -38,6 +38,7 @@ function Instance() {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
   const [openHs, setOpenHs] = useState(false);
+  const intl = useIntl();
   const allowedStatuses = ['running', 'starting', 'stopped', 'pending'];
   const onHistory = () => {
     setOpenHs(true);
@@ -92,7 +93,7 @@ function Instance() {
     <>
       <section className={styles['header-wrapper']}>
         <header>
-          <h1>My Instances</h1>
+          <h1> {intl.formatMessage({ id: 'instance.title' })}</h1>
         </header>
       </section>
 

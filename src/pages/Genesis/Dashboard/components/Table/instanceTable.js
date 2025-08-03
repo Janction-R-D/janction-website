@@ -1,62 +1,84 @@
 import JanctionTable from '@/components/JanctionTable';
 import { Table } from 'antd';
-
 import styles from './index.less';
-
-import { history } from 'umi';
+import { history, useIntl } from 'umi';
 import { formatISODate } from '@/utils/datetime';
 import { convertMBtoGB, empty } from '@/utils/lang';
-import { RedoOutlined } from '@ant-design/icons';
-function InstanceTable({ data, getAllNodes, loading }) {
+
+function InstanceTable({ data }) {
+  const intl = useIntl();
+
   const columns = [
     {
-      title: <div className="name">Instance ID / Name</div>,
+      title: (
+        <div className="name">
+          {intl.formatMessage({ id: 'instanceTable.instance' })}
+        </div>
+      ),
       dataIndex: 'key',
       key: 'name',
       ellipsis: true,
     },
     {
-      title: <div className="name">Node ID / Name</div>,
+      title: (
+        <div className="name">
+          {intl.formatMessage({ id: 'instanceTable.node' })}
+        </div>
+      ),
       dataIndex: 'node_id',
       key: 'node_id',
       ellipsis: true,
     },
     {
-      title: 'Status',
+      title: intl.formatMessage({ id: 'instanceTable.status' }),
       key: 'status',
       dataIndex: 'status',
-      render: (text) => (
-        <>
-          {text.toLowerCase() === 'running' ? (
-            <div className="status status-running">
-              <i className="iconfont  icon-check"></i> Running
-            </div>
-          ) : text.toLowerCase() === 'stopped' ? (
-            <div className="status status-stopped">
-              <i className="iconfont  icon-play_pause"></i> Stopped
-            </div>
-          ) : text.toLowerCase() === 'expired' ? (
-            <div className="status status-expired">
-              <i className="iconfont  icon-icforbidden"></i> Expired
-            </div>
-          ) : text.toLowerCase() === 'expiring soon' ? (
-            <div className="status status-expiring-soon">
-              <i className="iconfont  icon-questioncircle"></i> Expiring Soon
-            </div>
-          ) : (
-            <div className="status status-starting">
-              <i className="iconfont  icon-refresh"></i> Starting
-            </div>
-          )}
-        </>
-      ),
+      render: (text) => {
+        const lower = text?.toLowerCase();
+        return (
+          <>
+            {lower === 'running' ? (
+              <div className="status status-running">
+                <i className="iconfont icon-check" />{' '}
+                {intl.formatMessage({ id: 'instanceTable.status.running' })}
+              </div>
+            ) : lower === 'stopped' ? (
+              <div className="status status-stopped">
+                <i className="iconfont icon-play_pause" />{' '}
+                {intl.formatMessage({ id: 'instanceTable.status.stopped' })}
+              </div>
+            ) : lower === 'expired' ? (
+              <div className="status status-expired">
+                <i className="iconfont icon-icforbidden" />{' '}
+                {intl.formatMessage({ id: 'instanceTable.status.expired' })}
+              </div>
+            ) : lower === 'expiring soon' ? (
+              <div className="status status-expiring-soon">
+                <i className="iconfont icon-questioncircle" />{' '}
+                {intl.formatMessage({
+                  id: 'instanceTable.status.expiringSoon',
+                })}
+              </div>
+            ) : (
+              <div className="status status-starting">
+                <i className="iconfont icon-refresh" />{' '}
+                {intl.formatMessage({ id: 'instanceTable.status.starting' })}
+              </div>
+            )}
+          </>
+        );
+      },
     },
     {
-      title: <div className="name">Cores</div>,
+      title: (
+        <div className="name">
+          {intl.formatMessage({ id: 'instanceTable.cores' })}
+        </div>
+      ),
       dataIndex: 'node',
       key: 'Cores',
       ellipsis: true,
-      render: (node, record) => {
+      render: (node) => {
         if (!node?.attr?.gpu_chip && !node?.attr?.cpu_chip) return '--';
         const cpu = node?.attr.cpu_chip;
         const gpu = node?.attr.gpu_chip;
@@ -69,7 +91,11 @@ function InstanceTable({ data, getAllNodes, loading }) {
       },
     },
     {
-      title: <div className="memory">Memory</div>,
+      title: (
+        <div className="memory">
+          {intl.formatMessage({ id: 'instanceTable.memory' })}
+        </div>
+      ),
       dataIndex: 'memory',
       key: 'memory',
       ellipsis: true,
@@ -77,48 +103,29 @@ function InstanceTable({ data, getAllNodes, loading }) {
         <>{!empty(rowData.memory) ? convertMBtoGB(rowData.memory) : '--'}</>
       ),
     },
-
     {
-      title: 'Location',
+      title: intl.formatMessage({ id: 'instanceTable.location' }),
       dataIndex: 'Location',
       key: 'Location',
       ellipsis: true,
     },
-
     {
-      title: 'Memory Usage Rates',
+      title: intl.formatMessage({ id: 'instanceTable.memoryUsage' }),
       dataIndex: 'MemoryUsage',
       key: 'MemoryUsage',
-      ellipsis: 'true',
+      ellipsis: true,
     },
     {
-      title: 'Release time / Downtime',
+      title: intl.formatMessage({ id: 'instanceTable.downtime' }),
       key: 'downtime',
       dataIndex: 'downtime',
-      ellipsis: 'true',
+      ellipsis: true,
       render: (_, record) => (
         <div style={{ whiteSpace: 'pre' }}>{record.downtime}</div>
       ),
     },
-    // {
-    //   title: 'Operation',
-    //   key: 'operation',
-    //   dataIndex: 'operation',
-    //   ellipsis: 'true',
-    //   render: (_, record) => (
-    //     <div style={{ whiteSpace: 'pre' }}>
-    //       Refresh{' '}
-    //       <RedoOutlined
-    //         rotate={90}
-    //         spin={loading}
-    //         loading={loading}
-    //         className={styles['icon-orange']}
-    //         onClick={getAllNodes}
-    //       />
-    //     </div>
-    //   ),
-    // },
   ];
+
   const mappedOrders = data?.slice(0, 5).map((order) => ({
     ...order,
     key: order?.id,
@@ -133,24 +140,22 @@ function InstanceTable({ data, getAllNodes, loading }) {
   }));
 
   return (
-    <>
-      <Table
-        className={styles['table-instance']}
-        columns={columns}
-        dataSource={mappedOrders}
-        emptyDescription={
-          <p>
-            No instance is currently available. Please{' '}
-            <a onClick={() => history.push('/genesis/purchase')}>
-              create an instance
-            </a>
-            .
-          </p>
-        }
-        scroll={{ x: 'auto' }}
-        pagination={false}
-      />
-    </>
+    <Table
+      className={styles['table-instance']}
+      columns={columns}
+      dataSource={mappedOrders}
+      emptyDescription={
+        <p>
+          {intl.formatMessage({ id: 'instanceTable.empty' })}
+          <a onClick={() => history.push('/genesis/purchase')}>
+            {intl.formatMessage({ id: 'instanceTable.createInstance' })}
+          </a>
+          。
+        </p>
+      }
+      scroll={{ x: 'auto' }}
+      pagination={false}
+    />
   );
 }
 

@@ -9,12 +9,13 @@ import { formatISODate } from '@/utils/datetime';
 import { empty, isExpired } from '@/utils/lang';
 import TooltipBox from '../components/Tooltip';
 import EditableNameInCell from './InstanceComponents/EditableName';
+import { useIntl } from 'umi';
 
 function InstanceTable({ data, getAllNodes }) {
   const [showOverView, setShowOverView] = useState(true);
   const [error, setError] = useState(false);
+  const intl = useIntl();
   const [success, setSuccess] = useState(false);
-
   const handleOperation = (operation, resource, id) => {
     const payload = JSON.stringify({
       resource_id: resource,
@@ -41,7 +42,12 @@ function InstanceTable({ data, getAllNodes }) {
   };
   const columns = [
     {
-      title: <div className="name">Instance ID</div>,
+      title: (
+        <div className="name">
+          {intl.formatMessage({ id: 'instanceTable.instanceId' })}
+        </div>
+      ),
+
       dataIndex: 'key',
       key: 'name',
       ellipsis: true,
@@ -55,7 +61,12 @@ function InstanceTable({ data, getAllNodes }) {
       },
     },
     {
-      title: <div className="name">Node ID</div>,
+      title: (
+        <div className="name">
+          {intl.formatMessage({ id: 'instanceTable.nodeId' })}
+        </div>
+      ),
+
       dataIndex: 'node_id',
       key: 'node_id',
       ellipsis: true,
@@ -69,7 +80,11 @@ function InstanceTable({ data, getAllNodes }) {
       },
     },
     {
-      title: <div className="name">Name</div>,
+      title: (
+        <div className="name">
+          {intl.formatMessage({ id: 'instanceTable.name' })}
+        </div>
+      ),
       dataIndex: 'name',
       key: 'name',
       ellipsis: true,
@@ -78,7 +93,11 @@ function InstanceTable({ data, getAllNodes }) {
       ),
     },
     {
-      title: <div className="name">Cores</div>,
+      title: (
+        <div className="name">
+          {intl.formatMessage({ id: 'instanceTable.cores' })}
+        </div>
+      ),
       dataIndex: 'node',
       key: 'Cores',
       ellipsis: true,
@@ -104,7 +123,11 @@ function InstanceTable({ data, getAllNodes }) {
       },
     },
     {
-      title: <div className="memory">Memory</div>,
+      title: (
+        <div className="memory">
+          {intl.formatMessage({ id: 'instanceTable.memory' })}
+        </div>
+      ),
       dataIndex: 'memory',
       key: 'memory',
       width: 190,
@@ -114,51 +137,60 @@ function InstanceTable({ data, getAllNodes }) {
       ),
     },
     {
-      title: 'Status',
+      title: intl.formatMessage({ id: 'instanceTable.status' }),
       key: 'status',
       dataIndex: 'status',
-      render: (text) => (
-        <>
-          {text.toLowerCase() === 'running' ? (
-            <div className="status status-running">
-              <i className="iconfont  icon-check"></i> Running
-            </div>
-          ) : text.toLowerCase() === 'stopped' ? (
-            <div className="status status-stopped">
-              <i className="iconfont  icon-play_pause"></i> Stopped
-            </div>
-          ) : text.toLowerCase() === 'expired' ? (
-            <div className="status status-expired">
-              <i className="iconfont  icon-icforbidden"></i> Expired
-            </div>
-          ) : text.toLowerCase() === 'expiring soon' ? (
-            <div className="status status-expiring-soon">
-              <i className="iconfont  icon-questioncircle"></i> Expiring Soon
-            </div>
-          ) : (
-            <div className={styles['status-starting']}>
-              <span className={styles['icon-loading']}>
-                <i className="iconfont icon-refresh "></i>
-              </span>{' '}
-              Starting
-            </div>
-          )}
-        </>
-      ),
+      render: (text) => {
+        const lower = text?.toLowerCase();
+        return (
+          <>
+            {lower === 'running' ? (
+              <div className="status status-running">
+                <i className="iconfont icon-check" />{' '}
+                {intl.formatMessage({ id: 'instanceTable.status.running' })}
+              </div>
+            ) : lower === 'stopped' ? (
+              <div className="status status-stopped">
+                <i className="iconfont icon-play_pause" />{' '}
+                {intl.formatMessage({ id: 'instanceTable.status.stopped' })}
+              </div>
+            ) : lower === 'expired' ? (
+              <div className="status status-expired">
+                <i className="iconfont icon-icforbidden" />{' '}
+                {intl.formatMessage({ id: 'instanceTable.status.expired' })}
+              </div>
+            ) : lower === 'expiring soon' ? (
+              <div className="status status-expiring-soon">
+                <i className="iconfont icon-questioncircle" />{' '}
+                {intl.formatMessage({
+                  id: 'instanceTable.status.expiringSoon',
+                })}
+              </div>
+            ) : (
+              <div className={styles['status-starting']}>
+                <span className={styles['icon-loading']}>
+                  <i className="iconfont icon-refresh" />
+                </span>{' '}
+                {intl.formatMessage({ id: 'instanceTable.status.starting' })}
+              </div>
+            )}
+          </>
+        );
+      },
     },
     {
-      title: 'Location',
+      title: intl.formatMessage({ id: 'instanceTable.location' }),
       dataIndex: 'Location',
       key: 'Location',
     },
 
     {
-      title: 'Memory Usage Rates',
+      title: intl.formatMessage({ id: 'instanceTable.memoryUsage' }),
       dataIndex: 'MemoryUsage',
       key: 'MemoryUsage',
     },
     {
-      title: 'Release time / Downtime',
+      title: intl.formatMessage({ id: 'instanceTable.downtime' }),
       key: 'downtime',
       dataIndex: 'downtime',
       ellipsis: 'true',
@@ -168,7 +200,12 @@ function InstanceTable({ data, getAllNodes }) {
     },
 
     {
-      title: <div className="operation">Operation</div>,
+      title: (
+        <div className="operation">
+          {intl.formatMessage({ id: 'instanceTable.operation' })}
+        </div>
+      ),
+
       key: 'action',
       width: 'auto',
       fixed: 'right',
