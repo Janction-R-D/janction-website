@@ -40,6 +40,11 @@ export default function OperationModal({ record, getAllNodes }) {
     setSelectLoading(true);
 
     try {
+      message.info({
+        content: 'Attempting to create the remote tunnel...',
+        key: 'loading',
+        duration: 0,
+      });
       // First attempt to fetch the tunnel
       const res = await fetchResourceTunnel({ resource_id: record?.id });
       setOptions(res.routes || []);
@@ -54,11 +59,14 @@ export default function OperationModal({ record, getAllNodes }) {
         console.log('Retrying to fetch tunnel routes...');
         const res = await fetchResourceTunnel({ resource_id: record?.id });
         setOptions(res.routes || []);
+        message.destroy('loading');
+        message.success('Success!');
       } catch (postError) {
         console.log(
           'Failed to create tunnel or fetch routes after creation:',
           postError,
         );
+        message.destroy('loading');
         message.error('Failed to create or retrieve remote tunnel routes');
       }
     } finally {
@@ -171,7 +179,7 @@ export default function OperationModal({ record, getAllNodes }) {
             <li
               className={`${'operation-action'}  
                 ${
-                  record?.status?.toLowerCase() !== 'stopped' || !isRunning
+                  record?.status?.toLowerCase() == 'stopped' || !isRunning
                     ? styles['forbiden']
                     : ''
                 }
