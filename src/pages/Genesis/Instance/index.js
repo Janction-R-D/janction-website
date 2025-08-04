@@ -134,7 +134,8 @@ function Instance() {
                 type="primary"
                 onClick={() => history.push('/genesis/purchase')}
               >
-                To Purchase <ShoppingCartOutlined />
+                {intl.formatMessage({ id: 'orderEmpty.toPurchase' })}{' '}
+                <ShoppingCartOutlined />
               </Button>
               <Segmented
                 vertical

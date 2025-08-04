@@ -644,7 +644,7 @@ export default {
   'instance.specification': 'Instance Specification.',
   'instance.description':
     'Mobile is convenient, and large users can provide flexible computing power.',
-  'purchase.purpose': 'Purpose.',
+  'purchase.purpose': 'Purpose',
   'purchase.quick': 'Quick Purchase.',
   'common.image': 'Image',
   'common.title.processor': 'Processor',
@@ -747,4 +747,86 @@ export default {
   'instance.basic_gpu': 'Basic GPU',
   'instance.high_performance': 'High performance GPU',
   'instance.other': 'Others',
+  'compliance.founder.title': 'Message from the Founder',
+  'compliance.founder.p1':
+    '“Breaking the monopoly of existing platforms through decentralization and causing a price revolution.”',
+  'compliance.founder.p2':
+    "This was the very reason we launched the JANCTION project, going back to 2018 with the whitepaper for Jasmy. It's the spirit behind our entry into Web3.",
+  'compliance.founder.p3':
+    'JANCTION is a Layer 2 blockchain that provides accurate, traceable data input for SMEs building generative AI products while protecting personal privacy. We also offer a distributed GPU cloud, “JANCTION GPU Pool,” to support high-quality, cost-effective generative AI solutions through GPU resource decentralization.',
+  'compliance.founder.p4':
+    'This is the first incubation project of Jasmy Inc., issuer of JASMY—Japan’s largest cryptocurrency (market cap ¥400B+ as of December 2024). We also develop privacy-oriented decentralized databases (Jasmy Personal Data Locker) and the world’s first blockchain PC that achieves both device management and productivity.',
+  'compliance.founder.p5':
+    'We will remain humble, keep an open dialogue with the market, and strive to create high-quality products with our ambitious team.',
+  'compliance.founder.signature': 'February 2025 – Hiroshi Harada, CEO',
+
+  'compliance.legal.title': 'Legal & Security Information',
+  'compliance.legal.vendor': 'Vendor: Jasmy Lab, Inc.',
+  'compliance.legal.rep': 'Representative: Hiroshi Harada, CEO',
+  'compliance.legal.loc': 'Location: Kita-Aoyama 1-2-3, Minato-ku, Tokyo',
+  'compliance.legal.email': 'Email: contact@jasmylab.com',
+  'compliance.legal.web': 'Website: https://www.janction.ai/home',
+  'compliance.legal.price':
+    'Pricing: Please refer to the individual product pages. Taxes are included/excluded as displayed.',
+  'compliance.legal.fees':
+    'Other Fees: Internet access, software download, and communication charges are the user’s responsibility.',
+  'compliance.legal.payment':
+    'Payment Methods: Bank transfer (pre/post-pay), credit card, app payment (via App Store / Play Store using Stripe).',
+  'compliance.legal.delivery':
+    'Delivery: Products shipped, downloadable, or made available within 5 business days after confirmation.',
+  'compliance.legal.returns':
+    'Returns: Generally not accepted for apps/digital goods unless due to defects. Hardware returns accepted for defective items within 14 days.',
+  'compliance.legal.cancel':
+    'Early Cancellation: No prorated refunds for time-bound subscriptions or one-time payments. Month-to-month plans can be cancelled anytime.',
+
+  'compliance.security.title': 'Security, Compliance & Antisocial Forces',
+  'compliance.security.policy':
+    'Information Security Policy: We maintain confidentiality, integrity, and availability of information assets. Our Board-approved policy includes legal compliance, risk assessment, regular audits, and employee training to ensure robust security practices.',
+  'compliance.security.compliance':
+    'Compliance Policy: We follow ten core principles including respect for human rights, fair competition, transparency, proper disclosure, environmental stewardship, and a strong ethical stance toward societal responsibility—both locally and globally.',
+  'compliance.security.antisocial':
+    'Policy on Antisocial Forces: We declare zero tolerance toward criminal or antisocial organizations. We refuse any relationship or transaction with such forces, work closely with law enforcement/legal advisors, and take legal action as needed to protect integrity.',
+  'compliance.legal.business-hours':
+    'Business Hours: Weekdays from 10:00 AM to 6:00 PM (excluding holidays).',
+  'compliance.legal.inquiries':
+    'Inquiries: Please use the contact form on our website or email us. Responses may take 2–3 business days.',
+  'compliance.legal.jurisdiction':
+    'Governing Law: These terms are governed by Japanese law. Disputes shall be resolved under Tokyo District Court jurisdiction.',
+
+  'compliance.security.data-handling':
+    'Data Handling: All user data is stored securely with encryption at rest and in transit. We do not sell personal data to third parties.',
+  'compliance.security.third-party':
+    'Third-party Services: We ensure any integrated third-party tools follow our security guidelines and undergo risk assessment.',
+  'compliance.security.access-control':
+    'Access Control: Internal access to sensitive systems is limited to authorized personnel under strict authentication policies.',
+
+  'compliance.security.revision-policy':
+    'Revision Policy: These policies are periodically reviewed and updated to reflect regulatory, technological, or operational changes.',
+
+  'compliance.security.commitment':
+    'Our Commitment: We are dedicated to building trustworthy services by combining legal compliance, robust security, and transparent governance.',
+  'orderEmpty.noOrders': 'No Orders',
+  'orderEmpty.toPurchase': 'To Purchase',
+  'payment.loadingTip': 'Confirming your payment...',
+  'payment.thankYou': 'Thank you for your purchase!',
+  'payment.receivedDesc':
+    'Your payment has been received and is being processed.',
+  'payment.goToInstances': 'Go to Instances',
+  'payment.confirmation': 'Payment Confirmation',
+  'payment.unableConfirm': 'Unable to confirm your payment at this time.',
+  'payment.returnToPurchase': 'Return to Purchase',
+  'payment.checkOrder': 'Check Order',
+  'stripe.payment.complete': 'Complete Your Payment',
+  'stripe.payment.cardholderName.label': 'Cardholder Name',
+  'stripe.payment.cardholderName.required': 'Please enter the cardholder name.',
+  'stripe.payment.email.required': 'Please enter your email.',
+  'stripe.payment.email.invalid': 'Please enter a valid email address.',
+  'stripe.payment.cardNumber.label': 'Card Number',
+  'stripe.payment.expiryDate.label': 'Expiry Date',
+  'stripe.payment.saveCard': 'Save this card for future payments',
+  'stripe.payment.cancel': 'Cancel',
+  'stripe.payment.payNow': 'Pay now',
+  'stripe.payment.error.fields': 'Please complete all card fields.',
+  'stripe.payment.error.failed': 'Payment failed. Please try again.',
+  'stripe.payment.error.unexpected': 'Unexpected error. Please try again.',
 };

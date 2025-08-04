@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Button, Modal, message } from 'antd';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
-import { fetchCreateOrders } from '@/services/genesis';
+import { fetchCreateOrders, fetchMarketOrders } from '@/services/genesis';
 import { DURATION_OPTIONS } from '@/constant';
 import CustomCheckoutForm from '@/components/Stripe/CustomCheckoutForm';
 import styles from './index.less';
@@ -37,6 +37,21 @@ export default function StripePayment({
     };
     setLoading(true);
     try {
+      const payload_order = {
+        page: 1,
+        page_size: 100,
+      };
+      const { data: getOrders } =
+        (await fetchMarketOrders(payload_order)) || {};
+      console.log(getOrders);
+      const isOrderCreated = getOrders.find((item) => {
+        return (
+          item.order?.node_id === formValues?.node?.id &&
+          item.order?.status?.toLowerCase() === 'pending'
+        );
+      });
+      console.log(isOrderCreated);
+
       const { stripe: stripeData, order } = await fetchCreateOrders(payload);
       if (!order?.id || !stripeData?.client_secret) {
         message.error('Failed to initialize order');

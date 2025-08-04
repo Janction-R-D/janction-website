@@ -3,52 +3,54 @@ import styles from './purpose.less';
 
 const Purpose = ({ value = [], onChange }) => {
   const intl = useIntl();
-  const toggle = (item) => {
-    const newValue = value.includes(item)
-      ? value.filter((v) => v !== item)
-      : [...value, item];
+  const toggle = (itemValue) => {
+    const newValue = value.includes(itemValue)
+      ? value.filter((v) => v !== itemValue)
+      : [...value, itemValue];
     onChange?.(newValue);
   };
+
   const OPTIONS = [
     {
       label: intl.formatMessage({ id: 'options.film' }),
-      value: 'Film production',
+      value: intl.formatMessage({ id: 'options.film' }),
     },
     {
       label: intl.formatMessage({ id: 'options.industrial' }),
-      value: 'Industrial design',
+      value: intl.formatMessage({ id: 'options.industrial' }),
     },
     {
       label: intl.formatMessage({ id: 'options.llm' }),
-      value: 'Enterprise LLM',
+      value: intl.formatMessage({ id: 'options.llm' }),
     },
     {
       label: intl.formatMessage({ id: 'options.animation' }),
-      value: 'Animation Studios',
+      value: intl.formatMessage({ id: 'options.animation' }),
     },
     {
       label: intl.formatMessage({ id: 'options.game' }),
-      value: 'Game Developer',
+      value: intl.formatMessage({ id: 'options.game' }),
     },
     { label: intl.formatMessage({ id: 'options.ad' }), value: 'Advertising' },
     {
       label: intl.formatMessage({ id: 'options.imageGen' }),
-      value: 'AI Image Generation',
+      value: intl.formatMessage({ id: 'options.imageGen' }),
     },
     {
       label: intl.formatMessage({ id: 'options.artist' }),
-      value: 'Aspiring 3D Artist',
+      value: intl.formatMessage({ id: 'options.artist' }),
     },
   ];
+
   return (
     <div className={styles['purpose-selector']}>
       {OPTIONS.map((item) => (
         <div
-          key={item}
+          key={item.value}
           className={`${styles.item} ${
-            value.includes(item) ? styles.selected : ''
+            value.includes(item.value) ? styles.selected : ''
           }`}
-          onClick={() => toggle(item)}
+          onClick={() => toggle(item.value)}
         >
           {item.label}
         </div>

@@ -780,4 +780,86 @@ export default {
   'instance.basic_gpu': '基本GPU',
   'instance.high_performance': '高性能GPU',
   'instance.other': 'その他',
+  'compliance.founder.title': '創業者からのメッセージ',
+  'compliance.founder.p1':
+    '「既存プラットフォームの独占を分散化によって打破し、価格革命を起こす。」',
+  'compliance.founder.p2':
+    'これこそが、2018年にJasmyのホワイトペーパーとともにJANCTIONプロジェクトを立ち上げた理由であり、Web3に参入する原動力となっています。',
+  'compliance.founder.p3':
+    'JANCTIONは、個人のプライバシーを保護しながら、生成AI製品を構築する中小企業向けに正確で追跡可能なデータ入力を提供するLayer 2ブロックチェーンです。また、GPUリソースの分散化により、高品質でコスト効率の高い生成AIを支援する分散型GPUクラウド「JANCTION GPU Pool」も提供しています。',
+  'compliance.founder.p4':
+    'これは、日本最大の暗号通貨JASMY（2024年12月時点で時価総額4000億円以上）の発行者であるJasmy株式会社の最初のインキュベーションプロジェクトです。当社は、プライバシー重視の分散型データベース（Jasmy Personal Data Locker）や、デバイス管理と生産性を両立させた世界初のブロックチェーンPCも開発しています。',
+  'compliance.founder.p5':
+    '私たちは常に謙虚であり、市場との対話を大切にし、野心的なチームと共に高品質な製品を生み出していきます。',
+  'compliance.founder.signature': '2025年2月 – CEO 原田浩司',
+
+  'compliance.legal.title': '法的およびセキュリティ情報',
+  'compliance.legal.vendor': '販売業者：Jasmy Lab株式会社',
+  'compliance.legal.rep': '代表者：CEO 原田浩司',
+  'compliance.legal.loc': '所在地：東京都港区北青山1-2-3',
+  'compliance.legal.email': 'メールアドレス：contact@jasmylab.com',
+  'compliance.legal.web': 'ウェブサイト：https://www.janction.ai/home',
+  'compliance.legal.price':
+    '価格：各製品ページをご参照ください。税金の表示有無はページに準拠します。',
+  'compliance.legal.fees':
+    'その他の料金：インターネット接続、ソフトウェアのダウンロード、通信料はユーザーの負担となります。',
+  'compliance.legal.payment':
+    '支払い方法：銀行振込（前払い/後払い）、クレジットカード、アプリ内決済（Stripeを通じてApp Store / Play Store経由）。',
+  'compliance.legal.delivery':
+    '納品：確認後、5営業日以内に発送、ダウンロード、または提供されます。',
+  'compliance.legal.returns':
+    '返品：アプリ/デジタル商品は原則不可。不良品のハードウェアは14日以内で返品可能です。',
+  'compliance.legal.cancel':
+    '中途解約：期間契約や一括支払いの返金は行いません。月額契約はいつでも解約可能です。',
+
+  'compliance.security.title':
+    'セキュリティ・コンプライアンス・反社会的勢力への対応',
+  'compliance.security.policy':
+    '情報セキュリティポリシー：情報資産の機密性、完全性、可用性を維持します。法令遵守、リスク評価、定期監査、従業員教育を含む取締役会承認の方針により、安全性を確保しています。',
+  'compliance.security.compliance':
+    'コンプライアンス方針：人権尊重、公正な競争、透明性、適切な情報開示、環境保護、社会的責任に対する倫理的姿勢など、10の基本原則を遵守します。',
+  'compliance.security.antisocial':
+    '反社会的勢力への対応：反社会的勢力とは一切の関係を持たず、関与や取引を拒否します。警察・法律顧問と連携し、必要に応じて法的措置を講じて誠実性を守ります。',
+  'compliance.legal.business-hours': '営業時間：平日10:00～18:00（祝日を除く）',
+  'compliance.legal.inquiries':
+    'お問い合わせ：当社ウェブサイトのお問い合わせフォームまたはメールをご利用ください。ご返信には2〜3営業日かかる場合があります。',
+  'compliance.legal.jurisdiction':
+    '準拠法：本規約は日本法に準拠します。紛争は東京地方裁判所を専属的合意管轄裁判所とします。',
+
+  'compliance.security.data-handling':
+    'データの取り扱い：すべてのユーザーデータは、保存時および転送時に暗号化され、安全に保管されます。個人情報を第三者に販売することはありません。',
+  'compliance.security.third-party':
+    '第三者サービス：統合された第三者ツールは、当社のセキュリティガイドラインに準拠し、リスク評価を受けることを確認しています。',
+  'compliance.security.access-control':
+    'アクセス制御：機密性の高いシステムへの社内アクセスは、認証された担当者に限定され、厳格な認証ポリシーの下で管理されています。',
+
+  'compliance.security.revision-policy':
+    '改訂方針：本方針は、法規制、技術、運用の変更に対応して定期的に見直され、更新されます。',
+  'compliance.security.commitment':
+    '当社の取り組み：法令遵守、堅牢なセキュリティ、透明性のあるガバナンスを通じて、信頼されるサービスの提供に尽力しています。',
+  'orderEmpty.noOrders': '注文はありません',
+  'orderEmpty.toPurchase': '購入ページへ',
+  'payment.loadingTip': 'お支払いを確認中です...',
+  'payment.thankYou': 'ご購入ありがとうございます！',
+  'payment.receivedDesc': 'お支払いは受け付けられ、処理中です。',
+  'payment.goToInstances': 'インスタンスへ',
+  'payment.confirmation': 'お支払い確認',
+  'payment.unableConfirm': '現在、お支払いを確認できません。',
+  'payment.returnToPurchase': '購入ページへ戻る',
+  'payment.checkOrder': '注文を確認',
+  'stripe.payment.complete': 'お支払いを完了してください',
+  'stripe.payment.cardholderName.label': 'カード名義人',
+  'stripe.payment.cardholderName.required': 'カード名義人を入力してください。',
+  'stripe.payment.email.required': 'メールアドレスを入力してください。',
+  'stripe.payment.email.invalid': '有効なメールアドレスを入力してください。',
+  'stripe.payment.cardNumber.label': 'カード番号',
+  'stripe.payment.expiryDate.label': '有効期限',
+  'stripe.payment.saveCard': '今後の支払いのためにこのカードを保存する',
+  'stripe.payment.cancel': 'キャンセル',
+  'stripe.payment.payNow': '今すぐ支払う',
+  'stripe.payment.error.fields': 'すべてのカード情報を入力してください。',
+  'stripe.payment.error.failed':
+    '支払いに失敗しました。もう一度お試しください。',
+  'stripe.payment.error.unexpected':
+    '予期しないエラーが発生しました。もう一度お試しください。',
 };
