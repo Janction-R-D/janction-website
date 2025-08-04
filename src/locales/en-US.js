@@ -829,4 +829,10 @@ export default {
   'stripe.payment.error.fields': 'Please complete all card fields.',
   'stripe.payment.error.failed': 'Payment failed. Please try again.',
   'stripe.payment.error.unexpected': 'Unexpected error. Please try again.',
+  'stripe.payment.email': 'Email',
+  'janction.ai.ask': 'You can ask me:',
+  text1: 'How to quickly deploy nodes',
+  text2: 'I want to check my nodes info',
+  text3: 'How can I purchase an instance',
+  'chat.placeholder': 'Send a message to FinChat AI',
 };

@@ -43,23 +43,28 @@ export default function StripePayment({
       };
       const { data: getOrders } =
         (await fetchMarketOrders(payload_order)) || {};
-      console.log(getOrders);
+
       const isOrderCreated = getOrders.find((item) => {
         return (
           item.order?.node_id === formValues?.node?.id &&
           item.order?.status?.toLowerCase() === 'pending'
         );
       });
-      console.log(isOrderCreated);
+      if (!isOrderCreated) {
+        const { stripe: stripeData, order } = await fetchCreateOrders(payload);
+        if (!order?.id || !stripeData?.client_secret) {
+          message.error('Failed to initialize order');
+          return;
+        }
 
-      const { stripe: stripeData, order } = await fetchCreateOrders(payload);
-      if (!order?.id || !stripeData?.client_secret) {
-        message.error('Failed to initialize order');
+        setOrderId(order.id);
+        setClientSecret(stripeData?.client_secret);
+        setVisible(true);
         return;
       }
-
-      setOrderId(order.id);
-      setClientSecret(stripeData?.client_secret);
+      console.log(isOrderCreated?.order.stripe_client_secret);
+      setOrderId(isOrderCreated?.order?.id);
+      setClientSecret(isOrderCreated?.order?.stripe_client_secret);
       setVisible(true);
     } catch (err) {
       console.error(err);

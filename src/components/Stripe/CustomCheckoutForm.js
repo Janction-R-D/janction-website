@@ -8,11 +8,13 @@ import {
   useElements,
 } from '@stripe/react-stripe-js';
 import styles from './index.less';
+import { useIntl } from 'umi';
 
 const CustomCheckoutForm = ({ clientSecret, onCancel, orderId }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [form] = Form.useForm();
+  const intl = useIntl();
   const [submitting, setSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
   const [saveCard, setSaveCard] = useState(false);
@@ -53,11 +55,8 @@ const CustomCheckoutForm = ({ clientSecret, onCancel, orderId }) => {
         confirmOptions.setup_future_usage = 'off_session';
       }
 
-      const { error } = await stripe.confirmCardPayment(
-        clientSecret,
-        confirmOptions,
-      );
-      if (error)
+      const res = await stripe.confirmCardPayment(clientSecret, confirmOptions);
+      if (res?.error)
         setErrorMsg(error.message || 'Payment failed. Please try again.');
     } catch (err) {
       console.error('[Stripe Error]', err);
@@ -119,7 +118,7 @@ const CustomCheckoutForm = ({ clientSecret, onCancel, orderId }) => {
           </Col>
           <Col span={12}>
             <Form.Item
-              label="Email"
+              label={intl.formatMessage({ id: 'stripe.payment.email' })}
               name="email"
               rules={[
                 {
@@ -147,7 +146,7 @@ const CustomCheckoutForm = ({ clientSecret, onCancel, orderId }) => {
 
         <Form.Item
           label={intl.formatMessage({
-            id: 'stripe.payment.cardholcardNumber.label',
+            id: 'stripe.payment.cardNumber.label',
           })}
           required
         >
@@ -165,7 +164,7 @@ const CustomCheckoutForm = ({ clientSecret, onCancel, orderId }) => {
           <Col span={12}>
             <Form.Item
               label={intl.formatMessage({
-                id: 'stripe.payment.expiryDate.label.label',
+                id: 'stripe.payment.expiryDate.label',
               })}
               required
             >

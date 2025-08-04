@@ -862,4 +862,10 @@ export default {
     '支払いに失敗しました。もう一度お試しください。',
   'stripe.payment.error.unexpected':
     '予期しないエラーが発生しました。もう一度お試しください。',
+  'stripe.payment.email': 'Eメール',
+  'janction.ai.ask': 'なんでも聞いてくださいね:',
+  text1: 'ノードを素早くデプロイする方法',
+  text2: '自分のノード情報を確認したい',
+  text3: 'インスタンスを購入するにはどうすればいいですか？',
+  'chat.placeholder': 'FinChat AI にメッセージを送信',
 };
