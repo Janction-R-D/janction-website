@@ -1,14 +1,21 @@
 import JanctionRadio from '@/components/JanctionRadio';
-import { INSTANCE_TYPES } from '@/constant';
+import { getInstanceTypes } from '@/constant';
+import { useIntl } from 'umi';
 import { useState } from 'react';
+
 export default function Specification({ value, onChange }) {
-  const [specification, setSpecification] = useState(INSTANCE_TYPES[0].value);
+  const { formatMessage } = useIntl();
+  const options = getInstanceTypes(formatMessage);
+  const [specification, setSpecification] = useState(value || options[0].value);
 
   return (
     <JanctionRadio
       value={specification}
-      onChange={(val) => onChange?.(val)}
-      options={INSTANCE_TYPES}
+      onChange={(val) => {
+        setSpecification(val);
+        onChange?.(val);
+      }}
+      options={options}
     />
   );
 }

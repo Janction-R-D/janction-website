@@ -7,6 +7,7 @@ import styles from './index.less';
 import './cards.less';
 import { EffectCoverflow, Pagination } from 'swiper/modules';
 import { fetchNft } from '@/services/genesis';
+import { useIntl } from 'umi';
 
 export default function Cards({ nft }) {
   const [selectedNtf, setSelectedNtf] = useState(null);
@@ -71,7 +72,7 @@ export default function Cards({ nft }) {
 
 function MyNtf({ handleOk, handleCancel, data }) {
   const [nft, setNft] = useState({});
-
+  const intl = useIntl();
   useEffect(() => {
     fetchNft(data.token_id)
       .then((res) => setNft(res))
@@ -94,27 +95,32 @@ function MyNtf({ handleOk, handleCancel, data }) {
         />
         <section>
           <p className={styles['details-text']}>
-            <i className="iconfont icon-list"></i> Details
+            <i className="iconfont icon-list"></i>{' '}
+            {intl.formatMessage({ id: 'details.title' })}
           </p>
           <ul>
             <li>
-              <span>Metadata :</span>
+              <span>{intl.formatMessage({ id: 'details.metadata' })} :</span>
               <p>{nft.metadata || '~'}</p>
             </li>
             <li>
-              <span>Name :</span>
+              <span>{intl.formatMessage({ id: 'details.name' })} :</span>
               <p>{nft.name || '~'}</p>
             </li>
             <li>
-              <span>Contratct Addres :</span>
+              <span>
+                {intl.formatMessage({ id: 'details.contractAddress' })} :
+              </span>
               <p>{data.contract || '~'}</p>
             </li>
             <li>
-              <span>Description :</span>
+              <span>{intl.formatMessage({ id: 'details.description' })} :</span>
               <p>{nft.description || '~'}</p>
             </li>
             <li>
-              <span>Transaction Hash :</span>
+              <span>
+                {intl.formatMessage({ id: 'details.transactionHash' })} :
+              </span>
               <p>{data.transaction_hash || '~'}</p>
             </li>
           </ul>

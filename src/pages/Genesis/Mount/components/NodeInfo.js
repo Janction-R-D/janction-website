@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Input } from 'antd';
 import dayjs from 'dayjs';
+import { useIntl } from 'umi';
+
 export function NodeInfo({ nodeInfo, styles, tags, setTags }) {
   const [tagInput, setTagInput] = useState(null);
   const [showInput, setShowInput] = useState(null);
   const [error, setError] = useState(false);
+  const intl = useIntl();
 
   const AddTag = (name) => {
     if (!name || tags.length === 6) return;
@@ -19,12 +22,12 @@ export function NodeInfo({ nodeInfo, styles, tags, setTags }) {
     }
     const newTags = [name, ...tags];
     setTags(newTags);
-    // setShowInput(false);
     setTagInput('');
     if (newTags.length >= 6) {
       setShowInput(false);
     }
   };
+
   const removeTag = (name) => {
     const newTags = tags.filter((tag) => tag !== name);
     setTags(newTags);
@@ -35,49 +38,44 @@ export function NodeInfo({ nodeInfo, styles, tags, setTags }) {
     setShowInput(!showInput);
   };
 
-  const renderLabelInfo = (label, value) => {
-    return (
-      <li>
-        <p>{label}:</p>
-        <span>{value || '~'}</span>
-      </li>
-    );
-  };
+  const renderLabelInfo = (labelKey, value) => (
+    <li>
+      <p>{intl.formatMessage({ id: labelKey })}:</p>
+      <span>{value || '~'}</span>
+    </li>
+  );
 
   return (
     <>
       <ul>
         <ol>
-          {renderLabelInfo('identification number ', nodeInfo?.id)}
-          {renderLabelInfo('memory ', nodeInfo?.attr?.memory)}
+          {renderLabelInfo('node.id', nodeInfo?.id)}
+          {renderLabelInfo('node.memory', nodeInfo?.attr?.memory)}
           {renderLabelInfo(
-            'Gpu Chip',
+            'node.gpuChip',
             nodeInfo?.attr?.gpu_chip
               ? `${nodeInfo?.attr?.gpu_chip?.[0]} * ${nodeInfo?.attr?.gpu_chip?.length}`
               : '~',
           )}
         </ol>
         <ol>
-          {renderLabelInfo('status', nodeInfo?.status_str)}
-          {renderLabelInfo('arch', nodeInfo?.attr?.architechture_str)}
-          {renderLabelInfo('cpu', nodeInfo?.attr?.cpu)}
+          {renderLabelInfo('node.status', nodeInfo?.status_str)}
+          {renderLabelInfo('node.arch', nodeInfo?.attr?.architechture_str)}
+          {renderLabelInfo('node.cpu', nodeInfo?.attr?.cpu)}
           {renderLabelInfo(
-            'Cpu chip ',
+            'node.cpuChip',
             nodeInfo?.attr?.cpu_chip
               ? `${nodeInfo?.attr?.cpu_chip?.[0]} * ${nodeInfo?.attr?.cpu_chip?.length}`
               : '~',
           )}
-          {renderLabelInfo('location', nodeInfo?.attr?.location)}
+          {renderLabelInfo('node.location', nodeInfo?.attr?.location)}
         </ol>
         <ol>
-          {renderLabelInfo('networkDown', nodeInfo?.attr?.network_down)}
-          {renderLabelInfo('networkUp', nodeInfo?.attr?.network_up)}
+          {renderLabelInfo('node.networkDown', nodeInfo?.attr?.network_down)}
+          {renderLabelInfo('node.networkUp', nodeInfo?.attr?.network_up)}
+          {renderLabelInfo('node.os', nodeInfo?.attr?.operating_system_str)}
           {renderLabelInfo(
-            'operatingSystem',
-            nodeInfo?.attr?.operating_system_str,
-          )}
-          {renderLabelInfo(
-            'lastConfig',
+            'node.lastConfig',
             nodeInfo?.last_start_at
               ? dayjs(nodeInfo?.last_start_at).format('YYYY-MM-DD')
               : '--',
@@ -85,13 +83,13 @@ export function NodeInfo({ nodeInfo, styles, tags, setTags }) {
         </ol>
       </ul>
       <section className={styles['card-security']}>
-        <span>Custom description</span>
+        <span>{intl.formatMessage({ id: 'node.customDesc' })}</span>
         <div className={styles['card-security-items']}>
           <div className={styles['add-tag']} onClick={handleShow}>
             <span className={styles['icon-blue']}>
               <i className="iconfont icon-add"></i>
             </span>
-            Add tag ({tags.length}/6)
+            {intl.formatMessage({ id: 'node.addTag' }, { count: tags.length })}
           </div>
           <ul className={styles['card-security-keys']}>
             {showInput && (
@@ -105,7 +103,9 @@ export function NodeInfo({ nodeInfo, styles, tags, setTags }) {
                       <i className="iconfont icon-add"></i>
                     </span>
                   }
-                  placeholder={`Enter a short keyword`}
+                  placeholder={intl.formatMessage({
+                    id: 'node.inputPlaceholder',
+                  })}
                   className={`${styles['card-security-input']} ${
                     error ? styles['search-input-error'] : ''
                   }`}
@@ -116,7 +116,9 @@ export function NodeInfo({ nodeInfo, styles, tags, setTags }) {
                   }}
                 />
                 {error && (
-                  <p className={styles['red']}>Please do not add duplicates.</p>
+                  <p className={styles['red']}>
+                    {intl.formatMessage({ id: 'node.duplicateError' })}
+                  </p>
                 )}
               </div>
             )}

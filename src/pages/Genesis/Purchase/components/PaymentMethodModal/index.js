@@ -1,7 +1,6 @@
 import React from 'react';
 import { Modal } from 'antd';
-import styles from './index.less'; // Asegúrate que ahí tienes la clase customModal
-
+import styles from './index.less';
 const PaymentMethodModal = ({
   payNowModalVisible,
   children,

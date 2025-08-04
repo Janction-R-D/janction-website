@@ -15,7 +15,7 @@ import {
   TimePicker,
 } from 'antd';
 import { useEffect, useState } from 'react';
-import { history, Redirect, useModel } from 'umi';
+import { history, Redirect, useIntl, useModel } from 'umi';
 import Loading from './components/Loading';
 import { NodeInfo } from './components/NodeInfo';
 import styles from './index.less';
@@ -70,7 +70,7 @@ function Mount() {
   const [agreeClause, setAgreeClause] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [supportStripe, setSupportStripe] = useState(false);
-
+  const intl = useIntl();
   const onMaxDurationValueChange = (value, option) => {
     setMaxDuration(option);
   };
@@ -171,38 +171,45 @@ function Mount() {
     const stripeAmountNumber = Number(stripeAmount);
 
     if (!price || isNaN(priceNumber)) {
-      message.warning('Please enter price!');
+      message.warning(intl.formatMessage({ id: 'warn.enterPrice' }));
       return;
     }
 
     if (priceNumber <= 0) {
-      message.warning('Please enter a valid price!');
+      message.warning(intl.formatMessage({ id: 'warn.validPrice' }));
+      return;
+    }
+    if (maxLease <= 0) {
+      message.warning(intl.formatMessage({ id: 'warn.validDuration' }));
+      return;
+    }
+    if (minLease <= 0) {
+      message.warning(intl.formatMessage({ id: 'warn.validDuration' }));
       return;
     }
 
     if (supportStripe) {
       if (!stripeAmount || isNaN(stripeAmountNumber)) {
-        message.warning('Please enter Fiat price!');
+        message.warning(intl.formatMessage({ id: 'warn.enterFiatPrice' }));
         return;
       }
       if (stripeAmountNumber <= 0) {
-        message.warning('Please enter a valid Fiat price!');
+        message.warning(intl.formatMessage({ id: 'warn.enterFiatPrice' }));
         return;
       }
     }
     if (errorRange) {
-      message.warning('Please fill in a time greater than the minimum period.');
+      message.warning(intl.formatMessage({ id: 'warn.rangeError' }));
       return;
     }
     if (!agreeClause) {
-      // message.warning('Please read the terms first and agree!');
       notification.info({
-        message: `Notification Info`,
-        description: 'Please read the terms first and agree!',
+        message: intl.formatMessage({ id: 'warn.notificationTitle' }),
+        description: intl.formatMessage({ id: 'warn.agreeClause' }),
         placement: 'bottomLeft',
         duration: 5,
       });
-      notification.info('bottomLeft', 'Please read the terms first and agree!');
+
       return;
     }
     if (!node?.id && !userInfo?.id) return;
@@ -224,7 +231,7 @@ function Mount() {
     try {
       await fetchNodesConfigUpdate(payload);
       setConfirmLoading(false);
-      message.success('list success!');
+      message.success(intl.formatMessage({ id: 'message.listSuccess' }));
       history.push('/genesis/instance');
     } catch (error) {
       setConfirmLoading(false);
@@ -254,12 +261,14 @@ function Mount() {
     <form className={styles['main']}>
       <section className={styles['header-wrapper']}>
         <header>
-          <h1 className={styles['title']}>Device Rental Configuration</h1>{' '}
+          <h1 className={styles['title']}>
+            {intl.formatMessage({ id: 'config.deviceTitle' })}
+          </h1>{' '}
         </header>
       </section>
       <Card className={styles['card']}>
         <section className={styles['card-header']}>
-          <h3> Device information Upload</h3>
+          <h3>{intl.formatMessage({ id: 'config.uploadInfo' })}</h3>
         </section>
         <main className={styles['main-card']}>
           <section className={styles['input-box-container']}>
@@ -267,7 +276,9 @@ function Mount() {
               <div className={`${styles['device-box']}`}>
                 <Input
                   type="text"
-                  placeholder="Please enter the device identification number"
+                  placeholder={intl.formatMessage({
+                    id: 'config.deviceIdPlaceholder',
+                  })}
                   onChange={(e) => setSearchId(e.target.value)}
                   defaultValue={searchId}
                   className={styles['search-input-node']}
@@ -279,19 +290,14 @@ function Mount() {
                   onClick={getConfigInfo}
                   disabled={node?.id}
                 >
-                  Auto-Recognition
+                  {intl.formatMessage({ id: 'config.autoRecognition' })}
                 </Button>
               </div>
               <JanctionTip title="Instances with less than 7 days until expiration will be displayed here" />
             </div>
-            {/* {error && (
-              <p className={styles['red']}>
-                Please check if your number is correct.
-              </p>
-            )} */}
           </section>
           <main className={styles['card-content']}>
-            <h3>Configurable Parameters</h3>
+            <h3>{intl.formatMessage({ id: 'config.parametersTitle' })}</h3>
             {!loading && nodeInfo ? (
               <NodeInfo
                 styles={styles}
@@ -309,35 +315,39 @@ function Mount() {
       <section>
         <Card className={styles['card']}>
           <section className={styles['card-header-graph']}>
-            <h3>Prices</h3>
+            <h3>{intl.formatMessage({ id: 'pricing.title' })}</h3>
           </section>
           <section className={styles['card-prices']}>
             <div className={styles['duration-item']}>
-              <p>Billing price</p>
+              <p>{intl.formatMessage({ id: 'pricing.billing' })}</p>
 
               <Input
-                suffix={<p>USDT / Day</p>}
+                suffix={
+                  <p>USDT / {intl.formatMessage({ id: 'pricing.day' })}</p>
+                }
                 type="number"
-                placeholder="Enter a price"
+                placeholder={intl.formatMessage({ id: 'pricing.enterPrice' })}
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
                 name="price"
                 disabled={loading}
                 className={styles['price-input']}
+                onWheel={(e) => e.target.blur()}
               />
             </div>
             {supportStripe && (
               <div className={styles['duration-item']}>
-                <p>Fiat price</p>
+                <p>{intl.formatMessage({ id: 'pricing.fiat' })}</p>
                 <Input
-                  suffix={<p>Day</p>}
+                  suffix={<p>{intl.formatMessage({ id: 'pricing.day' })}</p>}
                   type="number"
-                  placeholder="Enter a price"
+                  placeholder={intl.formatMessage({ id: 'pricing.enterPrice' })}
                   value={stripeAmount}
                   onChange={(e) => setStripeAmount(e.target.value)}
                   name="stripe_price"
                   disabled={loading}
                   className={styles['price-input']}
+                  onWheel={(e) => e.target.blur()}
                 />
 
                 <Select
@@ -357,11 +367,11 @@ function Mount() {
 
       <Card className={styles['card']}>
         <section className={styles['card-header']}>
-          <h3>Rental</h3>
+          <h3>{intl.formatMessage({ id: 'rental.title' })}</h3>
         </section>
         <div className={styles['duration']}>
           <div className={styles['duration-item']}>
-            <p>Minimum lease duration</p>
+            <p>{intl.formatMessage({ id: 'rental.minDuration' })}</p>
             <div className={styles['duration-group']}>
               <div className={styles['input-duration']}>
                 <Input
@@ -371,6 +381,7 @@ function Mount() {
                   onChange={onMinLeaseChange}
                   className={styles['lease-duration-input']}
                   type="number"
+                  onWheel={(e) => e.target.blur()}
                 />
               </div>
               <div className={styles['select-box']}>
@@ -387,7 +398,7 @@ function Mount() {
             </div>
           </div>
           <div className={styles['duration-item']}>
-            <p>Maximum lease duration</p>
+            <p>{intl.formatMessage({ id: 'rental.maxDuration' })}</p>
             <div className={styles['duration-box']}>
               <div
                 className={`${styles['duration-group']} ${
@@ -402,6 +413,7 @@ function Mount() {
                     onChange={onMaxLeaseChange}
                     className={styles['lease-duration-input']}
                     type="number"
+                    onWheel={(e) => e.target.blur()}
                   />
                 </div>
                 <div className={styles['select-box']}>
@@ -417,18 +429,22 @@ function Mount() {
               </div>
               {errorRange && (
                 <p className={styles['red']}>
-                  Please fill in a time greater than the minimum period.
+                  {intl.formatMessage({ id: 'rental.errorMinExceeded' })}
                 </p>
               )}
             </div>
           </div>
           <div className={styles['duration-item']}>
-            <p>Available period</p>
+            <p>{intl.formatMessage({ id: 'rental.availablePeriod' })}</p>
             <div className={styles['duration-group']}>
               <div className={styles['input-duration']}>
                 <TimePicker.RangePicker
                   className={styles['input-time']}
                   onChange={calendarChange}
+                  placeholder={[
+                    intl.formatMessage({ id: 'timePicker.start' }),
+                    intl.formatMessage({ id: 'timePicker.end' }),
+                  ]}
                 />
               </div>
             </div>
@@ -437,20 +453,15 @@ function Mount() {
       </Card>
       <section className={styles['check-side']}>
         <Checkbox checked={agreeClause} onChange={onAgreeClauseChange}>
-          I have read and agreed to the{' '}
-          <span
-          // className={styles['blue']}
-          >
-            relevant service terms
-          </span>
-          .
+          {intl.formatMessage({ id: 'rental.agree' })}{' '}
+          <span>{intl.formatMessage({ id: 'rental.terms' })}</span>
         </Checkbox>
         <Button
           loading={confirmLoading}
           className={styles['connect-btn']}
           onClick={(e) => handleSubmit(e)}
         >
-          Confirm
+          {intl.formatMessage({ id: 'rental.confirm' })}
         </Button>
       </section>
     </form>

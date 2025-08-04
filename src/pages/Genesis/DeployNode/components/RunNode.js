@@ -324,14 +324,8 @@ To stop edgecore service:
           </p>
 
           <h3>{intl.formatMessage({ id: 'runNode.check.wsl.installed' })}</h3>
-          <p>
-            On Windows 10/11, WSL usually comes preinstalled. For earlier
-            Windows versions that don't support WSL, please upgrade your system.
-          </p>
-          <p>
-            To check whether WSL is already installed (if version info is
-            displayed, it's installed):
-          </p>
+          <p>{intl.formatMessage({ id: 'runNode.check.wsl.text1' })}</p>
+          <p>{intl.formatMessage({ id: 'runNode.check.wsl.text2' })}</p>
           <Text className={styles['token_id']}>
             <p className="ell">$ wsl.exe --version</p>
             <a

@@ -192,6 +192,25 @@ export const INSTANCE_TYPES = [
     value: 'other',
   },
 ];
+// components/InstanceTypes.js
+export const getInstanceTypes = (formatMessage) => [
+  {
+    label: formatMessage({ id: 'instance.basic_cpu' }),
+    value: 'basic_cpu',
+  },
+  {
+    label: formatMessage({ id: 'instance.basic_gpu' }),
+    value: 'basic_gpu',
+  },
+  {
+    label: formatMessage({ id: 'instance.high_performance' }),
+    value: 'high_performance',
+  },
+  {
+    label: formatMessage({ id: 'instance.other' }),
+    value: 'other',
+  },
+];
 
 export const FRAMEWORK = [
   {
