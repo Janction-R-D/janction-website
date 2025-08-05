@@ -18,6 +18,7 @@ import {
 } from '@/services/genesis';
 import { formatISODate } from '@/utils/datetime';
 import { convertMBtoGB, isExpired } from '@/utils/lang';
+import { useIntl } from 'umi';
 
 const { TabPane } = Tabs;
 const formatDate = (dateString) => {
@@ -38,7 +39,7 @@ const InstanceMonitor = ({ instance }) => {
   useEffect(() => {
     getStatistic();
   }, []);
-
+  const intl = useIntl();
   async function getStatistic() {
     const payload = {
       resource_id: instance?.id,
@@ -214,7 +215,10 @@ const InstanceMonitor = ({ instance }) => {
       <div className={styles.card_container}>
         <section className={styles.monitor}>
           <div className={styles.header}>
-            <span className={styles.title}>Instance Monitoring</span>
+            <span className={styles.title}>
+              {' '}
+              {intl.formatMessage({ id: 'instance.monitoring' })}
+            </span>
           </div>
           <Tabs
             activeKey={activeTab}
@@ -222,10 +226,19 @@ const InstanceMonitor = ({ instance }) => {
             className={styles.tabs}
             tabBarGutter={24}
           >
-            <TabPane tab="CPU" key="cpu" />
-            <TabPane tab="Memory" key="memory" />
-            {/* <TabPane tab="GPU" key="gpu" /> */}
-            <TabPane tab="Network" key="network" />
+            <TabPane
+              tab={intl.formatMessage({ id: 'instance.tab.cpu' })}
+              key="cpu"
+            />
+            <TabPane
+              tab={intl.formatMessage({ id: 'instance.tab.memory' })}
+              key="memory"
+            />
+            {/* <TabPane  tab={intl.formatMessage({ id: 'instance.tab.gpu' })} key="gpu" /> */}
+            <TabPane
+              tab={intl.formatMessage({ id: 'instance.tab.network' })}
+              key="network"
+            />
           </Tabs>
 
           <MonitoringChart

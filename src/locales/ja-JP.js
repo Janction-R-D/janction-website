@@ -868,4 +868,21 @@ export default {
   text2: '自分のノード情報を確認したい',
   text3: 'インスタンスを購入するにはどうすればいいですか？',
   'chat.placeholder': 'FinChat AI にメッセージを送信',
+  'instance.expirationTime': '有効期限:',
+  'instance.gpu': 'GPU：',
+  'instance.cores': 'コア',
+  'instance.specs': '仕様：',
+  'instance.info': 'インスタンス情報',
+  'instance.resource': 'リソース使用状況',
+  'instance.tab.cpu': 'CPU',
+  'instance.tab.memory': 'メモリ',
+  // 'instance.tab.gpu': 'GPU', // 有効にする場合
+  'instance.tab.network': 'ネットワーク',
+  'instance.monitoring': 'インスタンスモニタリング',
+  'remote.connection': 'リモート接続',
+  'error.notFound':
+    'おっと、申し訳ありません！\nリソースURLが見つかりませんでした',
+  'ssh.settings': 'SSH設定',
+  terminate: '終了する',
+  'more.functions': 'その他の機能',
 };

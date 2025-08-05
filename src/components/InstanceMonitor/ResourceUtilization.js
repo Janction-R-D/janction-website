@@ -2,6 +2,7 @@ import React from 'react';
 import ReactECharts from 'echarts-for-react';
 import styles from './index.less';
 import { Divider } from 'antd';
+import { useIntl } from 'umi';
 const DiskRing = ({ label, used = 0, max = 0 }) => {
   const percent = Math.round((used / max) * 100) || 0;
 
@@ -54,6 +55,7 @@ const DiskRing = ({ label, used = 0, max = 0 }) => {
 };
 
 const ResourceUtilization = ({ configInfo }) => {
+  const intl = useIntl();
   const getGpu = () => {
     if (!configInfo?.gpu_chip) return '--';
     const gpu = configInfo.gpu_chip;
@@ -77,7 +79,9 @@ const ResourceUtilization = ({ configInfo }) => {
   return (
     <div className={styles.resourceCard}>
       <header className={styles.header}>
-        <div className={styles.title}>Resource utilization</div>
+        <div className={styles.title}>
+          {intl.formatMessage({ id: 'instance.resource' })}
+        </div>
       </header>
       <section>
         <div className={styles.diskSection}>
@@ -85,25 +89,34 @@ const ResourceUtilization = ({ configInfo }) => {
           <DiskRing label="Data disk" used={0} max={100} />
         </div>
         <div className={styles.information}>
-          <div className={styles.title}>Instance Information</div>
+          <div className={styles.title}>
+            {intl.formatMessage({ id: 'instance.info' })}
+          </div>
           <article>
             <div className={styles.item}>
-              <span className={styles.label}>Specs: </span>
+              <span className={styles.label}>
+                {intl.formatMessage({ id: 'instance.specs' })}{' '}
+              </span>
               <span className={styles.value}>
                 {' '}
-                {configInfo?.Cores} Cores <Divider type="vertical" />{' '}
-                {configInfo?.memory}
+                {configInfo?.Cores}{' '}
+                {intl.formatMessage({ id: 'instance.cores' })}{' '}
+                <Divider type="vertical" /> {configInfo?.memory}
               </span>
             </div>
             <div className={styles.item}>
-              <span className={styles.label}>GPU: </span>
+              <span className={styles.label}>
+                {intl.formatMessage({ id: 'instance.gpu' })}{' '}
+              </span>
               <span className={styles.value}>
                 {getGpu()} <Divider type="vertical" />
                 {getCpu()}
               </span>
             </div>
             <div className={styles.item}>
-              <span className={styles.label}>Expiration Time: </span>
+              <span className={styles.label}>
+                {intl.formatMessage({ id: 'instance.expirationTime' })}{' '}
+              </span>
               <span className={styles.value}>
                 <span> {configInfo?.expired}</span>
                 {/* <span className={styles['renewal']}>Renewal 45% off</span> */}
