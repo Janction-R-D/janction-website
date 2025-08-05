@@ -10,7 +10,7 @@ import styles from './index.less';
 const ContributorReward = (props) => {
   const { nft } = props;
   const [rewardShow, setRewardShow] = useState(0);
-
+  const intl = useIntl();
   useEffect(() => {
     getData();
   }, []);
@@ -40,7 +40,7 @@ const ContributorReward = (props) => {
             history.push('/genesis/rewards', { nft });
           }}
         >
-          Receive award
+          {intl.formatMessage({ id: 'receive.award' })}
         </div>
       </div>
     </div>

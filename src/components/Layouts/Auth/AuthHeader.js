@@ -4,7 +4,7 @@ import storage from '@/utils/storage';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Button, Modal } from 'antd';
 import { useEffect, useState } from 'react';
-import { history, Redirect, useLocation, useModel } from 'umi';
+import { history, Redirect, useIntl, useLocation, useModel } from 'umi';
 import { useAccount, useDisconnect, useSignMessage } from 'wagmi';
 import AndroidAuthMenu from './AuthMenu';
 import styles from './index.less';
@@ -175,7 +175,7 @@ export function ProfileModal({ isModalOpen, handleOk, handleCancel }) {
         const { initialState, setInitialState } = useModel('@@initialState');
         const { isLessee, sessionType } = initialState || {};
         const { disconnect } = useDisconnect();
-
+        const intl = useIntl();
         const onChangeIdentity = async () => {
           const resConnect = await handleIdentityChange({
             signer,
@@ -246,12 +246,12 @@ export function ProfileModal({ isModalOpen, handleOk, handleCancel }) {
                 <div className={styles['type-account']} id="user-mode">
                   {isLessee ? (
                     <div onClick={onChangeIdentity}>
-                      <p>Switch to Lessor Role</p>
+                      <p>{intl.formatMessage({ id: 'switchToLessor' })}</p>
                       <i className="iconfont icon-next"></i>
                     </div>
                   ) : (
                     <div onClick={onChangeIdentity}>
-                      <p>Switch to Lessee Role</p>
+                      <p>{intl.formatMessage({ id: 'switchToLessee' })}</p>
                       <i className="iconfont icon-next"></i>
                     </div>
                   )}
@@ -262,7 +262,7 @@ export function ProfileModal({ isModalOpen, handleOk, handleCancel }) {
               <li>
                 <i className="iconfont icon-user"></i>
                 <a onClick={() => handleNavigate('/genesis/user-center')}>
-                  Personal information
+                  {intl.formatMessage({ id: 'personalInfo' })}
                 </a>
               </li>
 
@@ -270,7 +270,7 @@ export function ProfileModal({ isModalOpen, handleOk, handleCancel }) {
                 <li>
                   <i className="iconfont icon-pledge"></i>
                   <a onClick={() => handleNavigate('/genesis/pledge')}>
-                    Staking
+                    {intl.formatMessage({ id: 'staking' })}
                   </a>
                 </li>
               )}
@@ -286,7 +286,7 @@ export function ProfileModal({ isModalOpen, handleOk, handleCancel }) {
                   <a
                     onClick={() => handleNavigate('/genesis/wallet-management')}
                   >
-                    Wallet Management
+                    {intl.formatMessage({ id: 'walletManagement' })}
                   </a>
                 </li>
               )}
@@ -294,12 +294,13 @@ export function ProfileModal({ isModalOpen, handleOk, handleCancel }) {
             <div className={styles['btn']}>
               {isLoggedIn && (
                 <Button className={styles['log-out']} onClick={handleLogOut}>
-                  Logout <LoginOutlined className={styles['log-out-icon']} />
+                  {intl.formatMessage({ id: 'logout' })}{' '}
+                  <LoginOutlined className={styles['log-out-icon']} />
                 </Button>
               )}
               {!isLoggedIn && (
                 <Button className={styles['log-out']} onClick={handleLogin}>
-                  Login
+                  {intl.formatMessage({ id: 'login' })}
                 </Button>
               )}
             </div>

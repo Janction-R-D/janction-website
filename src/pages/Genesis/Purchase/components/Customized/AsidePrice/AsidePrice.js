@@ -3,10 +3,11 @@ import instacePng from '@/assets/images/genesis/instance.png';
 import { Avatar, Button, Divider } from 'antd';
 import { getDurationUnit } from '../../utils';
 import { ShoppingCartOutlined } from '@ant-design/icons';
+import { useIntl } from 'umi';
 
 export default function AsidePrice({ formValues, styles, onConfirm }) {
   const [isFormEmpty, setIsEmpty] = useState(true);
-
+  const intl = useIntl();
   useEffect(() => {
     setIsEmpty(!Object.values(formValues).some((item) => item !== undefined));
   }, [formValues]);
@@ -26,7 +27,10 @@ export default function AsidePrice({ formValues, styles, onConfirm }) {
   return (
     <aside className={styles['aside-wrapper']}>
       <header className={styles['aside-header']}>
-        <h2 className={styles['aside-title']}>Total price</h2>
+        <h2 className={styles['aside-title']}>
+          {' '}
+          {intl.formatMessage({ id: 'steps.field.os' })}
+        </h2>
       </header>
 
       <main className={styles['aside-content']}>
@@ -34,7 +38,9 @@ export default function AsidePrice({ formValues, styles, onConfirm }) {
           <>
             {formValues?.operating_system_str?.length >= 1 && (
               <section>
-                <p className={styles['text__type']}>Operating System</p>
+                <p className={styles['text__type']}>
+                  {intl.formatMessage({ id: 'confirm.total_price' })}
+                </p>
                 <div className={styles['text__content_op']}>
                   {formValues.operating_system_str?.map((item, index) => (
                     <span className={styles['description']}>
@@ -52,7 +58,10 @@ export default function AsidePrice({ formValues, styles, onConfirm }) {
             {renderSection('Image', formValues?.template)}
             {formValues?.node && (
               <section>
-                <p className={styles['text__type']}>Duration</p>
+                <p className={styles['text__type']}>
+                  {' '}
+                  {intl.formatMessage({ id: 'confirm.duration' })}
+                </p>
                 <div className={styles['text__content']}>
                   <span className={styles['description']}>
                     <p className={styles['text__description']}>
@@ -89,7 +98,7 @@ export default function AsidePrice({ formValues, styles, onConfirm }) {
         ) : (
           <div className={styles['instance-empty']}>
             <img src={instacePng} alt="instance empty icon" />
-            <p>Please start configuring the instance from the left</p>
+            <p>{intl.formatMessage({ id: 'steps.aside_empty' })}</p>
           </div>
         )}
       </main>
@@ -99,7 +108,8 @@ export default function AsidePrice({ formValues, styles, onConfirm }) {
         {/* <span className={styles['text__price']}>$34.669</span> */}
         {Object.values(formValues).some((item) => item !== undefined) && (
           <Button className={styles['btn-confirm']} onClick={onConfirm}>
-            Confirm the order <ShoppingCartOutlined />
+            {intl.formatMessage({ id: 'confirm.order' })}{' '}
+            <ShoppingCartOutlined />
           </Button>
         )}
       </footer>

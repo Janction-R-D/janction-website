@@ -14,14 +14,14 @@ import {
 import { useEffect, useMemo, useState } from 'react';
 import styles from './BillDetails.less';
 import { fetchBillingList } from '@/services/genesis/billings';
-import { Redirect, useModel } from 'umi';
+import { Redirect, useIntl, useModel } from 'umi';
 import numeral from 'numeral';
 import CardBill from './components/BillCard/Card';
 
 function BillDetails() {
   const { initialState } = useModel('@@initialState');
   const { isLessee = true } = initialState || {};
-
+  const intl = useIntl();
   const [open, setOpen] = useState(false);
   const [selectedBill, setSelectedBill] = useState({});
   const [list, setList] = useState([]);
@@ -69,38 +69,43 @@ function BillDetails() {
     );
     setFilteredData(filtered);
   };
-
   const columns = [
     {
-      title: 'Instance ID / Name',
+      title: intl.formatMessage({ id: 'billing.instance' }),
       dataIndex: 'instance_id',
     },
     {
-      title: 'Specification',
+      title: intl.formatMessage({ id: 'billing.specification' }),
       dataIndex: 'specification',
     },
     {
-      title: 'Status',
+      title: intl.formatMessage({ id: 'billing.status' }),
       dataIndex: 'status',
     },
     {
-      title: 'Local disk',
+      title: intl.formatMessage({ id: 'billing.localDisk' }),
       dataIndex: 'local_disk',
     },
     {
-      title: 'Health Status',
+      title: intl.formatMessage({ id: 'billing.healthStatus' }),
       dataIndex: 'health_status',
     },
     {
-      title: 'Payment method',
+      title: intl.formatMessage({ id: 'billing.paymentMethod' }),
       dataIndex: 'payment_method',
     },
     {
-      title: <div className="operation">Operation</div>,
+      title: (
+        <div className="operation">
+          {intl.formatMessage({ id: 'billing.operation' })}
+        </div>
+      ),
       dataIndex: 'operation',
       render: (_, record) => (
         <Space size="middle">
-          <a onClick={() => showDrawer(record)}>Billing details</a>
+          <a onClick={() => showDrawer(record)}>
+            {intl.formatMessage({ id: 'billing.details' })}
+          </a>
         </Space>
       ),
     },
@@ -121,11 +126,11 @@ function BillDetails() {
     const unit = 'veJCT';
     return (
       <div className={styles['total-wrapper']}>
-        <span>Total income </span>
+        <span>{intl.formatMessage({ id: 'billing.total' })} </span>
         <span
           className={[styles['value'], styles['total-value']].join(' ')}
         >{`${numeral(total?.sum).format('0.00')} ${unit}`}</span>
-        <span>{` = Cash payment `}</span>
+        <span>{` = ${intl.formatMessage({ id: 'billing.cash' })} `}</span>
         <span className={styles['value']}>{`${numeral(total?.cash).format(
           '0.00',
         )} ${unit}`}</span>
@@ -133,11 +138,11 @@ function BillDetails() {
         <span className={styles['value']}>{`${numeral(total?.share).format(
           '0.00',
         )} ${unit}`}</span>
-        <span>{` + gift money `}</span>
+        <span>{` + ${intl.formatMessage({ id: 'billing.gift' })} `}</span>
         <span className={styles['value']}>{`${numeral(total?.gift).format(
           '0.00',
         )} ${unit}`}</span>
-        <span>{` + Coupon `}</span>
+        <span>{` + ${intl.formatMessage({ id: 'billing.cupon' })} `}</span>
         <span className={styles['value']}>{`${numeral(total?.coupon).format(
           '0.00',
         )} ${unit}`}</span>
@@ -149,7 +154,7 @@ function BillDetails() {
     <main className={styles['billings-wrapper']}>
       <section className={styles['header-wrapper']}>
         <header>
-          <h1>Billings</h1>
+          <h1>{intl.formatMessage({ id: 'billing.title' })}</h1>
         </header>
       </section>
       <CardBill total={total} />
@@ -161,13 +166,16 @@ function BillDetails() {
           className={styles['card-header']}
         >
           <div className={styles['row']}>
-            <p>Time Period</p>
-            <TimePicker placeholder="All CPU" className={styles['picker']} />
+            <p>{intl.formatMessage({ id: 'billing.timePeriod' })}</p>
+            <TimePicker
+              placeholder={intl.formatMessage({ id: 'billing.allCPU' })}
+              className={styles['picker']}
+            />
           </div>
           <Col>
             <Input
               className={styles['input-search']}
-              placeholder="Search"
+              placeholder={intl.formatMessage({ id: 'billing.search' })}
               onChange={(e) => handleSearch(e.target.value)}
               suffix={<i className="iconfont icon-search" />}
             />
@@ -188,68 +196,74 @@ function BillDetails() {
         </div>
         <List
           className={styles['drawer-list']}
-          header={<div>Instance</div>}
+          header={<div>{intl.formatMessage({ id: 'billing.instance' })}</div>}
           bordered
           dataSource={filteredData}
           renderItem={(item) => (
             <>
               <List.Item>
                 <Row justify="space-between" align="middle">
-                  <Col>Instance ID / Name</Col>
+                  <Col>{intl.formatMessage({ id: 'billing.instance' })}</Col>
                   <Col>{item.instance_id}</Col>
                 </Row>
               </List.Item>
               <List.Item>
                 <Row justify="space-between" align="middle">
-                  <Col>specification</Col>
+                  <Col>
+                    {intl.formatMessage({ id: 'billing.specification' })}
+                  </Col>
                   <Col>{item.specification}</Col>
                 </Row>
               </List.Item>
               <List.Item>
                 <Row justify="space-between" align="middle">
-                  <Col>Status</Col>
+                  <Col>{intl.formatMessage({ id: 'billing.status' })}</Col>
                   <Col>{item.status}</Col>
                 </Row>
               </List.Item>
               <List.Item>
                 <Row justify="space-between" align="middle">
-                  <Col>Local disk</Col>
+                  <Col>{intl.formatMessage({ id: 'billing.localDisk' })}</Col>
                   <Col>{item.local_disk}</Col>
                 </Row>
               </List.Item>
               <List.Item>
                 <Row justify="space-between" align="middle">
-                  <Col>Health Status</Col>
+                  <Col>
+                    {intl.formatMessage({ id: 'billing.healthStatus' })}
+                  </Col>
                   <Col>{item.health_status}</Col>
                 </Row>
               </List.Item>
               <List.Item>
                 <Row justify="space-between" align="middle">
-                  <Col>Payment method</Col>
+                  <Col>
+                    {intl.formatMessage({ id: 'billing.paymentMethod' })}
+                  </Col>
                   <Col>{item.payment_method}</Col>
                 </Row>
               </List.Item>
               <List.Item>
                 <Row justify="space-between" align="middle">
-                  <Col>Cash payment</Col>
+                  <Col>{intl.formatMessage({ id: 'billing.cash' })}</Col>
                   <Col>{item.cash_payment}</Col>
                 </Row>
               </List.Item>
               <List.Item>
                 <Row justify="space-between" align="middle">
-                  <Col>Share bonus</Col>
+                  <Col>{intl.formatMessage({ id: 'billing.share' })}</Col>
                   <Col>{item.share_bonus}</Col>
                 </Row>
               </List.Item>
               <List.Item>
                 <Row justify="space-between" align="middle">
-                  <Col>Gift money</Col>
+                  <Col>{intl.formatMessage({ id: 'billing.gift' })}</Col>
                   <Col>{item.gift_money}</Col>
                 </Row>
               </List.Item>
               <List.Item>
                 <Row justify="space-between" align="middle">
-                  <Col>Coupon</Col>
+                  <Col>{intl.formatMessage({ id: 'billing.coupon' })}</Col>
                   <Col>{item.coupon}</Col>
                 </Row>
               </List.Item>

@@ -4,19 +4,31 @@ import styles from './orders.less';
 import { brandDetails } from '@/constant';
 import OrderModal from './OrderModal';
 import PayButton from './PayButton';
+import { useIntl } from 'umi';
 
 export default function OrderCard({ order }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const intl = useIntl();
+
   const onOk = () => {
     setIsModalOpen(true);
   };
   const onCancel = () => {
     setIsModalOpen(false);
   };
+
   const data = {
     order: order?.order,
     resource: order?.resource,
   };
+
+  const statusKey = data?.order?.status?.toLowerCase();
+  const statusIcon =
+    {
+      completed: 'icon-Completed',
+      pending: 'icon-refresh',
+      expired: 'icon-info',
+    }[statusKey] || 'icon-refund';
 
   return (
     <Card className={styles['card']}>
@@ -25,18 +37,8 @@ export default function OrderCard({ order }) {
           <Hearder data={data} />
         </p>
 
-        <div className={styles[`${data?.order?.status}`]}>
-          <i
-            className={`iconfont ${
-              data?.order?.status.toLowerCase() == 'completed'
-                ? 'icon-Completed'
-                : data?.order?.status.toLowerCase() == 'pending'
-                ? 'icon-refresh'
-                : data?.order?.status.toLowerCase() == 'expired'
-                ? 'icon-info'
-                : 'icon-refund'
-            }`}
-          />
+        <div className={styles[statusKey]}>
+          <i className={`iconfont ${statusIcon}`} />
           <span>{data?.order?.status || '~'}</span>
         </div>
       </h1>
@@ -63,38 +65,40 @@ export default function OrderCard({ order }) {
             </div>
 
             <p className={styles['id']}>
-              Order ID : <span>{data.order?.id}</span>
+              {intl.formatMessage({ id: 'order.id' })}{' '}
+              <span>{data.order?.id}</span>
             </p>
           </div>
           <Button className={styles['connect-btn']} onClick={onOk}>
-            Details <i className="iconfont icon-next" />
+            {intl.formatMessage({ id: 'order.details' })}{' '}
+            <i className="iconfont icon-next" />
           </Button>
-          {/* {data.order.status == 'pending' && <PayButton order={data.order} />} */}
           <OrderModal
             handleCancel={onCancel}
             isModalOpen={isModalOpen}
             data={data}
           />
         </div>
+
         <div className={styles['card-product-section-r']}>
           <section>
             <p>
-              <span> Price:</span>
+              <span>{intl.formatMessage({ id: 'order.price' })}</span>
               <span>{data.order?.price?.price_in_currency || `~`}</span>
             </p>
             <p>
-              <span>Quantity:</span>
+              <span>{intl.formatMessage({ id: 'order.quantity' })}</span>
               <span>x{data.order?.purchase_instance_quantity}</span>
             </p>
             <p>
-              <span>Duration:</span>
+              <span>{intl.formatMessage({ id: 'order.duration' })}</span>
               <span>
                 {data.order?.purchase_duration || '~'}{' '}
                 {data.order?.purchase_duration_unit || '~'}
               </span>
             </p>
             <p>
-              <span>Arch:</span>
+              <span>{intl.formatMessage({ id: 'order.arch' })}</span>
               <span>
                 {data.order?.resource?.node?.attr?.architechture_str &&
                 data.order?.resource?.node?.attr?.operating_system_str
@@ -103,41 +107,43 @@ export default function OrderCard({ order }) {
               </span>
             </p>
           </section>
+
           <Divider />
           <section>
             <p>
-              <span>Payment Method:</span>
-              <span className={styles['bold']}>coinbase wallet/usdc</span>
+              <span>{intl.formatMessage({ id: 'order.payment.method' })}</span>
+              <span className={styles['bold']}>
+                {intl.formatMessage({ id: 'order.payment.method.value' })}
+              </span>
             </p>
             <p>
-              <span>Paid</span>
+              <span>{intl.formatMessage({ id: 'order.payment.paid' })}</span>
               <span className={styles['price']}>
                 <span className={styles['bold-price']}>
                   {data.order?.price?.price_in_currency || `~`}
                 </span>
-                <span>USDC</span>
+                <span>{intl.formatMessage({ id: 'order.paid.unit' })}</span>
               </span>
             </p>
           </section>
         </div>
       </section>
-
-      {/* <section className={styles['card-product-footer']}>
-        <span className={styles['card-product-price-text']}>Total</span>
-        <span className={styles['text-blue']}>
-          {order?.resource?.price ? `${order.resource.price} veJCT` : '~'}
-        </span>
-      </section> */}
     </Card>
   );
 }
+
 const Hearder = ({ data }) => {
   const gpu = data?.resource?.node?.attr?.gpu_chip;
   const cpu = data?.resource?.node?.attr?.cpu_chip;
   const nodeId = data?.order?.node_id;
+  const intl = useIntl();
 
   if (!gpu && !cpu) {
-    return <span className={styles['node_id']}>Node ID: {nodeId || '--'}</span>;
+    return (
+      <span className={styles['node_id']}>
+        {intl.formatMessage({ id: 'order.node.id' })} {nodeId || '--'}
+      </span>
+    );
   }
 
   return <span>{`${gpu || ''} ${cpu || ''} * ${cpu?.length || 0}`}</span>;

@@ -16,6 +16,7 @@ import SshKeyModal from './SshModal';
 import { useChainId } from 'wagmi';
 import { useEthersSigner } from '@/hooks/useEthersSigner';
 import CustomWarningModal from './WarningModal';
+import { useIntl } from 'umi';
 
 export default function OperationModal({ record, getAllNodes }) {
   const [visible, setVisible] = useState(false);
@@ -32,7 +33,7 @@ export default function OperationModal({ record, getAllNodes }) {
   const allowedRunning = ['running', 'starting'];
   const isRunning = allowedRunning.includes(record?.status?.toLowerCase());
   const isAllowed = allowedStatuses.includes(record?.status?.toLowerCase());
-
+  const intl = useIntl();
   const handleConnect = async () => {
     if (!isRunning) return;
     if (selectLoading) return;
@@ -40,6 +41,11 @@ export default function OperationModal({ record, getAllNodes }) {
     setSelectLoading(true);
 
     try {
+      message.info({
+        content: 'Attempting to create the remote tunnel...',
+        key: 'loading',
+        duration: 0,
+      });
       // First attempt to fetch the tunnel
       const res = await fetchResourceTunnel({ resource_id: record?.id });
       setOptions(res.routes || []);
@@ -54,11 +60,14 @@ export default function OperationModal({ record, getAllNodes }) {
         console.log('Retrying to fetch tunnel routes...');
         const res = await fetchResourceTunnel({ resource_id: record?.id });
         setOptions(res.routes || []);
+        message.destroy('loading');
+        message.success('Success!');
       } catch (postError) {
         console.log(
           'Failed to create tunnel or fetch routes after creation:',
           postError,
         );
+        message.destroy('loading');
         message.error('Failed to create or retrieve remote tunnel routes');
       }
     } finally {
@@ -146,9 +155,17 @@ export default function OperationModal({ record, getAllNodes }) {
                         flexDirection: 'column',
                       }}
                     >
-                      {' '}
-                      <p>Ups, sorry!</p>
-                      <p>Not resource url founded</p>
+                      <p>
+                        {intl
+                          .formatMessage({ id: 'error.notFound' })
+                          .split('\n')
+                          .map((line, i) => (
+                            <span key={i}>
+                              {line}
+                              <br />
+                            </span>
+                          ))}
+                      </p>
                     </span>
                   }
                 >
@@ -164,14 +181,14 @@ export default function OperationModal({ record, getAllNodes }) {
                 onClick={handleConnect}
                 className={!isRunning ? styles['forbiden'] : ''}
               >
-                Remote connection
+                {intl.formatMessage({ id: 'remote.connection' })}
               </li>
             </Popover>
 
             <li
               className={`${'operation-action'}  
                 ${
-                  record?.status?.toLowerCase() !== 'stopped' || !isRunning
+                  record?.status?.toLowerCase() == 'stopped' || !isRunning
                     ? styles['forbiden']
                     : ''
                 }
@@ -181,7 +198,7 @@ export default function OperationModal({ record, getAllNodes }) {
                 setSshOpen(true);
               }}
             >
-              SSH Settings
+              {intl.formatMessage({ id: 'ssh.settings' })}
             </li>
             <Popconfirm
               title="Please confirm whether to stop renting this node!"
@@ -194,7 +211,7 @@ export default function OperationModal({ record, getAllNodes }) {
                   !isAllowed ? styles['forbiden'] : ''
                 }`}
               >
-                Terminate
+                {intl.formatMessage({ id: 'terminate' })}
               </li>
             </Popconfirm>
             <CustomWarningModal
@@ -206,7 +223,8 @@ export default function OperationModal({ record, getAllNodes }) {
         }
       >
         <a>
-          More functions <i className="iconfont icon-down" />
+          {intl.formatMessage({ id: 'more.functions' })}{' '}
+          <i className="iconfont icon-down" />
         </a>
       </JanctionPopover>
 

@@ -4,12 +4,13 @@ import styles from './index.less';
 
 import { useState } from 'react';
 import { getTableData } from '../utils';
+import { useIntl } from 'umi';
 
 export default function QuickTable(props) {
   const { onChange, formValues, value, data, loading } = props;
   const [selectKey, setSelectKey] = useState(value || null);
   const list = getTableData(data);
-  console.log(data);
+  const intl = useIntl();
   const rowSelection = {
     selectedRowKeys: [selectKey],
     onChange: (selectedRowKeys, selectedRows) => {
@@ -23,12 +24,12 @@ export default function QuickTable(props) {
 
   const columns = [
     {
-      title: 'ID',
+      title: intl.formatMessage({ id: 'common.title.id' }),
       ellipsis: true,
       dataIndex: 'id',
     },
     {
-      title: 'OS Arch',
+      title: intl.formatMessage({ id: 'common.title.arch' }),
       ellipsis: true,
       dataIndex: 'operatingSystem',
       filters: [{ text: 'Android', value: 'Android' }],
@@ -39,12 +40,12 @@ export default function QuickTable(props) {
       },
     },
     {
-      title: 'Location',
+      title: intl.formatMessage({ id: 'common.title.location' }),
       ellipsis: true,
       dataIndex: 'location',
     },
     {
-      title: 'Processor',
+      title: intl.formatMessage({ id: 'common.title.processor' }),
       dataIndex: 'attr',
       ellipsis: true,
       render: (attr, record) => {

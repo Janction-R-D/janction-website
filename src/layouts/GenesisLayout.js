@@ -4,10 +4,11 @@ import SocialsLinks from '@/components/SocialsLinks';
 import { useEffect, useMemo, useState } from 'react';
 import { history, useModel } from 'umi';
 import styles from './genesis.less';
+import { useIntl } from 'umi';
 
 export const navList = [
   {
-    name: 'Dashboard',
+    nameKey: 'nav.dashboard',
     path: '/genesis/dashboard',
     redirect: '/genesis',
     id: 'dashboard',
@@ -15,7 +16,7 @@ export const navList = [
     icon: 'home',
   },
   {
-    name: 'Deploy Node',
+    nameKey: 'nav.deployNode',
     path: '/genesis/deployNode',
     key: 1,
     id: 'deployNode',
@@ -23,7 +24,7 @@ export const navList = [
     role: (isLessee) => !isLessee,
   },
   {
-    name: 'Purchase',
+    nameKey: 'nav.purchase',
     path: '/genesis/purchase',
     key: 6,
     id: 'purchase-link',
@@ -31,7 +32,7 @@ export const navList = [
     role: (isLessee) => isLessee,
   },
   {
-    name: 'My Instance',
+    nameKey: 'nav.myInstance',
     path: '/genesis/instance',
     key: 2,
     id: 'instances-link',
@@ -39,7 +40,7 @@ export const navList = [
     role: (isLessee) => isLessee,
   },
   {
-    name: 'My Nodes',
+    nameKey: 'nav.myNodes',
     path: '/genesis/nodes',
     key: 3,
     id: 'nodes',
@@ -47,7 +48,7 @@ export const navList = [
     role: (isLessee) => !isLessee,
   },
   {
-    name: 'Orders',
+    nameKey: 'nav.orders',
     path: '/genesis/orders',
     key: 4,
     id: 'orders-link',
@@ -55,7 +56,7 @@ export const navList = [
     role: (isLessee) => isLessee,
   },
   {
-    name: 'Billings',
+    nameKey: 'nav.billings',
     path: '/genesis/billDetails',
     key: 5,
     icon: 'billings',
@@ -63,38 +64,45 @@ export const navList = [
     role: (isLessee) => !isLessee,
   },
   {
-    name: 'Agent',
+    nameKey: 'nav.agent',
     path: '/genesis/agent',
-    key: 5,
+    key: 7,
     icon: 'coin',
     id: 'agent',
     role: (isLessee) => isLessee,
   },
 ];
+
 const GenesisLayout = (props) => {
   const { children, noPadding, aside = true, rewards } = props;
 
   const { initialState } = useModel('@@initialState');
-
   const { isLessee } = initialState || {};
 
   const [active, setActive] = useState();
+
+  const intl = useIntl();
 
   useEffect(() => {
     setActive(history.location.pathname);
   }, [history.location.pathname]);
 
   const onMenuChange = (nav) => {
-    if (nav.name === 'Purchase') {
-      history.push(nav.path, { path: location.pathname }); // location.pathname
+    if (nav.nameKey === 'nav.purchase') {
+      history.push(nav.path, { path: location.pathname });
     } else {
       history.push(nav.path);
     }
   };
 
   const menu = useMemo(() => {
-    return navList.filter((item) => (item.role ? item.role(isLessee) : true));
-  }, [isLessee]);
+    return navList
+      .filter((item) => (item.role ? item.role(isLessee) : true))
+      .map((item) => ({
+        ...item,
+        name: intl.formatMessage({ id: item.nameKey }),
+      }));
+  }, [isLessee, intl]);
 
   return (
     <div id={styles['genesis-layout']}>
@@ -110,7 +118,6 @@ const GenesisLayout = (props) => {
           <main className={noPadding && styles['main-no-padding']}>
             <AuthHeader
               showLogo={rewards}
-              // menu={menu}
               active={active}
               onMenuChange={onMenuChange}
             />

@@ -588,3 +588,60 @@
     }
   }
 }
+
+.container_cost {
+  position: relative;
+  z-index: 50;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1200px;
+  padding: 32px 0px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  .card {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 32.5%; /* ancho base */
+    max-width: 32.5%;
+    overflow-wrap: break-word;
+    min-height: 100px;
+  }
+
+  .title {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .content {
+    p {
+      font-size: 0.75rem;
+    }
+    line-height: 1.7;
+    padding: 12px 0;
+  }
+
+  .rightText {
+    text-align: right;
+    font-style: italic;
+    margin-top: 16px;
+  }
+  :global {
+    .ant-collapse-borderless {
+      background: transparent !important;
+    }
+    .ant-collapse-header {
+      display: flex !important;
+      align-items: start !important;
+      .ant-collapse-header-text {
+        font-size: 0.85rem;
+        max-width: 25ch;
+      }
+    }
+    .ant-card-body {
+      padding: 12px;
+    }
+  }
+}

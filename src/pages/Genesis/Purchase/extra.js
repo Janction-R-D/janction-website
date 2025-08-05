@@ -5,7 +5,10 @@ export const PURCHASES = [
   { name: 'Quick purchase', value: 1 },
   { name: 'Customized purchase', value: 0 },
 ];
-
+export const getPurchases = (intl) => [
+  { name: intl.formatMessage({ id: 'purchase.quick' }), value: 1 },
+  { name: intl.formatMessage({ id: 'purchase.customized' }), value: 0 },
+];
 export const DEFAULT_PURCHASE_TYPE = PURCHASES[0].value;
 
 export const CONFIGURATIONS = [

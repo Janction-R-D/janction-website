@@ -10,12 +10,13 @@ import { renderTableColumns } from '@/components/JanctionTable/column';
 import { DATE_FORMAT_TYPE } from '@/utils/datetime';
 import { useChainId } from 'wagmi';
 import { useEthersSigner } from '@/hooks/useEthersSigner';
+import { useIntl } from 'umi';
 
 const inTrustValue = 'hosted';
 export default function Hoisting({ nft, showModal, handleOk, setShowModal }) {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  const intl = useIntl();
   useEffect(() => {
     if (!showModal) return;
     getNFTStatus();
@@ -42,11 +43,13 @@ export default function Hoisting({ nft, showModal, handleOk, setShowModal }) {
       render: (text, rowData) => (
         <div className="name">
           <div>
-            <p>{`Janction Lessor #${rowData.token_id}`}</p>
+            <p>{`${intl.formatMessage({ id: 'hoisting.lessor_prefix' })} ${
+              rowData.token_id
+            }`}</p>
             {rowData.host_status === inTrustValue && (
               <span className="trusted">
                 <img src={trustImg} />
-                In trust
+                {intl.formatMessage({ id: 'hoisting.in_trust' })}
               </span>
             )}
           </div>
@@ -57,18 +60,18 @@ export default function Hoisting({ nft, showModal, handleOk, setShowModal }) {
         </div>
       ),
     },
-    renderTableColumns('Hosting Time', 'time', {
+    renderTableColumns(intl.formatMessage({ id: 'hoisting.time' }), 'time', {
       type: 'date',
       format: DATE_FORMAT_TYPE.YMDHMS,
     }),
     {
-      title: 'Earnings',
+      title: intl.formatMessage({ id: 'hoisting.earnings' }),
       dataIndex: 'rental_income',
       key: 'earnings',
       render: (text) => <p className="earnings">{text}</p>,
     },
     {
-      title: 'Operation',
+      title: intl.formatMessage({ id: 'hoisting.operation' }),
       key: 'operation',
       render: (text, record) => (
         <div>
@@ -94,7 +97,7 @@ export default function Hoisting({ nft, showModal, handleOk, setShowModal }) {
       footer={false}
     >
       <header>
-        <h3>Hoisting</h3>
+        <h3> {intl.formatMessage({ id: 'hoisting.title' })}</h3>
         <i className="iconfont icon-close" onClick={handleCancel}></i>
       </header>
       <JanctionTable
@@ -103,11 +106,13 @@ export default function Hoisting({ nft, showModal, handleOk, setShowModal }) {
         dataSource={list}
         pagination={false}
         scroll={{ x: 'auto', y: '60vh' }}
-        emptyDescription={<p>No data</p>}
+        emptyDescription={
+          <p> {intl.formatMessage({ id: 'hoisting.no_data' })}</p>
+        }
       />
       <footer>
         <p>
-          Hosting will charge a Mining Machine Management Fee of{' '}
+          {intl.formatMessage({ id: 'hoisting.fee_info' })}
           <span className="earnings">10%</span>
         </p>
       </footer>

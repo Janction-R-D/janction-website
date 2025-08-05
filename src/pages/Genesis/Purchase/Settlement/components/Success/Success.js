@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { message, Spin, Button } from 'antd';
-import { history } from 'umi';
+import { history, useIntl } from 'umi';
 import { fetchPaymentOrder } from '@/services/genesis';
 import styles from './index.less';
 import img from '@/assets/images/icons/logo_name.png';
@@ -9,12 +9,13 @@ import { RedoOutlined } from '@ant-design/icons';
 export default function PaymentSuccessPage() {
   const [loading, setLoading] = useState(true);
   const [confirmed, setConfirmed] = useState(false);
-
+  const intl = useIntl();
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const session_id = params.get('session_id');
     const order_id = params.get('order_id');
     const payment_intent = params.get('payment_intent');
+
     if (session_id) {
       const payload = {
         order_id,
@@ -55,31 +56,34 @@ export default function PaymentSuccessPage() {
   return (
     <div className={styles['main-container']}>
       <header className={styles['header']}>
-        <img src={img} />
+        <img src={img} alt="Header" />
       </header>
       <main className={styles['main']}>
-        <img src={imgClock} />
+        <img src={imgClock} alt="Clock" />
         {loading ? (
-          <Spin tip="Confirming your payment..." size="large" />
+          <Spin
+            tip={intl.formatMessage({ id: 'payment.loadingTip' })}
+            size="large"
+          />
         ) : confirmed ? (
           <main>
-            <h1>Thank you for your purchase!</h1>
+            <h1>{intl.formatMessage({ id: 'payment.thankYou' })}</h1>
             <p className={styles['desc']}>
-              Your payment has been received and is being processed.
+              {intl.formatMessage({ id: 'payment.receivedDesc' })}
             </p>
             <Button
               type="primary"
               onClick={goToInstances}
               style={{ marginTop: 16 }}
             >
-              Go to Instances
+              {intl.formatMessage({ id: 'payment.goToInstances' })}
             </Button>
           </main>
         ) : (
           <>
-            <h1>Payment Confirmation</h1>
+            <h1>{intl.formatMessage({ id: 'payment.confirmation' })}</h1>
             <p className={styles['desc']}>
-              Unable to confirm your payment at this time.
+              {intl.formatMessage({ id: 'payment.unableConfirm' })}
             </p>
             <div className={styles['buttons']}>
               <Button
@@ -88,7 +92,8 @@ export default function PaymentSuccessPage() {
                 style={{ marginTop: 16 }}
                 className={styles['connect-btn']}
               >
-                Return to Purchase <RedoOutlined color="orange" />
+                {intl.formatMessage({ id: 'payment.returnToPurchase' })}{' '}
+                <RedoOutlined style={{ color: 'orange' }} />
               </Button>
               <Button
                 type="primary"
@@ -96,7 +101,7 @@ export default function PaymentSuccessPage() {
                 style={{ marginTop: 16 }}
                 className={styles['connect-btn']}
               >
-                Check Order
+                {intl.formatMessage({ id: 'payment.checkOrder' })}
               </Button>
             </div>
           </>

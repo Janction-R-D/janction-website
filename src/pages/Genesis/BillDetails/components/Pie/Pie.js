@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactECharts from 'echarts-for-react';
+import { useIntl } from 'umi';
 
 const PieChart = ({ total, styles }) => {
+  const intl = useIntl();
   const option = {
     tooltip: {
       trigger: 'item',
@@ -11,7 +13,7 @@ const PieChart = ({ total, styles }) => {
       left: 'center',
       top: 'center',
       style: {
-        text: 'Total cost',
+        text: `${intl.formatMessage({ id: 'billing.total' })}`,
         textAlign: 'center',
         fill: '#fff',
         fontSize: 16,
@@ -41,22 +43,22 @@ const PieChart = ({ total, styles }) => {
         data: [
           {
             value: total?.cash,
-            name: 'Cash payment',
+            name: `${intl.formatMessage({ id: 'billing.cash' })}`,
             itemStyle: { color: 'blue' },
           },
           {
             value: total?.share,
-            name: 'Share bonus',
+            name: `${intl.formatMessage({ id: 'billing.share' })}`,
             itemStyle: { color: 'red' },
           },
           {
             value: total?.gift,
-            name: 'Gift money',
+            name: `${intl.formatMessage({ id: 'billing.gift' })}`,
             itemStyle: { color: 'yellow' },
           },
           {
             value: total?.coupon,
-            name: 'Coupon',
+            name: `${intl.formatMessage({ id: 'billing.coupon' })}`,
             itemStyle: { color: 'cyan' },
           },
         ],

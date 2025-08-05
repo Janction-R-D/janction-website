@@ -3,11 +3,12 @@ import { Checkbox, Spin } from 'antd';
 import { fetchTemplates } from '@/services/genesis';
 import styles from './index.less';
 import { debounce } from 'lodash';
+import { useIntl } from 'umi';
 
 const ImagesAi = ({ value, onChange, formValues, current = 5 }) => {
   const [opciones, setOpciones] = useState([]);
   const [loading, setloading] = useState(false);
-
+  const intl = useIntl();
   useEffect(() => {
     if (current !== 5) return;
 
@@ -48,7 +49,7 @@ const ImagesAi = ({ value, onChange, formValues, current = 5 }) => {
   if (loading) {
     return (
       <>
-        <p style={{ marginBottom: '12px' }}>Image</p>
+        <p style={{ marginBottom: '12px' }}>{}</p>
         <div className={styles['load-box']}>
           <p>Loading...</p>
           <Spin tip="Loading options..." />
@@ -63,7 +64,9 @@ const ImagesAi = ({ value, onChange, formValues, current = 5 }) => {
 
   return (
     <>
-      <p style={{ marginBottom: '12px' }}>Image</p>
+      <p style={{ marginBottom: '12px' }}>
+        {intl.formatMessage({ id: 'common.image' })}
+      </p>
       <div className={styles['checkbox-grid']}>
         {opciones?.map((item) => (
           <div

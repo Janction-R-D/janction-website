@@ -1,58 +1,75 @@
-import React from 'react';
+import { Collapse, Card } from 'antd';
 import styles from './index.less';
 import { useIntl } from 'umi';
 
-const dcItems = [
-  {
-    titleId: 'cost.item.otherExpenses.title',
-    descriptionId: 'cost.item.otherExpenses.description',
-    icon: 'file-transfer-line',
-  },
-  {
-    titleId: 'cost.item.returnPolicy.title',
-    descriptionId: 'cost.item.returnPolicy.description',
-    icon: 'sand-clock',
-  },
-  {
-    titleId: 'cost.item.deliveryTime.title',
-    descriptionId: 'cost.item.deliveryTime.description',
-    icon: 'clock1',
-  },
-];
+const { Panel } = Collapse;
 
-export default function Cost() {
+export default function ComplianceSection() {
   const intl = useIntl();
+  const t = (id) => intl.formatMessage({ id });
 
   return (
-    <section className={styles['cost-wrapper']}>
-      <h2>{intl.formatMessage({ id: 'cost.title' })}</h2>
+    <div className={styles.container_cost}>
+      <Card className={styles.card} bordered={false}>
+        <Collapse bordered={false} className={styles.collapse} accordion>
+          <Panel
+            header={t('compliance.founder.title')}
+            key="1"
+            className={styles.title}
+          >
+            <div className={styles.content}>
+              <p>{t('compliance.founder.p1')}</p>
+              <p>{t('compliance.founder.p2')}</p>
+              <p>{t('compliance.founder.p3')}</p>
+              <p>{t('compliance.founder.p4')}</p>
+              <p>{t('compliance.founder.p5')}</p>
+              <p className={styles.rightText}>
+                {t('compliance.founder.signature')}
+              </p>
+            </div>
+          </Panel>
+        </Collapse>
+      </Card>
 
-      <section className={styles['dc-cards']}>
-        {dcItems.map((item, index) => (
-          <DCard
-            key={index}
-            title={intl.formatMessage({ id: item.titleId })}
-            description={intl.formatMessage({ id: item.descriptionId })}
-            icon={item.icon}
-          />
-        ))}
-      </section>
-    </section>
+      <Card className={styles.card} bordered={false}>
+        <Collapse bordered={false} className={styles.collapse} accordion>
+          <Panel
+            header={t('compliance.legal.title')}
+            key="2"
+            className={styles.title}
+          >
+            <div className={styles.content}>
+              <p>{t('compliance.legal.vendor')}</p>
+              <p>{t('compliance.legal.rep')}</p>
+              <p>{t('compliance.legal.loc')}</p>
+              <p>{t('compliance.legal.email')}</p>
+              <p>{t('compliance.legal.web')}</p>
+              <p>{t('compliance.legal.price')}</p>
+              <p>{t('compliance.legal.fees')}</p>
+              <p>{t('compliance.legal.payment')}</p>
+              <p>{t('compliance.legal.delivery')}</p>
+              <p>{t('compliance.legal.returns')}</p>
+              <p>{t('compliance.legal.cancel')}</p>
+            </div>
+          </Panel>
+        </Collapse>
+      </Card>
+
+      <Card className={styles.card} bordered={false}>
+        <Collapse bordered={false} className={styles.collapse} accordion>
+          <Panel
+            header={t('compliance.security.title')}
+            key="3"
+            className={styles.title}
+          >
+            <div className={styles.content}>
+              <p>{t('compliance.security.policy')}</p>
+              <p>{t('compliance.security.compliance')}</p>
+              <p>{t('compliance.security.antisocial')}</p>
+            </div>
+          </Panel>
+        </Collapse>
+      </Card>
+    </div>
   );
 }
-
-const DCard = ({ title, description, icon }) => {
-  return (
-    <article className={styles['dc-card']}>
-      <div className={styles['dc-card-icon']}>
-        <i className={`iconfont icon-${icon}`} />
-      </div>
-      <div className={styles['dc-card__content']}>
-        <div className={styles['dc-card__header']}>
-          <span className={styles['dc-card_title']}>{title}</span>
-        </div>
-        <p className={styles['dc-card_descriotion']}>{description}</p>
-      </div>
-    </article>
-  );
-};

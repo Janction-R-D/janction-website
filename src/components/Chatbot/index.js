@@ -3,7 +3,7 @@ import { Modal, Input } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
 import styles from './index.less';
 import aiImage from '@/assets/images/genesis/ai.png';
-import { history, useModel } from 'umi';
+import { history, useIntl, useModel } from 'umi';
 import { fetchChatSee } from '@/services/genesis/agents';
 import { extractDataLines, saveMessagesToStorage } from '@/utils/lang';
 
@@ -50,11 +50,11 @@ const ChatBot = ({ fold }) => {
   const messagesContainerRef = useRef(null);
   const { initialState, setInitialState } = useModel('@@initialState');
   const { isLessee } = initialState;
-
+  const intl = useIntl();
   const initianMessages = [
     {
       from: 'bot',
-      text: 'how to quickly deploy nodes',
+      text: intl.formatMessage({ id: 'text1' }),
       onNavigate: () => {
         console.log('object');
         if (isLessee) {
@@ -69,7 +69,7 @@ const ChatBot = ({ fold }) => {
     },
     {
       from: 'bot',
-      text: 'i want to check my nodes info',
+      text: intl.formatMessage({ id: 'text2' }),
       onNavigate: () => {
         if (isLessee) {
           setInitialState({
@@ -83,7 +83,7 @@ const ChatBot = ({ fold }) => {
     },
     {
       from: 'bot',
-      text: 'How can i purchase an instance',
+      text: intl.formatMessage({ id: 'text3' }),
       onNavigate: () => {
         setInitialState({
           ...initialState,
@@ -224,7 +224,7 @@ const ChatBot = ({ fold }) => {
             <p>
               {' '}
               <img src={aiImage} alt="Bot" className={styles.botAvatar} />
-              You can ask me:
+              {intl.formatMessage({ id: 'janction.ai.ask' })}:
             </p>
             {initianMessages.map((msg, i) => {
               return (
@@ -294,7 +294,7 @@ const ChatBot = ({ fold }) => {
 
           <div className={styles.inputArea}>
             <Input
-              placeholder="Send a message to FinChjat AI"
+              placeholder={intl.formatMessage({ id: 'chat.placeholder' })}
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onPressEnter={handleSend}

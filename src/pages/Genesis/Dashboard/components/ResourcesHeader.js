@@ -1,27 +1,29 @@
 import React from 'react';
 import { Card, Divider } from 'antd';
 import styles from './resources.less';
-import { history } from 'umi';
+import { history, useIntl } from 'umi';
 
 export default function ResourcesHeader({ summary }) {
+  const intl = useIntl();
+
   const data = [
     {
-      name: 'Cloud server',
+      name: intl.formatMessage({ id: 'resourcesHeader.cloudServer' }),
       value: summary?.total,
       color: 'white',
     },
     {
-      name: 'Running',
+      name: intl.formatMessage({ id: 'resourcesHeader.running' }),
       value: summary?.running,
       color: 'white',
     },
     {
-      name: 'Expiring Soon',
+      name: intl.formatMessage({ id: 'resourcesHeader.expiringSoon' }),
       value: summary?.expiring_soon,
       color: 'yellow',
     },
     {
-      name: 'Expired',
+      name: intl.formatMessage({ id: 'resourcesHeader.expired' }),
       value: summary?.expired,
       color: 'red',
     },
@@ -32,7 +34,7 @@ export default function ResourcesHeader({ summary }) {
       <section>
         <div className={styles['resource-container']}>
           <div className={styles['card-header']}>
-            <h2>My Resources</h2>
+            <h2>{intl.formatMessage({ id: 'resourcesHeader.title' })}</h2>
           </div>
           <ul className={styles['resources']}>
             {data.map((item, index) => (
@@ -46,15 +48,17 @@ export default function ResourcesHeader({ summary }) {
 
         <Divider className={styles['divider']} type="vertical" />
         <ul className={styles['help']}>
-          <p className={styles['text']}>Help for newbies</p>
-          <li>1. Create an instance in a few simple steps</li>
-          <li>2. How to choose a GPU</li>
+          <p className={styles['text']}>
+            {intl.formatMessage({ id: 'resourcesHeader.helpTitle' })}
+          </p>
+          <li>{intl.formatMessage({ id: 'resourcesHeader.help.step1' })}</li>
+          <li>{intl.formatMessage({ id: 'resourcesHeader.help.step2' })}</li>
           <span
             onClick={() => {
               history.push('/genesis/newbies');
             }}
           >
-            More{' '}
+            {intl.formatMessage({ id: 'resourcesHeader.more' })}{' '}
             <div className={styles['icon']}>
               <i className="iconfont icon-up" />
             </div>

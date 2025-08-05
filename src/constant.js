@@ -58,6 +58,26 @@ export const SYSTEM_LIST = [
       'Ensures compatibility and ease of use for enterprise environments.',
   },
 ];
+export const getSystemList = (intl) => [
+  {
+    label: 'MAC',
+    value: 'macos',
+    icon: 'macos',
+    description: intl.formatMessage({ id: 'system.mac' }),
+  },
+  {
+    label: 'Linux',
+    value: 'linux',
+    icon: 'linux',
+    description: intl.formatMessage({ id: 'system.linux' }),
+  },
+  {
+    label: 'Windows',
+    value: 'windows',
+    icon: 'windows',
+    description: intl.formatMessage({ id: 'system.windows' }),
+  },
+];
 
 export const SYSTEM_SELECT_LIST = [
   { label: 'All', value: 'all' },
@@ -169,6 +189,25 @@ export const INSTANCE_TYPES = [
   },
   {
     label: 'Others',
+    value: 'other',
+  },
+];
+// components/InstanceTypes.js
+export const getInstanceTypes = (formatMessage) => [
+  {
+    label: formatMessage({ id: 'instance.basic_cpu' }),
+    value: 'basic_cpu',
+  },
+  {
+    label: formatMessage({ id: 'instance.basic_gpu' }),
+    value: 'basic_gpu',
+  },
+  {
+    label: formatMessage({ id: 'instance.high_performance' }),
+    value: 'high_performance',
+  },
+  {
+    label: formatMessage({ id: 'instance.other' }),
     value: 'other',
   },
 ];

@@ -6,6 +6,7 @@ import ModalInfo from '../../Settlement/components/ModalInfo';
 import StripePayment from '../../Settlement/components/Stripe/StripePayment';
 import { empty, isEmpty } from '@/utils/lang';
 import styles from './index.less';
+import { useIntl } from 'umi';
 
 const Footer = (props) => {
   const {
@@ -26,7 +27,7 @@ const Footer = (props) => {
     paytype,
     getTotalPrice,
   } = props;
-
+  const intl = useIntl();
   const [agree, setAgree] = useState(false);
   const [visible, setVisible] = useState(false);
 
@@ -67,9 +68,8 @@ const Footer = (props) => {
     <div className={styles['footer-price']}>
       <div className={styles['confirm-info']}>
         <Checkbox checked={agree} onChange={onAgreeChange}>
-          <div className={styles['agree-tip']}>
-            I have read and agreed to the <a>relevant service terms</a>.
-          </div>
+          {intl.formatMessage({ id: 'rental.agree' })}{' '}
+          <span>{intl.formatMessage({ id: 'rental.terms' })}</span>
         </Checkbox>
       </div>
 
@@ -79,19 +79,10 @@ const Footer = (props) => {
             {tableLoading ? '--' : total || '~~'} {currency?.label}
           </span>
           <div className={styles['detail']}>
-            <span>Bill Details</span>
+            <span>{intl.formatMessage({ id: 'bill.details' })}</span>
             <i className="iconfont icon-next_page"></i>
           </div>
         </div>
-
-        {/* <Button
-          className={styles['connect-btn']}
-          onClick={openPayNowModal}
-          type="primary"
-          disabled={tableLoading}
-        >
-          Pay Now <WalletOutlined className={styles['icon']} />
-        </Button> */}
 
         {currency.value !== 'Stripe' && (
           <Button
@@ -100,7 +91,8 @@ const Footer = (props) => {
             onClick={handlePayWithMetaMask}
             disabled={tableLoading || !total}
           >
-            Pay with MetaMask <WalletOutlined className={styles['icon']} />
+            {intl.formatMessage({ id: 'button.pay.metamask' })}{' '}
+            <WalletOutlined className={styles['icon']} />
           </Button>
         )}
 

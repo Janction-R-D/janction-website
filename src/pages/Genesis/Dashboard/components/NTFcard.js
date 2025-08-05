@@ -3,8 +3,10 @@ import styles from './index.less';
 import Cards from './Cards';
 import { useState } from 'react';
 import Hoisting from './Hoisting';
+import { useIntl } from 'umi';
 
 const NTFcard = ({ nft }) => {
+  const intl = useIntl();
   const [showModal, setShowModal] = useState(false);
   const handleOk = () => {
     setShowModal(true);
@@ -14,9 +16,9 @@ const NTFcard = ({ nft }) => {
       className={`swiper-container ${styles['sales-wrapper']} ${styles['swiper-container']}  `}
     >
       <header className={styles['nft-header']}>
-        <h2>My NFT</h2>
+        <h2> {intl.formatMessage({ id: 'lessor.nft' })} </h2>
         <p onClick={handleOk}>
-          Node hoisting
+          {intl.formatMessage({ id: 'lessor.node_hoisting' })}
           <div>
             <i className="iconfont icon-up"></i>
           </div>

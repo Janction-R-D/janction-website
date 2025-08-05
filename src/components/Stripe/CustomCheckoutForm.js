@@ -8,14 +8,13 @@ import {
   useElements,
 } from '@stripe/react-stripe-js';
 import styles from './index.less';
-import { countryList } from './countries';
-
-const { Option } = Select;
+import { useIntl } from 'umi';
 
 const CustomCheckoutForm = ({ clientSecret, onCancel, orderId }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [form] = Form.useForm();
+  const intl = useIntl();
   const [submitting, setSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
   const [saveCard, setSaveCard] = useState(false);
@@ -56,11 +55,8 @@ const CustomCheckoutForm = ({ clientSecret, onCancel, orderId }) => {
         confirmOptions.setup_future_usage = 'off_session';
       }
 
-      const { error } = await stripe.confirmCardPayment(
-        clientSecret,
-        confirmOptions,
-      );
-      if (error)
+      const res = await stripe.confirmCardPayment(clientSecret, confirmOptions);
+      if (res?.error)
         setErrorMsg(error.message || 'Payment failed. Please try again.');
     } catch (err) {
       console.error('[Stripe Error]', err);
@@ -85,7 +81,7 @@ const CustomCheckoutForm = ({ clientSecret, onCancel, orderId }) => {
 
   return (
     <div className={styles.container}>
-      <h1>Complete Your Payment</h1>
+      <h1>{intl.formatMessage({ id: 'stripe.payment.complete' })}</h1>
       <div className={styles.badge}>
         <i className="iconfont icon-visa1" style={{ color: 'skyblue' }} />
         <i className="iconfont icon-mastercard" />
@@ -103,12 +99,16 @@ const CustomCheckoutForm = ({ clientSecret, onCancel, orderId }) => {
         <Row gutter={16}>
           <Col span={12}>
             <Form.Item
-              label="Cardholder Name"
+              label={intl.formatMessage({
+                id: 'stripe.payment.cardholderName.label',
+              })}
               name="name"
               rules={[
                 {
                   required: true,
-                  message: 'Please enter the cardholder name.',
+                  message: intl.formatMessage({
+                    id: 'stripe.payment.cardholderName.required',
+                  }),
                 },
               ]}
             >
@@ -118,13 +118,20 @@ const CustomCheckoutForm = ({ clientSecret, onCancel, orderId }) => {
           </Col>
           <Col span={12}>
             <Form.Item
-              label="Email"
+              label={intl.formatMessage({ id: 'stripe.payment.email' })}
               name="email"
               rules={[
-                { required: true, message: 'Please enter your email.' },
+                {
+                  required: true,
+                  message: intl.formatMessage({
+                    id: 'stripe.payment.email.required',
+                  }),
+                },
                 {
                   type: 'email',
-                  message: 'Please enter a valid email address.',
+                  message: intl.formatMessage({
+                    id: 'stripe.payment.cardholderName.invalid',
+                  }),
                 },
               ]}
             >
@@ -137,7 +144,12 @@ const CustomCheckoutForm = ({ clientSecret, onCancel, orderId }) => {
           </Col>
         </Row>
 
-        <Form.Item label="Card Number" required>
+        <Form.Item
+          label={intl.formatMessage({
+            id: 'stripe.payment.cardNumber.label',
+          })}
+          required
+        >
           <div className={styles.cardElement}>
             <CardNumberElement
               options={{ style: elementStyle }}
@@ -150,7 +162,12 @@ const CustomCheckoutForm = ({ clientSecret, onCancel, orderId }) => {
 
         <Row gutter={16}>
           <Col span={12}>
-            <Form.Item label="Expiry Date" required>
+            <Form.Item
+              label={intl.formatMessage({
+                id: 'stripe.payment.expiryDate.label',
+              })}
+              required
+            >
               <div className={styles.cardElement}>
                 <CardExpiryElement
                   options={{ style: elementStyle }}
@@ -175,49 +192,6 @@ const CustomCheckoutForm = ({ clientSecret, onCancel, orderId }) => {
           </Col>
         </Row>
 
-        {/* <Row gutter={16}>
-          <Col span={12}>
-            <Form.Item
-              label="Country"
-              name="country"
-              rules={[
-                { required: true, message: 'Please select your country.' },
-              ]}
-            >
-              {' '}
-              <Select
-                className={styles.select}
-                placeholder="Select your country"
-                showSearch
-                optionFilterProp="children"
-              >
-                {' '}
-                {countryList.map((c) => (
-                  <Option key={c.code} value={c.code}>
-                    {c.name}
-                  </Option>
-                ))}{' '}
-              </Select>{' '}
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item
-              label="Postal Code"
-              name="postal"
-              rules={[
-                { required: true, message: 'Please enter your postal code.' },
-                {
-                  pattern: /^[0-9A-Za-z\s\-]+$/,
-                  message: 'Invalid postal code format.',
-                },
-              ]}
-            >
-              {' '}
-              <Input className={styles.input} placeholder="e.g. 10001" />{' '}
-            </Form.Item>
-          </Col>
-        </Row> */}
-
         <footer>
           <Form.Item>
             <Checkbox
@@ -225,7 +199,9 @@ const CustomCheckoutForm = ({ clientSecret, onCancel, orderId }) => {
               onChange={(e) => setSaveCard(e.target.checked)}
             >
               {' '}
-              Save this card for future payments{' '}
+              {intl.formatMessage({
+                id: 'stripe.payment.saveCard',
+              })}
             </Checkbox>
           </Form.Item>
 
@@ -240,7 +216,9 @@ const CustomCheckoutForm = ({ clientSecret, onCancel, orderId }) => {
 
           <div className={styles.actions}>
             <Button onClick={onCancel} className={styles['cancel']}>
-              Cancel
+              {intl.formatMessage({
+                id: 'stripe.payment.cancel',
+              })}
             </Button>
             <Button
               type="primary"
@@ -248,7 +226,9 @@ const CustomCheckoutForm = ({ clientSecret, onCancel, orderId }) => {
               loading={submitting}
               className={styles['pay']}
             >
-              Pay now
+              {intl.formatMessage({
+                id: 'stripe.payment.payNow',
+              })}
             </Button>
           </div>
         </footer>

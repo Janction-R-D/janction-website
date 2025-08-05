@@ -3,14 +3,14 @@ import reward_title from '@/assets/images/genesis/reward_title.png';
 import { fetchNTFClaimJasmy } from '@/services/genesis';
 import { renderBackgroudImg } from '@/utils/lang';
 import { useEffect, useState } from 'react';
-import { history } from 'umi';
+import { history, useIntl } from 'umi';
 import { toFixed } from '../../lang';
 import styles from './index.less';
 
 const ContributorReward = (props) => {
   const { nft } = props;
   const [rewardShow, setRewardShow] = useState(0);
-
+  const intl = useIntl();
   useEffect(() => {
     getData();
   }, []);
@@ -40,7 +40,7 @@ const ContributorReward = (props) => {
             history.push('/genesis/rewards', { nft });
           }}
         >
-          Receive award
+          {intl.formatMessage({ id: 'receive.award' })}
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './index.less';
 import { Button, message, Modal } from 'antd';
-import { history } from 'umi';
+import { history, useIntl } from 'umi';
 
 const PaymentResultModal = ({
   open,
@@ -11,6 +11,7 @@ const PaymentResultModal = ({
   onPay,
   setPaymentStatus,
 }) => {
+  const intl = useIntl();
   const onClick = () => {
     console.log(' Button Clicked');
     history.push('/genesis/purchase');
@@ -31,19 +32,23 @@ const PaymentResultModal = ({
       case 1:
         return (
           <>
-            <div className={styles['failure-message']}>Payment Failed</div>
+            <div className={styles['failure-message']}>
+              {intl.formatMessage({ id: 'payment.failed' })}
+            </div>
             <div className={styles['instruction-text']}>
               <span className={styles['normal-text']}>
-                The payment was not successful. Please try again using your{' '}
+                {intl.formatMessage({ id: 'payment.failed.instruction1' })}{' '}
               </span>
-              <span className={styles['highlight-text']}> Wallet</span>
+              <span className={styles['highlight-text']}>
+                {intl.formatMessage({ id: 'payment.wallet' })}
+              </span>
             </div>
             <div className={styles['button-group']}>
               <Button className={styles['connect-btn']} onClick={onClick}>
-                Return to Purchase
+                {intl.formatMessage({ id: 'payment.return' })}
               </Button>
               <Button className={styles['connect-btn']} onClick={onRepay}>
-                Retry Payment
+                {intl.formatMessage({ id: 'payment.retry' })}
               </Button>
             </div>
           </>
@@ -51,19 +56,23 @@ const PaymentResultModal = ({
       case 2:
         return (
           <>
-            <div className={styles['success-message']}>Payment Successful</div>
+            <div className={styles['success-message']}>
+              {intl.formatMessage({ id: 'payment.success' })}
+            </div>
             <div className={styles['instruction-text']}>
               <span className={styles['normal-text']}>
-                Your payment has been completed via{' '}
+                {intl.formatMessage({ id: 'payment.success.instruction1' })}{' '}
               </span>
-              <span className={styles['highlight-text']}> Wallet</span>
+              <span className={styles['highlight-text']}>
+                {intl.formatMessage({ id: 'payment.wallet' })}
+              </span>
             </div>
             <div className={styles['button-group']}>
               <Button className={styles['connect-btn']} onClick={onClick}>
-                Return to Purchase
+                {intl.formatMessage({ id: 'payment.return' })}
               </Button>
               <Button className={styles['connect-btn']} onClick={onContinue}>
-                View Instances
+                {intl.formatMessage({ id: 'payment.continue' })}
               </Button>
             </div>
           </>
@@ -71,12 +80,16 @@ const PaymentResultModal = ({
       case 3:
         return (
           <>
-            <div className={styles['process-message']}>Payment In Progress</div>
+            <div className={styles['process-message']}>
+              {intl.formatMessage({ id: 'payment.processing' })}
+            </div>
             <div className={styles['instruction-text']}>
               <span className={styles['normal-text']}>
-                Payment is being processed, please wait in your{' '}
+                {intl.formatMessage({ id: 'payment.processing.instruction1' })}{' '}
               </span>
-              <span className={styles['highlight-text']}> Wallet</span>
+              <span className={styles['highlight-text']}>
+                {intl.formatMessage({ id: 'payment.wallet' })}
+              </span>
             </div>
           </>
         );

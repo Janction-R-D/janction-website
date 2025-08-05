@@ -13,7 +13,7 @@ import ProductList from './Customized/ProductList';
 import { motion } from 'framer-motion';
 import FrameworkAi from './Customized/FrameworkAi';
 import AsidePrice from './Customized/AsidePrice/AsidePrice';
-import { history } from 'umi';
+import { history, useIntl } from 'umi';
 import PurDuration from './PurDuration';
 import { Duration } from '@/constant';
 import ImagesAi from './Customized/ImagesAi';
@@ -23,6 +23,7 @@ const Customized = () => {
   const [formValues, setFormValues] = useState({});
   const [current, setCurrent] = useState(0);
   const [completedSteps, setCompletedSteps] = useState(new Set());
+  const intl = useIntl();
   useEffect(() => {
     form.setFieldsValue(formValues);
   }, [current, formValues]);
@@ -33,7 +34,11 @@ const Customized = () => {
 
   const steps = [
     {
-      title: <p style={{ fontSize: '1rem' }}>Operating System</p>,
+      title: (
+        <p style={{ fontSize: '1rem' }}>
+          {intl.formatMessage({ id: 'steps.operating_system' })}
+        </p>
+      ),
       content: (
         <>
           <Form.Item name="operating_system_str">
@@ -44,12 +49,15 @@ const Customized = () => {
           </Form.Item>
         </>
       ),
-      field: 'Operating System',
-      description:
-        'Mobile is convenient, and large users can provide flexible computing power',
+      field: intl.formatMessage({ id: 'steps.field.os' }),
+      description: intl.formatMessage({ id: 'steps.description.generic' }),
     },
     {
-      title: <p style={{ fontSize: '1rem' }}>Internet</p>,
+      title: (
+        <p style={{ fontSize: '1rem' }}>
+          {intl.formatMessage({ id: 'steps.internet' })}
+        </p>
+      ),
       content: (
         <>
           <Form.Item name="internet_type">
@@ -60,24 +68,30 @@ const Customized = () => {
           </Form.Item>
         </>
       ),
-      field: 'Internet',
-      description:
-        'Mobile is convenient, and large users can provide flexible computing power.',
+      field: intl.formatMessage({ id: 'steps.field.internet' }),
+      description: intl.formatMessage({ id: 'steps.description.generic' }),
     },
     {
-      title: <p style={{ fontSize: '1rem' }}>Location</p>,
+      title: (
+        <p style={{ fontSize: '1rem' }}>
+          {intl.formatMessage({ id: 'steps.location' })}
+        </p>
+      ),
       content: (
         <Form.Item name="location">
           <Location formValues={formValues} current={current} />
         </Form.Item>
       ),
-      field: 'Location',
-      description:
-        'Mobile is convenient, and large users can provide flexible computing power.',
+      field: intl.formatMessage({ id: 'steps.field.location' }),
+      description: intl.formatMessage({ id: 'steps.description.generic' }),
     },
 
     {
-      title: <p style={{ fontSize: '1rem' }}>Processor</p>,
+      title: (
+        <p style={{ fontSize: '1rem' }}>
+          {intl.formatMessage({ id: 'steps.processor' })}
+        </p>
+      ),
       content: (
         <Card className={styles['processor-conf-wrapper']}>
           <Processor
@@ -90,11 +104,16 @@ const Customized = () => {
           </Form.Item>
         </Card>
       ),
-      field: 'Basic configuration',
-      description: '',
+      field: intl.formatMessage({ id: 'steps.steps.field.basic_config' }),
+
+      description: intl.formatMessage({ id: 'steps.description.generic' }),
     },
     {
-      title: <p style={{ fontSize: '1rem' }}>Available Instance</p>,
+      title: (
+        <p style={{ fontSize: '1rem' }}>
+          {intl.formatMessage({ id: 'steps.available_instance' })}
+        </p>
+      ),
       content: (
         <Card className={styles['processor-conf-wrapper']}>
           <Form.Item
@@ -105,11 +124,15 @@ const Customized = () => {
           </Form.Item>
         </Card>
       ),
-      field: 'Basic configuration',
-      description: '',
+      field: intl.formatMessage({ id: 'steps.steps.field.basic_config' }),
+      description: intl.formatMessage({ id: 'steps.description.generic' }),
     },
     {
-      title: <p style={{ fontSize: '1rem' }}> Image</p>,
+      title: (
+        <p style={{ fontSize: '1rem' }}>
+          {intl.formatMessage({ id: 'steps.image' })}
+        </p>
+      ),
       content: (
         <Card className={styles['processor-conf-wrapper']}>
           <p style={{ fontSize: '1rem' }}>Choose an Image</p>
@@ -118,11 +141,15 @@ const Customized = () => {
           </Form.Item>
         </Card>
       ),
-      field: 'Basic configuration',
-      description: '',
+      field: intl.formatMessage({ id: 'steps.steps.field.basic_config' }),
+      description: intl.formatMessage({ id: 'steps.description.generic' }),
     },
     {
-      title: <p style={{ fontSize: '1rem' }}>Duration</p>,
+      title: (
+        <p style={{ fontSize: '1rem' }}>
+          {intl.formatMessage({ id: 'steps.duration' })}
+        </p>
+      ),
       content: (
         <Card className={styles['processor-conf-wrapper']}>
           <Form.Item name="purDuration">
@@ -134,9 +161,8 @@ const Customized = () => {
           </Form.Item>
         </Card>
       ),
-      field: 'Purchase Duration',
-      description:
-        'Mobile is convenient, and large users can provide flexible computing power.',
+      field: intl.formatMessage({ id: 'steps.steps.field.purchase_duration' }),
+      description: intl.formatMessage({ id: 'steps.description.generic' }),
     },
   ];
   const onValidateStep = () => {
@@ -191,10 +217,11 @@ const Customized = () => {
       >
         <section className={styles['form-content']}>
           <section className={styles['header-section']}>
-            <h1 className={styles['title']}>Customized purchase</h1>
+            <h1 className={styles['title']}>
+              {intl.formatMessage({ id: 'customPurchase.title' })}
+            </h1>
             <p className={styles['description']}>
-              Tailor your server with custom hardware, network, and software
-              configurations for optimal performance and scalability.
+              {intl.formatMessage({ id: 'customPurchase.description' })}
             </p>
           </section>
           <CustomizedSteps
@@ -220,7 +247,7 @@ const Customized = () => {
                   <div className={styles['prev']}>
                     <i className="iconfont icon-next icon " />
                   </div>
-                  Prev Step{' '}
+                  {intl.formatMessage({ id: 'step.prev' })}
                 </Button>
               )}
               {current < steps.length - 1 && (
@@ -229,7 +256,8 @@ const Customized = () => {
                   className={styles['btn-next']}
                   onClick={next}
                 >
-                  Next Step <i className="iconfont icon-next icon" />
+                  {intl.formatMessage({ id: 'step.next' })}{' '}
+                  <i className="iconfont icon-next icon" />
                 </Button>
               )}
             </div>

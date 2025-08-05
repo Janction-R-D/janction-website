@@ -16,7 +16,7 @@ import contract, {
 import { delay, isEmpty } from '@/utils/lang';
 import { message } from 'antd';
 import { useEffect, useState } from 'react';
-import { history, Redirect, useModel } from 'umi';
+import { history, Redirect, useIntl, useModel } from 'umi';
 import { useAccount, useChainId } from 'wagmi';
 import PurchaseCard from '../components/Card';
 import Footer from '../components/Footer';
@@ -43,7 +43,7 @@ const Settlement = (props) => {
   const { isLessee, sessionType } = initialState || {};
   const [isWarning, setIsWarning] = useState(false);
   const [allowStripe, setAllowStripe] = useState(false);
-
+  const intl = useIntl();
   const paytype = [
     ...getJasmyCurrency(),
     ...(allowStripe
@@ -259,16 +259,16 @@ const Settlement = (props) => {
     <div className={styles['settlement-wrapper']}>
       <section className={styles['header-wrapper']}>
         <header>
-          <h1>Confirm product information</h1>
+          <h1>{intl.formatMessage({ id: 'confirm.title' })}</h1>
         </header>
       </section>
       <div className={styles['header-desc']}>
         <a onClick={goBack}>
           <i className="iconfont icon-pre_page"></i>
-          <span>Back to modify configuration</span>
+          <span>{intl.formatMessage({ id: 'confirm.back' })}</span>
         </a>
         <div>
-          <p>Remaining time paid</p>
+          <p>{intl.formatMessage({ id: 'confirm.remaining_time' })}</p>
           <JanctionCountDown
             deadline={deadline}
             onFinish={onFinish}
@@ -284,12 +284,12 @@ const Settlement = (props) => {
           allowStripe={allowStripe}
           configInfo={configInfo}
         />
-        <p>Price detail</p>
+        <p>{intl.formatMessage({ id: 'confirm.price_detail' })}</p>
         <div className={styles['node-wrapper']}>
           <p className={styles['node-id']}>Device ID:{list?.[0]?.node_id}</p>
           <section className={styles['container']}>
             <div className={styles['price-item']}>
-              <span>Price</span>
+              <span>{intl.formatMessage({ id: 'confirm.price' })}</span>{' '}
               <span className={styles['blue-item']}>
                 {getPrice()}
                 {` ${findCurrency} / ${
@@ -298,11 +298,11 @@ const Settlement = (props) => {
               </span>
             </div>
             <div className={styles['duration-item']}>
-              <span>Quantity</span>
+              <span>{intl.formatMessage({ id: 'confirm.quantity' })}</span>{' '}
               <span>*1</span>
             </div>
             <div className={styles['table-header-item']}>
-              <span>Duration</span>
+              <span>{intl.formatMessage({ id: 'confirm.duration' })}</span>{' '}
               <span className={styles['dur']}>
                 {(() => {
                   const { value, unit } = formValues?.purDuration || {};
@@ -319,7 +319,10 @@ const Settlement = (props) => {
             </div>
           </section>
           <section className={styles['total-price']}>
-            <span className={styles['total-title']}>Total Price</span>
+            <span className={styles['total-title']}>
+              {' '}
+              {intl.formatMessage({ id: 'confirm.total_price' })}
+            </span>
             <div>
               <span className={styles['blue-item']}>
                 {isNaN(Number(getTotalPrice()) / Number(currency?.rate || 1))

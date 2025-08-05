@@ -3,7 +3,7 @@ import styles from './index.less';
 import { useEffect, useMemo, useState } from 'react';
 import AsidePrice from './Quick/AsidePrice/AsidePrice';
 import TypeSelector from './Quick/TypeSelector';
-import { history } from 'umi';
+import { history, useIntl } from 'umi';
 import ToggleSwitch from './Quick/ToggelSwitch';
 import ProductList from './Quick/ProductList';
 import { fetchListFilter } from '@/services/genesis';
@@ -21,7 +21,7 @@ const Quick = (props) => {
   const [formValues, setFormValues] = useState({});
   const [list, setList] = useState([]);
   const { node_id } = location.state || {};
-
+  const intl = useIntl();
   useEffect(() => {
     let { operating_system_str: operating_system = [], ai_framework = [] } =
       formValues || {};
@@ -79,14 +79,15 @@ const Quick = (props) => {
         className={styles['form']}
       >
         <section className={styles['header-desc']}>
-          <h1 className={styles['title']}>Quick Purchase</h1>
-          <p>
-            Mobile is convenient, and large users can provide flexible computing
-            power.
-          </p>
+          <h1 className={styles['title']}>
+            {intl.formatMessage({ id: 'purchase.quick' })}
+          </h1>
+          <p>{intl.formatMessage({ id: 'instance.description' })}</p>
         </section>
         <main className={styles['specification-conf-wrapper']}>
-          <div className={styles['purpose-selector-title']}>Purpose</div>
+          <div className={styles['purpose-selector-title']}>
+            {intl.formatMessage({ id: 'purchase.purpose' })}
+          </div>
           <Form.Item name="purposes">
             <Purpose />
           </Form.Item>
@@ -100,7 +101,7 @@ const Quick = (props) => {
           <Form.Item name="template">
             <ImagesAi formValues={formValues} form={form} />
           </Form.Item>
-          <p>Instance Specification</p>
+          <p>{intl.formatMessage({ id: 'instance.specification' })}</p>
           <Card className={styles['specification-card']}>
             <section className={styles['specification-card-header']}>
               <Form.Item name="specification">
@@ -125,7 +126,9 @@ const Quick = (props) => {
             </Form.Item>
           </Card>
 
-          <p style={{ marginBottom: '12px' }}>Purchase Duration</p>
+          <p style={{ marginBottom: '12px' }}>
+            {intl.formatMessage({ id: 'steps.purchase_duration' })}
+          </p>
           <Form.Item name="purDuration">
             <PurDuration
               form={form}
