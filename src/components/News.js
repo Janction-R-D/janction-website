@@ -42,7 +42,6 @@ function News({ news }) {
         onChange={handlePageChange}
         showSizeChanger={false}
         className={styles['notifications-pagination']}
-        showTotal={(total) => `Total ${total} items`}
       />
     </div>
   );

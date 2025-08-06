@@ -132,8 +132,11 @@ const GenesisLayout = (props) => {
                     />
                   </a>
                   <p>
-                    Thank you for your contributions to the Janction computing
-                    Power Network
+                    {intl.formatMessage({
+                      id: 'reward.thanks',
+                      defaultMessage:
+                        'Thank you for your contributions to the Janction computing Power Network',
+                    })}
                   </p>
                 </div>
               </footer>

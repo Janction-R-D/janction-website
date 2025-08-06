@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Button } from 'antd';
-import { request } from 'umi';
+import { request, useIntl } from 'umi';
 import styles from '../index.less';
 
 async function getDiscordUserData(token) {
@@ -37,7 +37,7 @@ function DiscordElement({ icon }) {
   const [isConnected, setIsConnected] = useState(false);
   const [token, setToken] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
-
+  const intl = useIntl();
   useEffect(() => {
     const urlParams = new URLSearchParams(
       window.location.hash.replace('#', '?'),
@@ -95,13 +95,23 @@ function DiscordElement({ icon }) {
         {isConnected ? (
           <p>{userInfo?.username}</p>
         ) : (
-          <p>Connect to Discord account</p>
+          <p>
+            {intl.formatMessage({
+              id: 'social.connectDiscord',
+              defaultMessage: 'Connect to Discord account',
+            })}
+          </p>
         )}
 
         {isConnected && (
           <div className={styles['isConnected']}>
             <i className="iconfont icon-check"></i>
-            <p>Connected</p>
+            <p>
+              {intl.formatMessage({
+                id: 'social.connected',
+                defaultMessage: 'Connected',
+              })}
+            </p>
           </div>
         )}
       </div>
@@ -110,7 +120,16 @@ function DiscordElement({ icon }) {
           className={isConnected ? styles['cancel-btn'] : styles['connect-btn']}
           onClick={handleClick}
         >
-          {isConnected ? 'Disconnect' : 'Connect'}{' '}
+          {isConnected
+            ? intl.formatMessage({
+                id: 'social.disconnect',
+                defaultMessage: 'Disconnect',
+              })
+            : intl.formatMessage({
+                id: 'social.connect',
+                defaultMessage: 'Connect',
+              })}
+
           <i className="iconfont icon-a-Removefixed-outlined" />
         </Button>
       </div>
@@ -122,32 +141,7 @@ function TwitterElement({ icon }) {
   const [isConnected, setIsConnected] = useState(false);
   const [token, setToken] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
-
-  //   useEffect(() => {
-  //     const urlParams = new URLSearchParams(
-  //       window.location.hash.replace('#', '?'),
-  //     );
-  //     const accessToken = urlParams.get('access_token');
-
-  //     if (accessToken) {
-  //       setToken(accessToken);
-  //       localStorage.setItem('twitterToken', accessToken);
-  //       setIsConnected(true);
-
-  //       getTwitterUserData(accessToken).then((data) => {
-  //         setUserInfo(data);
-  //       });
-  //     } else {
-  //       const storedToken = localStorage.getItem('twitterToken');
-  //       if (storedToken) {
-  //         setToken(storedToken);
-  //         setIsConnected(true);
-  //         getTwitterUserData(storedToken).then((data) => {
-  //           setUserInfo(data);
-  //         });
-  //       }
-  //     }
-  //   }, []);
+  const intl = useIntl();
 
   const handleClick = () => {
     if (isConnected) {
@@ -180,13 +174,23 @@ function TwitterElement({ icon }) {
         {isConnected ? (
           <p>{userInfo?.username}</p>
         ) : (
-          <p>Connect to Twitter account</p>
+          <p>
+            {intl.formatMessage({
+              id: 'social.connectTwitter',
+              defaultMessage: 'Connect to Twitter account',
+            })}
+          </p>
         )}
 
         {isConnected && (
           <div className={styles['isConnected']}>
             <i className="iconfont icon-check"></i>
-            <p>Connected</p>
+            <p>
+              {intl.formatMessage({
+                id: 'social.connected',
+                defaultMessage: 'Connected',
+              })}
+            </p>
           </div>
         )}
       </div>
@@ -195,7 +199,15 @@ function TwitterElement({ icon }) {
           className={isConnected ? styles['cancel-btn'] : styles['connect-btn']}
           onClick={handleClick}
         >
-          {isConnected ? 'Disconnect' : 'Connect'}{' '}
+          {isConnected
+            ? intl.formatMessage({
+                id: 'social.disconnect',
+                defaultMessage: 'Disconnect',
+              })
+            : intl.formatMessage({
+                id: 'social.connect',
+                defaultMessage: 'Connect',
+              })}
           <i className="iconfont icon-a-Removefixed-outlined" />
         </Button>
       </div>
@@ -204,6 +216,7 @@ function TwitterElement({ icon }) {
 }
 
 export default function SocialLink() {
+  const intl = useIntl();
   const icons = {
     discord: 'discord',
     twitter: 'x',
@@ -212,7 +225,12 @@ export default function SocialLink() {
   return (
     <Card className={styles['card']}>
       <section className={styles['card-header']}>
-        <h3>Link your social tags</h3>
+        <h3>
+          {intl.formatMessage({
+            id: 'social.linkTags',
+            defaultMessage: 'Link your social tags',
+          })}
+        </h3>
       </section>
       <section className={styles['social-tags']}>
         <TwitterElement icon={icons.twitter} />
