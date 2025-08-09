@@ -49,7 +49,7 @@ const Footer = (props) => {
             >
               Community
             </a>
-            <a href="https://x.com/JanctionMGT" target="_blank">
+            <a href="https://x.com/" target="_blank">
               Twitter
             </a>
             <a>Discord</a>
