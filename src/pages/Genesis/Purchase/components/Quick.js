@@ -95,9 +95,9 @@ const Quick = (props) => {
             <Operating getList={getList} />
           </Form.Item> */}
 
-          <Form.Item name="ai_framework">
+          {/* <Form.Item name="ai_framework">
             <FrameworkAi formValues={formValues} />
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item name="template">
             <ImagesAi formValues={formValues} form={form} />
           </Form.Item>

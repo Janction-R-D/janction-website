@@ -28,8 +28,7 @@ export default function AsidePrice({ formValues, styles, onConfirm }) {
     <aside className={styles['aside-wrapper']}>
       <header className={styles['aside-header']}>
         <h2 className={styles['aside-title']}>
-          {' '}
-          {intl.formatMessage({ id: 'steps.field.os' })}
+          {intl.formatMessage({ id: 'confirm.total_price' })}
         </h2>
       </header>
 

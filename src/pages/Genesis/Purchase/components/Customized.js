@@ -44,9 +44,9 @@ const Customized = () => {
           <Form.Item name="operating_system_str">
             <OperatingCard formValues={formValues} setCurrent={setCurrent} />
           </Form.Item>
-          <Form.Item name="ai_framework">
+          {/* <Form.Item name="ai_framework">
             <FrameworkAi formValues={formValues} setCurrent={setCurrent} />
-          </Form.Item>
+          </Form.Item> */}
         </>
       ),
       field: intl.formatMessage({ id: 'steps.field.os' }),
