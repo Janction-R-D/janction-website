@@ -5,6 +5,7 @@ import { brandDetails } from '@/constant';
 import OrderModal from './OrderModal';
 import PayButton from './PayButton';
 import { useIntl } from 'umi';
+import { getJasmyCurrency } from '@/utils/contracts';
 
 export default function OrderCard({ order }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,6 +22,9 @@ export default function OrderCard({ order }) {
     order: order?.order,
     resource: order?.resource,
   };
+  const currency = getJasmyCurrency().find(
+    (item) => item.value == data?.order?.payment_plan_created?.Currency,
+  );
 
   const statusKey = data?.order?.status?.toLowerCase();
   const statusIcon =
@@ -122,7 +126,7 @@ export default function OrderCard({ order }) {
                 <span className={styles['bold-price']}>
                   {data.order?.price?.price_in_currency || `~`}
                 </span>
-                <span>{intl.formatMessage({ id: 'order.paid.unit' })}</span>
+                <span>{currency?.label || 'USDC'}</span>
               </span>
             </p>
           </section>
@@ -146,5 +150,7 @@ const Hearder = ({ data }) => {
     );
   }
 
-  return <span>{`${gpu || ''} ${cpu || ''} * ${cpu?.length || 0}`}</span>;
+  return (
+    <span>{`${gpu?.[0] || ''} ${cpu?.[0] || ''} * ${cpu?.length || 0}`}</span>
+  );
 };
