@@ -73,13 +73,13 @@ const ContributorReward = (props) => {
             <i className="iconfont icon-pre" style={{ color: 'orange' }} />
             {intl.formatMessage({ id: 'reward.back', defaultMessage: 'Back' })}
           </div>
-          <a
+          {/* <a
             className="hvr-grow"
             href="https://x.com/JanctionMGT"
             target="_black"
           >
             <i className="iconfont icon-x"></i>
-          </a>
+          </a> */}
           <a
             className="hvr-grow"
             href="https://t.me/jasmyofficial"
