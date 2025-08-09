@@ -18,7 +18,7 @@ export default function FrameworkAi({ value = [], onChange }) {
   return (
     <main className={styles['framework-conf-wrapper']}>
       <div className={styles['framework-check']}>
-        <p> {intl.formatMessage({ id: 'steps.framework' })}</p>
+        {/* <p> {intl.formatMessage({ id: 'steps.framework' })}</p> */}
       </div>
       <section className={styles['framework-conf-cards']}>
         {FRAMEWORK.map((item) => (
