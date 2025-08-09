@@ -156,7 +156,7 @@ const Settlement = (props) => {
 
       const payload = {
         node_id: node?.id,
-        tempalte: template || 'base',
+        template: template || 'base',
         purchase_instance_quantity: 1,
         purchase_duration: value,
         purchase_duration_unit: goal?.label.toLowerCase(),
