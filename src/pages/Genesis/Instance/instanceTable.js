@@ -179,6 +179,21 @@ function InstanceTable({ data, getAllNodes }) {
       },
     },
     {
+      title: (
+        <div className="name">
+          {intl.formatMessage({ id: 'instanceTable.message' })}
+        </div>
+      ),
+      dataIndex: 'message',
+      key: 'message',
+      ellipsis: true,
+      render: (text) => (
+        <TooltipBox TooltipText={text}>
+          <p className="message-text">{text}</p>
+        </TooltipBox>
+      ),
+    },
+    {
       title: intl.formatMessage({ id: 'instanceTable.location' }),
       dataIndex: 'Location',
       key: 'Location',
@@ -269,6 +284,7 @@ function InstanceTable({ data, getAllNodes }) {
       downtime: `${formatISODate(order.created_at)}\r\n${formatISODate(
         order.expired_at,
       )}`,
+      message: order?.message || '~~',
     }));
   }, [data]);
 
