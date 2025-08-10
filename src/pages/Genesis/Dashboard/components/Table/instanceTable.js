@@ -12,7 +12,7 @@ function InstanceTable({ data }) {
     {
       title: (
         <div className="name">
-          {intl.formatMessage({ id: 'instanceTable.instance' })}
+          {intl.formatMessage({ id: 'instanceTable.instanceId' })}
         </div>
       ),
       dataIndex: 'key',
@@ -22,7 +22,7 @@ function InstanceTable({ data }) {
     {
       title: (
         <div className="name">
-          {intl.formatMessage({ id: 'instanceTable.node' })}
+          {intl.formatMessage({ id: 'instanceTable.name' })}
         </div>
       ),
       dataIndex: 'node_id',
@@ -68,6 +68,16 @@ function InstanceTable({ data }) {
           </>
         );
       },
+    },
+    {
+      title: (
+        <div className="name">
+          {intl.formatMessage({ id: 'instanceTable.message' })}
+        </div>
+      ),
+      dataIndex: 'message',
+      key: 'message',
+      ellipsis: true,
     },
     {
       title: (
@@ -137,6 +147,7 @@ function InstanceTable({ data }) {
     downtime: `${formatISODate(order.created_at)}\r\n${formatISODate(
       order.expired_at,
     )}`,
+    message: order?.message || '~',
   }));
 
   return (
