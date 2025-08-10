@@ -601,6 +601,7 @@ export default {
   'instanceTable.createInstance': 'インスタンスを作成してください',
   'instanceTable.instanceId': 'インスタンス ID',
   'instanceTable.nodeId': 'ノード ID',
+  'instanceTable.message': 'メッセージ',
   'instanceTable.name': '名前',
   'instanceTable.cores': 'コア数',
   'instanceTable.memory': 'メモリ',
