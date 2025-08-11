@@ -35,6 +35,7 @@ export default function OperationModal({ record, getAllNodes }) {
   const [selectValue, setSelectValue] = useState(undefined);
   const chainId = useChainId();
   const signer = useEthersSigner(chainId);
+
   const [modalVisible, setModalVisible] = useState(false);
 
   const openModal = () => setModalVisible(true);

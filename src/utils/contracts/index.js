@@ -354,7 +354,7 @@ const contract = {
   stopRent: async (signer, paymentId, adminSignature) => {
     try {
       const signerAddress = await signer.getAddress();
-
+      console.log(signerAddress);
       const deadline = adminSignature.deadline;
 
       message.info({
@@ -375,7 +375,7 @@ const contract = {
       const domain = {
         name: 'PaymentImpl',
         version: '1',
-        chainId: (await provider.getNetwork()).chainId,
+        chainId: (await signer.provider.getNetwork()).chainId,
         verifyingContract: getJasmyAddress().PaymentProxy,
       };
 
