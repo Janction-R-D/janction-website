@@ -133,23 +133,25 @@ export default function OperationModal({ record, getAllNodes }) {
       const routes = resStatus.tunnel_routes || [];
       if (!routes.length) {
         console.log('routes received: ', routes);
+        throw new Error('Error receiving routes');
         return;
       }
+
       storage.set({
         name: 'tunnels',
         value: [...cached, { id: resourceId, tunnels: routes }],
       });
-
+      let resEnable = await fetchEnableTunnel({
+        resource_id: resourceId,
+        service_name: 'my-service',
+      });
+      console.log(resEnable);
       setOptions(routes);
       message.success('Tunnel connected successfully!');
     } catch (error) {
       console.log(error);
 
       await fetchCreateTunnel({ resource_id: resourceId });
-      let resEnable = await fetchEnableTunnel({
-        resource_id: resourceId,
-        service_name: 'my-service',
-      });
 
       // AddRoute()
       console.log(error);
@@ -291,7 +293,7 @@ export default function OperationModal({ record, getAllNodes }) {
                   {options.map((opt, idx) => (
                     <Select.Option key={idx} value={opt.url}>
                       {opt.name + '-' + (idx + 1) || opt.url + '-' + (idx + 1)}{' '}
-                      <span
+                      {/* <span
                         onClick={(e) => {
                           e.stopPropagation();
                           deleteRoute(opt);
@@ -299,10 +301,10 @@ export default function OperationModal({ record, getAllNodes }) {
                         style={{ marginLeft: 18, cursor: 'pointer' }}
                       >
                         <DeleteFilled />
-                      </span>
+                      </span> */}
                     </Select.Option>
                   ))}
-                  <Select.Option
+                  {/* <Select.Option
                     key="add-new-route"
                     disabled
                     style={{ textAlign: 'center', cursor: 'default' }}
@@ -325,7 +327,7 @@ export default function OperationModal({ record, getAllNodes }) {
                       {intl.formatMessage({ id: 'addNewRoute' })}{' '}
                       <i className="iconfont icon-add" />
                     </button>
-                  </Select.Option>
+                  </Select.Option> */}
                 </Select>
               }
             >

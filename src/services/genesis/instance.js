@@ -401,7 +401,7 @@ export const fetchCreateTunnel = (params) => {
   });
 };
 export const fetchEnableTunnel = (params) => {
-  return request(`${baseUrl}/resource/tunnel/enable`, {
+  return request(`${baseUrl}/resource/tunnel/routes/enable`, {
     data: params,
     loginAuth: true,
     method: 'POST',
