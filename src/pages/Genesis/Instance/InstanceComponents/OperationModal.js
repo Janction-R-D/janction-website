@@ -131,7 +131,10 @@ export default function OperationModal({ record, getAllNodes }) {
       console.log(resStatus);
 
       const routes = resStatus.tunnel_routes || [];
-
+      if (!routes.length) {
+        console.log('routes received: ', routes);
+        return;
+      }
       storage.set({
         name: 'tunnels',
         value: [...cached, { id: resourceId, tunnels: routes }],
@@ -238,6 +241,7 @@ export default function OperationModal({ record, getAllNodes }) {
         resource_id: record.id,
         service_name: opt.name,
       });
+      getAllNodes();
     } catch (error) {}
   };
   return (
