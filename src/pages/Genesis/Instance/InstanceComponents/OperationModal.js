@@ -121,7 +121,16 @@ export default function OperationModal({ record, getAllNodes }) {
     try {
       let res = await fetchResourceTunnel({ resource_id: resourceId });
 
-      if (!res?.routes?.length) {
+      const routes = res.routes || [];
+      storage.set({
+        name: 'tunnels',
+        value: [...cached, { id: resourceId, tunnels: routes }],
+      });
+
+      setOptions(routes);
+      message.success('Tunnel connected successfully!');
+    } catch (error) {
+      try {
         console.log('No routes found, creating new tunnel...');
         await PostAddTunnel({
           resource_id: resourceId,
@@ -129,27 +138,19 @@ export default function OperationModal({ record, getAllNodes }) {
           port: 8080,
         });
 
-        res = await fetchResourceTunnel({ resource_id: resourceId });
+        const routes = res.routes || [];
+
+        storage.set({
+          name: 'tunnels',
+          value: [...cached, { id: resourceId, tunnels: routes }],
+        });
+
+        setOptions(routes);
+        message.success('Tunnel connected successfully!');
+      } catch (error) {
+        console.error('Tunnel connection failed:', error);
+        message.error('Failed to create or retrieve remote tunnel routes');
       }
-
-      const routes = res.routes || [];
-
-      storage.set({
-        name: 'tunnels',
-        value: [...cached, { id: resourceId, tunnels: routes }],
-      });
-
-      setOptions(routes);
-      message.success({
-        content: 'Tunnel connected successfully!',
-        key: 'loading',
-      });
-    } catch (error) {
-      console.error('Tunnel connection failed:', error);
-      message.error({
-        content: 'Failed to create or retrieve remote tunnel routes',
-        key: 'loading',
-      });
     } finally {
       setSelectLoading(false);
       message.destroy('loading');
@@ -212,7 +213,7 @@ export default function OperationModal({ record, getAllNodes }) {
         content={
           <ul className={styles['more-function']} style={{ padding: '0px' }}>
             <Popover
-              trigger="click"
+              trigger="hover"
               open={isRunning && selectVisible}
               onOpenChange={(v) => {
                 setSelectVisible(v);
@@ -252,7 +253,7 @@ export default function OperationModal({ record, getAllNodes }) {
                 >
                   {options.map((opt, idx) => (
                     <Select.Option key={idx} value={opt.url}>
-                      {opt.name || opt.url}
+                      {opt.name + '-' + (idx + 1) || opt.url + '-' + (idx + 1)}
                     </Select.Option>
                   ))}
                 </Select>

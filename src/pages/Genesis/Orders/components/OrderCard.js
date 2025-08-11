@@ -149,7 +149,10 @@ const Hearder = ({ data }) => {
       </span>
     );
   }
-
+  if (data?.order?.refund_reason && data?.order?.status) {
+    console.log(data?.order?.refund_reason);
+    return <span>{data?.order?.refund_reason}</span>;
+  }
   return (
     <span>{`${gpu?.[0] || ''} ${cpu?.[0] || ''} * ${cpu?.length || 0}`}</span>
   );
