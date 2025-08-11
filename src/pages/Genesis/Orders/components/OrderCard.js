@@ -1,11 +1,12 @@
 import React, { useMemo, useState } from 'react';
-import { Button, Card, Divider } from 'antd';
+import { Button, Card, Divider, Tooltip } from 'antd';
 import styles from './orders.less';
 import { brandDetails } from '@/constant';
 import OrderModal from './OrderModal';
 import PayButton from './PayButton';
 import { useIntl } from 'umi';
 import { getJasmyCurrency } from '@/utils/contracts';
+import TooltipBox from '../../components/Tooltip';
 
 export default function OrderCard({ order }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -109,6 +110,16 @@ export default function OrderCard({ order }) {
                   ? `${data.order.resource.node.attr.architechture_str} / ${data.order.resource.node.attr.operating_system_str}`
                   : '~~'}
               </span>
+            </p>
+            <p>
+              <span>{intl.formatMessage({ id: 'transactionId' })}</span>
+              <Tooltip
+                color="black"
+                title={data.order?.payment_tx_hash || '~~'}
+                className={styles['tx_id']}
+              >
+                {data.order?.payment_tx_hash || '~~'}
+              </Tooltip>
             </p>
           </section>
 

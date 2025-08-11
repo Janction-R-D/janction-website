@@ -887,4 +887,7 @@ export default {
   'profile.registrationDate': 'Registration date:',
   'profile.email': 'E-mail',
   'profile.address': 'Address:',
+  transactionId: 'Transaction ID',
+  expiredTime: 'Expired Time',
+  createdTime: 'Created Time',
 };

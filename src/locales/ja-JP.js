@@ -921,4 +921,7 @@ export default {
   'profile.registrationDate': '登録日：',
   'profile.email': 'メールアドレス',
   'profile.address': 'アドレス：',
+  transactionId: '取引ID',
+  expiredTime: '有効期限',
+  createdTime: '作成日時',
 };

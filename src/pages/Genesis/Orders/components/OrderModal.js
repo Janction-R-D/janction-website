@@ -42,20 +42,24 @@ export default function OrderModal({ handleCancel, isModalOpen, data }) {
       <div>
         {renderInfo(
           intl.formatMessage({ id: 'orderModal.os' }),
-          data?.resource?.node?.attr.operating_system_str?.toUpperCase(),
+          data?.resource?.node?.attr?.operating_system_str?.toUpperCase() ||
+            '~~',
         )}
       </div>
       <div>
         {renderInfo(
           intl.formatMessage({ id: 'orderModal.basic' }),
-          !data?.resource?.node?.attr.gpu_chip &&
-            !data?.resource?.node?.attr.cpu_chip
+          !data?.resource?.node?.attr?.cpu_chip_map
             ? '--'
-            : `${data?.resource?.node?.attr?.gpu_chip || ''} ${
-                data?.resource?.node?.attr?.cpu_chip +
-                  ' * ' +
-                  data?.resource?.node?.attr?.cpu_chip?.length || ''
-              }`,
+            : (() => {
+                const puMap = data.resource.node.attr.cpu_chip_map;
+
+                const entries = Object.entries(puMap);
+                if (entries.length === 0) return '--';
+
+                const [key, value] = entries[0];
+                return `${key} * ${value}`;
+              })(),
         )}
       </div>
       <div>
@@ -69,19 +73,31 @@ export default function OrderModal({ handleCancel, isModalOpen, data }) {
       <div>
         {renderInfo(
           intl.formatMessage({ id: 'orderModal.arch' }),
-          data?.resource?.node?.attr.architechture_str?.toUpperCase(),
+          data?.resource?.node?.attr.architechture_str?.toUpperCase() || '~~',
+        )}
+      </div>
+      <div>
+        {renderInfo(
+          intl.formatMessage({ id: 'createdTime' }),
+          formatISODate(data?.order?.created_at),
+        )}
+      </div>
+      <div>
+        {renderInfo(
+          intl.formatMessage({ id: 'expiredTime' }),
+          formatISODate(data?.order?.expire_time),
         )}
       </div>
       <div>
         {renderInfo(
           intl.formatMessage({ id: 'orderModal.location' }),
-          data?.resource?.node?.attr.location,
+          data?.resource?.node?.attr?.location || '~~',
         )}
       </div>
       <div>
         {renderInfo(
           intl.formatMessage({ id: 'orderModal.os' }),
-          data?.resource?.node?.attr.operating_system_str,
+          data?.resource?.node?.attr.operating_system_str || '~~',
         )}
       </div>
       <Divider />
