@@ -394,7 +394,7 @@ export const fetchResource = (params) => {
   });
 };
 export const fetchCreateTunnel = (params) => {
-  return request(`${baseUrl}/resource/tunnel/create`, {
+  return request(`${baseUrl}/resource/tunnel/register`, {
     data: params,
     loginAuth: true,
     method: 'POST',

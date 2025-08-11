@@ -49,7 +49,7 @@ export default function NotifyModal({ setIsModalOpen, isModalOpen, handleOk }) {
       closable={false}
     >
       <header className={styles['card-header']}>
-        <h3 className={styles['card-title']}>New news ({news.length})</h3>
+        <h3 className={styles['card-title']}>News ({news.length})</h3>
         {/* {mapTasksToNotifications.length > 0 && (
           <Button className={styles['create-btn']} onClick={onNavigate}>
             See All <i className="iconfont icon-next_page"></i>

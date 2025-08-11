@@ -5,11 +5,11 @@ import TerminalModal from './TerminalModal';
 import JanctionPopover from '@/components/JanctionPopover';
 import contract from '@/utils/contracts';
 import {
-  fetchCreateTunnel,
   fetchDeleteTunnel,
   fetchEnableTunnel,
   fetchMarketOrder,
   fetchResource,
+  fetchCreateTunnel,
   fetchResourceTunnel,
   fetchStopRentParams,
   PostAddTunnel,
@@ -107,16 +107,41 @@ export default function OperationModal({ record, getAllNodes }) {
     if (!resourceId) return;
 
     const cached = storage.get('tunnels') || [];
-
-    const cachedTunnel = cached?.find((t) => t?.id === resourceId);
+    const cachedTunnel = cached.find((t) => t?.id === resourceId);
 
     if (cachedTunnel) {
-      console.log(cachedTunnel?.tunnels);
-      console.log('Found tunnel in cache, skipping API calls.');
-      setOptions(cachedTunnel?.tunnels || []);
+      console.log('Found tunnel in cache:', cachedTunnel.tunnels);
+      setOptions(cachedTunnel.tunnels || []);
       setSelectVisible(true);
       return;
     }
+
+    const updateTunnelCache = (routes) => {
+      storage.set({
+        name: 'tunnels',
+        value: [...cached, { id: resourceId, tunnels: routes }],
+      });
+      setOptions(routes);
+    };
+
+    const fetchAndStoreTunnel = async () => {
+      const resStatus = await fetchResourceTunnel({ resource_id: resourceId });
+      console.log('Tunnel status:', resStatus);
+
+      const routes = resStatus.tunnel_routes || [];
+      if (!routes.length) {
+        throw new Error('No tunnel routes received');
+      }
+
+      updateTunnelCache(routes);
+
+      // const resEnable = await fetchEnableTunnel({
+      //   resource_id: resourceId,
+      //   service_name: 'my-service',
+      // });
+      // console.log('Tunnel enable result:', resEnable);
+      message.success('Tunnel connected successfully!');
+    };
 
     setSelectVisible(true);
     setSelectLoading(true);
@@ -127,39 +152,17 @@ export default function OperationModal({ record, getAllNodes }) {
     });
 
     try {
-      let resStatus = await fetchResourceTunnel({ resource_id: resourceId });
-      console.log(resStatus);
-
-      const routes = resStatus.tunnel_routes || [];
-      if (!routes.length) {
-        console.log('routes received: ', routes);
-        throw new Error('Error receiving routes');
-        return;
-      }
-
-      storage.set({
-        name: 'tunnels',
-        value: [...cached, { id: resourceId, tunnels: routes }],
-      });
-      let resEnable = await fetchEnableTunnel({
-        resource_id: resourceId,
-        service_name: 'my-service',
-      });
-      console.log(resEnable);
-      setOptions(routes);
-      message.success('Tunnel connected successfully!');
+      await fetchAndStoreTunnel();
     } catch (error) {
-      console.log(error);
-
+      console.warn('Primary tunnel fetch failed, creating tunnel...', error);
       await fetchCreateTunnel({ resource_id: resourceId });
-
-      // AddRoute()
-      console.log(error);
+      await fetchAndStoreTunnel();
     } finally {
       setSelectLoading(false);
       message.destroy('loading');
     }
   };
+
   const AddRoute = async () => {
     try {
       console.log('No routes found, creating new tunnel...');
