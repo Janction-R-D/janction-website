@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { message, Popconfirm, Popover, Select } from 'antd';
+import { Button, message, Popconfirm, Popover, Select } from 'antd';
 import styles from './operation.less';
 import TerminalModal from './TerminalModal';
 import JanctionPopover from '@/components/JanctionPopover';
 import contract from '@/utils/contracts';
 import {
+  fetchCreateTunnel,
+  fetchDeleteTunnel,
+  fetchEnableTunnel,
   fetchMarketOrder,
   fetchResource,
   fetchResourceTunnel,
@@ -19,6 +22,8 @@ import { useEthersSigner } from '@/hooks/useEthersSigner';
 import CustomWarningModal from './WarningModal';
 import { useIntl } from 'umi';
 import storage from '@/utils/storage';
+import AddModal from './AddModal';
+import { DeleteFilled } from '@ant-design/icons';
 
 export default function OperationModal({ record, getAllNodes }) {
   const [visible, setVisible] = useState(false);
@@ -30,7 +35,10 @@ export default function OperationModal({ record, getAllNodes }) {
   const [selectValue, setSelectValue] = useState(undefined);
   const chainId = useChainId();
   const signer = useEthersSigner(chainId);
+  const [modalVisible, setModalVisible] = useState(false);
 
+  const openModal = () => setModalVisible(true);
+  const closeModal = () => setModalVisible(false);
   const allowedStatuses = ['running', 'starting', 'stopped'];
   const allowedRunning = ['running', 'starting'];
   const isRunning = allowedRunning.includes(record?.status?.toLowerCase());
@@ -119,9 +127,11 @@ export default function OperationModal({ record, getAllNodes }) {
     });
 
     try {
-      let res = await fetchResourceTunnel({ resource_id: resourceId });
+      let resStatus = await fetchResourceTunnel({ resource_id: resourceId });
+      console.log(resStatus);
 
-      const routes = res.routes || [];
+      const routes = resStatus.tunnel_routes || [];
+
       storage.set({
         name: 'tunnels',
         value: [...cached, { id: resourceId, tunnels: routes }],
@@ -130,33 +140,44 @@ export default function OperationModal({ record, getAllNodes }) {
       setOptions(routes);
       message.success('Tunnel connected successfully!');
     } catch (error) {
-      try {
-        console.log('No routes found, creating new tunnel...');
-        await PostAddTunnel({
-          resource_id: resourceId,
-          service_name: 'my-new-service',
-          port: 8080,
-        });
+      console.log(error);
 
-        const routes = res.routes || [];
+      await fetchCreateTunnel({ resource_id: resourceId });
+      let resEnable = await fetchEnableTunnel({
+        resource_id: resourceId,
+        service_name: 'my-service',
+      });
 
-        storage.set({
-          name: 'tunnels',
-          value: [...cached, { id: resourceId, tunnels: routes }],
-        });
-
-        setOptions(routes);
-        message.success('Tunnel connected successfully!');
-      } catch (error) {
-        console.error('Tunnel connection failed:', error);
-        message.error('Failed to create or retrieve remote tunnel routes');
-      }
+      // AddRoute()
+      console.log(error);
     } finally {
       setSelectLoading(false);
       message.destroy('loading');
     }
   };
+  const AddRoute = async () => {
+    try {
+      console.log('No routes found, creating new tunnel...');
+      await PostAddTunnel({
+        resource_id: record?.id,
+        service_name: 'my-new-service',
+        port: 8080,
+      });
 
+      const routes = res.routes || [];
+
+      storage.set({
+        name: 'tunnels',
+        value: [...cached, { id: record?.id, tunnels: routes }],
+      });
+
+      setOptions(routes);
+      message.success('Tunnel connected successfully!');
+    } catch (error) {
+      console.error('Tunnel connection failed:', error);
+      message.error('Failed to create or retrieve remote tunnel routes');
+    }
+  };
   useEffect(() => {
     if (!selectVisible) {
       setOptions([]);
@@ -206,7 +227,19 @@ export default function OperationModal({ record, getAllNodes }) {
       message.destroy('code-server');
     }
   };
-
+  const onAddRoute = async (values) => {
+    await AddRoute();
+    closeModal();
+  };
+  const deleteRoute = async (opt) => {
+    console.log(opt);
+    try {
+      const resDelete = await fetchDeleteTunnel({
+        resource_id: record.id,
+        service_name: opt.name,
+      });
+    } catch (error) {}
+  };
   return (
     <div className="ellipsis operation-modal">
       <JanctionPopover
@@ -253,9 +286,42 @@ export default function OperationModal({ record, getAllNodes }) {
                 >
                   {options.map((opt, idx) => (
                     <Select.Option key={idx} value={opt.url}>
-                      {opt.name + '-' + (idx + 1) || opt.url + '-' + (idx + 1)}
+                      {opt.name + '-' + (idx + 1) || opt.url + '-' + (idx + 1)}{' '}
+                      <span
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          deleteRoute(opt);
+                        }}
+                        style={{ marginLeft: 18, cursor: 'pointer' }}
+                      >
+                        <DeleteFilled />
+                      </span>
                     </Select.Option>
                   ))}
+                  <Select.Option
+                    key="add-new-route"
+                    disabled
+                    style={{ textAlign: 'center', cursor: 'default' }}
+                  >
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault(); // evitar que el select cierre o cambie valor
+                        openModal();
+                      }}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        padding: 0,
+                        color: '#1890ff',
+                        cursor: 'pointer',
+                        fontWeight: 'bold',
+                      }}
+                    >
+                      {intl.formatMessage({ id: 'addNewRoute' })}{' '}
+                      <i className="iconfont icon-add" />
+                    </button>
+                  </Select.Option>
                 </Select>
               }
             >
@@ -323,6 +389,14 @@ export default function OperationModal({ record, getAllNodes }) {
         onCancel={() => setSshOpen(false)}
         record={record}
       />
+      {modalVisible && (
+        <AddModal
+          modalVisible={modalVisible}
+          onAddRoute={onAddRoute}
+          closeModal={closeModal}
+          record={record}
+        />
+      )}
     </div>
   );
 }
