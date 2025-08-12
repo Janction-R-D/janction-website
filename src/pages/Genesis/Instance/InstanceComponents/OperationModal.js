@@ -45,63 +45,8 @@ export default function OperationModal({ record, getAllNodes }) {
   const isRunning = allowedRunning.includes(record?.status?.toLowerCase());
   const isAllowed = allowedStatuses.includes(record?.status?.toLowerCase());
   const intl = useIntl();
-  // const handleConnect = async () => {
-  //   if (!isRunning) return;
-  //   if (selectLoading) return;
-  //   setSelectVisible(true);
-  //   setSelectLoading(true);
 
-  //   try {
-  //     message.info({
-  //       content: 'Attempting to create the remote tunnel...',
-  //       key: 'loading',
-  //       duration: 0,
-  //     });
-  //     // first .. check if the resource tunnel is on local
-
-  //     // First attempt to fetch the tunnel
-  //     const res = await fetchResourceTunnel({ resource_id: record?.id });
-  //     console.log(res?.routes);
-  //     storage.set({
-  //       name: 'tunnels',
-  //       value: { id: record?.id, tuunels: res?.routes || [] },
-  //     });
-  //     setOptions(res.routes || []);
-  //   } catch (error) {
-  //     console.log('Failed to fetch tunnel routes:', error);
-  //     try {
-  //       // Try to create the tunnel
-  //       console.log('Attempting to create the remote tunnel...');
-  //       // await PostResourceTunnel({ resource_id: record?.id });
-  //       const tunnel = await PostAddTunnel({
-  //         resource_id: record?.id,
-  //         service_name: 'my-new-service',
-  //         port: 8080,
-  //       });
-
-  //       // Try fetching again after creating the tunnel
-  //       console.log('Retrying to fetch tunnel routes...');
-  //       const res = await fetchResourceTunnel({ resource_id: record?.id });
-  //       // save the resource on local to avoid recall again..
-
-  //       setOptions(res.routes || []);
-  //       message.destroy('loading');
-  //       message.success('Success!');
-  //     } catch (postError) {
-  //       console.log(
-  //         'Failed to create tunnel or fetch routes after creation:',
-  //         postError,
-  //       );
-  //       message.destroy('loading');
-  //       message.error('Failed to create or retrieve remote tunnel routes');
-  //     }
-  //   } finally {
-  //     setSelectLoading(false);
-  //     message.destroy('loading');
-  //   }
-  // };
-
-  const handleConnect = async () => {
+  const handleConnect = async (service_name = 'code-server') => {
     if (!isRunning || selectLoading) return;
 
     const resourceId = record?.id;
@@ -125,25 +70,6 @@ export default function OperationModal({ record, getAllNodes }) {
       setOptions(routes);
     };
 
-    const fetchAndStoreTunnel = async () => {
-      const resStatus = await fetchResourceTunnel({ resource_id: resourceId });
-      console.log('Tunnel status:', resStatus);
-
-      const routes = resStatus.tunnel_routes || [];
-      if (!routes.length) {
-        throw new Error('No tunnel routes received');
-      }
-
-      updateTunnelCache(routes);
-
-      // const resEnable = await fetchEnableTunnel({
-      //   resource_id: resourceId,
-      //   service_name: 'my-service',
-      // });
-      // console.log('Tunnel enable result:', resEnable);
-      message.success('Tunnel connected successfully!');
-    };
-
     setSelectVisible(true);
     setSelectLoading(true);
     message.info({
@@ -153,11 +79,61 @@ export default function OperationModal({ record, getAllNodes }) {
     });
 
     try {
-      await fetchAndStoreTunnel();
+      // 1. Try to get initial tunnel status
+      let statusResponse = await fetchResourceTunnel({
+        resource_id: resourceId,
+      });
+      console.log('Tunnel status:', statusResponse);
+
+      let routes = statusResponse.tunnel_routes || [];
+
+      if (!routes.length) {
+        // 2. If no routes, enable the tunnel service
+        const enableResult = await fetchEnableTunnel({
+          resource_id: resourceId,
+          service_name,
+        });
+        console.log('Tunnel enable result:', enableResult);
+
+        // 3. Fetch updated routes after enabling tunnel
+        statusResponse = await fetchResourceTunnel({ resource_id: resourceId });
+        routes = statusResponse.tunnel_routes || [];
+
+        if (!routes.length) {
+          throw new Error('No tunnel routes after enabling tunnel');
+        }
+      }
+
+      // 4. Update cache and UI with routes
+      updateTunnelCache(routes);
+      // message.success('Tunnel connected successfully!');
+      if (statusResponse.message) {
+        message.info(statusResponse.message);
+      }
     } catch (error) {
       console.warn('Primary tunnel fetch failed, creating tunnel...', error);
-      await fetchCreateTunnel({ resource_id: resourceId });
-      await fetchAndStoreTunnel();
+
+      try {
+        // 5. Try creating the tunnel as fallback
+        await fetchCreateTunnel({ resource_id: resourceId });
+
+        // 6. Fetch routes after tunnel creation
+        const statusResponse = await fetchResourceTunnel({
+          resource_id: resourceId,
+        });
+        const routes = statusResponse.tunnel_routes || [];
+
+        if (!routes.length) {
+          throw new Error('No tunnel routes after creating tunnel');
+        }
+
+        // 7. Update cache and UI after successful creation
+        updateTunnelCache(routes);
+        message.success('Tunnel connected successfully after creation!');
+      } catch (err) {
+        message.error('Failed to connect tunnel after creation.');
+        console.error(err);
+      }
     } finally {
       setSelectLoading(false);
       message.destroy('loading');

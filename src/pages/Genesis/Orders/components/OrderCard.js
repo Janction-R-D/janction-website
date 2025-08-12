@@ -27,7 +27,11 @@ export default function OrderCard({ order }) {
     (item) => item.value == data?.order?.payment_plan_created?.Currency,
   );
 
-  const statusKey = data?.order?.status?.toLowerCase();
+  const statusKey =
+    data?.order?.refunded == true
+      ? 'refunded'
+      : data?.order?.status?.toLowerCase();
+
   const statusIcon =
     {
       completed: 'icon-Completed',
@@ -44,7 +48,7 @@ export default function OrderCard({ order }) {
 
         <div className={styles[statusKey]}>
           <i className={`iconfont ${statusIcon}`} />
-          <span>{data?.order?.status || '~'}</span>
+          <span>{statusKey || '~'}</span>
         </div>
       </h1>
 
