@@ -24,7 +24,7 @@ export default function OrderCard({ order }) {
     resource: order?.resource,
   };
   const currency = getJasmyCurrency().find(
-    (item) => item.value == data?.order?.payment_plan_created?.Currency,
+    (item) => item.value == data?.order?.payment_plan_created?.currency,
   );
 
   const statusKey =
@@ -115,16 +115,32 @@ export default function OrderCard({ order }) {
                   : '~~'}
               </span>
             </p>
-            <p>
-              <span>{intl.formatMessage({ id: 'transactionId' })}</span>
-              <Tooltip
-                color="black"
-                title={data.order?.payment_tx_hash || '~~'}
-                className={styles['tx_id']}
-              >
-                {data.order?.payment_tx_hash || '~~'}
-              </Tooltip>
-            </p>
+            {statusKey === 'completed' && (
+              <p>
+                <span>{intl.formatMessage({ id: 'transactionId' })}</span>
+                <Tooltip
+                  color="black"
+                  title={data.order?.payment_tx_hash || '~~'}
+                  className={styles['tx_id']}
+                >
+                  {data.order?.payment_tx_hash || '~~'}
+                </Tooltip>
+              </p>
+            )}
+            {statusKey === 'refunded' && (
+              <p>
+                <span>
+                  {intl.formatMessage({ id: 'refund.transactionId' })}
+                </span>
+                <Tooltip
+                  color="black"
+                  title={data.order?.refund_tx_id || '~~'}
+                  className={styles['tx_id']}
+                >
+                  {data.order?.refund_tx_id || '~~'}
+                </Tooltip>
+              </p>
+            )}
           </section>
 
           <Divider />

@@ -902,7 +902,7 @@ export default {
   'profile.registrationDate': 'Registration date:',
   'profile.email': 'E-mail',
   'profile.address': 'Address:',
-  transactionId: 'Transaction ID',
+  transactionId: 'Payment Transaction Hash ',
   expiredTime: 'Expired Time',
   createdTime: 'Created Time',
   addNewRouteModalTitle: 'Add New Route',
@@ -919,4 +919,5 @@ export default {
   portRange: 'Port must be between 1 and 65535',
   portPlaceholder: 'Enter port number',
   addNewRoute: 'Add new route',
+  'refund.transactionId': 'Refund Transaction ID',
 };

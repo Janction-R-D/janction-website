@@ -936,7 +936,7 @@ export default {
   'profile.registrationDate': '登録日：',
   'profile.email': 'メールアドレス',
   'profile.address': 'アドレス：',
-  transactionId: '取引ID',
+  transactionId: '支払いトランザクションハッシュ',
   expiredTime: '有効期限',
   createdTime: '作成日時',
   addNewRouteModalTitle: '新しいルートを追加',
@@ -953,4 +953,5 @@ export default {
   portRange: 'ポートは1から65535の間である必要があります',
   portPlaceholder: 'ポート番号を入力してください',
   addNewRoute: '新しいルートを追加',
+  'refund.transactionId': '返金取引ID',
 };
