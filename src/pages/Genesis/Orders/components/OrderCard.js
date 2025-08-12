@@ -110,9 +110,9 @@ export default function OrderCard({ order }) {
             <p>
               <span>{intl.formatMessage({ id: 'order.arch' })}</span>
               <span>
-                {data.order?.resource?.node?.attr?.architechture_str &&
-                data.order?.resource?.node?.attr?.operating_system_str
-                  ? `${data.order.resource.node.attr.architechture_str} / ${data.order.resource.node.attr.operating_system_str}`
+                {data?.resource?.node?.attr?.architechture_str &&
+                data?.resource?.node?.attr?.operating_system_str
+                  ? `${data.resource.node.attr.architechture_str} / ${data.resource.node.attr.operating_system_str}`
                   : '~~'}
               </span>
             </p>
