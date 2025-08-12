@@ -198,7 +198,7 @@ function BillDetails() {
         <JanctionTable
           className={styles['billings-table']}
           columns={columns}
-          dataSource={list}
+          dataSource={filteredData}
           pagination={false}
           scroll={{ x: 'auto' }}
         />
