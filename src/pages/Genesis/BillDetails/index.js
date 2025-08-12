@@ -23,7 +23,7 @@ function BillDetails() {
   const { initialState } = useModel('@@initialState');
   const { isLessee = true } = initialState || {};
   const intl = useIntl();
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [selectedBill, setSelectedBill] = useState({});
   const [list, setList] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
