@@ -280,6 +280,7 @@ function InstanceTable({ data, getAllNodes }) {
       Location: order?.node?.attr.location || '--',
       expired_at: order?.expired_at,
       isExpired: isExpired(order.expired_at),
+      isTerminated: order?.is_terminated,
       MemoryUsage: convertMBtoGB(order?.activity?.memory_usage?.toFixed(2)),
       downtime: `${formatISODate(order.created_at)}\r\n${formatISODate(
         order.expired_at,
@@ -289,7 +290,9 @@ function InstanceTable({ data, getAllNodes }) {
   }, [data]);
 
   const notExpiredInstances = useMemo(() => {
-    return mappedOrders?.filter((order) => !order.isExpired);
+    return mappedOrders?.filter(
+      (order) => !order.isExpired && !order.isTerminated,
+    );
   }, [mappedOrders]);
 
   useEffect(() => {

@@ -17,12 +17,13 @@ import { fetchBillingList } from '@/services/genesis/billings';
 import { Redirect, useIntl, useModel } from 'umi';
 import numeral from 'numeral';
 import CardBill from './components/BillCard/Card';
+import { formatISODate } from '@/utils/datetime';
 
 function BillDetails() {
   const { initialState } = useModel('@@initialState');
   const { isLessee = true } = initialState || {};
   const intl = useIntl();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const [selectedBill, setSelectedBill] = useState({});
   const [list, setList] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
@@ -65,34 +66,37 @@ function BillDetails() {
 
   const handleSearch = (value) => {
     const filtered = list?.filter((instance) =>
-      instance.instance_id.toLowerCase().includes(value.toLowerCase()),
+      instance.id.toLowerCase().includes(value.toLowerCase()),
     );
     setFilteredData(filtered);
   };
   const columns = [
     {
       title: intl.formatMessage({ id: 'billing.instance' }),
-      dataIndex: 'instance_id',
+      dataIndex: 'id',
     },
     {
-      title: intl.formatMessage({ id: 'billing.specification' }),
-      dataIndex: 'specification',
+      title: intl.formatMessage({ id: 'billing.currency' }),
+      dataIndex: 'currency',
     },
     {
-      title: intl.formatMessage({ id: 'billing.status' }),
-      dataIndex: 'status',
+      title: intl.formatMessage({ id: 'billing.payment_id' }),
+      dataIndex: 'payment_id',
     },
     {
-      title: intl.formatMessage({ id: 'billing.localDisk' }),
-      dataIndex: 'local_disk',
+      title: intl.formatMessage({ id: 'billing.amount' }),
+      dataIndex: 'amount',
     },
     {
-      title: intl.formatMessage({ id: 'billing.healthStatus' }),
-      dataIndex: 'health_status',
+      title: intl.formatMessage({ id: 'billing.transactionHash' }),
+      dataIndex: 'data',
+      render: (data, record) => {
+        return <span>{data?.Raw?.transactionHash || '~~'}</span>;
+      },
     },
     {
-      title: intl.formatMessage({ id: 'billing.paymentMethod' }),
-      dataIndex: 'payment_method',
+      title: intl.formatMessage({ id: 'billing.type' }),
+      dataIndex: 'type',
     },
     {
       title: (
@@ -123,7 +127,7 @@ function BillDetails() {
   };
 
   const renderTotal = () => {
-    const unit = 'veJCT';
+    const unit = 'USTD';
     return (
       <div className={styles['total-wrapper']}>
         <span>{intl.formatMessage({ id: 'billing.total' })} </span>
@@ -192,82 +196,69 @@ function BillDetails() {
       <Drawer className="drawer" width={510} onClose={onClose} open={open}>
         <div className={styles['drawer-header']}>
           <img src={require('@/assets/svgs/drawer-header.svg')} />
-          <div className={styles['drawer-title']}>{selectedBill.name}</div>
+          <div className={styles['drawer-title']}>
+            {intl.formatMessage({ id: 'billing.paymentDetails' })}
+          </div>
         </div>
+
         <List
           className={styles['drawer-list']}
-          header={<div>{intl.formatMessage({ id: 'billing.instance' })}</div>}
+          header={
+            <div>{intl.formatMessage({ id: 'billing.paymentInfo' })}</div>
+          }
           bordered
-          dataSource={filteredData}
+          dataSource={[
+            { label: 'billing.instance', value: selectedBill?.id || '~~' },
+            { label: 'billing.amount', value: selectedBill?.amount || '~~' },
+            {
+              label: 'billing.currency',
+              value: selectedBill?.currency || '~~',
+            },
+            {
+              label: 'billing.payment_id',
+              value: selectedBill?.payment_id || '~~',
+            },
+            { label: 'billing.type', value: selectedBill?.type || '~~' },
+            {
+              label: 'billing.createdAt',
+              value: selectedBill?.created_at
+                ? formatISODate(selectedBill.created_at)
+                : '~~',
+            },
+            {
+              label: 'billing.updatedAt',
+              value: selectedBill?.updated_at
+                ? formatISODate(selectedBill.updated_at)
+                : '~~',
+            },
+            {
+              label: 'billing.paidHours',
+              value: selectedBill?.data?.PaidHours || '~~',
+            },
+            {
+              label: 'billing.payer',
+              value: selectedBill?.data?.Payer || '~~',
+            },
+            {
+              label: 'billing.recipient',
+              value: selectedBill?.data?.Recipient || '~~',
+            },
+            {
+              label: 'billing.transactionHash',
+              value: selectedBill?.data?.Raw?.transactionHash || '~~',
+            },
+            {
+              label: 'billing.blockNumber',
+              value: selectedBill?.data?.Raw?.blockNumber || '~~',
+            },
+          ]}
           renderItem={(item) => (
-            <>
-              <List.Item>
-                <Row justify="space-between" align="middle">
-                  <Col>{intl.formatMessage({ id: 'billing.instance' })}</Col>
-                  <Col>{item.instance_id}</Col>
-                </Row>
-              </List.Item>
-              <List.Item>
-                <Row justify="space-between" align="middle">
-                  <Col>
-                    {intl.formatMessage({ id: 'billing.specification' })}
-                  </Col>
-                  <Col>{item.specification}</Col>
-                </Row>
-              </List.Item>
-              <List.Item>
-                <Row justify="space-between" align="middle">
-                  <Col>{intl.formatMessage({ id: 'billing.status' })}</Col>
-                  <Col>{item.status}</Col>
-                </Row>
-              </List.Item>
-              <List.Item>
-                <Row justify="space-between" align="middle">
-                  <Col>{intl.formatMessage({ id: 'billing.localDisk' })}</Col>
-                  <Col>{item.local_disk}</Col>
-                </Row>
-              </List.Item>
-              <List.Item>
-                <Row justify="space-between" align="middle">
-                  <Col>
-                    {intl.formatMessage({ id: 'billing.healthStatus' })}
-                  </Col>
-                  <Col>{item.health_status}</Col>
-                </Row>
-              </List.Item>
-              <List.Item>
-                <Row justify="space-between" align="middle">
-                  <Col>
-                    {intl.formatMessage({ id: 'billing.paymentMethod' })}
-                  </Col>
-                  <Col>{item.payment_method}</Col>
-                </Row>
-              </List.Item>
-              <List.Item>
-                <Row justify="space-between" align="middle">
-                  <Col>{intl.formatMessage({ id: 'billing.cash' })}</Col>
-                  <Col>{item.cash_payment}</Col>
-                </Row>
-              </List.Item>
-              <List.Item>
-                <Row justify="space-between" align="middle">
-                  <Col>{intl.formatMessage({ id: 'billing.share' })}</Col>
-                  <Col>{item.share_bonus}</Col>
-                </Row>
-              </List.Item>
-              <List.Item>
-                <Row justify="space-between" align="middle">
-                  <Col>{intl.formatMessage({ id: 'billing.gift' })}</Col>
-                  <Col>{item.gift_money}</Col>
-                </Row>
-              </List.Item>
-              <List.Item>
-                <Row justify="space-between" align="middle">
-                  <Col>{intl.formatMessage({ id: 'billing.coupon' })}</Col>
-                  <Col>{item.coupon}</Col>
-                </Row>
-              </List.Item>
-            </>
+            <List.Item>
+              <Row justify="space-between" align="middle">
+                <Col>{intl.formatMessage({ id: item.label })}</Col>
+                <Col>{item.value}</Col>
+              </Row>
+            </List.Item>
           )}
         />
       </Drawer>
