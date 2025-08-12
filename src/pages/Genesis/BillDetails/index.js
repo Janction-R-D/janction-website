@@ -10,6 +10,7 @@ import {
   Row,
   Space,
   TimePicker,
+  Tooltip,
 } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
 import styles from './BillDetails.less';
@@ -18,6 +19,7 @@ import { Redirect, useIntl, useModel } from 'umi';
 import numeral from 'numeral';
 import CardBill from './components/BillCard/Card';
 import { formatISODate } from '@/utils/datetime';
+import TooltipBox from '../components/Tooltip';
 
 function BillDetails() {
   const { initialState } = useModel('@@initialState');
@@ -74,26 +76,34 @@ function BillDetails() {
     {
       title: intl.formatMessage({ id: 'billing.instance' }),
       dataIndex: 'id',
+      width: 120,
+      key: 'name',
+      ellipsis: true,
+      render: (text) => (
+        <TooltipBox TooltipText={text} placement="topLeft">
+          <span className={styles['ellip-text']}>{text}</span>
+        </TooltipBox>
+      ),
     },
     {
       title: intl.formatMessage({ id: 'billing.currency' }),
       dataIndex: 'currency',
     },
-    {
-      title: intl.formatMessage({ id: 'billing.payment_id' }),
-      dataIndex: 'payment_id',
-    },
+    // {
+    //   title: intl.formatMessage({ id: 'billing.payment_id' }),
+    //   dataIndex: 'payment_id',
+    // },
     {
       title: intl.formatMessage({ id: 'billing.amount' }),
       dataIndex: 'amount',
     },
-    {
-      title: intl.formatMessage({ id: 'billing.transactionHash' }),
-      dataIndex: 'data',
-      render: (data, record) => {
-        return <span>{data?.Raw?.transactionHash || '~~'}</span>;
-      },
-    },
+    // {
+    //   title: intl.formatMessage({ id: 'billing.transactionHash' }),
+    //   dataIndex: 'data',
+    //   render: (data, record) => {
+    //     return <span>{data?.Raw?.transactionHash || '~~'}</span>;
+    //   },
+    // },
     {
       title: intl.formatMessage({ id: 'billing.type' }),
       dataIndex: 'type',
@@ -188,7 +198,7 @@ function BillDetails() {
         <JanctionTable
           className={styles['billings-table']}
           columns={columns}
-          dataSource={filteredData}
+          dataSource={list}
           pagination={false}
           scroll={{ x: 'auto' }}
         />
@@ -216,7 +226,14 @@ function BillDetails() {
             },
             {
               label: 'billing.payment_id',
-              value: selectedBill?.payment_id || '~~',
+              value:
+                (
+                  <Tooltip title={selectedBill?.payment_id || '~~'}>
+                    <span className="span">
+                      {selectedBill?.payment_id || '~~'}
+                    </span>
+                  </Tooltip>
+                ) || '~~',
             },
             { label: 'billing.type', value: selectedBill?.type || '~~' },
             {
@@ -237,15 +254,38 @@ function BillDetails() {
             },
             {
               label: 'billing.payer',
-              value: selectedBill?.data?.Payer || '~~',
+              value:
+                (
+                  <Tooltip title={selectedBill?.data?.Payer || '~~'}>
+                    <span className="span">
+                      {selectedBill?.data?.Payer || '~~'}
+                    </span>
+                  </Tooltip>
+                ) || '~~',
             },
             {
               label: 'billing.recipient',
-              value: selectedBill?.data?.Recipient || '~~',
+              value:
+                (
+                  <Tooltip title={selectedBill?.data?.Recipient || '~~'}>
+                    <span className="span">
+                      {selectedBill?.data?.Recipient}
+                    </span>
+                  </Tooltip>
+                ) || '~~',
             },
             {
               label: 'billing.transactionHash',
-              value: selectedBill?.data?.Raw?.transactionHash || '~~',
+              value:
+                (
+                  <Tooltip
+                    title={selectedBill?.data?.Raw?.transactionHash || '~~'}
+                  >
+                    <span className="span">
+                      {selectedBill?.data?.Raw?.transactionHash || '~~'}
+                    </span>
+                  </Tooltip>
+                ) || '~~',
             },
             {
               label: 'billing.blockNumber',
