@@ -145,12 +145,12 @@ export default function OrderCard({ order }) {
 
           <Divider />
           <section>
-            <p>
+            {/* <p>
               <span>{intl.formatMessage({ id: 'order.payment.method' })}</span>
               <span className={styles['bold']}>
                 {intl.formatMessage({ id: 'order.payment.method.value' })}
               </span>
-            </p>
+            </p> */}
             <p>
               <span>{intl.formatMessage({ id: 'order.payment.paid' })}</span>
               <span className={styles['price']}>
