@@ -34,7 +34,7 @@ const HistoryInstances = (props) => {
       item.isExpired &&
       item.isAllowed,
   );
-  console.log(mappedOrders);
+
   const handleCancel = () => {
     onCancel();
     setCurrentPage(1);

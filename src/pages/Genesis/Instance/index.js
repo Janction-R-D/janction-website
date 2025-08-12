@@ -22,8 +22,9 @@ import {
   ClockCircleOutlined,
   ShoppingCartOutlined,
 } from '@ant-design/icons';
-import InstanceMonitor from '@/components/InstanceMonitor';
+
 import HistoryInstances from './InstanceComponents/HistoryInstances';
+import Monitor from './Monitor/Monitor';
 
 const initQuery = { current: 1, size: 5 };
 function Instance() {
@@ -35,8 +36,7 @@ function Instance() {
   const [summary, setSummary] = useState(null);
   const [resource, setResource] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(5);
+
   const [openHs, setOpenHs] = useState(false);
   const intl = useIntl();
   const allowedStatuses = ['running', 'starting', 'stopped', 'pending'];
@@ -79,14 +79,6 @@ function Instance() {
       setView('Kanban');
     }
   };
-  const paginatedData = useMemo(() => {
-    const start = (currentPage - 1) * pageSize;
-    return filteredData.slice(start, start + pageSize);
-  }, [filteredData, currentPage, pageSize]);
-
-  const filteredInstance = paginatedData?.filter((item) =>
-    allowedStatuses.includes(item.status_str.toLowerCase()),
-  );
 
   if (!isLessee) return <Redirect to="/genesis/nodes"></Redirect>;
   return (
@@ -160,32 +152,11 @@ function Instance() {
         </Row>
         {view === 'List' && (
           <section className={styles['instances']}>
-            {!isEmpty(filteredInstance) && (
-              <>
-                {filteredInstance?.map((instance, index) => (
-                  <InstanceMonitor
-                    key={index}
-                    instance={instance}
-                    getAllNodes={getAllNodes}
-                  />
-                ))}
-                <div className={styles['pagination-wrapper']}>
-                  <Pagination
-                    current={currentPage}
-                    pageSize={pageSize}
-                    total={filteredInstance.length}
-                    onChange={(page, size) => {
-                      setCurrentPage(page);
-                      setPageSize(size);
-                    }}
-                    showLessItems
-                  />
-                </div>
-              </>
-            )}
-            {isEmpty(filteredData) && (
-              <JactionEmpty description="There are no instances currently, please add an instance." />
-            )}
+            <Monitor
+              filteredInstance={filteredData}
+              getAllNodes={getAllNodes}
+              styles={styles}
+            />
           </section>
         )}
         {view === 'Kanban' && (

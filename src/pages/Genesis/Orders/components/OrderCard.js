@@ -7,6 +7,7 @@ import PayButton from './PayButton';
 import { useIntl } from 'umi';
 import { getJasmyCurrency } from '@/utils/contracts';
 import TooltipBox from '../../components/Tooltip';
+import { formatISODate } from '@/utils/datetime';
 
 export default function OrderCard({ order }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -141,6 +142,10 @@ export default function OrderCard({ order }) {
                 </Tooltip>
               </p>
             )}
+            <p>
+              <span>{intl.formatMessage({ id: 'createdTime' })}</span>
+              {formatISODate(data?.order?.created_at)}
+            </p>
           </section>
 
           <Divider />

@@ -35,6 +35,7 @@ const formatDate = (dateString) => {
 
 const InstanceMonitor = ({ instance }) => {
   const [activeTab, setActiveTab] = useState('cpu');
+
   const [reosurceStat, setResourceStat] = useState({});
   useEffect(() => {
     getStatistic();
@@ -65,7 +66,7 @@ const InstanceMonitor = ({ instance }) => {
     expired: formatDate(instance?.expired_at),
     created: formatDate(instance?.created_at),
     isExpired: isExpired(instance.expired_at),
-    Location: instance?.node?.attr?.location || '~',
+    location: instance?.node?.attr?.location || '~',
     gpu_chip: instance?.node?.attr?.cpu_chip,
     cpu_chip: instance?.node?.attr?.cpu,
     MemoryUsage: convertMBtoGB(instance?.activity?.memory_usage?.toFixed(2)),
@@ -74,6 +75,8 @@ const InstanceMonitor = ({ instance }) => {
     // )}`,
     activity: instance?.activity,
     resource: instance?.activity?.resource_id,
+    isAllowed: !instance?.is_terminated && !instance?.refunded,
+    isExpired: isExpired(instance?.expired_at),
   };
 
   const cpuData = [];
@@ -207,9 +210,11 @@ const InstanceMonitor = ({ instance }) => {
               <HourglassOutlined color="orange" />
             </div>
           </Button> */}
-          <span className={styles['more']}>
-            <OperationModal record={instanceData} getAllNodes={getNode} />
-          </span>
+          {instanceData.isAllowed && (
+            <span className={styles['more']}>
+              <OperationModal record={instanceData} getAllNodes={getNode} />
+            </span>
+          )}
         </div>
       </header>
       <div className={styles.card_container}>
