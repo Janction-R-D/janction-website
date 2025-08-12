@@ -86,7 +86,7 @@ export default function OperationModal({ record, getAllNodes }) {
       console.log('Tunnel status:', statusResponse);
 
       let routes = statusResponse.tunnel_routes || [];
-
+      const createRes = await fetchCreateTunnel({ resource_id: resourceId });
       if (!routes.length) {
         // 2. If no routes, enable the tunnel service
         const enableResult = await fetchEnableTunnel({
