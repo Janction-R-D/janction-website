@@ -318,7 +318,7 @@ const Root = (props) => {
           }}
         >
           <img
-            src={require('@/assets/images/icons/logo_name.png')}
+            src={require('@/assets/images/icons/janction-logo-text.png')}
             alt="logo"
           />
         </a>

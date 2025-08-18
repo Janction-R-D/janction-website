@@ -8,10 +8,9 @@ const LoginLayout = (props) => {
       <header>
         <a className={styles['logo']} href="/">
           <img
-            src={require('@/assets/images/icons/logo_name.png')}
+            src={require('@/assets/images/icons/janction-logo-text.png')}
             alt="logo"
-            width="116"
-            height="24"
+            className={styles.logo}
           />
         </a>
       </header>
@@ -38,10 +37,9 @@ const LoginLayout = (props) => {
       <main>{children}</main>
       <footer>
         <img
-          src={require('@/assets/images/icons/logo.png')}
-          alt=""
-          width="52"
-          height="52"
+          src={require('@/assets/images/icons/janction-icon.png')}
+          alt="Janction logo"
+          className={styles.logo}
         />
         <div className="df ai_c">
           <SocialsLinks />

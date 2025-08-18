@@ -85,7 +85,7 @@ export const AuthMenuAside = ({ menu, active, onMenuChange }) => {
           <img
             className={styles['logo-name']}
             id="welcome"
-            src={require('@/assets/images/icons/logo_name.png')}
+            src={require('@/assets/images/icons/janction-logo-text.png')}
           />
           <div className={styles['logo']}>
             <img src={require('@/assets/images/icons/logo.png')} />

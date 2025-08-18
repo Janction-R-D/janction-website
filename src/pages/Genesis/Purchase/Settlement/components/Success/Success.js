@@ -3,7 +3,7 @@ import { message, Spin, Button } from 'antd';
 import { history, useIntl } from 'umi';
 import { fetchPaymentOrder } from '@/services/genesis';
 import styles from './index.less';
-import img from '@/assets/images/icons/logo_name.png';
+import img from '@/assets/images/icons/janction-logo-text.png';
 import imgClock from '@/assets/images/genesis/sand_clock.png';
 import { RedoOutlined } from '@ant-design/icons';
 export default function PaymentSuccessPage() {
@@ -44,7 +44,7 @@ export default function PaymentSuccessPage() {
   };
 
   const goToInstances = () => {
-    history.replace('/genesis/instances');
+    history.replace('/genesis/instance');
   };
   const goToPurchase = () => {
     history.replace('/genesis/purchase');

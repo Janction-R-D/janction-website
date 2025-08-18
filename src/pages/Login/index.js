@@ -98,7 +98,7 @@ const Login = (props) => {
     <div className={styles['login-container']}>
       {loading && <Loader />}
       <div className={styles['logo']}>
-        <img src={require('@/assets/images/icons/logo.png')} alt="" />
+        <img src={require('@/assets/images/icons/janction-icon.png')} alt="" />
       </div>
       <div className={`df gap10 fd_c ai_c ${styles['slogan']}`}>
         <h2 className="tc fw500 f24">

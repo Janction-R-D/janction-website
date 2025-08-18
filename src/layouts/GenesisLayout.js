@@ -127,7 +127,7 @@ const GenesisLayout = (props) => {
                 <div>
                   <a className={styles['logo']}>
                     <img
-                      src={require('@/assets/images/icons/logo_name.png')}
+                      src={require('@/assets/images/icons/janction-logo-text.png')}
                       alt="logo"
                     />
                   </a>
@@ -146,7 +146,7 @@ const GenesisLayout = (props) => {
             <footer className={styles['android-footer']}>
               <img
                 className={styles['logo']}
-                src={require('@/assets/images/icons/logo_name.png')}
+                src={require('@/assets/images/icons/janction-logo-text.png')}
               />
               <div className={styles['bottom']}>
                 <SocialsLinks />
