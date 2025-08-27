@@ -91,12 +91,13 @@ const RainbowConnect = ({ setLoading }) => {
         expires,
       });
       storage.set({ name: 'SESSION_TYPE', value: 'wallet', expires });
-
-      await onRedirect(address, dataStorage);
-      message.success({ content: 'Login successful!', key: 'login' });
+      message.success('Login successful!');
+      setTimeout(async () => {
+        await onRedirect(address, dataStorage);
+      }, 1100);
     } catch (error) {
       console.error('Login error:', error);
-      message.error({ content: error.message || 'Login failed', key: 'login' });
+      message.error('Login failed');
       await disconnect();
     } finally {
       setLoadingLogin(false);
