@@ -46,7 +46,7 @@ On the instance rental page: select the billing method, region, GPU model, and n
       {
         id: 4,
         title: 'How to Connect Remotely using Janction Deploy Application',
-        path: '/videos/janctionAppRemote.m4v',
+        path: '/videos/janctionAppRemote.mp4',
       },
     ],
   },
