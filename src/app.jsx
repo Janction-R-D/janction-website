@@ -13,7 +13,11 @@ import { notShowErrors, routeTitles } from './constant';
 const authHeaderInterceptor = (url, options) => {
   const AUTH_HEADERS = storage.get('AUTH_HEADERS');
   const TOKEN = storage.get('TOKEN');
-
+  if (url.includes('maliva-mcs.byteoversea.com')) {
+    console.warn('Blocked request to unsafe domain:', url);
+    // 可以抛出异常阻止请求
+    throw new Error('Request to blocked domain');
+  }
   let authHeader = {};
   if (options?.loginAuth) {
     if (!AUTH_HEADERS && !TOKEN) {
@@ -25,6 +29,7 @@ const authHeaderInterceptor = (url, options) => {
       };
     }
   }
+
   options.headers = {
     ...options.headers,
     ...authHeader,

@@ -1,4 +1,4 @@
-import request from '@/utils/request';
+import { request } from 'umi';
 
 const baseUrl = `${process.env.JANCTION_API}/v1/node`;
 

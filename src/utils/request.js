@@ -1,6 +1,8 @@
 import { extend } from 'umi-request';
 import storage from './storage';
 import { logout } from './lang';
+import { message } from 'antd';
+import { notShowErrors } from '../constant';
 
 // 创建一个 request 实例
 const request = extend({
@@ -60,8 +62,53 @@ request.interceptors.request.use((url, options) => {
 });
 
 // 添加响应拦截器
-request.interceptors.response.use((response) => {
-  return response;
-});
+request.interceptors.response.use(
+  async (response, options) => {
+    const url = options.url;
+    let res;
+
+    try {
+      res = await response.clone().json();
+    } catch (error) {
+      // Handle non-JSON formatted response data
+      res = await response.clone().text();
+    }
+
+    // 处理非v0接口的响应
+    if (!url.includes('/v0')) return res;
+
+    // 处理认证状态接口
+    if (url.includes('authentication/status')) {
+      if (res?.message == 'success') return res;
+      throw new Error('Invalid session');
+    }
+
+    // 处理成功响应
+    if (res?.success && res?.data) return res?.data;
+
+    // 处理错误响应
+    if (res?.code && res?.message) {
+      let error = `${res.code}:${res.message}`;
+      if (notShowErrors.includes(res.code)) {
+        throw new Error(error);
+      }
+      message.error(error);
+      throw new Error(error);
+    }
+
+    return res;
+  },
+  (error) => {
+    // 错误处理
+    if (!error?.response) throw error;
+    const { response } = error;
+    const errorText =
+      'An error occurred on the server. Please check the server！';
+    if (response?.status == 504) {
+      message.error(errorText);
+    }
+    throw response?.statusText;
+  },
+);
 
 export default request;
