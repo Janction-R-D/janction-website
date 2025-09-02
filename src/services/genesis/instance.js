@@ -406,6 +406,13 @@ export const PostResourceTunnel = (data) => {
     loginAuth: true,
   });
 };
+export const PostAddTunnel = (data) => {
+  return request(`${baseUrl}/resource/tunnel/routes/add`, {
+    method: 'POST',
+    data,
+    loginAuth: true,
+  });
+};
 
 //statistic resource data
 export const fetchStatistic = (data) => {
