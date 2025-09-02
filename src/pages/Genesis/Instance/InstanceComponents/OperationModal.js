@@ -13,6 +13,7 @@ import {
   fetchResourceTunnel,
   fetchStopRentParams,
   PostAddTunnel,
+  PostAddTunnel,
   PostResourceTunnel,
   updateUserConfig,
 } from '@/services/genesis';
