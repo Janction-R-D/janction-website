@@ -14,7 +14,7 @@ const dataSource = [
   },
   {
     key: 2,
-    model: 'NVIDIA A100',
+    model: 'NVIDIA H100',
     location: 'DC1 - Osaka',
     vram: 40,
     cuda: 6912,
@@ -45,36 +45,12 @@ const dataSource = [
     price: '¥87/hr',
   },
   {
-    key: 7,
-    model: 'NVIDIA T4',
-    location: 'DC2 - Sapporo',
-    vram: 16,
-    cuda: 2560,
-    price: '¥174/hr',
-  },
-  {
-    key: 8,
-    model: 'AMD Instinct MI300X',
-    location: 'DC3 - Osaka',
-    vram: 192,
-    cuda: 'N/A',
-    price: '¥798/hr',
-  },
-  {
     key: 9,
     model: 'NVIDIA RTX 4070',
     location: 'User4 - Yokohama',
     vram: 12,
     cuda: 5888,
     price: '¥80/hr',
-  },
-  {
-    key: 10,
-    model: 'PlayStation 5 GPU',
-    location: 'PS5#B2 - Tokyo',
-    vram: 10,
-    cuda: 'N/A',
-    price: '¥65/hr',
   },
 ];
 const dataSourceEn = [
@@ -88,7 +64,7 @@ const dataSourceEn = [
   },
   {
     key: 2,
-    model: 'NVIDIA A100',
+    model: 'NVIDIA H100',
     location: 'DC1 - Osaka',
     vram: 40,
     cuda: 6912,
@@ -103,14 +79,6 @@ const dataSourceEn = [
     price: '$0.90/hr',
   },
   {
-    key: 5,
-    model: 'NVIDIA H100',
-    location: 'Azure - Tokyo',
-    vram: 80,
-    cuda: 16896,
-    price: '7.00/hr',
-  },
-  {
     key: 6,
     model: 'NVIDIA RTX 3080',
     location: 'User3 - Nagoya',
@@ -119,36 +87,12 @@ const dataSourceEn = [
     price: '$0.60/hr',
   },
   {
-    key: 7,
-    model: 'NVIDIA T4',
-    location: 'DC2 - Sapporo',
-    vram: 16,
-    cuda: 2560,
-    price: '$1.20/hr',
-  },
-  {
-    key: 8,
-    model: 'AMD Instinct MI300X',
-    location: 'DC3 - Osaka',
-    vram: 192,
-    cuda: 'N/A',
-    price: '$5.50/hr',
-  },
-  {
     key: 9,
     model: 'NVIDIA RTX 4070',
     location: 'User4 - Yokohama',
     vram: 12,
     cuda: 5888,
     price: '$0.55/hr',
-  },
-  {
-    key: 10,
-    model: 'PlayStation 5 GPU',
-    location: 'PS5#B2 - Tokyo',
-    vram: 10,
-    cuda: 'N/A',
-    price: '$0.45/hr',
   },
 ];
 
@@ -182,7 +126,7 @@ export default function ProductsTable() {
       className: styles.header,
     },
     {
-      title: '料金',
+      title: intl.formatMessage({ id: 'products.cost.price' }),
       dataIndex: 'price',
       key: 'price',
       render: (text) => <Text style={{ color: '#00B2FF' }}>{text}</Text>,
