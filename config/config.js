@@ -3,7 +3,7 @@ import proxy from './proxy';
 import metas from './metas';
 
 export default defineConfig({
-  favicon: '/favicon.ico',
+  favicon: '/janction-icon.png',
   proxy,
   nodeModulesTransform: {
     type: 'none',

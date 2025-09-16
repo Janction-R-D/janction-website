@@ -954,4 +954,27 @@ export default {
   portPlaceholder: 'ポート番号を入力してください',
   addNewRoute: '新しいルートを追加',
   'refund.transactionId': '返金取引ID',
+  'plan.standard.title': 'Standard',
+  'plan.standard.price': '¥ 3 / 分',
+  'plan.standard.subtitle': '基準：RTX4090相当',
+  'plan.standard.hourlyPrice': '¥ 330 / h',
+  'plan.standard.hourlySubtitle': '基準：H100 SXM 80GB相当',
+  'plan.standard.details.1': 'オンデマンド料金のみで利用可能',
+
+  'plan.business.title': 'Business',
+  'plan.business.price': '¥ 1,500 / TB-M',
+  'plan.business.subtitle': 'Standardプラン + Secureストレージ',
+  'plan.business.details.1': '年間契約で20%割引',
+  'plan.business.details.2': '【専用暗号鍵】',
+  'plan.business.details.3': '【改ざん検知 & 追跡性】',
+  'plan.business.details.4': '【日本リージョン完結 / 法令順守】',
+  'plan.business.details.5': '【GPUリソース連携】',
+
+  'plan.enterprise.title': 'Enterprise',
+  'plan.enterprise.price': 'お見積り',
+  'plan.enterprise.subtitle': '定額プラン × 複数ライセンス付与',
+  'plan.enterprise.details.1':
+    '予算上限のある法人や複数アカウント利用の学校・研究機関向け',
+  'plan.enterprise.details.2':
+    'H200／B200の最新機器対応、オンプレミス環境、設備リース提供等、柔軟な設計が可能',
 };

@@ -10,6 +10,7 @@ import PriceComparison from './components/PriceComaprision';
 import Faq from './components/Faq';
 import InquiryForm from './components/InquiryForm';
 import WelcomeCard from '../WelcomeCard';
+import PriceCards from './components/Pricing/PriceCards';
 export default function Content() {
   return (
     <section className={styles['main-container']}>
@@ -19,6 +20,7 @@ export default function Content() {
         <SectionInput />
         <WhySection />
         <Decentralized />
+        <PriceCards />
         <ProductsTable />
         <HowSection />
         <PriceComparison />

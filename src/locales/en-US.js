@@ -920,4 +920,27 @@ export default {
   portPlaceholder: 'Enter port number',
   addNewRoute: 'Add new route',
   'refund.transactionId': 'Refund Transaction ID',
+  'plan.standard.title': 'Standard',
+  'plan.standard.price': '¥ 3 / min',
+  'plan.standard.subtitle': 'Base: RTX4090 equivalent',
+  'plan.standard.hourlyPrice': '¥ 330 / h',
+  'plan.standard.hourlySubtitle': 'Base: H100 SXM 80GB equivalent',
+  'plan.standard.details.1': 'On-demand fees only available',
+
+  'plan.business.title': 'Business',
+  'plan.business.price': '¥ 1,500 / TB-M',
+  'plan.business.subtitle': 'Standard Plan + Secure Storage',
+  'plan.business.details.1': '20% discount on annual contract',
+  'plan.business.details.2': 'Exclusive encryption key',
+  'plan.business.details.3': 'Tamper detection & traceability',
+  'plan.business.details.4': 'Japan region exclusive / legal compliance',
+  'plan.business.details.5': 'GPU resource collaboration',
+
+  'plan.enterprise.title': 'Enterprise',
+  'plan.enterprise.price': 'Quote',
+  'plan.enterprise.subtitle': 'Fixed-price plan with multiple licenses granted',
+  'plan.enterprise.details.1':
+    'For corporations with budget limits or multiple accounts, schools/research institutions',
+  'plan.enterprise.details.2':
+    'Latest H200/B200 devices, on-premises environment, equipment lease provided, etc., flexible design is possible',
 };
