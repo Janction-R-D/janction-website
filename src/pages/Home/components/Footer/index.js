@@ -49,10 +49,15 @@ const HomeFooter = (props) => {
             >
               Community
             </a>
-            <a href="https://x.com/JanctionMGT" target="_blank">
+            <a href="https://x.com/JANCTION_Global" target="_blank">
               Twitter
             </a>
-            <a>Discord</a>
+            <a href=" https://t.me/jasmyofficial" target="_blank">
+              Telegram
+            </a>
+            <a href=" https://gpx.link/" target="_blank">
+              GPX
+            </a>
           </div>
         </div>
       </div>
