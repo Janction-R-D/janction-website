@@ -53,11 +53,8 @@ const Footer = (props) => {
             <a href="https://x.com/JANCTION_Global" target="_blank">
               Twitter
             </a>
-            <a href="https://t.me/jasmyofficial" target="_blank">
-              Telegram{' '}
-            </a>
-            <a href="https://gpx.link/" target="_blank">
-              GPX{' '}
+            <a href=" https://t.me/jasmyofficial" target="_blank">
+              Telegram
             </a>
           </div>
         </div>

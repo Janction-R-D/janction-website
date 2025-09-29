@@ -373,6 +373,14 @@ const Root = (props) => {
                   desc="Compared to last week"
                 />
               </Col>
+              <Col className="f1" style={{ marginTop: '12px' }}>
+                <StatisticCard
+                  title="Total Users"
+                  value={statisticData?.total_users?.value}
+                  increaseRate={statisticData?.total_users?.rate}
+                  desc="Compared to last week"
+                />
+              </Col>
             </Row>
           </JanctionCard>
         </Col>
