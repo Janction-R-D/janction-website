@@ -54,19 +54,12 @@ const Quick = (props) => {
   );
 
   useEffect(() => {
-    let {
-      operating_system_str: operating_system = [],
-      ai_framework = [],
-      specification: currentFilter = initialValues.specification,
-    } = formValues || {};
-
-    const isFixedOption = ['basic-cpu', 'high-gpu'].includes(currentFilter);
+    let { operating_system_str: operating_system = [], ai_framework = [] } =
+      formValues || {};
 
     let payload = {
       operating_system,
       framework: ai_framework,
-      type: isFixedOption ? currentFilter : undefined,
-      country_code: !isFixedOption ? currentFilter : undefined,
     };
 
     debouncedGetList(payload);

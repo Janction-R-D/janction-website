@@ -24,12 +24,10 @@ export default function SelectSearch({
     ));
   };
   const handleCountryChange = (countryCode) => {
-    // onChange(countryCode);
     setCode(countryCode);
     const newList = originalList.filter(
       (node) => node?.attr?.location === countryCode,
     );
-    console.log(countryCode + '\n', 'newList :', newList);
     setList(newList);
   };
   useEffect(() => {
@@ -46,24 +44,10 @@ export default function SelectSearch({
   }, [formValues?.specification]);
   return (
     <div className={styles['type-selector-select']}>
-      <Radio.Group
-        value={isCountrySelected ? 'country' : null}
-        onChange={(e) => {
-          if (
-            e.target.value === 'country' &&
-            !isCountrySelected &&
-            countries.length > 0
-          ) {
-            handleCountryChange(countries[0].code);
-          }
-        }}
-      >
-        <Radio.Button value="country">Location:</Radio.Button>
-      </Radio.Group>
-
+      <span>Location :</span>
       <Select
         showSearch
-        placeholder="Select Country"
+        placeholder="Select a Loaction"
         style={{ width: 180 }}
         onChange={handleCountryChange}
         filterOption={(input, option) =>
