@@ -331,7 +331,7 @@ const Root = (props) => {
             <Row justify="middle" gutter={16}>
               <Col className="f1">
                 <StatisticCard
-                  title="Number of NFTS(Miners)."
+                  title="Number of Nodes(Miners)."
                   value={statisticData?.nft_miners?.value}
                   increaseRate={statisticData?.nft_miners?.rate}
                   desc="Compared to last week"
