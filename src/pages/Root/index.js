@@ -375,7 +375,7 @@ const Root = (props) => {
               </Col>
               <Col className="f1" style={{ marginTop: '12px' }}>
                 <StatisticCard
-                  title="Total Users"
+                  title="Total Vistors"
                   value={statisticData?.total_users?.value}
                   increaseRate={statisticData?.total_users?.rate}
                   desc="Compared to last week"
@@ -453,7 +453,7 @@ const Root = (props) => {
             />
           </JanctionCard>
         </Col>
-        <Col span={24}>
+        {/* <Col span={24}>
           <JanctionCard title="Inquiry" divider>
             <JanctionTable
               size="small"
@@ -471,7 +471,7 @@ const Root = (props) => {
               }}
             />
           </JanctionCard>
-        </Col>
+        </Col> */}
         <Col span={24}>
           <JanctionCard
             title="Stripe Users"
