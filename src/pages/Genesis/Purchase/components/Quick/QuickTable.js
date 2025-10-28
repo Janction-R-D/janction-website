@@ -73,7 +73,7 @@ export default function QuickTable(props) {
       pagination={{ pageSize: 5 }}
       rowKey={'id'}
       rowClassName={getRowClassName}
-      className={styles['table']}
+      className={`${styles['table']} ${styles.scrollTable}`}
       scroll={{ x: 'auto' }}
       onRow={(record) => ({
         onClick: () => {

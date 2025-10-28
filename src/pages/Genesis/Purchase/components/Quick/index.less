@@ -428,6 +428,17 @@
     color: rgba(255, 255, 255, 0.989);
   }
 }
+
+.scrollTable {
+  :global {
+    .ant-table-container {
+      scrollbar-width: thin;
+      scrollbar-color: #272323 transparent;
+      scrollbar-gutter: stable;
+    }
+  }
+}
+
 .table {
   width: 100%;
   max-width: calc(70vw - 200px);

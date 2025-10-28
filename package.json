@@ -26,7 +26,7 @@
     "@ant-design/pro-components": "^2.7.19",
     "@ant-design/pro-layout": "^6.5.0",
     "@passwordless-id/webauthn": "^2.1.2",
-    "@rainbow-me/rainbowkit": "^2.1.2",
+    "@rainbow-me/rainbowkit": "2.0.0",
     "@stripe/react-stripe-js": "^3.7.0",
     "@stripe/stripe-js": "^7.4.0",
     "@tanstack/react-query": "^5.28.4",
@@ -64,8 +64,8 @@
     "swiper": "^11.1.15",
     "umi": "^3.5.41",
     "unified": "^11.0.5",
-    "viem": "2.9.31",
-    "wagmi": "2.9.2"
+    "viem": "^2.5.0",
+    "wagmi": "2.5.0"
   },
   "devDependencies": {
     "@types/react": "^17.0.0",
