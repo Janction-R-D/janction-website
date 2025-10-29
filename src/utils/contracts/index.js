@@ -318,21 +318,78 @@ const contract = {
       // const totalAmount = ethers.utils.parseUnits(`${totalHours * price}`, 6);
       const totalAmount = price; //price comming from the backend
       // 检查授权额度
-      const currentAllowance = await currency.allowance(
+      let currentAllowance = await currency.allowance(
         payerAddress,
         getJasmyAddress().PaymentProxy,
       );
       if (currentAllowance.lt(totalAmount)) {
+        message.info({
+          content: 'Approving...',
+          key: 'approve',
+          duration: 0,
+        });
         const approveTx = await currency.approve(
           getJasmyAddress().PaymentProxy,
           totalAmount,
         );
-        await approveTx.wait();
+        // 等待至少2个区块确认，确保授权状态已同步
+        await approveTx.wait(2);
+        message.destroy('approve');
         message.success('Approval successful!');
+
+        // 等待一小段时间，确保状态完全同步
+        await delay(1000);
+
+        // 重新检查授权状态，确保授权已生效
+        let retryCount = 0;
+        const maxRetries = 5;
+        while (retryCount < maxRetries) {
+          currentAllowance = await currency.allowance(
+            payerAddress,
+            getJasmyAddress().PaymentProxy,
+          );
+          if (currentAllowance.gte(totalAmount)) {
+            console.log('Allowance confirmed:', currentAllowance.toString());
+            break;
+          }
+          console.log(
+            `Waiting for allowance to sync... (${
+              retryCount + 1
+            }/${maxRetries})`,
+          );
+          await delay(500);
+          retryCount++;
+        }
+
+        if (currentAllowance.lt(totalAmount)) {
+          throw new Error('Approval not reflected on chain, please try again');
+        }
       }
       const node32 = uuidToBytes32(nodeId);
       console.log(node32);
-      // 调起支付
+      // 调起支付 - 先手动估算gas，避免自动估算在授权后立即调用时失败
+      let gasEstimate;
+      try {
+        // 先尝试估算gas
+        gasEstimate = await payment.createPaymentPlan.estimateGas(
+          payerAddress,
+          ownerAddress,
+          currencyAddress,
+          totalAmount,
+          totalHours,
+          node32,
+        );
+        console.log('Gas estimate:', gasEstimate.toString());
+      } catch (estimateError) {
+        console.log(
+          'Gas estimation failed, will use default gas limit:',
+          estimateError,
+        );
+        // 如果估算失败，使用一个合理的固定值
+        gasEstimate = ethers.BigNumber.from(400000); // 默认400k gas，通常足够支付合约调用
+      }
+
+      // 使用估算的gas（增加20%余量）或固定值
       const tx = await payment.createPaymentPlan(
         payerAddress,
         ownerAddress,
@@ -340,6 +397,9 @@ const contract = {
         totalAmount,
         totalHours,
         node32,
+        {
+          gasLimit: gasEstimate.mul(120).div(100), // 增加20%的gas余量
+        },
       );
       await tx.wait(); // 等待交易完成
       message.success('Trade successfully!');
