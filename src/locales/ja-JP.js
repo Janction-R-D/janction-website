@@ -981,4 +981,5 @@ export default {
     '署名データが異常です。しばらくしてからもう一度お試しください。',
   'airdrop.contact': '署名情報が不完全です。管理者に連絡してください。',
   'airdrop.noAmount': '受け取り可能なJCTがありません。',
+  'airdrop.connectWallet': 'まずウォレットを接続してください。',
 };

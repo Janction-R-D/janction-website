@@ -33,6 +33,12 @@ const AirdropModal = ({
   }, [open, airdropData]);
 
   const handleConfirm = async () => {
+    if (!signer || !address) {
+      message.error(intl.formatMessage({ id: 'airdrop.connectWallet' }));
+
+      return;
+    }
+
     // 验证输入
     const jctAmount = parseFloat(toAmount);
     if (isNaN(jctAmount) || jctAmount <= 0) {

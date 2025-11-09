@@ -947,4 +947,5 @@ export default {
   'airdrop.contact':
     'Signature data is incomplete, please contact administrator.',
   'airdrop.noAmount': 'No JCT available to claim.',
+  'airdrop.connectWallet': 'Please connect your wallet first.',
 };
