@@ -1,6 +1,7 @@
 import { Table, Typography } from 'antd';
 import { useIntl } from 'umi';
 import styles from './index.less';
+
 const { Text } = Typography;
 
 const dataSource = [
@@ -144,6 +145,7 @@ export default function ProductsTable() {
             {intl.formatMessage({ id: 'products.description' })}
           </span>
         </div>
+
         <Table
           columns={columns}
           dataSource={intl.locale == 'ja-JP' ? dataSource : dataSourceEn}

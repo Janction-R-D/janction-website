@@ -318,7 +318,7 @@ const Root = (props) => {
           }}
         >
           <img
-            src={require('@/assets/images/icons/logo_name.png')}
+            src={require('@/assets/images/icons/janction-logo-text.png')}
             alt="logo"
           />
         </a>
@@ -331,7 +331,7 @@ const Root = (props) => {
             <Row justify="middle" gutter={16}>
               <Col className="f1">
                 <StatisticCard
-                  title="Number of NFTS(Miners)."
+                  title="Number of Nodes(Miners)."
                   value={statisticData?.nft_miners?.value}
                   increaseRate={statisticData?.nft_miners?.rate}
                   desc="Compared to last week"
@@ -373,9 +373,9 @@ const Root = (props) => {
                   desc="Compared to last week"
                 />
               </Col>
-              <Col className="f1">
+              <Col className="f1" style={{ marginTop: '12px' }}>
                 <StatisticCard
-                  title="Total Users"
+                  title="Total Vistors"
                   value={statisticData?.total_users?.value}
                   increaseRate={statisticData?.total_users?.rate}
                   desc="Compared to last week"
@@ -453,7 +453,7 @@ const Root = (props) => {
             />
           </JanctionCard>
         </Col>
-        <Col span={24}>
+        {/* <Col span={24}>
           <JanctionCard title="Inquiry" divider>
             <JanctionTable
               size="small"
@@ -471,7 +471,7 @@ const Root = (props) => {
               }}
             />
           </JanctionCard>
-        </Col>
+        </Col> */}
         <Col span={24}>
           <JanctionCard
             title="Stripe Users"

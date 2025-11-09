@@ -123,10 +123,36 @@ export default function AIForm() {
             const previewUrl = URL.createObjectURL(file);
             setAvatarUrl(previewUrl);
             form.setFieldsValue({ cover: file });
+
             return Upload.LIST_IGNORE;
           }}
         >
-          {/* ... */}
+          <span
+            className={styles.avatarContainer}
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+          >
+            <Avatar
+              shape="square"
+              size={64}
+              className={styles.avatar}
+              src={avatarUrl}
+              icon={
+                !avatarUrl && (
+                  <UploadOutlined
+                    style={{
+                      fontSize: '24px',
+                    }}
+                  />
+                )
+              }
+            />
+            {avatarUrl && hovered && (
+              <div className={styles.deleteButton} onClick={handleDeleteAvatar}>
+                <DeleteOutlined />
+              </div>
+            )}
+          </span>
         </Upload>
       </Form.Item>
 

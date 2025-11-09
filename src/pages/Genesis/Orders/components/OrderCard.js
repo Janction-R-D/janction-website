@@ -1,11 +1,13 @@
 import React, { useMemo, useState } from 'react';
-import { Button, Card, Divider } from 'antd';
+import { Button, Card, Divider, Tooltip } from 'antd';
 import styles from './orders.less';
 import { brandDetails } from '@/constant';
 import OrderModal from './OrderModal';
 import PayButton from './PayButton';
 import { useIntl } from 'umi';
 import { getJasmyCurrency } from '@/utils/contracts';
+import TooltipBox from '../../components/Tooltip';
+import { formatISODate } from '@/utils/datetime';
 
 export default function OrderCard({ order }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -23,10 +25,14 @@ export default function OrderCard({ order }) {
     resource: order?.resource,
   };
   const currency = getJasmyCurrency().find(
-    (item) => item.value == data?.order?.payment_plan_created?.Currency,
+    (item) => item.value == data?.order?.payment_plan_created?.currency,
   );
 
-  const statusKey = data?.order?.status?.toLowerCase();
+  const statusKey =
+    data?.order?.refunded == true
+      ? 'refunded'
+      : data?.order?.status?.toLowerCase();
+
   const statusIcon =
     {
       completed: 'icon-Completed',
@@ -43,7 +49,7 @@ export default function OrderCard({ order }) {
 
         <div className={styles[statusKey]}>
           <i className={`iconfont ${statusIcon}`} />
-          <span>{data?.order?.status || '~'}</span>
+          <span>{statusKey || '~'}</span>
         </div>
       </h1>
 
@@ -104,22 +110,52 @@ export default function OrderCard({ order }) {
             <p>
               <span>{intl.formatMessage({ id: 'order.arch' })}</span>
               <span>
-                {data.order?.resource?.node?.attr?.architechture_str &&
-                data.order?.resource?.node?.attr?.operating_system_str
-                  ? `${data.order.resource.node.attr.architechture_str} / ${data.order.resource.node.attr.operating_system_str}`
+                {data?.resource?.node?.attr?.architechture_str &&
+                data?.resource?.node?.attr?.operating_system_str
+                  ? `${data.resource.node.attr.architechture_str} / ${data.resource.node.attr.operating_system_str}`
                   : '~~'}
               </span>
+            </p>
+            {statusKey === 'completed' && (
+              <p>
+                <span>{intl.formatMessage({ id: 'transactionId' })}</span>
+                <Tooltip
+                  color="black"
+                  title={data.order?.payment_tx_hash || '~~'}
+                  className={styles['tx_id']}
+                >
+                  {data.order?.payment_tx_hash || '~~'}
+                </Tooltip>
+              </p>
+            )}
+            {statusKey === 'refunded' && (
+              <p>
+                <span>
+                  {intl.formatMessage({ id: 'refund.transactionId' })}
+                </span>
+                <Tooltip
+                  color="black"
+                  title={data.order?.refund_tx_id || '~~'}
+                  className={styles['tx_id']}
+                >
+                  {data.order?.refund_tx_id || '~~'}
+                </Tooltip>
+              </p>
+            )}
+            <p>
+              <span>{intl.formatMessage({ id: 'createdTime' })}</span>
+              {formatISODate(data?.order?.created_at)}
             </p>
           </section>
 
           <Divider />
           <section>
-            <p>
+            {/* <p>
               <span>{intl.formatMessage({ id: 'order.payment.method' })}</span>
               <span className={styles['bold']}>
                 {intl.formatMessage({ id: 'order.payment.method.value' })}
               </span>
-            </p>
+            </p> */}
             <p>
               <span>{intl.formatMessage({ id: 'order.payment.paid' })}</span>
               <span className={styles['price']}>
@@ -149,7 +185,10 @@ const Hearder = ({ data }) => {
       </span>
     );
   }
-
+  if (data?.order?.refund_reason && data?.order?.status) {
+    console.log(data?.order?.refund_reason);
+    return <span>{data?.order?.refund_reason}</span>;
+  }
   return (
     <span>{`${gpu?.[0] || ''} ${cpu?.[0] || ''} * ${cpu?.length || 0}`}</span>
   );

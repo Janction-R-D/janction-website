@@ -23,11 +23,16 @@ const HistoryInstances = (props) => {
       downtime: `${formatISODate(order.created_at)}\r\n${formatISODate(
         order.expired_at,
       )}`,
+      isTerminated: order?.is_terminated,
+      isTerminated: order?.refund,
+      isAllowed: order?.is_terminated || order?.refund,
     }));
   }, [data]);
   const filteredInstance = mappedOrders?.filter(
     (item) =>
-      allowedStatuses.includes(item.status.toLowerCase()) && item.isExpired,
+      allowedStatuses.includes(item.status.toLowerCase()) &&
+      item.isExpired &&
+      item.isAllowed,
   );
 
   const handleCancel = () => {

@@ -25,7 +25,7 @@ export default function PriceComparison() {
               label={intl.formatMessage({
                 id: 'priceComparison.janctionLabel',
               })}
-              value="$3.3/h"
+              value="$1.3/h"
               percent={30}
               color="#00e0ff"
             />
@@ -34,25 +34,10 @@ export default function PriceComparison() {
               label={intl.formatMessage({
                 id: 'priceComparison.onPremisesLabel',
               })}
-              value="$50/month"
+              value="$5/h"
               percent={100}
               color="#ff9a00"
             />
-          </div>
-
-          <div className={styles.right}>
-            <div className={styles.bullet}>
-              <span className={styles.dotBlue}></span>
-              {intl.formatMessage({ id: 'priceComparison.bullet1' })}
-            </div>
-            <div className={styles.bullet}>
-              <span className={styles.dotBlue}></span>
-              {intl.formatMessage({ id: 'priceComparison.bullet2' })}
-            </div>
-            <div className={styles.bullet}>
-              <span className={styles.dotOrange}></span>
-              {intl.formatMessage({ id: 'priceComparison.bullet3' })}
-            </div>
           </div>
         </section>
       </div>

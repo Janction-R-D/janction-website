@@ -9,6 +9,8 @@ import { copy } from '@/utils/lang';
 import { useChainId } from 'wagmi';
 import { useEthersSigner } from '@/hooks/useEthersSigner';
 
+import { useIntl } from 'umi';
+
 export default function WalletLink() {
   const [loading, setLoading] = useState(false);
   const { initialState, setInitialState } = useModel('@@initialState');
@@ -17,11 +19,17 @@ export default function WalletLink() {
   const { disconnect } = useDisconnect();
   const chainId = useChainId();
   const signer = useEthersSigner(chainId);
+  const intl = useIntl();
   const handleCancel = () => {};
   return (
     <Card className={styles['card']}>
       <section className={styles['card-header']}>
-        <h3>Wallet</h3>
+        <h3>
+          {intl.formatMessage({
+            id: 'profile.wallet',
+            defaultMessage: 'Wallet',
+          })}
+        </h3>
       </section>
       <section className={styles['social-tags']}>
         {isConnected ? (
@@ -50,13 +58,20 @@ export default function WalletLink() {
 }
 
 function BindedWallet({ address }) {
+  const intl = useIntl();
   return (
     <div className={styles['bin-group']}>
       <img src={metamaskImg} className={styles['img']} alt="MetaMask" />
       <div className={styles['unbin-container']}>
         <p className={styles['bin-title']}>MetaMask</p>
         <p className={styles['binded']}>
-          <span>Address: {address}</span>
+          <span>
+            {intl.formatMessage({
+              id: 'profile.address',
+              defaultMessage: 'Address:',
+            })}{' '}
+            {address}
+          </span>
           <div className={styles['icon']} onClick={() => copy(address)}>
             <i className="iconfont icon-copy" />
           </div>
@@ -67,13 +82,23 @@ function BindedWallet({ address }) {
 }
 
 function NoWallet({ onBind, loading }) {
+  const intl = useIntl();
+
   return (
     <div className={styles['unbin-group']}>
       <div className={styles['unbin-left']}>
-        <p className={styles['unbin-title']}>Unbound wallet address</p>
+        <p className={styles['unbin-title']}>
+          {intl.formatMessage({
+            id: 'wallet.unboundTitle',
+            defaultMessage: 'Unbound wallet address',
+          })}
+        </p>
         <p className={styles['unbin-desc']}>
-          After binding the wallet, you can enable rental permissions, rental
-          nodes, etc.
+          {intl.formatMessage({
+            id: 'wallet.unboundDesc',
+            defaultMessage:
+              'After binding the wallet, you can enable rental permissions, rental nodes, etc.',
+          })}
         </p>
       </div>
       <Button
@@ -81,7 +106,10 @@ function NoWallet({ onBind, loading }) {
         onClick={onBind}
         loading={loading}
       >
-        Binding{' '}
+        {intl.formatMessage({
+          id: 'wallet.bindButton',
+          defaultMessage: 'Binding',
+        })}
         <div className={styles['icon']}>
           <i className="iconfont icon-next" />
         </div>

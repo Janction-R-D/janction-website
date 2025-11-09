@@ -12,7 +12,7 @@ import { Button, message } from 'antd';
 import { toFixed, toNumber } from '../lang';
 import { useChainId } from 'wagmi';
 import { useEthersSigner } from '@/hooks/useEthersSigner';
-import { history } from 'umi';
+import { history, useIntl } from 'umi';
 
 const ContributorReward = (props) => {
   const [remaining, setRemaining] = useState(0);
@@ -21,7 +21,7 @@ const ContributorReward = (props) => {
   const [loading, setLoading] = useState(false);
   const chainId = useChainId();
   const signer = useEthersSigner(chainId);
-
+  const intl = useIntl();
   useEffect(() => {
     getData();
   }, []);
@@ -62,19 +62,24 @@ const ContributorReward = (props) => {
   return (
     <div className={styles['contributor-reward']}>
       <div className={styles['header']}>
-        <h1>Contributor Reward</h1>
+        <h1>
+          {intl.formatMessage({
+            id: 'reward.title',
+            defaultMessage: 'Contributor Reward',
+          })}
+        </h1>
         <div className={styles['extra']}>
           <div className={styles['connect-button']} onClick={onNavigate}>
             <i className="iconfont icon-pre" style={{ color: 'orange' }} />
-            Back
+            {intl.formatMessage({ id: 'reward.back', defaultMessage: 'Back' })}
           </div>
-          <a
+          {/* <a
             className="hvr-grow"
             href="https://x.com/JanctionMGT"
             target="_black"
           >
             <i className="iconfont icon-x"></i>
-          </a>
+          </a> */}
           <a
             className="hvr-grow"
             href="https://t.me/jasmyofficial"
@@ -100,7 +105,10 @@ const ContributorReward = (props) => {
               ].join(' ')}
               onClick={onClaim}
             >
-              Claim
+              {intl.formatMessage({
+                id: 'reward.claim',
+                defaultMessage: 'Claim',
+              })}
             </Button>
           </div>
         </div>

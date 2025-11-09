@@ -9,17 +9,9 @@ const HomeFooter = (props) => {
       <div className="df jc_sb ai_c gap18">
         <div className="df fd_c">
           <img
-            src={require('@/assets/images/icons/logo.png')}
+            src={require('@/assets/images/icons/janction-icon.png')}
             alt=""
-            width="52"
-            height="52"
-          />
-          <img
-            src={require('@/assets/images/icons/jaction.png')}
-            alt=""
-            width="122"
-            height="17"
-            className="mt40 mb40"
+            className={styles.logo}
           />
         </div>
         <div className={styles['links-container']}>

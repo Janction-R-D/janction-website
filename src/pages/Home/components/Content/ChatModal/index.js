@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Modal, Input, Button, Spin } from 'antd';
 import styles from './index.less';
 import aiImage from '@/assets/images/genesis/ai.png';
-import userImage from '@/assets/images/icons/logo.png';
+import userImage from '@/assets/images/icons/janction-icon.png';
 import { ALL_QA, typeMessage } from '@/utils/lang';
 import {
   chineseChar,

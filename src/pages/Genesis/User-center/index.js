@@ -1,7 +1,7 @@
 import { fetchUserCenter, sendImageToServer } from '@/services/genesis';
 import { Button, message } from 'antd';
 import { useEffect, useState } from 'react';
-import { useModel } from 'umi';
+import { useIntl, useModel } from 'umi';
 import EditName from './components/EditName';
 import EmailVerify from './components/EmailVerify';
 import PorifilePicture from './components/PorifilePicture';
@@ -22,6 +22,7 @@ function UserAccount() {
   const [isEmailConfigOpen, setIsEmailConfigOpen] = useState(false);
   const [bindOpen, setBindOpen] = useState(false);
   const [isRemindOpen, setIsRemindOpen] = useState(false);
+  const intl = useIntl();
   const onBinOpen = () => {
     setBindOpen(true);
   };
@@ -82,7 +83,12 @@ function UserAccount() {
         onCancel={closeEmailConf}
         closeAll={onSuccess}
       />
-      <p className={styles['title']}>Personal information</p>
+      <p className={styles['title']}>
+        {intl.formatMessage({
+          id: 'profile.personalInfo',
+          defaultMessage: 'Personal information',
+        })}
+      </p>
       <section className={styles['banner']}>
         <div className={styles['banner-img']}>
           <img src="/account.png" className={styles['img']} />
@@ -107,7 +113,10 @@ function UserAccount() {
         </div>
         <div className={styles['info-box']}>
           <p className={styles['address-id']}>
-            Address:{' '}
+            {intl.formatMessage({
+              id: 'profile.address',
+              defaultMessage: 'Address:',
+            })}{' '}
             {userInfo?.id ? (
               <span
                 className={styles['address-id-text']}
@@ -120,11 +129,22 @@ function UserAccount() {
               '~~'
             )}
           </p>
-          <p>Registration date: {userInfo?.registered_at?.split('T')[0]}</p>
+          <p>
+            {intl.formatMessage({
+              id: 'profile.registrationDate',
+              defaultMessage: 'Registration date:',
+            })}
+
+            {userInfo?.registered_at?.split('T')[0]}
+          </p>
 
           <div className={styles['edit-info']}>
             <p className={styles['info-text']}>
-              E-mail: {userInfo?.email || '-'}{' '}
+              {intl.formatMessage({
+                id: 'profile.email',
+                defaultMessage: 'E-mail',
+              })}{' '}
+              : {userInfo?.email || '-'}{' '}
             </p>
             <span onClick={handleVerify} className={styles['info-text']}>
               {userInfo?.email ? 'Update' : 'Bind'}

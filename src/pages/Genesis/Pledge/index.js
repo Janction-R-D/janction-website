@@ -53,34 +53,34 @@ function Staking() {
       key: 'memory',
       ellipsis: true,
     },
-    {
-      title: intl.formatMessage({ id: 'staking.columns.cooling' }),
-      dataIndex: 'status',
-      key: 'status',
-    },
-    {
-      title: intl.formatMessage({ id: 'staking.columns.withdrawable' }),
-      dataIndex: 'Location',
-      key: 'Location',
-      ellipsis: true,
-    },
-    {
-      title: (
-        <div className="df ai_c gap10">
-          <span>
-            <FormattedMessage id="staking.columns.undercarriage" />
-          </span>
-          <JanctionTip
-            placement="topRight"
-            title={intl.formatMessage({
-              id: 'staking.columns.undercarriageTip',
-            })}
-          />
-        </div>
-      ),
-      dataIndex: 'GPUrate',
-      key: 'GPUrate',
-    },
+    // {
+    //   title: intl.formatMessage({ id: 'staking.columns.cooling' }),
+    //   dataIndex: 'status',
+    //   key: 'status',
+    // },
+    // {
+    //   title: intl.formatMessage({ id: 'staking.columns.withdrawable' }),
+    //   dataIndex: 'Location',
+    //   key: 'Location',
+    //   ellipsis: true,
+    // },
+    // {
+    //   title: (
+    //     <div className="df ai_c gap10">
+    //       <span>
+    //         <FormattedMessage id="staking.columns.undercarriage" />
+    //       </span>
+    //       <JanctionTip
+    //         placement="topRight"
+    //         title={intl.formatMessage({
+    //           id: 'staking.columns.undercarriageTip',
+    //         })}
+    //       />
+    //     </div>
+    //   ),
+    //   dataIndex: 'GPUrate',
+    //   key: 'GPUrate',
+    // },
     {
       title: intl.formatMessage({ id: 'staking.columns.memoryUsage' }),
       dataIndex: 'MemoryUsage',
@@ -94,11 +94,11 @@ function Staking() {
         <div style={{ whiteSpace: 'pre' }}>{record.downtime}</div>
       ),
     },
-    {
-      title: intl.formatMessage({ id: 'staking.columns.operation' }),
-      key: 'action',
-      render: (_, record) => <Operation record={record} />,
-    },
+    // {
+    //   title: intl.formatMessage({ id: 'staking.columns.operation' }),
+    //   key: 'action',
+    //   render: (_, record) => <Operation record={record} />,
+    // },
   ];
 
   if (isLessee) return <Redirect to="/genesis/dashboard" />;

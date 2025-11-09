@@ -1,0 +1,146 @@
+[
+  {
+    "id": "65e89c30-5ac4-4b0d-883b-7b4b2918cc47",
+    "created_at": "2025-08-11T18:33:56.510344Z",
+    "updated_at": "2025-08-11T18:33:56.510344Z",
+    "type": "contract_payment_release",
+    "payment_id": "0xeba6139074f44dcd0f95d5d9b626c4d8ce639fca4c4d13ad047be8357f81afb5",
+    "amount": "625000",
+    "currency": "USDT",
+    "data": {
+      "Raw": {
+        "data": "0x0000000000000000000000000000000000000000000000000000000000000005",
+        "topics": [
+          "0xe19f08b833865b0a8496528a0a2460123995efe46d7bdd4b2408352f9b924200",
+          "0xeba6139074f44dcd0f95d5d9b626c4d8ce639fca4c4d13ad047be8357f81afb5",
+          "0x000000000000000000000000d0167b1cc6cab1e4e7c6f38d09ea35171d00b68e",
+          "0x000000000000000000000000d0167b1cc6cab1e4e7c6f38d09ea35171d00b68e"
+        ],
+        "address": "0xbb24a1f7eb4afb95abf92967a35327ceafaa5610",
+        "removed": false,
+        "logIndex": "0x2",
+        "blockHash": "0xa0d2f510b2901f6157eee726350013b69b97d860fad06d63c53cd70fa07d1b8d",
+        "blockNumber": "0x1e1adf4",
+        "blockTimestamp": "0x0",
+        "transactionHash": "0x9bdbd4bfadeaa1daff2d639d935b1c162e7db29e38e292c0833e181295cc543e",
+        "transactionIndex": "0x1"
+      },
+      "Payer": "0xd0167b1cc6cab1e4e7c6f38d09ea35171d00b68e",
+      "PaidHours": 5,
+      "PaymentId": [
+        235, 166, 19, 144, 116, 244, 77, 205, 15, 149, 213, 217, 182, 38, 196,
+        216, 206, 99, 159, 202, 76, 77, 19, 173, 4, 123, 232, 53, 127, 129, 175,
+        181
+      ],
+      "Recipient": "0xd0167b1cc6cab1e4e7c6f38d09ea35171d00b68e"
+    }
+  },
+  {
+    "id": "af0e73aa-afb6-43e1-b0ec-6a4548ae52d5",
+    "created_at": "2025-08-12T03:13:26.580657Z",
+    "updated_at": "2025-08-12T03:13:26.580657Z",
+    "type": "contract_payment_release",
+    "payment_id": "0x3064e43114a0cff8c7c088edf892d758e54f446ab395f8b79e842cddcc93774d",
+    "amount": "41666",
+    "currency": "USDT",
+    "data": {
+      "Raw": {
+        "data": "0x0000000000000000000000000000000000000000000000000000000000000001",
+        "topics": [
+          "0xe19f08b833865b0a8496528a0a2460123995efe46d7bdd4b2408352f9b924200",
+          "0x3064e43114a0cff8c7c088edf892d758e54f446ab395f8b79e842cddcc93774d",
+          "0x000000000000000000000000d0167b1cc6cab1e4e7c6f38d09ea35171d00b68e",
+          "0x000000000000000000000000d0167b1cc6cab1e4e7c6f38d09ea35171d00b68e"
+        ],
+        "address": "0xbb24a1f7eb4afb95abf92967a35327ceafaa5610",
+        "removed": false,
+        "logIndex": "0x8",
+        "blockHash": "0x237614045105e50bd8c1b060176f2ace214add4b2e9b388f9c3899cee9a5313d",
+        "blockNumber": "0x1e1ead5",
+        "blockTimestamp": "0x0",
+        "transactionHash": "0x3dfc2f3309530642c8f56caaba8d2b771c87abfe07c6750bbf7d4773a5c410c8",
+        "transactionIndex": "0x3"
+      },
+      "Payer": "0xd0167b1cc6cab1e4e7c6f38d09ea35171d00b68e",
+      "PaidHours": 1,
+      "PaymentId": [
+        48, 100, 228, 49, 20, 160, 207, 248, 199, 192, 136, 237, 248, 146, 215,
+        88, 229, 79, 68, 106, 179, 149, 248, 183, 158, 132, 44, 221, 204, 147,
+        119, 77
+      ],
+      "Recipient": "0xd0167b1cc6cab1e4e7c6f38d09ea35171d00b68e"
+    }
+  },
+  {
+    "id": "883a5a2d-5212-4c14-ae15-7a58b42eaa64",
+    "created_at": "2025-08-12T03:29:42.762174Z",
+    "updated_at": "2025-08-12T03:29:42.762174Z",
+    "type": "contract_payment_release",
+    "payment_id": "0x2f1b0bfdb7f1c166046b79a4d6a9aed127e95a39b858e5573055d2dcd6f34ab9",
+    "amount": "541658",
+    "currency": "USDT",
+    "data": {
+      "Raw": {
+        "data": "0x000000000000000000000000000000000000000000000000000000000000000d",
+        "topics": [
+          "0xe19f08b833865b0a8496528a0a2460123995efe46d7bdd4b2408352f9b924200",
+          "0x2f1b0bfdb7f1c166046b79a4d6a9aed127e95a39b858e5573055d2dcd6f34ab9",
+          "0x000000000000000000000000d0167b1cc6cab1e4e7c6f38d09ea35171d00b68e",
+          "0x000000000000000000000000d0167b1cc6cab1e4e7c6f38d09ea35171d00b68e"
+        ],
+        "address": "0xbb24a1f7eb4afb95abf92967a35327ceafaa5610",
+        "removed": false,
+        "logIndex": "0xfa",
+        "blockHash": "0x5302754719a9256bfbdf6b31873c6cc32e9edf7d3b0929512be9e051aabf3936",
+        "blockNumber": "0x1e1ecbd",
+        "blockTimestamp": "0x0",
+        "transactionHash": "0x65ac131447fd67e6a69b728cfa1abbe0491e33a92b15585b82255ffa4e661aa6",
+        "transactionIndex": "0x4"
+      },
+      "Payer": "0xd0167b1cc6cab1e4e7c6f38d09ea35171d00b68e",
+      "PaidHours": 13,
+      "PaymentId": [
+        47, 27, 11, 253, 183, 241, 193, 102, 4, 107, 121, 164, 214, 169, 174,
+        209, 39, 233, 90, 57, 184, 88, 229, 87, 48, 85, 210, 220, 214, 243, 74,
+        185
+      ],
+      "Recipient": "0xd0167b1cc6cab1e4e7c6f38d09ea35171d00b68e"
+    }
+  },
+  {
+    "id": "65ad59c6-210d-48b8-906a-4a4cd6610c70",
+    "created_at": "2025-08-12T03:32:38.541918Z",
+    "updated_at": "2025-08-12T03:32:38.541918Z",
+    "type": "contract_payment_release",
+    "payment_id": "0x570e1ca34fb3e57ae162ac572d1c3a84d0a90d0e32e552bb67a878c37430bdbe",
+    "amount": "874986",
+    "currency": "USDT",
+    "data": {
+      "Raw": {
+        "data": "0x0000000000000000000000000000000000000000000000000000000000000015",
+        "topics": [
+          "0xe19f08b833865b0a8496528a0a2460123995efe46d7bdd4b2408352f9b924200",
+          "0x570e1ca34fb3e57ae162ac572d1c3a84d0a90d0e32e552bb67a878c37430bdbe",
+          "0x000000000000000000000000d0167b1cc6cab1e4e7c6f38d09ea35171d00b68e",
+          "0x000000000000000000000000d0167b1cc6cab1e4e7c6f38d09ea35171d00b68e"
+        ],
+        "address": "0xbb24a1f7eb4afb95abf92967a35327ceafaa5610",
+        "removed": false,
+        "logIndex": "0x4",
+        "blockHash": "0xbe12dfc0b23a473dc8dbc4fd434af4784ebb80a8bf0b9added527a27a23b9a4c",
+        "blockNumber": "0x1e1ed15",
+        "blockTimestamp": "0x0",
+        "transactionHash": "0x23cb0c122481f36685d4247a2fce284a9b7350530b211ef0ab36631093eb6481",
+        "transactionIndex": "0x3"
+      },
+      "Payer": "0xd0167b1cc6cab1e4e7c6f38d09ea35171d00b68e",
+      "PaidHours": 21,
+      "PaymentId": [
+        87, 14, 28, 163, 79, 179, 229, 122, 225, 98, 172, 87, 45, 28, 58, 132,
+        208, 169, 13, 14, 50, 229, 82, 187, 103, 168, 120, 195, 116, 48, 189,
+        190
+      ],
+      "Recipient": "0xd0167b1cc6cab1e4e7c6f38d09ea35171d00b68e"
+    }
+  }
+]

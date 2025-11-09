@@ -1,5 +1,5 @@
 import storage from '@/utils/storage';
-import { Redirect, useAccess, useModel, history } from 'umi';
+import { Redirect, useAccess, useModel } from 'umi';
 import { useAccountEffect } from 'wagmi';
 
 export default (props) => {
@@ -9,7 +9,6 @@ export default (props) => {
   const { isLogin } = useAccess();
   const TOKEN = storage.get('TOKEN');
 
-  // Monitor active exit
   useAccountEffect({
     onDisconnect() {
       if (sessionType !== 'wallet') {

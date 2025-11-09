@@ -53,7 +53,6 @@ export default function QuickTable(props) {
         const cpu = attr?.cpu_chip;
         const gpu = attr?.gpu_chip;
 
-        console.log(gpu);
         return (
           <>
             <p>{!!cpu?.length ? `${cpu[0]} * ${cpu?.length}` : '--'}</p>

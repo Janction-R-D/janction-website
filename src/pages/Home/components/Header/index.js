@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './index.less';
-import logo from '@/assets/images/icons/logo_name.png';
+import logo from '@/assets/images/icons/janction-logo-text.png';
 import { Button } from 'antd';
 import { history, useIntl } from 'umi';
 import { DropLanguage } from '../DropLanguage';

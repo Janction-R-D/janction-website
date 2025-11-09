@@ -5,7 +5,7 @@ import PieChart from '../Pie/Pie';
 import { useIntl } from 'umi';
 export default function Card({ total }) {
   const intl = useIntl();
-  const unit = 'veJCT';
+  const unit = 'USDT';
   return (
     <div className={styles['total-wrapper']}>
       <div className={styles['total-context']}>

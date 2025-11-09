@@ -393,6 +393,27 @@ export const fetchResource = (params) => {
     loginAuth: true,
   });
 };
+export const fetchCreateTunnel = (params) => {
+  return request(`${baseUrl}/resource/tunnel/register`, {
+    data: params,
+    loginAuth: true,
+    method: 'POST',
+  });
+};
+export const fetchEnableTunnel = (params) => {
+  return request(`${baseUrl}/resource/tunnel/routes/enable`, {
+    data: params,
+    loginAuth: true,
+    method: 'POST',
+  });
+};
+export const fetchDeleteTunnel = (params) => {
+  return request(`${baseUrl}/resource/tunnel/routes/delete`, {
+    data: params,
+    loginAuth: true,
+    method: 'POST',
+  });
+};
 export const fetchResourceTunnel = (params) => {
   return request(`${baseUrl}/resource/tunnel/status`, {
     params,

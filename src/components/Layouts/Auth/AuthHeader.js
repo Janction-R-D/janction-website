@@ -24,7 +24,10 @@ export const Logo = () => {
         history.push('/');
       }}
     >
-      <img src={require('@/assets/images/icons/logo_name.png')} alt="logo" />
+      <img
+        src={require('@/assets/images/icons/janction-logo-text.png')}
+        alt="logo"
+      />
     </a>
   );
 };
