@@ -37,4 +37,8 @@ export default {
   'runNode.shutdown.vms': 'Shutdown running VMs:',
   'runNode.delete.ubuntu.vm': 'Delete Ubuntu VM:',
   'runNode.execute.command': 'You need to execute the following command',
+  'airdrop.retry': 'Signature data is abnormal, please try again later.',
+  'airdrop.contact':
+    'Signature data is incomplete, please contact administrator.',
+  'airdrop.noAmount': 'No JCT available to claim.',
 };

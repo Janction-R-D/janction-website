@@ -943,4 +943,8 @@ export default {
     'For corporations with budget limits or multiple accounts, schools/research institutions',
   'plan.enterprise.details.2':
     'Latest H200/B200 devices, on-premises environment, equipment lease provided, etc., flexible design is possible',
+  'airdrop.retry': 'Signature data is abnormal, please try again later.',
+  'airdrop.contact':
+    'Signature data is incomplete, please contact administrator.',
+  'airdrop.noAmount': 'No JCT available to claim.',
 };

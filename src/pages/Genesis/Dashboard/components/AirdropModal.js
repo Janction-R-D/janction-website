@@ -5,9 +5,10 @@ import styles from './index.less';
 import airdropBg from '@/assets/images/airdrop/airdrop_bg.png';
 import airdropArrow from '@/assets/images/airdrop/airdrop_arrow.png';
 import airdropDown from '@/assets/images/airdrop/airdrop_down.png';
-import { fetchJctSign } from '@/services/genesis';
+import { fetchJctSign, fetchJctAirdropSet } from '@/services/genesis';
 import { useEthersSigner } from '@/hooks/useEthersSigner';
 import contract from '@/utils/contracts';
+import { useIntl } from 'umi';
 
 const AirdropModal = ({
   open,
@@ -20,8 +21,8 @@ const AirdropModal = ({
   const { address } = useAccount();
   const chainId = useChainId();
   const signer = useEthersSigner(chainId);
+  const intl = useIntl();
 
-  // 当弹窗打开且有空投数据时，初始化输入框
   useEffect(() => {
     if (open && airdropData) {
       const airdropValue = airdropData.total_points || 0;
@@ -31,33 +32,11 @@ const AirdropModal = ({
     }
   }, [open, airdropData]);
 
-  useEffect(() => {
-    if (open) {
-      fetchJctAirdropSetHasClaim();
-    }
-  }, [open]);
-
-  // 获取标记已领
-  const fetchJctAirdropSetHasClaim = async () => {
-    try {
-      const res = await fetchJctAirdropSet();
-      return res;
-    } catch (error) {
-      console.log('『error』', error);
-      return null;
-    }
-  };
-
   const handleConfirm = async () => {
     // 验证输入
     const jctAmount = parseFloat(toAmount);
     if (isNaN(jctAmount) || jctAmount <= 0) {
-      message.error('没有可领的JCT数量');
-      return;
-    }
-
-    if (jctAmount > totalAirdrop) {
-      message.error('JCT数量不能超过可领取的空投数量');
+      message.error(intl.formatMessage({ id: 'airdrop.noAmount' }));
       return;
     }
 
@@ -76,7 +55,7 @@ const AirdropModal = ({
       };
 
       if (!signature || !messagePayload) {
-        throw new Error('签名数据异常，请稍后重试');
+        throw new Error(intl.formatMessage({ id: 'airdrop.retry' }));
       }
 
       const claimMessage = {
@@ -89,16 +68,19 @@ const AirdropModal = ({
         claimMessage.timestamp === undefined ||
         claimMessage.amount === undefined
       ) {
-        throw new Error('签名数据不完整，请联系管理员');
+        throw new Error(intl.formatMessage({ id: 'airdrop.contact' }));
       }
 
-      await contract.claimAirdrop(signer, claimMessage, signature);
+      const tx = contract.claimAirdrop(signer, claimMessage, signature).then();
+
+      if (tx) {
+        fetchJctAirdropSet();
+      }
 
       onClose();
-      // 可以在这里添加后续处理逻辑，比如刷新数据
     } catch (error) {
-      console.error('签名失败:', error);
-      message.error(error?.message || '领取失败，请重试');
+      console.error('error:', error);
+      message.error(error?.message);
     } finally {
       setLoading(false);
     }
