@@ -39,3 +39,15 @@ export const fetchJctAirdrop = () => {
     loginAuth: true,
   });
 };
+
+/**
+ * 标记已领
+ * @returns {Promise} 标记已领
+ */
+export const fetchJctAirdropSet = (data) => {
+  return request(`${baseUrl}/user/set/user/airdrop`, {
+    method: 'POST',
+    loginAuth: true,
+    data,
+  });
+};

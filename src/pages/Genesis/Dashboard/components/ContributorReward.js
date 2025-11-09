@@ -75,7 +75,6 @@ const ContributorReward = (props) => {
       <AirdropModal
         open={airdropModalOpen}
         onClose={() => setAirdropModalOpen(false)}
-        totalAirdrop={airdropData?.airdrop || rewardShow}
         airdropData={airdropData}
       />
     </>

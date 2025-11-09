@@ -12,7 +12,6 @@ import contract from '@/utils/contracts';
 const AirdropModal = ({
   open,
   onClose,
-  totalAirdrop = 0,
   airdropData = { airdrop: 0, total_points: 0 },
 }) => {
   const [fromAmount, setFromAmount] = useState('0.00');
@@ -25,27 +24,40 @@ const AirdropModal = ({
   // 当弹窗打开且有空投数据时，初始化输入框
   useEffect(() => {
     if (open && airdropData) {
-      const { airdrop, total_points } = airdropData;
-      setFromAmount(String(total_points));
-      setToAmount(String(airdrop));
+      const airdropValue = airdropData.total_points || 0;
+      const airdropValueTo = airdropData.airdrop || 0;
+      setFromAmount(airdropValue);
+      setToAmount(airdropValueTo);
     }
   }, [open, airdropData]);
+
+  useEffect(() => {
+    if (open) {
+      fetchJctAirdropSetHasClaim();
+    }
+  }, [open]);
+
+  // 获取标记已领
+  const fetchJctAirdropSetHasClaim = async () => {
+    try {
+      const res = await fetchJctAirdropSet();
+      return res;
+    } catch (error) {
+      console.log('『error』', error);
+      return null;
+    }
+  };
 
   const handleConfirm = async () => {
     // 验证输入
     const jctAmount = parseFloat(toAmount);
     if (isNaN(jctAmount) || jctAmount <= 0) {
-      message.error('请输入有效的JCT数量');
+      message.error('没有可领的JCT数量');
       return;
     }
 
     if (jctAmount > totalAirdrop) {
-      message.error('输入的JCT数量不能超过可领取的空投数量');
-      return;
-    }
-
-    if (!signer || !address) {
-      message.error('请先连接钱包');
+      message.error('JCT数量不能超过可领取的空投数量');
       return;
     }
 
@@ -119,16 +131,7 @@ const AirdropModal = ({
           />
         </div>
 
-        {/* Total Airdrop Point */}
-        {/* <div className={styles['airdrop-total']}>
-          <span className={styles['total-label']}>Total Airdrop Point</span>
-          <div className={styles['total-value']}>
-            <span className={styles['total-amount']}>{totalAirdrop}</span>
-            <span className={styles['total-unit']}>veJCT</span>
-          </div>
-        </div> */}
-
-        {/* From 输入框 */}
+        {/* From  */}
         <div
           className={`${styles['airdrop-input-group']} ${styles['from-input']}`}
         >
@@ -148,7 +151,7 @@ const AirdropModal = ({
           <img src={airdropDown} alt="down" className={styles['down-icon']} />
         </div>
 
-        {/* To 输入框 */}
+        {/* To  */}
         <div className={styles['airdrop-input-group']}>
           <div className={styles['input-label']}>To</div>
           <div className={styles['input-wrapper']}>
@@ -157,9 +160,7 @@ const AirdropModal = ({
             </div>
             <div className={styles['input-right-wrapper']}>
               <div className={styles['airdrop-input']}>
-                <span>
-                  {toAmount} {toAmount ? '*0.85' : ''}
-                </span>
+                <span>{toAmount}</span>
               </div>
               <span className={styles['fee-text']}>15% fee</span>
             </div>
