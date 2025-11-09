@@ -71,7 +71,7 @@ const AirdropModal = ({
         throw new Error(intl.formatMessage({ id: 'airdrop.contact' }));
       }
 
-      const tx = contract.claimAirdrop(signer, claimMessage, signature).then();
+      const tx = await contract.claimAirdrop(signer, claimMessage, signature);
 
       if (tx) {
         fetchJctAirdropSet();
