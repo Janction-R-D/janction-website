@@ -7,6 +7,7 @@ import PaymentImpl from './PaymentImpl.json';
 import JasmyRewards from './JasmyRewards.json';
 import NFTEscrowImpl from './NFTEscrowImpl.json';
 import JanctionNFT from './JanctionNFT.json';
+import ClaimAirdropABI from './ClaimAirdrop.json';
 import { delay } from '../lang';
 import Addresses from './Addresses.json';
 
@@ -279,7 +280,93 @@ function uuidToBytes32(uuidString) {
   return paddedHex; // Returns a bytes32-compatible hex string
 }
 
+function toBigNumber(value) {
+  if (ethers.BigNumber.isBigNumber(value)) {
+    return value;
+  }
+  if (value === undefined || value === null) {
+    throw new Error('Invalid numeric value');
+  }
+  return ethers.BigNumber.from(
+    typeof value === 'string' ? value : value.toString(),
+  );
+}
+
 const contract = {
+  claimAirdrop: async (signer, messagePayload, signature) => {
+    try {
+      if (!signer) {
+        throw new Error('Wallet not connected');
+      }
+
+      if (!signature || !messagePayload) {
+        throw new Error('Invalid signature payload');
+      }
+
+      const { timestamp, amount } = messagePayload;
+      if (timestamp === undefined || amount === undefined) {
+        throw new Error('Incomplete signature payload');
+      }
+
+      message.info({
+        content: 'Waiting...',
+        key: 'tx',
+        duration: 0,
+      });
+
+      await switchNetwork(signer.provider, 'eth');
+
+      const rawProvider =
+        signer.provider?.provider || signer.provider || window.ethereum;
+
+      if (!rawProvider) {
+        throw new Error('Provider not available');
+      }
+
+      const refreshedProvider = new ethers.providers.Web3Provider(
+        rawProvider,
+        'any',
+      );
+      const walletAddress =
+        messagePayload.wallet || (await signer.getAddress());
+      const refreshedSigner = refreshedProvider.getSigner(walletAddress);
+
+      const claimContract = new ethers.Contract(
+        getAddresses('ETH').ClaimAirdrop,
+        ClaimAirdropABI,
+        refreshedSigner,
+      );
+
+      const claimMessage = {
+        wallet: walletAddress,
+        timestamp: toBigNumber(timestamp),
+        amount: toBigNumber(amount),
+      };
+
+      let gasLimit;
+      try {
+        gasLimit = await claimContract.estimateGas.claimAirdrop(
+          claimMessage,
+          signature,
+        );
+      } catch (estimateError) {
+        console.log('Claim gas estimate failed:', estimateError);
+        gasLimit = ethers.BigNumber.from(400000);
+      }
+
+      const tx = await claimContract.claimAirdrop(claimMessage, signature, {
+        gasLimit: gasLimit.mul(120).div(100),
+      });
+      await tx.wait();
+      message.success('Claim successfully!');
+      return tx;
+    } catch (error) {
+      console.log('Claim airdrop error:', error);
+      throw error;
+    } finally {
+      message.destroy('tx');
+    }
+  },
   rent: async ({
     signer,
     payerAddress,
