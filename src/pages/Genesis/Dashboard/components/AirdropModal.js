@@ -94,13 +94,9 @@ const AirdropModal = ({ open, onClose, totalAirdrop = 0, airdropData }) => {
             <div className={styles['input-left']}>
               <span className={styles['currency-label']}>veJCT</span>
             </div>
-            <Input
-              className={styles['airdrop-input']}
-              value={fromAmount}
-              placeholder="0.00"
-              bordered={false}
-              disabled
-            />
+            <div className={styles['airdrop-input']}>
+              <span>{fromAmount}</span>
+            </div>
           </div>
         </div>
 
@@ -117,13 +113,11 @@ const AirdropModal = ({ open, onClose, totalAirdrop = 0, airdropData }) => {
               <span className={styles['currency-label']}>JCT</span>
             </div>
             <div className={styles['input-right-wrapper']}>
-              <Input
-                className={styles['airdrop-input']}
-                value={toAmount}
-                placeholder="0.00"
-                bordered={false}
-                disabled
-              />
+              <div className={styles['airdrop-input']}>
+                <span>
+                  {toAmount} {toAmount ? '*0.85' : ''}
+                </span>
+              </div>
               <span className={styles['fee-text']}>15% fee</span>
             </div>
           </div>
