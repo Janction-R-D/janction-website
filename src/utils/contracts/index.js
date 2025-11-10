@@ -30,6 +30,22 @@ export const NETWORKS = {
     rpcUrls: ['https://rpc.sepolia.org'],
     blockExplorerUrls: ['https://sepolia.etherscan.io'],
   },
+  bsc: {
+    chainId: 56,
+    chainName: 'BNB Smart Chain',
+    currencyName: 'BNB',
+    currencySymbol: 'BNB',
+    rpcUrls: ['https://bsc-dataseed.binance.org'],
+    blockExplorerUrls: ['https://bscscan.com'],
+  },
+  bsc_test: {
+    chainId: 97,
+    chainName: 'BNB Smart Chain Testnet',
+    currencyName: 'tBNB',
+    currencySymbol: 'tBNB',
+    rpcUrls: ['https://endpoints.omniatech.io/v1/bsc/testnet/public'],
+    blockExplorerUrls: ['https://testnet.bscscan.com'],
+  },
   op: {
     chainId: 10,
     chainName: 'Optimism Mainnet',
@@ -135,19 +151,29 @@ export function convertDurationToHours(duration, discount) {
   }
 }
 
-const getAddresses = (networkName = 'OP') => {
-  const network_name = isProduction
-    ? networkName
-    : networkName == 'ETH'
-    ? 'SEPOLIA'
-    : process.env.TESTNET == 'jasmy'
-    ? 'JASMY_TESTNET'
-    : 'OP_SEPOLIA';
-  console.log(network_name);
-  return Addresses[network_name];
+const getAddresses = (networkName = 'BSC') => {
+  const upperName = (networkName || 'BSC').toUpperCase();
+
+  if (isProduction) {
+    return Addresses[upperName];
+  }
+
+  if (upperName === 'ETH') {
+    return Addresses.SEPOLIA;
+  }
+
+  if (upperName === 'BSC') {
+    return Addresses.BSC || Addresses.BSC_TESTNET || Addresses[upperName];
+  }
+
+  if (process.env.TESTNET == 'jasmy') {
+    return Addresses.JASMY_TESTNET;
+  }
+
+  return Addresses.OP_SEPOLIA;
 };
 
-export const switchNetwork = async (provider, networkName = 'op') => {
+export const switchNetwork = async (provider, networkName = 'bsc') => {
   try {
     const rawProvider = provider.provider;
 
@@ -155,11 +181,20 @@ export const switchNetwork = async (provider, networkName = 'op') => {
 
     console.log('Current chain ID:', currentChainId);
 
-    let network_name =
-      isProduction || networkName == 'eth' ? networkName : process.env.TESTNET;
+    let network_name = networkName?.toLowerCase?.() || 'op';
+    if (!isProduction) {
+      if (network_name !== 'eth' && network_name !== 'bsc') {
+        network_name = process.env.TESTNET || network_name;
+      }
+    }
 
     const networkConf =
-      NETWORKS[`${network_name}${isProduction ? '' : '_test'}`];
+      NETWORKS[`${network_name}${isProduction ? '' : '_test'}`] ||
+      NETWORKS[network_name];
+
+    if (!networkConf) {
+      throw new Error(`Unsupported network configuration: ${network_name}`);
+    }
     const chainId = networkConf.chainId;
 
     console.log('Expected chain ID:', chainId);
@@ -304,7 +339,11 @@ const contract = {
       }
 
       const { timestamp, amount, endTime } = messagePayload;
-      if (timestamp === undefined || amount === undefined) {
+      if (
+        timestamp === undefined ||
+        amount === undefined ||
+        endTime === undefined
+      ) {
         throw new Error('Incomplete signature payload');
       }
 
@@ -314,7 +353,7 @@ const contract = {
         duration: 0,
       });
 
-      await switchNetwork(signer.provider, 'eth');
+      await switchNetwork(signer.provider, 'bsc');
 
       const rawProvider =
         signer.provider?.provider || signer.provider || window.ethereum;
@@ -332,7 +371,7 @@ const contract = {
       const refreshedSigner = refreshedProvider.getSigner(walletAddress);
 
       const claimContract = new ethers.Contract(
-        getAddresses('ETH').ClaimAirdrop,
+        getAddresses('BSC').ClaimAirdrop,
         ClaimAirdropABI,
         refreshedSigner,
       );

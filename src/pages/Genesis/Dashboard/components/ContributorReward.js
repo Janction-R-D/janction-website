@@ -51,7 +51,7 @@ const ContributorReward = (props) => {
   };
 
   const handleProceedClaim = async () => {
-    // if (!isClaimOpen) return;
+    if (!isClaimOpen) return;
     await getAirdropData();
     setAirdropNoticeOpen(false);
     setAirdropModalOpen(true);
@@ -86,7 +86,7 @@ const ContributorReward = (props) => {
         </div>
       </div>
       <AirdropModal
-        open={airdropModalOpen}
+        open={airdropModalOpen && isClaimOpen}
         onClose={() => setAirdropModalOpen(false)}
         airdropData={airdropData}
       />
@@ -103,9 +103,9 @@ const ContributorReward = (props) => {
             key="claim"
             type="primary"
             onClick={handleProceedClaim}
-            disabled={isClaimOpen}
+            disabled={!isClaimOpen}
           >
-            {!isClaimOpen ? 'Continue to Claim' : 'Coming Soon'}
+            {isClaimOpen ? 'Continue to Claim' : 'Coming Soon'}
           </Button>,
         ]}
         width={760}
