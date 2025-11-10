@@ -6,7 +6,11 @@ import Guide from './components/Guide/Guide';
 import OverviewTable from './components/Overview';
 import Profit from './components/profit';
 import Arithmetic from './components/artihmetic';
-import { fetchLessor, fetchNodeList } from '@/services/genesis';
+import {
+  fetchLessor,
+  fetchNodeList,
+  fetchJctAirdrop,
+} from '@/services/genesis';
 import { useModel, useIntl } from 'umi';
 import { ARITHMETIC_SITUATION, convertMBtoGB } from './data';
 import NTFcard from './components/NTFcard';
@@ -22,6 +26,11 @@ export default function Lessor() {
   const [monitorList, setMonitorList] = useState([]);
   const [summary, setSummary] = useState({});
   const [loading, setLoading] = useState(false);
+  const [airdropData, setAirdropData] = useState({
+    airdrop: 0,
+    total_points: 0,
+    is_get: false,
+  });
   const { code } = useModel('common');
   const intl = useIntl();
   const t = (id) => intl.formatMessage({ id });
@@ -33,6 +42,7 @@ export default function Lessor() {
   }, [lessorsData]);
 
   useEffect(() => {
+    getAirdropData();
     getLessors();
     getAllNodes();
   }, []);
@@ -45,6 +55,17 @@ export default function Lessor() {
       console.log('『error』', error);
     }
   };
+  const getAirdropData = async () => {
+    try {
+      const res = await fetchJctAirdrop();
+      setAirdropData(res);
+      return res;
+    } catch (error) {
+      console.log('『error』', error);
+      return null;
+    }
+  };
+
   const getAllNodes = async () => {
     try {
       setLoading(true);
@@ -151,7 +172,7 @@ export default function Lessor() {
       </section>
       <section className={styles['container']}>
         {loading && <SkeletonGrid />}
-        {!!nft_sumary?.ammount && !loading && (
+        {(airdropData.airdrop > 0 || nft_sumary?.ammount > 0) && !loading && (
           <ContributorReward nft={nft_sumary.ammount} />
         )}
 
