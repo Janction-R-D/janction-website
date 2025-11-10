@@ -98,8 +98,33 @@ const ContributorReward = (props) => {
           </Button>,
         ]}
         width={760}
-        title="Janction Node Airdrop — One-Page Notice"
+        title="Janction Node Airdrop"
       >
+        <div className={styles['notice-timeline']}>
+          <h3>Snapshot &amp; Claim Timeline</h3>
+          <div className={styles['timeline-grid']}>
+            <div className={styles['timeline-item']}>
+              <span className={styles['timeline-label']}>🕛 Snapshot Time</span>
+              <span className={styles['timeline-date']}>
+                November 8, 2025 — 16:00 UTC
+              </span>
+            </div>
+            <div className={styles['timeline-item']}>
+              <span className={styles['timeline-label']}>🪂 Claim Opens</span>
+              <span className={styles['timeline-date']}>
+                November 10, 2025 — 11:00 UTC
+              </span>
+            </div>
+            <div className={styles['timeline-item']}>
+              <span className={styles['timeline-label']}>
+                ⏰ Claim Deadline
+              </span>
+              <span className={styles['timeline-date']}>
+                November 17, 2025 — 11:00 UTC
+              </span>
+            </div>
+          </div>
+        </div>
         <div className={styles['notice-section']}>
           <p className={styles['notice-highlight']}>
             Total allocation (node cohort): 3% = 1.5B JCT

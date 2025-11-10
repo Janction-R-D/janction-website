@@ -303,7 +303,7 @@ const contract = {
         throw new Error('Invalid signature payload');
       }
 
-      const { timestamp, amount } = messagePayload;
+      const { timestamp, amount, endTime } = messagePayload;
       if (timestamp === undefined || amount === undefined) {
         throw new Error('Incomplete signature payload');
       }
@@ -341,6 +341,7 @@ const contract = {
         wallet: walletAddress,
         timestamp: toBigNumber(timestamp),
         amount: toBigNumber(amount),
+        endTime: toBigNumber(endTime),
       };
 
       let gasLimit;

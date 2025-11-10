@@ -81,6 +81,7 @@ const AirdropModal = ({
         timestamp: signPayload?.timestamp,
         amount:
           signPayload?.amount ?? signPayload?.jctAmount ?? signPayload?.jct,
+        endTime: signPayload?.end_timestamp,
       };
 
       if (!signature || !messagePayload) {
@@ -91,6 +92,7 @@ const AirdropModal = ({
         wallet: messagePayload.wallet || address,
         timestamp: messagePayload.timestamp,
         amount: messagePayload.amount,
+        endTime: messagePayload.endTime,
       };
 
       if (
