@@ -40,12 +40,18 @@ const ContributorReward = (props) => {
     }
   };
 
+  const claimOpenTime = new Date('2025-11-10T11:00:00Z');
+  const claimDeadline = new Date('2025-11-17T11:00:00Z');
+  const now = new Date();
+  const isClaimOpen = now >= claimOpenTime && now <= claimDeadline;
+
   // 打开弹窗时获取空投数据
   const handleOpenModal = () => {
     setAirdropNoticeOpen(true);
   };
 
   const handleProceedClaim = async () => {
+    // if (!isClaimOpen) return;
     await getAirdropData();
     setAirdropNoticeOpen(false);
     setAirdropModalOpen(true);
@@ -93,8 +99,13 @@ const ContributorReward = (props) => {
           <Button key="cancel" onClick={() => setAirdropNoticeOpen(false)}>
             Got it
           </Button>,
-          <Button key="claim" type="primary" onClick={handleProceedClaim}>
-            Continue to Claim
+          <Button
+            key="claim"
+            type="primary"
+            onClick={handleProceedClaim}
+            disabled={isClaimOpen}
+          >
+            {!isClaimOpen ? 'Continue to Claim' : 'Coming Soon'}
           </Button>,
         ]}
         width={760}
