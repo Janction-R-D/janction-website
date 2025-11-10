@@ -7,12 +7,14 @@ import { history, useIntl } from 'umi';
 import { toFixed } from '../../lang';
 import styles from './index.less';
 import AirdropModal from './AirdropModal';
+import { Button, Modal } from 'antd';
 
 const ContributorReward = (props) => {
   const { nft } = props;
   const [rewardShow, setRewardShow] = useState(0);
   const [airdropModalOpen, setAirdropModalOpen] = useState(false);
   const [airdropData, setAirdropData] = useState(null);
+  const [airdropNoticeOpen, setAirdropNoticeOpen] = useState(false);
   const intl = useIntl();
   useEffect(() => {
     getData();
@@ -39,8 +41,13 @@ const ContributorReward = (props) => {
   };
 
   // 打开弹窗时获取空投数据
-  const handleOpenModal = async () => {
+  const handleOpenModal = () => {
+    setAirdropNoticeOpen(true);
+  };
+
+  const handleProceedClaim = async () => {
     await getAirdropData();
+    setAirdropNoticeOpen(false);
     setAirdropModalOpen(true);
   };
 
@@ -77,6 +84,97 @@ const ContributorReward = (props) => {
         onClose={() => setAirdropModalOpen(false)}
         airdropData={airdropData}
       />
+      <Modal
+        className={styles['airdrop-notice-modal']}
+        open={airdropNoticeOpen}
+        onCancel={() => setAirdropNoticeOpen(false)}
+        centered
+        footer={[
+          <Button key="cancel" onClick={() => setAirdropNoticeOpen(false)}>
+            Got it
+          </Button>,
+          <Button key="claim" type="primary" onClick={handleProceedClaim}>
+            Continue to Claim
+          </Button>,
+        ]}
+        width={760}
+        title="Janction Node Airdrop — One-Page Notice"
+      >
+        <div className={styles['notice-section']}>
+          <p className={styles['notice-highlight']}>
+            Total allocation (node cohort): 3% = 1.5B JCT
+          </p>
+          <p>
+            To align utility with mainnet readiness, 50% of your current points
+            convert to JCT now, while the other 50% remain as points and are
+            expected to convert into veJCT in ~6 months (a non-transferable
+            participation/governance credential), subject to governance and
+            technical readiness.
+          </p>
+        </div>
+        <div className={styles['notice-section']}>
+          <h3>Claim Ratio &amp; Operations Fee</h3>
+          <ul>
+            <li>Claim now: JCT equivalent to 50% of your points (one-time).</li>
+            <li>
+              Operations fee: 15% of the JCT you claim is auto-routed to the
+              official operations address (publicly viewable).
+            </li>
+            <li>
+              Remainder: 50% of points stay as points (not burned) and are
+              expected to convert to veJCT in ~6 months to enable
+              governance/participation rights and node-priority features.
+            </li>
+          </ul>
+        </div>
+        <div className={styles['notice-section']}>
+          <h3>Calculation Example</h3>
+          <p>Your points: 10,000</p>
+          <p>
+            JCT claimable: 50% × 10,000 → X JCT (per posted conversion rate)
+          </p>
+          <p>Net received: X × (1 – 15%) = 0.85X JCT</p>
+          <p>Points retained: 5,000 → veJCT (~6 months)</p>
+        </div>
+        <div className={styles['notice-section']}>
+          <h3>Why This Design?</h3>
+          <ul>
+            <li>
+              <strong>Mainnet alignment (~6 months):</strong> Claim timing
+              matches mainnet deployment, parameter finalization, audits, and
+              production readiness. veJCT becomes fully useful once GPU pool
+              routing, settlement module, and governance contracts are live.
+            </li>
+            <li>
+              <strong>Path to Validators/Operators:</strong> Early node
+              contributors form the initial validator/operator candidate set for
+              the GPU Pool / Janction chain (consensus/security, SLA
+              enforcement, metering verification). Points → veJCT maps real
+              contribution to qualification/weighting (e.g., minimum lock,
+              uptime, performance).
+            </li>
+            <li>
+              <strong>Tech × Governance closure:</strong> GPU pool & settlement
+              performance validation (incl. technical stablecoin→JCT conversion
+              at settlement), on-chain reputation/SLA & dispute flows, veJCT
+              proposal→vote→activation loop (productized & audited),
+              multi-region supply + developer/model-provider programs.
+            </li>
+            <li>
+              <strong>Operational stability (15% fee):</strong> Funds
+              governance/security audits, routing/liquidity upkeep, anti-abuse &
+              risk controls, node tooling/ops as a functional budget. Address is
+              public; summaries provided periodically.
+            </li>
+            <li>
+              <strong>Token utility fit:</strong> veJCT (governance/priority) +
+              JCT (settlement/functional credits) create a practical loop
+              between compute usage and participation—capability first,
+              governance second.
+            </li>
+          </ul>
+        </div>
+      </Modal>
     </>
   );
 };

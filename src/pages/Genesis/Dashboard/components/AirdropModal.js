@@ -23,6 +23,29 @@ const AirdropModal = ({
   const signer = useEthersSigner(chainId);
   const intl = useIntl();
 
+  const addTokenToWallet = async () => {
+    if (typeof window === 'undefined' || !window?.ethereum) return;
+
+    const tokenConfig = {
+      type: 'ERC20',
+      options: {
+        address: '0xfd57b4ddbf88a4e07ff4e34c487b99af2fe82a05', // TODO: 填写代币合约地址
+        symbol: 'JCT',
+        decimals: 18,
+        image: 'https://gpx.link/public/Logo.png',
+      },
+    };
+
+    try {
+      await window.ethereum.request({
+        method: 'wallet_watchAsset',
+        params: tokenConfig,
+      });
+    } catch (error) {
+      console.log('Add token to wallet failed:', error);
+    }
+  };
+
   useEffect(() => {
     if (open && airdropData) {
       const airdropValue = airdropData.total_points || 0;
@@ -80,6 +103,7 @@ const AirdropModal = ({
       const tx = await contract.claimAirdrop(signer, claimMessage, signature);
 
       if (tx) {
+        addTokenToWallet();
         fetchJctAirdropSet();
       }
 
