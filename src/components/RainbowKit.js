@@ -11,8 +11,8 @@ import {
   tokenPocketWallet,
   walletConnectWallet,
   injectedWallet,
-  binanceWallet,
 } from '@rainbow-me/rainbowkit/wallets';
+import binanceWallet from '@binance/w3w-rainbow-connector-v2';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider } from 'wagmi';
 import { optimism, optimismSepolia } from 'wagmi/chains';
