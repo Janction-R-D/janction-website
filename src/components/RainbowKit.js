@@ -5,6 +5,7 @@ import {
   RainbowKitProvider,
 } from '@rainbow-me/rainbowkit';
 import {
+  binanceWallet,
   coinbaseWallet,
   metaMaskWallet,
   rainbowWallet,
@@ -50,6 +51,7 @@ const connectors = connectorsForWallets(
     {
       groupName: 'Recommended',
       wallets: [
+        binanceWallet,
         metaMaskWallet,
         rainbowWallet,
         tokenPocketWallet,
