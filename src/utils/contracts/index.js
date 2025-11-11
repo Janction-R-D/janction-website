@@ -77,7 +77,7 @@ export const getCurrency = () => {
     ? Addresses.OP
     : process.env.TESTNET == 'jasmy'
     ? Addresses.JASMY_TESTNET
-    : Addresses.OP_SEPOLIA;
+    : Addresses.OP;
 
   // 补丁
   if (process.env.TESTNET == 'jasmy') {
@@ -106,7 +106,7 @@ export const getCurrency = () => {
   ];
 };
 export const getJasmyCurrency = () => {
-  let address = isProduction ? Addresses.OP_SEPOLIA : Addresses.OP_SEPOLIA;
+  let address = isProduction ? Addresses.OP : Addresses.OP_SEPOLIA;
 
   return [
     // {
@@ -170,7 +170,7 @@ const getAddresses = (networkName = 'BSC') => {
     return Addresses.JASMY_TESTNET;
   }
 
-  return Addresses.OP_SEPOLIA;
+  return Addresses.OP;
 };
 
 export const switchNetwork = async (provider, networkName = 'bsc') => {
@@ -295,7 +295,7 @@ export const switchNetworkJasmy = async (provider) => {
 };
 
 const getJasmyAddress = () => {
-  const network_name = isProduction ? 'OP_SEPOLIA' : 'OP_SEPOLIA';
+  const network_name = isProduction ? 'OP' : 'OP_SEPOLIA';
   console.log('network_name for pay: ', network_name);
   console.log('Addresses', Addresses[network_name]);
   return Addresses[network_name];
