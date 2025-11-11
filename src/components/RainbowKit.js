@@ -11,7 +11,6 @@ import {
   tokenPocketWallet,
   walletConnectWallet,
   injectedWallet,
-  binanceWallet,
 } from '@rainbow-me/rainbowkit/wallets';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider } from 'wagmi';
@@ -45,7 +44,7 @@ const jasmyTestnet = {
 
 const projectId = '23cf742fb52fc761a81ebe69526d0b82';
 
-const chains = [optimismSepolia, optimism, jasmyTestnet];
+const chains = [optimism, optimismSepolia, jasmyTestnet];
 
 const connectors = connectorsForWallets(
   [
