@@ -11,6 +11,7 @@ import {
   tokenPocketWallet,
   walletConnectWallet,
   injectedWallet,
+  binanceWallet,
 } from '@rainbow-me/rainbowkit/wallets';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider } from 'wagmi';
@@ -51,6 +52,7 @@ const connectors = connectorsForWallets(
     {
       groupName: 'Recommended',
       wallets: [
+        binanceWallet,
         metaMaskWallet,
         rainbowWallet,
         tokenPocketWallet,
