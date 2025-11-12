@@ -19,7 +19,7 @@ const HomeFooter = (props) => {
             <a className={styles['m-t']}>Developers</a>
             <a>Product</a>
             <a>Ecosystem</a>
-            <a href="https://docs.janction.io/" target="_blank">
+            <a href="https://docs.janction.ai/" target="_blank">
               Whitepaper
             </a>
           </div>
