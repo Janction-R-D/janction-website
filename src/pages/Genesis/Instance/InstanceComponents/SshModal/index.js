@@ -1,7 +1,11 @@
 import { Modal, Form, Input, Typography, message, Button, Tooltip } from 'antd';
 import { CopyOutlined } from '@ant-design/icons';
 import styles from './index.less';
-import { fetchSshInsert, fetchSshList } from '@/services/genesis';
+import {
+  fetchSshInsert,
+  fetchSshList,
+  deleteSshInsert,
+} from '@/services/genesis';
 import { useState, useEffect } from 'react';
 import { copy } from '@/utils/lang';
 import SshConfigButton from './ShhConfigButton';
@@ -74,6 +78,27 @@ const SshKeyModal = ({ visible, onCancel, record }) => {
     }
     copy(code);
   };
+  const handleDelete = async () => {
+    if (!record?.id) {
+      message.warning('Missing resource info, please reopen and try again');
+      return;
+    }
+    if (!sshInfo?.key) {
+      message.warning('No SSH key found to delete');
+      return;
+    }
+    try {
+      await deleteSshInsert({
+        resource_id: record.id,
+        key: sshInfo.key,
+      });
+      message.success('SSH key deleted successfully!');
+      loadSshKeys();
+    } catch (error) {
+      console.error(error);
+      message.error('Failed to delete SSH key');
+    }
+  };
   return (
     <Modal
       open={visible}
@@ -134,6 +159,7 @@ const SshKeyModal = ({ visible, onCancel, record }) => {
             <p className={styles['code']}>
               <code>{code}</code>
               <i className="iconfont icon-copy" onClick={onCopy} />
+              <i className="iconfont icon-delete" onClick={handleDelete} />
             </p>
           </div>
         )}
