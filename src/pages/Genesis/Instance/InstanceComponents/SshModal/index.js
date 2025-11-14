@@ -78,19 +78,19 @@ const SshKeyModal = ({ visible, onCancel, record }) => {
     }
     copy(code);
   };
-  const handleDelete = async () => {
+  const handleDeleteKey = async (keyValue) => {
     if (!record?.id) {
       message.warning('Missing resource info, please reopen and try again');
       return;
     }
-    if (!sshInfo?.key) {
+    if (!keyValue) {
       message.warning('No SSH key found to delete');
       return;
     }
     try {
       await deleteSshInsert({
         resource_id: record.id,
-        key: sshInfo.key,
+        key: keyValue,
       });
       message.success('SSH key deleted successfully!');
       loadSshKeys();
@@ -159,7 +159,6 @@ const SshKeyModal = ({ visible, onCancel, record }) => {
             <p className={styles['code']}>
               <code>{code}</code>
               <i className="iconfont icon-copy" onClick={onCopy} />
-              <i className="iconfont icon-delete" onClick={handleDelete} />
             </p>
           </div>
         )}
@@ -170,12 +169,20 @@ const SshKeyModal = ({ visible, onCancel, record }) => {
               {sshKeys.slice(0, 5).map((key, index) => (
                 <div key={index} className={styles.keyRow}>
                   <div className={styles.sshKey}>{key}</div>
-                  <Tooltip title="Copy key">
-                    <CopyOutlined
-                      onClick={() => handleCopy(key)}
-                      className={styles.copyIcon}
-                    />
-                  </Tooltip>
+                  <div className={styles.keyActions}>
+                    <Tooltip title="Copy key">
+                      <CopyOutlined
+                        onClick={() => handleCopy(key)}
+                        className={styles.copyIcon}
+                      />
+                    </Tooltip>
+                    <Tooltip title="Delete key">
+                      <i
+                        className="iconfont icon-delete"
+                        onClick={() => handleDeleteKey(key)}
+                      />
+                    </Tooltip>
+                  </div>
                 </div>
               ))}
             </div>
