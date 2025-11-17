@@ -5,6 +5,7 @@ import {
   RainbowKitProvider,
 } from '@rainbow-me/rainbowkit';
 import {
+  binanceWallet,
   coinbaseWallet,
   metaMaskWallet,
   rainbowWallet,
