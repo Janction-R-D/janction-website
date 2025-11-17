@@ -246,7 +246,7 @@ export const switchNetworkJasmy = async (provider) => {
 
     console.log('Current chain ID:', currentChainId);
 
-    let network_name = isProduction ? 'op_test' : 'op_test';
+    let network_name = isProduction ? 'op' : 'op_test';
 
     const networkConf = NETWORKS[network_name];
 
