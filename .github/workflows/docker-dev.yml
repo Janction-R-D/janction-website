@@ -3,7 +3,7 @@ name: build-docker-image-dev
 on:
   push:
     branches:
-      - production
+      - dev-v3
     paths-ignore:
       - '**.md'
       - '**.txt'
