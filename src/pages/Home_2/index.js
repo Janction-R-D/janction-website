@@ -72,7 +72,7 @@ const Home = (props) => {
           </div>
           <a
             className={styles['read-docs']}
-            href="https://docs.janction.io"
+            href="https://docs.janction.ai"
             target="__black"
           ></a>
           <div className={styles['shadow']}></div>

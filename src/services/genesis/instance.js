@@ -379,6 +379,13 @@ export const fetchSshInsert = (data) => {
     loginAuth: true,
   });
 };
+export const deleteSshInsert = (data) => {
+  return request(`${baseUrl}/resource/ssh/delete`, {
+    method: 'POST',
+    data,
+    loginAuth: true,
+  });
+};
 export const fetchSshList = (data) => {
   return request(`${baseUrl}/resource/ssh`, {
     method: 'POST',

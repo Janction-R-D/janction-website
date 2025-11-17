@@ -27,9 +27,9 @@ const AirdropModal = ({
     if (typeof window === 'undefined' || !window?.ethereum) return;
 
     const tokenConfig = {
-      type: 'ERC20',
+      type: 'BEP20',
       options: {
-        address: '0xfd57b4ddbf88a4e07ff4e34c487b99af2fe82a05', // TODO: 填写代币合约地址
+        address: '0xeA37A8DE1de2d9D10772EEB569e28Bfa5Cb17707', // TODO: 填写代币合约地址
         symbol: 'JCT',
         decimals: 18,
         image: 'https://gpx.link/public/Logo.png',
@@ -81,21 +81,31 @@ const AirdropModal = ({
         timestamp: signPayload?.timestamp,
         amount:
           signPayload?.amount ?? signPayload?.jctAmount ?? signPayload?.jct,
+        endTime: signPayload?.end_timestamp,
       };
 
       if (!signature || !messagePayload) {
         throw new Error(intl.formatMessage({ id: 'airdrop.retry' }));
       }
 
+      const normalizedEndTime =
+        messagePayload.endTime ??
+        messagePayload.end_time ??
+        signPayload?.endTime ??
+        signPayload?.end_time ??
+        signPayload?.end_timestamp;
+
       const claimMessage = {
         wallet: messagePayload.wallet || address,
         timestamp: messagePayload.timestamp,
         amount: messagePayload.amount,
+        endTime: normalizedEndTime,
       };
 
       if (
         claimMessage.timestamp === undefined ||
-        claimMessage.amount === undefined
+        claimMessage.amount === undefined ||
+        claimMessage.endTime === undefined
       ) {
         throw new Error(intl.formatMessage({ id: 'airdrop.contact' }));
       }

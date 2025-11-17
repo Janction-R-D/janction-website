@@ -40,12 +40,18 @@ const ContributorReward = (props) => {
     }
   };
 
+  const claimOpenTime = new Date('2025-11-10T11:00:00Z');
+  const claimDeadline = new Date('2025-11-20T11:00:00Z');
+  const now = new Date();
+  const isClaimOpen = now >= claimOpenTime && now <= claimDeadline;
+
   // 打开弹窗时获取空投数据
   const handleOpenModal = () => {
     setAirdropNoticeOpen(true);
   };
 
   const handleProceedClaim = async () => {
+    if (!isClaimOpen) return;
     await getAirdropData();
     setAirdropNoticeOpen(false);
     setAirdropModalOpen(true);
@@ -80,7 +86,7 @@ const ContributorReward = (props) => {
         </div>
       </div>
       <AirdropModal
-        open={airdropModalOpen}
+        open={airdropModalOpen && isClaimOpen}
         onClose={() => setAirdropModalOpen(false)}
         airdropData={airdropData}
       />
@@ -93,13 +99,43 @@ const ContributorReward = (props) => {
           <Button key="cancel" onClick={() => setAirdropNoticeOpen(false)}>
             Got it
           </Button>,
-          <Button key="claim" type="primary" onClick={handleProceedClaim}>
-            Continue to Claim
+          <Button
+            key="claim"
+            type="primary"
+            onClick={handleProceedClaim}
+            disabled={!isClaimOpen}
+          >
+            {isClaimOpen ? 'Continue to Claim' : 'Coming Soon'}
           </Button>,
         ]}
         width={760}
-        title="Janction Node Airdrop — One-Page Notice"
+        title="Janction Node Airdrop"
       >
+        <div className={styles['notice-timeline']}>
+          <h3>Snapshot &amp; Claim Timeline</h3>
+          <div className={styles['timeline-grid']}>
+            <div className={styles['timeline-item']}>
+              <span className={styles['timeline-label']}>🕛 Snapshot Time</span>
+              <span className={styles['timeline-date']}>
+                November 8, 2025 — 16:00 UTC
+              </span>
+            </div>
+            <div className={styles['timeline-item']}>
+              <span className={styles['timeline-label']}>🪂 Claim Opens</span>
+              <span className={styles['timeline-date']}>
+                November 10, 2025 — 11:00 UTC
+              </span>
+            </div>
+            <div className={styles['timeline-item']}>
+              <span className={styles['timeline-label']}>
+                ⏰ Claim Deadline
+              </span>
+              <span className={styles['timeline-date']}>
+                November 20, 2025 — 11:00 UTC
+              </span>
+            </div>
+          </div>
+        </div>
         <div className={styles['notice-section']}>
           <p className={styles['notice-highlight']}>
             Total allocation (node cohort): 3% = 1.5B JCT

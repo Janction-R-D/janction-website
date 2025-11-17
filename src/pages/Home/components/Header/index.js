@@ -20,7 +20,7 @@ export default function HomeHeader() {
       <section className={styles['header-right']}>
         <DropLanguage />
         <a
-          href="https://docs.janction.io/"
+          href="https://docs.janction.ai/"
           target="_blank"
           rel="noopener noreferrer"
         >

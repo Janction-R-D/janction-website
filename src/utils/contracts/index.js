@@ -11,7 +11,19 @@ import ClaimAirdropABI from './ClaimAirdrop.json';
 import { delay } from '../lang';
 import Addresses from './Addresses.json';
 
-const isProduction = process.env.JANCTION_ENV === 'production';
+// 判断是否为生产环境：优先检查 JANCTION_ENV，如果没有则通过 API 地址判断
+const isProduction =
+  process.env.JANCTION_ENV === 'production' ||
+  (process.env.JANCTION_V0_API &&
+    process.env.JANCTION_V0_API.includes('www.janction.ai'));
+console.log(
+  'Environment check - JANCTION_ENV:',
+  process.env.JANCTION_ENV,
+  'JANCTION_V0_API:',
+  process.env.JANCTION_V0_API,
+  'isProduction:',
+  isProduction,
+);
 
 export const NETWORKS = {
   eth: {
@@ -29,6 +41,22 @@ export const NETWORKS = {
     currencySymbol: 'ETH',
     rpcUrls: ['https://rpc.sepolia.org'],
     blockExplorerUrls: ['https://sepolia.etherscan.io'],
+  },
+  bsc: {
+    chainId: 56,
+    chainName: 'BNB Smart Chain',
+    currencyName: 'BNB',
+    currencySymbol: 'BNB',
+    rpcUrls: ['https://bsc-dataseed.binance.org'],
+    blockExplorerUrls: ['https://bscscan.com'],
+  },
+  bsc_test: {
+    chainId: 97,
+    chainName: 'BNB Smart Chain Testnet',
+    currencyName: 'tBNB',
+    currencySymbol: 'tBNB',
+    rpcUrls: ['https://endpoints.omniatech.io/v1/bsc/testnet/public'],
+    blockExplorerUrls: ['https://testnet.bscscan.com'],
   },
   op: {
     chainId: 10,
@@ -61,7 +89,7 @@ export const getCurrency = () => {
     ? Addresses.OP
     : process.env.TESTNET == 'jasmy'
     ? Addresses.JASMY_TESTNET
-    : Addresses.OP_SEPOLIA;
+    : Addresses.OP;
 
   // 补丁
   if (process.env.TESTNET == 'jasmy') {
@@ -90,7 +118,7 @@ export const getCurrency = () => {
   ];
 };
 export const getJasmyCurrency = () => {
-  let address = isProduction ? Addresses.OP_SEPOLIA : Addresses.OP_SEPOLIA;
+  let address = isProduction ? Addresses.OP : Addresses.OP_SEPOLIA;
 
   return [
     // {
@@ -135,19 +163,29 @@ export function convertDurationToHours(duration, discount) {
   }
 }
 
-const getAddresses = (networkName = 'OP') => {
-  const network_name = isProduction
-    ? networkName
-    : networkName == 'ETH'
-    ? 'SEPOLIA'
-    : process.env.TESTNET == 'jasmy'
-    ? 'JASMY_TESTNET'
-    : 'OP_SEPOLIA';
-  console.log(network_name);
-  return Addresses[network_name];
+const getAddresses = (networkName = 'BSC') => {
+  const upperName = (networkName || 'BSC').toUpperCase();
+
+  if (isProduction) {
+    return Addresses[upperName];
+  }
+
+  if (upperName === 'ETH') {
+    return Addresses.SEPOLIA;
+  }
+
+  if (upperName === 'BSC') {
+    return Addresses.BSC || Addresses.BSC_TESTNET || Addresses[upperName];
+  }
+
+  if (process.env.TESTNET == 'jasmy') {
+    return Addresses.JASMY_TESTNET;
+  }
+
+  return Addresses.OP;
 };
 
-export const switchNetwork = async (provider, networkName = 'op') => {
+export const switchNetwork = async (provider, networkName = 'bsc') => {
   try {
     const rawProvider = provider.provider;
 
@@ -155,11 +193,20 @@ export const switchNetwork = async (provider, networkName = 'op') => {
 
     console.log('Current chain ID:', currentChainId);
 
-    let network_name =
-      isProduction || networkName == 'eth' ? networkName : process.env.TESTNET;
+    let network_name = networkName?.toLowerCase?.() || 'op';
+    if (!isProduction) {
+      if (network_name !== 'eth' && network_name !== 'bsc') {
+        network_name = process.env.TESTNET || network_name;
+      }
+    }
 
     const networkConf =
-      NETWORKS[`${network_name}${isProduction ? '' : '_test'}`];
+      NETWORKS[`${network_name}${isProduction ? '' : '_test'}`] ||
+      NETWORKS[network_name];
+
+    if (!networkConf) {
+      throw new Error(`Unsupported network configuration: ${network_name}`);
+    }
     const chainId = networkConf.chainId;
 
     console.log('Expected chain ID:', chainId);
@@ -210,8 +257,15 @@ export const switchNetworkJasmy = async (provider) => {
     const currentChainId = await rawProvider.request({ method: 'eth_chainId' });
 
     console.log('Current chain ID:', currentChainId);
+    console.log(
+      'switchNetworkJasmy - isProduction:',
+      isProduction,
+      'JANCTION_ENV:',
+      process.env.JANCTION_ENV,
+    );
 
-    let network_name = isProduction ? 'op_test' : 'op_test';
+    let network_name = isProduction ? 'op' : 'op_test';
+    console.log('switchNetworkJasmy - network_name:', network_name);
 
     const networkConf = NETWORKS[network_name];
 
@@ -260,7 +314,13 @@ export const switchNetworkJasmy = async (provider) => {
 };
 
 const getJasmyAddress = () => {
-  const network_name = isProduction ? 'OP_SEPOLIA' : 'OP_SEPOLIA';
+  console.log(
+    'getJasmyAddress - isProduction:',
+    isProduction,
+    'JANCTION_ENV:',
+    process.env.JANCTION_ENV,
+  );
+  const network_name = isProduction ? 'OP' : 'OP_SEPOLIA';
   console.log('network_name for pay: ', network_name);
   console.log('Addresses', Addresses[network_name]);
   return Addresses[network_name];
@@ -303,8 +363,12 @@ const contract = {
         throw new Error('Invalid signature payload');
       }
 
-      const { timestamp, amount } = messagePayload;
-      if (timestamp === undefined || amount === undefined) {
+      const { timestamp, amount, endTime } = messagePayload;
+      if (
+        timestamp === undefined ||
+        amount === undefined ||
+        endTime === undefined
+      ) {
         throw new Error('Incomplete signature payload');
       }
 
@@ -314,7 +378,7 @@ const contract = {
         duration: 0,
       });
 
-      await switchNetwork(signer.provider, 'eth');
+      await switchNetwork(signer.provider, 'bsc');
 
       const rawProvider =
         signer.provider?.provider || signer.provider || window.ethereum;
@@ -332,7 +396,7 @@ const contract = {
       const refreshedSigner = refreshedProvider.getSigner(walletAddress);
 
       const claimContract = new ethers.Contract(
-        getAddresses('ETH').ClaimAirdrop,
+        getAddresses('BSC').ClaimAirdrop,
         ClaimAirdropABI,
         refreshedSigner,
       );
@@ -341,6 +405,7 @@ const contract = {
         wallet: walletAddress,
         timestamp: toBigNumber(timestamp),
         amount: toBigNumber(amount),
+        endTime: toBigNumber(endTime),
       };
 
       let gasLimit;
