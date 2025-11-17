@@ -11,7 +11,19 @@ import ClaimAirdropABI from './ClaimAirdrop.json';
 import { delay } from '../lang';
 import Addresses from './Addresses.json';
 
-const isProduction = process.env.JANCTION_ENV === 'production';
+// 判断是否为生产环境：优先检查 JANCTION_ENV，如果没有则通过 API 地址判断
+const isProduction =
+  process.env.JANCTION_ENV === 'production' ||
+  (process.env.JANCTION_V0_API &&
+    process.env.JANCTION_V0_API.includes('www.janction.ai'));
+console.log(
+  'Environment check - JANCTION_ENV:',
+  process.env.JANCTION_ENV,
+  'JANCTION_V0_API:',
+  process.env.JANCTION_V0_API,
+  'isProduction:',
+  isProduction,
+);
 
 export const NETWORKS = {
   eth: {
@@ -245,8 +257,15 @@ export const switchNetworkJasmy = async (provider) => {
     const currentChainId = await rawProvider.request({ method: 'eth_chainId' });
 
     console.log('Current chain ID:', currentChainId);
+    console.log(
+      'switchNetworkJasmy - isProduction:',
+      isProduction,
+      'JANCTION_ENV:',
+      process.env.JANCTION_ENV,
+    );
 
     let network_name = isProduction ? 'op' : 'op_test';
+    console.log('switchNetworkJasmy - network_name:', network_name);
 
     const networkConf = NETWORKS[network_name];
 
@@ -295,6 +314,12 @@ export const switchNetworkJasmy = async (provider) => {
 };
 
 const getJasmyAddress = () => {
+  console.log(
+    'getJasmyAddress - isProduction:',
+    isProduction,
+    'JANCTION_ENV:',
+    process.env.JANCTION_ENV,
+  );
   const network_name = isProduction ? 'OP' : 'OP_SEPOLIA';
   console.log('network_name for pay: ', network_name);
   console.log('Addresses', Addresses[network_name]);
