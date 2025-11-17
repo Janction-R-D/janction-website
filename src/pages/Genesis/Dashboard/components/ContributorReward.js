@@ -131,7 +131,7 @@ const ContributorReward = (props) => {
                 ⏰ Claim Deadline
               </span>
               <span className={styles['timeline-date']}>
-                November 17, 2025 — 11:00 UTC
+                November 20, 2025 — 11:00 UTC
               </span>
             </div>
           </div>
