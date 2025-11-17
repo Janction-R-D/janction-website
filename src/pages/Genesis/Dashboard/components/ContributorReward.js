@@ -41,7 +41,7 @@ const ContributorReward = (props) => {
   };
 
   const claimOpenTime = new Date('2025-11-10T11:00:00Z');
-  const claimDeadline = new Date('2025-11-17T11:00:00Z');
+  const claimDeadline = new Date('2025-11-20T11:00:00Z');
   const now = new Date();
   const isClaimOpen = now >= claimOpenTime && now <= claimDeadline;
 
