@@ -568,8 +568,8 @@ const contract = {
         key: 'tx',
         duration: 0,
       });
-
-      await switchNetworkJasmy(signer.provider);
+      console.log(signer, 'signer?.provider');
+      await switchNetworkJasmy(signer?.provider);
 
       // 等待网络切换完成
       await delay(500);
