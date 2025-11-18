@@ -948,4 +948,48 @@ export default {
     'Signature data is incomplete, please contact administrator.',
   'airdrop.noAmount': 'No JCT available to claim.',
   'airdrop.connectWallet': 'Please connect your wallet first.',
+  'airdrop.claimButton': 'Claim Your Airdrop',
+  'airdrop.modal.title': 'Janction Node Airdrop',
+  'airdrop.modal.gotIt': 'Got it',
+  'airdrop.modal.continueClaim': 'Continue to Claim',
+  'airdrop.modal.comingSoon': 'Coming Soon',
+  'airdrop.timeline.title': 'Snapshot & Claim Timeline',
+  'airdrop.timeline.snapshotTime': '🕛 Snapshot Time',
+  'airdrop.timeline.snapshotDate': 'November 8, 2025 — 16:00 UTC',
+  'airdrop.timeline.claimOpens': '🪂 Claim Opens',
+  'airdrop.timeline.claimOpensDate': 'November 10, 2025 — 11:00 UTC',
+  'airdrop.timeline.claimDeadline': '⏰ Claim Deadline',
+  'airdrop.timeline.claimDeadlineDate': 'November 20, 2025 — 11:00 UTC',
+  'airdrop.allocation.title': 'Total allocation (node cohort): 3% = 1.5B JCT',
+  'airdrop.allocation.description':
+    'To align utility with mainnet readiness, 50% of your current points convert to JCT now, while the other 50% remain as points and are expected to convert into veJCT in ~6 months (a non-transferable participation/governance credential), subject to governance and technical readiness.',
+  'airdrop.ratio.title': 'Claim Ratio & Operations Fee',
+  'airdrop.ratio.claimNow':
+    'Claim now: JCT equivalent to 50% of your points (one-time).',
+  'airdrop.ratio.operationsFee':
+    'Operations fee: 15% of the JCT you claim is auto-routed to the official operations address (publicly viewable).',
+  'airdrop.ratio.remainder':
+    'Remainder: 50% of points stay as points (not burned) and are expected to convert to veJCT in ~6 months to enable governance/participation rights and node-priority features.',
+  'airdrop.example.title': 'Calculation Example',
+  'airdrop.example.points': 'Your points: 10,000',
+  'airdrop.example.claimable':
+    'JCT claimable: 50% × 10,000 → X JCT (per posted conversion rate)',
+  'airdrop.example.netReceived': 'Net received: X × (1 – 15%) = 0.85X JCT',
+  'airdrop.example.retained': 'Points retained: 5,000 → veJCT (~6 months)',
+  'airdrop.design.title': 'Why This Design?',
+  'airdrop.design.mainnet.title': 'Mainnet alignment (~6 months):',
+  'airdrop.design.mainnet.content':
+    'Claim timing matches mainnet deployment, parameter finalization, audits, and production readiness. veJCT becomes fully useful once GPU pool routing, settlement module, and governance contracts are live.',
+  'airdrop.design.validators.title': 'Path to Validators/Operators:',
+  'airdrop.design.validators.content':
+    'Early node contributors form the initial validator/operator candidate set for the GPU Pool / Janction chain (consensus/security, SLA enforcement, metering verification). Points → veJCT maps real contribution to qualification/weighting (e.g., minimum lock, uptime, performance).',
+  'airdrop.design.governance.title': 'Tech × Governance closure:',
+  'airdrop.design.governance.content':
+    'GPU pool & settlement performance validation (incl. technical stablecoin→JCT conversion at settlement), on-chain reputation/SLA & dispute flows, veJCT proposal→vote→activation loop (productized & audited), multi-region supply + developer/model-provider programs.',
+  'airdrop.design.stability.title': 'Operational stability (15% fee):',
+  'airdrop.design.stability.content':
+    'Funds governance/security audits, routing/liquidity upkeep, anti-abuse & risk controls, node tooling/ops as a functional budget. Address is public; summaries provided periodically.',
+  'airdrop.design.utility.title': 'Token utility fit:',
+  'airdrop.design.utility.content':
+    'veJCT (governance/priority) + JCT (settlement/functional credits) create a practical loop between compute usage and participation—capability first, governance second.',
 };

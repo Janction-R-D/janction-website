@@ -982,4 +982,48 @@ export default {
   'airdrop.contact': '署名情報が不完全です。管理者に連絡してください。',
   'airdrop.noAmount': '受け取り可能なJCTがありません。',
   'airdrop.connectWallet': 'まずウォレットを接続してください。',
+  'airdrop.claimButton': 'エアドロップを受け取る',
+  'airdrop.modal.title': 'Janctionノードエアドロップ',
+  'airdrop.modal.gotIt': '了解しました',
+  'airdrop.modal.continueClaim': '受け取りを続ける',
+  'airdrop.modal.comingSoon': '近日公開',
+  'airdrop.timeline.title': 'スナップショット & 受け取りタイムライン',
+  'airdrop.timeline.snapshotTime': '🕛 スナップショット時間',
+  'airdrop.timeline.snapshotDate': '2025年11月8日 — 16:00 UTC',
+  'airdrop.timeline.claimOpens': '🪂 受け取り開始',
+  'airdrop.timeline.claimOpensDate': '2025年11月10日 — 11:00 UTC',
+  'airdrop.timeline.claimDeadline': '⏰ 受け取り期限',
+  'airdrop.timeline.claimDeadlineDate': '2025年11月20日 — 11:00 UTC',
+  'airdrop.allocation.title': '総配分（ノードコホート）: 3% = 15億JCT',
+  'airdrop.allocation.description':
+    'メインネット準備との整合性を図るため、現在のポイントの50%は今すぐJCTに変換され、残りの50%はポイントとして残り、約6か月後にveJCTに変換される予定です（譲渡不可の参加/ガバナンス資格）。これはガバナンスと技術的な準備状況に依存します。',
+  'airdrop.ratio.title': '受け取り比率 & 運営手数料',
+  'airdrop.ratio.claimNow':
+    '今すぐ受け取り: ポイントの50%に相当するJCT（一回限り）。',
+  'airdrop.ratio.operationsFee':
+    '運営手数料: 受け取るJCTの15%が公式運営アドレスに自動的にルーティングされます（公開閲覧可能）。',
+  'airdrop.ratio.remainder':
+    '残り: ポイントの50%はポイントとして残り（焼却されず）、約6か月後にveJCTに変換される予定で、ガバナンス/参加権とノード優先機能を有効にします。',
+  'airdrop.example.title': '計算例',
+  'airdrop.example.points': 'あなたのポイント: 10,000',
+  'airdrop.example.claimable':
+    '受け取り可能なJCT: 50% × 10,000 → X JCT（公開された換算レートに基づく）',
+  'airdrop.example.netReceived': '実受取額: X × (1 – 15%) = 0.85X JCT',
+  'airdrop.example.retained': '保持ポイント: 5,000 → veJCT（約6か月）',
+  'airdrop.design.title': 'なぜこの設計なのか？',
+  'airdrop.design.mainnet.title': 'メインネット整合性（約6か月）:',
+  'airdrop.design.mainnet.content':
+    '受け取りタイミングはメインネット展開、パラメータ最終化、監査、本番準備と一致します。GPUプールルーティング、決済モジュール、ガバナンス契約が稼働すると、veJCTは完全に有用になります。',
+  'airdrop.design.validators.title': 'バリデーター/オペレーターへの道:',
+  'airdrop.design.validators.content':
+    '早期ノード貢献者は、GPUプール/Janctionチェーンの初期バリデーター/オペレーター候補セットを形成します（コンセンサス/セキュリティ、SLA強制、計量検証）。ポイント → veJCTは、実際の貢献を資格/重み付けにマッピングします（例：最小ロック、稼働時間、パフォーマンス）。',
+  'airdrop.design.governance.title': '技術 × ガバナンスの完結:',
+  'airdrop.design.governance.content':
+    'GPUプール & 決済パフォーマンス検証（決済時の技術的ステーブルコイン→JCT変換を含む）、オンチェーン評判/SLA & 紛争フロー、veJCT提案→投票→アクティベーションループ（製品化 & 監査済み）、マルチリージョン供給 + 開発者/モデルプロバイダープログラム。',
+  'airdrop.design.stability.title': '運営の安定性（15%手数料）:',
+  'airdrop.design.stability.content':
+    'ガバナンス/セキュリティ監査、ルーティング/流動性維持、不正防止 & リスク管理、ノードツール/運用を機能予算として資金提供。アドレスは公開されており、定期的に要約が提供されます。',
+  'airdrop.design.utility.title': 'トークン実用性の適合:',
+  'airdrop.design.utility.content':
+    'veJCT（ガバナンス/優先権） + JCT（決済/機能クレジット）は、コンピューティング使用と参加の間に実用的なループを作成します—能力第一、ガバナンス第二。',
 };

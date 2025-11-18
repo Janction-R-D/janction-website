@@ -81,7 +81,7 @@ const ContributorReward = (props) => {
             className={`${styles['btn']} ${styles['btn-airdrop']}`}
             onClick={handleOpenModal}
           >
-            Claim Your Airdrop
+            {intl.formatMessage({ id: 'airdrop.claimButton' })}
           </div>
         </div>
       </div>
@@ -97,7 +97,7 @@ const ContributorReward = (props) => {
         centered
         footer={[
           <Button key="cancel" onClick={() => setAirdropNoticeOpen(false)}>
-            Got it
+            {intl.formatMessage({ id: 'airdrop.modal.gotIt' })}
           </Button>,
           <Button
             key="claim"
@@ -105,108 +105,104 @@ const ContributorReward = (props) => {
             onClick={handleProceedClaim}
             disabled={!isClaimOpen}
           >
-            {isClaimOpen ? 'Continue to Claim' : 'Coming Soon'}
+            {isClaimOpen
+              ? intl.formatMessage({ id: 'airdrop.modal.continueClaim' })
+              : intl.formatMessage({ id: 'airdrop.modal.comingSoon' })}
           </Button>,
         ]}
         width={760}
-        title="Janction Node Airdrop"
+        title={intl.formatMessage({ id: 'airdrop.modal.title' })}
       >
         <div className={styles['notice-timeline']}>
-          <h3>Snapshot &amp; Claim Timeline</h3>
+          <h3>{intl.formatMessage({ id: 'airdrop.timeline.title' })}</h3>
           <div className={styles['timeline-grid']}>
             <div className={styles['timeline-item']}>
-              <span className={styles['timeline-label']}>🕛 Snapshot Time</span>
-              <span className={styles['timeline-date']}>
-                November 8, 2025 — 16:00 UTC
+              <span className={styles['timeline-label']}>
+                {intl.formatMessage({ id: 'airdrop.timeline.snapshotTime' })}
               </span>
-            </div>
-            <div className={styles['timeline-item']}>
-              <span className={styles['timeline-label']}>🪂 Claim Opens</span>
               <span className={styles['timeline-date']}>
-                November 10, 2025 — 11:00 UTC
+                {intl.formatMessage({ id: 'airdrop.timeline.snapshotDate' })}
               </span>
             </div>
             <div className={styles['timeline-item']}>
               <span className={styles['timeline-label']}>
-                ⏰ Claim Deadline
+                {intl.formatMessage({ id: 'airdrop.timeline.claimOpens' })}
               </span>
               <span className={styles['timeline-date']}>
-                November 20, 2025 — 11:00 UTC
+                {intl.formatMessage({ id: 'airdrop.timeline.claimOpensDate' })}
+              </span>
+            </div>
+            <div className={styles['timeline-item']}>
+              <span className={styles['timeline-label']}>
+                {intl.formatMessage({ id: 'airdrop.timeline.claimDeadline' })}
+              </span>
+              <span className={styles['timeline-date']}>
+                {intl.formatMessage({
+                  id: 'airdrop.timeline.claimDeadlineDate',
+                })}
               </span>
             </div>
           </div>
         </div>
         <div className={styles['notice-section']}>
           <p className={styles['notice-highlight']}>
-            Total allocation (node cohort): 3% = 1.5B JCT
+            {intl.formatMessage({ id: 'airdrop.allocation.title' })}
           </p>
-          <p>
-            To align utility with mainnet readiness, 50% of your current points
-            convert to JCT now, while the other 50% remain as points and are
-            expected to convert into veJCT in ~6 months (a non-transferable
-            participation/governance credential), subject to governance and
-            technical readiness.
-          </p>
+          <p>{intl.formatMessage({ id: 'airdrop.allocation.description' })}</p>
         </div>
         <div className={styles['notice-section']}>
-          <h3>Claim Ratio &amp; Operations Fee</h3>
+          <h3>{intl.formatMessage({ id: 'airdrop.ratio.title' })}</h3>
           <ul>
-            <li>Claim now: JCT equivalent to 50% of your points (one-time).</li>
-            <li>
-              Operations fee: 15% of the JCT you claim is auto-routed to the
-              official operations address (publicly viewable).
-            </li>
-            <li>
-              Remainder: 50% of points stay as points (not burned) and are
-              expected to convert to veJCT in ~6 months to enable
-              governance/participation rights and node-priority features.
-            </li>
+            <li>{intl.formatMessage({ id: 'airdrop.ratio.claimNow' })}</li>
+            <li>{intl.formatMessage({ id: 'airdrop.ratio.operationsFee' })}</li>
+            <li>{intl.formatMessage({ id: 'airdrop.ratio.remainder' })}</li>
           </ul>
         </div>
         <div className={styles['notice-section']}>
-          <h3>Calculation Example</h3>
-          <p>Your points: 10,000</p>
-          <p>
-            JCT claimable: 50% × 10,000 → X JCT (per posted conversion rate)
-          </p>
-          <p>Net received: X × (1 – 15%) = 0.85X JCT</p>
-          <p>Points retained: 5,000 → veJCT (~6 months)</p>
+          <h3>{intl.formatMessage({ id: 'airdrop.example.title' })}</h3>
+          <p>{intl.formatMessage({ id: 'airdrop.example.points' })}</p>
+          <p>{intl.formatMessage({ id: 'airdrop.example.claimable' })}</p>
+          <p>{intl.formatMessage({ id: 'airdrop.example.netReceived' })}</p>
+          <p>{intl.formatMessage({ id: 'airdrop.example.retained' })}</p>
         </div>
         <div className={styles['notice-section']}>
-          <h3>Why This Design?</h3>
+          <h3>{intl.formatMessage({ id: 'airdrop.design.title' })}</h3>
           <ul>
             <li>
-              <strong>Mainnet alignment (~6 months):</strong> Claim timing
-              matches mainnet deployment, parameter finalization, audits, and
-              production readiness. veJCT becomes fully useful once GPU pool
-              routing, settlement module, and governance contracts are live.
+              <strong>
+                {intl.formatMessage({ id: 'airdrop.design.mainnet.title' })}
+              </strong>{' '}
+              {intl.formatMessage({ id: 'airdrop.design.mainnet.content' })}
             </li>
             <li>
-              <strong>Path to Validators/Operators:</strong> Early node
-              contributors form the initial validator/operator candidate set for
-              the GPU Pool / Janction chain (consensus/security, SLA
-              enforcement, metering verification). Points → veJCT maps real
-              contribution to qualification/weighting (e.g., minimum lock,
-              uptime, performance).
+              <strong>
+                {intl.formatMessage({ id: 'airdrop.design.validators.title' })}
+              </strong>{' '}
+              {intl.formatMessage({
+                id: 'airdrop.design.validators.content',
+              })}
             </li>
             <li>
-              <strong>Tech × Governance closure:</strong> GPU pool & settlement
-              performance validation (incl. technical stablecoin→JCT conversion
-              at settlement), on-chain reputation/SLA & dispute flows, veJCT
-              proposal→vote→activation loop (productized & audited),
-              multi-region supply + developer/model-provider programs.
+              <strong>
+                {intl.formatMessage({
+                  id: 'airdrop.design.governance.title',
+                })}
+              </strong>{' '}
+              {intl.formatMessage({
+                id: 'airdrop.design.governance.content',
+              })}
             </li>
             <li>
-              <strong>Operational stability (15% fee):</strong> Funds
-              governance/security audits, routing/liquidity upkeep, anti-abuse &
-              risk controls, node tooling/ops as a functional budget. Address is
-              public; summaries provided periodically.
+              <strong>
+                {intl.formatMessage({ id: 'airdrop.design.stability.title' })}
+              </strong>{' '}
+              {intl.formatMessage({ id: 'airdrop.design.stability.content' })}
             </li>
             <li>
-              <strong>Token utility fit:</strong> veJCT (governance/priority) +
-              JCT (settlement/functional credits) create a practical loop
-              between compute usage and participation—capability first,
-              governance second.
+              <strong>
+                {intl.formatMessage({ id: 'airdrop.design.utility.title' })}
+              </strong>{' '}
+              {intl.formatMessage({ id: 'airdrop.design.utility.content' })}
             </li>
           </ul>
         </div>
