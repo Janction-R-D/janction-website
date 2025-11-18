@@ -10,6 +10,7 @@ import {
   fetchLessor,
   fetchNodeList,
   fetchJctAirdrop,
+  fetchNTFClaimJasmy,
 } from '@/services/genesis';
 import { useModel, useIntl } from 'umi';
 import { ARITHMETIC_SITUATION, convertMBtoGB } from './data';
@@ -26,6 +27,7 @@ export default function Lessor() {
   const [monitorList, setMonitorList] = useState([]);
   const [summary, setSummary] = useState({});
   const [loading, setLoading] = useState(false);
+  const [nftClaimJasmy, setNTFClaimJasmy] = useState({});
   const [airdropData, setAirdropData] = useState({
     airdrop: 0,
     total_points: 0,
@@ -48,8 +50,9 @@ export default function Lessor() {
   }, []);
   const getLessors = async () => {
     try {
-      const res = await fetchLessor();
-      setLessorsData(res);
+      const res = await Promise.all([fetchLessor(), fetchNTFClaimJasmy()]);
+      setLessorsData(res[0]);
+      setNTFClaimJasmy(res[1]);
       setMonitorList(res?.activites || []);
     } catch (error) {
       console.log('『error』', error);
@@ -172,9 +175,10 @@ export default function Lessor() {
       </section>
       <section className={styles['container']}>
         {loading && <SkeletonGrid />}
-        {(airdropData.airdrop > 0 || nft_sumary?.ammount > 0) && !loading && (
-          <ContributorReward nft={nft_sumary.ammount} />
-        )}
+        {(airdropData.airdrop > 0 ||
+          nft_sumary?.ammount > 0 ||
+          Number(nftClaimJasmy?.claim_available_show) > 0) &&
+          !loading && <ContributorReward nft={nft_sumary.ammount} />}
 
         <>
           {!nft_sumary?.ammount && summary?.total > 0 && !loading && (
