@@ -35,8 +35,6 @@ export default function OperationModal({ record, getAllNodes }) {
   const [selectValue, setSelectValue] = useState(undefined);
   const chainId = useChainId();
   const signer = useEthersSigner(chainId);
-  console.log(signer, 'signer');
-  console.log(222222, 'chainId', chainId);
   const [modalVisible, setModalVisible] = useState(false);
 
   const openModal = () => setModalVisible(true);
@@ -359,7 +357,7 @@ export default function OperationModal({ record, getAllNodes }) {
       >
         <a>
           {intl.formatMessage({ id: 'more.functions' })}
-          {'333333'}
+          {'   '}
           <i className="iconfont icon-down" />
         </a>
       </JanctionPopover>
