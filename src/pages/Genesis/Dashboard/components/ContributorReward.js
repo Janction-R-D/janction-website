@@ -71,8 +71,27 @@ const ContributorReward = (props) => {
           </div>
           <div
             className={styles['btn']}
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              // 使用 sessionStorage 存储 nft 数据，确保在部署环境中也能正常传递
+              if (nft) {
+                sessionStorage.setItem('rewards_nft', JSON.stringify(nft));
+              }
               history.push('/genesis/rewards', { nft });
+            }}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                e.stopPropagation();
+                // 使用 sessionStorage 存储 nft 数据，确保在部署环境中也能正常传递
+                if (nft) {
+                  sessionStorage.setItem('rewards_nft', JSON.stringify(nft));
+                }
+                history.push('/genesis/rewards', { nft });
+              }
             }}
           >
             {intl.formatMessage({ id: 'receive.award' })}
