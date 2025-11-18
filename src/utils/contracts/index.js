@@ -16,14 +16,6 @@ const isProduction =
   process.env.JANCTION_ENV === 'production' ||
   (process.env.JANCTION_V0_API &&
     process.env.JANCTION_V0_API.includes('www.janction.ai'));
-console.log(
-  'Environment check - JANCTION_ENV:',
-  process.env.JANCTION_ENV,
-  'JANCTION_V0_API:',
-  process.env.JANCTION_V0_API,
-  'isProduction:',
-  isProduction,
-);
 
 export const NETWORKS = {
   eth: {
@@ -95,8 +87,6 @@ export const getCurrency = () => {
   if (process.env.TESTNET == 'jasmy') {
     address = Addresses.JASMY_TESTNET;
   }
-
-  console.log('get address:', address);
 
   return [
     // {
@@ -211,7 +201,9 @@ export const switchNetwork = async (provider, networkName = 'bsc') => {
 
     console.log('Expected chain ID:', chainId);
 
-    if (currentChainId !== chainId) {
+    // 将十六进制字符串转换为数字进行比较
+    const currentChainIdNum = parseInt(currentChainId, 16);
+    if (currentChainIdNum !== chainId) {
       try {
         await rawProvider.request({
           method: 'wallet_switchEthereumChain',
@@ -273,7 +265,9 @@ export const switchNetworkJasmy = async (provider) => {
 
     console.log('Expected chain ID:', chainId);
 
-    if (currentChainId !== chainId) {
+    // 将十六进制字符串转换为数字进行比较
+    const currentChainIdNum = parseInt(currentChainId, 16);
+    if (currentChainIdNum !== chainId) {
       try {
         await rawProvider.request({
           method: 'wallet_switchEthereumChain',
@@ -587,7 +581,7 @@ const contract = {
       const domain = {
         name: 'PaymentImpl',
         version: '1',
-        chainId: (await provider.getNetwork()).chainId,
+        chainId: (await signer.provider.getNetwork()).chainId,
         verifyingContract: getJasmyAddress().PaymentProxy,
       };
 
@@ -733,11 +727,28 @@ const contract = {
     try {
       await switchNetwork(signer.provider, 'eth');
 
+      // 等待网络切换完成
+      await delay(500);
+
+      // 重新创建 provider 和 signer 以确保使用正确的网络
+      const rawProvider =
+        signer.provider?.provider || signer.provider || window.ethereum;
+      if (!rawProvider) {
+        throw new Error('Provider not available');
+      }
+
+      const refreshedProvider = new ethers.providers.Web3Provider(
+        rawProvider,
+        'any',
+      );
+      const walletAddress = await signer.getAddress();
+      const refreshedSigner = refreshedProvider.getSigner(walletAddress);
+
       // 初始化合约
       const distribution = new ethers.Contract(
         getAddresses('ETH').JasmyRewards,
         JasmyRewards.abi,
-        signer,
+        refreshedSigner,
       );
 
       message.info({
