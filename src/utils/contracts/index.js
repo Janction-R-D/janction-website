@@ -244,7 +244,7 @@ export const switchNetwork = async (provider, networkName = 'bsc') => {
 };
 export const switchNetworkJasmy = async (provider) => {
   try {
-    const rawProvider = provider.provider;
+    const rawProvider = provider?.provider;
 
     const currentChainId = await rawProvider.request({ method: 'eth_chainId' });
 
