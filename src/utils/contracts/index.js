@@ -571,17 +571,33 @@ const contract = {
 
       await switchNetworkJasmy(signer.provider);
 
+      // 等待网络切换完成
+      await delay(500);
+
+      // 重新创建 provider 和 signer 以确保使用正确的网络
+      const rawProvider =
+        signer.provider?.provider || signer.provider || window.ethereum;
+      if (!rawProvider) {
+        throw new Error('Provider not available');
+      }
+
+      const refreshedProvider = new ethers.providers.Web3Provider(
+        rawProvider,
+        'any',
+      );
+      const refreshedSigner = refreshedProvider.getSigner(signerAddress);
+
       // 初始化合约
       const payment = new ethers.Contract(
         getJasmyAddress().PaymentProxy,
         PaymentImpl.abi,
-        signer,
+        refreshedSigner,
       );
 
       const domain = {
         name: 'PaymentImpl',
         version: '1',
-        chainId: (await signer.provider.getNetwork()).chainId,
+        chainId: (await refreshedProvider.getNetwork()).chainId,
         verifyingContract: getJasmyAddress().PaymentProxy,
       };
 
@@ -597,7 +613,11 @@ const contract = {
         deadline: deadline,
       };
 
-      const signature = await signer._signTypedData(domain, types, value);
+      const signature = await refreshedSigner._signTypedData(
+        domain,
+        types,
+        value,
+      );
 
       // 拆分签名
       const sig = ethers.utils.splitSignature(signature);
