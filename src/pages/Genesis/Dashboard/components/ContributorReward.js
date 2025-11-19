@@ -96,12 +96,14 @@ const ContributorReward = (props) => {
           >
             {intl.formatMessage({ id: 'receive.award' })}
           </div>
-          <div
-            className={`${styles['btn']} ${styles['btn-airdrop']}`}
-            onClick={handleOpenModal}
-          >
-            {intl.formatMessage({ id: 'airdrop.claimButton' })}
-          </div>
+          {airdropData?.airdrop > 0 && (
+            <div
+              className={`${styles['btn']} ${styles['btn-airdrop']}`}
+              onClick={handleOpenModal}
+            >
+              {intl.formatMessage({ id: 'airdrop.claimButton' })}
+            </div>
+          )}
         </div>
       </div>
       <AirdropModal
