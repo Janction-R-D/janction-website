@@ -55,7 +55,22 @@ const ContributorReward = (props) => {
     } catch (err) {
       setLoading(false);
       console.log('『err』', err);
-      message.error('Failed, please try again!');
+
+      // 检查是否是 gas 不足的错误
+      const errorMessage = err?.message || err?.toString() || '';
+      if (
+        errorMessage.includes('Insufficient gas balance') ||
+        errorMessage.includes('insufficient funds')
+      ) {
+        message.error({
+          content:
+            errorMessage ||
+            'Insufficient gas balance. Please add ETH to your wallet to cover gas fees.',
+          duration: 8,
+        });
+      } else {
+        message.error('Failed, please try again!');
+      }
     }
   };
   const onNavigate = () => history.push('/genesis/dashboard');

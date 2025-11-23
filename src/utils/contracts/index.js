@@ -771,12 +771,59 @@ const contract = {
         refreshedSigner,
       );
 
+      // 估算 gas 并检查余额
+      let gasEstimate;
+      try {
+        gasEstimate = await distribution.estimateGas.distributeRewards(
+          nature,
+          rewards,
+        );
+        console.log('Gas estimate:', gasEstimate.toString());
+      } catch (estimateError) {
+        console.log('Gas estimation failed:', estimateError);
+        // 如果估算失败，使用一个合理的默认值
+        gasEstimate = ethers.BigNumber.from(200000);
+      }
+
+      // 获取当前 gas price
+      const gasPrice = await refreshedProvider.getGasPrice();
+      console.log('Gas price:', gasPrice.toString());
+
+      // 计算需要的 gas 费用（增加 20% 余量）
+      const gasLimitWithBuffer = gasEstimate.mul(120).div(100);
+      const requiredGasCost = gasLimitWithBuffer.mul(gasPrice);
+
+      // 获取用户钱包余额
+      const balance = await refreshedProvider.getBalance(walletAddress);
+      console.log('Wallet balance:', balance.toString());
+      console.log('Required gas cost:', requiredGasCost.toString());
+
+      // 检查余额是否足够支付 gas 费用
+      if (balance.lt(requiredGasCost)) {
+        const balanceEth = ethers.utils.formatEther(balance);
+        const requiredEth = ethers.utils.formatEther(requiredGasCost);
+        const shortfall = ethers.utils.formatEther(
+          requiredGasCost.sub(balance),
+        );
+        throw new Error(
+          `Insufficient gas balance. You have ${parseFloat(balanceEth).toFixed(
+            6,
+          )} ETH, but need approximately ${parseFloat(requiredEth).toFixed(
+            6,
+          )} ETH for gas. Please add at least ${parseFloat(shortfall).toFixed(
+            6,
+          )} ETH to your wallet.`,
+        );
+      }
+
       message.info({
         content: 'Waiting...',
         key: 'tx',
         duration: 0,
       });
-      const tx = await distribution.distributeRewards(nature, rewards);
+      const tx = await distribution.distributeRewards(nature, rewards, {
+        gasLimit: gasLimitWithBuffer,
+      });
       await tx.wait(); // 等待交易完成
       message.destroy('tx');
     } catch (err) {
