@@ -11,6 +11,7 @@ import {
   tokenPocketWallet,
   walletConnectWallet,
   injectedWallet,
+  safeWallet,
 } from '@rainbow-me/rainbowkit/wallets';
 import binanceWallet from '@binance/w3w-rainbow-connector-v2';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -55,6 +56,7 @@ const connectors = connectorsForWallets(
         binanceWallet,
         metaMaskWallet,
         rainbowWallet,
+        safeWallet,
         tokenPocketWallet,
         coinbaseWallet,
         walletConnectWallet,
