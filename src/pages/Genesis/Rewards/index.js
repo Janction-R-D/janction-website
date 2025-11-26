@@ -8,7 +8,7 @@ import { delay, renderBackgroudImg } from '@/utils/lang';
 import numeral from 'numeral';
 import { useEffect, useState } from 'react';
 import styles from './index.less';
-import { Button, message } from 'antd';
+import { Button, InputNumber, message } from 'antd';
 import { toFixed, toNumber } from '../lang';
 import { useChainId } from 'wagmi';
 import { useEthersSigner } from '@/hooks/useEthersSigner';
@@ -16,8 +16,9 @@ import { history, useIntl } from 'umi';
 
 const ContributorReward = (props) => {
   const [remaining, setRemaining] = useState(0);
-  const [reward, setReward] = useState(0);
-  const [rewardShow, setRewardShow] = useState(0);
+  const [reward, setReward] = useState(0); // 原始可领取数量
+  const [rewardShow, setRewardShow] = useState(0); // 用于展示的数量（可能带格式）
+  const [claimAmount, setClaimAmount] = useState();
   const [loading, setLoading] = useState(false);
   const chainId = useChainId();
   const signer = useEthersSigner(chainId);
@@ -42,13 +43,27 @@ const ContributorReward = (props) => {
     }
   };
 
+  // 最大可领取数量：取原始 reward 和 100000 中较小的那个
+  const maxClaim = Math.min(toNumber(reward), 100000);
+
   const onClaim = async () => {
     try {
       if (loading) return;
-      if (!toNumber(rewardShow)) return;
+      const amount = toNumber(claimAmount);
+      if (!amount) return;
+      if (amount > maxClaim) {
+        message.error(
+          intl.formatMessage({
+            id: 'reward.claim.max.error',
+            defaultMessage:
+              'The claim amount cannot exceed your available Jasmy or 100,000.',
+          }),
+        );
+        return;
+      }
       setLoading(true);
-      const claimData = await fetchNTFClaimJasmyUpdate();
-      await contract.distributeRewards(signer, claimData.signature, reward);
+      const claimData = await fetchNTFClaimJasmyUpdate({ jasmy: amount });
+      await contract.distributeRewards(signer, claimData.signature, amount);
       await delay(1000);
       await getData();
       message.success('Successfully!');
@@ -112,12 +127,36 @@ const ContributorReward = (props) => {
           <div className={styles['claim-container']}>
             <p className={styles['value']}>{toFixed(rewardShow)}</p>
             <span className={styles['unit']}>Jasmy</span>
+            <div className={styles['input-row']}>
+              <InputNumber
+                min={0}
+                // 不使用 max，让我们自己根据 maxClaim 做实时校验
+                value={claimAmount}
+                onChange={setClaimAmount}
+                className={styles['amount-input']}
+                status={toNumber(claimAmount) > maxClaim ? 'error' : undefined}
+                placeholder={intl.formatMessage({
+                  id: 'reward.claim.placeholder',
+                  defaultMessage: 'Enter claim amount',
+                })}
+              />
+              <Button
+                className={styles['max-btn']}
+                onClick={() => setClaimAmount(maxClaim)}
+              >
+                Max
+              </Button>
+            </div>
             <Button
               loading={loading}
               className={[
                 styles['btn'],
-                !toNumber(rewardShow) && styles['disabled'],
+                (!toNumber(claimAmount) || toNumber(claimAmount) > maxClaim) &&
+                  styles['disabled'],
               ].join(' ')}
+              disabled={
+                !toNumber(claimAmount) || toNumber(claimAmount) > maxClaim
+              }
               onClick={onClaim}
             >
               {intl.formatMessage({
