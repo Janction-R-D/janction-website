@@ -22,6 +22,7 @@ const ContributorReward = (props) => {
   const getData = async () => {
     try {
       const res = await fetchNTFClaimJasmy();
+      await getAirdropData();
       setRewardShow(res.claim_available_show);
     } catch (error) {
       console.log('『error』', error);
@@ -52,7 +53,7 @@ const ContributorReward = (props) => {
 
   const handleProceedClaim = async () => {
     if (!isClaimOpen) return;
-    await getAirdropData();
+
     setAirdropNoticeOpen(false);
     setAirdropModalOpen(true);
   };

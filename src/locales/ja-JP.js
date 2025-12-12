@@ -993,7 +993,7 @@ export default {
   'airdrop.timeline.claimOpens': '🪂 受け取り開始',
   'airdrop.timeline.claimOpensDate': '2025年11月10日 — 11:00 UTC',
   'airdrop.timeline.claimDeadline': '⏰ 受け取り期限',
-  'airdrop.timeline.claimDeadlineDate': '2025年11月20日 — 11:00 UTC',
+  'airdrop.timeline.claimDeadlineDate': '2025年12月13日 — 11:00 UTC',
   'airdrop.allocation.title': '総配分（ノードコホート）: 3% = 15億JCT',
   'airdrop.allocation.description':
     'メインネット準備との整合性を図るため、現在のポイントの50%は今すぐJCTに変換され、残りの50%はポイントとして残り、約6か月後にveJCTに変換される予定です（譲渡不可の参加/ガバナンス資格）。これはガバナンスと技術的な準備状況に依存します。',
