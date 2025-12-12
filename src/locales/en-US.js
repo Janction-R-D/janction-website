@@ -959,7 +959,7 @@ export default {
   'airdrop.timeline.claimOpens': '🪂 Claim Opens',
   'airdrop.timeline.claimOpensDate': 'November 10, 2025 — 11:00 UTC',
   'airdrop.timeline.claimDeadline': '⏰ Claim Deadline',
-  'airdrop.timeline.claimDeadlineDate': 'December 13, 2025 — 11:00 UTC',
+  'airdrop.timeline.claimDeadlineDate': 'December 15, 2025 — 11:00 UTC',
   'airdrop.allocation.title': 'Total allocation (node cohort): 3% = 1.5B JCT',
   'airdrop.allocation.description':
     'To align utility with mainnet readiness, 50% of your current points convert to JCT now, while the other 50% remain as points and are expected to convert into veJCT in ~6 months (a non-transferable participation/governance credential), subject to governance and technical readiness.',
