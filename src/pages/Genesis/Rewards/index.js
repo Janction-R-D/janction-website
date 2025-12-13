@@ -12,6 +12,7 @@ import { Button, InputNumber, message } from 'antd';
 import { toFixed, toNumber } from '../lang';
 import { useChainId } from 'wagmi';
 import { useEthersSigner } from '@/hooks/useEthersSigner';
+import { ethers } from 'ethers';
 import { history, useIntl } from 'umi';
 
 const ContributorReward = (props) => {
@@ -63,7 +64,8 @@ const ContributorReward = (props) => {
       }
       setLoading(true);
       const claimData = await fetchNTFClaimJasmyUpdate({ jasmy: amount });
-      await contract.distributeRewards(signer, claimData.signature, amount);
+      const rewardNew = ethers.utils.parseEther(amount.toString(), 18);
+      await contract.distributeRewards(signer, claimData.signature, rewardNew);
       await delay(1000);
       await getData();
       message.success('Successfully!');

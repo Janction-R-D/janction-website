@@ -744,6 +744,7 @@ const contract = {
     }
   },
   distributeRewards: async (signer, nature, rewards) => {
+    console.log(rewards, 'rewards');
     try {
       await switchNetwork(signer.provider, 'eth');
 
@@ -795,7 +796,7 @@ const contract = {
 
       // 获取用户钱包余额
       const balance = await refreshedProvider.getBalance(walletAddress);
-      console.log('Wallet balance:', balance.toString());
+      console.log(refreshedProvider, 'Wallet balance:', balance.toString());
       console.log('Required gas cost:', requiredGasCost.toString());
 
       // 检查余额是否足够支付 gas 费用
