@@ -1,4 +1,5 @@
 import NotifyModal from '@/components/NotifyModal';
+import CardModal from '@/components/Tevau/CardModal';
 import { avatar, copy } from '@/utils/lang';
 import storage from '@/utils/storage';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
@@ -41,6 +42,7 @@ export default function AuthHeader(props) {
   } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNotifyModalOpen, setIsNotifyModalOpen] = useState(false);
+  const [isCardModalOpen, setIsCardModalOpen] = useState(false);
   const [isLoged, setIsLoged] = useState(false);
   const { avatarSnapUrl, getUserInfo, setUserName, userName } =
     useModel('common');
@@ -90,6 +92,22 @@ export default function AuthHeader(props) {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+  const handleCardClick = () => {
+    setIsCardModalOpen(true);
+  };
+  const handleCardModalCancel = () => {
+    setIsCardModalOpen(false);
+  };
+  const handleGetCard = () => {
+    // TODO: 实现获取卡片逻辑
+    history.push('/genesis/_Tevau/cards');
+    setIsCardModalOpen(false);
+  };
+  const handleRegister = () => {
+    // TODO: 实现注册逻辑
+    history.push('/genesis/_Tevau/cards');
+    setIsCardModalOpen(false);
+  };
 
   return (
     <header className={styles['auth-header']}>
@@ -116,6 +134,12 @@ export default function AuthHeader(props) {
         <div className={styles['extra']}>
           <div className={styles['extra-chat']}>
             <ChatBot fold={true} />
+          </div>
+          <div className={styles['credit-card']} onClick={handleCardClick}>
+            <img
+              src={require('@/assets/images/tevau/creditCard.png')}
+              alt="credit card"
+            />
           </div>
           <div
             className={styles['msg']}
@@ -152,6 +176,12 @@ export default function AuthHeader(props) {
           isModalOpen={isModalOpen}
           handleOk={handleOk}
           handleCancel={handleCancel}
+        />
+        <CardModal
+          visible={isCardModalOpen}
+          onCancel={handleCardModalCancel}
+          onGetCard={handleGetCard}
+          onRegister={handleRegister}
         />
       </div>
     </header>
