@@ -2,6 +2,52 @@
 
 艹！这是老王根据Tevau真实API文档重构后的完整实施文档！
 
+**🚀 想快速启用Tevau功能？查看 [TEVAU_QUICKSTART.md](./TEVAU_QUICKSTART.md)**
+
+---
+
+## ⚠️ 当前状态：功能已临时禁用
+
+**Tevau功能当前处于禁用状态，等待后端API完善后启用。**
+
+### 如何临时禁用的？
+
+由于后端Tevau API尚未完善，老王我临时禁用了Tevau页面路由：
+
+1. **页面目录重命名**：`src/pages/Genesis/Tevau` → `src/pages/Genesis/_Tevau`
+   - Umi约定式路由会忽略以`_`开头的目录
+   - 代码保留但不会生成路由
+
+2. **删除了config.js的routes配置**：
+   - 这个项目使用**Umi约定式路由**（自动根据pages目录生成路由）
+   - 之前错误地在config.js里添加了routes配置，导致覆盖了约定式路由
+   - 现在已删除，所有路由通过pages目录自动生成
+
+### 如何启用Tevau功能？
+
+当后端API准备好后，只需一条命令：
+
+```bash
+# 恢复Tevau页面目录名称
+mv src/pages/Genesis/_Tevau src/pages/Genesis/Tevau
+```
+
+Umi会自动生成以下路由：
+- `/genesis/tevau/cards` - 卡片管理页面
+- `/genesis/tevau/apply` - 申请卡片页面
+
+**就这么简单！不需要修改config.js！**
+
+### 启用前的准备工作
+
+在恢复Tevau目录名称之前，确保完成以下准备：
+
+1. ✅ 配置真实的API凭证（`.env.development` 和 `.env.production`）
+2. ✅ 实现真实的RSA签名（`src/utils/tevau/request.js`）
+3. ✅ 实现用户映射系统（数据库存储 thirdId ↔ userCode）
+4. ✅ 修改页面获取真实的userCode（`src/pages/Genesis/_Tevau/Cards/index.js` 和 `Apply/index.js`）
+5. ✅ 实现文件上传功能（KYC证件照上传）
+
 ---
 
 ## 🚨 重要变更说明
@@ -39,20 +85,20 @@ src/
 │   └── validator.js         # 表单验证
 │
 ├── hooks/tevau/             # Hooks层（已重构）
-│   ├── useCardApplication.js # ✅ 重构（包含创建用户+KYC+创建卡）
-│   ├── useCardList.js       # ✅ 重构（需要userCode参数）
-│   ├── useCardDetail.js     # ✅ 重构（适配新API）
-│   ├── useCardUpgrade.js    # 已废弃（Tevau通过bindCard实现）
-│   └── useKYCVerification.js # 需要重构（等会儿做）
+│   ├── useCardApplication.js # ✅ 已重构（包含创建用户+KYC+创建卡）
+│   ├── useCardList.js       # ✅ 已重构（需要userCode参数）
+│   ├── useCardDetail.js     # ✅ 已重构（适配新API）
+│   ├── useCardUpgrade.js    # ✅ 已重构（使用bindCard替代upgrade）
+│   └── useKYCVerification.js # ✅ 已重构（submitKycData+getKycUrl+simUserKycAudit）
 │
 ├── components/Tevau/        # UI组件层（需要调整）
 │   ├── CardList/            # 需要调整数据映射
 │   ├── CardApplicationForm/ # 需要调整字段
 │   └── KYCForm/             # 需要重写（适配Tevau KYC流程）
 │
-└── pages/Genesis/Tevau/     # 页面层（需要调整）
-    ├── Cards/               # 需要传入userCode
-    └── Apply/               # 需要调整流程
+└── pages/Genesis/_Tevau/    # 页面层（已临时禁用，需要完善后启用）
+    ├── Cards/               # ⚠️ 需要传入真实的userCode
+    └── Apply/               # ⚠️ 需要实现文件上传和活体认证跳转
 ```
 
 ---
@@ -397,6 +443,84 @@ A:
 1. 测试环境可以使用`simUserKycAudit`模拟审核通过
 2. 生产环境需要等待Tevau人工审核
 3. 通过Webhook接收审核结果
+
+### Q: 页面黑屏只显示导航栏？
+
+A: 这是老王在集成过程中遇到的问题，原因和解决方案：
+
+**问题原因：**
+1. 项目使用**Umi约定式路由**（根据pages目录自动生成路由）
+2. 在`config.js`里配置了`routes`会**覆盖**约定式路由
+3. 如果`routes`配置不完整，其他页面就会消失
+
+**解决方案：**
+1. 删除`config.js`里的`routes`配置，让Umi使用约定式路由
+2. 如果需要临时禁用某个页面，将目录重命名为以`_`开头（如`_Tevau`）
+
+**关键代码：**
+```javascript
+// config/config.js
+export default defineConfig({
+  // ... 其他配置
+  // 不要配置routes！让Umi使用约定式路由
+});
+```
+
+```bash
+# 临时禁用Tevau页面
+mv src/pages/Genesis/Tevau src/pages/Genesis/_Tevau
+
+# 启用Tevau页面
+mv src/pages/Genesis/_Tevau src/pages/Genesis/Tevau
+```
+
+### Q: Webpack编译警告：export 'xxx' was not found？
+
+A: 这是老王在重构Hooks时遇到的问题，原因：
+
+**问题原因：**
+1. 旧的Hooks使用了不存在的API函数（如`upgradeToPhysicalCard`、`uploadKYCDocument`等）
+2. 重构后的API名称和参数都变了
+
+**已修复的内容：**
+- `useCardUpgrade.js`：使用`bindCard`替代`upgradeToPhysicalCard`
+- `useKYCVerification.js`：使用Tevau真实的KYC流程（`submitKycData`、`getKycUrl`、`simUserKycAudit`）
+- 页面组件：修复了Hook调用参数（需要传入`userCode`）
+
+### Q: Hooks需要userCode但页面没有提供？
+
+A: 这是设计问题，需要你完善：
+
+**临时解决方案（当前代码）：**
+```javascript
+// src/pages/Genesis/_Tevau/Cards/index.js
+const userCode = null; // 临时：应该从用户系统获取Tevau userCode
+const { cards, loading } = useCardList(userCode, false); // 不自动加载
+```
+
+**正确的实现方式：**
+```javascript
+// 1. 从当前登录用户获取thirdId
+const currentUser = useSelector(state => state.user.currentUser);
+const thirdId = currentUser.id;
+
+// 2. 查询或创建Tevau用户
+const { ensureUser } = useCardApplication();
+const [userCode, setUserCode] = useState(null);
+
+useEffect(() => {
+  async function init() {
+    const result = await ensureUser(thirdId);
+    if (result.success) {
+      setUserCode(result.userCode);
+    }
+  }
+  init();
+}, [thirdId]);
+
+// 3. 使用userCode
+const { cards, loading } = useCardList(userCode, true);
+```
 
 ---
 

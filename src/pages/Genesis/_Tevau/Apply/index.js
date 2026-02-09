@@ -17,6 +17,10 @@ import styles from './index.less';
 const { Step } = Steps;
 
 const CardApplyPage = () => {
+  // TODO: 艹，需要从用户系统获取userCode！
+  // 临时处理：先不传userCode，等有了真实的用户映射后再完善
+  const userCode = null; // 临时：应该从用户系统获取Tevau userCode
+
   // 使用Hooks管理业务逻辑
   const {
     loading: applyLoading,
@@ -24,23 +28,16 @@ const CardApplyPage = () => {
     applicationData,
   } = useCardApplication();
   const {
-    kycStatus,
+    kycUrl,
     submitKYC,
-    uploadDocument,
+    getLivenessUrl,
     loading: kycLoading,
-  } = useKYCVerification();
+  } = useKYCVerification(userCode);
 
   const [currentStep, setCurrentStep] = useState(0);
-  const [needKYC, setNeedKYC] = useState(false);
+  const [needKYC, setNeedKYC] = useState(true); // 艹，默认需要KYC，后续根据实际情况调整
 
-  // 检查是否需要KYC
-  useEffect(() => {
-    if (kycStatus === 'not_started' || kycStatus === 'rejected') {
-      setNeedKYC(true);
-    } else if (kycStatus === 'approved') {
-      setNeedKYC(false);
-    }
-  }, [kycStatus]);
+  // TODO: 后续需要实现KYC状态查询，判断用户是否已通过KYC
 
   /**
    * 处理卡片申请提交
@@ -77,9 +74,13 @@ const CardApplyPage = () => {
 
   /**
    * 处理文档上传
+   * TODO: 艹，需要实现文件上传到自己服务器的逻辑
+   * Tevau不提供文件上传接口，需要先上传到自己的服务器获取URL
    */
   const handleUploadDocument = async (file, documentType) => {
-    await uploadDocument(file, documentType);
+    console.warn('TODO: 实现文件上传逻辑');
+    // const url = await uploadToYourServer(file);
+    // return url;
   };
 
   /**

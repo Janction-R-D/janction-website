@@ -19,9 +19,13 @@ import styles from './index.less';
 const { Option } = Select;
 
 const CardsManagementPage = () => {
+  // TODO: 艹，需要从用户系统获取userCode！
+  // 临时处理：先不传userCode，等有了真实的用户映射后再完善
+  const userCode = null; // 临时：应该从用户系统获取Tevau userCode
+
   // 使用Hooks管理业务逻辑
   const { loading, cards, pagination, filter, refresh, changePage } =
-    useCardList(true);
+    useCardList(userCode, false); // 暂时不自动加载，避免报错
   const { upgradeCard, loading: upgrading } = useCardUpgrade();
   const { toggleFreeze } = useCardDetail(null, false);
 

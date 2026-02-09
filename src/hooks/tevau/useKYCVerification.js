@@ -1,231 +1,198 @@
 /**
- * KYC验证Hook
- * 职责：管理KYC验证流程、状态查询、文档上传
+ * KYC验证Hook（根据真实API重构）
+ * 职责：管理Tevau的KYC验证流程
  *
- * 艹，KYC验证是虚拟卡申请的必经之路
- * 这个Hook封装了所有KYC相关的业务逻辑
+ * 艹，Tevau的KYC流程：
+ * 1. submitKycData - 提交KYC数据（含证件照URL）
+ * 2. getKycUrl - 获取活体认证URL
+ * 3. 用户跳转完成活体认证
+ * 4. 通过Webhook接收审核结果
+ * 5. simUserKycAudit - 测试环境模拟审核（可选）
+ *
+ * 注意：证件照上传不是Tevau提供的API，需要先上传到你们自己的服务器！
  */
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import { message } from 'antd';
-import {
-  fetchKYCStatus,
-  submitKYCInfo,
-  uploadKYCDocument,
-  batchUploadKYCDocuments,
-  submitKYCVerification,
-} from '@/services/tevau';
-import { handleTevauError, KYC_STATUS } from '@/utils/tevau';
+import { submitKycData, getKycUrl, simUserKycAudit } from '@/services/tevau';
+import { handleTevauError } from '@/utils/tevau';
 
 /**
  * KYC验证Hook
- * @param {Boolean} autoCheck - 是否自动检查KYC状态（默认true）
+ * @param {String} userCode - Tevau用户编码
  * @returns {Object} Hook返回值
  */
-export default function useKYCVerification(autoCheck = true) {
+export default function useKYCVerification(userCode) {
   const [loading, setLoading] = useState(false);
-  const [kycStatus, setKycStatus] = useState(KYC_STATUS.NOT_STARTED);
-  const [kycData, setKycData] = useState(null);
-  const [uploadedDocuments, setUploadedDocuments] = useState([]);
+  const [kycUrl, setKycUrl] = useState(null);
+  const [error, setError] = useState(null);
 
   /**
-   * 检查KYC状态
-   */
-  const checkStatus = useCallback(async () => {
-    try {
-      const response = await fetchKYCStatus();
-
-      if (response.code === 0 || response.success) {
-        setKycStatus(response.data?.status || KYC_STATUS.NOT_STARTED);
-        setKycData(response.data);
-      }
-    } catch (err) {
-      console.error('Failed to fetch KYC status:', err);
-      // 状态查询失败不显示错误提示，避免干扰用户
-    }
-  }, []);
-
-  /**
-   * 提交KYC信息
-   * @param {Object} formData - KYC表单数据
+   * 提交KYC数据
+   * @param {Object} kycData - KYC数据
+   * @param {String} kycData.countryArea - 国家/地区代码
+   * @param {String} kycData.firstNameEn - 英文名
+   * @param {String} kycData.lastNameEn - 英文姓
+   * @param {String} kycData.birthday - 出生日期 YYYY-MM-DD
+   * @param {String} kycData.identityCardType - 证件类型 0=身份证,1=护照,2=驾照
+   * @param {String} kycData.identityFrontPicUrl - 证件正面照URL（需先上传）
+   * @param {String} kycData.identityBackPicUrl - 证件反面照URL（需先上传）
+   * @param {String} kycData.identityCard - 证件号码
+   * @param {String} kycData.identityCardValidityTime - 证件有效期
    * @returns {Object} { success, data, error }
    */
   const submitKYC = useCallback(
-    async (formData) => {
+    async (kycData) => {
+      if (!userCode) {
+        const errorMsg = 'UserCode is required';
+        message.error(errorMsg);
+        return { success: false, error: errorMsg };
+      }
+
       setLoading(true);
+      setError(null);
 
       try {
-        const response = await submitKYCInfo(formData);
+        // 第一步：提交KYC数据
+        const submitResponse = await submitKycData({
+          userCode,
+          ...kycData,
+        });
 
-        if (response.code === 0 || response.success) {
-          message.success('KYC information submitted successfully!');
-          await checkStatus(); // 重新获取状态
-          return { success: true, data: response.data };
+        if (submitResponse.code === 0 && submitResponse.ok) {
+          message.success('KYC data submitted successfully!');
+
+          // 第二步：获取活体认证URL
+          const urlResponse = await getKycUrl(userCode);
+
+          if (urlResponse.code === 0 && urlResponse.ok) {
+            const livenessUrl = urlResponse.data?.link;
+            setKycUrl(livenessUrl);
+
+            return {
+              success: true,
+              kycUrl: livenessUrl,
+              accountId: urlResponse.data?.accountId,
+              transactionId: urlResponse.data?.transactionId,
+            };
+          } else {
+            throw new Error(urlResponse.msg || 'Failed to get liveness URL');
+          }
         } else {
-          throw new Error(response.message || 'Submission failed');
+          throw new Error(submitResponse.msg || 'Failed to submit KYC data');
         }
       } catch (err) {
         const errorMsg = handleTevauError(err);
+        setError(errorMsg);
         message.error(errorMsg);
         return { success: false, error: errorMsg };
       } finally {
         setLoading(false);
       }
     },
-    [checkStatus],
+    [userCode],
   );
 
   /**
-   * 上传单个KYC文档
-   * @param {File} file - 文件对象
-   * @param {String} documentType - 文档类型
-   * @returns {Object} { success, data, error }
+   * 获取活体认证URL（单独调用）
+   * @returns {Object} { success, kycUrl, error }
    */
-  const uploadDocument = useCallback(async (file, documentType) => {
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('documentType', documentType);
-
-    try {
-      const response = await uploadKYCDocument(formData);
-
-      if (response.code === 0 || response.success) {
-        message.success('Document uploaded successfully!');
-
-        // 保存已上传的文档ID
-        setUploadedDocuments((prev) => [
-          ...prev,
-          {
-            documentId: response.data?.documentId,
-            documentType,
-            fileName: file.name,
-          },
-        ]);
-
-        return { success: true, data: response.data };
-      } else {
-        throw new Error(response.message || 'Upload failed');
-      }
-    } catch (err) {
-      const errorMsg = handleTevauError(err);
+  const getLivenessUrl = useCallback(async () => {
+    if (!userCode) {
+      const errorMsg = 'UserCode is required';
       message.error(errorMsg);
       return { success: false, error: errorMsg };
     }
-  }, []);
 
-  /**
-   * 批量上传KYC文档
-   * @param {Array<Object>} files - 文件数组 [{ file, documentType }]
-   * @returns {Object} { success, results, errors }
-   */
-  const batchUpload = useCallback(async (files) => {
     setLoading(true);
+    setError(null);
 
     try {
-      const results = await batchUploadKYCDocuments(files);
+      const response = await getKycUrl(userCode);
 
-      const successCount = results.filter(
-        (r) => r.code === 0 || r.success,
-      ).length;
+      if (response.code === 0 && response.ok) {
+        const livenessUrl = response.data?.link;
+        setKycUrl(livenessUrl);
 
-      if (successCount > 0) {
-        message.success(`${successCount} documents uploaded successfully!`);
+        return {
+          success: true,
+          kycUrl: livenessUrl,
+          accountId: response.data?.accountId,
+          transactionId: response.data?.transactionId,
+        };
+      } else {
+        throw new Error(response.msg || 'Failed to get liveness URL');
       }
-
-      if (successCount < files.length) {
-        message.warning(
-          `${files.length - successCount} documents failed to upload`,
-        );
-      }
-
-      // 保存成功上传的文档
-      const successDocs = results
-        .map((r, index) => {
-          if (r.code === 0 || r.success) {
-            return {
-              documentId: r.data?.documentId,
-              documentType: files[index].documentType,
-              fileName: files[index].file.name,
-            };
-          }
-          return null;
-        })
-        .filter(Boolean);
-
-      setUploadedDocuments((prev) => [...prev, ...successDocs]);
-
-      return {
-        success: successCount === files.length,
-        results,
-        errors: results.filter((r) => r.code !== 0 && !r.success),
-      };
     } catch (err) {
       const errorMsg = handleTevauError(err);
+      setError(errorMsg);
       message.error(errorMsg);
       return { success: false, error: errorMsg };
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [userCode]);
 
   /**
-   * 提交KYC验证（最终提交）
+   * 模拟KYC审核（仅测试环境）
+   * @param {Boolean} passOrNot - 是否通过审核
    * @returns {Object} { success, data, error }
    */
-  const submitVerification = useCallback(async () => {
-    if (uploadedDocuments.length === 0) {
-      message.warning('Please upload at least one document');
-      return { success: false, error: 'No documents uploaded' };
-    }
-
-    setLoading(true);
-
-    try {
-      const documentIds = uploadedDocuments.map((doc) => doc.documentId);
-
-      const response = await submitKYCVerification({ documentIds });
-
-      if (response.code === 0 || response.success) {
-        message.success('KYC verification submitted successfully!');
-        await checkStatus(); // 重新获取状态
-        return { success: true, data: response.data };
-      } else {
-        throw new Error(response.message || 'Verification failed');
+  const simulateAudit = useCallback(
+    async (passOrNot = true) => {
+      if (!userCode) {
+        const errorMsg = 'UserCode is required';
+        message.error(errorMsg);
+        return { success: false, error: errorMsg };
       }
-    } catch (err) {
-      const errorMsg = handleTevauError(err);
-      message.error(errorMsg);
-      return { success: false, error: errorMsg };
-    } finally {
-      setLoading(false);
-    }
-  }, [uploadedDocuments, checkStatus]);
+
+      setLoading(true);
+      setError(null);
+
+      try {
+        const response = await simUserKycAudit({
+          userCode,
+          passOrNot,
+        });
+
+        if (response.code === 0 && response.ok) {
+          const auditMsg = passOrNot
+            ? 'KYC audit passed (simulated)!'
+            : 'KYC audit rejected (simulated)';
+          message.success(auditMsg);
+
+          return { success: true, data: response.data };
+        } else {
+          throw new Error(response.msg || 'Failed to simulate audit');
+        }
+      } catch (err) {
+        const errorMsg = handleTevauError(err);
+        setError(errorMsg);
+        message.error(errorMsg);
+        return { success: false, error: errorMsg };
+      } finally {
+        setLoading(false);
+      }
+    },
+    [userCode],
+  );
 
   /**
    * 重置状态
    */
   const reset = useCallback(() => {
     setLoading(false);
-    setUploadedDocuments([]);
+    setError(null);
+    setKycUrl(null);
   }, []);
-
-  // 初始化时检查KYC状态
-  useEffect(() => {
-    if (autoCheck) {
-      checkStatus();
-    }
-  }, [autoCheck, checkStatus]);
 
   return {
     loading,
-    kycStatus,
-    kycData,
-    uploadedDocuments,
-    checkStatus,
+    error,
+    kycUrl,
     submitKYC,
-    uploadDocument,
-    batchUpload,
-    submitVerification,
+    getLivenessUrl,
+    simulateAudit,
     reset,
   };
 }
