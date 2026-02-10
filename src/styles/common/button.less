@@ -1,0 +1,60 @@
+// 公共按钮样式 - 与 CardModal 中的按钮样式一致
+.tevau-btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  border: 0.5px solid #ffffff;
+  border-radius: 8px;
+  color: #ffffff;
+  font-family: 'Encode Sans Expanded', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.25em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 2px 2px 0px 0px rgba(170, 170, 170, 0.21);
+
+  span {
+    color: #ffffff;
+  }
+
+  svg {
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #ffffff !important;
+    transform: translateY(-2px);
+    box-shadow: 4px 4px 0px 0px rgba(170, 170, 170, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:focus,
+  &:focus-visible {
+    background: transparent !important;
+    border: 0.5px solid #ffffff !important;
+    outline: none !important;
+    box-shadow: 2px 2px 0px 0px rgba(170, 170, 170, 0.21) !important;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+}
+
+// 移动端样式
+@media screen and (max-width: 768px) {
+  .tevau-btn {
+    font-size: 16px;
+    height: 44px;
+  }
+}

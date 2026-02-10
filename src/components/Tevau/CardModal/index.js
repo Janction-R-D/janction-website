@@ -6,9 +6,18 @@
 import React from 'react';
 import { Modal, Button } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
+import { history } from 'umi';
 import styles from './index.less';
+import '@/styles/common/button.less';
 
 const CardModal = ({ visible, onCancel, onGetCard, onRegister }) => {
+  const handleRegister = () => {
+    if (onRegister) {
+      onRegister();
+    } else {
+      history.push('/tevau/register');
+    }
+  };
   return (
     <Modal
       open={visible}
@@ -45,7 +54,11 @@ const CardModal = ({ visible, onCancel, onGetCard, onRegister }) => {
             isolate your actual banking information
           </p>
           <div className={styles['card-buttons']}>
-            <button className={styles['btn-get-card']} onClick={onGetCard}>
+            <button
+              className="tevau-btn"
+              onClick={onGetCard}
+              style={{ width: '190px', height: '60px' }}
+            >
               <span>Get Your Card</span>
               <svg
                 width="14"
@@ -64,7 +77,11 @@ const CardModal = ({ visible, onCancel, onGetCard, onRegister }) => {
                 />
               </svg>
             </button>
-            <button className={styles['btn-register']} onClick={onRegister}>
+            <button
+              className="tevau-btn"
+              onClick={handleRegister}
+              style={{ width: '190px', height: '60px', padding: '0 35.26px' }}
+            >
               <span>Register</span>
               <svg
                 width="16"

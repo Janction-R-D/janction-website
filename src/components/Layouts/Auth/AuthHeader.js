@@ -104,8 +104,7 @@ export default function AuthHeader(props) {
     setIsCardModalOpen(false);
   };
   const handleRegister = () => {
-    // TODO: 实现注册逻辑
-    history.push('/genesis/_Tevau/cards');
+    history.push('/tevau/register');
     setIsCardModalOpen(false);
   };
 

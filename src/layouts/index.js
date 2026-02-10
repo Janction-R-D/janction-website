@@ -73,6 +73,11 @@ export default function Layout(props) {
     });
   }, [props.location.pathname]);
 
+  // Tevau 注册页面不使用 Layout
+  if (props.location.pathname.includes('/tevau/register')) {
+    return <div>{children}</div>;
+  }
+
   if (props.location.pathname.includes('/login')) {
     return <LoginLayout>{children}</LoginLayout>;
   }
