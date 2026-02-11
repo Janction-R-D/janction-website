@@ -3,6 +3,7 @@ import { useLocation, useModel } from 'umi';
 import Lessee from './Lessee';
 import Lessor from './Lessor';
 import KYCVerificationModal from '@/components/Tevau/KYCVerificationModal';
+import CardManagementModal from '@/components/Tevau/CardManagementModal';
 import { getKycInfo, getKycUrl } from '@/services/tevau/kyc';
 import { handleTevauError } from '@/utils/tevau';
 import storage from '@/utils/storage';
@@ -19,6 +20,9 @@ const Dashboard = (props) => {
   const [kycStatus, setKycStatus] = useState(null);
   const [auditStatus, setAuditStatus] = useState(null);
   const [currentUserCode, setCurrentUserCode] = useState(null);
+  // Card Management Modal - 可以通过修改这个值来控制弹窗显示
+  const [cardManagementModalVisible, setCardManagementModalVisible] =
+    useState(true);
 
   // 检查是否需要查询KYC状态
   useEffect(() => {
@@ -129,6 +133,10 @@ const Dashboard = (props) => {
         kycStatus={kycStatus}
         auditStatus={auditStatus}
         onRefresh={handleRefreshKycUrl}
+      />
+      <CardManagementModal
+        visible={cardManagementModalVisible}
+        onCancel={() => setCardManagementModalVisible(false)}
       />
     </>
   );
