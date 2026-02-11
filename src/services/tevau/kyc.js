@@ -41,6 +41,17 @@ export async function getKycUrl(userCode) {
 }
 
 /**
+ * 查询客户KYC状态和信息
+ * POST /openapi/kyc/getKycInfo
+ *
+ * @param {String} userCode - 用户编码
+ * @returns {Promise<Object>} KYC状态和信息
+ */
+export async function getKycInfo(userCode) {
+  return tevauRequest(TEVAU_ENDPOINTS.KYC.GET_KYC_INFO, { userCode });
+}
+
+/**
  * Sandbox环境模拟KYC审核（仅测试环境）
  * POST /openapi/kyc/simUserKycAudit
  *

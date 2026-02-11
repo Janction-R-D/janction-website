@@ -1,5 +1,6 @@
 import NotifyModal from '@/components/NotifyModal';
 import CardModal from '@/components/Tevau/CardModal';
+import KYCVerificationModal from '@/components/Tevau/KYCVerificationModal';
 import { avatar, copy } from '@/utils/lang';
 import storage from '@/utils/storage';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
@@ -16,6 +17,8 @@ import { handleIdentityChange } from '@/utils/metamaskLogin';
 import ChatBot from '@/components/Chatbot';
 import { useChainId } from 'wagmi';
 import { useEthersSigner } from '@/hooks/useEthersSigner';
+import { getKycInfo, getKycUrl } from '@/services/tevau/kyc';
+import { handleTevauError } from '@/utils/tevau';
 
 export const Logo = () => {
   return (
@@ -43,6 +46,12 @@ export default function AuthHeader(props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNotifyModalOpen, setIsNotifyModalOpen] = useState(false);
   const [isCardModalOpen, setIsCardModalOpen] = useState(false);
+  const [isKycModalVisible, setIsKycModalVisible] = useState(false);
+  const [kycUrl, setKycUrl] = useState(null);
+  const [kycStatus, setKycStatus] = useState(null);
+  const [auditStatus, setAuditStatus] = useState(null);
+  const [currentUserCode, setCurrentUserCode] = useState(null);
+  const [isRefreshingKycUrl, setIsRefreshingKycUrl] = useState(false);
   const [isLoged, setIsLoged] = useState(false);
   const { avatarSnapUrl, getUserInfo, setUserName, userName } =
     useModel('common');
@@ -92,8 +101,88 @@ export default function AuthHeader(props) {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  const handleCardClick = () => {
-    setIsCardModalOpen(true);
+  // 查询KYC状态
+  const queryKycStatus = async (userCode) => {
+    setCurrentUserCode(userCode);
+    try {
+      // 模拟API调用
+      // const response = await getKycInfo(userCode);
+      // if (response.code === 0 && response.ok) {
+      //   const kycData = response.data;
+      //   setAuditStatus(kycData.auditStatus);
+      //   setKycStatus(kycData.identityFailerReason || null);
+
+      //   // 如果审核通过或审核中，获取活体认证URL
+      //   if (kycData.auditStatus === 0 || kycData.auditStatus === 1) {
+      //     const urlResponse = await getKycUrl(userCode);
+      //     if (urlResponse.code === 0 && urlResponse.ok) {
+      //       setKycUrl(urlResponse.data?.link);
+      //       setIsKycModalVisible(true);
+      //     }
+      //   } else {
+      //     // 未通过或其他状态，显示进度
+      //     setIsKycModalVisible(true);
+      //   }
+      // }
+
+      // 模拟数据
+      const mockAuditStatus = 0; // 0=审核中, 1=认证通过, 2=未通过, 3=未提审, 5=未认证
+      setAuditStatus(mockAuditStatus);
+
+      if (mockAuditStatus === 0 || mockAuditStatus === 1) {
+        // 模拟获取活体认证URL
+        const mockKycUrl = `https://kyc.tevau.io/verify?token=mock_token_${Date.now()}`;
+        setKycUrl(mockKycUrl);
+        setIsKycModalVisible(true);
+      } else {
+        // 未通过或其他状态，显示进度
+        setKycStatus('KYC verification is pending review.');
+        setIsKycModalVisible(true);
+      }
+    } catch (err) {
+      const errorMsg = handleTevauError(err);
+      console.error('Query KYC status error:', errorMsg);
+      // 即使查询失败，也显示弹窗
+      setKycStatus('Failed to query KYC status. Please try again later.');
+      setIsKycModalVisible(true);
+    }
+  };
+
+  // 刷新KYC URL
+  const handleRefreshKycUrl = async () => {
+    if (!currentUserCode) return null;
+    setIsRefreshingKycUrl(true);
+    try {
+      // 模拟API调用
+      // const urlResponse = await getKycUrl(currentUserCode);
+      // if (urlResponse.code === 0 && urlResponse.ok) {
+      //   const newUrl = urlResponse.data?.link;
+      //   setKycUrl(newUrl);
+      //   return newUrl;
+      // }
+
+      // 模拟数据
+      const mockKycUrl = `https://kyc.tevau.io/verify?token=mock_token_${Date.now()}`;
+      setKycUrl(mockKycUrl);
+      return mockKycUrl;
+    } catch (err) {
+      console.error('Refresh KYC URL error:', err);
+      return null;
+    } finally {
+      setIsRefreshingKycUrl(false);
+    }
+  };
+
+  const handleCardClick = async () => {
+    // 检查是否有userCode，如果有则查询KYC状态
+    const userCode = storage.get('TEVAU_USER_CODE');
+    if (userCode) {
+      // 有userCode，查询KYC状态并显示KYC弹窗
+      await queryKycStatus(userCode);
+    } else {
+      // 没有userCode，显示原来的CardModal
+      setIsCardModalOpen(true);
+    }
   };
   const handleCardModalCancel = () => {
     setIsCardModalOpen(false);
@@ -181,6 +270,14 @@ export default function AuthHeader(props) {
           onCancel={handleCardModalCancel}
           onGetCard={handleGetCard}
           onRegister={handleRegister}
+        />
+        <KYCVerificationModal
+          visible={isKycModalVisible}
+          onCancel={() => setIsKycModalVisible(false)}
+          kycUrl={kycUrl}
+          kycStatus={kycStatus}
+          auditStatus={auditStatus}
+          onRefreshKycUrl={handleRefreshKycUrl}
         />
       </div>
     </header>

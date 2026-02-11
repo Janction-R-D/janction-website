@@ -1,0 +1,293 @@
+.kyc-modal-wrap {
+  :global {
+    .ant-modal-content {
+      box-shadow: none !important;
+      padding: 0 !important;
+      position: relative;
+      overflow: visible;
+      border-radius: 32px;
+    }
+
+    .ant-modal-header {
+      display: none !important;
+      padding: 0 !important;
+    }
+
+    .ant-modal-body {
+      padding: 0 !important;
+      position: relative;
+      background: #000000 !important;
+      border-radius: 32px;
+    }
+
+    .ant-modal-close {
+      display: none !important;
+    }
+  }
+}
+
+.kyc-modal {
+  position: relative;
+
+  .kyc-content {
+    position: relative;
+    width: 800px;
+    border-radius: 32px;
+    padding: 40px;
+
+    // 渐变边框效果 - 使用伪元素实现
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 32px;
+      padding: 1.4px;
+      background: linear-gradient(
+        140deg,
+        rgba(84, 234, 255, 1) 0%,
+        rgba(224, 109, 180, 1) 41%,
+        rgba(232, 160, 115, 1) 57%,
+        rgba(115, 213, 244, 1) 100%
+      );
+      -webkit-mask: linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask-composite: exclude;
+      z-index: 100;
+      pointer-events: none;
+    }
+  }
+
+  .close-btn {
+    position: absolute;
+    top: -26px;
+    right: -16px;
+    color: #ffffff;
+    cursor: pointer;
+    z-index: 10;
+  }
+
+  .kyc-title {
+    font-family: 'Encode Sans Expanded', sans-serif;
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 1.25em;
+    color: #ffffff;
+    text-align: left;
+    margin: 0 0 30px 0;
+    width: 100%;
+  }
+
+  .kyc-body {
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    align-items: center;
+  }
+
+  .kyc-left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .kyc-image-wrapper {
+    width: 100%;
+    max-width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .kyc-image {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .kyc-description {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 1.5em;
+    color: #ffffff;
+    text-align: center;
+    margin: 0;
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .kyc-right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .qr-code-wrapper {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    min-width: 240px;
+    min-height: 240px;
+  }
+
+  .qr-code {
+    display: block;
+  }
+
+  .qr-expired-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    backdrop-filter: blur(2px);
+  }
+
+  .refresh-icon-btn {
+    width: 56px !important;
+    height: 56px !important;
+    background: transparent !important;
+    border: none !important;
+    color: #ffffff !important;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: none !important;
+
+    &:hover {
+      background: transparent !important;
+      border: none !important;
+      transform: scale(1.15);
+    }
+
+    :global {
+      .anticon {
+        font-size: 26px;
+        font-weight: 700;
+        stroke-width: 2;
+      }
+    }
+  }
+
+  .kyc-status-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    padding: 20px 0;
+  }
+
+  .status-image-wrapper {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .status-image {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+  }
+
+  .status-message {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.6em;
+    color: rgba(255, 255, 255, 0.85);
+    text-align: center;
+    margin: 0;
+    max-width: 540px;
+  }
+}
+
+// 移动端样式
+@media screen and (max-width: 768px) {
+  .kyc-modal-wrap {
+    :global {
+      .ant-modal {
+        width: 343px !important;
+        max-width: 90vw !important;
+      }
+
+      .ant-modal-content {
+        width: 343px !important;
+      }
+    }
+  }
+
+  .kyc-modal {
+    .kyc-content {
+      width: 100% !important;
+      padding: 30px 20px;
+    }
+
+    .kyc-title {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .kyc-body {
+      flex-direction: column;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .kyc-left {
+      width: 100%;
+    }
+
+    .kyc-right {
+      width: 100%;
+    }
+
+    .kyc-image-wrapper {
+      max-width: 200px;
+    }
+
+    .kyc-description {
+      font-size: 13px;
+      max-width: 100%;
+    }
+
+    .qr-code-wrapper {
+      padding: 15px;
+      min-width: 180px;
+      min-height: 180px;
+    }
+
+    .qr-code {
+      width: 150px !important;
+      height: 150px !important;
+    }
+
+    .refresh-icon-btn {
+      width: 48px !important;
+      height: 48px !important;
+      font-size: 20px;
+
+      :global {
+        .anticon {
+          font-size: 20px;
+        }
+      }
+    }
+  }
+}

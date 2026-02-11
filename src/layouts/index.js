@@ -73,8 +73,12 @@ export default function Layout(props) {
     });
   }, [props.location.pathname]);
 
-  // Tevau 注册页面不使用 Layout
-  if (props.location.pathname.includes('/tevau/register')) {
+  // Tevau 注册页面和激活卡页面不使用 Layout
+  const tevauPath = props.location.pathname.toLowerCase();
+  if (
+    tevauPath.includes('/tevau/register') ||
+    tevauPath.includes('/tevau/activatecard')
+  ) {
     return <div>{children}</div>;
   }
 

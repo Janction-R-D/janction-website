@@ -1,51 +1,6 @@
 .register-page {
-  display: flex;
-  min-height: 100vh;
-  background: #000000;
-
-  .left-section {
-    flex: 0 0 40%;
-    width: 40%;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    .background-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-  }
-
-  .right-section {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 60px 50px;
-    background: #000000;
-  }
-
-  .form-container {
-    width: 100%;
-  }
-
-  .page-title {
-    font-family: 'Encode Sans Expanded', sans-serif;
-    font-weight: 500;
-    font-size: 36px;
-    line-height: 1.25em;
-    color: #ffffff;
-    margin-bottom: 40px;
-    text-align: center;
-    white-space: normal;
-    word-break: break-word;
-  }
+  // 所有layout样式已移至TevauLayout组件
+  // 此处仅保留页面特有样式
 
   .register-form {
     :global {
@@ -56,12 +11,8 @@
         font-size: 14px;
       }
 
-      .ant-input,
-      .ant-select-selector,
-      .ant-picker {
-        background: rgba(255, 255, 255, 0.1) !important;
-        border: 0.5px solid rgba(255, 255, 255, 0.3) !important;
-        border-radius: 8px;
+      .ant-input {
+        border-radius: 8px !important;
         color: #ffffff !important;
 
         &::placeholder {
@@ -69,13 +20,41 @@
         }
 
         &:hover {
-          border-color: rgba(255, 255, 255, 0.5) !important;
+          border-color: #54eaff !important;
         }
 
         &:focus,
-        &.ant-input-focused,
-        &.ant-select-focused .ant-select-selector {
-          border-color: rgba(84, 234, 255, 1) !important;
+        &.ant-input-focused {
+          border-color: #54eaff !important;
+          box-shadow: 0 0 0 2px rgba(84, 234, 255, 0.2) !important;
+        }
+      }
+
+      .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+        border-radius: 8px !important;
+
+        &:hover {
+          border-color: #54eaff !important;
+        }
+      }
+
+      .ant-select.ant-select-focused:not(.ant-select-customize-input)
+        .ant-select-selector {
+        border-color: #54eaff !important;
+        box-shadow: 0 0 0 2px rgba(84, 234, 255, 0.2) !important;
+      }
+
+      .ant-picker {
+        border-radius: 8px !important;
+        color: #ffffff !important;
+
+        &:hover {
+          border-color: #54eaff !important;
+        }
+
+        &:focus,
+        &.ant-picker-focused {
+          border-color: #54eaff !important;
           box-shadow: 0 0 0 2px rgba(84, 234, 255, 0.2) !important;
         }
       }
@@ -94,12 +73,6 @@
 
       .ant-picker-input > input {
         color: #ffffff !important;
-      }
-
-      .ant-radio-group {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
       }
 
       .ant-radio-wrapper {
@@ -153,11 +126,6 @@
     }
   }
 
-  .name-row {
-    display: flex;
-    gap: 16px;
-  }
-
   .name-item {
     flex: 1;
     min-width: 0; // 确保 flex 子元素可以正确收缩
@@ -181,37 +149,9 @@
 // 移动端样式
 @media screen and (max-width: 768px) {
   .register-page {
-    flex-direction: column;
-    position: relative;
-
-    .left-section {
-      height: 300px;
-      flex: none;
-      width: 100% !important;
-      position: relative;
-    }
-
-    .right-section {
-      flex: 1;
-      padding: 40px 20px;
-    }
-
-    .page-title {
-      position: absolute;
-      bottom: 20px;
-      left: 20px;
-      font-size: 28px;
-      margin-bottom: 0;
-      text-align: left;
-      white-space: normal;
-      word-break: break-word;
-      z-index: 10;
-      max-width: calc(100% - 40px);
-    }
-
     .name-row {
       flex-direction: column;
-      gap: 16px;
+      gap: 0;
 
       .name-item {
         width: 100%;
@@ -227,6 +167,23 @@
           height: 101px !important;
         }
       }
+    }
+  }
+}
+
+// 全局样式，确保圆角生效
+:global {
+  .register-page {
+    .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+      border-radius: 8px !important;
+    }
+
+    .ant-input {
+      border-radius: 8px !important;
+    }
+
+    .ant-picker {
+      border-radius: 8px !important;
     }
   }
 }

@@ -30,6 +30,7 @@ export const TEVAU_ENDPOINTS = {
   KYC: {
     SUBMIT_KYC: '/openapi/kyc/submitKycData', // 提交KYC数据
     GET_KYC_URL: '/openapi/kyc/getKycUrl', // 获取活体认证URL
+    GET_KYC_INFO: '/openapi/kyc/getKycInfo', // 查询客户KYC状态和信息
     SIM_AUDIT: '/openapi/kyc/simUserKycAudit', // Sandbox模拟KYC审核
   },
 
