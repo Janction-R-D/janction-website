@@ -1,0 +1,224 @@
+.modal-wrap {
+  :global {
+    .ant-modal-content {
+      box-shadow: none !important;
+      padding: 0 !important;
+      position: relative;
+      overflow: visible;
+      border-radius: 32px;
+    }
+
+    .ant-modal-header {
+      display: none !important;
+      padding: 0 !important;
+    }
+
+    .ant-modal-body {
+      padding: 0 !important;
+      position: relative;
+      background: #1e1e1e !important;
+      border-radius: 32px;
+    }
+
+    .ant-modal-close {
+      display: none !important;
+    }
+  }
+}
+
+.modal {
+  position: relative;
+
+  .modal-content {
+    position: relative;
+    width: 1034px;
+    border-radius: 32px;
+    padding: 0;
+    // 注意：这里没有彩色边框，所以不添加 ::before 伪元素
+  }
+
+  .close-btn {
+    position: absolute;
+    top: -26px;
+    right: -16px;
+    color: #ffffff;
+    cursor: pointer;
+    z-index: 10;
+  }
+
+  .content-body {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 24px;
+    width: 100%;
+    min-height: 495px;
+  }
+
+  .left-section {
+    flex: 0 0 540px;
+    width: 540px;
+    height: 495px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 32px 0 0 32px;
+  }
+
+  .image-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .right-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding: 80px 32px 32px 24px;
+    align-self: stretch;
+  }
+
+  .modal-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 1.5em;
+    color: #ffffff;
+    text-align: left;
+    margin: 0;
+    width: 100%;
+  }
+
+  .info-section {
+    display: flex;
+    flex-direction: column;
+    gap: 68px;
+    width: 399px;
+  }
+
+  .info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+  }
+
+  .info-item {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.21em;
+    color: rgba(255, 255, 255, 0.8);
+    text-align: left;
+    margin: 0;
+  }
+
+  .confirm-btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 160px;
+    height: 40px;
+    padding: 0 35.26px;
+    background: #1e1e1e;
+    border: 0.5px solid #ffffff;
+    border-radius: 8.46px;
+    color: #ffffff;
+    font-family: 'Encode Sans Expanded', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.25em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 2px 2px 0px 0px rgba(170, 170, 170, 0.21);
+
+    span {
+      color: #ffffff;
+    }
+
+    &:hover {
+      background: rgba(1, 10, 11, 0.9);
+      border-color: #ffffff !important;
+      transform: translateY(-2px);
+      box-shadow: 4px 4px 0px 0px rgba(170, 170, 170, 0.3);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    &:focus,
+    &:focus-visible {
+      background: #010a0b !important;
+      border: 0.5px solid #ffffff !important;
+      outline: none !important;
+      box-shadow: 2px 2px 0px 0px rgba(170, 170, 170, 0.21) !important;
+    }
+  }
+}
+
+// 移动端样式
+@media screen and (max-width: 768px) {
+  .modal-wrap {
+    :global {
+      .ant-modal {
+        width: 343px !important;
+        max-width: 90vw !important;
+      }
+
+      .ant-modal-content {
+        width: 343px !important;
+      }
+    }
+  }
+
+  .modal {
+    .modal-content {
+      width: 100% !important;
+    }
+
+    .content-body {
+      flex-direction: column;
+      gap: 0;
+      min-height: auto;
+    }
+
+    .left-section {
+      flex: none;
+      width: 100%;
+      height: 300px;
+      border-radius: 32px 32px 0 0;
+    }
+
+    .right-section {
+      padding: 30px 20px;
+      gap: 24px;
+    }
+
+    .modal-title {
+      font-size: 24px;
+    }
+
+    .info-section {
+      width: 100%;
+      gap: 40px;
+    }
+
+    .info-item {
+      font-size: 16px;
+    }
+  }
+}

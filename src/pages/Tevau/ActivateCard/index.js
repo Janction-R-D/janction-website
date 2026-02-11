@@ -4,11 +4,11 @@
  */
 
 import React, { useState } from 'react';
-import { Form, Input, Select, Button, message, Image, Grid } from 'antd';
+import { Form, Input, Select, Button, message, Grid } from 'antd';
 import { history } from 'umi';
 import TevauLayout from '@/layouts/TevauLayout';
 import ArrowIcon from '@/components/Tevau/ArrowIcon';
-import storage from '@/utils/storage';
+import VirtualCardSubmittedModal from '@/components/Tevau/VirtualCardSubmittedModal';
 import styles from './index.less';
 import '@/styles/common/button.less';
 
@@ -17,6 +17,7 @@ const { Option } = Select;
 const ActivateCardPage = () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
   const screens = Grid.useBreakpoint();
 
   const handleSubmit = async (values) => {
@@ -24,18 +25,25 @@ const ActivateCardPage = () => {
     try {
       // TODO: 实现激活卡逻辑
       console.log('Activate card values:', values);
-      message.success('Card activated successfully!');
 
-      // 激活成功后跳转
-      setTimeout(() => {
-        history.push('/genesis/dashboard');
-      }, 1000);
+      // 激活成功后显示弹窗
+      setModalVisible(true);
     } catch (error) {
       console.error('Activate error:', error);
       message.error('Activation failed. Please try again.');
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleModalConfirm = () => {
+    setModalVisible(false);
+    // 确认后跳转
+    history.push('/genesis/dashboard');
+  };
+
+  const handleModalCancel = () => {
+    setModalVisible(false);
   };
 
   return (
@@ -137,6 +145,13 @@ const ActivateCardPage = () => {
           </Button>
         </Form.Item>
       </Form>
+
+      {/* 虚拟卡提交成功弹窗 */}
+      <VirtualCardSubmittedModal
+        visible={modalVisible}
+        onCancel={handleModalCancel}
+        onConfirm={handleModalConfirm}
+      />
     </TevauLayout>
   );
 };
