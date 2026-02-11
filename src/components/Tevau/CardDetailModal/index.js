@@ -1,57 +1,89 @@
-/**
- * 卡片详情弹窗组件
- * 职责：展示卡片的详细信息
- */
-
 import React from 'react';
-import { Modal, Descriptions, Tag, Button, Space } from 'antd';
-import {
-  CARD_STATUS_TEXT,
-  CARD_STATUS_COLOR,
-  CARD_TYPE_TEXT,
-} from '@/utils/tevau';
+import { Drawer, Button } from 'antd';
+import { LeftOutlined } from '@ant-design/icons';
 import styles from './index.less';
 
-const CardDetailModal = ({ visible, card, onClose }) => {
-  if (!card) return null;
-
+const CardDetailModal = ({ visible, onBack }) => {
   return (
-    <Modal
+    <Drawer
       open={visible}
-      title="Card Details"
-      onCancel={onClose}
-      footer={[
-        <Button key="close" onClick={onClose}>
-          Close
-        </Button>,
-      ]}
-      width={700}
-      className={styles.modal}
+      placement="bottom"
+      closable={false}
+      onClose={onBack}
+      className={styles['detail-drawer']}
+      destroyOnClose
     >
-      <Descriptions bordered column={2}>
-        <Descriptions.Item label="Card Number">
-          **** **** **** {card.cardNumber?.slice(-4)}
-        </Descriptions.Item>
-        <Descriptions.Item label="Card Type">
-          {CARD_TYPE_TEXT[card.cardType]}
-        </Descriptions.Item>
-        <Descriptions.Item label="Status">
-          <Tag color={CARD_STATUS_COLOR[card.status]}>
-            {CARD_STATUS_TEXT[card.status]}
-          </Tag>
-        </Descriptions.Item>
-        <Descriptions.Item label="Currency">{card.currency}</Descriptions.Item>
-        <Descriptions.Item label="Balance">
-          {card.balance || 0} {card.currency}
-        </Descriptions.Item>
-        <Descriptions.Item label="Cardholder">
-          {card.holderName}
-        </Descriptions.Item>
-        <Descriptions.Item label="Created At" span={2}>
-          {card.createdAt || 'N/A'}
-        </Descriptions.Item>
-      </Descriptions>
-    </Modal>
+      <div className={styles['detail-drawer-content']}>
+        <div className={styles['detail-drawer-header']}>
+          <Button
+            type="link"
+            className={styles['detail-back-btn']}
+            onClick={onBack}
+          >
+            <LeftOutlined />
+            <span>Back</span>
+          </Button>
+          <span className={styles['detail-header-divider']} />
+          <span className={styles['detail-drawer-title']}>Card Details</span>
+        </div>
+
+        <div className={styles['detail-drawer-body']}>
+          <div className={styles['detail-card-left']}>
+            <div className={styles['detail-card-image-wrap']}>
+              <img
+                src={require('@/assets/images/tevau/jctCardNormal.png')}
+                alt="Card"
+                className={styles['detail-card-image']}
+              />
+              <span className={styles['detail-card-number']}>
+                5834 3456 8996 9666
+              </span>
+            </div>
+          </div>
+
+          <div className={styles['detail-info-panel']}>
+            <div className={styles['detail-limit-label']}>Limit :</div>
+            <div className={styles['detail-limit-value']}>
+              <span className={styles['detail-amount']}>2000.00</span>
+              <span className={styles['detail-currency']}>JYP</span>
+            </div>
+
+            <div className={styles['detail-divider']} />
+            <div className={styles['detail-row']}>
+              <span className={styles['detail-key']}>Card holder :</span>
+              <span className={styles['detail-value']}>Ethan</span>
+            </div>
+            <div className={styles['detail-divider']} />
+            <div className={styles['detail-row']}>
+              <span className={styles['detail-key']}>Card Number :</span>
+              <span className={styles['detail-value']}>
+                1234 2235 2343 2345
+              </span>
+            </div>
+            <div className={styles['detail-divider']} />
+            <div className={styles['detail-row']}>
+              <span className={styles['detail-key']}>Phone Number :</span>
+              <span className={styles['detail-value']}>+86 22345657735</span>
+            </div>
+            <div className={styles['detail-divider']} />
+            <div className={styles['detail-row']}>
+              <span className={styles['detail-key']}>Email :</span>
+              <span className={styles['detail-value']}>liyiaff@Gmail.com</span>
+            </div>
+            <div className={styles['detail-divider']} />
+            <div className={styles['detail-row']}>
+              <span className={styles['detail-key']}>Country/Region :</span>
+              <span className={styles['detail-value']}>china</span>
+            </div>
+            <div className={styles['detail-divider']} />
+            <div className={styles['detail-row']}>
+              <span className={styles['detail-key']}>Date of Birth :</span>
+              <span className={styles['detail-value']}>December 1, 1998</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Drawer>
   );
 };
 

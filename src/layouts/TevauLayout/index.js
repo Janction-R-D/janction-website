@@ -7,8 +7,20 @@ import React from 'react';
 import { Grid } from 'antd';
 import styles from './index.less';
 
-const TevauLayout = ({ children, title, mobileTitle }) => {
+const TevauLayout = ({
+  children,
+  title,
+  mobileTitle,
+  backgroundImage,
+  mobileBackgroundImage,
+}) => {
   const screens = Grid.useBreakpoint();
+  const desktopBg =
+    backgroundImage || require('@/assets/images/tevau/fingerBig.png');
+  const mobileBg =
+    mobileBackgroundImage ||
+    backgroundImage ||
+    require('@/assets/images/tevau/fingerSmall.png');
 
   return (
     <div className={styles['tevau-layout']}>
@@ -24,11 +36,7 @@ const TevauLayout = ({ children, title, mobileTitle }) => {
       {/* 左侧：背景图片 */}
       <div className={styles['left-section']}>
         <img
-          src={
-            screens.md
-              ? require('@/assets/images/tevau/fingerBig.png')
-              : require('@/assets/images/tevau/fingerSmall.png')
-          }
+          src={screens.md ? desktopBg : mobileBg}
           alt="background"
           className={styles['background-image']}
         />

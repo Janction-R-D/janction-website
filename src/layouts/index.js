@@ -73,12 +73,14 @@ export default function Layout(props) {
     });
   }, [props.location.pathname]);
 
-  // Tevau 注册页面和激活卡页面不使用 Layout
+  // Tevau 独立页面不使用全局 Layout（精确白名单，避免误伤其他 tevau 路由）
   const tevauPath = props.location.pathname.toLowerCase();
-  if (
-    tevauPath.includes('/tevau/register') ||
-    tevauPath.includes('/tevau/activatecard')
-  ) {
+  const tevauStandaloneRoutes = [
+    '/tevau/register',
+    '/tevau/activatecard',
+    '/tevau/physicalcardapplication',
+  ];
+  if (tevauStandaloneRoutes.includes(tevauPath)) {
     return <div>{children}</div>;
   }
 

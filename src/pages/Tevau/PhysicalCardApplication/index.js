@@ -1,10 +1,10 @@
 /**
- * 激活卡片页面
- * 职责：激活虚拟卡
+ * 实体卡申请页面
+ * 职责：提交实体卡申请信息
  */
 
 import React, { useState } from 'react';
-import { Form, Input, Select, Button, message, Grid } from 'antd';
+import { Form, Input, Select, DatePicker, Button, message, Grid } from 'antd';
 import { history } from 'umi';
 import TevauLayout from '@/layouts/TevauLayout';
 import ArrowIcon from '@/components/Tevau/ArrowIcon';
@@ -14,7 +14,7 @@ import '@/styles/common/button.less';
 
 const { Option } = Select;
 
-const ActivateCardPage = () => {
+const PhysicalCardApplicationPage = () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -23,14 +23,11 @@ const ActivateCardPage = () => {
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
-      // TODO: 实现激活卡逻辑
-      console.log('Activate card values:', values);
-
-      // 激活成功后显示弹窗
+      console.log('Physical card application values:', values);
       setModalVisible(true);
     } catch (error) {
-      console.error('Activate error:', error);
-      message.error('Activation failed. Please try again.');
+      console.error('Physical card application error:', error);
+      message.error('Submission failed. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -38,7 +35,6 @@ const ActivateCardPage = () => {
 
   const handleModalConfirm = () => {
     setModalVisible(false);
-    // 确认后跳转
     history.push('/genesis/dashboard');
   };
 
@@ -47,7 +43,18 @@ const ActivateCardPage = () => {
   };
 
   return (
-    <TevauLayout title="Activate Card" mobileTitle={<>Activate Card</>}>
+    <TevauLayout
+      title="Physical Card Application"
+      mobileTitle={
+        <>
+          Physical Card
+          <br />
+          Application
+        </>
+      }
+      backgroundImage={require('@/assets/images/tevau/physicalCardApplicationBg.png')}
+      mobileBackgroundImage={require('@/assets/images/tevau/physicalCardApplicationBg.png')}
+    >
       <Form
         form={form}
         layout={!screens.md ? 'vertical' : 'horizontal'}
@@ -55,7 +62,7 @@ const ActivateCardPage = () => {
         wrapperCol={!screens.md ? undefined : { span: 18 }}
         labelWrap
         onFinish={handleSubmit}
-        className={styles['activate-form']}
+        className={styles['application-form']}
       >
         <Form.Item
           label="Phone"
@@ -80,6 +87,19 @@ const ActivateCardPage = () => {
           ]}
         >
           <Input placeholder="Enter email address" size="large" />
+        </Form.Item>
+
+        <Form.Item
+          label="Birthday"
+          name="birthday"
+          rules={[{ required: true, message: 'Please select birthday' }]}
+        >
+          <DatePicker
+            placeholder="Select birthday"
+            size="large"
+            style={{ width: '100%' }}
+            format="YYYY-MM-DD"
+          />
         </Form.Item>
 
         <Form.Item
@@ -140,20 +160,23 @@ const ActivateCardPage = () => {
             className="tevau-btn"
             style={{ width: '100%', height: '60px' }}
           >
-            <span>Activate Card</span>
+            <span>Submit Application</span>
             <ArrowIcon size={14} />
           </Button>
         </Form.Item>
       </Form>
 
-      {/* 卡片提交成功弹窗 */}
       <CardApplicationSubmittedModal
         visible={modalVisible}
         onCancel={handleModalCancel}
         onConfirm={handleModalConfirm}
+        messages={[
+          '· Submitted successfully. Please check your tracking information.',
+          '· You can click the card icon to view the latest logistics information for your physical card.',
+        ]}
       />
     </TevauLayout>
   );
 };
 
-export default ActivateCardPage;
+export default PhysicalCardApplicationPage;

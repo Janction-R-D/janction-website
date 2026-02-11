@@ -1,6 +1,6 @@
 /**
- * 虚拟卡提交成功弹窗组件
- * 职责：展示虚拟卡申请已提交的确认信息
+ * 卡片申请提交成功弹窗组件
+ * 职责：展示提交确认信息，支持虚拟卡/实体卡文案复用
  */
 
 import React from 'react';
@@ -9,7 +9,21 @@ import { CloseOutlined } from '@ant-design/icons';
 import CircleArrowIcon from '@/components/Tevau/CircleArrowIcon';
 import styles from './index.less';
 
-const VirtualCardSubmittedModal = ({ visible, onCancel, onConfirm }) => {
+const defaultMessages = [
+  '· We have received your request and it is now being reviewed.',
+  '· You can click the card icon to check the card application progress.',
+];
+
+const CardApplicationSubmittedModal = ({
+  visible,
+  onCancel,
+  onConfirm,
+  title = 'Application has been submitted',
+  messages = defaultMessages,
+  image = require('@/assets/images/tevau/virtualSubmittedModalBg.png'),
+  imageAlt = 'Card Application Submitted',
+  confirmText = 'Confirm',
+}) => {
   const handleConfirm = () => {
     if (onConfirm) {
       onConfirm();
@@ -27,44 +41,36 @@ const VirtualCardSubmittedModal = ({ visible, onCancel, onConfirm }) => {
       maskClosable={true}
       wrapClassName={styles['modal-wrap']}
       className={styles['modal']}
-      width={1034}
+      width={960}
       centered
       destroyOnClose
     >
       <div className={styles['modal-content']}>
-        {/* 关闭按钮 */}
         <Button className={styles['close-btn']} type="link" onClick={onCancel}>
           <CloseOutlined style={{ fontSize: '20px' }} />
         </Button>
 
-        {/* 内容区域 */}
         <div className={styles['content-body']}>
-          {/* 左侧：图片 */}
           <div className={styles['left-section']}>
             <div className={styles['image-wrapper']}>
               <img
-                src={require('@/assets/images/tevau/virtualSubmittedModalBg.png')}
-                alt="Virtual Card Submitted"
+                src={image}
+                alt={imageAlt}
                 className={styles['modal-image']}
               />
             </div>
           </div>
 
-          {/* 右侧：文字和按钮 */}
           <div className={styles['right-section']}>
-            <h2 className={styles['modal-title']}>
-              Application has been submitted
-            </h2>
+            <h2 className={styles['modal-title']}>{title}</h2>
 
             <div className={styles['info-section']}>
               <div className={styles['info-list']}>
-                <p className={styles['info-item']}>
-                  · We have received your request and it is now being reviewed.
-                </p>
-                <p className={styles['info-item']}>
-                  · You can click the card icon to check the card application
-                  progress.
-                </p>
+                {messages.map((item) => (
+                  <p key={item} className={styles['info-item']}>
+                    {item}
+                  </p>
+                ))}
               </div>
 
               <Button
@@ -72,7 +78,7 @@ const VirtualCardSubmittedModal = ({ visible, onCancel, onConfirm }) => {
                 onClick={handleConfirm}
                 className={styles['confirm-btn']}
               >
-                <span>Confirm</span>
+                <span>{confirmText}</span>
                 <CircleArrowIcon size={13.54} />
               </Button>
             </div>
@@ -83,4 +89,4 @@ const VirtualCardSubmittedModal = ({ visible, onCancel, onConfirm }) => {
   );
 };
 
-export default VirtualCardSubmittedModal;
+export default CardApplicationSubmittedModal;

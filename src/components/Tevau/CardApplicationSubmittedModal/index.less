@@ -31,10 +31,9 @@
 
   .modal-content {
     position: relative;
-    width: 1034px;
+    width: 960px;
     border-radius: 32px;
     padding: 0;
-    // 注意：这里没有彩色边框，所以不添加 ::before 伪元素
   }
 
   .close-btn {
@@ -56,8 +55,8 @@
   }
 
   .left-section {
-    flex: 0 0 540px;
-    width: 540px;
+    flex: 0 0 490px;
+    width: 490px;
     height: 495px;
     display: flex;
     align-items: center;
@@ -170,8 +169,7 @@
   }
 }
 
-// 移动端样式
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1024px) {
   .modal-wrap {
     :global {
       .ant-modal {
@@ -219,6 +217,10 @@
 
     .info-item {
       font-size: 16px;
+    }
+
+    .confirm-btn {
+      width: 100%;
     }
   }
 }
