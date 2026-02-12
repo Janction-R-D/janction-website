@@ -3,31 +3,84 @@
  * 职责：提交实体卡申请信息
  */
 
-import React, { useState } from 'react';
-import { Form, Input, Select, DatePicker, Button, message, Grid } from 'antd';
+import React, { useMemo, useState } from 'react';
+import { Form, Input, Select, Button, message } from 'antd';
+import {
+  IdcardOutlined,
+  PhoneOutlined,
+  MailOutlined,
+  HomeOutlined,
+  UserOutlined,
+  GlobalOutlined,
+  EnvironmentOutlined,
+  ProfileOutlined,
+} from '@ant-design/icons';
 import { history } from 'umi';
 import TevauLayout from '@/layouts/TevauLayout';
 import ArrowIcon from '@/components/Tevau/ArrowIcon';
 import CardApplicationSubmittedModal from '@/components/Tevau/CardApplicationSubmittedModal';
+import { submitCard } from '@/services/tevau/card';
+import { handleTevauError } from '@/utils/tevau';
+import storage from '@/utils/storage';
+import postCodeIcon from '@/assets/images/tevau/postCode.png';
 import styles from './index.less';
 import '@/styles/common/button.less';
 
 const { Option } = Select;
+const DIAL_CODE_OPTIONS = ['852', '86', '1', '44', '65'];
 
 const PhysicalCardApplicationPage = () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const screens = Grid.useBreakpoint();
+  const [submitResult, setSubmitResult] = useState({});
+
+  const submittedMessages = useMemo(() => {
+    const messages = [
+      '· Physical card application submitted successfully.',
+      '· We will ship your card after review is completed.',
+    ];
+    if (submitResult.orderNo) {
+      messages.unshift(`· Order No: ${submitResult.orderNo}`);
+    }
+    return messages;
+  }, [submitResult.orderNo]);
 
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
-      console.log('Physical card application values:', values);
+      const userCode = storage.get('TEVAU_USER_CODE');
+      if (!userCode) {
+        throw new Error('User code not found. Please complete register first.');
+      }
+
+      const payload = {
+        userCode,
+        cardCode: Number(values.cardCode),
+        dialCode: Number(values.dialCode),
+        phoneNumber: values.phoneNumber,
+        email: values.email,
+        postalAddress: {
+          address: values.postalAddress,
+          firstName: values.firstName,
+          lastName: values.lastName,
+          city: values.postalCity,
+          province: values.postalProvince,
+          postCode: values.postalPostCode,
+          recipientTitle: values.recipientTitle,
+          countryArea: values.postalCountryArea,
+        },
+      };
+
+      const response = await submitCard(payload);
+      if (!response?.ok || response?.code !== 0) {
+        throw new Error(response?.msg || 'Card application failed');
+      }
+
+      setSubmitResult(response?.data || {});
       setModalVisible(true);
     } catch (error) {
-      console.error('Physical card application error:', error);
-      message.error('Submission failed. Please try again.');
+      message.error(handleTevauError(error));
     } finally {
       setLoading(false);
     }
@@ -55,125 +108,234 @@ const PhysicalCardApplicationPage = () => {
       backgroundImage={require('@/assets/images/tevau/physicalCardApplicationBg.png')}
       mobileBackgroundImage={require('@/assets/images/tevau/physicalCardApplicationBg.png')}
     >
-      <Form
-        form={form}
-        layout={!screens.md ? 'vertical' : 'horizontal'}
-        labelCol={!screens.md ? undefined : { span: 6 }}
-        wrapperCol={!screens.md ? undefined : { span: 18 }}
-        labelWrap
-        onFinish={handleSubmit}
-        className={styles['application-form']}
-      >
-        <Form.Item
-          label="Phone"
-          name="phone"
-          rules={[
-            { required: true, message: 'Please enter phone number' },
-            {
-              pattern: /^[0-9+\-\s()]+$/,
-              message: 'Please enter a valid phone number',
-            },
-          ]}
+      <div className={styles['application-page']}>
+        <Form
+          form={form}
+          initialValues={{ cardCode: '1005', dialCode: '852' }}
+          layout="vertical"
+          labelWrap
+          onFinish={handleSubmit}
+          className={styles['application-form']}
         >
-          <Input placeholder="Enter phone number" size="large" />
-        </Form.Item>
-
-        <Form.Item
-          label="Email"
-          name="email"
-          rules={[
-            { required: true, message: 'Please enter email' },
-            { type: 'email', message: 'Please enter a valid email' },
-          ]}
-        >
-          <Input placeholder="Enter email address" size="large" />
-        </Form.Item>
-
-        <Form.Item
-          label="Birthday"
-          name="birthday"
-          rules={[{ required: true, message: 'Please select birthday' }]}
-        >
-          <DatePicker
-            placeholder="Select birthday"
-            size="large"
-            style={{ width: '100%' }}
-            format="YYYY-MM-DD"
-          />
-        </Form.Item>
-
-        <Form.Item
-          label="Country/Region"
-          name="country"
-          rules={[{ required: true, message: 'Please select country/region' }]}
-        >
-          <Select placeholder="Please select" size="large">
-            <Option value="US">United States</Option>
-            <Option value="CN">China</Option>
-            <Option value="UK">United Kingdom</Option>
-            <Option value="CA">Canada</Option>
-            <Option value="AU">Australia</Option>
-          </Select>
-        </Form.Item>
-
-        <Form.Item
-          label="City"
-          name="city"
-          rules={[{ required: true, message: 'Please select city' }]}
-        >
-          <Select placeholder="Please select" size="large">
-            <Option value="newyork">New York</Option>
-            <Option value="beijing">Beijing</Option>
-            <Option value="london">London</Option>
-            <Option value="toronto">Toronto</Option>
-            <Option value="sydney">Sydney</Option>
-          </Select>
-        </Form.Item>
-
-        <Form.Item
-          label="Address"
-          name="address"
-          rules={[{ required: true, message: 'Please enter address' }]}
-        >
-          <Input.TextArea
-            placeholder="Enter full address"
-            rows={3}
-            size="large"
-          />
-        </Form.Item>
-
-        <Form.Item
-          label="Post code"
-          name="postCode"
-          rules={[{ required: true, message: 'Please enter post code' }]}
-        >
-          <Input placeholder="Enter post code" size="large" />
-        </Form.Item>
-
-        <Form.Item
-          wrapperCol={!screens.md ? undefined : { offset: 6, span: 18 }}
-        >
-          <Button
-            type="primary"
-            htmlType="submit"
-            loading={loading}
-            className="tevau-btn"
-            style={{ width: '100%', height: '60px' }}
+          <Form.Item
+            label={
+              <span className={styles['item-label']}>
+                <IdcardOutlined />
+                Card Code
+              </span>
+            }
+            name="cardCode"
+            rules={[
+              { required: true, message: 'Please enter card code' },
+              { pattern: /^\d+$/, message: 'Card code must be numeric' },
+            ]}
           >
-            <span>Submit Application</span>
-            <ArrowIcon size={14} />
-          </Button>
-        </Form.Item>
-      </Form>
+            <Input placeholder="Enter card code" size="large" />
+          </Form.Item>
+
+          <Form.Item
+            label={
+              <span className={styles['item-label']}>
+                <ProfileOutlined />
+                Recipient Title
+              </span>
+            }
+            name="recipientTitle"
+            rules={[
+              { required: true, message: 'Please enter recipient title' },
+            ]}
+          >
+            <Input
+              placeholder="Enter recipient title (e.g. Mr/Ms)"
+              size="large"
+            />
+          </Form.Item>
+
+          <Form.Item
+            label={
+              <span className={styles['item-label']}>
+                <UserOutlined />
+                Recipient Name
+              </span>
+            }
+            required
+          >
+            <div className={styles['field-row']}>
+              <Form.Item
+                name="firstName"
+                rules={[{ required: true, message: 'Please enter first name' }]}
+                className={styles['field-item']}
+              >
+                <Input placeholder="First Name" size="large" />
+              </Form.Item>
+              <Form.Item
+                name="lastName"
+                rules={[{ required: true, message: 'Please enter last name' }]}
+                className={styles['field-item']}
+              >
+                <Input placeholder="Last Name" size="large" />
+              </Form.Item>
+            </div>
+          </Form.Item>
+
+          <Form.Item
+            label={
+              <span className={styles['item-label']}>
+                <PhoneOutlined />
+                Phone
+              </span>
+            }
+            required
+          >
+            <div className={styles['field-row']}>
+              <Form.Item
+                name="dialCode"
+                rules={[{ required: true, message: 'Please select dial code' }]}
+                className={styles['field-item']}
+              >
+                <Select placeholder="Dial Code" size="large">
+                  {DIAL_CODE_OPTIONS.map((code) => (
+                    <Option key={code} value={code}>
+                      +{code}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
+              <Form.Item
+                name="phoneNumber"
+                rules={[
+                  { required: true, message: 'Please enter phone number' },
+                  {
+                    pattern: /^[0-9]{5,20}$/,
+                    message: 'Please enter valid phone number',
+                  },
+                ]}
+                className={styles['field-item']}
+              >
+                <Input placeholder="Phone Number" size="large" />
+              </Form.Item>
+            </div>
+          </Form.Item>
+
+          <Form.Item
+            label={
+              <span className={styles['item-label']}>
+                <MailOutlined />
+                Email
+              </span>
+            }
+            name="email"
+            rules={[
+              { required: true, message: 'Please enter email' },
+              { type: 'email', message: 'Please enter a valid email' },
+            ]}
+          >
+            <Input placeholder="Enter email address" size="large" />
+          </Form.Item>
+
+          <Form.Item
+            className={styles['section-divider']}
+            label={
+              <span className={styles['section-label']}>Postal Address</span>
+            }
+            colon={false}
+          />
+
+          <Form.Item
+            label={
+              <span className={styles['item-label']}>
+                <GlobalOutlined />
+                Region
+              </span>
+            }
+            required
+          >
+            <div className={styles['field-row']}>
+              <Form.Item
+                name="postalCountryArea"
+                rules={[
+                  { required: true, message: 'Please enter country/region' },
+                ]}
+                className={styles['field-item']}
+              >
+                <Input placeholder="Country/Region" size="large" />
+              </Form.Item>
+              <Form.Item
+                name="postalCity"
+                rules={[{ required: true, message: 'Please enter city' }]}
+                className={styles['field-item']}
+              >
+                <Input placeholder="City" size="large" />
+              </Form.Item>
+            </div>
+          </Form.Item>
+
+          <Form.Item
+            label={
+              <span className={styles['item-label']}>
+                <EnvironmentOutlined />
+                Province
+              </span>
+            }
+            name="postalProvince"
+            rules={[{ required: true, message: 'Please enter province' }]}
+          >
+            <Input placeholder="Enter province" size="large" />
+          </Form.Item>
+
+          <Form.Item
+            label={
+              <span className={styles['item-label']}>
+                <HomeOutlined />
+                Address
+              </span>
+            }
+            name="postalAddress"
+            rules={[{ required: true, message: 'Please enter postal address' }]}
+          >
+            <Input.TextArea
+              placeholder="Enter address"
+              autoSize={{ minRows: 5 }}
+            />
+          </Form.Item>
+
+          <Form.Item
+            label={
+              <span className={styles['item-label']}>
+                <img
+                  src={postCodeIcon}
+                  alt="Post code"
+                  className={styles['post-code-icon']}
+                />
+                Post Code
+              </span>
+            }
+            name="postalPostCode"
+            rules={[{ required: true, message: 'Please enter post code' }]}
+          >
+            <Input placeholder="Enter post code" size="large" />
+          </Form.Item>
+
+          <Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={loading}
+              className="tevau-btn"
+              style={{ width: '100%', height: '60px' }}
+            >
+              <span>Submit Physical Card Application</span>
+              <ArrowIcon size={14} />
+            </Button>
+          </Form.Item>
+        </Form>
+      </div>
 
       <CardApplicationSubmittedModal
         visible={modalVisible}
         onCancel={handleModalCancel}
         onConfirm={handleModalConfirm}
-        messages={[
-          '· Submitted successfully. Please check your tracking information.',
-          '· You can click the card icon to view the latest logistics information for your physical card.',
-        ]}
+        messages={submittedMessages}
       />
     </TevauLayout>
   );

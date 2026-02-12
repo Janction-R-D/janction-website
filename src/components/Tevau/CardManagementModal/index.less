@@ -435,11 +435,14 @@
 
 .close-confirm-wrap {
   :global {
+    .ant-modal-mask {
+      background: rgba(0, 0, 0, 0.65) !important;
+    }
+
     .ant-modal-content {
       border-radius: 32px;
-      background: rgba(128, 128, 128, 0.15) !important;
+      background: #1e1e1e !important;
       border: 1px solid rgba(255, 255, 255, 0.25);
-      backdrop-filter: blur(100px);
       padding: 0 !important;
       overflow: hidden;
     }
@@ -526,6 +529,12 @@
     border-color: #ffffff !important;
     background: rgba(255, 255, 255, 0.08) !important;
   }
+}
+
+.cancel-x-icon {
+  color: #ff9617 !important;
+  font-size: 16px;
+  line-height: 1;
 }
 
 // 移动端样式（1024px以下使用上下布局）

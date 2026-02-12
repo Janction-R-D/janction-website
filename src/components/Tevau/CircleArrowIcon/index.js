@@ -6,7 +6,7 @@
 import React from 'react';
 import styles from './index.less';
 
-const CircleArrowIcon = ({ size = 14, color = '#FF9617' }) => {
+const CircleArrowIcon = ({ size = 20, color = '#FF9617' }) => {
   return (
     <div
       className={styles['circle-arrow']}

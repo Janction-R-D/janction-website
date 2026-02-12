@@ -271,7 +271,7 @@ const KYCVerificationModal = ({
               style={{ width: '100%', maxWidth: '400px', height: '60px' }}
             >
               <span>{statusDisplay.buttonText}</span>
-              <CircleArrowIcon size={16} />
+              <CircleArrowIcon size={20} />
             </Button>
           )}
         </div>

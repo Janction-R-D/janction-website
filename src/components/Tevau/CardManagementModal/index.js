@@ -241,7 +241,7 @@ const CardManagementModal = ({ visible, onCancel }) => {
                   onClick={handlePhysicalCardApplication}
                 >
                   <span>Physical Card Application</span>
-                  <CircleArrowIcon size={14} />
+                  <CircleArrowIcon size={20} />
                 </Button>
               </div>
             </div>
@@ -289,7 +289,7 @@ const CardManagementModal = ({ visible, onCancel }) => {
               onClick={handleCancelCloseAccount}
             >
               <span>Cancel</span>
-              <ArrowIcon size={12} />
+              <span className={styles['cancel-x-icon']}>×</span>
             </Button>
             <Button
               className={styles['close-confirm-btn']}

@@ -89,10 +89,24 @@
     color: #ffffff !important;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
     font-family: 'Encode Sans Expanded', sans-serif;
     font-weight: 500;
     font-size: 14px;
+    line-height: 1.2;
+
+    :global(.anticon) {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      font-size: 12px;
+    }
+
+    span {
+      display: inline-flex;
+      align-items: center;
+      line-height: 1.2;
+    }
 
     &:hover,
     &:focus {
@@ -129,6 +143,8 @@
       .ant-select:not(.ant-select-customize-input) .ant-select-selector,
       .ant-input-textarea textarea {
         border-radius: 8px !important;
+        background: rgba(255, 255, 255, 0.04) !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
       }
 
       .ant-select-selection-item,
@@ -151,6 +167,25 @@
 
       .ant-select-arrow {
         color: rgba(255, 255, 255, 0.45);
+      }
+
+      .ant-input:not([disabled]):hover,
+      .ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover,
+      .ant-input-textarea textarea:not([disabled]):hover,
+      .ant-select:not(.ant-select-disabled):not(.ant-select-customize-input)
+        .ant-select-selector:hover {
+        border-color: #54eaff !important;
+      }
+
+      .ant-input:focus,
+      .ant-input-affix-wrapper-focused,
+      .ant-input-textarea textarea:focus,
+      .ant-select-focused:not(.ant-select-disabled):not(
+          .ant-select-customize-input
+        )
+        .ant-select-selector {
+        border-color: #54eaff !important;
+        box-shadow: 0 0 0 2px rgba(84, 234, 255, 0.2) !important;
       }
 
       .ant-select-disabled.ant-select:not(.ant-select-customize-input)
@@ -184,16 +219,38 @@
     font-family: 'Encode Sans Expanded', sans-serif;
     font-weight: 500;
     font-size: 20px;
+    line-height: 1.25em;
     display: inline-flex;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
     gap: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 2px 2px 0px 0px rgba(170, 170, 170, 0.21);
 
-    &:hover,
-    &:focus {
+    span {
+      color: #ffffff;
+    }
+
+    &:hover {
       background: rgba(1, 10, 11, 0.9) !important;
       border-color: #ffffff !important;
       color: #ffffff !important;
+      transform: translateY(-2px);
+      box-shadow: 4px 4px 0px 0px rgba(170, 170, 170, 0.3);
+    }
+
+    &:focus {
+      background: #1e1e1e !important;
+      border-color: #ffffff !important;
+      color: #ffffff !important;
+      transform: none;
+      box-shadow: 2px 2px 0px 0px rgba(170, 170, 170, 0.21);
+    }
+
+    &:active {
+      transform: translateY(0);
     }
   }
 }

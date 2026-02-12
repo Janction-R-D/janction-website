@@ -10,6 +10,12 @@ const AddressManagementModal = ({ visible, onCancel }) => {
   const [form] = Form.useForm();
   const [isEditMode, setIsEditMode] = useState(false);
 
+  const blurActiveElement = () => {
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+  };
+
   useEffect(() => {
     if (!visible) {
       setIsEditMode(false);
@@ -23,15 +29,16 @@ const AddressManagementModal = ({ visible, onCancel }) => {
     }
   }, [visible, form]);
 
-  const handleAction = async () => {
-    if (!isEditMode) {
-      setIsEditMode(true);
-      return;
-    }
+  const handleEnterEditMode = () => {
+    blurActiveElement();
+    setIsEditMode(true);
+  };
 
+  const handleSubmitEdit = async () => {
     try {
       await form.validateFields();
       message.success('Address updated successfully.');
+      blurActiveElement();
       setIsEditMode(false);
     } catch (error) {
       // 校验失败时无需额外处理
@@ -140,14 +147,27 @@ const AddressManagementModal = ({ visible, onCancel }) => {
               </Form.Item>
             </Form>
 
-            <Button
-              type="primary"
-              className={styles['action-btn']}
-              onClick={handleAction}
-            >
-              <span>{isEditMode ? 'Submit' : 'Edit'}</span>
-              <ArrowIcon size={14} />
-            </Button>
+            {!isEditMode ? (
+              <Button
+                key="edit-btn"
+                type="primary"
+                className={styles['action-btn']}
+                onClick={handleEnterEditMode}
+              >
+                <span>Edit</span>
+                <ArrowIcon size={14} />
+              </Button>
+            ) : (
+              <Button
+                key="submit-btn"
+                type="primary"
+                className={styles['action-btn']}
+                onClick={handleSubmitEdit}
+              >
+                <span>Submit</span>
+                <ArrowIcon size={14} />
+              </Button>
+            )}
           </div>
         </div>
       </div>

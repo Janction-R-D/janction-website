@@ -79,7 +79,7 @@ const CardApplicationSubmittedModal = ({
                 className={styles['confirm-btn']}
               >
                 <span>{confirmText}</span>
-                <CircleArrowIcon size={13.54} />
+                <CircleArrowIcon size={20} />
               </Button>
             </div>
           </div>
