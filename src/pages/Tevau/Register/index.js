@@ -3,20 +3,30 @@
  * 独立页面，不在 Layout 中
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   Form,
   Input,
   Select,
   DatePicker,
-  Radio,
   Upload,
   Button,
   message,
   Image,
   Grid,
+  Typography,
+  Card,
 } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
+import {
+  IdcardOutlined,
+  GlobalOutlined,
+  UserOutlined,
+  CalendarOutlined,
+  InfoCircleOutlined,
+  SafetyCertificateOutlined,
+  NumberOutlined,
+  FlagOutlined,
+} from '@ant-design/icons';
 import { history } from 'umi';
 import dayjs from 'dayjs';
 import TevauLayout from '@/layouts/TevauLayout';
@@ -24,20 +34,74 @@ import ArrowIcon from '@/components/Tevau/ArrowIcon';
 import { submitKycData } from '@/services/tevau/kyc';
 import { handleTevauError } from '@/utils/tevau';
 import storage from '@/utils/storage';
+import uploadBgFace from '@/assets/images/tevau/uploadBgFace.png';
+import uploadBgBack from '@/assets/images/tevau/uploadBgBack.png';
 import styles from './index.less';
 import '@/styles/common/button.less';
 
 const { Option } = Select;
+const { Text } = Typography;
+
+const ID_TYPE_OPTIONS = [
+  { value: '1', label: 'ID card' },
+  { value: '2', label: 'Passport' },
+  { value: '3', label: 'Passport + Non-visitor Visa / China Residence Permit' },
+  { value: '4', label: 'Driving license' },
+];
 
 const CardRegisterPage = () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
-  const [idType, setIdType] = useState('IDcard');
   const [idFrontFileList, setIdFrontFileList] = useState([]);
   const [idBackFileList, setIdBackFileList] = useState([]);
   const [previewImage, setPreviewImage] = useState('');
   const [previewVisible, setPreviewVisible] = useState(false);
   const screens = Grid.useBreakpoint();
+  const selectedIdType = Form.useWatch('idType', form) || '1';
+  const isVisaMode = selectedIdType === '3';
+  const requiresBackImage =
+    selectedIdType === '1' || selectedIdType === '3' || selectedIdType === '4';
+
+  const uploadFieldLabels = useMemo(() => {
+    if (selectedIdType === '2') {
+      return {
+        front: 'Passport Photo Page',
+        back: '',
+      };
+    }
+    if (selectedIdType === '3') {
+      return {
+        front: 'Passport Photo Page',
+        back: 'Visa / Residence Permit Page',
+      };
+    }
+    if (selectedIdType === '4') {
+      return {
+        front: 'Front Side of Driving License',
+        back: 'Back Side of Driving License',
+      };
+    }
+    return {
+      front: 'Photo Side of ID Card',
+      back: 'Information Side of ID Card',
+    };
+  }, [selectedIdType]);
+
+  useEffect(() => {
+    form.setFieldsValue({ idType: '1' });
+  }, [form]);
+
+  useEffect(
+    () => () => {
+      if (idFrontFileList[0]?.thumbUrl) {
+        URL.revokeObjectURL(idFrontFileList[0].thumbUrl);
+      }
+      if (idBackFileList[0]?.thumbUrl) {
+        URL.revokeObjectURL(idBackFileList[0].thumbUrl);
+      }
+    },
+    [idFrontFileList, idBackFileList],
+  );
 
   const handleSubmit = async (values) => {
     setLoading(true);
@@ -47,14 +111,6 @@ const CardRegisterPage = () => {
       if (!storage.get('TEVAU_USER_CODE')) {
         storage.set({ name: 'TEVAU_USER_CODE', value: userCode });
       }
-
-      // 转换证件类型
-      const identityCardTypeMap = {
-        IDcard: '0', // 身份证
-        Passport: '1', // 护照
-        PassportVisa: '1', // 护照+签证
-        DrivingLicense: '2', // 驾照
-      };
 
       // 转换国家代码（简化处理，实际需要映射）
       const countryCodeMap = {
@@ -72,9 +128,9 @@ const CardRegisterPage = () => {
         firstNameEn: values.firstName,
         lastNameEn: values.lastName,
         birthday: dayjs(values.birthday).format('YYYY-MM-DD'),
-        identityCardType: identityCardTypeMap[idType] || '0',
-        identityCard: values.idNumber || '', // 需要添加ID号码字段
-        identityCardValidityTime: dayjs().add(10, 'year').format('YYYY-MM-DD'), // 模拟有效期
+        identityCardType: values.idType,
+        identityCard: values.idNumber,
+        identityCardValidityTime: dayjs(values.idValidity).format('YYYY-MM-DD'),
       };
 
       // 处理证件照片URL（模拟上传，实际需要先上传到服务器）
@@ -82,8 +138,17 @@ const CardRegisterPage = () => {
         // 模拟上传后的URL
         kycData.identityFrontPicUrl = `https://example.com/uploads/${idFrontFileList[0].name}`;
       }
-      if (idBackFileList.length > 0) {
+      if (requiresBackImage && idBackFileList.length > 0) {
         kycData.identityBackPicUrl = `https://example.com/uploads/${idBackFileList[0].name}`;
+      }
+
+      if (values.idType === '3') {
+        kycData.userKycExtenReq = {
+          destination: values.destination,
+          permitNumber: values.permitNumber,
+          issueDate: dayjs(values.issueDate).format('YYYY-MM-DD'),
+          validUntil: dayjs(values.validUntil).format('YYYY-MM-DD'),
+        };
       }
 
       // 提交KYC数据（模拟API调用）
@@ -120,23 +185,33 @@ const CardRegisterPage = () => {
     }
   };
 
-  const handleIdTypeChange = (e) => {
-    setIdType(e.target.value);
+  const handleIdTypeChange = (nextType) => {
+    form.setFieldsValue({ idType: nextType });
+    form.validateFields(['idType']).catch(() => null);
+
+    if (nextType === '2') {
+      setIdBackFileList([]);
+      form.setFieldsValue({ idBack: undefined });
+    }
   };
 
-  const createUploadProps = (fileList, setFileList) => ({
+  const createUploadProps = (fieldName, fileList, setFileList) => ({
     beforeUpload: (file) => {
       const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';
       if (!isJPG) {
         message.error('You can only upload JPG/PNG file!');
         return false;
       }
-      const isLt2M = file.size / 1024 / 1024 < 2;
-      if (!isLt2M) {
-        message.error('Image must smaller than 2MB!');
+      const isLt10M = file.size / 1024 / 1024 < 10;
+      if (!isLt10M) {
+        message.error('Image must be smaller than 10MB!');
         return false;
       }
-      // 创建预览 URL 并添加到文件对象
+
+      if (fileList[0]?.thumbUrl) {
+        URL.revokeObjectURL(fileList[0].thumbUrl);
+      }
+
       const fileWithPreview = {
         ...file,
         uid: file.uid || `-${Date.now()}`,
@@ -147,21 +222,20 @@ const CardRegisterPage = () => {
         originFileObj: file,
       };
       setFileList([fileWithPreview]);
-      return false; // 阻止自动上传
+      form.setFieldsValue({ [fieldName]: fileWithPreview.uid });
+      form.validateFields([fieldName]).catch(() => null);
+      return false;
     },
-    fileList: fileList,
+    fileList,
     onRemove: () => {
-      // 清理预览 URL，避免内存泄漏
       if (fileList[0]?.thumbUrl) {
         URL.revokeObjectURL(fileList[0].thumbUrl);
       }
-      if (fileList[0]?.url) {
-        URL.revokeObjectURL(fileList[0].url);
-      }
       setFileList([]);
+      form.setFieldsValue({ [fieldName]: undefined });
+      form.validateFields([fieldName]).catch(() => null);
     },
     onPreview: (file) => {
-      // 使用 Modal 预览，而不是打开新页面
       const url =
         file.thumbUrl ||
         file.url ||
@@ -171,10 +245,7 @@ const CardRegisterPage = () => {
         setPreviewVisible(true);
       }
     },
-    showUploadList: {
-      showPreviewIcon: true, // 显示预览图标
-      showRemoveIcon: true, // 显示删除图标
-    },
+    showUploadList: { showPreviewIcon: true, showRemoveIcon: true },
   });
 
   return (
@@ -191,15 +262,19 @@ const CardRegisterPage = () => {
       >
         <Form
           form={form}
-          layout={!screens.md ? 'vertical' : 'horizontal'}
-          labelCol={!screens.md ? undefined : { span: 8 }}
-          wrapperCol={!screens.md ? undefined : { span: 16 }}
+          initialValues={{ idType: '1' }}
+          layout="vertical"
           labelWrap
           onFinish={handleSubmit}
           className={styles['register-form']}
         >
           <Form.Item
-            label="Country/Region"
+            label={
+              <span className={styles['item-label']}>
+                <GlobalOutlined />
+                Country/Region
+              </span>
+            }
             name="country"
             rules={[
               { required: true, message: 'Please select country/region' },
@@ -212,18 +287,25 @@ const CardRegisterPage = () => {
             >
               <Option value="US">United States</Option>
               <Option value="CN">China</Option>
+              <Option value="HK">Hong Kong</Option>
+              <Option value="JP">Japan</Option>
+              <Option value="SG">Singapore</Option>
               <Option value="UK">United Kingdom</Option>
               <Option value="CA">Canada</Option>
               <Option value="AU">Australia</Option>
-              {/* 可以添加更多国家 */}
             </Select>
           </Form.Item>
 
-          <Form.Item label="Name" required>
-            <div
-              className={styles['name-row']}
-              style={{ display: 'flex', gap: '16px' }}
-            >
+          <Form.Item
+            label={
+              <span className={styles['item-label']}>
+                <UserOutlined />
+                Name
+              </span>
+            }
+            required
+          >
+            <div className={styles['name-row']}>
               <Form.Item
                 name="firstName"
                 rules={[{ required: true, message: 'Please enter first name' }]}
@@ -244,7 +326,12 @@ const CardRegisterPage = () => {
           </Form.Item>
 
           <Form.Item
-            label="Birthday"
+            label={
+              <span className={styles['item-label']}>
+                <CalendarOutlined />
+                Birthday
+              </span>
+            }
             name="birthday"
             rules={[{ required: true, message: 'Please select birthday' }]}
           >
@@ -257,26 +344,12 @@ const CardRegisterPage = () => {
           </Form.Item>
 
           <Form.Item
-            label="ID"
-            name="idType"
-            rules={[{ required: true, message: 'Please select ID type' }]}
-          >
-            <Radio.Group
-              onChange={handleIdTypeChange}
-              value={idType}
-              style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}
-            >
-              <Radio value="IDcard">ID card</Radio>
-              <Radio value="Passport">Passport</Radio>
-              <Radio value="PassportVisa">
-                Passport + Non-visitor Visa / China Residence Permit
-              </Radio>
-              <Radio value="DrivingLicense">Driving license</Radio>
-            </Radio.Group>
-          </Form.Item>
-
-          <Form.Item
-            label="ID Number"
+            label={
+              <span className={styles['item-label']}>
+                <NumberOutlined />
+                ID Number
+              </span>
+            }
             name="idNumber"
             rules={[{ required: true, message: 'Please enter ID number' }]}
           >
@@ -284,56 +357,234 @@ const CardRegisterPage = () => {
           </Form.Item>
 
           <Form.Item
-            label="Photo Side of ID Card"
-            name="idFront"
-            rules={[
-              {
-                required: true,
-                message: 'Please upload photo side of ID card',
-              },
-            ]}
+            label={
+              <span className={styles['item-label']}>
+                <SafetyCertificateOutlined />
+                ID Validity Date
+              </span>
+            }
+            name="idValidity"
+            rules={[{ required: true, message: 'Please select validity date' }]}
           >
-            <Upload
-              {...createUploadProps(idFrontFileList, setIdFrontFileList)}
-              listType="picture-card"
-              maxCount={1}
-            >
-              {idFrontFileList.length === 0 && (
-                <div>
-                  <UploadOutlined />
-                  <div style={{ marginTop: 8 }}>Upload</div>
-                </div>
-              )}
-            </Upload>
+            <DatePicker
+              placeholder="Select validity date"
+              size="large"
+              style={{ width: '100%' }}
+              format="YYYY-MM-DD"
+            />
           </Form.Item>
 
           <Form.Item
-            label="Information Side of ID Card"
-            name="idBack"
-            rules={[
-              {
-                required: true,
-                message: 'Please upload information side of ID card',
-              },
-            ]}
+            label={
+              <span className={styles['item-label']}>
+                <IdcardOutlined />
+                ID Card Upload
+              </span>
+            }
+            className={styles['id-upload-form-item']}
           >
-            <Upload
-              {...createUploadProps(idBackFileList, setIdBackFileList)}
-              listType="picture-card"
-              maxCount={1}
-            >
-              {idBackFileList.length === 0 && (
-                <div>
-                  <UploadOutlined />
-                  <div style={{ marginTop: 8 }}>Upload</div>
+            <div className={styles['id-upload-card']}>
+              <Card
+                className={styles['upload-card-panel']}
+                title={
+                  <Select
+                    value={selectedIdType}
+                    onChange={handleIdTypeChange}
+                    options={ID_TYPE_OPTIONS}
+                    className={`${styles['id-type-select']} id-type-select-global`}
+                    bordered={false}
+                  ></Select>
+                }
+              >
+                <Form.Item
+                  name="idType"
+                  hidden
+                  rules={[{ required: true, message: 'Please select ID type' }]}
+                >
+                  <Input />
+                </Form.Item>
+                {isVisaMode && (
+                  <div className={styles['visa-section']}>
+                    <div className={styles['visa-tip']}>
+                      <InfoCircleOutlined />
+                      <Text>
+                        Passport + visa mode requires additional visa/residence
+                        details.
+                      </Text>
+                    </div>
+                    <Form.Item
+                      label={
+                        <span className={styles['item-label']}>
+                          <FlagOutlined />
+                          Destination
+                        </span>
+                      }
+                      name="destination"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please enter destination',
+                        },
+                      ]}
+                    >
+                      <Input placeholder="Enter destination" size="large" />
+                    </Form.Item>
+
+                    <Form.Item
+                      label={
+                        <span className={styles['item-label']}>
+                          <NumberOutlined />
+                          Permit Number
+                        </span>
+                      }
+                      name="permitNumber"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please enter permit number',
+                        },
+                      ]}
+                    >
+                      <Input placeholder="Enter permit number" size="large" />
+                    </Form.Item>
+
+                    <Form.Item
+                      label={
+                        <span className={styles['item-label']}>
+                          <CalendarOutlined />
+                          Visa Issue Date
+                        </span>
+                      }
+                      name="issueDate"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please select issue date',
+                        },
+                      ]}
+                    >
+                      <DatePicker
+                        placeholder="Select issue date"
+                        size="large"
+                        style={{ width: '100%' }}
+                        format="YYYY-MM-DD"
+                      />
+                    </Form.Item>
+
+                    <Form.Item
+                      label={
+                        <span className={styles['item-label']}>
+                          <CalendarOutlined />
+                          Visa Valid Until
+                        </span>
+                      }
+                      name="validUntil"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please select valid until date',
+                        },
+                      ]}
+                    >
+                      <DatePicker
+                        placeholder="Select valid until"
+                        size="large"
+                        style={{ width: '100%' }}
+                        format="YYYY-MM-DD"
+                      />
+                    </Form.Item>
+                  </div>
+                )}
+                <div className={styles['id-upload-grid']}>
+                  <Form.Item
+                    label={
+                      <span className={styles['upload-item-title']}>
+                        {uploadFieldLabels.front}
+                      </span>
+                    }
+                    name="idFront"
+                    rules={[
+                      {
+                        required: true,
+                        validator: () => {
+                          if (idFrontFileList.length > 0) {
+                            return Promise.resolve();
+                          }
+                          return Promise.reject(
+                            new Error(
+                              `Please upload ${uploadFieldLabels.front.toLowerCase()}`,
+                            ),
+                          );
+                        },
+                      },
+                    ]}
+                  >
+                    <Upload
+                      {...createUploadProps(
+                        'idFront',
+                        idFrontFileList,
+                        setIdFrontFileList,
+                      )}
+                      listType="picture-card"
+                      maxCount={1}
+                    >
+                      {idFrontFileList.length === 0 && (
+                        <div
+                          className={styles['upload-placeholder']}
+                          style={{ backgroundImage: `url(${uploadBgFace})` }}
+                        ></div>
+                      )}
+                    </Upload>
+                  </Form.Item>
+
+                  {requiresBackImage && (
+                    <Form.Item
+                      label={
+                        <span className={styles['upload-item-title']}>
+                          {uploadFieldLabels.back}
+                        </span>
+                      }
+                      name="idBack"
+                      preserve={false}
+                      rules={[
+                        {
+                          validator: () => {
+                            if (idBackFileList.length > 0) {
+                              return Promise.resolve();
+                            }
+                            return Promise.reject(
+                              new Error(
+                                `Please upload ${uploadFieldLabels.back.toLowerCase()}`,
+                              ),
+                            );
+                          },
+                        },
+                      ]}
+                    >
+                      <Upload
+                        {...createUploadProps(
+                          'idBack',
+                          idBackFileList,
+                          setIdBackFileList,
+                        )}
+                        listType="picture-card"
+                        maxCount={1}
+                      >
+                        {idBackFileList.length === 0 && (
+                          <div
+                            className={styles['upload-placeholder']}
+                            style={{ backgroundImage: `url(${uploadBgBack})` }}
+                          ></div>
+                        )}
+                      </Upload>
+                    </Form.Item>
+                  )}
                 </div>
-              )}
-            </Upload>
+              </Card>
+            </div>
           </Form.Item>
 
-          <Form.Item
-            wrapperCol={!screens.md ? undefined : { offset: 8, span: 16 }}
-          >
+          <Form.Item>
             <Button
               type="primary"
               htmlType="submit"
