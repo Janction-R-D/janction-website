@@ -101,6 +101,28 @@
     z-index: 2; // 确保显示在渐变层之上
   }
 
+  .card-status-tag {
+    position: absolute;
+    top: 116px;
+    right: 60px;
+    height: 32px;
+    padding: 0 14px;
+    border-radius: 999px;
+    background: rgba(84, 234, 255, 0.9);
+    color: #001013;
+    font-family: 'Encode Sans Expanded', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 32px;
+    text-align: center;
+    z-index: 2;
+  }
+
+  .card-status-closed {
+    background: rgba(255, 255, 255, 0.22);
+    color: #ffffff;
+  }
+
   .right-section {
     flex: 1;
     min-width: 0; // 允许 flex 子元素收缩
@@ -554,6 +576,15 @@
       font-size: 16px;
       bottom: 60px;
       letter-spacing: 1px;
+    }
+
+    .card-status-tag {
+      top: 36px;
+      right: 36px;
+      height: 28px;
+      padding: 0 12px;
+      font-size: 12px;
+      line-height: 28px;
     }
 
     .right-section {

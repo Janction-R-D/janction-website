@@ -106,6 +106,14 @@ const CardManagementModal = ({ visible, onCancel }) => {
                     isCardClosed ? styles['closed-card-image'] : '',
                   ].join(' ')}
                 />
+                <div
+                  className={[
+                    styles['card-status-tag'],
+                    isCardClosed ? styles['card-status-closed'] : '',
+                  ].join(' ')}
+                >
+                  {isCardClosed ? 'Closed' : 'Active'}
+                </div>
                 {/* 卡号显示 */}
                 <div
                   className={[

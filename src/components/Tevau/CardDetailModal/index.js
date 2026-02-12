@@ -2,6 +2,7 @@ import React from 'react';
 import { Drawer, Button } from 'antd';
 import { LeftOutlined } from '@ant-design/icons';
 import styles from './index.less';
+import cardDetailBg from '@/assets/images/tevau/cardDetailBg.png';
 
 const CardDetailModal = ({ visible, onBack }) => {
   return (
@@ -13,7 +14,10 @@ const CardDetailModal = ({ visible, onBack }) => {
       className={styles['detail-drawer']}
       destroyOnClose
     >
-      <div className={styles['detail-drawer-content']}>
+      <div
+        className={styles['detail-drawer-content']}
+        style={{ backgroundImage: `url(${cardDetailBg})` }}
+      >
         <div className={styles['detail-drawer-header']}>
           <Button
             type="link"
