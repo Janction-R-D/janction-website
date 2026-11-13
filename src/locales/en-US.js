@@ -954,7 +954,24 @@ export default {
     'Signature data is incomplete, please contact administrator.',
   'airdrop.noAmount': 'No JCT available to claim.',
   'airdrop.connectWallet': 'Please connect your wallet first.',
+  'airdrop.new.error.rejected': 'Wallet request canceled.',
+  'airdrop.new.error.claimed': 'This airdrop has already been claimed.',
+  'airdrop.new.error.balance':
+    'Airdrop funds are temporarily insufficient. Please try again later.',
+  'airdrop.new.error.expired':
+    'Claim authorization has expired. Please try again.',
+  'airdrop.new.error.gasBalance':
+    'Insufficient ETH in your wallet to pay the network fee.',
+  'airdrop.new.error.wallet':
+    'Please connect the wallet eligible for this airdrop.',
+  'airdrop.new.error.network':
+    'Please switch to the correct network and try again.',
+  'airdrop.new.error.signature':
+    'Claim authorization is invalid. Please try again later.',
+  'airdrop.new.error.fallback':
+    'Unable to claim right now. Please try again later.',
   'airdrop.claimButton': 'Claim Your Airdrop',
+  'airdrop.new.claimedButton': 'Claimed',
   'airdrop.modal.title': 'Janction Node Airdrop',
   'airdrop.modal.gotIt': 'Got it',
   'airdrop.modal.continueClaim': 'Continue to Claim',
@@ -962,10 +979,13 @@ export default {
   'airdrop.timeline.title': 'Snapshot & Claim Timeline',
   'airdrop.timeline.snapshotTime': '🕛 Snapshot Time',
   'airdrop.timeline.snapshotDate': 'November 8, 2025 — 16:00 UTC',
+  'airdrop.new.timeline.snapshotDate': 'Nov 12, 2026 at 20:57',
   'airdrop.timeline.claimOpens': '🪂 Claim Opens',
   'airdrop.timeline.claimOpensDate': 'November 10, 2025 — 11:00 UTC',
+  'airdrop.new.timeline.claimOpensDate': 'Nov 12, 2026 at 20:57',
   'airdrop.timeline.claimDeadline': '⏰ Claim Deadline',
   'airdrop.timeline.claimDeadlineDate': 'December 15, 2025 — 11:00 UTC',
+  'airdrop.new.timeline.claimDeadlineDate': 'Nov 12, 2026 at 20:57',
   'airdrop.allocation.title': 'Total allocation (node cohort): 3% = 1.5B JCT',
   'airdrop.allocation.description':
     'To align utility with mainnet readiness, 50% of your current points convert to JCT now, while the other 50% remain as points and are expected to convert into veJCT in ~6 months (a non-transferable participation/governance credential), subject to governance and technical readiness.',

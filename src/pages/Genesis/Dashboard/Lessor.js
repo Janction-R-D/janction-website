@@ -19,6 +19,7 @@ import VideoGrid from './components/VideoGrid';
 import SkeletonGrid from './components/SkeletonGrid';
 import GenerateButton from './components/GenerateButton';
 import ContributorReward from './components/ContributorReward';
+import AirdropCard from './components/AirdropCard';
 import Invitation from './components/Invitation';
 
 export default function Lessor() {
@@ -179,6 +180,12 @@ export default function Lessor() {
           nft_sumary?.ammount > 0 ||
           Number(nftClaimJasmy?.claim_available_show) > 0) &&
           !loading && <ContributorReward nft={nft_sumary.ammount} />}
+        {airdropData.airdrop > 0 && !loading && (
+          <AirdropCard
+            airdropData={airdropData}
+            onClaimSuccess={getAirdropData}
+          />
+        )}
 
         <>
           {!nft_sumary?.ammount && summary?.total > 0 && !loading && (

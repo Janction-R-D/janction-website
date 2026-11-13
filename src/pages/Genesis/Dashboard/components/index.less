@@ -1587,3 +1587,36 @@
     margin: 24px 20px 32px 20px;
   }
 }
+
+.airdrop-card {
+  margin-top: 24px;
+
+  > img {
+    width: auto;
+    height: 45px;
+  }
+
+  .receive .value .icon-jct {
+    width: 24px;
+    height: 24px;
+    background: url('../../../../assets/images/icons/aridrop.png') no-repeat
+      center;
+    background-size: contain;
+  }
+
+  .receive .btn-disabled {
+    pointer-events: auto;
+    cursor: not-allowed;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .airdrop-card {
+    margin-top: 16px;
+
+    > img {
+      width: 90%;
+      height: auto;
+    }
+  }
+}
