@@ -28,7 +28,7 @@ const JctAirdropModal = ({
   const signer = useEthersSigner(chainId);
   const intl = useIntl();
 
-  const taxRate = Number(airdropData?.taxRate ?? DEFAULT_TAX_RATE);
+  const taxRate = Number(airdropData?.tax_rate ?? DEFAULT_TAX_RATE);
   const feePercent = taxRate / 100;
 
   const addTokenToWallet = async (tokenAddress) => {
