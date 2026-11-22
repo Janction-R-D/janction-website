@@ -2,10 +2,9 @@ import { Modal, message } from 'antd';
 import { useState, useEffect } from 'react';
 import { useAccount, useChainId } from 'wagmi';
 import { ethers } from 'ethers';
+import numeral from 'numeral';
 import styles from './index.less';
-import airdropBg from '@/assets/images/airdrop/airdrop_bg.png';
-import airdropArrow from '@/assets/images/airdrop/airdrop_arrow.png';
-import airdropDown from '@/assets/images/airdrop/airdrop_down.png';
+import airdropHero from '@/assets/images/genesis/jct_airdrop_hero.png';
 import { fetchJctSign } from '@/services/genesis';
 import { useEthersSigner } from '@/hooks/useEthersSigner';
 import contract from '@/utils/contracts';
@@ -13,6 +12,57 @@ import { getJctAirdropErrorMessage } from './jctAirdropError';
 import { useIntl } from 'umi';
 
 const DEFAULT_TAX_RATE = 1500;
+
+const formatAmount = (value) => {
+  const num = Number(value);
+  if (isNaN(num)) return '0';
+  return numeral(num).format('0,0.[00]');
+};
+
+const CalendarIcon = () => (
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 16 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
+    <rect
+      x="1.5"
+      y="2.75"
+      width="13"
+      height="11.25"
+      rx="2"
+      stroke="currentColor"
+      strokeWidth="1.2"
+    />
+    <path
+      d="M1.5 6.25H14.5"
+      stroke="currentColor"
+      strokeWidth="1.2"
+      strokeLinecap="round"
+    />
+    <path
+      d="M5 1.5V4"
+      stroke="currentColor"
+      strokeWidth="1.2"
+      strokeLinecap="round"
+    />
+    <path
+      d="M11 1.5V4"
+      stroke="currentColor"
+      strokeWidth="1.2"
+      strokeLinecap="round"
+    />
+    <circle cx="4.75" cy="9" r="0.7" fill="currentColor" />
+    <circle cx="7.25" cy="9" r="0.7" fill="currentColor" />
+    <circle cx="9.75" cy="9" r="0.7" fill="currentColor" />
+    <circle cx="4.75" cy="11.5" r="0.7" fill="currentColor" />
+    <circle cx="7.25" cy="11.5" r="0.7" fill="currentColor" />
+    <circle cx="9.75" cy="11.5" r="0.7" fill="currentColor" />
+  </svg>
+);
 
 const JctAirdropModal = ({
   open,
@@ -147,78 +197,95 @@ const JctAirdropModal = ({
       footer={null}
       closable={false}
       centered
-      width={540}
+      width={420}
       className={styles['airdrop-modal']}
       destroyOnClose
     >
       <div className={styles['airdrop-content']}>
-        <div className={styles['close-btn']} onClick={onClose}>
+        <button
+          type="button"
+          className={styles['close-btn']}
+          onClick={onClose}
+          aria-label="Close"
+        >
           <i className="iconfont icon-close" />
-        </div>
+        </button>
 
         <div className={styles['airdrop-header']}>
           <h2 className={styles['airdrop-title']}>
-            {intl.formatMessage({ id: 'airdrop.claimButton' })}
+            {intl.formatMessage({ id: 'airdrop.claim.title' })}
           </h2>
           <img
-            src={airdropBg}
+            src={airdropHero}
             alt="airdrop"
             className={styles['airdrop-header-img']}
           />
+          <p className={styles['airdrop-congrats']}>
+            {intl.formatMessage({ id: 'airdrop.claim.congratulations' })}
+          </p>
         </div>
 
-        {/* From */}
+        <div className={styles['claim-period-card']}>
+          <div className={styles['claim-period-label']}>
+            <CalendarIcon />
+            <span>{intl.formatMessage({ id: 'airdrop.claim.period' })}</span>
+          </div>
+          <div className={styles['claim-period-date']}>
+            {intl.formatMessage({ id: 'airdrop.claim.periodDate' })}
+          </div>
+          <div className={styles['claim-period-hint']}>
+            {intl.formatMessage({ id: 'airdrop.claim.periodHint' })}
+          </div>
+        </div>
+
+        <div className={styles['airdrop-info-row']}>
+          <span className={styles['info-label']}>
+            {intl.formatMessage({ id: 'airdrop.claim.total' })}
+          </span>
+          <span className={styles['info-value']}>
+            {formatAmount(fromAmount)} JCT
+          </span>
+        </div>
+
         <div
-          className={`${styles['airdrop-input-group']} ${styles['from-input']}`}
+          className={`${styles['airdrop-info-row']} ${styles['claimable-row']}`}
         >
-          <div className={styles['input-label']}>From</div>
-          <div className={styles['input-wrapper']}>
-            <div className={styles['input-left']}>
-              <span className={styles['currency-label']}>JCT</span>
-            </div>
-            <div className={styles['airdrop-input']}>
-              <span>{fromAmount}</span>
-            </div>
+          <span className={styles['info-label']}>
+            {intl.formatMessage({ id: 'airdrop.claim.claimable' })}
+          </span>
+          <div className={styles['claimable-right']}>
+            <span className={styles['claimable-value']}>
+              {formatAmount(toAmount)} JCT
+            </span>
+            <span className={styles['fee-text']}>
+              {feePercent > 0
+                ? intl.formatMessage(
+                    { id: 'airdrop.claim.fee' },
+                    { percent: feePercent },
+                  )
+                : intl.formatMessage({ id: 'airdrop.claim.noFee' })}
+            </span>
           </div>
         </div>
 
-        <div className={styles['airdrop-down-btn']}>
-          <img src={airdropDown} alt="down" className={styles['down-icon']} />
-        </div>
+        <p className={styles['airdrop-notice']}>
+          {intl.formatMessage({ id: 'airdrop.claim.notice' })}
+        </p>
 
-        {/* To */}
-        <div className={styles['airdrop-input-group']}>
-          <div className={styles['input-label']}>To</div>
-          <div className={styles['input-wrapper']}>
-            <div className={styles['input-left']}>
-              <span className={styles['currency-label']}>JCT</span>
-            </div>
-            <div className={styles['input-right-wrapper']}>
-              <div className={styles['airdrop-input']}>
-                <span>{toAmount}</span>
-              </div>
-              <span className={styles['fee-text']}>
-                {feePercent > 0 ? `${feePercent}% fee` : 'No fee'}
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <div
+        <button
+          type="button"
           className={`${styles['confirm-button']} ${
             loading ? styles['confirm-button-loading'] : ''
           }`}
           onClick={handleConfirm}
+          disabled={loading}
         >
-          <span>{loading ? 'Signing...' : 'Comfirm'}</span>
-          {!loading && (
-            <img
-              src={airdropArrow}
-              alt="arrow"
-              className={styles['confirm-arrow']}
-            />
-          )}
-        </div>
+          <span>
+            {loading
+              ? intl.formatMessage({ id: 'airdrop.claim.signing' })
+              : intl.formatMessage({ id: 'airdrop.claim.button' })}
+          </span>
+        </button>
       </div>
     </Modal>
   );

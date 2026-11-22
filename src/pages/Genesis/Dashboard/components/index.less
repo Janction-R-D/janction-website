@@ -1201,27 +1201,27 @@
 .airdrop-modal {
   :global {
     .ant-modal-content {
-      background: #000000;
-      border: 1.4px solid transparent;
-      border-radius: 32px;
+      background: radial-gradient(
+          90% 70% at 0% 0%,
+          rgba(210, 150, 70, 0.42) 0%,
+          rgba(140, 90, 40, 0.18) 28%,
+          rgba(10, 9, 8, 0) 62%
+        ),
+        radial-gradient(
+          70% 50% at 50% 8%,
+          rgba(90, 60, 30, 0.22) 0%,
+          rgba(10, 9, 8, 0) 70%
+        ),
+        #0a0908;
+      border: 1px solid rgba(212, 168, 98, 0.28);
+      border-radius: 28px;
       padding: 0;
       overflow: hidden;
-      background-image: linear-gradient(#000000, #000000),
-        linear-gradient(
-          140deg,
-          rgba(84, 234, 255, 1) 0%,
-          rgba(224, 109, 180, 1) 41%,
-          rgba(232, 160, 115, 1) 57%,
-          rgba(115, 213, 244, 1) 100%
-        );
-      background-origin: border-box;
-      background-clip: padding-box, border-box;
-      box-shadow: none;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.55);
     }
 
     .ant-modal-body {
       padding: 0;
-      height: 810px;
     }
   }
 }
@@ -1229,9 +1229,11 @@
 .airdrop-content {
   position: relative;
   width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  padding: 28px 24px 24px;
+  box-sizing: border-box;
 }
 
 .close-btn {
@@ -1248,6 +1250,7 @@
   border: none;
   padding: 0;
   background: transparent;
+  transition: all 0.2s ease;
 
   i {
     font-size: 14px;
@@ -1257,7 +1260,6 @@
   &:hover {
     opacity: 0.7;
     transform: scale(1.1);
-    transition: all 0.2s ease;
 
     i {
       color: #ffffff;
@@ -1267,269 +1269,208 @@
 
 .airdrop-header {
   width: 100%;
-  height: 380px;
-  background-image: url('../../../../assets/images/airdrop/airdrop_img.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  position: relative;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   align-items: center;
-  padding-top: 70px;
+  position: relative;
 
   .airdrop-title {
-    position: relative;
-    left: auto;
-    transform: none;
     font-family: 'Encode Sans Expanded', sans-serif;
-    font-weight: 400;
+    font-weight: 700;
     font-size: 28px;
-    line-height: 1.25em;
+    line-height: 1.2;
     color: #ffffff;
-    margin: 0 0 30px 0;
+    margin: 0;
     padding: 0;
     text-align: center;
-    z-index: 1;
   }
 
   .airdrop-header-img {
-    width: 381px;
-    height: 261px;
+    width: 240px;
+    max-width: 100%;
+    height: auto;
     object-fit: contain;
-    margin-top: 0;
+    margin: 8px 0 4px;
+    display: block;
+  }
+
+  .airdrop-congrats {
+    font-family: 'Encode Sans Expanded', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 1.3;
+    color: #ffffff;
+    margin: 0 0 20px;
+    text-align: center;
   }
 }
 
-.airdrop-total {
+.claim-period-card {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 18px 18px 16px;
+  margin-bottom: 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(212, 168, 98, 0.55);
+  text-align: center;
+  overflow: hidden;
+  background: linear-gradient(
+      125deg,
+      rgba(255, 214, 150, 0.18) 0%,
+      rgba(255, 214, 150, 0) 36%,
+      rgba(255, 214, 150, 0) 64%,
+      rgba(255, 214, 150, 0.1) 100%
+    ),
+    radial-gradient(
+      80% 90% at 50% 40%,
+      rgba(190, 130, 55, 0.38) 0%,
+      rgba(90, 55, 25, 0.28) 45%,
+      rgba(28, 22, 16, 0.92) 100%
+    ),
+    #1c1610;
+  box-shadow: inset 0 1px 0 rgba(255, 214, 150, 0.2),
+    0 0 24px rgba(190, 130, 55, 0.18);
+
+  .claim-period-label {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    color: #e8d4b0;
+    font-family: 'Encode Sans Expanded', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 8px;
+
+    svg {
+      flex-shrink: 0;
+      display: block;
+    }
+  }
+
+  .claim-period-date {
+    font-family: 'Encode Sans Expanded', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.3;
+    color: #ffffff;
+    margin-bottom: 6px;
+    text-align: center;
+  }
+
+  .claim-period-hint {
+    font-family: 'Encode Sans Expanded', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: rgba(180, 170, 155, 0.78);
+    text-align: center;
+  }
+}
+
+.airdrop-info-row {
+  width: 100%;
+  box-sizing: border-box;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 32px 32px 0 32px;
-  padding: 0 21px;
+  gap: 12px;
+  padding: 16px 18px;
+  margin-bottom: 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(28, 28, 30, 0.72);
 
-  .total-label {
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
+  .info-label {
+    font-family: 'Encode Sans Expanded', sans-serif;
     font-size: 14px;
-    line-height: 1.21em;
-    color: #999999;
+    font-weight: 600;
+    color: #ffffff;
+    flex-shrink: 0;
   }
 
-  .total-value {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-
-    .total-amount {
-      font-family: 'Poppins', sans-serif;
-      font-weight: 500;
-      font-size: 16px;
-      line-height: 1.5em;
-      color: #ffffff;
-    }
-
-    .total-unit {
-      font-family: 'Poppins', sans-serif;
-      font-weight: 500;
-      font-size: 16px;
-      line-height: 1.5em;
-      color: rgba(255, 255, 255, 0.4);
-    }
+  .info-value {
+    font-family: 'Encode Sans Expanded', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+    text-align: right;
   }
 }
 
-.airdrop-input-group {
-  margin: 8px 32px 0 32px;
-  width: 477px;
-  height: 98px;
-  background: #252529;
-  border-radius: 13px;
-  padding: 14px 21px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+.claimable-row {
+  align-items: flex-start;
 
-  .input-label {
-    font-family: 'Encode Sans Expanded', sans-serif;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 1.25em;
-    color: #999999;
-  }
-
-  .input-wrapper {
+  .claimable-right {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    flex: 1;
-
-    .input-left {
-      display: flex;
-      align-items: center;
-
-      .currency-label {
-        font-family: 'Encode Sans Expanded', sans-serif;
-        font-weight: 500;
-        font-size: 20px;
-        line-height: 1.25em;
-        color: #ffffff;
-      }
-    }
-
-    .input-right-wrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      flex: 1;
-      position: relative;
-    }
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
   }
 
-  .airdrop-input {
-    background: transparent;
-    border: none;
-    width: 100%;
-    text-align: right;
+  .claimable-value {
     font-family: 'Encode Sans Expanded', sans-serif;
-    font-weight: 500;
-    font-size: 24px;
-    line-height: 1.25em;
-    color: #ffffff;
-    padding: 0;
-
-    &::placeholder {
-      color: #666666;
-    }
-
-    &:focus,
-    &:hover {
-      border: none;
-      box-shadow: none;
-    }
-
-    :global {
-      .ant-input {
-        background: transparent;
-        border: none;
-        color: #ffffff;
-        font-size: 24px;
-        text-align: right;
-        padding: 0;
-        cursor: not-allowed;
-
-        &::placeholder {
-          color: #666666;
-        }
-
-        &:focus,
-        &:hover {
-          border: none;
-          box-shadow: none;
-        }
-
-        &:disabled {
-          background: transparent;
-          color: #ffffff;
-          opacity: 1;
-          cursor: not-allowed;
-        }
-      }
-    }
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #e2b56a;
+    text-shadow: 0 0 18px rgba(226, 181, 106, 0.25);
+    text-align: right;
   }
 
   .fee-text {
-    margin-top: 2px;
     font-family: 'Encode Sans Expanded', sans-serif;
-    font-weight: 400;
     font-size: 12px;
-    line-height: 1.25em;
-    color: #999999;
-    pointer-events: none;
-    text-align: right;
+    font-weight: 400;
+    line-height: 1.2;
+    color: rgba(255, 255, 255, 0.45);
   }
 }
 
-.from-input {
-  .airdrop-input {
-    :global {
-      .ant-input {
-        color: #666666 !important;
-
-        &::placeholder {
-          color: #666666;
-        }
-      }
-    }
-  }
-}
-
-.airdrop-down-btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 44px;
-  height: 44px;
-  margin: -22px auto;
-  background: #000000;
-  border: 4px solid #000000;
-  border-radius: 0;
-  position: relative;
-  z-index: 2;
-  flex-shrink: 0;
-  border-radius: 10px;
-
-  .down-icon {
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
-  }
-
-  &:hover {
-    opacity: 0.8;
-  }
+.airdrop-notice {
+  width: 100%;
+  margin: 4px 0 16px;
+  text-align: center;
+  font-family: 'Encode Sans Expanded', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.78);
 }
 
 .confirm-button {
   display: flex;
-  flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 10px;
-  width: 477px;
-  height: 60px;
-  margin: 24px 32px 32px 32px;
-  border: 0.5px solid #ffffff;
-  border-radius: 8px;
-  background: transparent;
+  width: 100%;
+  height: 52px;
+  margin: 0;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #f6d9a8 0%, #e8a24a 48%, #d9892f 100%);
+  box-shadow: 0 8px 24px rgba(216, 150, 60, 0.28);
   cursor: pointer;
-  box-shadow: 2px 2px 0px 0px rgba(170, 170, 170, 0.21);
-  transition: all 0.3s ease;
+  transition: all 0.25s ease;
 
-  &:hover:not(.confirm-button-loading) {
-    background: rgba(255, 255, 255, 0.1);
-    box-shadow: 2px 2px 4px 0px rgba(170, 170, 170, 0.3);
+  &:hover:not(.confirm-button-loading):not(:disabled) {
+    filter: brightness(1.05);
+    box-shadow: 0 10px 28px rgba(216, 150, 60, 0.38);
   }
 
   span {
     font-family: 'Encode Sans Expanded', sans-serif;
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 1.25em;
-    color: #ffffff;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.25;
+    color: #1a1208;
   }
 
-  .confirm-arrow {
-    width: 20px;
-    height: 20px;
-    margin-top: 7px;
-  }
-
-  &.confirm-button-loading {
+  &.confirm-button-loading,
+  &:disabled {
     cursor: not-allowed;
-    opacity: 0.6;
+    opacity: 0.65;
   }
 }
 
@@ -1537,54 +1478,43 @@
   .airdrop-modal {
     :global {
       .ant-modal {
-        max-width: 90vw;
-        width: 90vw !important;
+        max-width: 92vw;
+        width: 92vw !important;
       }
 
       .ant-modal-content {
-        border-radius: 24px;
-      }
-
-      .ant-modal-body {
-        height: auto;
-        min-height: 600px;
+        border-radius: 22px;
       }
     }
+  }
+
+  .airdrop-content {
+    padding: 24px 18px 20px;
   }
 
   .airdrop-header {
-    height: 280px;
-    padding-top: 40px;
-
     .airdrop-title {
       font-size: 24px;
-      margin: 0 0 20px 0;
     }
 
     .airdrop-header-img {
-      width: 280px;
-      height: 180px;
+      width: 180px;
+    }
+
+    .airdrop-congrats {
+      font-size: 18px;
+      margin-bottom: 16px;
     }
   }
 
-  .airdrop-total {
-    margin: 24px 20px 0 20px;
-    padding: 0 16px;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
+  .claim-period-card {
+    .claim-period-date {
+      font-size: 16px;
+    }
   }
 
-  .airdrop-input-group {
-    margin: 14px 20px 0 20px;
-    width: calc(100% - 40px);
-    max-width: 477px;
-  }
-
-  .confirm-button {
-    width: calc(100% - 40px);
-    max-width: 477px;
-    margin: 24px 20px 32px 20px;
+  .claimable-row .claimable-value {
+    font-size: 16px;
   }
 }
 
