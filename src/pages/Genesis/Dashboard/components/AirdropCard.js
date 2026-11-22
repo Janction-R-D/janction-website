@@ -6,14 +6,14 @@ import { useIntl } from 'umi';
 import { toFixed } from '../../lang';
 import styles from './index.less';
 import JctAirdropModal from './JctAirdropModal';
-import AirdropNoticeModal from './AirdropNoticeModal';
+// import AirdropNoticeModal from './AirdropNoticeModal';
 
 /**
  * JCT AriDrop Card
  */
 const AirdropCard = ({ airdropData, onClaimSuccess }) => {
   const [airdropModalOpen, setAirdropModalOpen] = useState(false);
-  const [airdropNoticeOpen, setAirdropNoticeOpen] = useState(false);
+  // const [airdropNoticeOpen, setAirdropNoticeOpen] = useState(false);
   const intl = useIntl();
   // todo
   const claimOpenTime = new Date('2025-11-10T11:00:00Z');
@@ -22,14 +22,19 @@ const AirdropCard = ({ airdropData, onClaimSuccess }) => {
   const isClaimOpen = now >= claimOpenTime && now <= claimDeadline;
   const isClaimUnavailable = airdropData?.is_get === true;
 
-  const handleOpenNotice = () => {
-    if (isClaimUnavailable) return;
-    setAirdropNoticeOpen(true);
-  };
+  // const handleOpenNotice = () => {
+  //   if (isClaimUnavailable) return;
+  //   setAirdropNoticeOpen(true);
+  // };
 
-  const handleProceedClaim = () => {
+  // const handleProceedClaim = () => {
+  //   if (!isClaimOpen || isClaimUnavailable) return;
+  //   setAirdropNoticeOpen(false);
+  //   setAirdropModalOpen(true);
+  // };
+
+  const handleOpenClaim = () => {
     if (!isClaimOpen || isClaimUnavailable) return;
-    setAirdropNoticeOpen(false);
     setAirdropModalOpen(true);
   };
 
@@ -57,11 +62,11 @@ const AirdropCard = ({ airdropData, onClaimSuccess }) => {
             role="button"
             aria-disabled={isClaimUnavailable}
             tabIndex={isClaimUnavailable ? -1 : 0}
-            onClick={handleOpenNotice}
+            onClick={handleOpenClaim}
             onKeyDown={(e) => {
               if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
-                handleOpenNotice();
+                handleOpenClaim();
               }
             }}
           >
@@ -73,12 +78,14 @@ const AirdropCard = ({ airdropData, onClaimSuccess }) => {
           </div>
         </div>
       </div>
+      {/*
       <AirdropNoticeModal
         open={airdropNoticeOpen && !isClaimUnavailable}
         onCancel={() => setAirdropNoticeOpen(false)}
         onProceed={handleProceedClaim}
         isClaimOpen={isClaimOpen && !isClaimUnavailable}
       />
+      */}
       <JctAirdropModal
         open={airdropModalOpen && isClaimOpen && !isClaimUnavailable}
         onClose={() => setAirdropModalOpen(false)}
