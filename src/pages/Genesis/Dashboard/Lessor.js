@@ -180,7 +180,7 @@ export default function Lessor() {
           nft_sumary?.ammount > 0 ||
           Number(nftClaimJasmy?.claim_available_show) > 0) &&
           !loading && <ContributorReward nft={nft_sumary.ammount} />}
-        {airdropData.airdrop > 0 && !loading && (
+        {airdropData.airdrop > 0 && (
           <AirdropCard
             airdropData={airdropData}
             onClaimSuccess={getAirdropData}
