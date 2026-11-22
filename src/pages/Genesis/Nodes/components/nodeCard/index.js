@@ -2,7 +2,11 @@ import React, { useEffect, useState } from 'react';
 import styles from './index.less';
 import { InfoCircleOutlined, ReloadOutlined } from '@ant-design/icons';
 import { message, Tooltip } from 'antd';
-import { getNodeStatusMatch } from '../extra';
+import {
+  getNodeStatusMatch,
+  NodeStatusStr,
+  OperatingStatusStr,
+} from '../extra';
 import dayjs from 'dayjs';
 import ModalDelist from '../ModalDelist';
 import {
@@ -16,30 +20,23 @@ import { history, useIntl } from 'umi';
 import ModalTagInput from '../ModalTagInput';
 import DeleteNodeButton from '../DeleteButton';
 
+// 仅用于兼容现有 CSS：status_str 与 class 的对应（ongoing→starting, online→running）
+const STATUS_CLASS_MAP = {
+  [NodeStatusStr.ONGOING]: 'starting',
+  [NodeStatusStr.ONLINE]: 'running',
+};
+
 const NodeCard = ({ item, getList }) => {
   const intl = useIntl();
-  const { id, yesterdayReward } = item;
-  const [status, setStatus] = useState('offline');
+  const { id, yesterdayReward, status_str, operating_status_str } = item;
   const [isModalOpenStake, setIsModalOpenStake] = useState(false);
   const [isTagModalOpen, setIsTagModalOpen] = useState(false);
-  const { isOffLine, isRunning, isListed } = getNodeStatusMatch(item);
+  const { isOffLine, isRunning, isListed, isDelisted } =
+    getNodeStatusMatch(item);
   const [loading, setLoading] = useState(false);
   const [paymentId, setPaymentId] = useState('');
 
-  useEffect(() => {
-    const state = getStatus();
-    setStatus(state);
-  }, [item]);
-
-  const getStatus = () => {
-    const { isRunning, isActive, isListed, isOngoing } =
-      getNodeStatusMatch(item);
-    if (isRunning) return 'running';
-    if (isActive) return 'active';
-    if (isListed) return 'listed';
-    if (isOngoing) return 'starting';
-    return 'offline';
-  };
+  const statusClass = STATUS_CLASS_MAP[status_str] || status_str;
 
   const renderGpu = () => {
     if (!item.attr?.gpu_chip && !item.attr?.cpu_chip) return '--';
@@ -96,7 +93,7 @@ const NodeCard = ({ item, getList }) => {
   };
 
   const handleNavigate = () => {
-    if (!isRunning) return;
+    if (!isRunning || isDelisted) return;
     history.push('/genesis/mount', {
       node: item,
     });
@@ -156,10 +153,8 @@ const NodeCard = ({ item, getList }) => {
         </div>
         <div className={styles.status}>
           <div className={`${styles['status-box']}`}>
-            <span className={`${styles[status]}`}>{status}</span>
-            <Tooltip
-              title={intl.formatMessage({ id: 'nodeCard.nodeIsActive' })}
-            >
+            <span className={styles[statusClass]}>{status_str}</span>
+            <Tooltip title={operating_status_str || '--'}>
               <InfoCircleOutlined className={styles.infoIcon} />
             </Tooltip>
           </div>
@@ -211,9 +206,13 @@ const Operation = ({ item, getList }) => {
   const intl = useIntl();
   const [isModalOpenStake, setIsModalOpenStake] = useState(false);
   const [isTagModalOpen, setIsTagModalOpen] = useState(false);
-  const { isOffLine, isRunning, isListed } = getNodeStatusMatch(item);
+  const { isOffLine, isRunning, isListed, isDelisted } =
+    getNodeStatusMatch(item);
   const [loading, setLoading] = useState(false);
   const [paymentId, setPaymentId] = useState('');
+  const isLeased = item?.operating_status_str === OperatingStatusStr.LEASED;
+  const isOngoing = item?.status_str === NodeStatusStr.ONGOING;
+  const isOnline = item?.status_str === NodeStatusStr.ONLINE;
 
   const getOrderInfo = async () => {
     const data = {
@@ -234,7 +233,8 @@ const Operation = ({ item, getList }) => {
   };
 
   const handleNavigate = () => {
-    if (!isRunning) return;
+    // 进入租赁配置页：提交交易依赖节点在线；被租中/启动中不允许修改配置
+    if (!isOnline || isLeased || isOngoing) return;
     history.push('/genesis/mount', {
       node: item,
     });
@@ -303,7 +303,7 @@ const Operation = ({ item, getList }) => {
       />
       <a
         className={`${styles['operation-action']}  ${
-          !isRunning ? styles['disabled'] : ''
+          !isOnline || isLeased || isOngoing ? styles['disabled'] : ''
         }`}
         onClick={handleNavigate}
       >

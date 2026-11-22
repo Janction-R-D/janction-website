@@ -1,0 +1,11 @@
+# Explicitly decide which dependency install scripts may run in CI.
+# esbuild needs its install script to prepare the platform-specific binary.
+allowBuilds:
+  bufferutil: false
+  core-js: false
+  core-js-pure: false
+  esbuild: true
+  keccak: false
+  secp256k1: false
+  utf-8-validate: false
+  yorkie: false

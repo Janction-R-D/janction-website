@@ -8,6 +8,7 @@ import JasmyRewards from './JasmyRewards.json';
 import NFTEscrowImpl from './NFTEscrowImpl.json';
 import JanctionNFT from './JanctionNFT.json';
 import ClaimAirdropABI from './ClaimAirdrop.json';
+import AirDropABI from './AirDrop.json';
 import { delay } from '../lang';
 import Addresses from './Addresses.json';
 
@@ -422,6 +423,121 @@ const contract = {
     } catch (error) {
       console.log('Claim airdrop error:', error);
       throw error;
+    } finally {
+      message.destroy('tx');
+    }
+  },
+  claimJctAirdrop: async (signer, messagePayload, signature) => {
+    try {
+      if (!signer) {
+        throw new Error('Wallet not connected');
+      }
+      if (!signature || !messagePayload) {
+        throw new Error('Invalid signature payload');
+      }
+
+      await switchNetwork(signer.provider, 'eth');
+
+      const rawProvider =
+        signer.provider?.provider || signer.provider || window.ethereum;
+      if (!rawProvider) {
+        throw new Error('Provider not available');
+      }
+
+      const refreshedProvider = new ethers.providers.Web3Provider(
+        rawProvider,
+        'any',
+      );
+      const refreshedSigner = refreshedProvider.getSigner();
+      const walletAddress = await refreshedSigner.getAddress();
+
+      const airdropAddress = getAddresses('ETH').AirDrop;
+      if (!airdropAddress) {
+        throw new Error('AirDrop contract address is not configured');
+      }
+
+      const signedFields = [
+        'chainId',
+        'timestamp',
+        'taxRate',
+        'token',
+        'contractAddress',
+        'wallet',
+        'amount',
+        'key',
+      ];
+      if (
+        signedFields.some(
+          (field) =>
+            messagePayload[field] === undefined ||
+            messagePayload[field] === null ||
+            messagePayload[field] === '',
+        )
+      ) {
+        throw new Error('Incomplete signature payload');
+      }
+      if (
+        !ethers.utils.isAddress(messagePayload.wallet) ||
+        messagePayload.wallet.toLowerCase() !== walletAddress.toLowerCase()
+      ) {
+        throw new Error('Signature wallet does not match connected wallet');
+      }
+      if (
+        !ethers.utils.isAddress(messagePayload.contractAddress) ||
+        messagePayload.contractAddress.toLowerCase() !==
+          airdropAddress.toLowerCase()
+      ) {
+        throw new Error('Signature contract does not match AirDrop contract');
+      }
+
+      const network = await refreshedProvider.getNetwork();
+      const claimMessage = {
+        chainId: toBigNumber(messagePayload.chainId),
+        timestamp: toBigNumber(messagePayload.timestamp),
+        taxRate: toBigNumber(messagePayload.taxRate),
+        token: messagePayload.token,
+        contractAddress: messagePayload.contractAddress,
+        wallet: messagePayload.wallet,
+        amount: toBigNumber(messagePayload.amount),
+        key: messagePayload.key,
+      };
+
+      if (!claimMessage.chainId.eq(network.chainId)) {
+        throw new Error(
+          `Signature chainId ${claimMessage.chainId.toString()} does not match wallet network ${
+            network.chainId
+          }`,
+        );
+      }
+
+      const airdropContract = new ethers.Contract(
+        airdropAddress,
+        AirDropABI,
+        refreshedSigner,
+      );
+
+      let gasLimit;
+      try {
+        gasLimit = await airdropContract.estimateGas.claimAirdrop(
+          claimMessage,
+          signature,
+        );
+      } catch (estimateError) {
+        const reason = estimateError?.reason?.replace(
+          /^execution reverted:\s*/,
+          '',
+        );
+        throw new Error(
+          reason || 'Unable to estimate claim gas; transaction was not sent.',
+        );
+      }
+
+      const tx = await airdropContract.claimAirdrop(claimMessage, signature, {
+        gasLimit: gasLimit.mul(120).div(100),
+      });
+      await tx.wait();
+      message.success('Claim successfully!');
+      return tx;
     } finally {
       message.destroy('tx');
     }

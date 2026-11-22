@@ -982,7 +982,24 @@ export default {
   'airdrop.contact': '署名情報が不完全です。管理者に連絡してください。',
   'airdrop.noAmount': '受け取り可能なJCTがありません。',
   'airdrop.connectWallet': 'まずウォレットを接続してください。',
+  'airdrop.new.error.rejected': 'ウォレットでの操作がキャンセルされました。',
+  'airdrop.new.error.claimed': 'このエアドロップは受け取り済みです。',
+  'airdrop.new.error.balance':
+    'エアドロップの配布残高が不足しています。時間をおいて再度お試しください。',
+  'airdrop.new.error.expired':
+    '受け取り用の署名の有効期限が切れました。もう一度お試しください。',
+  'airdrop.new.error.gasBalance':
+    'ネットワーク手数料を支払うためのETHが不足しています。',
+  'airdrop.new.error.wallet':
+    'このエアドロップの対象となるウォレットを接続してください。',
+  'airdrop.new.error.network':
+    '正しいネットワークに切り替えて、もう一度お試しください。',
+  'airdrop.new.error.signature':
+    '受け取り用の署名が無効です。時間をおいて再度お試しください。',
+  'airdrop.new.error.fallback':
+    '現在エアドロップを受け取れません。時間をおいて再度お試しください。',
   'airdrop.claimButton': 'エアドロップを受け取る',
+  'airdrop.new.claimedButton': '受け取り済み',
   'airdrop.modal.title': 'Janctionノードエアドロップ',
   'airdrop.modal.gotIt': '了解しました',
   'airdrop.modal.continueClaim': '受け取りを続ける',
@@ -990,10 +1007,13 @@ export default {
   'airdrop.timeline.title': 'スナップショット & 受け取りタイムライン',
   'airdrop.timeline.snapshotTime': '🕛 スナップショット時間',
   'airdrop.timeline.snapshotDate': '2025年11月8日 — 16:00 UTC',
+  'airdrop.new.timeline.snapshotDate': '2026年11月12日 20:57',
   'airdrop.timeline.claimOpens': '🪂 受け取り開始',
   'airdrop.timeline.claimOpensDate': '2025年11月10日 — 11:00 UTC',
+  'airdrop.new.timeline.claimOpensDate': '2026年11月12日 20:57',
   'airdrop.timeline.claimDeadline': '⏰ 受け取り期限',
   'airdrop.timeline.claimDeadlineDate': '2025年12月15日 — 11:00 UTC',
+  'airdrop.new.timeline.claimDeadlineDate': '2026年11月12日 20:57',
   'airdrop.allocation.title': '総配分（ノードコホート）: 3% = 15億JCT',
   'airdrop.allocation.description':
     'メインネット準備との整合性を図るため、現在のポイントの50%は今すぐJCTに変換され、残りの50%はポイントとして残り、約6か月後にveJCTに変換される予定です（譲渡不可の参加/ガバナンス資格）。これはガバナンスと技術的な準備状況に依存します。',
