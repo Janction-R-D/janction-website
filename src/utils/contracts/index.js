@@ -436,7 +436,7 @@ const contract = {
         throw new Error('Invalid signature payload');
       }
 
-      await switchNetwork(signer.provider, 'eth');
+      await switchNetwork(signer.provider, 'bsc');
 
       const rawProvider =
         signer.provider?.provider || signer.provider || window.ethereum;
@@ -451,7 +451,7 @@ const contract = {
       const refreshedSigner = refreshedProvider.getSigner();
       const walletAddress = await refreshedSigner.getAddress();
 
-      const airdropAddress = getAddresses('ETH').AirDrop;
+      const airdropAddress = getAddresses('BSC').AirDrop;
       if (!airdropAddress) {
         throw new Error('AirDrop contract address is not configured');
       }
