@@ -455,7 +455,7 @@ export default {
   'lessor.subtitle2': 'mining node',
   'lessor.join': 'Join Janction Network',
   'lessor.download': 'Download App',
-  generateTokenId: 'Generate Token ID 222',
+  generateTokenId: 'Generate Token ID',
   'overview.title': 'Overview',
   'overview.description': 'Your personal\nspeed mining node',
   'overview.deviceId': 'Device ID',
